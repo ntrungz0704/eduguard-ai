@@ -313,7 +313,7 @@ export default function Predict() {
   });
 
   const displayedPredictions = filteredPredictions.slice(0, visibleCount);
-  const singleStudent = result?.predictions?.find(p => p.id === selectedPredictStudentId) || (filteredPredictions.length > 0 ? filteredPredictions[0] : null);
+  const singleStudent = filteredPredictions.find(p => p.id === selectedPredictStudentId) || (filteredPredictions.length > 0 ? filteredPredictions[0] : null);
 
   return (
     <div className="space-y-6 animate-fade-in pb-10">
