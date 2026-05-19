@@ -1,0 +1,37 @@
+{
+  "name": "eduguard-ai",
+  "version": "1.0.0",
+  "description": "EduGuard AI - Hệ thống dự đoán điểm sinh viên cho giảng viên",
+  "main": "server/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "concurrently \"node --watch server/server.js\" \"npm run dev --prefix client\"",
+    "kill": "powershell -Command \"$ports = @(3000, 5173, 5174); foreach ($p in $ports) { $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; if ($conns) { foreach ($c in $conns) { if ($c.OwningProcess -gt 4) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue } } } }\""
+  },
+  "keywords": [
+    "ai",
+    "education",
+    "prediction",
+    "linear-regression"
+  ],
+  "author": "EduGuard Team",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "better-sqlite3": "^12.10.0",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.19.2",
+    "groq-sdk": "^1.2.0",
+    "multer": "^1.4.5-lts.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@prisma/client": "^7.8.0",
+    "concurrently": "^9.2.1",
+    "prisma": "^7.8.0"
+  }
+}

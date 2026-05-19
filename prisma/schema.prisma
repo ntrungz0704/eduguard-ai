@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  name          String
+  role          String         @default("ADVISOR") // ADMIN, ADVISOR, STUDENT
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  interventions Intervention[]
+}
+
+model Student {
+  mssv          String         @id
+  name          String
+  classCode     String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  scores        Score[]
+  predictions   Prediction[]
+  interventions Intervention[]
+}
+
+model Course {
+  id            String         @id
+  name          String
+  credits       Int
+  prerequisites String         @default("") // Comma-separated course IDs (e.g., "COM108,WEB105")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  scores        Score[]
+  predictions   Prediction[]
+  interventions Intervention[]
+}
+
+model Score {
+  id        Int      @id @default(autoincrement())
+  mssv      String
+  courseId  String
+  value     Float? // Nullable for currently studying / withdrew / test predicting
+  semester  String
+  status    String   @default("STUDYING") // PASSED, FAILED, STUDYING, NOT_STARTED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([mssv, courseId, semester])
+  @@index([mssv])
+  @@index([courseId])
+}
+
+model Prediction {
+  id             Int      @id @default(autoincrement())
+  mssv           String
+  courseId       String
+  predictedScore Float
+  risk           String   // HIGH, MEDIUM, LOW
+  reasons        Json     // Stores structured XAI reasons array as JSON (maps to TEXT in SQLite)
+  createdAt      DateTime @default(now())
+
+  student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([mssv, courseId])
+  @@index([mssv])
+  @@index([courseId])
+}
+
+model Intervention {
+  id        Int      @id @default(autoincrement())
+  mssv      String
+  courseId  String
+  advisorId String
+  action    String // Detailed description of support action
+  status    String   @default("PENDING") // PENDING, ACTIVE, RESOLVED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  advisor User    @relation(fields: [advisorId], references: [id], onDelete: Cascade)
+
+  @@index([mssv])
+  @@index([courseId])
+  @@index([advisorId])
+}
