@@ -1,62 +1,105 @@
 # EduGuard AI
 
-EduGuard AI là một dự án tích hợp Chatbot AI hỗ trợ giáo dục. Hệ thống sử dụng kiến trúc phân tách với Backend Node.js/Express và Frontend React/Vite, kết hợp cùng cơ sở dữ liệu SQLite thông qua Prisma ORM.
+EduGuard AI là hệ thống dự đoán điểm sinh viên cho giảng viên, sử dụng AI (Mô hình Linear Regression kết hợp GenAI) nhằm phân tích và đưa ra các đánh giá, cảnh báo về tình trạng học tập của sinh viên.
 
-## 1. Tổng quan kiến trúc (Tech Stack)
-* **Backend:** Node.js / Express Server (Chạy tại cổng `3000`).
-* **Frontend:** React / Vite SPA (Nằm trong thư mục `client/`, chạy tại cổng `5173`).
-* **Database:** SQLite (File `dev.db` tích hợp sẵn, tối ưu cho môi trường phát triển cục bộ).
-* **ORM:** Prisma Client.
-* **AI Providers:** Hỗ trợ linh hoạt Groq và Google Gemini.
+Dự án này sử dụng cấu trúc thư mục bao gồm:
+- **Backend**: Node.js/Express (tại thư mục gốc / `server`)
+- **Frontend**: React/Vite (tại thư mục `/client`)
+- **Database**: SQLite (qua Prisma ORM)
 
-## 2. Yêu cầu hệ thống (Prerequisites)
-Môi trường đã được xác minh hoạt động ổn định:
-* Node.js: `v22.18.0` trở lên
-* npm: `10.8.2` trở lên
+---
 
-## 3. Hướng dẫn cài đặt (Installation Steps)
+## 📋 Yêu Cầu Cần Có
 
-Thực hiện lần lượt các lệnh sau tại thư mục gốc của dự án để cài đặt thư viện và chuẩn bị kết nối cơ sở dữ liệu:
+Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đặt:
+- **Node.js** (Khuyến nghị phiên bản 18.x trở lên)
+- **Git** (Tuỳ chọn, dùng để clone project)
 
-1.  **Cài đặt dependencies cho Backend:**
-    ```bash
-    npm install
-    ```
-2.  **Cài đặt dependencies cho Frontend:**
-    ```bash
-    cd client
-    npm install
-    cd ..
-    ```
-3.  **Khởi tạo Prisma Client:**
-    *Tại sao cần bước này?* Backend sử dụng Prisma Client để giao tiếp với file `dev.db`. Bạn bắt buộc phải generate client từ schema trước khi khởi động server, nếu không tiến trình Node.js sẽ báo lỗi thiếu module database.
-    ```bash
-    npx prisma generate
-    ```
+---
 
-## 4. Cấu hình biến môi trường (.env)
+## 🚀 Hướng Dẫn Cài Đặt Chi Tiết
 
-Dự án không cung cấp sẵn file `.env.example`. Bạn cần tự tạo một file tên là `.env` tại **thư mục gốc** của dự án. 
+Vui lòng làm theo từng bước dưới đây để cài đặt và chạy dự án 100% thành công.
 
-Hệ thống đã được tối ưu cơ chế khởi tạo trễ (lazy-initialization) cho AI Client. Việc thiếu API Key sẽ không làm crash hệ thống lúc khởi động, nhưng các tính năng AI sẽ không hoạt động cho đến khi cấu hình đầy đủ.
+### Bước 1: Mở Terminal
+Mở Terminal (hoặc Command Prompt / PowerShell / Git Bash) và di chuyển vào thư mục gốc của dự án (`eduguard-ai`).
 
-**Nội dung file `.env` tham khảo:**
+### Bước 2: Cài đặt thư viện (Dependencies)
+Dự án cần cài đặt thư viện cho cả Backend và Frontend.
+
+1. **Cài đặt thư viện cho thư mục gốc (Backend):**
+   ```bash
+   npm install
+   ```
+2. **Cài đặt thư viện cho giao diện (Frontend):**
+   ```bash
+   cd client
+   npm install
+   ```
+3. **Quay lại thư mục gốc:**
+   ```bash
+   cd ..
+   ```
+
+### Bước 3: Thiết lập Biến môi trường (.env)
+Tạo một file có tên là `.env` tại thư mục gốc của dự án (nếu chưa có). Copy toàn bộ nội dung dưới đây và dán vào file `.env`:
+
 ```env
-# =========================================================
-# 1. CẤU HÌNH HỆ THỐNG CƠ BẢN
-# =========================================================
 PORT=3000
-DATABASE_URL="file:./dev.db"
 
-# =========================================================
-# 2. CẤU HÌNH AI TÍCH HỢP (CẦN THIẾT ĐỂ CHẠY CHATBOT)
-# =========================================================
-AI_PROVIDER=gemini # Có thể đổi thành 'groq' tùy nhu cầu sử dụng
-
-# Cấu hình Google Gemini
+# API Keys (Thay thế bằng Key thực tế của bạn)
 GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.0-flash
-
-# Cấu hình Groq
 GROQ_API_KEY=your_groq_api_key_here
 GROQ_MODEL=qwen/qwen3-32b
+
+NODE_ENV=development
+
+# Đường dẫn kết nối CSDL SQLite
+DATABASE_URL="file:./dev.db"
+```
+
+### Bước 4: Khởi tạo Cơ sở dữ liệu (Prisma)
+Dự án sử dụng SQLite nên việc thiết lập Database rất nhanh chóng. Đảm bảo bạn đang đứng ở thư mục gốc `eduguard-ai` và chạy lần lượt 2 lệnh sau:
+
+1. Tạo Prisma Client (để mã nguồn có thể giao tiếp với Database):
+   ```bash
+   npx prisma generate
+   ```
+2. Đồng bộ cấu trúc dữ liệu (Schema) tạo ra file CSDL `dev.db`:
+   ```bash
+   npx prisma db push
+   ```
+   *(Nếu hệ thống hỏi xác nhận, hãy gõ `Y` và Enter).*
+
+---
+
+## 💻 Khởi Chạy Ứng Dụng
+
+Nhờ cấu hình bằng `concurrently`, bạn chỉ cần chạy **một lệnh duy nhất** tại thư mục gốc để bật đồng thời cả Backend và Frontend:
+
+```bash
+npm run dev
+```
+
+Sau khi Terminal thông báo khởi chạy thành công:
+- 🌐 **Giao diện Web (Frontend):** Truy cập [http://localhost:5173](http://localhost:5173)
+- ⚙️ **API Server (Backend):** Đang chạy ngầm tại cổng `3000`.
+
+---
+
+## 🛠️ Xử lý lỗi thường gặp (Troubleshooting)
+
+1. **Lỗi `EADDRINUSE` (Cổng đang được sử dụng)**
+   - Nguyên nhân: Cổng 3000 hoặc 5173 đang bị chiếm bởi một tiến trình khác (hoặc do bạn chưa tắt hẳn ứng dụng ở lần chạy trước).
+   - Cách khắc phục: Mở terminal mới ở thư mục gốc và chạy lệnh sau (dành cho Windows) để giải phóng cổng:
+     ```bash
+     npm run kill
+     ```
+     Sau đó chạy lại `npm run dev`.
+
+2. **Lỗi Backend không tìm thấy Model (Prisma Client Error)**
+   - Nguyên nhân: Chưa tạo Prisma Client.
+   - Cách khắc phục: Chạy lại lệnh `npx prisma generate` ở thư mục gốc.
+
+---
+**Chúc bạn cài đặt và trải nghiệm hệ thống EduGuard AI thành công! 🎉**
