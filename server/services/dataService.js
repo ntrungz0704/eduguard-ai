@@ -203,6 +203,41 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
 // ============================================================
 // CALCULATE GPA: FPT POLYTECHNIC WEIGHTED FORMULA
 // ============================================================
+function getCourseCredits(courseNameOrId) {
+  const name = String(courseNameOrId || '').trim();
+  const lower = name.toLowerCase();
+  const code = name.toUpperCase();
+
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+  if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+  if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
+
+  if (
+    lower.includes('chính trị') || 
+    code.includes('VIE108') || 
+    lower.includes('dự án tốt nghiệp') || 
+    code.includes('PRO2201') ||
+    code.includes('PRO220')
+  ) {
+    return 5;
+  }
+
+  if (
+    lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
+    lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
+    lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
+    lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+    lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
+    lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
+    lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
+    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+  ) {
+    return 2;
+  }
+
+  return 3;
+}
+
 function calculateFptGPA(scores) {
   if (!scores) return 0.0;
 
@@ -214,9 +249,11 @@ function calculateFptGPA(scores) {
       name.includes('quốc phòng') ||
       name.includes('thực tập tốt nghiệp') ||
       name.includes('vovinam') ||
+      name.includes('gdqp') ||
       cid.includes('VIE103') ||
       cid.includes('VIE104') ||
-      cid.includes('PRO110')
+      cid.includes('PRO110') ||
+      cid.includes('PRO115')
     );
   };
 
@@ -228,17 +265,17 @@ function calculateFptGPA(scores) {
     const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
 
     academicScores.forEach(s => {
-      const credits = s.course?.credits || 3;
+      const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
       totalScoreWeight += (s.value * credits);
       totalCredits += credits;
     });
   } else {
     Object.entries(scores).forEach(([courseId, val]) => {
-      if (val === null || val === undefined) return;
-      if (isConditionalCourse('', courseId)) return;
+      if (val === null || val === undefined || val === '') return;
+      if (isConditionalCourse(courseId, courseId)) return;
 
-      const credits = 3;
-      totalScoreWeight += (val * credits);
+      const credits = getCourseCredits(courseId);
+      totalScoreWeight += (parseFloat(val) * credits);
       totalCredits += credits;
     });
   }
@@ -250,5 +287,6 @@ module.exports = {
   parseScore,
   mapToPretrainedSubject,
   validateAndCleanData,
+  getCourseCredits,
   calculateFptGPA
 };

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
 import { Bot, MessageSquare, X, Send, Sparkles, AlertTriangle, BookOpen, Terminal, RefreshCw } from 'lucide-react';
 import { useStore } from '../store';
+import { api } from '../lib/api';
 
 export default function Chatbot() {
   const activeStudent = useStore(state => state.activeStudent);
@@ -67,7 +67,7 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      const res = await axios.post('/api/chat', { 
+      const res = await api.post('/chat', {
         message: msgText,
         studentContext: activeStudent,
         history: historyPayload

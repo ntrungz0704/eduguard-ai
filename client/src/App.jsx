@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useStore } from './store';
-import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2 } from 'lucide-react';
+import { api } from './lib/api';
+import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare } from 'lucide-react';
 import Dashboard from './pages/Dashboard';
 import Predict from './pages/Predict';
 import GPA from './pages/GPA';
 import StudentSearch from './pages/StudentSearch';
 import StudentProfile from './pages/StudentProfile';
-import Chatbot from './components/Chatbot';
+import AIChat from './pages/AIChat';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -16,7 +16,8 @@ const Sidebar = () => {
     { path: '/', icon: <LayoutDashboard size={20} />, label: 'Tổng quan (Dashboard)' },
     { path: '/search', icon: <Search size={20} />, label: 'Tra cứu học vụ' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
-    { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' }
+    { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
+    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý AI' }
   ];
 
   return (
@@ -104,7 +105,7 @@ const Header = () => {
     const delayDebounce = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`/api/students-search?q=${encodeURIComponent(searchQuery)}`);
+        const res = await api.get(`/students-search?q=${encodeURIComponent(searchQuery)}`);
         setResults(res.data);
         setShowDropdown(true);
       } catch (err) {
@@ -120,13 +121,13 @@ const Header = () => {
   const handleSelect = async (student) => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/students/${student.id}`);
+      const res = await api.get(`/students/${student.id}`);
       setActiveStudent(res.data);
       setSearchQuery('');
       setShowDropdown(false);
       
-      // Auto navigate to search page to show detailed view
-      if (location.pathname !== '/search') {
+      // Auto navigate to search page unless we are on the AI Chat page
+      if (location.pathname !== '/search' && location.pathname !== '/chat') {
         navigate('/search');
       }
     } catch (err) {
@@ -239,11 +240,11 @@ function App() {
               <Route path="/search" element={<StudentSearch />} />
               <Route path="/predict" element={<Predict />} />
               <Route path="/gpa" element={<GPA />} />
+              <Route path="/chat" element={<AIChat />} />
               <Route path="/student/:mssv" element={<StudentProfile />} />
             </Routes>
           </main>
         </div>
-        <Chatbot />
       </div>
     </BrowserRouter>
   );

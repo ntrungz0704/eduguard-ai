@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useStore } from '../store';
+import { api, requestWithRestartRetry } from '../lib/api';
 import { 
   UploadCloud, Activity, Zap, CheckCircle, Brain, Target, 
   Info, AlertTriangle, HeartHandshake, XCircle, Save, Database,
@@ -128,7 +128,7 @@ export default function Predict() {
     const fetchPearsonMatrix = async () => {
       setPearsonLoading(true);
       try {
-        const res = await axios.get('/api/pearson-matrix');
+        const res = await requestWithRestartRetry(() => api.get('/pearson-matrix'));
         setPearsonData(res.data);
       } catch (err) {
         console.error("Lỗi nạp Pearson Matrix:", err);
@@ -146,7 +146,7 @@ export default function Predict() {
     setLoading(true);
     try {
       const activeStudents = uploadedStudentsData.length > 0 ? uploadedStudentsData : pendingStudents;
-      const res = await axios.post(`/api/predict/${encodeURIComponent(subject)}`, {
+      const res = await api.post(`/predict/${encodeURIComponent(subject)}`, {
         students: activeStudents.length > 0 ? activeStudents : undefined
       });
       setResult(res.data);
@@ -160,7 +160,7 @@ export default function Predict() {
   const handleToggleIntervention = async (studentId, currentStatus) => {
     try {
       const targetStatus = !currentStatus;
-      await axios.post('/api/interventions', {
+      await api.post('/interventions', {
         studentId,
         subject,
         intervened: targetStatus
@@ -198,7 +198,10 @@ export default function Predict() {
     });
 
     try {
-      const res = await axios.post('/api/upload-predict', formData);
+      const res = await requestWithRestartRetry(() => api.post('/upload-predict', formData), {
+        retries: 4,
+        delayMs: 700,
+      });
       const { studentsCount, errorsCount, errorsDetails, predictableSubjects: serverSubjects, students, fileType: type } = res.data;
       
       setFileType(type || 'class');
@@ -252,7 +255,7 @@ export default function Predict() {
 
     setLoading(true);
     try {
-      const res = await axios.post('/api/save-uploaded', {
+      const res = await api.post('/save-uploaded', {
         students: studentsToSave
       });
       

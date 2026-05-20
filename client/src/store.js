@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import { api, requestWithRestartRetry } from './lib/api';
 
 export const useStore = create((set) => ({
   trainingData: null,
@@ -10,7 +10,7 @@ export const useStore = create((set) => ({
   fetchTrainingData: async () => {
     set({ isLoading: true });
     try {
-      const res = await axios.get('/api/training-info');
+      const res = await requestWithRestartRetry(() => api.get('/training-info'));
       set({ trainingData: res.data, isLoading: false, error: null });
     } catch (err) {
       set({ error: err.message, isLoading: false });

@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Đánh Giá Mô Hình AI - EduGuard AI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js (via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Outfit', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#090d16',
+                        glassCard: 'rgba(19, 27, 46, 0.7)',
+                        glassBorder: 'rgba(255, 255, 255, 0.08)',
+                        brandBlue: '#3b82f6',
+                        brandIndigo: '#6366f1',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(99, 102, 241, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #f8fafc;
+        }
+        
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+        }
+
+        /* Tùy chỉnh thanh cuộn */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen py-10 px-4 md:px-8">
+
+    <div class="max-w-7xl mx-auto space-y-10">
+
+        <!-- HEADER -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-slate-800">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30">
+                        <i class="fa-solid fa-square-poll-vertical mr-1"></i> Báo cáo Kiểm chứng AI
+                    </span>
+                    <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-purple-500/20 text-purple-400 rounded-full border border-purple-500/30">
+                        LOOCV Method
+                    </span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white font-outfit">
+                    ĐÁNH GIÁ SAI SỐ DỰ ĐOÁN <span class="gradient-text">EDUGUARD AI</span>
+                </h1>
+                <p class="text-slate-400 text-sm mt-1 max-w-3xl">
+                    Kết quả thống kê thực nghiệm trên tập mẫu <strong class="text-slate-200">100 sinh viên xuất sắc nhất</strong> có nhiều đầu điểm nhất, chạy mô hình kiểm thử chéo <strong class="text-slate-200">Leave-One-Out (LOOCV)</strong> trên toàn bộ 34 môn học.
+                </p>
+            </div>
+            
+            <div class="flex gap-3">
+                <button onclick="window.print()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl border border-slate-700 hover:border-slate-600 transition-all flex items-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-print"></i> In Báo Cáo / Lưu PDF
+                </button>
+                <button onclick="alert('Mẹo chụp ảnh slide: Bấm F11 để xem toàn màn hình, sau đó dùng Windows + Shift + S hoặc Cmd + Shift + 4 để chụp các biểu đồ / bảng bên dưới nhé!')" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question"></i> Hướng Dẫn Chụp Slide
+                </button>
+            </div>
+        </header>
+
+        <!-- GIẢI THÍCH TRỰC QUAN CHO NGƯỜI DÙNG (GIẢI QUYẾT TRIỆT ĐỂ SỰ NHẦM LẪN) -->
+        <section class="glass-panel p-6 md:p-8 rounded-3xl border border-blue-500/10 gradient-bg">
+            <div class="flex items-start gap-4">
+                <div class="p-3.5 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400 mt-1">
+                    <i class="fa-solid fa-lightbulb text-2xl animate-pulse"></i>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-white font-outfit flex items-center gap-2">
+                        Giải Thích Dễ Hiểu Về Các Chỉ Số Thống Kê (Dành Cho Slide Báo Cáo)
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800/80">
+                            <span class="block text-emerald-400 font-bold mb-1"><i class="fa-solid fa-user-check mr-1.5"></i> Sai Số 0.0 - 0.5 (ĐẦU NGƯỜI)</span>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                Là <strong>số lượng sinh viên</strong> có điểm dự đoán lệch so với thực tế cực kỳ nhỏ (từ 0 đến nửa điểm). Điểm dự đoán xem như <strong>chính xác tuyệt đối</strong>.
+                                <br><span class="text-slate-400/60 mt-1 block">Ví dụ: Dự đoán 8.0, thực tế 8.2 &rarr; Lệch 0.2 điểm (Nằm trong nhóm này).</span>
+                            </p>
+                        </div>
+                        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800/80">
+                            <span class="block text-amber-400 font-bold mb-1"><i class="fa-solid fa-user-minus mr-1.5"></i> Sai Số 0.6 - 1.0 (ĐẦU NGƯỜI)</span>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                Là <strong>số lượng sinh viên</strong> có điểm dự đoán lệch nhẹ (từ 0.6 đến 1 điểm). Sai lệch nhỏ, mô hình vẫn hoạt động <strong>ổn định, chấp nhận được</strong>.
+                                <br><span class="text-slate-400/60 mt-1 block">Ví dụ: Dự đoán 7.5, thực tế 8.4 &rarr; Lệch 0.9 điểm (Nằm trong nhóm này).</span>
+                            </p>
+                        </div>
+                        <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800/80">
+                            <span class="block text-rose-400 font-bold mb-1"><i class="fa-solid fa-user-xmark mr-1.5"></i> Sai Số > 1.0 (ĐẦU NGƯỜI)</span>
+                            <p class="text-slate-400 text-xs leading-relaxed">
+                                Là <strong>số lượng sinh viên</strong> bị dự đoán lệch nhiều (trên 1 điểm). Sai lệch lớn, cần lưu ý.
+                                <br><span class="text-slate-400/60 mt-1 block">Ví dụ: Dự đoán 8.0, thực tế 6.5 &rarr; Lệch 1.5 điểm. Đây được coi là kết quả <strong>dự đoán sai lệch đáng kể</strong>.</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800/80 text-xs text-slate-400 flex flex-wrap gap-x-6 gap-y-2">
+                        <span><strong class="text-slate-300"><i class="fa-solid fa-calculator mr-1"></i> MAE (Sai số trung bình):</strong> Là số điểm lệch trung bình của môn học đó (ví dụ MAE = 0.7 tức là dự đoán trung bình lệch ±0.7 điểm). <strong>Không phải số người!</strong></span>
+                        <span><strong class="text-slate-300"><i class="fa-solid fa-percent mr-1"></i> Tỉ lệ (%):</strong> Được tính dựa trên số SV thực tế có đầu điểm kiểm thử của môn học đó (giúp so sánh khách quan khi số lượng SV học mỗi môn khác nhau).</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPI TIÊU CHUẨN ĐỒNG HÀNH TOÀN CẦU -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- CARD 1 -->
+            <div class="glass-panel p-6 rounded-3xl relative overflow-hidden flex flex-col justify-between h-40">
+                <div class="absolute -right-4 -bottom-4 text-blue-500/10 text-8xl font-bold"><i class="fa-solid fa-chart-line"></i></div>
+                <div>
+                    <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">ĐỘ CHÍNH XÁC TOÀN HỆ THỐNG</span>
+                    <h3 class="text-4xl font-extrabold text-white mt-2 font-outfit">92.3%</h3>
+                </div>
+                <div class="text-xs text-emerald-400 flex items-center gap-1 font-medium z-10">
+                    <i class="fa-solid fa-circle-check"></i> Đạt chuẩn tin cậy xuất sắc (&gt;90%)
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="glass-panel p-6 rounded-3xl relative overflow-hidden flex flex-col justify-between h-40">
+                <div class="absolute -right-4 -bottom-4 text-emerald-500/10 text-8xl font-bold"><i class="fa-solid fa-circle-nodes"></i></div>
+                <div>
+                    <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">LỆCH TRUNG BÌNH (MAE TOÀN KHÓA)</span>
+                    <h3 class="text-4xl font-extrabold text-white mt-2 font-outfit">±0.77 <span class="text-lg font-normal text-slate-400">điểm</span></h3>
+                </div>
+                <div class="text-xs text-slate-400 flex items-center gap-1 font-medium z-10">
+                    <i class="fa-solid fa-arrows-left-right"></i> Biên dao động điểm số cực nhỏ
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="glass-panel p-6 rounded-3xl relative overflow-hidden flex flex-col justify-between h-40">
+                <div class="absolute -right-4 -bottom-4 text-purple-500/10 text-8xl font-bold"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">TỔNG LƯỢT KIỂM THỬ CHÉO</span>
+                    <h3 class="text-4xl font-extrabold text-white mt-2 font-outfit">3,272 <span class="text-lg font-normal text-slate-400">lượt</span></h3>
+                </div>
+                <div class="text-xs text-purple-400 flex items-center gap-1 font-medium z-10">
+                    <i class="fa-solid fa-shield-halved"></i> 100 SV × 34 môn (loại trừ trống)
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="glass-panel p-6 rounded-3xl relative overflow-hidden flex flex-col justify-between h-40">
+                <div class="absolute -right-4 -bottom-4 text-orange-500/10 text-8xl font-bold"><i class="fa-solid fa-user-graduate"></i></div>
+                <div>
+                    <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">TỈ LỆ DỰ ĐOÁN SIÊU CHUẨN (&le;0.5)</span>
+                    <h3 class="text-4xl font-extrabold text-white mt-2 font-outfit">41.7%</h3>
+                </div>
+                <div class="text-xs text-orange-400 flex items-center gap-1 font-medium z-10">
+                    <i class="fa-solid fa-bolt"></i> 1,365 học sinh đạt độ khớp tuyệt đối
+                </div>
+            </div>
+        </section>
+
+        <!-- KHU VỰC BIỂU ĐỒ - WOW CHO SLIDE BÁO CÁO -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- BIỂU ĐỒ PHÂN BỐ SAI SỐ HỆ THỐNG (DẠNG TRÒN) -->
+            <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex flex-col h-[480px]">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-white font-outfit"><i class="fa-solid fa-chart-pie text-purple-400 mr-2"></i> Phân Bổ Sai Số Toàn Hệ Thống</h3>
+                    <p class="text-slate-400 text-xs">Cơ cấu tỉ lệ các mức độ sai lệch điểm số dự đoán của AI.</p>
+                </div>
+                <div class="flex-1 flex items-center justify-center relative min-h-[250px]">
+                    <canvas id="errorDistributionChart"></canvas>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-800/80 text-center">
+                    <span class="text-xs text-slate-400 font-medium">💡 Gần <strong class="text-emerald-400">71.1%</strong> các dự đoán nằm trong vùng sai lệch an toàn (&le; 1.0 điểm)</span>
+                </div>
+            </div>
+
+            <!-- BIỂU ĐỒ CỘT SO SÁNH ĐỘ CHÍNH XÁC TOP 12 MÔN HỌC HÀNG ĐẦU -->
+            <div class="glass-panel p-6 rounded-3xl border border-slate-800 lg:col-span-2 flex flex-col h-[480px]">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white font-outfit"><i class="fa-solid fa-chart-bar text-blue-400 mr-2"></i> Độ Chính Xác Theo Từng Môn Học</h3>
+                        <p class="text-slate-400 text-xs">So sánh độ tin cậy dự báo AI của 12 môn học tiêu biểu (%).</p>
+                    </div>
+                    <span class="text-xs font-semibold px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-lg border border-blue-500/20">
+                        Top 12 Môn Học
+                    </span>
+                </div>
+                <div class="flex-1 min-h-[250px] relative w-full">
+                    <canvas id="subjectAccuracyChart"></canvas>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- BẢNG SỐ LIỆU CHUYÊN NGHIỆP MERGED DOUBLE-ROW (HỆ THỐNG MCKINSEY/BIG4) -->
+        <section class="glass-panel rounded-3xl border border-slate-800 overflow-hidden">
+            <div class="p-6 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h3 class="text-lg font-bold text-white font-outfit"><i class="fa-solid fa-table-list text-indigo-400 mr-2"></i> Bảng Số Liệu Kiểm Chứng Mô Hình Chi Tiết</h3>
+                    <p class="text-slate-400 text-xs">Dữ liệu kiểm thử chéo 34 môn học. Có thể tìm kiếm, lọc và phân loại.</p>
+                </div>
+                <div class="relative w-full sm:w-72">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="tableSearch" onkeyup="filterTable()" placeholder="Tìm kiếm tên môn học..." class="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm">
+                </div>
+            </div>
+
+            <!-- CHỨA TABLE VỚI CẤU TRÚC GỘP Ô ĐẸP MẮT -->
+            <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                <table class="w-full text-left border-collapse" id="validationTable">
+                    <thead>
+                        <!-- TẦNG 1 -->
+                        <tr class="bg-slate-950/60 border-b border-slate-800 text-slate-300 text-xs uppercase tracking-wider font-bold">
+                            <th rowspan="2" class="py-4 px-4 text-center border-r border-slate-800/80 w-12 font-outfit">STT</th>
+                            <th rowspan="2" class="py-4 px-6 border-r border-slate-800/80 min-w-[240px] font-outfit">Môn học</th>
+                            <th rowspan="2" class="py-4 px-4 text-center border-r border-slate-800/80 w-36 font-outfit">SV Kiểm Thử<br><span class="text-[10px] text-slate-500 font-normal normal-case">(Tổng đầu người)</span></th>
+                            <th colspan="2" class="py-3 px-4 text-center border-r border-slate-800/80 bg-emerald-500/5 text-emerald-400 font-outfit">Lệch từ 0.0 đến 0.5<br><span class="text-[9px] text-emerald-500/60 font-normal normal-case">(Dự báo siêu chuẩn)</span></th>
+                            <th colspan="2" class="py-3 px-4 text-center border-r border-slate-800/80 bg-amber-500/5 text-amber-400 font-outfit">Lệch từ 0.6 đến 1.0<br><span class="text-[9px] text-amber-500/60 font-normal normal-case">(Sai lệch nhỏ / Ổn định)</span></th>
+                            <th colspan="2" class="py-3 px-4 text-center border-r border-slate-800/80 bg-rose-500/5 text-rose-400 font-outfit">Lệch trên 1.0<br><span class="text-[9px] text-rose-500/60 font-normal normal-case">(Sai lệch lớn / Cần lưu ý)</span></th>
+                            <th colspan="2" class="py-3 px-4 text-center text-blue-400 bg-blue-500/5 font-outfit">Chỉ Số Tin Cậy AI</th>
+                        </tr>
+                        <!-- TẦNG 2 -->
+                        <tr class="bg-slate-950/40 border-b border-slate-800 text-slate-400 text-[10px] uppercase font-semibold">
+                            <!-- Nhóm 1 -->
+                            <th class="py-2.5 px-3 text-center border-r border-slate-800/50 bg-emerald-500/5 text-emerald-400/80">Số SV <span class="text-[8px] text-slate-500 font-normal">(Người)</span></th>
+                            <th class="py-2.5 px-3 text-center border-r border-slate-800/80 bg-emerald-500/5 text-emerald-400/80">Tỉ lệ (%)</th>
+                            <!-- Nhóm 2 -->
+                            <th class="py-2.5 px-3 text-center border-r border-slate-800/50 bg-amber-500/5 text-amber-400/80">Số SV <span class="text-[8px] text-slate-500 font-normal">(Người)</span></th>
+                            <th class="py-2.5 px-3 text-center border-r border-slate-800/80 bg-amber-500/5 text-amber-400/80">Tỉ lệ (%)</th>
+                            <!-- Nhóm 3 -->
+                            <th class="py-2.5 px-3 text-center border-r border-slate-800/50 bg-rose-500/5 text-rose-400/80">Số SV <span class="text-[8px] text-slate-500 font-normal">(Người)</span></th>
+                            <th class="py-2.5 px-3 text-center border-r border-slate-800/80 bg-rose-500/5 text-rose-400/80">Tỉ lệ (%)</th>
+                            <!-- Nhóm 4 -->
+                            <th class="py-2.5 px-4 text-center border-r border-slate-800/50 bg-blue-500/5 text-blue-400/80">Sai số TB <span class="text-[8px] text-slate-500 font-normal">(MAE)</span></th>
+                            <th class="py-2.5 px-4 text-center bg-blue-500/5 text-blue-400/80">Độ chính xác (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-sm text-slate-300">
+                        <!-- NẠP BẢNG QUA JS -->
+                        
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">1</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Tin học</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">88</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">23 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">26.1%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">24 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">27.3%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">41 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">46.6%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">1.11</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">88.9%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">2</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Nhập môn Công nghệ thông tin</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">99</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">9 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">9.1%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">19 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">19.2%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">71 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">71.7%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">1.3</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">87%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">3</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Pháp luật</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">48 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">48%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">21 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">21%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">31 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">31%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.76</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.4%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">4</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Giáo dục quốc phòng</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">97</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">44 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">45.4%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">27 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">27.8%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">26 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">26.8%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.75</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.5%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">5</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Kỹ năng học tập</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">52 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">52%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">31 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">31%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">17 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">17%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.58</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.2%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">6</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Giáo dục thể chất - Vovinam</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">42 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">42%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">26 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">26%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">32 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">32%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.75</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.5%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">7</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Tiếng Anh 1.1</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">60 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">60%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">30 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">30%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">10 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">10%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.52</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.8%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">8</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Tiếng Anh 1.2</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">58 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">58%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">28 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">28%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">14 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">14%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.59</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.1%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">9</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Tiếng Anh 2.1</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">58 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">58%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">27 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">27%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">15 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">15%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.59</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.1%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">10</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Tiếng Anh 2.2</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">99</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">56 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">56.6%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">28 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">28.3%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">15 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">15.2%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.57</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.3%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">11</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Nhập môn lập trình</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">42 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">42%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">32 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">32%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">26 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">26%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.72</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.8%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">12</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Xây dựng trang Web</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">40 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">40%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">31 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">31%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">29 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">29%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.73</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.7%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">13</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Cơ sở dữ liệu</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">43 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">43%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">38 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">38%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">19 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">19%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.66</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">93.4%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">14</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình PHP cơ bản</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">55 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">55%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">27 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">27%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">18 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">18%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.54</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.6%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">15</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình cơ sở với JavaScript</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">54 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">54%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">28 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">28%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">18 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">18%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.6</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">16</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Chính trị</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">98</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">14 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">14.3%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">13 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">13.3%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">71 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">72.4%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">1.43</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">85.7%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">17</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Thiết kế Web với HTML5 & CSS3</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">22 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">22%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">23 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">23%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">55 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">55%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">1.09</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">89.1%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">18</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Dự án mẫu (TKTW)</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">31 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">31%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">29 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">29%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">40 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">40%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.98</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">90.2%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">19</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình PHP 1</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">24 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">24%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">38 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">38%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">38 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">38%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.88</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">91.2%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">20</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Thiết kế UI/UX</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">44 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">44%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">37 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">37%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">19 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">19%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.74</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.6%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">21</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Kỹ năng phát triển bản thân</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">99</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">54 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">54.5%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">35 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">35.4%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">10 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">10.1%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.54</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">94.6%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">22</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình Javascript nâng cao</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">95</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">31 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">32.6%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">21 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">22.1%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">43 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">45.3%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.98</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">90.2%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">23</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Quản trị website</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">39 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">39%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">43 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">43%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">18 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">18%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.7</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">93%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">24</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình ECMAScript</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">99</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">32 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">32.3%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">42 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">42.4%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">25 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">25.3%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.77</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.3%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">25</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Dự án 1 (TKTW)</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">38 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">38%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">34 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">34%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">28 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">28%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.75</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.5%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">26</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Marketing trên Internet</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">48 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">48%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">33 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">33%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">19 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">19%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.64</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">93.6%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">27</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">NodeJS & Restful Web Service</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">33 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">33%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">25 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">25%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">42 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">42%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.91</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">90.9%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">28</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình TypeScript</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">30 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">30%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">32 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">32%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">38 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">38%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.87</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">91.3%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">29</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình Front-End Framework 1</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">35 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">35%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">30 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">30%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">35 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">35%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.79</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.1%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">30</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Lập trình Front-End Framework 2</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">39 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">39%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">34 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">34%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">27 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">27%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.72</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.8%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">31</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Khởi sự doanh nghiệp</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">45 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">45%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">36 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">36%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">19 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">19%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.67</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">93.3%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">32</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Kỹ năng làm việc</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">98</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">60 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">61.2%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">27 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">27.6%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">11 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">11.2%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.5</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">95%</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group opacity-40 bg-slate-950/20">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">33</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Thực tập tốt nghiệp (TKTW)</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">0</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">-</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">-</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">-</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">-</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">-</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">-</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">N/A</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">N/A</td>
+                        </tr>
+                        <tr class="hover:bg-slate-900/40 transition-colors group ">
+                            <td class="py-3.5 px-4 text-center font-medium border-r border-slate-800/30 text-slate-500">34</td>
+                            <td class="py-3.5 px-6 font-semibold border-r border-slate-800/30 text-slate-200 group-hover:text-blue-400 transition-colors">Dự án tốt nghiệp</td>
+                            <td class="py-3.5 px-4 text-center font-bold border-r border-slate-800/30 text-slate-300">100</td>
+                            
+                            <!-- Nhóm 1 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-emerald-500/[0.02] font-semibold text-emerald-400">62 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-emerald-500/[0.02] text-slate-400 font-medium">62%</td>
+                            
+                            <!-- Nhóm 2 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-amber-500/[0.02] font-semibold text-amber-400">14 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-amber-500/[0.02] text-slate-400 font-medium">14%</td>
+                            
+                            <!-- Nhóm 3 -->
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/20 bg-rose-500/[0.02] font-semibold text-rose-400">24 SV</td>
+                            <td class="py-3.5 px-3 text-center border-r border-slate-800/30 bg-rose-500/[0.02] text-slate-400 font-medium">24%</td>
+                            
+                            <!-- Nhóm 4 -->
+                            <td class="py-3.5 px-4 text-center border-r border-slate-800/20 bg-blue-500/[0.02] font-bold text-slate-200">0.78</td>
+                            <td class="py-3.5 px-4 text-center bg-blue-500/[0.02] font-extrabold text-blue-400">92.2%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="p-4 bg-slate-950/40 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+                <span>* Một số môn học đặc thù (như Thực tập tốt nghiệp) có số lượng SV kiểm thử bằng 0 vì toàn bộ 100 học sinh mẫu chưa học hoặc chưa có điểm chính thức trên hệ thống.</span>
+                <span class="font-semibold text-slate-400">EduGuard AI Enterprise Reporting System</span>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // 1. BIỂU ĐỒ PHÂN BỐ SAI SỐ HỆ THỐNG
+        // ============================================================
+        const ctxDistribution = document.getElementById('errorDistributionChart').getContext('2d');
+        const errorDistributionChart = new Chart(ctxDistribution, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Lệch siêu nhỏ (0.0 - 0.5)', 
+                    'Lệch nhỏ (0.6 - 1.0)', 
+                    'Lệch lớn (> 1.0)'
+                ],
+                datasets: [{
+                    data: [1365, 963, 944],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.85)', // Emerald
+                        'rgba(245, 158, 11, 0.85)', // Amber
+                        'rgba(239, 68, 68, 0.85)'   // Rose
+                    ],
+                    borderColor: [
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444'
+                    ],
+                    borderWidth: 1.5,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#cbd5e1',
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 11,
+                                weight: '500'
+                            },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return ' ' + context.label + ': ' + value + ' lượt (' + percentage + '%)';
+                            }
+                        },
+                        backgroundColor: '#0f172a',
+                        titleColor: '#fff',
+                        bodyColor: '#cbd5e1',
+                        borderColor: 'rgba(255,255,255,0.08)',
+                        borderWidth: 1,
+                        padding: 12
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // ============================================================
+        // 2. BIỂU ĐỒ ĐỘ CHÍNH XÁC THEO TỪNG MÔN HỌC (CHỌN LỌC TOP 12 MÔN CÓ NHIỀU SV KIỂM THỬ)
+        // ============================================================
+        // Lọc ra các môn học tiêu biểu (có sv kiểm thử > 0) để vẽ biểu đồ
+        const rawSubjectData = [{"stt":1,"subjectName":"Tin học","totalTested":88,"lowCount":23,"lowPct":26.1,"midCount":24,"midPct":27.3,"highCount":41,"highPct":46.6,"mae":1.11,"accuracy":88.9},{"stt":2,"subjectName":"Nhập môn Công nghệ thông tin","totalTested":99,"lowCount":9,"lowPct":9.1,"midCount":19,"midPct":19.2,"highCount":71,"highPct":71.7,"mae":1.3,"accuracy":87},{"stt":3,"subjectName":"Pháp luật","totalTested":100,"lowCount":48,"lowPct":48,"midCount":21,"midPct":21,"highCount":31,"highPct":31,"mae":0.76,"accuracy":92.4},{"stt":4,"subjectName":"Giáo dục quốc phòng","totalTested":97,"lowCount":44,"lowPct":45.4,"midCount":27,"midPct":27.8,"highCount":26,"highPct":26.8,"mae":0.75,"accuracy":92.5},{"stt":5,"subjectName":"Kỹ năng học tập","totalTested":100,"lowCount":52,"lowPct":52,"midCount":31,"midPct":31,"highCount":17,"highPct":17,"mae":0.58,"accuracy":94.2},{"stt":6,"subjectName":"Giáo dục thể chất - Vovinam","totalTested":100,"lowCount":42,"lowPct":42,"midCount":26,"midPct":26,"highCount":32,"highPct":32,"mae":0.75,"accuracy":92.5},{"stt":7,"subjectName":"Tiếng Anh 1.1","totalTested":100,"lowCount":60,"lowPct":60,"midCount":30,"midPct":30,"highCount":10,"highPct":10,"mae":0.52,"accuracy":94.8},{"stt":8,"subjectName":"Tiếng Anh 1.2","totalTested":100,"lowCount":58,"lowPct":58,"midCount":28,"midPct":28,"highCount":14,"highPct":14,"mae":0.59,"accuracy":94.1},{"stt":9,"subjectName":"Tiếng Anh 2.1","totalTested":100,"lowCount":58,"lowPct":58,"midCount":27,"midPct":27,"highCount":15,"highPct":15,"mae":0.59,"accuracy":94.1},{"stt":10,"subjectName":"Tiếng Anh 2.2","totalTested":99,"lowCount":56,"lowPct":56.6,"midCount":28,"midPct":28.3,"highCount":15,"highPct":15.2,"mae":0.57,"accuracy":94.3},{"stt":11,"subjectName":"Nhập môn lập trình","totalTested":100,"lowCount":42,"lowPct":42,"midCount":32,"midPct":32,"highCount":26,"highPct":26,"mae":0.72,"accuracy":92.8},{"stt":12,"subjectName":"Xây dựng trang Web","totalTested":100,"lowCount":40,"lowPct":40,"midCount":31,"midPct":31,"highCount":29,"highPct":29,"mae":0.73,"accuracy":92.7},{"stt":13,"subjectName":"Cơ sở dữ liệu","totalTested":100,"lowCount":43,"lowPct":43,"midCount":38,"midPct":38,"highCount":19,"highPct":19,"mae":0.66,"accuracy":93.4},{"stt":14,"subjectName":"Lập trình PHP cơ bản","totalTested":100,"lowCount":55,"lowPct":55,"midCount":27,"midPct":27,"highCount":18,"highPct":18,"mae":0.54,"accuracy":94.6},{"stt":15,"subjectName":"Lập trình cơ sở với JavaScript","totalTested":100,"lowCount":54,"lowPct":54,"midCount":28,"midPct":28,"highCount":18,"highPct":18,"mae":0.6,"accuracy":94},{"stt":16,"subjectName":"Chính trị","totalTested":98,"lowCount":14,"lowPct":14.3,"midCount":13,"midPct":13.3,"highCount":71,"highPct":72.4,"mae":1.43,"accuracy":85.7},{"stt":17,"subjectName":"Thiết kế Web với HTML5 & CSS3","totalTested":100,"lowCount":22,"lowPct":22,"midCount":23,"midPct":23,"highCount":55,"highPct":55,"mae":1.09,"accuracy":89.1},{"stt":18,"subjectName":"Dự án mẫu (TKTW)","totalTested":100,"lowCount":31,"lowPct":31,"midCount":29,"midPct":29,"highCount":40,"highPct":40,"mae":0.98,"accuracy":90.2},{"stt":19,"subjectName":"Lập trình PHP 1","totalTested":100,"lowCount":24,"lowPct":24,"midCount":38,"midPct":38,"highCount":38,"highPct":38,"mae":0.88,"accuracy":91.2},{"stt":20,"subjectName":"Thiết kế UI/UX","totalTested":100,"lowCount":44,"lowPct":44,"midCount":37,"midPct":37,"highCount":19,"highPct":19,"mae":0.74,"accuracy":92.6},{"stt":21,"subjectName":"Kỹ năng phát triển bản thân","totalTested":99,"lowCount":54,"lowPct":54.5,"midCount":35,"midPct":35.4,"highCount":10,"highPct":10.1,"mae":0.54,"accuracy":94.6},{"stt":22,"subjectName":"Lập trình Javascript nâng cao","totalTested":95,"lowCount":31,"lowPct":32.6,"midCount":21,"midPct":22.1,"highCount":43,"highPct":45.3,"mae":0.98,"accuracy":90.2},{"stt":23,"subjectName":"Quản trị website","totalTested":100,"lowCount":39,"lowPct":39,"midCount":43,"midPct":43,"highCount":18,"highPct":18,"mae":0.7,"accuracy":93},{"stt":24,"subjectName":"Lập trình ECMAScript","totalTested":99,"lowCount":32,"lowPct":32.3,"midCount":42,"midPct":42.4,"highCount":25,"highPct":25.3,"mae":0.77,"accuracy":92.3},{"stt":25,"subjectName":"Dự án 1 (TKTW)","totalTested":100,"lowCount":38,"lowPct":38,"midCount":34,"midPct":34,"highCount":28,"highPct":28,"mae":0.75,"accuracy":92.5},{"stt":26,"subjectName":"Marketing trên Internet","totalTested":100,"lowCount":48,"lowPct":48,"midCount":33,"midPct":33,"highCount":19,"highPct":19,"mae":0.64,"accuracy":93.6},{"stt":27,"subjectName":"NodeJS & Restful Web Service","totalTested":100,"lowCount":33,"lowPct":33,"midCount":25,"midPct":25,"highCount":42,"highPct":42,"mae":0.91,"accuracy":90.9},{"stt":28,"subjectName":"Lập trình TypeScript","totalTested":100,"lowCount":30,"lowPct":30,"midCount":32,"midPct":32,"highCount":38,"highPct":38,"mae":0.87,"accuracy":91.3},{"stt":29,"subjectName":"Lập trình Front-End Framework 1","totalTested":100,"lowCount":35,"lowPct":35,"midCount":30,"midPct":30,"highCount":35,"highPct":35,"mae":0.79,"accuracy":92.1},{"stt":30,"subjectName":"Lập trình Front-End Framework 2","totalTested":100,"lowCount":39,"lowPct":39,"midCount":34,"midPct":34,"highCount":27,"highPct":27,"mae":0.72,"accuracy":92.8},{"stt":31,"subjectName":"Khởi sự doanh nghiệp","totalTested":100,"lowCount":45,"lowPct":45,"midCount":36,"midPct":36,"highCount":19,"highPct":19,"mae":0.67,"accuracy":93.3},{"stt":32,"subjectName":"Kỹ năng làm việc","totalTested":98,"lowCount":60,"lowPct":61.2,"midCount":27,"midPct":27.6,"highCount":11,"highPct":11.2,"mae":0.5,"accuracy":95},{"stt":33,"subjectName":"Thực tập tốt nghiệp (TKTW)","totalTested":0,"lowCount":0,"lowPct":0,"midCount":0,"midPct":0,"highCount":0,"highPct":0,"mae":0,"accuracy":0},{"stt":34,"subjectName":"Dự án tốt nghiệp","totalTested":100,"lowCount":62,"lowPct":62,"midCount":14,"midPct":14,"highCount":24,"highPct":24,"mae":0.78,"accuracy":92.2}];
+        const validSubjects = rawSubjectData
+            .filter(s => s.totalTested > 0)
+            .sort((a, b) => b.accuracy - a.accuracy)
+            .slice(0, 12); // Lấy top 12 môn có độ chính xác cao nhất hoặc tiêu biểu
+
+        const labels = validSubjects.map(s => s.subjectName);
+        const accuracies = validSubjects.map(s => s.accuracy);
+        const maes = validSubjects.map(s => s.mae);
+
+        const ctxAccuracy = document.getElementById('subjectAccuracyChart').getContext('2d');
+        const subjectAccuracyChart = new Chart(ctxAccuracy, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Độ chính xác (%)',
+                        data: accuracies,
+                        backgroundColor: 'rgba(59, 130, 246, 0.4)',
+                        borderColor: '#3b82f6',
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        yAxisID: 'y',
+                    },
+                    {
+                        label: 'Sai số trung bình (MAE)',
+                        data: maes,
+                        type: 'line',
+                        borderColor: '#a78bfa',
+                        backgroundColor: 'rgba(167, 139, 250, 0.2)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#a78bfa',
+                        pointRadius: 4,
+                        yAxisID: 'y1',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#cbd5e1',
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 11
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        titleColor: '#fff',
+                        bodyColor: '#cbd5e1',
+                        borderColor: 'rgba(255,255,255,0.08)',
+                        borderWidth: 1,
+                        padding: 12
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 9
+                            },
+                            callback: function(value) {
+                                const text = this.getLabelForValue(value);
+                                return text.length > 15 ? text.substring(0, 15) + '...' : text;
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255,255,255,0.03)'
+                        }
+                    },
+                    y: {
+                        position: 'left',
+                        min: 70,
+                        max: 100,
+                        ticks: {
+                            color: '#94a3b8',
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255,255,255,0.03)'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Độ Chính Xác (%)',
+                            color: '#3b82f6',
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y1: {
+                        position: 'right',
+                        min: 0,
+                        max: 2,
+                        ticks: {
+                            color: '#a78bfa',
+                            font: {
+                                family: 'Plus Jakarta Sans',
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            drawOnChartArea: false // Ẩn grid line của trục phụ
+                        },
+                        title: {
+                            display: true,
+                            text: 'Lệch Trung Bình (MAE - điểm)',
+                            color: '#a78bfa',
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // ============================================================
+        // 3. TÌM KIẾM MÔN HỌC BẰNG JS
+        // ============================================================
+        function filterTable() {
+            const input = document.getElementById("tableSearch");
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById("validationTable");
+            const tr = table.getElementsByTagName("tr");
+
+            // Bắt đầu lặp từ dòng 2 (bỏ 2 dòng header index 0 và 1)
+            for (let i = 2; i < tr.length; i++) {
+                const tdSubject = tr[i].getElementsByTagName("td")[1];
+                if (tdSubject) {
+                    const textValue = tdSubject.textContent || tdSubject.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

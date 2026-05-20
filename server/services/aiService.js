@@ -56,7 +56,7 @@ async function getStudentDataForAI(mssv) {
   }
 }
 
-async function askGroq({ system, history = [], user }) {
+async function askGroq({ system, history = [], user, disableTools = false }) {
   if (!process.env.GROQ_API_KEY) {
     throw new Error("Missing GROQ_API_KEY in environment");
   }
@@ -64,7 +64,7 @@ async function askGroq({ system, history = [], user }) {
   const model = process.env.GROQ_MODEL || "qwen/qwen3-32b";
   console.log(`[aiService - Groq] Đang gọi model: ${model}...`);
   
-  const completion = await groq.chat.completions.create({
+  const requestPayload = {
     model: model,
     messages: [
       { role: "system", content: system },
@@ -73,10 +73,15 @@ async function askGroq({ system, history = [], user }) {
     ],
     temperature: 0.1, // Hyperparameter Tuning (Step 4)
     top_p: 0.95,
-    max_tokens: 2048,
-    tools: groqTools,
-    tool_choice: "auto"
-  });
+    max_tokens: 2048
+  };
+
+  if (!disableTools) {
+    requestPayload.tools = groqTools;
+    requestPayload.tool_choice = "auto";
+  }
+
+  const completion = await groq.chat.completions.create(requestPayload);
 
   const assistantMessage = completion.choices?.[0]?.message;
   if (!assistantMessage) {
@@ -84,7 +89,7 @@ async function askGroq({ system, history = [], user }) {
   }
 
   // Handle native tool call callback (Step 2)
-  if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
+  if (!disableTools && assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
     const toolCall = assistantMessage.tool_calls[0];
     if (toolCall.function.name === "queryStudentAcademicRecord") {
       const args = JSON.parse(toolCall.function.arguments);
@@ -119,7 +124,7 @@ async function askGroq({ system, history = [], user }) {
 }
 
 // Ask Gemini caller service with tool support (Step 4 & 2)
-async function askGemini({ system, history = [], user }) {
+async function askGemini({ system, history = [], user, disableTools = false }) {
   if (!process.env.GEMINI_API_KEY) {
     throw new Error("Missing GEMINI_API_KEY in environment");
   }
@@ -138,7 +143,7 @@ async function askGemini({ system, history = [], user }) {
     parts: [{ text: h.content || h.text || '' }]
   }));
 
-  const result = await model.generateContent({
+  const requestPayload = {
     contents: [
       ...geminiHistory,
       { role: "user", parts: [{ text: `Câu hỏi: ${user}` }] }
@@ -147,8 +152,11 @@ async function askGemini({ system, history = [], user }) {
       temperature: 0.1, // Hyperparameter Tuning (Step 4)
       maxOutputTokens: 4096,
       topP: 0.95
-    },
-    tools: [{
+    }
+  };
+
+  if (!disableTools) {
+    requestPayload.tools = [{
       functionDeclarations: [{
         name: "queryStudentAcademicRecord",
         description: "Truy vấn điểm số chi tiết, kết quả học tập thực tế và dự báo rủi ro trượt môn của sinh viên từ cơ sở dữ liệu dựa trên mã số sinh viên (MSSV)",
@@ -163,14 +171,15 @@ async function askGemini({ system, history = [], user }) {
           required: ["mssv"]
         }
       }]
-    }]
-  });
+    }];
+  }
 
+  const result = await model.generateContent(requestPayload);
   const response = result.response;
   const functionCalls = response.functionCalls();
   
   // Handle native tool call callback (Step 2)
-  if (functionCalls && functionCalls.length > 0) {
+  if (!disableTools && functionCalls && functionCalls.length > 0) {
     const call = functionCalls[0];
     if (call.name === "queryStudentAcademicRecord") {
       const { mssv } = call.args;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { useStore } from '../store';
+import { api } from '../lib/api';
 import { 
   ArrowLeft, User, BookOpen, Award, AlertTriangle, 
   HeartHandshake, Brain, TrendingUp, Send, CheckCircle2, 
@@ -27,7 +27,7 @@ export default function StudentProfile() {
   const fetchStudentProfile = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/api/students/${mssv}`);
+      const res = await api.get(`/students/${mssv}`);
       setStudent(res.data);
       // Inject to global assistant store so chatbot becomes "possessed"
       setActiveStudent(res.data);
@@ -61,7 +61,7 @@ export default function StudentProfile() {
     
     setSubmittingFlag(true);
     try {
-      const res = await axios.post(`/api/students/${mssv}/flag`, {
+      const res = await api.post(`/students/${mssv}/flag`, {
         courseId: selectedCourse,
         action: interventionNote || `Giảng viên đánh dấu đặc biệt lưu ý cho môn ${selectedCourse}.`
       });
@@ -115,13 +115,50 @@ export default function StudentProfile() {
         name.includes('quốc phòng') ||
         name.includes('thực tập tốt nghiệp') ||
         name.includes('vovinam') ||
+        name.includes('gdqp') ||
         cid.includes('VIE103') ||
         cid.includes('VIE104') ||
-        cid.includes('PRO110')
+        cid.includes('PRO110') ||
+        cid.includes('PRO115')
       );
     };
 
-    const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name, s.courseId));
+    const getCourseCredits = (courseNameOrId) => {
+      const name = String(courseNameOrId || '').trim();
+      const lower = name.toLowerCase();
+      const code = name.toUpperCase();
+
+      if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+      if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+      if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
+
+      if (
+        lower.includes('chính trị') || 
+        code.includes('VIE108') || 
+        lower.includes('dự án tốt nghiệp') || 
+        code.includes('PRO2201') ||
+        code.includes('PRO220')
+      ) {
+        return 5;
+      }
+
+      if (
+        lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
+        lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
+        lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
+        lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+        lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
+        lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
+        lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
+        lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+      ) {
+        return 2;
+      }
+
+      return 3;
+    };
+
+    const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
 
     // Chuyển đổi thang điểm 10 sang thang điểm 4 theo FPT Polytechnic
     const get40Scale = (val) => {
@@ -144,7 +181,7 @@ export default function StudentProfile() {
     let totalAcademicCredits = 0;
 
     academicScores.forEach(s => {
-      const credits = s.course?.credits || 3;
+      const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
       totalScoreWeight10 += (s.value * credits);
       totalScoreWeight4 += (get40Scale(s.value) * credits);
       totalAcademicCredits += credits;
@@ -153,7 +190,7 @@ export default function StudentProfile() {
     let totalEarnedCredits = 0;
     validScores.forEach(s => {
       if (s.value >= 5.0 || s.status === 'PASSED') {
-        totalEarnedCredits += (s.course?.credits || 3);
+        totalEarnedCredits += (s.course?.credits || getCourseCredits(s.course?.name || s.courseId));
       }
     });
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useStore } from '../store';
+import { api } from '../lib/api';
 import { 
   Search, User, Hash, AlertTriangle, CheckCircle, Info, 
   MessageSquare, Send, Sparkles, TrendingUp, ArrowRight, 
@@ -119,9 +119,70 @@ export default function StudentSearch() {
     
     // Compute GPA and failed subjects
     const validScores = selectedStudent.scores?.filter(s => s.value !== null) || [];
-    const gpa = validScores.length > 0 
-      ? (validScores.reduce((sum, s) => sum + s.value, 0) / validScores.length).toFixed(1)
-      : '0.0';
+    
+    const isConditionalCourse = (courseName, courseId) => {
+      const name = (courseName || '').toLowerCase();
+      const cid = (courseId || '').toUpperCase();
+      return (
+        name.includes('thể chất') ||
+        name.includes('quốc phòng') ||
+        name.includes('thực tập tốt nghiệp') ||
+        name.includes('vovinam') ||
+        name.includes('gdqp') ||
+        cid.includes('VIE103') ||
+        cid.includes('VIE104') ||
+        cid.includes('PRO110') ||
+        cid.includes('PRO115')
+      );
+    };
+
+    const getCourseCredits = (courseNameOrId) => {
+      const name = String(courseNameOrId || '').trim();
+      const lower = name.toLowerCase();
+      const code = name.toUpperCase();
+
+      if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+      if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+      if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
+
+      if (
+        lower.includes('chính trị') || 
+        code.includes('VIE108') || 
+        lower.includes('dự án tốt nghiệp') || 
+        code.includes('PRO2201') ||
+        code.includes('PRO220')
+      ) {
+        return 5;
+      }
+
+      if (
+        lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
+        lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
+        lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
+        lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+        lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
+        lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
+        lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
+        lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+      ) {
+        return 2;
+      }
+
+      return 3;
+    };
+
+    const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+    
+    let totalScoreWeight = 0;
+    let totalCredits = 0;
+    
+    academicScores.forEach(s => {
+      const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
+      totalScoreWeight += (s.value * credits);
+      totalCredits += credits;
+    });
+
+    const gpa = totalCredits > 0 ? (totalScoreWeight / totalCredits).toFixed(1) : '0.0';
     
     const failedSubjects = selectedStudent.scores?.filter(s => s.value !== null && s.value < 5) || [];
     const failedListHTML = failedSubjects.length > 0
@@ -355,14 +416,14 @@ export default function StudentSearch() {
 
     try {
       setLoading(true);
-      await axios.post('/api/students/update-score', {
+      await api.post('/students/update-score', {
         mssv: selectedStudent.mssv,
         courseId,
         value: val
       });
       
       // Reload student details to refresh grades, GPAs, and predictions
-      const updated = await axios.get(`/api/students/${selectedStudent.mssv}`);
+      const updated = await api.get(`/students/${selectedStudent.mssv}`);
       setSelectedStudent(updated.data);
       setActiveStudent(updated.data);
       setEditingCourseId(null);
@@ -394,7 +455,7 @@ export default function StudentSearch() {
     }
     setLoading(true);
     try {
-      const res = await axios.get(`/api/students-search?q=${encodeURIComponent(q)}`);
+      const res = await api.get(`/students-search?q=${encodeURIComponent(q)}`);
       setResults(res.data);
     } catch (err) {
       console.error('Lỗi tìm kiếm:', err);
@@ -406,7 +467,7 @@ export default function StudentSearch() {
   const handleSelectStudent = async (student) => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/students/${student.id}`);
+      const res = await api.get(`/students/${student.id}`);
       setSelectedStudent(res.data);
       // Reset chat history for the newly selected student with a warm welcome
       setChatHistory([
@@ -438,7 +499,7 @@ export default function StudentSearch() {
     setChatLoading(true);
 
     try {
-      const res = await axios.post('/api/chat', {
+      const res = await api.post('/chat', {
         message: userText,
         studentContext: selectedStudent
       });
@@ -467,14 +528,14 @@ export default function StudentSearch() {
     if (!confirmFlag) return;
 
     try {
-      const res = await axios.post(`/api/students/${selectedStudent.mssv}/flag`, {
+      const res = await api.post(`/students/${selectedStudent.mssv}/flag`, {
         courseId,
         action: `Cố vấn học vụ đề xuất bổ trợ môn ${courseId} dựa trên chỉ số rủi ro.`
       });
       alert(res.data.message);
       
       // Reload profile
-      const updated = await axios.get(`/api/students/${selectedStudent.mssv}`);
+      const updated = await api.get(`/students/${selectedStudent.mssv}`);
       setSelectedStudent(updated.data);
     } catch (err) {
       alert('Lỗi can thiệp: ' + (err.response?.data?.error || err.message));
@@ -523,7 +584,7 @@ export default function StudentSearch() {
           onClick={async () => {
             try {
               setLoading(true);
-              const res = await axios.get('/api/students/PS23116');
+              const res = await api.get('/students/PS23116');
               setActiveStudent(res.data);
             } catch (err) {
               console.error(err);
@@ -557,13 +618,50 @@ export default function StudentSearch() {
                       name.includes('quốc phòng') ||
                       name.includes('thực tập tốt nghiệp') ||
                       name.includes('vovinam') ||
+                      name.includes('gdqp') ||
                       cid.includes('VIE103') ||
                       cid.includes('VIE104') ||
-                      cid.includes('PRO110')
+                      cid.includes('PRO110') ||
+                      cid.includes('PRO115')
                     );
                   };
 
-                  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name, s.courseId));
+                  const getCourseCredits = (courseNameOrId) => {
+                    const name = String(courseNameOrId || '').trim();
+                    const lower = name.toLowerCase();
+                    const code = name.toUpperCase();
+
+                    if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+                    if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+                    if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
+
+                    if (
+                      lower.includes('chính trị') || 
+                      code.includes('VIE108') || 
+                      lower.includes('dự án tốt nghiệp') || 
+                      code.includes('PRO2201') ||
+                      code.includes('PRO220')
+                    ) {
+                      return 5;
+                    }
+
+                    if (
+                      lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
+                      lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
+                      lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
+                      lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+                      lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
+                      lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
+                      lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
+                      lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+                    ) {
+                      return 2;
+                    }
+
+                    return 3;
+                  };
+
+                  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
 
                   // Chuyển đổi thang điểm 10 sang thang điểm 4 theo FPT Polytechnic
                   const get40Scale = (val) => {
@@ -586,7 +684,7 @@ export default function StudentSearch() {
                   let totalAcademicCredits = 0;
 
                   academicScores.forEach(s => {
-                    const credits = s.course?.credits || 3;
+                    const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
                     totalScoreWeight10 += (s.value * credits);
                     totalScoreWeight4 += (get40Scale(s.value) * credits);
                     totalAcademicCredits += credits;
@@ -595,7 +693,7 @@ export default function StudentSearch() {
                   let totalEarnedCredits = 0;
                   validScores.forEach(s => {
                     if (s.value >= 5.0 || s.status === 'PASSED') {
-                      totalEarnedCredits += (s.course?.credits || 3);
+                      totalEarnedCredits += (s.course?.credits || getCourseCredits(s.course?.name || s.courseId));
                     }
                   });
 
