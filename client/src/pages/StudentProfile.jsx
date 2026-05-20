@@ -9,6 +9,80 @@ import {
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
+const getCourseCredits = (courseNameOrId) => {
+  const name = String(courseNameOrId || '').trim();
+  const lower = name.toLowerCase();
+  const code = name.toUpperCase();
+
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+  if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+  if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
+  if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
+  if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
+
+  if (
+    lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
+    lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
+    lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
+    lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+    lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
+    lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
+    lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
+    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+  ) {
+    return 2;
+  }
+
+  return 3;
+};
+
+const isConditionalCourse = (courseName, courseId) => {
+  const name = (courseName || '').toLowerCase();
+  const cid = (courseId || '').toUpperCase();
+  return (
+    name.includes('thể chất') ||
+    name.includes('quốc phòng') ||
+    name.includes('thực tập tốt nghiệp') ||
+    name.includes('vovinam') ||
+    name.includes('gdqp') ||
+    cid.includes('VIE103') ||
+    cid.includes('VIE104') ||
+    cid.includes('PRO110') ||
+    cid.includes('PRO115') ||
+    cid.includes('PRO116')
+  );
+};
+
+const get40Scale = (val) => {
+  if (val === null || val === undefined) return 0.0;
+  if (val >= 9.0) return 4.0;
+  if (val >= 8.5) return 3.75;
+  if (val >= 8.0) return 3.5;
+  if (val >= 7.5) return 3.25;
+  if (val >= 7.0) return 3.0;
+  if (val >= 6.5) return 2.75;
+  if (val >= 6.0) return 2.5;
+  if (val >= 5.5) return 2.0;
+  if (val >= 5.0) return 1.5;
+  if (val >= 4.0) return 1.0;
+  return 0.0;
+};
+
+const getLetterGrade = (val) => {
+  if (val === null || val === undefined) return 'F';
+  if (val >= 9.0) return 'A+';
+  if (val >= 8.5) return 'A';
+  if (val >= 8.0) return 'A-';
+  if (val >= 7.5) return 'B+';
+  if (val >= 7.0) return 'B';
+  if (val >= 6.5) return 'B-';
+  if (val >= 6.0) return 'C+';
+  if (val >= 5.5) return 'C';
+  if (val >= 5.0) return 'C-';
+  if (val >= 4.0) return 'D';
+  return 'F';
+};
+
 export default function StudentProfile() {
   const { mssv } = useParams();
   const navigate = useNavigate();
@@ -58,22 +132,19 @@ export default function StudentProfile() {
   const handleFlagIntervention = async (e) => {
     e.preventDefault();
     if (!selectedCourse) return alert('Vui lòng chọn môn học cần can thiệp!');
-    
     setSubmittingFlag(true);
+    setSuccessMsg('');
     try {
-      const res = await api.post(`/students/${mssv}/flag`, {
+      await api.post(`/students/${mssv}/flag`, {
         courseId: selectedCourse,
-        action: interventionNote || `Giảng viên đánh dấu đặc biệt lưu ý cho môn ${selectedCourse}.`
+        action: interventionNote || 'Cần can thiệp sư phạm đặc biệt - Cảnh báo CVHT'
       });
-      
-      setSuccessMsg(`⚠️ Đã gửi cảnh báo thành công! Cố vấn Học vụ sẽ nhận được thông tin ngay lập tức.`);
+      setSuccessMsg('Đã thiết lập cắm cờ can thiệp thành công!');
       setInterventionNote('');
-      setTimeout(() => setSuccessMsg(''), 5000);
-      
-      // Reload profile to show new intervention in history
       fetchStudentProfile();
     } catch (err) {
-      alert(err.response?.data?.error || err.message);
+      console.error(err);
+      alert(err.response?.data?.error || 'Có lỗi xảy ra khi tạo can thiệp');
     } finally {
       setSubmittingFlag(false);
     }
@@ -105,83 +176,14 @@ export default function StudentProfile() {
   // HÀM HỖ TRỢ PHÂN TÍCH GPA VÀ TÍN CHỈ CHUẨN FPT POLYTECHNIC
   const calculateFptStats = (scores) => {
     const validScores = (scores || []).filter(s => s.value !== null);
-    
-    // Lọc bỏ các môn điều kiện (Giáo dung thể chất, Vovinam, GDQP,...)
-    const isConditionalCourse = (courseName, courseId) => {
-      const name = (courseName || '').toLowerCase();
-      const cid = (courseId || '').toUpperCase();
-      return (
-        name.includes('thể chất') ||
-        name.includes('quốc phòng') ||
-        name.includes('thực tập tốt nghiệp') ||
-        name.includes('vovinam') ||
-        name.includes('gdqp') ||
-        cid.includes('VIE103') ||
-        cid.includes('VIE104') ||
-        cid.includes('PRO110') ||
-        cid.includes('PRO115')
-      );
-    };
-
-    const getCourseCredits = (courseNameOrId) => {
-      const name = String(courseNameOrId || '').trim();
-      const lower = name.toLowerCase();
-      const code = name.toUpperCase();
-
-      if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
-      if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
-      if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
-
-      if (
-        lower.includes('chính trị') || 
-        code.includes('VIE108') || 
-        lower.includes('dự án tốt nghiệp') || 
-        code.includes('PRO2201') ||
-        code.includes('PRO220')
-      ) {
-        return 5;
-      }
-
-      if (
-        lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
-        lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
-        lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
-        lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
-        lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
-        lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
-        lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-        lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
-      ) {
-        return 2;
-      }
-
-      return 3;
-    };
-
     const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
-
-    // Chuyển đổi thang điểm 10 sang thang điểm 4 theo FPT Polytechnic
-    const get40Scale = (val) => {
-      if (val === null || val === undefined) return 0.0;
-      if (val >= 9.0) return 4.0;
-      if (val >= 8.5) return 3.75;
-      if (val >= 8.0) return 3.5;
-      if (val >= 7.5) return 3.25;
-      if (val >= 7.0) return 3.0;
-      if (val >= 6.5) return 2.75;
-      if (val >= 6.0) return 2.5;
-      if (val >= 5.5) return 2.0;
-      if (val >= 5.0) return 1.5;
-      if (val >= 4.0) return 1.0;
-      return 0.0;
-    };
 
     let totalScoreWeight10 = 0;
     let totalScoreWeight4 = 0;
     let totalAcademicCredits = 0;
 
     academicScores.forEach(s => {
-      const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
+      const credits = getCourseCredits(s.courseId || s.course?.name);
       totalScoreWeight10 += (s.value * credits);
       totalScoreWeight4 += (get40Scale(s.value) * credits);
       totalAcademicCredits += credits;
@@ -190,12 +192,12 @@ export default function StudentProfile() {
     let totalEarnedCredits = 0;
     validScores.forEach(s => {
       if (s.value >= 5.0 || s.status === 'PASSED') {
-        totalEarnedCredits += (s.course?.credits || getCourseCredits(s.course?.name || s.courseId));
+        totalEarnedCredits += getCourseCredits(s.courseId || s.course?.name);
       }
     });
 
-    const gpa10 = totalAcademicCredits === 0 ? '0.0' : (totalScoreWeight10 / totalAcademicCredits).toFixed(1);
-    const gpa4 = totalAcademicCredits === 0 ? '0.00' : (totalScoreWeight4 / totalAcademicCredits).toFixed(2);
+    const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
+    const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.floor(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
 
     return {
       gpa10,
@@ -321,7 +323,9 @@ export default function StudentProfile() {
                     <th className="p-4 font-semibold">Tên Môn học</th>
                     <th className="p-4 font-semibold">Tín chỉ</th>
                     <th className="p-4 font-semibold">Kỳ học</th>
-                    <th className="p-4 font-semibold">Điểm số</th>
+                    <th className="p-4 font-semibold">Điểm hệ 10</th>
+                    <th className="p-4 font-semibold">Điểm hệ 4</th>
+                    <th className="p-4 font-semibold">Điểm chữ</th>
                     <th className="p-4 font-semibold">Trạng thái</th>
                   </tr>
                 </thead>
@@ -330,12 +334,22 @@ export default function StudentProfile() {
                     <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                       <td className="p-4 font-bold text-slate-300">{score.courseId}</td>
                       <td className="p-4 text-white font-medium">{score.course?.name || score.courseId}</td>
-                      <td className="p-4 text-slate-400">{score.course?.credits || 3} TC</td>
+                      <td className="p-4 text-slate-400">{getCourseCredits(score.courseId)} TC</td>
                       <td className="p-4 text-slate-500">{score.semester || 'Summer 2025'}</td>
                       <td className="p-4">
                         <span className={`text-base font-black ${score.value >= 8 ? 'text-emerald-400' : score.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
                           {score.value !== null ? score.value.toFixed(1) : '—'}
                         </span>
+                      </td>
+                      <td className="p-4 text-slate-300 font-bold">
+                        {score.value !== null ? get40Scale(score.value).toFixed(2) : '—'}
+                      </td>
+                      <td className="p-4">
+                        {score.value !== null ? (
+                          <span className="bg-white/5 border border-white/10 rounded px-2 py-0.5 inline-block text-xs font-black text-white">
+                            {getLetterGrade(score.value)}
+                          </span>
+                        ) : '—'}
                       </td>
                       <td className="p-4">
                         {score.status === 'PASSED' ? (

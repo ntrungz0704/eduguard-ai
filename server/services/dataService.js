@@ -210,17 +210,9 @@ function getCourseCredits(courseNameOrId) {
 
   if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
   if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
-  if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
-
-  if (
-    lower.includes('chính trị') || 
-    code.includes('VIE108') || 
-    lower.includes('dự án tốt nghiệp') || 
-    code.includes('PRO2201') ||
-    code.includes('PRO220')
-  ) {
-    return 5;
-  }
+  if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
+  if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
+  if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
 
   if (
     lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
@@ -253,7 +245,8 @@ function calculateFptGPA(scores) {
       cid.includes('VIE103') ||
       cid.includes('VIE104') ||
       cid.includes('PRO110') ||
-      cid.includes('PRO115')
+      cid.includes('PRO115') ||
+      cid.includes('PRO116')
     );
   };
 
@@ -265,7 +258,7 @@ function calculateFptGPA(scores) {
     const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
 
     academicScores.forEach(s => {
-      const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
+      const credits = getCourseCredits(s.course?.name || s.courseId);
       totalScoreWeight += (s.value * credits);
       totalCredits += credits;
     });
@@ -280,7 +273,7 @@ function calculateFptGPA(scores) {
     });
   }
 
-  return totalCredits === 0 ? 0.0 : parseFloat((totalScoreWeight / totalCredits).toFixed(1));
+  return totalCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10;
 }
 
 module.exports = {

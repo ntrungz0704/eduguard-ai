@@ -12,6 +12,24 @@ export const api = axios.create({
   baseURL: import.meta.env.DEV ? DEV_API_BASE_URL : '/api',
 });
 
+api.interceptors.request.use((config) => {
+  try {
+    const userStr = localStorage.getItem('eduguard_user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      if (user) {
+        if (user.role) config.headers['x-user-role'] = user.role;
+        if (user.id) config.headers['x-user-id'] = user.id;
+      }
+    }
+  } catch (err) {
+    console.error('Error in api request interceptor:', err);
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const isBackendRestartError = (error) => {

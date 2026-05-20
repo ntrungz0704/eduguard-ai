@@ -17,7 +17,9 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Mount API Router under '/api'
 const apiRouter = require('./routes/api');
+const commRouter = require('./routes/communication');
 app.use('/api', apiRouter);
+app.use('/api/comm', commRouter);
 
 // Fallback to legacy index.html for any other requests on port 3000
 app.get('*', (req, res) => {

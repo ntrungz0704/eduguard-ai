@@ -96,3 +96,31 @@ model Intervention {
   @@index([courseId])
   @@index([advisorId])
 }
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  senderId    String   // Could be User ID (Advisor) or Student MSSV
+  receiverId  String   // Could be User ID (Advisor) or Student MSSV
+  content     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  attachments Attachment[]
+
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  messageId Int
+  fileName  String
+  fileUrl   String
+  fileType  String   // 'image', 'document', etc.
+  createdAt DateTime @default(now())
+
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  
+  @@index([messageId])
+}

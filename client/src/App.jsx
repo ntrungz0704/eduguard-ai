@@ -9,16 +9,31 @@ import GPA from './pages/GPA';
 import StudentSearch from './pages/StudentSearch';
 import StudentProfile from './pages/StudentProfile';
 import AIChat from './pages/AIChat';
+import Login from './pages/Login';
+import StudentDashboard from './pages/StudentDashboard';
+import Inbox from './pages/Inbox';
+import { LogOut, GraduationCap, Mails } from 'lucide-react';
 
 const Sidebar = () => {
   const location = useLocation();
-  const navItems = [
+  const currentUser = useStore(state => state.currentUser);
+  
+  const advisorNavItems = [
     { path: '/', icon: <LayoutDashboard size={20} />, label: 'Tổng quan (Dashboard)' },
     { path: '/search', icon: <Search size={20} />, label: 'Tra cứu học vụ' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
+    { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý AI' }
   ];
+
+  const studentNavItems = [
+    { path: '/student-dashboard', icon: <LayoutDashboard size={20} />, label: 'Bảng điểm của tôi' },
+    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Gia sư AI' },
+    { path: '/inbox', icon: <Mails size={20} />, label: 'Tin nhắn Cố vấn' }
+  ];
+
+  const navItems = currentUser?.role === 'STUDENT' ? studentNavItems : advisorNavItems;
 
   return (
     <aside className="w-64 glass-panel border-r border-white/5 h-screen fixed top-0 left-0 flex flex-col z-20">
@@ -78,6 +93,8 @@ const Header = () => {
   const location = useLocation();
   const setActiveStudent = useStore(state => state.setActiveStudent);
   const activeStudent = useStore(state => state.activeStudent);
+  const currentUser = useStore(state => state.currentUser);
+  const setCurrentUser = useStore(state => state.setCurrentUser);
   
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -141,10 +158,11 @@ const Header = () => {
     <header className="h-20 glass-panel border-b border-white/5 flex items-center justify-between px-10 sticky top-0 z-20">
       {/* Title & Brand */}
       <div className="flex items-center gap-6">
-        <h2 className="font-semibold text-xl text-white hidden md:block">SmartGen</h2>
+        <h2 className="font-semibold text-xl text-white hidden md:block">SmartGen {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
       </div>
 
-      {/* Global Premium Search Input in Navbar */}
+      {/* Global Premium Search Input in Navbar (Advisors only) */}
+      {currentUser?.role !== 'STUDENT' && (
       <div className="flex-1 max-w-md mx-6 relative" ref={dropdownRef}>
         <div className="relative">
           <input
@@ -197,15 +215,19 @@ const Header = () => {
           </div>
         )}
       </div>
+      )}
 
-      <div className="flex items-center space-x-6">
+      <div className="flex items-center space-x-6 ml-auto">
         <div className="text-right hidden md:block">
-          <p className="text-sm font-semibold text-white">Giảng viên FPT</p>
-          <p className="text-xs text-slate-400">Admin Dashboard</p>
+          <p className="text-sm font-semibold text-white">{currentUser?.name || 'Guest'}</p>
+          <p className="text-xs text-slate-400">{currentUser?.role === 'STUDENT' ? `MSSV: ${currentUser.id}` : 'Admin Dashboard'}</p>
         </div>
         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.4)] border-2 border-white/10 ring-2 ring-black">
-          GV
+          {currentUser?.role === 'STUDENT' ? <GraduationCap size={18} /> : 'GV'}
         </div>
+        <button onClick={() => setCurrentUser(null)} className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors">
+          <LogOut size={18} />
+        </button>
       </div>
     </header>
   );
@@ -213,11 +235,21 @@ const Header = () => {
 
 function App() {
   const fetchTrainingData = useStore(state => state.fetchTrainingData);
-  const { isLoading, error } = useStore();
+  const { isLoading, error, currentUser } = useStore();
 
   useEffect(() => {
     fetchTrainingData();
   }, [fetchTrainingData]);
+
+  if (!currentUser) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -236,12 +268,25 @@ function App() {
               </div>
             )}
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/search" element={<StudentSearch />} />
-              <Route path="/predict" element={<Predict />} />
-              <Route path="/gpa" element={<GPA />} />
-              <Route path="/chat" element={<AIChat />} />
-              <Route path="/student/:mssv" element={<StudentProfile />} />
+              {currentUser.role === 'STUDENT' ? (
+                <>
+                  <Route path="/student-dashboard" element={<StudentDashboard />} />
+                  <Route path="/chat" element={<AIChat />} />
+                  <Route path="/inbox" element={<Inbox />} />
+                  <Route path="*" element={<StudentDashboard />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/search" element={<StudentSearch />} />
+                  <Route path="/predict" element={<Predict />} />
+                  <Route path="/gpa" element={<GPA />} />
+                  <Route path="/chat" element={<AIChat />} />
+                  <Route path="/inbox" element={<Inbox />} />
+                  <Route path="/student/:mssv" element={<StudentProfile />} />
+                  <Route path="*" element={<Dashboard />} />
+                </>
+              )}
             </Routes>
           </main>
         </div>

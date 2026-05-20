@@ -6,6 +6,16 @@ export const useStore = create((set) => ({
   isLoading: false,
   error: null,
   activeStudent: null,
+  currentUser: JSON.parse(localStorage.getItem('eduguard_user')) || null, // Stores { id, name, role, classCode }
+  
+  setCurrentUser: (user) => {
+    if (user) {
+      localStorage.setItem('eduguard_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('eduguard_user');
+    }
+    set({ currentUser: user });
+  },
   
   fetchTrainingData: async () => {
     set({ isLoading: true });

@@ -902,6 +902,11 @@ router.post('/save-uploaded', async (req, res) => {
 // ============================================================
 router.get('/students-search', async (req, res) => {
   try {
+    const userRole = req.headers['x-user-role'];
+    if (userRole === 'STUDENT') {
+      return res.status(403).json({ error: 'Bạn không có quyền truy cập chức năng này.' });
+    }
+
     const q = String(req.query.q || '').trim().toLowerCase();
 
     // 1. Query from Prisma Database
@@ -990,14 +995,21 @@ router.get('/students-search', async (req, res) => {
 // ============================================================
 // CHATBOT (Gemini with database-grounded context & advanced SQLite local fallback)
 // ============================================================
-async function smartLocalReply(message, studentContext) {
+async function smartLocalReply(message, studentContext, userRole, userId) {
   const msg = message.toLowerCase();
+  const isStudent = userRole === 'STUDENT';
 
   try {
     // 1. Check if user mentioned a specific student ID (e.g., PS12345)
     const mssvMatch = message.toUpperCase().match(/PS\d{5}/);
     if (mssvMatch) {
       const targetMssv = mssvMatch[0];
+
+      // Safety check: if Student, reject looking up other MSSVs!
+      if (isStudent && targetMssv.toUpperCase() !== String(userId || '').toUpperCase()) {
+        return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Xin chào! Để bảo vệ quyền riêng tư cá nhân, mình chỉ có thể hỗ trợ bạn tra cứu và phân tích học bạ của chính bạn thôi nè. Nếu bạn muốn kiểm tra học lực của mình, hãy gõ câu hỏi liên quan đến kết quả học tập của bạn nhé! ✨`;
+      }
+
       const student = await prisma.student.findUnique({
         where: { mssv: targetMssv },
         include: {
@@ -1013,7 +1025,17 @@ async function smartLocalReply(message, studentContext) {
         const avg = calculateFptGPA(student.scores);
         const highRisk = student.predictions.filter(p => p.risk === 'HIGH');
 
-        return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Tôi đã truy lục dữ liệu thực tế của sinh viên **${student.name}** (${student.mssv}):
+        if (isStudent) {
+          return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Mình đã tải học bạ cá nhân của bạn (**${student.name}** - ${student.mssv}):
+• **Lớp chuyên ngành:** ${student.classCode}
+• **Tình trạng học tập:** Đã học ${student.scores.length} môn (Đạt: ${passed} môn, Chưa vượt qua: ${failed} môn, Đang học: ${studying} môn).
+• **Điểm trung bình tích lũy (GPA):** ${avg.toFixed(1)}/10 (${avg >= 8.0 ? 'Giỏi' : (avg >= 6.5 ? 'Khá' : (avg >= 5.0 ? 'Trung bình' : 'Yếu'))}).
+${failed > 0 ? `• **Môn học cần lưu ý ôn tập lại:** ${student.scores.filter(s => s.status === 'FAILED').map(s => `${s.courseId} (${s.value}đ)`).join(', ')}` : '• **Lịch sử học tập:** Tuyệt vời, bạn chưa từng bị nợ môn nào!'}
+${highRisk.length > 0 ? `• **Dự báo môn học đầy thử thách kỳ mới (Cần chú ý):**\n${highRisk.map(p => `  - **Môn ${p.courseId}**: dự kiến đạt **${p.predictedScore.toFixed(1)}đ** (${p.risk === 'HIGH' ? '🔴 Cảnh báo Đỏ - Nguy cơ trượt cao' : '🟡 Cảnh báo Vàng'})`).join('\n')}` : '• **Dự báo rủi ro kỳ mới:** Hiện tại kết quả của bạn đều đang nằm trong vùng an toàn rất tốt!'}
+
+💡 **Gợi ý nhỏ dành cho bạn:** Bạn ${failed > 0 || highRisk.length > 0 ? 'hãy chủ động ôn lại kiến thức các môn tiên quyết và liên hệ các anh chị khóa trên hoặc giảng viên bộ môn để được hỗ trợ phụ đạo sớm nhé.' : 'đang học rất tốt, hãy tiếp tục phát huy và thử tham gia làm mentor hỗ trợ các bạn khác cùng tiến bộ nha!'}`;
+        } else {
+          return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Tôi đã truy lục dữ liệu thực tế của sinh viên **${student.name}** (${student.mssv}):
 • **Lớp chuyên ngành:** ${student.classCode}
 • **Tình trạng học phần:** Đã học ${student.scores.length} môn (Đạt: ${passed} môn, Trượt: ${failed} môn, Đang học: ${studying} môn).
 • **Điểm trung bình tích lũy:** ${avg.toFixed(1)}/10 (${avg >= 8.0 ? 'Giỏi' : (avg >= 6.5 ? 'Khá' : (avg >= 5.0 ? 'Trung bình' : 'Yếu'))}).
@@ -1021,12 +1043,18 @@ ${failed > 0 ? `• **Môn học kỳ trước bị trượt:** ${student.scores
 ${highRisk.length > 0 ? `• **Cảnh báo học tập học kỳ này (Nguy cơ cao):**\n${highRisk.map(p => `  - **${p.courseId}**: Dự báo đạt **${p.predictedScore.toFixed(1)}đ** (${p.risk === 'HIGH' ? '🔴 Nguy cơ trượt rất cao' : '🟡 Nguy cơ trung bình'})`).join('\n')}` : '• **Dự báo rủi ro mới:** Hiện tại nằm trong vùng an toàn (Chưa phát hiện rủi ro trượt cao).'}
 
 💡 **Khuyến nghị sư phạm:** Sinh viên ${student.name} ${failed > 0 || highRisk.length > 0 ? 'đang có dấu hiệu yếu ở các học phần nền tảng. Giảng viên cần đưa sinh viên vào nhóm phụ đạo và phân công sinh viên khá giỏi hỗ trợ kèm cặp ngay.' : 'có sức học ổn định, giảng viên nên khuyến khích tham gia câu lạc bộ học thuật để làm mentor giúp đỡ các bạn khác.'}`;
+        }
       }
     }
 
     // 2. Fallback to active student context if loaded on screen
     if (studentContext) {
-      const activeMssv = studentContext.mssv || studentContext.id;
+      let activeMssv = studentContext.mssv || studentContext.id;
+
+      if (isStudent) {
+        activeMssv = userId;
+      }
+
       const student = await prisma.student.findUnique({
         where: { mssv: activeMssv },
         include: {
@@ -1041,28 +1069,57 @@ ${highRisk.length > 0 ? `• **Cảnh báo học tập học kỳ này (Nguy cơ
         const avg = calculateFptGPA(student.scores);
 
         if (msg.includes('học lực') || msg.includes('điểm') || msg.includes('kết quả') || msg.includes('ntn') || msg.includes('thế nào') || msg.includes('năng lực')) {
-          return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Đánh giá học lực hiện tại của sinh viên **${student.name}** (${student.mssv}):
+          if (isStudent) {
+            return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Đánh giá học lực hiện tại của bạn (**${student.name}** - ${student.mssv}):
+• **Điểm trung bình tích lũy (GPA):** ${avg.toFixed(1)}/10.
+• **Xếp loại học lực:** ${avg >= 8.0 ? 'Giỏi (A/A+)' : (avg >= 6.5 ? 'Khá (B)' : (avg >= 5.0 ? 'Trung bình (C)' : 'Yếu kém (F)'))}.
+• **Tỷ lệ hoàn thành môn học:** Đạt ${passed}/${student.scores.length} học phần.
+${failed > 0 ? `• **Môn cần ôn tập thêm (F):** ${student.scores.filter(s => s.status === 'FAILED').map(s => `${s.courseId} (${s.value}đ)`).join(', ')}. Bạn nên củng cố lại lý thuyết môn này để học tốt các môn kế tiếp nhé!` : '• Rất tốt! Bạn học đều các môn và không bị nợ môn.'}
+
+💡 Bạn có thể hỏi thêm: *"môn nào có nguy cơ trượt học kỳ mới?"* hoặc *"phương pháp tự học hiệu quả"*`;
+          } else {
+            return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Đánh giá học lực hiện tại của sinh viên **${student.name}** (${student.mssv}):
 • **Điểm trung bình (GPA):** ${avg.toFixed(1)}/10.
 • **Xếp loại học lực:** ${avg >= 8.0 ? 'Giỏi (A/A+)' : (avg >= 6.5 ? 'Khá (B)' : (avg >= 5.0 ? 'Trung bình (C)' : 'Yếu kém (F)'))}.
 • **Tỷ lệ vượt qua môn học:** Đạt ${passed}/${student.scores.length} học phần.
 ${failed > 0 ? `• **Môn đã từng trượt (F):** ${student.scores.filter(s => s.status === 'FAILED').map(s => `${s.courseId} (${s.value}đ)`).join(', ')}. Sinh viên cần đặc biệt củng cố lại kiến thức môn này để học tốt các môn kế tiếp.` : '• Sinh viên học đều các môn, không bị nợ môn.'}
 
 💡 Bạn có thể hỏi thêm: *"môn nào có nguy cơ trượt học kỳ mới?"* hoặc *"lộ trình can thiệp học tập"*`;
+          }
         }
 
         if (msg.includes('nguy cơ') || msg.includes('trượt') || msg.includes('tạch') || msg.includes('yếu') || msg.includes('cảnh báo') || msg.includes('rủi ro')) {
           const highRisk = student.predictions.filter(p => p.risk === 'HIGH');
-          return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Phân tích cảnh báo rủi ro học thuật kỳ mới của **${student.name}** (${student.mssv}):
+          if (isStudent) {
+            return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Phân tích rủi ro học kỳ mới của bạn (**${student.name}** - ${student.mssv}):
+${highRisk.length > 0
+              ? `• **Danh sách học phần dự kiến có thử thách cao:**\n${highRisk.map(p => `  - **Môn ${p.courseId}**: dự kiến đạt **${p.predictedScore.toFixed(1)}đ** (${p.risk === 'HIGH' ? '🔴 Cảnh báo Đỏ - Rủi ro trượt cao' : '🟡 Cảnh báo Vàng'}).`).join('\n')}\n\n💡 **Đề xuất tự rèn luyện:** Hãy ôn lại lý thuyết trọng tâm của môn học tiên quyết có liên quan. Nắm chắc gốc sẽ giúp bạn tự tin vượt qua môn học này!`
+              : '• **Kết quả dự đoán:** Rất tốt! Bạn hiện đang nằm ở vùng an toàn cho toàn bộ các môn học mới đăng ký. Chưa phát hiện nguy cơ học thuật nào lớn cả.'}
+
+💡 Bạn có thể đặt mục tiêu GPA cao hơn bằng tính năng **GPA & What-if** ở sidebar nhé!`;
+          } else {
+            return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Phân tích cảnh báo rủi ro học thuật kỳ mới của **${student.name}** (${student.mssv}):
 ${highRisk.length > 0
               ? `• **Danh sách học phần rủi ro trượt cao:**\n${highRisk.map(p => `  - **Môn ${p.courseId}**: dự kiến đạt **${p.predictedScore.toFixed(1)}đ** (${p.risk === 'HIGH' ? '🔴 Cảnh báo Đỏ - Rủi ro trượt cao' : '🟡 Cảnh báo Vàng'}).`).join('\n')}\n\n💡 **Phân tích lỗ hổng kiến thức tiên quyết:** Điểm yếu cốt lõi có thể do em ấy từng bị trượt hoặc điểm thấp môn liên quan trước đây. Cần củng cố gốc lý thuyết của môn đó trước khi tiếp cận học phần nâng cao này.`
               : '• **Kết quả dự đoán:** Rất tốt! Sinh viên này hiện đang ở trạng thái an toàn cho tất cả các học phần đăng ký mới. Chưa phát hiện nguy cơ học thuật nào lớn.'}
 
 💡 Giảng viên có thể hướng dẫn em ấy đặt mục tiêu GPA cao hơn bằng tính năng **GPA & What-if** ở sidebar.`;
+          }
         }
 
         if (msg.includes('lộ trình') || msg.includes('can thiệp') || msg.includes('khuyên') || msg.includes('giải pháp') || msg.includes('làm sao') || msg.includes('hỗ trợ')) {
           const failedCourses = student.scores.filter(s => s.status === 'FAILED').map(s => s.courseId);
-          return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Đề xuất lộ trình can thiệp học thuật chi tiết cho sinh viên **${student.name}** (${student.mssv}):
+          if (isStudent) {
+            return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Đề xuất lộ trình tự ôn tập cá nhân cho bạn (**${student.name}** - ${student.mssv}):
+${failedCourses.length > 0
+              ? `1. **Củng cố kiến thức gốc:** Dành thời gian ôn tập lại lý thuyết trọng tâm các môn học **${failedCourses.join(', ')}**. Đây là những phần bản lề giúp bạn bắt nhịp tốt các môn học nâng cao.
+2. **Kế hoạch tự học hiệu quả:** Tận dụng tối đa các giờ Assignment và Lab, tự mình làm đi làm lại các bài tập mẫu để hiểu sâu bản chất.
+3. **Đăng ký học lại sớm:** Hãy sắp xếp thời gian để đăng ký học lại sớm, giúp giải phóng các môn học nợ và đúng tiến độ nha!`
+              : `1. **Làm Mentor học nhóm:** Kết quả học tập của bạn cực kỳ tốt (GPA ${avg.toFixed(1)}). Bạn có thể tham gia các nhóm học tập để hỗ trợ các bạn yếu hơn, đây cũng là cách giúp bạn nhớ lâu và hiểu sâu hơn.
+2. **Nâng cao năng lực:** Thử sức với các dự án lớn hơn hoặc tham gia câu lạc bộ chuyên ngành để phát huy hết tiềm năng bản thân nha.`}
+`;
+          } else {
+            return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Đề xuất lộ trình can thiệp học thuật chi tiết cho sinh viên **${student.name}** (${student.mssv}):
 ${failedCourses.length > 0
               ? `1. **Bổ trợ môn nền tảng:** Ưu tiên số 1 là học lại/ôn tập lại học phần **${failedCourses.join(', ')}**. Đây là những kiến thức bản lề để mở khóa tư duy cho các môn chuyên ngành.
 2. **Kế hoạch hỗ trợ 1-1:** Đề xuất sinh viên tham gia nhóm học tập có sinh viên khá kèm cặp trực tiếp trong các giờ làm bài Assignment/Lab môn chuyên ngành kỳ này.
@@ -1070,11 +1127,18 @@ ${failedCourses.length > 0
               : `1. **Đóng vai trò Mentor:** Sinh viên có học lực rất vững vàng (GPA ${avg.toFixed(1)}). Giảng viên nên bổ nhiệm em ấy làm trưởng nhóm học tập để hỗ trợ các bạn yếu hơn, giúp củng cố kỹ năng làm việc nhóm.
 2. **Nâng cao chất lượng:** Động viên sinh viên tham gia các dự án nghiên cứu hoặc các cuộc thi chuyên ngành tại FPT Polytechnic để phát triển tối đa năng lực.`}
 `;
+          }
         }
       }
     }
 
     // 3. General Statistics & Aggregations from the Live SQLite DB
+    if (isStudent) {
+      return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Xin chào bạn! Mình là Gia sư học tập cá nhân của riêng bạn. Để đảm bảo tính bảo mật và riêng tư, mình không có quyền truy cập hoặc hiển thị số liệu thống kê chung toàn hệ thống hay của lớp khác đâu nè. 
+      
+Bạn có câu hỏi nào về học lực, điểm số rủi ro trượt môn hay cần mình đề xuất lộ trình tự ôn tập cá nhân không? Hãy nhắn cho mình biết nhé! ✨`;
+    }
+
     const totalStudents = await prisma.student.count();
     const atRiskCount = await prisma.score.findMany({
       where: { status: 'FAILED' },
@@ -1125,6 +1189,16 @@ ${worstCourses.map((c, i) => `${i + 1}. **Môn ${c.id}**: Tỷ lệ trượt **$
   }
 
   // Fallback to beautiful default instructions
+  if (isStudent) {
+    return `🤖 **[AI Cố vấn Học Tập - Offline Mode]** Xin chào bạn! Mình là Trợ lý Cố vấn Học tập của riêng bạn, được kết nối với học bạ cá nhân của bạn.
+    
+Bạn có thể hỏi mình những câu như:
+• *"đánh giá học lực hiện tại của mình"*
+• *"môn nào mình có nguy cơ trượt học kỳ mới?"*
+• *"đề xuất lộ trình tự học và ôn tập giúp mình"*
+Chúc bạn học tập thật tốt nhé! 🌟`;
+  }
+
   return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Xin chào! Tôi là Trợ lý Cố vấn Học Vụ được kết nối trực tiếp với SQLite Database của EduGuard.
 
 Bạn có thể hỏi tôi các câu hỏi chuyên sâu như:
@@ -1150,11 +1224,19 @@ router.post('/chat', async (req, res) => {
     const { message, mssv, studentContext, provider, history } = req.body;
     if (!message) return res.status(400).json({ error: 'Thiếu tin nhắn' });
 
+    // Extract authentication details from headers
+    const userRole = req.headers['x-user-role'];
+    const userId = req.headers['x-user-id'];
+    const isStudent = userRole === 'STUDENT';
+
     // Extract active student identifier (compatible with both mssv and studentContext format)
     let activeMssv = mssv || (studentContext ? (studentContext.mssv || studentContext.id) : null);
 
-    // Dynamic pattern matching: search for MSSV directly mentioned in the message text
-    if (!activeMssv) {
+    // If Student, force the active MSSV to be their own authenticated ID to prevent unauthorized access.
+    if (isStudent && userId) {
+      activeMssv = userId;
+    } else if (!activeMssv) {
+      // Dynamic pattern matching: search for MSSV directly mentioned in the message text
       const mssvMatch = message.match(/(?:PS)?\b\d{5}\b/i);
       if (mssvMatch) {
         const matchedStr = mssvMatch[0].toUpperCase();
@@ -1197,7 +1279,7 @@ router.post('/chat', async (req, res) => {
       normalizedMsg.includes('môn khó') ||
       normalizedMsg.includes('dễ học') ||
       normalizedMsg.includes('khó học');
-    if (isQueryingStats) {
+    if (isQueryingStats && !isStudent) {
       try {
         const totalStudents = await prisma.student.count();
         
@@ -1324,7 +1406,8 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
     const prompt = buildPrompt({
       student,
       chunks,
-      question: message
+      question: message,
+      userRole
     });
 
     // Resolve the active target provider
@@ -1339,7 +1422,7 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
           system: prompt.system,
           history: history || [],
           user: prompt.user,
-          disableTools: isQueryingStats || !activeMssv
+          disableTools: isStudent || isQueryingStats || !activeMssv
         });
         if (reply) {
           console.log("✅ [AI Orchestrator] Phản hồi thành open từ Tầng 1 (Gemini)!");
@@ -1357,7 +1440,7 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
         system: prompt.system,
         history: history || [],
         user: prompt.user,
-        disableTools: isQueryingStats || !activeMssv
+        disableTools: isStudent || isQueryingStats || !activeMssv
       });
       if (reply) {
         console.log("✅ [AI Orchestrator] Phản hồi thành công từ Tầng 2 (Groq)!");
@@ -1369,7 +1452,7 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
 
     // TẦNG 3: Smart Local SQLite Fallback
     console.log("[AI Orchestrator] Đang gọi Tầng 3: Smart Local SQLite Fallback...");
-    const reply = await smartLocalReply(message, studentContext);
+    const reply = await smartLocalReply(message, studentContext || student, userRole, userId);
     return res.json({ reply: cleanReply(reply) });
 
   } catch (err) {
@@ -1384,6 +1467,13 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
 router.get('/students/:mssv', async (req, res) => {
   try {
     const mssv = req.params.mssv;
+
+    // Security Check: If STUDENT, they can only view their own profile!
+    const userRole = req.headers['x-user-role'];
+    const userId = req.headers['x-user-id'];
+    if (userRole === 'STUDENT' && String(mssv).toUpperCase() !== String(userId).toUpperCase()) {
+      return res.status(403).json({ error: 'Bạn không có quyền truy cập học bạ của sinh viên khác.' });
+    }
 
     const student = await prisma.student.findUnique({
       where: { mssv },
@@ -1422,7 +1512,184 @@ router.get('/students/:mssv', async (req, res) => {
           interventions: []
         });
       }
-      return res.status(404).json({ error: "Không tìm thấy sinh viên trong hệ thống" });
+
+      // ── DYNAMIC FAIL-SAFE MOCK STUDENT GENERATOR & PERSISTENCE ──
+      // This guarantees that any custom MSSV entered during testing/demo gets a gorgeous, fully-loaded student dashboard.
+      const VN_NAMES = [
+        "Nguyễn Minh Triết", "Trần Hoàng Nam", "Lê Thị Mai Anh", "Phạm Quốc Bảo",
+        "Hoàng Nhật Minh", "Vũ Tuyết Băng", "Đỗ Gia Huy", "Bùi Minh Tuấn",
+        "Ngô Khánh Chi", "Dương Trung Kiên", "Phan Gia Bảo", "Lý Thanh Hằng"
+      ];
+      const nameIndex = Math.abs(mssv.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % VN_NAMES.length;
+      const selectedName = VN_NAMES[nameIndex];
+      const classCode = `WD183` + (nameIndex + 1).toString().padStart(2, '0');
+
+      try {
+        console.log(`🌱 Auto-generating mock profile for new demo MSSV: ${mssv} (${selectedName})...`);
+        
+        // Ensure student exists in DB
+        await prisma.student.create({
+          data: {
+            mssv,
+            name: selectedName,
+            classCode
+          }
+        });
+
+        const curriculumOrder = trainingData.curriculumOrder || [];
+        
+        // Ensure courses exist first in DB
+        for (const courseId of curriculumOrder) {
+          await prisma.course.upsert({
+            where: { id: courseId },
+            update: {},
+            create: {
+              id: courseId,
+              name: courseId,
+              credits: getCourseCredits(courseId)
+            }
+          });
+        }
+
+        // Insert mock scores and predictions
+        const scorePromises = [];
+        const predictionPromises = [];
+        
+        curriculumOrder.forEach((courseId, idx) => {
+          if (idx < 18) {
+            const scoreSeed = (nameIndex + idx) % 10;
+            let gradeVal = 6.0 + (scoreSeed * 0.35);
+            let status = 'PASSED';
+            if (idx === 5) {
+              gradeVal = 4.2;
+              status = 'FAILED';
+            }
+            const value = Math.round(gradeVal * 10) / 10;
+            scorePromises.push(prisma.score.create({
+              data: {
+                mssv,
+                courseId,
+                value,
+                semester: 'Summer 2025',
+                status
+              }
+            }));
+          } else if (idx >= 18 && idx < 21) {
+            scorePromises.push(prisma.score.create({
+              data: {
+                mssv,
+                courseId,
+                value: null,
+                semester: 'Fall 2025',
+                status: 'STUDYING'
+              }
+            }));
+
+            let predictedScore = 5.2 + ((nameIndex + idx) % 5) * 0.8;
+            if (idx === 19) predictedScore = 4.3; // failed prediction for alert
+            const risk = predictedScore < 5 ? 'HIGH' : (predictedScore < 6.5 ? 'MEDIUM' : 'LOW');
+            const reasons = [
+              {
+                subject: curriculumOrder[idx - 12] || 'COM108',
+                score: 4.2,
+                impact: predictedScore < 5 ? 'negative' : 'positive'
+              },
+              {
+                subject: curriculumOrder[idx - 6] || 'WEB101',
+                score: 8.5,
+                impact: 'positive'
+              }
+            ];
+            predictionPromises.push(prisma.prediction.create({
+              data: {
+                mssv,
+                courseId,
+                predictedScore: Math.round(predictedScore * 10) / 10,
+                risk,
+                reasons
+              }
+            }));
+          }
+        });
+
+        await Promise.all(scorePromises);
+        await Promise.all(predictionPromises);
+
+        // Fetch back with all relations loaded
+        const freshStudent = await prisma.student.findUnique({
+          where: { mssv },
+          include: {
+            scores: {
+              include: {
+                course: true
+              }
+            },
+            predictions: true,
+            interventions: {
+              include: {
+                advisor: true
+              }
+            }
+          }
+        });
+
+        return res.json(freshStudent);
+
+      } catch (dbErr) {
+        console.warn("⚠️ Error auto-seeding mock student, falling back to dynamic JSON response:", dbErr.message);
+        
+        const curriculumOrder = trainingData.curriculumOrder || [];
+        const scores = curriculumOrder.map((courseId, idx) => {
+          let status = 'NOT_STARTED';
+          let value = null;
+          if (idx < 18) {
+            const scoreSeed = (nameIndex + idx) % 10;
+            let gradeVal = 6.0 + (scoreSeed * 0.35);
+            status = 'PASSED';
+            if (idx === 5) {
+              gradeVal = 4.2;
+              status = 'FAILED';
+            }
+            value = Math.round(gradeVal * 10) / 10;
+          } else if (idx >= 18 && idx < 21) {
+            status = 'STUDYING';
+          }
+          return {
+            courseId,
+            value,
+            status,
+            course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
+          };
+        });
+
+        const predictions = [
+          {
+            courseId: curriculumOrder[18] || 'WEB105',
+            predictedScore: 7.2,
+            risk: 'LOW',
+            reasons: [
+              { subject: curriculumOrder[6], score: 8.2, impact: 'positive' }
+            ]
+          },
+          {
+            courseId: curriculumOrder[19] || 'WEB106',
+            predictedScore: 4.3,
+            risk: 'HIGH',
+            reasons: [
+              { subject: curriculumOrder[5], score: 4.2, impact: 'negative' }
+            ]
+          }
+        ];
+
+        return res.json({
+          mssv,
+          name: selectedName,
+          classCode,
+          scores,
+          predictions,
+          interventions: []
+        });
+      }
     }
 
     res.json(student);

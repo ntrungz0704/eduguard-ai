@@ -13,6 +13,80 @@ import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
 
+const getCourseCredits = (courseNameOrId) => {
+  const name = String(courseNameOrId || '').trim();
+  const lower = name.toLowerCase();
+  const code = name.toUpperCase();
+
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+  if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+  if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
+  if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
+  if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
+
+  if (
+    lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
+    lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
+    lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
+    lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+    lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
+    lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
+    lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
+    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+  ) {
+    return 2;
+  }
+
+  return 3;
+};
+
+const isConditionalCourse = (courseName, courseId) => {
+  const name = (courseName || '').toLowerCase();
+  const cid = (courseId || '').toUpperCase();
+  return (
+    name.includes('thể chất') ||
+    name.includes('quốc phòng') ||
+    name.includes('thực tập tốt nghiệp') ||
+    name.includes('vovinam') ||
+    name.includes('gdqp') ||
+    cid.includes('VIE103') ||
+    cid.includes('VIE104') ||
+    cid.includes('PRO110') ||
+    cid.includes('PRO115') ||
+    cid.includes('PRO116')
+  );
+};
+
+const get40Scale = (val) => {
+  if (val === null || val === undefined) return 0.0;
+  if (val >= 9.0) return 4.0;
+  if (val >= 8.5) return 3.75;
+  if (val >= 8.0) return 3.5;
+  if (val >= 7.5) return 3.25;
+  if (val >= 7.0) return 3.0;
+  if (val >= 6.5) return 2.75;
+  if (val >= 6.0) return 2.5;
+  if (val >= 5.5) return 2.0;
+  if (val >= 5.0) return 1.5;
+  if (val >= 4.0) return 1.0;
+  return 0.0;
+};
+
+const getLetterGrade = (val) => {
+  if (val === null || val === undefined) return 'F';
+  if (val >= 9.0) return 'A+';
+  if (val >= 8.5) return 'A';
+  if (val >= 8.0) return 'A-';
+  if (val >= 7.5) return 'B+';
+  if (val >= 7.0) return 'B';
+  if (val >= 6.5) return 'B-';
+  if (val >= 6.0) return 'C+';
+  if (val >= 5.5) return 'C';
+  if (val >= 5.0) return 'C-';
+  if (val >= 4.0) return 'D';
+  return 'F';
+};
+
 export default function StudentSearch() {
   const activeStudent = useStore(state => state.activeStudent);
   const setActiveStudent = useStore(state => state.setActiveStudent);
@@ -120,69 +194,18 @@ export default function StudentSearch() {
     // Compute GPA and failed subjects
     const validScores = selectedStudent.scores?.filter(s => s.value !== null) || [];
     
-    const isConditionalCourse = (courseName, courseId) => {
-      const name = (courseName || '').toLowerCase();
-      const cid = (courseId || '').toUpperCase();
-      return (
-        name.includes('thể chất') ||
-        name.includes('quốc phòng') ||
-        name.includes('thực tập tốt nghiệp') ||
-        name.includes('vovinam') ||
-        name.includes('gdqp') ||
-        cid.includes('VIE103') ||
-        cid.includes('VIE104') ||
-        cid.includes('PRO110') ||
-        cid.includes('PRO115')
-      );
-    };
-
-    const getCourseCredits = (courseNameOrId) => {
-      const name = String(courseNameOrId || '').trim();
-      const lower = name.toLowerCase();
-      const code = name.toUpperCase();
-
-      if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
-      if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
-      if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
-
-      if (
-        lower.includes('chính trị') || 
-        code.includes('VIE108') || 
-        lower.includes('dự án tốt nghiệp') || 
-        code.includes('PRO2201') ||
-        code.includes('PRO220')
-      ) {
-        return 5;
-      }
-
-      if (
-        lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
-        lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
-        lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
-        lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
-        lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
-        lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
-        lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-        lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
-      ) {
-        return 2;
-      }
-
-      return 3;
-    };
-
     const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
     
     let totalScoreWeight = 0;
     let totalCredits = 0;
     
     academicScores.forEach(s => {
-      const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
+      const credits = getCourseCredits(s.courseId || s.course?.name);
       totalScoreWeight += (s.value * credits);
       totalCredits += credits;
     });
 
-    const gpa = totalCredits > 0 ? (totalScoreWeight / totalCredits).toFixed(1) : '0.0';
+    const gpa = totalCredits > 0 ? (Math.floor(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10).toFixed(1) : '0.0';
     
     const failedSubjects = selectedStudent.scores?.filter(s => s.value !== null && s.value < 5) || [];
     const failedListHTML = failedSubjects.length > 0
@@ -542,15 +565,7 @@ export default function StudentSearch() {
     }
   };
 
-  // Convert numerical score to letter grade
-  const getLetterGrade = (val) => {
-    if (val === null || val === undefined) return 'Đang học';
-    if (val >= 9.0) return 'A+';
-    if (val >= 8.0) return 'A';
-    if (val >= 7.0) return 'B';
-    if (val >= 5.0) return 'C';
-    return 'F';
-  };
+  // (Using unified top-level getLetterGrade function)
 
   return (
     <div className="space-y-6 animate-fade-in pb-10">
@@ -605,86 +620,16 @@ export default function StudentSearch() {
               
               {/* Dynamic calculations for selected student */}
               {(() => {
-                // HÀM HỖ TRỢ PHÂN TÍCH GPA VÀ TÍN CHỈ CHUẨN FPT POLYTECHNIC
                 const calculateFptStats = (scores) => {
                   const validScores = (scores || []).filter(s => s.value !== null);
-                  
-                  // Lọc bỏ các môn điều kiện (Giáo dung thể chất, Vovinam, GDQP,...)
-                  const isConditionalCourse = (courseName, courseId) => {
-                    const name = (courseName || '').toLowerCase();
-                    const cid = (courseId || '').toUpperCase();
-                    return (
-                      name.includes('thể chất') ||
-                      name.includes('quốc phòng') ||
-                      name.includes('thực tập tốt nghiệp') ||
-                      name.includes('vovinam') ||
-                      name.includes('gdqp') ||
-                      cid.includes('VIE103') ||
-                      cid.includes('VIE104') ||
-                      cid.includes('PRO110') ||
-                      cid.includes('PRO115')
-                    );
-                  };
-
-                  const getCourseCredits = (courseNameOrId) => {
-                    const name = String(courseNameOrId || '').trim();
-                    const lower = name.toLowerCase();
-                    const code = name.toUpperCase();
-
-                    if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
-                    if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
-                    if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
-
-                    if (
-                      lower.includes('chính trị') || 
-                      code.includes('VIE108') || 
-                      lower.includes('dự án tốt nghiệp') || 
-                      code.includes('PRO2201') ||
-                      code.includes('PRO220')
-                    ) {
-                      return 5;
-                    }
-
-                    if (
-                      lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
-                      lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
-                      lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
-                      lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
-                      lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
-                      lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
-                      lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-                      lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
-                    ) {
-                      return 2;
-                    }
-
-                    return 3;
-                  };
-
                   const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
-
-                  // Chuyển đổi thang điểm 10 sang thang điểm 4 theo FPT Polytechnic
-                  const get40Scale = (val) => {
-                    if (val === null || val === undefined) return 0.0;
-                    if (val >= 9.0) return 4.0;
-                    if (val >= 8.5) return 3.75;
-                    if (val >= 8.0) return 3.5;
-                    if (val >= 7.5) return 3.25;
-                    if (val >= 7.0) return 3.0;
-                    if (val >= 6.5) return 2.75;
-                    if (val >= 6.0) return 2.5;
-                    if (val >= 5.5) return 2.0;
-                    if (val >= 5.0) return 1.5;
-                    if (val >= 4.0) return 1.0;
-                    return 0.0;
-                  };
 
                   let totalScoreWeight10 = 0;
                   let totalScoreWeight4 = 0;
                   let totalAcademicCredits = 0;
 
                   academicScores.forEach(s => {
-                    const credits = s.course?.credits || getCourseCredits(s.course?.name || s.courseId);
+                    const credits = getCourseCredits(s.courseId || s.course?.name);
                     totalScoreWeight10 += (s.value * credits);
                     totalScoreWeight4 += (get40Scale(s.value) * credits);
                     totalAcademicCredits += credits;
@@ -693,12 +638,12 @@ export default function StudentSearch() {
                   let totalEarnedCredits = 0;
                   validScores.forEach(s => {
                     if (s.value >= 5.0 || s.status === 'PASSED') {
-                      totalEarnedCredits += (s.course?.credits || getCourseCredits(s.course?.name || s.courseId));
+                      totalEarnedCredits += getCourseCredits(s.courseId || s.course?.name);
                     }
                   });
 
-                  const gpa10 = totalAcademicCredits === 0 ? '0.0' : (totalScoreWeight10 / totalAcademicCredits).toFixed(1);
-                  const gpa4 = totalAcademicCredits === 0 ? '0.00' : (totalScoreWeight4 / totalAcademicCredits).toFixed(2);
+                  const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
+                  const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.floor(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
 
                   return {
                     gpa10,

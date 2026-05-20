@@ -6,6 +6,7 @@ import { api } from '../lib/api';
 export default function AIChat() {
   const activeStudent = useStore(state => state.activeStudent);
   const setActiveStudent = useStore(state => state.setActiveStudent);
+  const currentUser = useStore(state => state.currentUser);
   
   // Collapse state for Sidebar (persisted in localStorage to keep user preference)
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -35,7 +36,8 @@ export default function AIChat() {
 
   // 1. Load Sessions from localStorage or set defaults
   const [sessions, setSessions] = useState(() => {
-    const saved = localStorage.getItem('eduguard_chat_sessions');
+    const userId = currentUser?.id || 'guest';
+    const saved = localStorage.getItem(`eduguard_chat_sessions_${userId}`);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -49,6 +51,11 @@ export default function AIChat() {
     
     // Default initial session
     const defaultSessionId = 'session_' + Date.now();
+    const isStudent = currentUser?.role === 'STUDENT';
+    const defaultWelcomeText = isStudent
+      ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc nhờ tôi tư vấn phương pháp, lộ trình cải thiện kết quả học tập nhé!`
+      : '👋 Xin chào! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của FPT Polytechnic.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập câu hỏi tự do hoặc nhấn chọn các phím tắt hỏi nhanh ở cột bên dưới nhé!';
+
     return [
       {
         id: defaultSessionId,
@@ -57,7 +64,7 @@ export default function AIChat() {
         messages: [
           {
             sender: 'ai',
-            text: '👋 Xin chào! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của FPT Polytechnic.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập câu hỏi tự do hoặc nhấn chọn các phím tắt hỏi nhanh ở cột bên dưới nhé!',
+            text: defaultWelcomeText,
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           }
         ],
@@ -71,7 +78,8 @@ export default function AIChat() {
 
   // 2. Active Session ID state
   const [currentSessionId, setCurrentSessionId] = useState(() => {
-    const savedActive = localStorage.getItem('eduguard_active_session_id');
+    const userId = currentUser?.id || 'guest';
+    const savedActive = localStorage.getItem(`eduguard_active_session_id_${userId}`);
     if (savedActive) {
       return savedActive;
     }
@@ -101,13 +109,14 @@ export default function AIChat() {
 
   // Save active session ID to localStorage on change
   useEffect(() => {
-    if (currentSessionId) {
-      localStorage.setItem('eduguard_active_session_id', currentSessionId);
+    if (currentSessionId && currentUser?.id) {
+      localStorage.setItem(`eduguard_active_session_id_${currentUser.id}`, currentSessionId);
     }
-  }, [currentSessionId]);
+  }, [currentSessionId, currentUser]);
 
   // Helper to update active session fields in state and localStorage
   const updateActiveSession = (fields) => {
+    const userId = currentUser?.id || 'guest';
     setSessions(prev => {
       const updated = prev.map(s => {
         if (s.id === currentSessionId) {
@@ -118,14 +127,14 @@ export default function AIChat() {
             if (firstUser) {
               merged.title = firstUser.text.slice(0, 24) + (firstUser.text.length > 24 ? '...' : '');
             } else if (merged.activeStudent) {
-              merged.title = `🔗 ${merged.activeStudent.name}`;
+              merged.title = currentUser?.role === 'STUDENT' ? 'Cố vấn cá nhân' : `🔗 ${merged.activeStudent.name}`;
             }
           }
           return merged;
         }
         return s;
       });
-      localStorage.setItem('eduguard_chat_sessions', JSON.stringify(updated));
+      localStorage.setItem(`eduguard_chat_sessions_${userId}`, JSON.stringify(updated));
       return updated;
     });
   };
@@ -162,12 +171,76 @@ export default function AIChat() {
     return () => clearTimeout(delayDebounce);
   }, [studentSearchQuery]);
 
+  // Auto-load personal student profile for STUDENT role
+  useEffect(() => {
+    const initStudentProfile = async () => {
+      if (currentUser?.role === 'STUDENT' && currentUser?.id) {
+        try {
+          if (!activeStudent || activeStudent.id !== currentUser.id) {
+            const res = await api.get(`/students/${currentUser.id}`);
+            const studentDetail = res.data;
+            setActiveStudent(studentDetail);
+          }
+        } catch (err) {
+          console.error("Lỗi khi tự động tải học bạ cá nhân sinh viên:", err);
+        }
+      }
+    };
+    initStudentProfile();
+  }, [currentUser, activeStudent, setActiveStudent]);
+
+  // Force-bind session student context for students
+  useEffect(() => {
+    if (currentUser?.role === 'STUDENT' && activeStudent) {
+      const alreadyLinked = sessionActiveStudent?.id === activeStudent.id || sessionActiveStudent?.mssv === activeStudent.id;
+      if (!alreadyLinked) {
+        updateActiveSession({ activeStudent: activeStudent });
+      }
+    }
+  }, [currentUser, activeStudent, sessionActiveStudent, currentSessionId]);
+
+  // Sanitize student sessions to replace any Lecturer-oriented welcome message in local history
+  useEffect(() => {
+    if (currentUser?.role === 'STUDENT' && sessions.length > 0) {
+      const defaultStudentWelcome = `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc nhờ tôi tư vấn phương pháp, lộ trình cải thiện kết quả học tập nhé!`;
+      
+      let changed = false;
+      const updated = sessions.map(s => {
+        if (s.messages && s.messages.length > 0 && s.messages[0].sender === 'ai') {
+          const firstMsgText = s.messages[0].text;
+          if (firstMsgText.includes('giảng viên') || firstMsgText.includes('Thầy/Cô') || firstMsgText.includes('kết nối trực tiếp với học bạ') === false) {
+            changed = true;
+            return {
+              ...s,
+              messages: [
+                {
+                  ...s.messages[0],
+                  text: defaultStudentWelcome
+                },
+                ...s.messages.slice(1)
+              ]
+            };
+          }
+        }
+        return s;
+      });
+
+      if (changed) {
+        setSessions(updated);
+        localStorage.setItem(`eduguard_chat_sessions_${currentUser.id}`, JSON.stringify(updated));
+      }
+    }
+  }, [currentUser, sessions]);
+
   // Track global activeStudent store updates (e.g. from header search or inline click)
   useEffect(() => {
     if (activeStudent && activeStudent?.id !== prevActiveStudentRef.current?.id) {
+      const isStudent = currentUser?.role === 'STUDENT';
       const welcomeContext = {
         sender: 'ai',
-        text: `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ sinh viên ${activeStudent.name} (${activeStudent.mssv || activeStudent.id})**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Giảng viên có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của em ấy?*\n• *Môn học kỳ mới dự báo trượt cao và đề xuất phụ đạo?*\n• *Soạn tin nhắn Zalo gửi sinh viên cảnh báo nhẹ nhàng?*`,
+        text: isStudent
+          ? `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ cá nhân của bạn**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Bạn có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của tôi?*\n• *Lộ trình cải thiện GPA và môn có nguy cơ trượt của tôi?*\n• *Đề xuất phương pháp học tập hiệu quả giúp tôi nâng cao kết quả?*`
+          : `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ sinh viên ${activeStudent.name} (${activeStudent.mssv || activeStudent.id})**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Giảng viên có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của em ấy?*\n• *Môn học kỳ mới dự báo trượt cao và đề xuất phụ đạo?*\n• *Soạn tin nhắn Zalo gửi sinh viên cảnh báo nhẹ nhàng?*`,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       
@@ -180,7 +253,7 @@ export default function AIChat() {
       }
     }
     prevActiveStudentRef.current = activeStudent;
-  }, [activeStudent]);
+  }, [activeStudent, currentUser]);
 
   // Auto-scroll messages
   useEffect(() => {
@@ -217,15 +290,21 @@ export default function AIChat() {
   };
 
   const handleCreateSession = () => {
+    const userId = currentUser?.id || 'guest';
     const newId = 'session_' + Date.now();
+    const isStudent = currentUser?.role === 'STUDENT';
+    const defaultWelcomeText = isStudent
+      ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc nhờ tôi tư vấn phương pháp, lộ trình cải thiện kết quả học tập nhé!`
+      : '👋 Xin chào! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của FPT Polytechnic.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập câu hỏi tự do hoặc nhấn chọn các phím tắt hỏi nhanh ở cột bên dưới nhé!';
+
     const newSession = {
       id: newId,
       title: 'Hội thoại mới',
-      activeStudent: null,
+      activeStudent: isStudent ? activeStudent : null,
       messages: [
         {
           sender: 'ai',
-          text: '👋 Xin chào! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của FPT Polytechnic.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập câu hỏi tự do hoặc nhấn chọn các phím tắt hỏi nhanh ở cột bên dưới nhé!',
+          text: defaultWelcomeText,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ],
@@ -236,12 +315,31 @@ export default function AIChat() {
     };
     setSessions(prev => {
       const updated = [newSession, ...prev];
-      localStorage.setItem('eduguard_chat_sessions', JSON.stringify(updated));
+      localStorage.setItem(`eduguard_chat_sessions_${userId}`, JSON.stringify(updated));
       return updated;
     });
     setCurrentSessionId(newId);
-    localStorage.setItem('eduguard_active_session_id', newId);
+    localStorage.setItem(`eduguard_active_session_id_${userId}`, newId);
     showToast('🎉 Đã lưu hội thoại cũ vào Lịch sử và bắt đầu phiên mới!', 'success');
+  };
+
+  const handleSendToStudent = async (text) => {
+    if (!sessionActiveStudent) {
+      alert("Bạn chưa liên kết học bạ của Sinh viên nào với cuộc trò chuyện này!");
+      return;
+    }
+    if (!currentUser) return;
+    
+    try {
+      await api.post('/comm/messages', {
+        senderId: currentUser.id,
+        receiverId: sessionActiveStudent.mssv || sessionActiveStudent.id,
+        content: text
+      });
+      showToast('📤 Đã gửi lộ trình trực tiếp vào Hộp thư của Sinh viên thành công!', 'success');
+    } catch (err) {
+      alert("Lỗi khi gửi tin nhắn: " + err.message);
+    }
   };
 
   const handleDeleteSession = (id, e) => {
@@ -250,15 +348,15 @@ export default function AIChat() {
       alert('Hệ thống yêu cầu giữ lại ít nhất một cuộc hội thoại!');
       return;
     }
-    
+    const userId = currentUser?.id || 'guest';
     setSessions(prev => {
       const filtered = prev.filter(s => s.id !== id);
-      localStorage.setItem('eduguard_chat_sessions', JSON.stringify(filtered));
+      localStorage.setItem(`eduguard_chat_sessions_${userId}`, JSON.stringify(filtered));
       
       if (currentSessionId === id) {
         const nextActive = filtered[0]?.id || '';
         setCurrentSessionId(nextActive);
-        localStorage.setItem('eduguard_active_session_id', nextActive);
+        localStorage.setItem(`eduguard_active_session_id_${userId}`, nextActive);
       }
       return filtered;
     });
@@ -277,6 +375,7 @@ export default function AIChat() {
       setRenamingId(null);
       return;
     }
+    const userId = currentUser?.id || 'guest';
     setSessions(prev => {
       const updated = prev.map(s => {
         if (s.id === id) {
@@ -284,7 +383,7 @@ export default function AIChat() {
         }
         return s;
       });
-      localStorage.setItem('eduguard_chat_sessions', JSON.stringify(updated));
+      localStorage.setItem(`eduguard_chat_sessions_${userId}`, JSON.stringify(updated));
       return updated;
     });
     setRenamingId(null);
@@ -349,7 +448,8 @@ export default function AIChat() {
   };
 
   const handleExport = () => {
-    const textToExport = messages.map(m => `${m.sender === 'user' ? 'Giảng viên' : 'AI Assistant'} (${m.time}):\n${m.text}`).join('\n\n');
+    const userRoleText = currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên';
+    const textToExport = messages.map(m => `${m.sender === 'user' ? userRoleText : 'AI Assistant'} (${m.time}):\n${m.text}`).join('\n\n');
     const blob = new Blob([textToExport], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -519,21 +619,31 @@ export default function AIChat() {
     return { today, thisWeek, older };
   })();
 
+  const isStudent = currentUser?.role === 'STUDENT';
+
   // Dynamic shortcuts display row above input capsule
-  const currentPills = sessionActiveStudent 
+  const currentPills = isStudent
     ? [
-        { text: 'Hãy đánh giá chi tiết học lực hiện tại của sinh viên này?', label: '📊 Đánh giá học lực', icon: <User size={12} className="text-blue-400" /> },
-        { text: 'Hãy phân tích lỗ hổng tiên quyết và tự động soạn Lộ trình học/bài tập bổ trợ để tôi gửi sinh viên?', label: '📝 Soạn Lộ trình học/Bài tập', icon: <BookOpen size={12} className="text-emerald-400" /> },
-        { text: 'Tóm tắt trọng tâm lý thuyết cốt lõi của môn học tiên quyết mà sinh viên này đang bị hổng?', label: '🧠 Tóm tắt Lý thuyết hổng', icon: <Sparkles size={12} className="text-purple-400" /> },
-        { text: 'Soạn hộ một mẫu tin nhắn Zalo kèm lộ trình can thiệp gửi sinh viên nhẹ nhàng, tinh tế?', label: '💬 Soạn tin Zalo/Email', icon: <MessageSquare size={12} className="text-amber-400" /> },
-        { text: 'Hãy chỉ ra các môn có nguy cơ trượt cao trong học kỳ mới và đánh giá mức độ khẩn cấp?', label: '🔥 Đánh giá rủi ro', icon: <ShieldAlert size={12} className="text-rose-400" /> }
+        { text: 'Hãy đánh giá chi tiết học lực hiện tại của tôi?', label: '📊 Đánh giá học lực', icon: <User size={12} className="text-blue-400" /> },
+        { text: 'Hãy tự động soạn Lộ trình học và bài tập để cải thiện kết quả học tập của tôi?', label: '📝 Lộ trình học & Bài tập', icon: <BookOpen size={12} className="text-emerald-400" /> },
+        { text: 'Hãy chỉ ra các môn tôi có nguy cơ trượt cao trong học kỳ mới và đánh giá mức độ khẩn cấp?', label: '🔥 Đánh giá rủi ro', icon: <ShieldAlert size={12} className="text-rose-400" /> },
+        { text: 'Đề xuất phương pháp học tập hiệu quả giúp tôi nâng cao kết quả học tập?', label: '💡 Đề xuất phương pháp', icon: <Sparkles size={12} className="text-purple-400" /> }
       ]
-    : [
-        { text: 'Môn nào dễ trượt nhất hệ thống?', label: '🔥 Top môn dễ trượt', icon: <AlertTriangle size={12} className="text-rose-400" /> },
-        { text: 'Thống kê danh sách sinh viên học lực yếu có nguy cơ cao?', label: '⚠️ Cảnh báo sinh viên yếu', icon: <Bot size={12} className="text-purple-400" /> },
-        { text: 'Chi tiết công thức toán thuật toán Pearson dự đoán học thuật?', label: '📐 Thuật toán Pearson', icon: <Terminal size={12} className="text-cyan-400" /> },
-        { text: 'Tổng quan chương trình đào tạo FPT có tổng cộng bao nhiêu môn học?', label: '📚 Chương trình đào tạo', icon: <BookOpen size={12} className="text-emerald-400" /> }
-      ];
+    : sessionActiveStudent 
+      ? [
+          { text: 'Hãy đánh giá chi tiết học lực hiện tại của sinh viên này?', label: '📊 Đánh giá học lực', icon: <User size={12} className="text-blue-400" /> },
+          { text: 'Hãy phân tích lỗ hổng tiên quyết và tự động soạn Lộ trình học/bài tập bổ trợ để tôi gửi sinh viên?', label: '📝 Soạn Lộ trình học/Bài tập', icon: <BookOpen size={12} className="text-emerald-400" /> },
+          { text: 'Tóm tắt trọng tâm lý thuyết cốt lõi của môn học tiên quyết mà sinh viên này đang bị hổng?', label: '🧠 Tóm tắt Lý thuyết hổng', icon: <Sparkles size={12} className="text-purple-400" /> },
+          { text: 'Soạn hộ một mẫu tin nhắn Zalo kèm lộ trình can thiệp gửi sinh viên nhẹ nhàng, tinh tế?', label: '💬 Soạn tin Zalo/Email', icon: <MessageSquare size={12} className="text-amber-400" /> },
+          { text: 'Hãy chỉ ra các môn có nguy cơ trượt cao trong học kỳ mới và đánh giá mức độ khẩn cấp?', label: '🔥 Đánh giá rủi ro', icon: <ShieldAlert size={12} className="text-rose-400" /> }
+        ]
+      : [
+          { text: 'Môn nào dễ trượt nhất hệ thống?', label: '🔥 Top môn dễ trượt', icon: <AlertTriangle size={12} className="text-rose-400" /> },
+          { text: 'Thống kê danh sách sinh viên học lực yếu có nguy cơ cao?', label: '⚠️ Cảnh báo sinh viên yếu', icon: <Bot size={12} className="text-purple-400" /> },
+          { text: 'Chi tiết công thức toán thuật toán Pearson dự đoán học thuật?', label: '📐 Thuật toán Pearson', icon: <Terminal size={12} className="text-cyan-400" /> },
+          { text: 'Tổng quan chương trình đào tạo FPT có tổng cộng bao nhiêu môn học?', label: '📚 Chương trình đào tạo', icon: <BookOpen size={12} className="text-emerald-400" /> }
+        ];
+
 
   const renderSessionItem = (session) => {
     const isActive = session.id === currentSessionId;
@@ -596,7 +706,10 @@ export default function AIChat() {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-9.5rem)] flex glass-card rounded-[32px] border border-white/10 overflow-hidden relative shadow-2xl animate-fade-in bg-slate-900/40">
+    <div 
+      className="w-full h-[calc(100vh-9.5rem)] flex glass-card rounded-[32px] border border-white/10 overflow-hidden relative shadow-2xl animate-fade-in bg-slate-900/40"
+      style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
+    >
       {/* Dynamic Background glows */}
       <div className="absolute top-0 left-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -679,12 +792,14 @@ export default function AIChat() {
             </div>
             <div>
               <h3 className="font-extrabold text-white text-sm flex items-center gap-1.5">
-                Trợ lý Cố vấn Học vụ AI <Sparkles size={14} className="text-amber-400 animate-pulse" />
+                {currentUser?.role === 'STUDENT' ? 'Gia sư Học tập AI' : 'Trợ lý Cố vấn Học vụ AI'} <Sparkles size={14} className="text-amber-400 animate-pulse" />
               </h3>
               <p className="text-[10px] text-slate-400 font-medium">
-                {sessionActiveStudent 
-                  ? `Đang cố vấn cho sinh viên ${sessionActiveStudent.name} (${sessionActiveStudent.mssv || sessionActiveStudent.id})` 
-                  : 'Phân tích dữ liệu học thuật & liên kết học bạ thông minh'}
+                {currentUser?.role === 'STUDENT'
+                  ? 'Học bạ cá nhân và Cố vấn học tập AI của bạn'
+                  : sessionActiveStudent 
+                    ? `Đang cố vấn cho sinh viên ${sessionActiveStudent.name} (${sessionActiveStudent.mssv || sessionActiveStudent.id})` 
+                    : 'Phân tích dữ liệu học thuật & liên kết học bạ thông minh'}
               </p>
             </div>
           </div>
@@ -701,7 +816,16 @@ export default function AIChat() {
               <span>Hội thoại mới</span>
             </button>
 
-            {sessionActiveStudent ? (
+            {currentUser?.role === 'STUDENT' ? (
+              /* Static capsule for students - non-clickable, no X button */
+              <div 
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-full text-[11px] text-purple-300 font-bold shadow-sm"
+                title="Học bạ cá nhân của bạn"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                <span>🔗 Học bạ cá nhân: {sessionActiveStudent?.name || currentUser?.name || 'Cá nhân'}</span>
+              </div>
+            ) : sessionActiveStudent ? (
               <div className="flex items-center gap-2">
                 {/* Linked student capsule */}
                 <div 
@@ -741,7 +865,7 @@ export default function AIChat() {
             )}
 
             {/* Floating Student Search popover dropdown overlay */}
-            {showInlineSearch && (
+            {showInlineSearch && currentUser?.role !== 'STUDENT' && (
               <div className="absolute top-full right-0 mt-2.5 w-80 bg-slate-950/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-30 p-3 flex flex-col gap-2">
                 <div className="relative">
                   <input
@@ -793,14 +917,14 @@ export default function AIChat() {
 
         {/* Messages thread history area - Full width */}
         <div className="flex-1 p-8 overflow-y-auto space-y-6 custom-scrollbar relative z-10 bg-slate-950/10">
-          <div className="w-full space-y-6">
+          <div className="max-w-6xl mx-auto w-full space-y-6">
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`flex gap-4 max-w-[90%] ${msg.sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
+                className={`flex gap-4 max-w-[92%] ${msg.sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
               >
                 {/* Avatar Icon */}
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white border flex-shrink-0 ${
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white border flex-shrink-0 ${
                   msg.sender === 'user'
                     ? 'bg-gradient-to-tr from-blue-600 to-indigo-600 border-blue-500/20 shadow-md'
                     : 'bg-gradient-to-tr from-purple-600 to-indigo-600 border-purple-500/20 shadow-md'
@@ -808,25 +932,37 @@ export default function AIChat() {
                   {msg.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
                 </div>
 
-                <div className="space-y-1 max-w-[95%]">
+                <div className="space-y-1 max-w-[95%] flex-1">
                   <div
-                    className={`p-5 rounded-2xl text-sm shadow-xl border ${
+                    className={
                       msg.sender === 'user'
-                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500/30 rounded-tr-none shadow-blue-500/5'
-                        : 'bg-white/5 text-slate-200 border-white/5 rounded-tl-none shadow-black/20'
-                    }`}
+                        ? 'p-4 rounded-3xl rounded-tr-none text-sm shadow-md border bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500/25 ml-auto w-fit max-w-[85%]'
+                        : 'p-0 bg-transparent border-none shadow-none text-slate-200 max-w-none text-sm'
+                    }
                   >
                     {msg.sender === 'ai' ? (
                       <div className="prose prose-invert prose-sm max-w-none relative group pb-2">
                         {formatText(msg.text)}
-                        <button 
-                          onClick={() => { navigator.clipboard.writeText(msg.text); showToast('📋 Đã sao chép nội dung vào Clipboard!'); }}
-                          className="absolute -bottom-3 right-0 px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md opacity-0 group-hover:opacity-100 transition-opacity border border-white/10 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
-                          title="Sao chép nhanh lộ trình/tin nhắn"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                          Sao chép nhanh
-                        </button>
+                        <div className="absolute -bottom-3 right-0 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {sessionActiveStudent && currentUser?.role !== 'STUDENT' && (
+                            <button 
+                              onClick={() => handleSendToStudent(msg.text)}
+                              className="px-2 py-1 bg-purple-600/80 hover:bg-purple-500 text-white rounded-md border border-purple-500/50 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
+                              title="Gửi trực tiếp vào Hộp thư Sinh viên"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                              Gửi cho SV
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => { navigator.clipboard.writeText(msg.text); showToast('📋 Đã sao chép nội dung vào Clipboard!'); }}
+                            className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-white/10 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
+                            title="Sao chép nhanh lộ trình/tin nhắn"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Sao chép nhanh
+                          </button>
+                        </div>
                       </div>
                     ) : (
                       <p className="leading-relaxed whitespace-pre-line text-slate-100 font-medium">{msg.text}</p>
@@ -835,7 +971,7 @@ export default function AIChat() {
                   <div className={`text-[9px] text-slate-500 font-semibold px-2 flex items-center gap-1.5 ${
                     msg.sender === 'user' ? 'justify-end' : 'justify-start'
                   }`}>
-                    <span>{msg.sender === 'user' ? 'Giảng viên' : 'Trợ lý AI'}</span>
+                    <span>{msg.sender === 'user' ? (currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên') : 'Trợ lý AI'}</span>
                     <span>•</span>
                     <span>{msg.time}</span>
                   </div>
@@ -844,12 +980,12 @@ export default function AIChat() {
             ))}
 
             {loading && (
-              <div className="flex gap-4 max-w-[90%] mr-auto animate-pulse">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white border border-purple-500/20 shadow-md flex-shrink-0">
+              <div className="flex gap-4 max-w-[92%] mr-auto animate-pulse">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white border border-purple-500/20 shadow-md flex-shrink-0">
                   <Bot size={14} />
                 </div>
-                <div className="space-y-1">
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/5 rounded-tl-none text-slate-400 text-xs flex items-center gap-2 shadow-black/20">
+                <div className="space-y-1 flex-1">
+                  <div className="p-0 bg-transparent border-none shadow-none text-slate-400 text-sm flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
                     <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce delay-300"></span>
@@ -864,7 +1000,7 @@ export default function AIChat() {
 
         {/* Bottom Area: Action shortcuts row + Rounded Input Capsule Container */}
         <div className="px-8 py-5 border-t border-white/5 relative z-10 bg-slate-950/20 flex flex-col gap-2">
-          <div className="w-full">
+          <div className="max-w-6xl mx-auto w-full">
             {/* Scrollable Action Pills Row */}
             <div className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-none max-w-full">
               {currentPills.map((pill, idx) => (
@@ -901,9 +1037,11 @@ export default function AIChat() {
                     }
                   }}
                   placeholder={
-                    sessionActiveStudent
-                      ? `Hỏi AI về học lực, điểm số rủi ro của ${sessionActiveStudent.name}...`
-                      : "Nhập câu hỏi học thuật, thống kê học sinh yếu toàn khoa..."
+                    currentUser?.role === 'STUDENT'
+                      ? "Hỏi AI về kết quả học tập, rủi ro trượt môn và phương pháp cải thiện..."
+                      : sessionActiveStudent
+                        ? `Hỏi AI về học lực, điểm số rủi ro của ${sessionActiveStudent.name}...`
+                        : "Nhập câu hỏi học thuật, thống kê học sinh yếu toàn khoa..."
                   }
                   disabled={loading}
                   className="flex-1 bg-transparent border-none outline-none text-slate-100 text-sm py-1.5 px-2 resize-none placeholder-slate-500 min-h-[38px] custom-scrollbar focus:ring-0"
