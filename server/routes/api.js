@@ -1481,48 +1481,8 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
       userRole
     });
 
-    // Resolve the active target provider
-    const targetProvider = provider || process.env.AI_PROVIDER || 'gemini';
-    console.log(`[AI Orchestrator] Yêu cầu chat qua Provider: ${targetProvider} (MSSV: ${activeMssv || 'Không có'})`);
-
-    // TẦNG 1: Gemini 2.0 Flash
-    if (targetProvider === 'gemini') {
-      try {
-        console.log("[AI Orchestrator] Đang gọi Tầng 1: Gemini 2.0 Flash...");
-        const reply = await askGemini({
-          system: prompt.system,
-          history: history || [],
-          user: prompt.user,
-          disableTools: isStudent || isQueryingStats || !activeMssv
-        });
-        if (reply) {
-          console.log("✅ [AI Orchestrator] Phản hồi thành open từ Tầng 1 (Gemini)!");
-          return res.json({ reply: cleanReply(reply) });
-        }
-      } catch (geminiErr) {
-        console.warn("⚠️ [AI Orchestrator] Tầng 1 (Gemini) gặp sự cố. Tự động chuyển sang Tầng 2 (Groq Llama 3.3):", geminiErr.message);
-      }
-    }
-
-    // TẦNG 2: Groq Llama 3.3
-    try {
-      console.log("[AI Orchestrator] Đang gọi Tầng 2: Groq Llama 3.3...");
-      const reply = await askGroq({
-        system: prompt.system,
-        history: history || [],
-        user: prompt.user,
-        disableTools: isStudent || isQueryingStats || !activeMssv
-      });
-      if (reply) {
-        console.log("✅ [AI Orchestrator] Phản hồi thành công từ Tầng 2 (Groq)!");
-        return res.json({ reply: cleanReply(reply) });
-      }
-    } catch (groqErr) {
-      console.warn("⚠️ [AI Orchestrator] Tầng 2 (Groq) gặp sự cố. Tự động chuyển sang Tầng 3 (Local SQLite Fallback):", groqErr.message);
-    }
-
-    // TẦNG 3: Smart Local SQLite Fallback
-    console.log("[AI Orchestrator] Đang gọi Tầng 3: Smart Local SQLite Fallback...");
+    // TẦNG DUY NHẤT: Smart Local SQLite Pipeline (100% Offline & Private)
+    console.log("[AI Orchestrator] Đang gọi Local Pipeline (Intent-to-SQL)...");
     const reply = await smartLocalReply(message, studentContext || student, userRole, userId);
     return res.json({ reply: cleanReply(reply) });
 
