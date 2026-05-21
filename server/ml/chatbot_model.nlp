@@ -37,6 +37,114 @@
           "useStemDict": true
         },
         "stemDict": {
+          "ai,nhung,rot,sap": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "nao,sap,toang,đua": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "co,nguy,rot,sinh,vien": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "danh,sach,sinh,vien,yeu": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "ai,co,khong,lo,lop,đang": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "ai,hoc,yeu": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "sinh,top,vien,yeu": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "can,nao,nhung,sinh,thiep,vien": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "bao,bi,canh,cho,hien,sinh,thi,toi,vien": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "em,nao,sap,tach": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "cao,em,nao,ro,rui": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "ai,bay,mau,sap": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "bao,canh,danh,sach,đo": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "cai,cho,ra,show,toi,tung,xem": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "danh,rot,sach,show": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "ke,liet,rot,sv": {
+            "intent": "query.risk_students",
+            "domain": "default"
+          },
+          "de,mon,nao,nhat,rot": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "chet,mon,nao,nhat,nhieu,sinh,vien": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "hoc,mon,yeu": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "ke,mon,rot,thong": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "bao,cac,la,le,mon,nhieu,rot,ty": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "mon,nao,nhat,thap,điem": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "de,hoc,nao,phan,tach": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "kho,mon,nao,nhat": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "gi,hay,lop,mon,nay,rot,sinh,vien": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "gi,hay,mon,rot": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
+          "chet,de,mon,nao,nhat": {
+            "intent": "query.weak_subjects",
+            "domain": "default"
+          },
           "eduguard,gi,la": {
             "intent": "ask.intro",
             "domain": "default"
@@ -45,84 +153,8 @@
             "intent": "ask.intro",
             "domain": "default"
           },
-          "gioi,mem,phan,thieu,ve": {
-            "intent": "ask.intro",
-            "domain": "default"
-          },
-          "co,dung,gi,mem,nay,phan,tac": {
-            "intent": "ask.intro",
-            "domain": "default"
-          },
           "co,nang,nao,nhung,tinh": {
             "intent": "ask.features",
-            "domain": "default"
-          },
-          "chinh,chuc,cua,he,nang,thong": {
-            "intent": "ask.features",
-            "domain": "default"
-          },
-          "co,eduguard,gi,hay": {
-            "intent": "ask.features",
-            "domain": "default"
-          },
-          "gi,la,thuat,toan": {
-            "intent": "ask.algorithm",
-            "domain": "default"
-          },
-          "dung,he,nao,thong,thuat,toan": {
-            "intent": "ask.algorithm",
-            "domain": "default"
-          },
-          "ai,dung,hinh,mo,nao,su,đuoc": {
-            "intent": "ask.algorithm",
-            "domain": "default"
-          },
-          "gi,la,pearson": {
-            "intent": "ask.pearson",
-            "domain": "default"
-          },
-          "he,nao,pearson,so,the,tinh": {
-            "intent": "ask.pearson",
-            "domain": "default"
-          },
-          "dung,lai,pearson,sao,tai": {
-            "intent": "ask.pearson",
-            "domain": "default"
-          },
-          "bao,canh,la,sao,đo": {
-            "intent": "ask.redalert",
-            "domain": "default"
-          },
-          "ai,bao,bi,canh,đo": {
-            "intent": "ask.redalert",
-            "domain": "default"
-          },
-          "cao,co,gi,la,nguy": {
-            "intent": "ask.redalert",
-            "domain": "default"
-          },
-          "gi,la,mon,quyet,tien": {
-            "intent": "ask.prerequisite",
-            "domain": "default"
-          },
-          "mon,quan,quyet,sao,tai,tien,trong": {
-            "intent": "ask.prerequisite",
-            "domain": "default"
-          },
-          "lam,sao,upload,đe,điem": {
-            "intent": "ask.how_upload",
-            "domain": "default"
-          },
-          "excel,file,lam,len,nao,tai,the,đe": {
-            "intent": "ask.how_upload",
-            "domain": "default"
-          },
-          "chay,du,nao,the,đoan": {
-            "intent": "ask.how_predict",
-            "domain": "default"
-          },
-          "bao,cach,canh,dung,đo": {
-            "intent": "ask.how_predict",
             "domain": "default"
           },
           "chao,xin": {
@@ -132,38 +164,151 @@
           "ban,chao": {
             "intent": "greetings.hello",
             "domain": "default"
-          },
-          "hi": {
-            "intent": "greetings.hello",
-            "domain": "default"
-          },
-          "biet,tam": {
-            "intent": "greetings.bye",
-            "domain": "default"
-          },
-          "cam,on": {
-            "intent": "greetings.thanks",
-            "domain": "default"
-          },
-          "cam,ok,on": {
-            "intent": "greetings.thanks",
-            "domain": "default"
           }
         },
         "intentDict": {
+          "query.risk_students": "default",
+          "query.weak_subjects": "default",
           "ask.intro": "default",
           "ask.features": "default",
-          "ask.algorithm": "default",
-          "ask.pearson": "default",
-          "ask.redalert": "default",
-          "ask.prerequisite": "default",
-          "ask.how_upload": "default",
-          "ask.how_predict": "default",
-          "greetings.hello": "default",
-          "greetings.bye": "default",
-          "greetings.thanks": "default"
+          "greetings.hello": "default"
         },
         "sentences": [
+          {
+            "domain": "default",
+            "utterance": "những ai sắp rớt",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "đứa nào sắp toang",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "sinh viên nguy cơ rớt",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "danh sách sinh viên yếu",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "lớp có ai đáng lo không",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "ai học yếu",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "top sinh viên yếu",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "những sinh viên nào cần can thiệp",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "hiển thị cho tôi sinh viên bị cảnh báo",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "em nào sắp tạch",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "em nào rủi ro cao",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "ai sắp bay màu",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "danh sách cảnh báo đỏ",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "show ra từng cái cho tôi xem",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "show danh sách rớt",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "liệt kê sv rớt",
+            "intent": "query.risk_students"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn nào dễ rớt nhất",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn nào sinh viên chết nhiều nhất",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn học yếu",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "thống kê rớt môn",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "tỷ lệ rớt các môn là bao nhiêu",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn nào điểm thấp nhất",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "học phần nào dễ tạch",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn nào khó nhất",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "sinh viên lớp này hay rớt môn gì",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn gì hay rớt",
+            "intent": "query.weak_subjects"
+          },
+          {
+            "domain": "default",
+            "utterance": "môn nào dễ chết nhất",
+            "intent": "query.weak_subjects"
+          },
           {
             "domain": "default",
             "utterance": "EduGuard là gì",
@@ -176,103 +321,8 @@
           },
           {
             "domain": "default",
-            "utterance": "giới thiệu về phần mềm",
-            "intent": "ask.intro"
-          },
-          {
-            "domain": "default",
-            "utterance": "phần mềm này có tác dụng gì",
-            "intent": "ask.intro"
-          },
-          {
-            "domain": "default",
             "utterance": "có những tính năng nào",
             "intent": "ask.features"
-          },
-          {
-            "domain": "default",
-            "utterance": "chức năng chính của hệ thống",
-            "intent": "ask.features"
-          },
-          {
-            "domain": "default",
-            "utterance": "EduGuard có gì hay",
-            "intent": "ask.features"
-          },
-          {
-            "domain": "default",
-            "utterance": "thuật toán là gì",
-            "intent": "ask.algorithm"
-          },
-          {
-            "domain": "default",
-            "utterance": "hệ thống dùng thuật toán nào",
-            "intent": "ask.algorithm"
-          },
-          {
-            "domain": "default",
-            "utterance": "mô hình AI nào được sử dụng",
-            "intent": "ask.algorithm"
-          },
-          {
-            "domain": "default",
-            "utterance": "pearson là gì",
-            "intent": "ask.pearson"
-          },
-          {
-            "domain": "default",
-            "utterance": "hệ số pearson tính thế nào",
-            "intent": "ask.pearson"
-          },
-          {
-            "domain": "default",
-            "utterance": "tại sao lại dùng pearson",
-            "intent": "ask.pearson"
-          },
-          {
-            "domain": "default",
-            "utterance": "cảnh báo đỏ là sao",
-            "intent": "ask.redalert"
-          },
-          {
-            "domain": "default",
-            "utterance": "ai bị cảnh báo đỏ",
-            "intent": "ask.redalert"
-          },
-          {
-            "domain": "default",
-            "utterance": "nguy cơ cao là gì",
-            "intent": "ask.redalert"
-          },
-          {
-            "domain": "default",
-            "utterance": "môn tiên quyết là gì",
-            "intent": "ask.prerequisite"
-          },
-          {
-            "domain": "default",
-            "utterance": "tại sao môn tiên quyết quan trọng",
-            "intent": "ask.prerequisite"
-          },
-          {
-            "domain": "default",
-            "utterance": "làm sao để upload điểm",
-            "intent": "ask.how_upload"
-          },
-          {
-            "domain": "default",
-            "utterance": "làm thế nào để tải file excel lên",
-            "intent": "ask.how_upload"
-          },
-          {
-            "domain": "default",
-            "utterance": "chạy dự đoán thế nào",
-            "intent": "ask.how_predict"
-          },
-          {
-            "domain": "default",
-            "utterance": "cách dùng cảnh báo đỏ",
-            "intent": "ask.how_predict"
           },
           {
             "domain": "default",
@@ -283,26 +333,6 @@
             "domain": "default",
             "utterance": "chào bạn",
             "intent": "greetings.hello"
-          },
-          {
-            "domain": "default",
-            "utterance": "hi",
-            "intent": "greetings.hello"
-          },
-          {
-            "domain": "default",
-            "utterance": "tạm biệt",
-            "intent": "greetings.bye"
-          },
-          {
-            "domain": "default",
-            "utterance": "cảm ơn",
-            "intent": "greetings.thanks"
-          },
-          {
-            "domain": "default",
-            "utterance": "ok cảm ơn",
-            "intent": "greetings.thanks"
           }
         ],
         "domains": {
@@ -319,87 +349,162 @@
               "log": true
             },
             "features": {
-              "eduguard": 1,
-              "la": 1,
-              "gi": 1,
-              "he": 1,
-              "thong": 1,
-              "nay": 1,
-              "lam": 1,
-              "đuoc": 1,
-              "gioi": 1,
-              "thieu": 1,
-              "ve": 1,
-              "phan": 1,
-              "mem": 1,
-              "co": 1,
-              "tac": 1,
-              "dung": 1,
               "nhung": 1,
-              "tinh": 1,
-              "nang": 1,
-              "nao": 1,
-              "chuc": 1,
-              "chinh": 1,
-              "cua": 1,
-              "hay": 1,
-              "thuat": 1,
-              "toan": 1,
-              "mo": 1,
-              "hinh": 1,
               "ai": 1,
-              "su": 1,
-              "pearson": 1,
-              "so": 1,
-              "the": 1,
-              "tai": 1,
-              "sao": 1,
-              "lai": 1,
+              "sap": 1,
+              "rot": 1,
+              "đua": 1,
+              "nao": 1,
+              "toang": 1,
+              "sinh": 1,
+              "vien": 1,
+              "nguy": 1,
+              "co": 1,
+              "danh": 1,
+              "sach": 1,
+              "yeu": 1,
+              "lop": 1,
+              "đang": 1,
+              "lo": 1,
+              "khong": 1,
+              "hoc": 1,
+              "top": 1,
+              "can": 1,
+              "thiep": 1,
+              "hien": 1,
+              "thi": 1,
+              "cho": 1,
+              "toi": 1,
+              "bi": 1,
               "canh": 1,
               "bao": 1,
-              "đo": 1,
-              "bi": 1,
-              "nguy": 1,
+              "em": 1,
+              "tach": 1,
+              "rui": 1,
+              "ro": 1,
               "cao": 1,
+              "bay": 1,
+              "mau": 1,
+              "đo": 1,
+              "show": 1,
+              "ra": 1,
+              "tung": 1,
+              "cai": 1,
+              "xem": 1,
+              "liet": 1,
+              "ke": 1,
+              "sv": 1,
               "mon": 1,
-              "tien": 1,
-              "quyet": 1,
-              "quan": 1,
-              "trong": 1,
-              "đe": 1,
-              "upload": 1,
+              "de": 1,
+              "nhat": 1,
+              "chet": 1,
+              "nhieu": 1,
+              "thong": 1,
+              "ty": 1,
+              "le": 1,
+              "cac": 1,
+              "la": 1,
               "điem": 1,
-              "file": 1,
-              "excel": 1,
-              "len": 1,
-              "chay": 1,
-              "du": 1,
-              "đoan": 1,
-              "cach": 1,
+              "thap": 1,
+              "phan": 1,
+              "kho": 1,
+              "nay": 1,
+              "hay": 1,
+              "gi": 1,
+              "eduguard": 1,
+              "he": 1,
+              "lam": 1,
+              "đuoc": 1,
+              "tinh": 1,
+              "nang": 1,
               "xin": 1,
               "chao": 1,
-              "ban": 1,
-              "hi": 1,
-              "tam": 1,
-              "biet": 1,
-              "cam": 1,
-              "on": 1,
-              "ok": 1
+              "ban": 1
             },
             "intents": {
+              "query.risk_students": 1,
+              "query.weak_subjects": 1,
               "ask.intro": 1,
               "ask.features": 1,
-              "ask.algorithm": 1,
-              "ask.pearson": 1,
-              "ask.redalert": 1,
-              "ask.prerequisite": 1,
-              "ask.how_upload": 1,
-              "ask.how_predict": 1,
-              "greetings.hello": 1,
-              "greetings.bye": 1,
-              "greetings.thanks": 1
+              "greetings.hello": 1
             },
             "intentFeatures": {
+              "query.risk_students": {
+                "nhung": 1,
+                "ai": 1,
+                "sap": 1,
+                "rot": 1,
+                "đua": 1,
+                "nao": 1,
+                "toang": 1,
+                "sinh": 1,
+                "vien": 1,
+                "nguy": 1,
+                "co": 1,
+                "danh": 1,
+                "sach": 1,
+                "yeu": 1,
+                "lop": 1,
+                "đang": 1,
+                "lo": 1,
+                "khong": 1,
+                "hoc": 1,
+                "top": 1,
+                "can": 1,
+                "thiep": 1,
+                "hien": 1,
+                "thi": 1,
+                "cho": 1,
+                "toi": 1,
+                "bi": 1,
+                "canh": 1,
+                "bao": 1,
+                "em": 1,
+                "tach": 1,
+                "rui": 1,
+                "ro": 1,
+                "cao": 1,
+                "bay": 1,
+                "mau": 1,
+                "đo": 1,
+                "show": 1,
+                "ra": 1,
+                "tung": 1,
+                "cai": 1,
+                "xem": 1,
+                "liet": 1,
+                "ke": 1,
+                "sv": 1
+              },
+              "query.weak_subjects": {
+                "mon": 1,
+                "nao": 1,
+                "de": 1,
+                "rot": 1,
+                "nhat": 1,
+                "sinh": 1,
+                "vien": 1,
+                "chet": 1,
+                "nhieu": 1,
+                "hoc": 1,
+                "yeu": 1,
+                "thong": 1,
+                "ke": 1,
+                "ty": 1,
+                "le": 1,
+                "cac": 1,
+                "la": 1,
+                "bao": 1,
+                "điem": 1,
+                "thap": 1,
+                "phan": 1,
+                "tach": 1,
+                "kho": 1,
+                "lop": 1,
+                "nay": 1,
+                "hay": 1,
+                "gi": 1
+              },
               "ask.intro": {
                 "eduguard": 1,
                 "la": 1,
@@ -408,334 +513,242 @@
                 "thong": 1,
                 "nay": 1,
                 "lam": 1,
-                "đuoc": 1,
-                "gioi": 1,
-                "thieu": 1,
-                "ve": 1,
-                "phan": 1,
-                "mem": 1,
-                "co": 1,
-                "tac": 1,
-                "dung": 1
+                "đuoc": 1
               },
               "ask.features": {
                 "co": 1,
                 "nhung": 1,
                 "tinh": 1,
                 "nang": 1,
-                "nao": 1,
-                "chuc": 1,
-                "chinh": 1,
-                "cua": 1,
-                "he": 1,
-                "thong": 1,
-                "eduguard": 1,
-                "gi": 1,
-                "hay": 1
-              },
-              "ask.algorithm": {
-                "thuat": 1,
-                "toan": 1,
-                "la": 1,
-                "gi": 1,
-                "he": 1,
-                "thong": 1,
-                "dung": 1,
-                "nao": 1,
-                "mo": 1,
-                "hinh": 1,
-                "ai": 1,
-                "đuoc": 1,
-                "su": 1
-              },
-              "ask.pearson": {
-                "pearson": 1,
-                "la": 1,
-                "gi": 1,
-                "he": 1,
-                "so": 1,
-                "tinh": 1,
-                "the": 1,
-                "nao": 1,
-                "tai": 1,
-                "sao": 1,
-                "lai": 1,
-                "dung": 1
-              },
-              "ask.redalert": {
-                "canh": 1,
-                "bao": 1,
-                "đo": 1,
-                "la": 1,
-                "sao": 1,
-                "ai": 1,
-                "bi": 1,
-                "nguy": 1,
-                "co": 1,
-                "cao": 1,
-                "gi": 1
-              },
-              "ask.prerequisite": {
-                "mon": 1,
-                "tien": 1,
-                "quyet": 1,
-                "la": 1,
-                "gi": 1,
-                "tai": 1,
-                "sao": 1,
-                "quan": 1,
-                "trong": 1
-              },
-              "ask.how_upload": {
-                "lam": 1,
-                "sao": 1,
-                "đe": 1,
-                "upload": 1,
-                "điem": 1,
-                "the": 1,
-                "nao": 1,
-                "tai": 1,
-                "file": 1,
-                "excel": 1,
-                "len": 1
-              },
-              "ask.how_predict": {
-                "chay": 1,
-                "du": 1,
-                "đoan": 1,
-                "the": 1,
-                "nao": 1,
-                "cach": 1,
-                "dung": 1,
-                "canh": 1,
-                "bao": 1,
-                "đo": 1
+                "nao": 1
               },
               "greetings.hello": {
                 "xin": 1,
                 "chao": 1,
-                "ban": 1,
-                "hi": 1
-              },
-              "greetings.bye": {
-                "tam": 1,
-                "biet": 1
-              },
-              "greetings.thanks": {
-                "cam": 1,
-                "on": 1,
-                "ok": 1
+                "ban": 1
               }
             },
             "featuresToIntent": {
-              "eduguard": [
-                "ask.intro",
+              "nhung": [
+                "query.risk_students",
                 "ask.features"
               ],
-              "la": [
-                "ask.intro",
-                "ask.algorithm",
-                "ask.pearson",
-                "ask.redalert",
-                "ask.prerequisite"
+              "ai": [
+                "query.risk_students"
               ],
-              "gi": [
-                "ask.intro",
-                "ask.features",
-                "ask.algorithm",
-                "ask.pearson",
-                "ask.redalert",
-                "ask.prerequisite"
+              "sap": [
+                "query.risk_students"
               ],
-              "he": [
-                "ask.intro",
-                "ask.features",
-                "ask.algorithm",
-                "ask.pearson"
+              "rot": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "đua": [
+                "query.risk_students"
+              ],
+              "nao": [
+                "query.risk_students",
+                "query.weak_subjects",
+                "ask.features"
+              ],
+              "toang": [
+                "query.risk_students"
+              ],
+              "sinh": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "vien": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "nguy": [
+                "query.risk_students"
+              ],
+              "co": [
+                "query.risk_students",
+                "ask.features"
+              ],
+              "danh": [
+                "query.risk_students"
+              ],
+              "sach": [
+                "query.risk_students"
+              ],
+              "yeu": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "lop": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "đang": [
+                "query.risk_students"
+              ],
+              "lo": [
+                "query.risk_students"
+              ],
+              "khong": [
+                "query.risk_students"
+              ],
+              "hoc": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "top": [
+                "query.risk_students"
+              ],
+              "can": [
+                "query.risk_students"
+              ],
+              "thiep": [
+                "query.risk_students"
+              ],
+              "hien": [
+                "query.risk_students"
+              ],
+              "thi": [
+                "query.risk_students"
+              ],
+              "cho": [
+                "query.risk_students"
+              ],
+              "toi": [
+                "query.risk_students"
+              ],
+              "bi": [
+                "query.risk_students"
+              ],
+              "canh": [
+                "query.risk_students"
+              ],
+              "bao": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "em": [
+                "query.risk_students"
+              ],
+              "tach": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "rui": [
+                "query.risk_students"
+              ],
+              "ro": [
+                "query.risk_students"
+              ],
+              "cao": [
+                "query.risk_students"
+              ],
+              "bay": [
+                "query.risk_students"
+              ],
+              "mau": [
+                "query.risk_students"
+              ],
+              "đo": [
+                "query.risk_students"
+              ],
+              "show": [
+                "query.risk_students"
+              ],
+              "ra": [
+                "query.risk_students"
+              ],
+              "tung": [
+                "query.risk_students"
+              ],
+              "cai": [
+                "query.risk_students"
+              ],
+              "xem": [
+                "query.risk_students"
+              ],
+              "liet": [
+                "query.risk_students"
+              ],
+              "ke": [
+                "query.risk_students",
+                "query.weak_subjects"
+              ],
+              "sv": [
+                "query.risk_students"
+              ],
+              "mon": [
+                "query.weak_subjects"
+              ],
+              "de": [
+                "query.weak_subjects"
+              ],
+              "nhat": [
+                "query.weak_subjects"
+              ],
+              "chet": [
+                "query.weak_subjects"
+              ],
+              "nhieu": [
+                "query.weak_subjects"
               ],
               "thong": [
-                "ask.intro",
-                "ask.features",
-                "ask.algorithm"
+                "query.weak_subjects",
+                "ask.intro"
+              ],
+              "ty": [
+                "query.weak_subjects"
+              ],
+              "le": [
+                "query.weak_subjects"
+              ],
+              "cac": [
+                "query.weak_subjects"
+              ],
+              "la": [
+                "query.weak_subjects",
+                "ask.intro"
+              ],
+              "điem": [
+                "query.weak_subjects"
+              ],
+              "thap": [
+                "query.weak_subjects"
+              ],
+              "phan": [
+                "query.weak_subjects"
+              ],
+              "kho": [
+                "query.weak_subjects"
               ],
               "nay": [
+                "query.weak_subjects",
+                "ask.intro"
+              ],
+              "hay": [
+                "query.weak_subjects"
+              ],
+              "gi": [
+                "query.weak_subjects",
+                "ask.intro"
+              ],
+              "eduguard": [
+                "ask.intro"
+              ],
+              "he": [
                 "ask.intro"
               ],
               "lam": [
-                "ask.intro",
-                "ask.how_upload"
+                "ask.intro"
               ],
               "đuoc": [
-                "ask.intro",
-                "ask.algorithm"
-              ],
-              "gioi": [
                 "ask.intro"
-              ],
-              "thieu": [
-                "ask.intro"
-              ],
-              "ve": [
-                "ask.intro"
-              ],
-              "phan": [
-                "ask.intro"
-              ],
-              "mem": [
-                "ask.intro"
-              ],
-              "co": [
-                "ask.intro",
-                "ask.features",
-                "ask.redalert"
-              ],
-              "tac": [
-                "ask.intro"
-              ],
-              "dung": [
-                "ask.intro",
-                "ask.algorithm",
-                "ask.pearson",
-                "ask.how_predict"
-              ],
-              "nhung": [
-                "ask.features"
               ],
               "tinh": [
-                "ask.features",
-                "ask.pearson"
+                "ask.features"
               ],
               "nang": [
                 "ask.features"
-              ],
-              "nao": [
-                "ask.features",
-                "ask.algorithm",
-                "ask.pearson",
-                "ask.how_upload",
-                "ask.how_predict"
-              ],
-              "chuc": [
-                "ask.features"
-              ],
-              "chinh": [
-                "ask.features"
-              ],
-              "cua": [
-                "ask.features"
-              ],
-              "hay": [
-                "ask.features"
-              ],
-              "thuat": [
-                "ask.algorithm"
-              ],
-              "toan": [
-                "ask.algorithm"
-              ],
-              "mo": [
-                "ask.algorithm"
-              ],
-              "hinh": [
-                "ask.algorithm"
-              ],
-              "ai": [
-                "ask.algorithm",
-                "ask.redalert"
-              ],
-              "su": [
-                "ask.algorithm"
-              ],
-              "pearson": [
-                "ask.pearson"
-              ],
-              "so": [
-                "ask.pearson"
-              ],
-              "the": [
-                "ask.pearson",
-                "ask.how_upload",
-                "ask.how_predict"
-              ],
-              "tai": [
-                "ask.pearson",
-                "ask.prerequisite",
-                "ask.how_upload"
-              ],
-              "sao": [
-                "ask.pearson",
-                "ask.redalert",
-                "ask.prerequisite",
-                "ask.how_upload"
-              ],
-              "lai": [
-                "ask.pearson"
-              ],
-              "canh": [
-                "ask.redalert",
-                "ask.how_predict"
-              ],
-              "bao": [
-                "ask.redalert",
-                "ask.how_predict"
-              ],
-              "đo": [
-                "ask.redalert",
-                "ask.how_predict"
-              ],
-              "bi": [
-                "ask.redalert"
-              ],
-              "nguy": [
-                "ask.redalert"
-              ],
-              "cao": [
-                "ask.redalert"
-              ],
-              "mon": [
-                "ask.prerequisite"
-              ],
-              "tien": [
-                "ask.prerequisite"
-              ],
-              "quyet": [
-                "ask.prerequisite"
-              ],
-              "quan": [
-                "ask.prerequisite"
-              ],
-              "trong": [
-                "ask.prerequisite"
-              ],
-              "đe": [
-                "ask.how_upload"
-              ],
-              "upload": [
-                "ask.how_upload"
-              ],
-              "điem": [
-                "ask.how_upload"
-              ],
-              "file": [
-                "ask.how_upload"
-              ],
-              "excel": [
-                "ask.how_upload"
-              ],
-              "len": [
-                "ask.how_upload"
-              ],
-              "chay": [
-                "ask.how_predict"
-              ],
-              "du": [
-                "ask.how_predict"
-              ],
-              "đoan": [
-                "ask.how_predict"
-              ],
-              "cach": [
-                "ask.how_predict"
               ],
               "xin": [
                 "greetings.hello"
@@ -745,24 +758,6 @@
               ],
               "ban": [
                 "greetings.hello"
-              ],
-              "hi": [
-                "greetings.hello"
-              ],
-              "tam": [
-                "greetings.bye"
-              ],
-              "biet": [
-                "greetings.bye"
-              ],
-              "cam": [
-                "greetings.thanks"
-              ],
-              "on": [
-                "greetings.thanks"
-              ],
-              "ok": [
-                "greetings.thanks"
               ]
             },
             "neuralNetwork": {
@@ -778,845 +773,455 @@
                 "log": true
               },
               "features": [
-                "eduguard",
-                "la",
-                "gi",
-                "he",
-                "thong",
-                "nay",
-                "lam",
-                "đuoc",
-                "gioi",
-                "thieu",
-                "ve",
-                "phan",
-                "mem",
-                "co",
-                "tac",
-                "dung",
                 "nhung",
-                "tinh",
-                "nang",
-                "nao",
-                "chuc",
-                "chinh",
-                "cua",
-                "hay",
-                "thuat",
-                "toan",
-                "mo",
-                "hinh",
                 "ai",
-                "su",
-                "pearson",
-                "so",
-                "the",
-                "tai",
-                "sao",
-                "lai",
+                "sap",
+                "rot",
+                "đua",
+                "nao",
+                "toang",
+                "sinh",
+                "vien",
+                "nguy",
+                "co",
+                "danh",
+                "sach",
+                "yeu",
+                "lop",
+                "đang",
+                "lo",
+                "khong",
+                "hoc",
+                "top",
+                "can",
+                "thiep",
+                "hien",
+                "thi",
+                "cho",
+                "toi",
+                "bi",
                 "canh",
                 "bao",
-                "đo",
-                "bi",
-                "nguy",
+                "em",
+                "tach",
+                "rui",
+                "ro",
                 "cao",
+                "bay",
+                "mau",
+                "đo",
+                "show",
+                "ra",
+                "tung",
+                "cai",
+                "xem",
+                "liet",
+                "ke",
+                "sv",
                 "mon",
-                "tien",
-                "quyet",
-                "quan",
-                "trong",
-                "đe",
-                "upload",
+                "de",
+                "nhat",
+                "chet",
+                "nhieu",
+                "thong",
+                "ty",
+                "le",
+                "cac",
+                "la",
                 "điem",
-                "file",
-                "excel",
-                "len",
-                "chay",
-                "du",
-                "đoan",
-                "cach",
+                "thap",
+                "phan",
+                "kho",
+                "nay",
+                "hay",
+                "gi",
+                "eduguard",
+                "he",
+                "lam",
+                "đuoc",
+                "tinh",
+                "nang",
                 "xin",
                 "chao",
-                "ban",
-                "hi",
-                "tam",
-                "biet",
-                "cam",
-                "on",
-                "ok"
+                "ban"
               ],
               "intents": [
+                "query.risk_students",
+                "query.weak_subjects",
                 "ask.intro",
                 "ask.features",
-                "ask.algorithm",
-                "ask.pearson",
-                "ask.redalert",
-                "ask.prerequisite",
-                "ask.how_upload",
-                "ask.how_predict",
-                "greetings.hello",
-                "greetings.bye",
-                "greetings.thanks"
+                "greetings.hello"
               ],
               "perceptrons": [
                 [
-                  7.680543422698975,
-                  2.8559398651123047,
-                  2.5367624759674072,
-                  1.2986446619033813,
-                  1.384084701538086,
-                  4.726511001586914,
-                  1.997551679611206,
-                  2.17883563041687,
-                  2.0047662258148193,
-                  2.0047662258148193,
-                  2.0047662258148193,
-                  4.091579914093018,
-                  4.091579914093018,
-                  -4.531495094299316,
-                  2.0850510597229004,
-                  0.9608677625656128,
-                  -0.17437797784805298,
-                  -0.2605518102645874,
-                  -1.0452325344085693,
-                  -1.3509353399276733,
-                  -0.784974992275238,
-                  -0.784974992275238,
-                  -0.784974992275238,
-                  -5.4573798179626465,
-                  -2.7433087825775146,
-                  -2.7433087825775146,
-                  -0.4577317237854004,
-                  -0.4577317237854004,
-                  -0.5249683856964111,
-                  -0.4577317237854004,
-                  -5.0611958503723145,
-                  -0.04271983727812767,
-                  -0.16666007041931152,
-                  -0.23789997398853302,
-                  -1.1173899173736572,
-                  -0.09161292016506195,
-                  -0.6027794480323792,
-                  -0.6027794480323792,
-                  -0.6027794480323792,
-                  -0.04654712229967117,
-                  -0.8676807880401611,
-                  -0.8676807880401611,
-                  -1.813158392906189,
-                  -1.813158392906189,
-                  -1.813158392906189,
-                  -0.009942473843693733,
-                  -0.009942473843693733,
-                  -0.61986243724823,
-                  -0.5082123279571533,
-                  -0.5082123279571533,
-                  -0.08656036853790283,
-                  -0.08656036853790283,
-                  -0.08656036853790283,
-                  0,
-                  0,
-                  0,
-                  -0.08312881737947464,
-                  -0.1305893063545227,
-                  -0.26423388719558716,
-                  -0.12210296094417572,
-                  -0.2540627121925354,
-                  -0.16776803135871887,
-                  -0.16776803135871887,
-                  -0.18398231267929077,
-                  -0.18398231267929077,
-                  -0.06390704214572906,
-                  0.08678832728987092
+                  -1.4783711433410645,
+                  5.58966064453125,
+                  3.823241710662842,
+                  2.4404942989349365,
+                  2.3681046962738037,
+                  1.3946889638900757,
+                  2.3681046962738037,
+                  1.992488980293274,
+                  1.992488980293274,
+                  2.4800400733947754,
+                  0.967449426651001,
+                  1.734580636024475,
+                  1.734580636024475,
+                  3.062303066253662,
+                  -0.15888705849647522,
+                  1.2147635221481323,
+                  1.2147635221481323,
+                  1.2147635221481323,
+                  0.7317697405815125,
+                  2.718306064605713,
+                  2.9632630348205566,
+                  2.9632630348205566,
+                  -0.06786838173866272,
+                  -0.06786838173866272,
+                  1.0096111297607422,
+                  1.0096111297607422,
+                  -0.06786838173866272,
+                  2.2319440841674805,
+                  1.8980703353881836,
+                  4.335278034210205,
+                  0.16455334424972534,
+                  1.4224388599395752,
+                  1.4224388599395752,
+                  1.4224388599395752,
+                  0.2625690698623657,
+                  0.2625690698623657,
+                  2.29665470123291,
+                  3.6635868549346924,
+                  1.0786000490188599,
+                  1.0786000490188599,
+                  1.0786000490188599,
+                  1.0786000490188599,
+                  2.8486146926879883,
+                  1.7973251342773438,
+                  2.8486146926879883,
+                  -7.907433986663818,
+                  -3.758434772491455,
+                  -2.6223630905151367,
+                  -1.3328136205673218,
+                  -1.7985351085662842,
+                  -1.3272686004638672,
+                  -0.2411200851202011,
+                  -0.2411200851202011,
+                  -0.2411200851202011,
+                  -1.1287457942962646,
+                  -0.08729903399944305,
+                  -0.08729903399944305,
+                  -2.745241165161133,
+                  -0.0058473641984164715,
+                  -1.5221153497695923,
+                  -1.1984965801239014,
+                  -2.4507739543914795,
+                  -0.7948400378227234,
+                  -0.18761034309864044,
+                  -0.18761034309864044,
+                  -0.18761034309864044,
+                  -2.717465400695801,
+                  -2.717465400695801,
+                  -1.4549100399017334,
+                  -2.8960349559783936,
+                  -1.4401724338531494,
+                  4.352685634400047
                 ],
                 [
-                  3.3619132041931152,
-                  -3.7555341720581055,
-                  0.02490304410457611,
-                  0.3098290264606476,
-                  1.1960426568984985,
-                  -1.4320100545883179,
-                  -0.7404381632804871,
-                  -0.7195075750350952,
-                  -0.04992343485355377,
-                  -0.04992343485355377,
-                  -0.04992343485355377,
-                  -0.8751453757286072,
-                  -0.8751453757286072,
-                  5.296530246734619,
-                  -0.8102283477783203,
-                  -1.731947660446167,
-                  2.2266125679016113,
-                  1.3403990268707275,
-                  4.76222562789917,
-                  0.2594115138053894,
-                  2.5361311435699463,
-                  2.5361311435699463,
-                  2.5361311435699463,
-                  5.161268711090088,
-                  -0.8957777619361877,
-                  -0.8957777619361877,
-                  -0.09332332015037537,
-                  -0.09332332015037537,
-                  -0.2780921757221222,
-                  -0.09332332015037537,
-                  -1.1188442707061768,
-                  -0.8329390287399292,
-                  -1.059340000152588,
-                  -0.15790078043937683,
-                  -0.25065678358078003,
-                  -0.021440783515572548,
-                  -0.19984650611877441,
-                  -0.19984650611877441,
-                  -0.19984650611877441,
-                  -0.133773535490036,
-                  -1.2570267915725708,
-                  -1.2570267915725708,
-                  -0.17998814582824707,
-                  -0.17998814582824707,
-                  -0.17998814582824707,
-                  -0.05746234580874443,
-                  -0.05746234580874443,
-                  -0.13764117658138275,
-                  -0.07669589668512344,
-                  -0.07669589668512344,
-                  -0.036432698369026184,
-                  -0.036432698369026184,
-                  -0.036432698369026184,
-                  -0.12121503800153732,
-                  -0.12121503800153732,
-                  -0.12121503800153732,
-                  -0.006195422727614641,
-                  -0.21818019449710846,
-                  -0.44594454765319824,
-                  -0.2053210437297821,
-                  -0.45056307315826416,
-                  -0.2802860736846924,
-                  -0.2802860736846924,
-                  -0.3103349208831787,
-                  -0.3103349208831787,
-                  -0.11520766466856003,
-                  0.4095855285325939
+                  -1.4942152500152588,
+                  -3.9403414726257324,
+                  -2.5412442684173584,
+                  0.6271156072616577,
+                  -0.527695894241333,
+                  1.3691589832305908,
+                  -0.527695894241333,
+                  -0.25163963437080383,
+                  -0.25163963437080383,
+                  -0.7078907489776611,
+                  -1.4283965826034546,
+                  -0.8890407085418701,
+                  -0.8890407085418701,
+                  -0.663535475730896,
+                  0.6995694637298584,
+                  -0.044165659695863724,
+                  -0.044165659695863724,
+                  -0.044165659695863724,
+                  4.427396774291992,
+                  -0.4101724326610565,
+                  -0.40643638372421265,
+                  -0.40643638372421265,
+                  -0.14509719610214233,
+                  -0.14509719610214233,
+                  -0.23175424337387085,
+                  -0.23175424337387085,
+                  -0.14509719610214233,
+                  -0.219674214720726,
+                  0.22153833508491516,
+                  -1.88262140750885,
+                  2.7643187046051025,
+                  -0.40005168318748474,
+                  -0.40005168318748474,
+                  -0.40005168318748474,
+                  0,
+                  0,
+                  -0.03500888869166374,
+                  -0.4369264543056488,
+                  -0.0408218614757061,
+                  -0.0408218614757061,
+                  -0.0408218614757061,
+                  -0.0408218614757061,
+                  -1.342070460319519,
+                  1.3921129703521729,
+                  -1.342070460319519,
+                  10.138701438903809,
+                  1.2047052383422852,
+                  0.8193806409835815,
+                  0.3771933317184448,
+                  1.8238948583602905,
+                  1.8296689987182617,
+                  0.49349576234817505,
+                  0.49349576234817505,
+                  0.49349576234817505,
+                  -0.296922892332077,
+                  0.845710813999176,
+                  0.845710813999176,
+                  4.190186023712158,
+                  1.6316397190093994,
+                  -0.12701041996479034,
+                  2.4375503063201904,
+                  0.7349314093589783,
+                  -0.7649157643318176,
+                  -0.9137222766876221,
+                  -0.9137222766876221,
+                  -0.9137222766876221,
+                  -0.4335407614707947,
+                  -0.4335407614707947,
+                  -0.27845320105552673,
+                  -0.6042201519012451,
+                  -0.24936632812023163,
+                  0.30847782488179837
                 ],
                 [
-                  -1.803885579109192,
-                  1.533325433731079,
-                  0.4434945285320282,
-                  -0.9231929183006287,
-                  -0.3770425319671631,
-                  -1.1520506143569946,
-                  -1.075944423675537,
-                  1.5722302198410034,
-                  -0.010876564309000969,
-                  -0.010876564309000969,
-                  -0.010876564309000969,
-                  -0.3429636061191559,
-                  -0.3429636061191559,
-                  -1.0674556493759155,
-                  -0.3218902349472046,
-                  1.845167636871338,
-                  -0.23335206508636475,
-                  -0.7752363085746765,
-                  -0.5434332489967346,
-                  1.5887097120285034,
-                  -0.2382821887731552,
-                  -0.2382821887731552,
-                  -0.2382821887731552,
+                  -0.1904962956905365,
+                  -0.4351477026939392,
+                  -0.368937611579895,
+                  -2.189446210861206,
+                  -0.09968428313732147,
+                  -0.5087223052978516,
+                  -0.09968428313732147,
+                  -0.8171559572219849,
+                  -0.8171559572219849,
+                  -0.03460444137454033,
+                  -0.24561837315559387,
+                  -0.21645070612430573,
+                  -0.21645070612430573,
+                  -0.3222954273223877,
+                  -0.6948904395103455,
+                  -0.0659857988357544,
+                  -0.0659857988357544,
+                  -0.0659857988357544,
+                  -0.26632553339004517,
+                  -0.03007602132856846,
+                  -0.006647903006523848,
+                  -0.006647903006523848,
+                  -0.02356763556599617,
+                  -0.02356763556599617,
+                  -0.1723194420337677,
+                  -0.1723194420337677,
+                  -0.02356763556599617,
+                  -0.16168442368507385,
+                  -0.33799540996551514,
+                  -0.18047112226486206,
+                  -0.12613418698310852,
+                  -0.11167289316654205,
+                  -0.11167289316654205,
+                  -0.11167289316654205,
+                  -0.11008534580469131,
+                  -0.11008534580469131,
+                  -0.12452295422554016,
+                  -0.16114474833011627,
+                  -0.13514165580272675,
+                  -0.13514165580272675,
+                  -0.13514165580272675,
+                  -0.13514165580272675,
+                  -0.029956864193081856,
+                  -0.28696560859680176,
+                  -0.029956864193081856,
+                  -2.0408971309661865,
+                  -0.06604530662298203,
+                  -0.011613997630774975,
                   0,
-                  6.133535861968994,
-                  6.133535861968994,
-                  2.3928415775299072,
-                  2.3928415775299072,
-                  2.1640310287475586,
-                  2.3928415775299072,
-                  -1.8737623691558838,
-                  -0.42776575684547424,
-                  -1.2528263330459595,
-                  -0.6967805624008179,
-                  -0.5768879652023315,
-                  -0.38564497232437134,
-                  -0.769666850566864,
-                  -0.769666850566864,
-                  -0.769666850566864,
-                  -0.17595471441745758,
-                  -0.43313828110694885,
-                  -0.43313828110694885,
-                  -0.64713454246521,
-                  -0.64713454246521,
-                  -0.64713454246521,
-                  -0.016676295548677444,
-                  -0.016676295548677444,
-                  -0.2178913950920105,
-                  -0.020802456885576248,
-                  -0.020802456885576248,
-                  -0.1814870983362198,
-                  -0.1814870983362198,
-                  -0.1814870983362198,
-                  -0.42876937985420227,
-                  -0.42876937985420227,
-                  -0.42876937985420227,
-                  -0.43405935168266296,
-                  -0.07754471153020859,
-                  -0.1626114547252655,
-                  -0.06940658390522003,
-                  -0.1169215738773346,
-                  -0.0871674045920372,
-                  -0.0871674045920372,
-                  -0.11287256330251694,
-                  -0.11287256330251694,
-                  -0.042512815445661545,
-                  -0.07518776561823001
+                  -0.16654595732688904,
+                  1.6159732341766357,
+                  -0.16654595732688904,
+                  -0.16654595732688904,
+                  -0.16654595732688904,
+                  4.181463718414307,
+                  -0.0023103056009858847,
+                  -0.0023103056009858847,
+                  -0.05733800679445267,
+                  -0.0005296163726598024,
+                  1.1982883214950562,
+                  -1.524314284324646,
+                  4.730936527252197,
+                  4.349743366241455,
+                  1.9056092500686646,
+                  1.9056092500686646,
+                  1.9056092500686646,
+                  -0.0987028181552887,
+                  -0.0987028181552887,
+                  -0.34676462411880493,
+                  -0.6854910254478455,
+                  -0.3380313217639923,
+                  1.0236432272515628
                 ],
                 [
-                  -2.8572583198547363,
-                  1.4732005596160889,
-                  1.6402853727340698,
-                  0.7152386903762817,
-                  -0.9418286681175232,
-                  -0.4591139554977417,
-                  -0.9891259670257568,
-                  -0.4248705804347992,
-                  -0.0362434946000576,
-                  -0.0362434946000576,
-                  -0.0362434946000576,
-                  -0.3157147467136383,
-                  -0.3157147467136383,
-                  -1.4900410175323486,
-                  -0.26050329208374023,
-                  0.5425992012023926,
-                  -0.3700067400932312,
-                  1.2812243700027466,
-                  -0.5583543181419373,
-                  -0.7156391143798828,
-                  -0.13976487517356873,
-                  -0.13976487517356873,
-                  -0.13976487517356873,
+                  2.534097671508789,
+                  -0.9241973161697388,
+                  -0.8422859907150269,
+                  -0.7475034594535828,
+                  -0.2655909061431885,
+                  1.338220238685608,
+                  -0.2655909061431885,
+                  -1.1429462432861328,
+                  -1.1429462432861328,
+                  -0.239769846200943,
+                  2.96498441696167,
+                  -0.03216974437236786,
+                  -0.03216974437236786,
+                  -0.0410650335252285,
+                  -0.5110002160072327,
+                  -0.5110002160072327,
+                  -0.5110002160072327,
+                  -0.5110002160072327,
+                  -0.2752079963684082,
+                  -0.005561220925301313,
+                  -0.803658664226532,
+                  -0.803658664226532,
                   0,
-                  -1.5185152292251587,
-                  -1.5185152292251587,
-                  -0.21614158153533936,
-                  -0.21614158153533936,
-                  -0.29592397809028625,
-                  -0.21614158153533936,
-                  10.778398513793945,
-                  1.6924805641174316,
-                  0.5485034584999084,
-                  0.7768390774726868,
-                  0.44424691796302795,
-                  1.7695368528366089,
-                  -0.787681519985199,
-                  -0.787681519985199,
-                  -0.787681519985199,
-                  -0.05728005990386009,
-                  -0.8035508394241333,
-                  -0.8035508394241333,
-                  -1.0372514724731445,
-                  -1.0372514724731445,
-                  -1.0372514724731445,
-                  -0.3772232234477997,
-                  -0.3772232234477997,
-                  -0.7580282688140869,
-                  -0.2058521807193756,
-                  -0.2058521807193756,
-                  -0.4839538037776947,
-                  -0.4839538037776947,
-                  -0.4839538037776947,
-                  -0.5280554294586182,
-                  -0.5280554294586182,
-                  -0.5280554294586182,
-                  -0.08162301778793335,
-                  -0.14266693592071533,
-                  -0.2837196886539459,
-                  -0.1283721625804901,
-                  -0.24118347465991974,
-                  -0.1674487143754959,
-                  -0.1674487143754959,
-                  -0.19745218753814697,
-                  -0.19745218753814697,
-                  -0.07166919857263565,
-                  0.018010663407784254
+                  0,
+                  -0.012050270102918148,
+                  -0.012050270102918148,
+                  0,
+                  -0.009892858564853668,
+                  -0.009892858564853668,
+                  -0.4673479497432709,
+                  -0.43058228492736816,
+                  -0.2944726049900055,
+                  -0.2944726049900055,
+                  -0.2944726049900055,
+                  0,
+                  0,
+                  -0.009892858564853668,
+                  -0.012050270102918148,
+                  -0.012050270102918148,
+                  -0.012050270102918148,
+                  -0.012050270102918148,
+                  -0.012050270102918148,
+                  -0.001159133855253458,
+                  -0.001159133855253458,
+                  -0.001159133855253458,
+                  -0.5525909066200256,
+                  -0.3774273693561554,
+                  -0.5525909066200256,
+                  -0.05366935580968857,
+                  -0.018544543534517288,
+                  -0.0009325810824520886,
+                  0,
+                  0,
+                  0,
+                  -0.0010270895436406136,
+                  -0.17769762873649597,
+                  -0.17769762873649597,
+                  -0.2581561505794525,
+                  -0.20656514167785645,
+                  -0.0009325810824520886,
+                  0,
+                  -0.0024642248172312975,
+                  -0.0010270895436406136,
+                  -0.0009325810824520886,
+                  -0.0009325810824520886,
+                  -0.0009325810824520886,
+                  3.7495107650756836,
+                  3.7495107650756836,
+                  -0.07417034357786179,
+                  -0.16223588585853577,
+                  -0.06651085615158081,
+                  -0.05063086892126194
                 ],
                 [
-                  -1.8557997941970825,
-                  3.3092215061187744,
-                  -1.1479823589324951,
-                  -0.13393141329288483,
-                  -0.13393141329288483,
-                  -0.3113638460636139,
-                  -0.7675984501838684,
-                  -0.15145929157733917,
-                  -0.04324452579021454,
-                  -0.04324452579021454,
-                  -0.04324452579021454,
-                  -0.24824443459510803,
-                  -0.24824443459510803,
-                  3.234405994415283,
-                  -0.1788623034954071,
-                  -4.153599262237549,
-                  -0.6396719813346863,
-                  -0.6396719813346863,
-                  -0.6589240431785583,
-                  -0.901913583278656,
-                  -0.014223860576748848,
-                  -0.014223860576748848,
-                  -0.014223860576748848,
-                  -0.5216419696807861,
-                  -1.0145835876464844,
-                  -1.0145835876464844,
-                  -0.03047153353691101,
-                  -0.03047153353691101,
-                  3.0976810455322266,
-                  -0.03047153353691101,
-                  -1.7461501359939575,
-                  0,
-                  -0.17157667875289917,
-                  -0.16132929921150208,
-                  2.9045727252960205,
-                  0,
-                  2.814666986465454,
-                  2.814666986465454,
-                  2.814666986465454,
-                  3.1443073749542236,
-                  4.6397833824157715,
-                  4.6397833824157715,
-                  -0.853061854839325,
-                  -0.853061854839325,
-                  -0.853061854839325,
-                  -0.06955478340387344,
-                  -0.06955478340387344,
-                  -0.636117696762085,
-                  -0.5519614815711975,
-                  -0.5519614815711975,
-                  -0.060864370316267014,
-                  -0.060864370316267014,
-                  -0.060864370316267014,
-                  -0.08482299745082855,
-                  -0.08482299745082855,
-                  -0.08482299745082855,
-                  -3.889309883117676,
-                  -0.11537761986255646,
-                  -0.2551693022251129,
-                  -0.10353140532970428,
-                  -0.1460249274969101,
-                  -0.12915948033332825,
-                  -0.12915948033332825,
-                  -0.19556578993797302,
-                  -0.19556578993797302,
-                  -0.07376925647258759,
-                  -0.3942411147042128
-                ],
-                [
-                  -1.11240553855896,
-                  0.7208294868469238,
-                  0.7393807768821716,
-                  -0.12112420797348022,
-                  -0.12112420797348022,
-                  -0.15014643967151642,
-                  -0.5212230682373047,
-                  -0.07704729586839676,
-                  -0.03949195519089699,
-                  -0.03949195519089699,
-                  -0.03949195519089699,
-                  -0.10714730620384216,
-                  -0.10714730620384216,
-                  -0.5525150895118713,
-                  -0.05025862529873848,
-                  -0.5816306471824646,
-                  -0.01831214874982834,
-                  -0.01831214874982834,
-                  -0.05515585467219353,
-                  -0.2690828740596771,
-                  -0.028295692056417465,
-                  -0.028295692056417465,
-                  -0.028295692056417465,
-                  -0.09639787673950195,
-                  -0.5849564671516418,
-                  -0.5849564671516418,
-                  -0.003165292087942362,
-                  -0.003165292087942362,
-                  -0.003165292087942362,
-                  -0.003165292087942362,
-                  -1.1229103803634644,
-                  0,
-                  -0.20763663947582245,
-                  0.1423942595720291,
-                  -0.2766588032245636,
-                  -0.4066891372203827,
-                  -0.3518982529640198,
-                  -0.3518982529640198,
-                  -0.3518982529640198,
-                  0,
-                  -0.30102789402008057,
-                  -0.30102789402008057,
-                  4.375088691711426,
-                  4.375088691711426,
-                  4.375088691711426,
-                  0.81463623046875,
-                  0.81463623046875,
-                  -0.39419838786125183,
-                  -0.20904777944087982,
-                  -0.20904777944087982,
-                  -0.11679019033908844,
-                  -0.11679019033908844,
-                  -0.11679019033908844,
-                  -0.04462471231818199,
-                  -0.04462471231818199,
-                  -0.04462471231818199,
-                  -0.04895639047026634,
-                  -0.08923976123332977,
-                  -0.19949226081371307,
-                  -0.08016016334295273,
-                  -0.11017051339149475,
-                  -0.08440425246953964,
-                  -0.08440425246953964,
-                  -0.15421098470687866,
-                  -0.15421098470687866,
-                  -0.057826172560453415,
-                  -0.32591070771950176
-                ],
-                [
-                  -0.05149081349372864,
-                  -0.3430554270744324,
-                  -0.6644716858863831,
-                  -0.9971299767494202,
-                  -0.6892665028572083,
-                  -0.578903079032898,
-                  3.575772523880005,
-                  -0.6950114369392395,
-                  -0.05305439978837967,
-                  -0.05305439978837967,
-                  -0.05305439978837967,
-                  -0.06770580261945724,
-                  -0.06770580261945724,
-                  -0.18781417608261108,
-                  -0.00730679277330637,
-                  -0.7994455099105835,
-                  -0.16034285724163055,
-                  -0.4566940665245056,
-                  -0.1773887276649475,
-                  0.2777003049850464,
-                  -0.006324446760118008,
-                  -0.006324446760118008,
-                  -0.006324446760118008,
-                  -0.004192177671939135,
-                  -0.08499082177877426,
-                  -0.08499082177877426,
-                  -0.08500396460294724,
-                  -0.08500396460294724,
-                  -0.08500396460294724,
-                  -0.08500396460294724,
-                  -0.7711901664733887,
-                  -0.23538224399089813,
-                  0.7229536771774292,
-                  0.6247363090515137,
-                  1.3169941902160645,
-                  -0.4655151963233948,
-                  -0.34561482071876526,
-                  -0.34561482071876526,
-                  -0.34561482071876526,
-                  0,
-                  0,
-                  0,
-                  -0.44320300221443176,
-                  -0.44320300221443176,
-                  -0.44320300221443176,
-                  -0.44320300221443176,
-                  -0.44320300221443176,
-                  4.200198173522949,
-                  2.581804037094116,
-                  2.581804037094116,
-                  1.6183968782424927,
-                  1.6183968782424927,
-                  1.6183968782424927,
-                  -0.5367177724838257,
-                  -0.5367177724838257,
-                  -0.5367177724838257,
-                  -0.05145818367600441,
-                  -0.08960642665624619,
-                  -0.19995708763599396,
-                  -0.08049851655960083,
-                  -0.12634533643722534,
-                  -0.10217852145433426,
-                  -0.10217852145433426,
-                  -0.15440809726715088,
-                  -0.15440809726715088,
-                  -0.057987794280052185,
-                  0.029162447345736725
-                ],
-                [
-                  -0.08241861313581467,
-                  -2.3034772872924805,
-                  -0.6847339272499084,
-                  -1.6179616451263428,
-                  -1.014392375946045,
-                  -0.5643146634101868,
-                  -0.6036108732223511,
-                  -0.5654515027999878,
-                  -0.07542426139116287,
-                  -0.07542426139116287,
-                  -0.07542426139116287,
-                  -0.6082056760787964,
-                  -0.6082056760787964,
-                  -0.7434101104736328,
-                  -0.5108951926231384,
-                  3.6407198905944824,
-                  -0.19072012603282928,
-                  -0.7859027981758118,
-                  -0.23943181335926056,
-                  0.7757013440132141,
-                  -0.030464332550764084,
-                  -0.030464332550764084,
-                  -0.030464332550764084,
-                  -0.012768988497555256,
-                  -0.9314202666282654,
-                  -0.9314202666282654,
-                  -0.5116169452667236,
-                  -0.5116169452667236,
-                  -2.6549386978149414,
-                  -0.5116169452667236,
-                  -0.8343943357467651,
-                  -0.56776362657547,
-                  2.4513232707977295,
-                  -0.8120782375335693,
-                  -2.4601223468780518,
-                  -0.22506067156791687,
-                  1.56229829788208,
-                  1.56229829788208,
-                  1.56229829788208,
-                  -2.107241630554199,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  -0.5504594445228577,
-                  0,
-                  0,
-                  -0.5504594445228577,
-                  -0.5504594445228577,
-                  -0.5504594445228577,
-                  3.659614086151123,
-                  3.659614086151123,
-                  3.659614086151123,
-                  5.8713579177856445,
-                  -0.1576022058725357,
-                  -0.3359197974205017,
-                  -0.14119628071784973,
-                  -0.2586366534233093,
-                  -0.19278569519519806,
-                  -0.19278569519519806,
-                  -0.24118095636367798,
-                  -0.24118095636367798,
-                  -0.08320637047290802,
-                  0.07997468083548173
-                ],
-                [
-                  -0.8001155257225037,
-                  -1.2491731643676758,
-                  -1.7433948516845703,
-                  -0.7883305549621582,
-                  -0.6943105459213257,
-                  -0.22063273191452026,
-                  -0.7565239667892456,
-                  -0.34028342366218567,
-                  -0.7061556577682495,
-                  -0.7061556577682495,
-                  -0.7061556577682495,
-                  -0.7963441610336304,
-                  -0.7963441610336304,
-                  -0.8048117160797119,
-                  -0.05997161939740181,
-                  -0.8608790040016174,
-                  -0.3462945222854614,
-                  -0.44031453132629395,
-                  -0.817602276802063,
-                  -1.3075248003005981,
-                  -0.47076699137687683,
-                  -0.47076699137687683,
-                  -0.47076699137687683,
-                  -0.36528870463371277,
-                  -0.3648218810558319,
-                  -0.3648218810558319,
-                  -0.1831655651330948,
-                  -0.1831655651330948,
-                  -0.6582246422767639,
-                  -0.1831655651330948,
-                  -0.7062714695930481,
-                  -0.08114736527204514,
-                  -0.7106510400772095,
-                  -0.6475424766540527,
-                  -1.2604981660842896,
-                  -0.2548132538795471,
-                  -0.8604678511619568,
-                  -0.8604678511619568,
-                  -0.8604678511619568,
-                  -0.4747077524662018,
-                  -0.0012675614561885595,
-                  -0.0012675614561885595,
-                  -0.3756183385848999,
-                  -0.3756183385848999,
-                  -0.3756183385848999,
-                  -0.3391525149345398,
-                  -0.3391525149345398,
-                  -0.5994060039520264,
-                  -0.5460227131843567,
-                  -0.5460227131843567,
-                  -0.040447261184453964,
-                  -0.040447261184453964,
-                  -0.040447261184453964,
-                  -0.5632475018501282,
-                  -0.5632475018501282,
-                  -0.5632475018501282,
-                  -0.26558735966682434,
-                  3.515714406967163,
-                  7.061627388000488,
-                  3.5481302738189697,
-                  10.285395622253418,
-                  -1.8462787866592407,
-                  -1.8462787866592407,
-                  -1.8446346521377563,
-                  -1.8446346521377563,
-                  -0.49831345677375793,
-                  3.720595471568427
-                ],
-                [
-                  -0.26268333196640015,
-                  -0.40072453022003174,
-                  -0.5565310716629028,
-                  -0.26545384526252747,
-                  -0.2298179417848587,
-                  -0.08156951516866684,
-                  -0.2484978288412094,
-                  -0.12035775929689407,
-                  -0.22436845302581787,
-                  -0.22436845302581787,
-                  -0.22436845302581787,
-                  -0.2579887807369232,
-                  -0.2579887807369232,
-                  -0.26043206453323364,
-                  -0.024762997403740883,
-                  -0.2862403094768524,
-                  -0.11096964031457901,
-                  -0.1479683220386505,
-                  -0.2640308141708374,
-                  -0.4408362805843353,
-                  -0.14477680623531342,
-                  -0.14477680623531342,
-                  -0.14477680623531342,
-                  -0.10664422810077667,
-                  -0.1189468652009964,
-                  -0.1189468652009964,
-                  -0.06117027625441551,
-                  -0.06117027625441551,
-                  -0.22003969550132751,
-                  -0.06117027625441551,
-                  -0.21387924253940582,
-                  -0.027832912281155586,
-                  -0.22969944775104523,
-                  -0.21580491960048676,
-                  -0.4113729000091553,
-                  -0.08590283989906311,
-                  -0.2734162509441376,
-                  -0.2734162509441376,
-                  -0.2734162509441376,
-                  -0.15325337648391724,
-                  -0.0006479665171355009,
-                  -0.0006479665171355009,
-                  -0.11833486706018448,
-                  -0.11833486706018448,
-                  -0.11833486706018448,
-                  -0.1045137345790863,
-                  -0.1045137345790863,
-                  -0.18890349566936493,
-                  -0.1682177484035492,
-                  -0.1682177484035492,
-                  -0.016470516100525856,
-                  -0.016470516100525856,
-                  -0.016470516100525856,
-                  -0.17346331477165222,
-                  -0.17346331477165222,
-                  -0.17346331477165222,
-                  -0.07084814459085464,
-                  -0.3934048116207123,
-                  -0.7716549634933472,
-                  -0.37437373399734497,
-                  -1.0422086715698242,
-                  6.591952800750732,
-                  6.591952800750732,
-                  -0.5728772282600403,
-                  -0.5728772282600403,
-                  -0.1846674382686615,
-                  1.0885618436641387
-                ],
-                [
-                  -0.2574147880077362,
-                  -0.4079535901546478,
-                  -0.5945720672607422,
-                  -0.33022478222846985,
-                  -0.2734614312648773,
-                  -0.12564505636692047,
-                  -0.27342689037323,
-                  -0.15739856660366058,
-                  -0.21577638387680054,
-                  -0.21577638387680054,
-                  -0.21577638387680054,
-                  -0.27772456407546997,
-                  -0.27772456407546997,
-                  -0.2981850206851959,
-                  -0.03901989385485649,
-                  -0.3432759940624237,
-                  -0.12415096908807755,
-                  -0.18620510399341583,
-                  -0.28064191341400146,
-                  -0.5061524510383606,
-                  -0.13137388229370117,
-                  -0.13137388229370117,
-                  -0.13137388229370117,
-                  -0.08888499438762665,
-                  -0.11793611943721771,
-                  -0.11793611943721771,
-                  -0.06575819849967957,
-                  -0.06575819849967957,
-                  -0.2258751392364502,
-                  -0.06575819849967957,
-                  -0.21566244959831238,
-                  -0.040841370820999146,
-                  -0.22590255737304688,
-                  -0.24761052429676056,
-                  -0.44269049167633057,
-                  -0.08784028887748718,
-                  -0.27064085006713867,
-                  -0.27064085006713867,
-                  -0.27064085006713867,
-                  -0.13642892241477966,
-                  -0.0007545813568867743,
-                  -0.0007545813568867743,
-                  -0.12874507904052734,
-                  -0.12874507904052734,
-                  -0.12874507904052734,
-                  -0.10710083693265915,
-                  -0.10710083693265915,
-                  -0.1762092262506485,
-                  -0.14299525320529938,
-                  -0.14299525320529938,
-                  -0.024304412305355072,
-                  -0.024304412305355072,
-                  -0.024304412305355072,
-                  -0.1410204917192459,
-                  -0.1410204917192459,
-                  -0.1410204917192459,
-                  -0.04437355697154999,
-                  -0.3461427092552185,
-                  -0.6865322589874268,
-                  -0.3270728290081024,
-                  -0.9490749835968018,
-                  -0.4986339509487152,
-                  -0.4986339509487152,
-                  6.355424880981445,
-                  6.355424880981445,
-                  0.9392579197883606,
-                  1.0143450587841274
+                  -0.2856298089027405,
+                  -0.8058001399040222,
+                  -0.6912606358528137,
+                  -0.8448382616043091,
+                  -0.20041191577911377,
+                  -1.0040627717971802,
+                  -0.20041191577911377,
+                  -0.511594295501709,
+                  -0.511594295501709,
+                  -0.08940467983484268,
+                  -0.43635129928588867,
+                  -0.46304288506507874,
+                  -0.46304288506507874,
+                  -0.7534055709838867,
+                  -0.20811985433101654,
+                  -0.20811985433101654,
+                  -0.20811985433101654,
+                  -0.20811985433101654,
+                  -0.5455012917518616,
+                  -0.18338049948215485,
+                  -0.026405464857816696,
+                  -0.026405464857816696,
+                  -0.045498572289943695,
+                  -0.045498572289943695,
+                  -0.3076927959918976,
+                  -0.3076927959918976,
+                  -0.045498572289943695,
+                  -0.3456607758998871,
+                  -0.37963226437568665,
+                  -0.3320539891719818,
+                  -0.2006172090768814,
+                  -0.2153172641992569,
+                  -0.2153172641992569,
+                  -0.2153172641992569,
+                  -0.21297860145568848,
+                  -0.21297860145568848,
+                  -0.2843630611896515,
+                  -0.3214467763900757,
+                  -0.24605071544647217,
+                  -0.24605071544647217,
+                  -0.24605071544647217,
+                  -0.24605071544647217,
+                  -0.3346025049686432,
+                  -0.4130028188228607,
+                  -0.3346025049686432,
+                  -0.6179676055908203,
+                  -0.12455058097839355,
+                  -0.22283874452114105,
+                  -0.015475013293325901,
+                  -0.02490377239882946,
+                  -0.2978437840938568,
+                  -0.02490377239882946,
+                  -0.02490377239882946,
+                  -0.02490377239882946,
+                  -0.5691701769828796,
+                  -0.08686935901641846,
+                  -0.08686935901641846,
+                  -0.08439190685749054,
+                  -0.09257394075393677,
+                  -0.21640455722808838,
+                  -0.03860510140657425,
+                  -0.8127689957618713,
+                  -0.535335898399353,
+                  -0.21640455722808838,
+                  -0.21640455722808838,
+                  -0.21640455722808838,
+                  -0.09550543129444122,
+                  -0.09550543129444122,
+                  4.113351345062256,
+                  8.245915412902832,
+                  4.132228851318359,
+                  1.916428737496623
                 ]
               ]
             }
@@ -1677,6 +1282,114 @@
     "extraSentences": [
       [
         "vi",
+        "những ai sắp rớt"
+      ],
+      [
+        "vi",
+        "đứa nào sắp toang"
+      ],
+      [
+        "vi",
+        "sinh viên nguy cơ rớt"
+      ],
+      [
+        "vi",
+        "danh sách sinh viên yếu"
+      ],
+      [
+        "vi",
+        "lớp có ai đáng lo không"
+      ],
+      [
+        "vi",
+        "ai học yếu"
+      ],
+      [
+        "vi",
+        "top sinh viên yếu"
+      ],
+      [
+        "vi",
+        "những sinh viên nào cần can thiệp"
+      ],
+      [
+        "vi",
+        "hiển thị cho tôi sinh viên bị cảnh báo"
+      ],
+      [
+        "vi",
+        "em nào sắp tạch"
+      ],
+      [
+        "vi",
+        "em nào rủi ro cao"
+      ],
+      [
+        "vi",
+        "ai sắp bay màu"
+      ],
+      [
+        "vi",
+        "danh sách cảnh báo đỏ"
+      ],
+      [
+        "vi",
+        "show ra từng cái cho tôi xem"
+      ],
+      [
+        "vi",
+        "show danh sách rớt"
+      ],
+      [
+        "vi",
+        "liệt kê sv rớt"
+      ],
+      [
+        "vi",
+        "môn nào dễ rớt nhất"
+      ],
+      [
+        "vi",
+        "môn nào sinh viên chết nhiều nhất"
+      ],
+      [
+        "vi",
+        "môn học yếu"
+      ],
+      [
+        "vi",
+        "thống kê rớt môn"
+      ],
+      [
+        "vi",
+        "tỷ lệ rớt các môn là bao nhiêu"
+      ],
+      [
+        "vi",
+        "môn nào điểm thấp nhất"
+      ],
+      [
+        "vi",
+        "học phần nào dễ tạch"
+      ],
+      [
+        "vi",
+        "môn nào khó nhất"
+      ],
+      [
+        "vi",
+        "sinh viên lớp này hay rớt môn gì"
+      ],
+      [
+        "vi",
+        "môn gì hay rớt"
+      ],
+      [
+        "vi",
+        "môn nào dễ chết nhất"
+      ],
+      [
+        "vi",
         "EduGuard là gì"
       ],
       [
@@ -1685,83 +1398,7 @@
       ],
       [
         "vi",
-        "giới thiệu về phần mềm"
-      ],
-      [
-        "vi",
-        "phần mềm này có tác dụng gì"
-      ],
-      [
-        "vi",
         "có những tính năng nào"
-      ],
-      [
-        "vi",
-        "chức năng chính của hệ thống"
-      ],
-      [
-        "vi",
-        "EduGuard có gì hay"
-      ],
-      [
-        "vi",
-        "thuật toán là gì"
-      ],
-      [
-        "vi",
-        "hệ thống dùng thuật toán nào"
-      ],
-      [
-        "vi",
-        "mô hình AI nào được sử dụng"
-      ],
-      [
-        "vi",
-        "pearson là gì"
-      ],
-      [
-        "vi",
-        "hệ số pearson tính thế nào"
-      ],
-      [
-        "vi",
-        "tại sao lại dùng pearson"
-      ],
-      [
-        "vi",
-        "cảnh báo đỏ là sao"
-      ],
-      [
-        "vi",
-        "ai bị cảnh báo đỏ"
-      ],
-      [
-        "vi",
-        "nguy cơ cao là gì"
-      ],
-      [
-        "vi",
-        "môn tiên quyết là gì"
-      ],
-      [
-        "vi",
-        "tại sao môn tiên quyết quan trọng"
-      ],
-      [
-        "vi",
-        "làm sao để upload điểm"
-      ],
-      [
-        "vi",
-        "làm thế nào để tải file excel lên"
-      ],
-      [
-        "vi",
-        "chạy dự đoán thế nào"
-      ],
-      [
-        "vi",
-        "cách dùng cảnh báo đỏ"
       ],
       [
         "vi",
@@ -1770,22 +1407,6 @@
       [
         "vi",
         "chào bạn"
-      ],
-      [
-        "vi",
-        "hi"
-      ],
-      [
-        "vi",
-        "tạm biệt"
-      ],
-      [
-        "vi",
-        "cảm ơn"
-      ],
-      [
-        "vi",
-        "ok cảm ơn"
       ]
     ]
   },
@@ -1805,60 +1426,17 @@
       "vi": {
         "ask.intro": [
           {
-            "answer": "EduGuard AI là hệ thống Cảnh báo sớm và Can thiệp học vụ tự động. Hệ thống giúp dự đoán sinh viên có nguy cơ rớt môn dựa trên điểm các môn tiên quyết trong quá khứ để giảng viên kịp thời hỗ trợ."
+            "answer": "EduGuard AI là hệ thống Cảnh báo sớm và Can thiệp học vụ tự động sử dụng AI."
           }
         ],
         "ask.features": [
           {
-            "answer": "Hệ thống có 3 tính năng chính: 1. Cảnh báo Đỏ (Dự đoán rớt môn sớm bằng AI). 2. Quản lý Can thiệp (Theo dõi và gửi lộ trình khắc phục cho sinh viên). 3. Trợ lý ảo AI 24/7 (Chatbot tư vấn học tập)."
-          }
-        ],
-        "ask.algorithm": [
-          {
-            "answer": "Hệ thống EduGuard sử dụng thuật toán Hồi quy tuyến tính (Linear Regression) kết hợp với Hệ số tương quan Pearson. AI phân tích điểm của các môn học tiên quyết (Prerequisites) để tính ra trọng số và dự đoán chính xác điểm môn tiếp theo."
-          }
-        ],
-        "ask.pearson": [
-          {
-            "answer": "Ma trận Pearson đo lường mức độ tương quan giữa 2 môn học (từ -1 đến 1). Nếu sinh viên rớt môn A mà thường xuyên rớt môn B, hệ số Pearson sẽ tiến gần về 1. Hệ thống dùng hệ số này làm trọng số (weight) để dự đoán điểm."
-          }
-        ],
-        "ask.redalert": [
-          {
-            "answer": "Cảnh báo đỏ (Red Alerts) là danh sách các sinh viên được AI dự đoán sẽ có điểm dưới 5.0 ở môn học mục tiêu. Hệ thống sẽ ghim những sinh viên này lên đầu để giảng viên ưu tiên can thiệp trước khi quá muộn."
-          }
-        ],
-        "ask.prerequisite": [
-          {
-            "answer": "Môn tiên quyết là những môn học nền tảng. Ví dụ: Phải vững \"Lập trình C\" thì mới học tốt \"Cấu trúc dữ liệu\". EduGuard tìm ra các lỗ hổng kiến thức ở môn tiên quyết để báo động đỏ cho sinh viên."
-          }
-        ],
-        "ask.how_upload": [
-          {
-            "answer": "Bạn có thể vào trang Chủ (Dashboard), bấm vào biểu tượng Tải lên hoặc kéo thả file Excel (danh sách điểm lớp hoặc bảng điểm cá nhân) vào khu vực upload. AI sẽ tự động đọc và làm sạch dữ liệu."
-          }
-        ],
-        "ask.how_predict": [
-          {
-            "answer": "Sau khi upload file thành công, bạn chỉ cần chọn Môn học muốn dự đoán từ danh sách sổ xuống và bấm \"Phân tích rủi ro\". AI sẽ hiển thị biểu đồ và danh sách rớt môn ngay lập tức."
+            "answer": "Hệ thống có 3 tính năng chính: 1. Cảnh báo Đỏ (Dự đoán rớt môn bằng AI). 2. Quản lý Can thiệp (Theo dõi và gửi lộ trình khắc phục cho sinh viên). 3. Trợ lý AI Pipeline (Như tôi đây)."
           }
         ],
         "greetings.hello": [
           {
-            "answer": "Xin chào! Tôi là Trợ lý ảo Cục bộ của EduGuard AI (Chạy Offline không cần Internet). Tôi có thể giúp gì cho bạn về hệ thống này?"
-          },
-          {
-            "answer": "Chào bạn! Tôi là Chatbot Local của EduGuard. Bạn muốn hỏi gì về tính năng hay thuật toán của dự án không?"
-          }
-        ],
-        "greetings.bye": [
-          {
-            "answer": "Tạm biệt bạn. Chúc bạn một ngày làm việc hiệu quả với EduGuard!"
-          }
-        ],
-        "greetings.thanks": [
-          {
-            "answer": "Không có chi! Rất vui được hỗ trợ bạn."
+            "answer": "Xin chào! Tôi là Trợ lý AI Pipeline (Offline). Tôi có thể truy vấn CSDL để tìm ra những sinh viên sắp rớt hoặc môn học khó nhằn nhất. Bạn muốn hỏi gì?"
           }
         ]
       }

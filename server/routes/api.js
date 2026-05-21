@@ -1208,11 +1208,65 @@ Bạn có thể hỏi mình những câu như:
 • *"đề xuất lộ trình tự học và ôn tập giúp mình"*
 Chúc bạn học tập thật tốt nhé! 🌟`;
   }
-  // 3. NLP Fallback for general questions (if no specific student intent matched)
+  // 3. AI PIPELINE: NLP Intent Classification -> Dynamic SQLite DB Query
   if (nlpModelLoaded) {
     const response = await nlpManager.process('vi', message);
-    if (response.intent !== 'None' && response.score > 0.5 && response.answer) {
-      return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** ${response.answer}`;
+    if (response.intent !== 'None' && response.score > 0.5) {
+      
+      // Dynamic Query 1: Top 5 sinh viên nguy cơ cao nhất
+      if (response.intent === 'query.risk_students' && !isStudent) {
+        try {
+          const highRiskStudents = await prisma.prediction.findMany({
+            where: { risk: 'HIGH' },
+            include: { student: true, course: true },
+            orderBy: { predictedScore: 'asc' },
+            take: 5
+          });
+          
+          if (highRiskStudents.length > 0) {
+            return `🤖 **[AI Pipeline - Local DB]** Đã tìm thấy danh sách 5 sinh viên có rủi ro trượt cao nhất hệ thống:
+${highRiskStudents.map((p, i) => `${i + 1}. **${p.student.name} (${p.student.mssv})** - Môn ${p.course.name}: Dự báo ${p.predictedScore.toFixed(1)}đ`).join('\n')}
+
+💡 **Hành động tiếp theo:** Bạn có thể chuyển sang tab 'Quản lý Can thiệp' để gửi lịch phụ đạo cho các sinh viên này!`;
+          } else {
+            return `🤖 **[AI Pipeline - Local DB]** Tuyệt vời! Hiện tại không có sinh viên nào bị hệ thống AI xếp vào danh sách Cảnh báo Đỏ (Nguy cơ rớt cao).`;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      
+      // Dynamic Query 2: Thống kê môn yếu kém
+      if (response.intent === 'query.weak_subjects' && !isStudent) {
+        try {
+          // Re-use logic from lines 1180 to output worst courses
+          const scores = await prisma.score.findMany();
+          const cmap = {};
+          scores.forEach(s => {
+            if (!cmap[s.courseId]) cmap[s.courseId] = { total: 0, failed: 0 };
+            cmap[s.courseId].total++;
+            if (s.status === 'FAILED') cmap[s.courseId].failed++;
+          });
+          
+          const worst = Object.entries(cmap)
+            .map(([id, info]) => ({ id, failRate: (info.failed / info.total) * 100, total: info.total }))
+            .filter(c => c.total > 5)
+            .sort((a, b) => b.failRate - a.failRate)
+            .slice(0, 3);
+            
+          if (worst.length > 0) {
+            return `🤖 **[AI Pipeline - Local DB]** Dựa vào dữ liệu thống kê, đây là TOP 3 môn học sinh viên hay rớt (tạch) nhất:
+${worst.map((c, i) => `${i + 1}. **Môn ${c.id}**: Tỷ lệ rớt **${c.failRate.toFixed(1)}%** (Tổng số ${c.total} lượt học)`).join('\n')}`;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      
+      // Static Answer Fallback
+      if (response.answer) {
+        return `🤖 **[AI Pipeline - Local NLP]** ${response.answer}`;
+      }
     }
   }
 
