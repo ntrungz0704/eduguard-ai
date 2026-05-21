@@ -1,0 +1,248 @@
+import React, { useEffect, useState } from 'react';
+import { api } from '../lib/api';
+import { ShieldAlert, Activity, CheckCircle2, Send, MessageSquare, Loader2 } from 'lucide-react';
+import { useStore } from '../store';
+import { useNavigate } from 'react-router-dom';
+
+export default function Interventions() {
+  const [data, setData] = useState({ atRisk: [], active: [], resolved: [] });
+  const [loading, setLoading] = useState(true);
+  const currentUser = useStore(state => state.currentUser);
+  const navigate = useNavigate();
+  
+  // Roadmap Modal State
+  const [showRoadmapModal, setShowRoadmapModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [roadmapMsg, setRoadmapMsg] = useState('');
+  const [sendingMsg, setSendingMsg] = useState(false);
+  const [updating, setUpdating] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const res = await api.get('/interventions-management');
+      setData(res.data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateStatus = async (id, status) => {
+    setUpdating(true);
+    try {
+      await api.post(`/interventions/${id}/status`, { status });
+      await fetchData();
+    } catch (e) {
+      alert("Lỗi: " + e.message);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleOpenRoadmap = (student) => {
+    setSelectedStudent(student);
+    let msg = `Chào ${student.student.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course.name} sắp tới (Dự báo: ${student.predictedScore.toFixed(1)}đ).`;
+    msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+    setRoadmapMsg(msg);
+    setShowRoadmapModal(true);
+  };
+
+  const handleSendRoadmap = async () => {
+    setSendingMsg(true);
+    try {
+      await api.post('/comm/messages', {
+        senderId: currentUser.id,
+        receiverId: selectedStudent.mssv,
+        content: roadmapMsg
+      });
+      // Also flag them as intervened (ACTIVE)
+      await api.post(`/students/${selectedStudent.mssv}/flag`, {
+        courseId: selectedStudent.courseId,
+        action: 'Đã gửi Lộ trình Cải thiện qua Inbox',
+        status: 'ACTIVE'
+      });
+      setShowRoadmapModal(false);
+      alert('Đã gửi Lộ trình thành công!');
+      fetchData();
+    } catch (e) {
+      alert('Lỗi gửi tin nhắn: ' + e.message);
+    } finally {
+      setSendingMsg(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="flex h-64 items-center justify-center text-slate-400">Đang tải dữ liệu...</div>;
+  }
+
+  return (
+    <div className="space-y-8 animate-fade-in pb-10">
+      <div>
+        <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Quản lý Can thiệp Học vụ</h2>
+        <p className="text-slate-400 text-sm">Theo dõi và quản lý quá trình hỗ trợ sinh viên từ lúc có nguy cơ đến khi vượt khó thành công.</p>
+      </div>
+
+      {/* Table 1: At Risk */}
+      <div className="glass-card rounded-3xl border border-rose-500/20 overflow-hidden relative">
+        <div className="p-6 border-b border-white/5 flex items-center gap-3">
+          <ShieldAlert size={24} className="text-rose-500" />
+          <h3 className="text-xl font-bold text-white">1. Sinh viên có nguy cơ (Chưa can thiệp)</h3>
+          <span className="ml-auto bg-rose-500/20 text-rose-400 text-xs px-3 py-1 rounded-full font-bold">{data.atRisk.length} sinh viên</span>
+        </div>
+        <div className="overflow-x-auto">
+          {data.atRisk.length === 0 ? (
+            <div className="p-8 text-center text-emerald-400">Không có sinh viên nào đang trong diện nguy cơ mà chưa được can thiệp.</div>
+          ) : (
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-white/5 text-slate-400 text-xs uppercase">
+                <tr>
+                  <th className="px-6 py-4">Sinh viên</th>
+                  <th className="px-6 py-4">Môn học</th>
+                  <th className="px-6 py-4">Dự báo</th>
+                  <th className="px-6 py-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {data.atRisk.map((st) => (
+                  <tr key={`${st.mssv}-${st.courseId}`} className="hover:bg-white/5 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="font-bold text-slate-200">{st.student.name}</div>
+                      <div className="text-slate-500 text-xs">{st.mssv}</div>
+                    </td>
+                    <td className="px-6 py-4 text-slate-300 font-medium">{st.course.name}</td>
+                    <td className="px-6 py-4"><span className="text-rose-400 font-bold">{st.predictedScore.toFixed(1)}đ</span></td>
+                    <td className="px-6 py-4 text-right">
+                      <button onClick={() => handleOpenRoadmap(st)} className="bg-rose-600 hover:bg-rose-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-lg">
+                        Can thiệp ngay
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      {/* Table 2: Active */}
+      <div className="glass-card rounded-3xl border border-blue-500/20 overflow-hidden relative">
+        <div className="p-6 border-b border-white/5 flex items-center gap-3">
+          <Activity size={24} className="text-blue-500" />
+          <h3 className="text-xl font-bold text-white">2. Đang can thiệp & Theo dõi</h3>
+          <span className="ml-auto bg-blue-500/20 text-blue-400 text-xs px-3 py-1 rounded-full font-bold">{data.active.length} sinh viên</span>
+        </div>
+        <div className="overflow-x-auto">
+          {data.active.length === 0 ? (
+            <div className="p-8 text-center text-slate-400">Không có can thiệp nào đang diễn ra.</div>
+          ) : (
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-white/5 text-slate-400 text-xs uppercase">
+                <tr>
+                  <th className="px-6 py-4">Sinh viên</th>
+                  <th className="px-6 py-4">Môn học</th>
+                  <th className="px-6 py-4">Chi tiết Can thiệp</th>
+                  <th className="px-6 py-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {data.active.map((st) => (
+                  <tr key={st.id} className="hover:bg-white/5 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="font-bold text-slate-200">{st.student.name}</div>
+                      <div className="text-slate-500 text-xs">{st.mssv}</div>
+                    </td>
+                    <td className="px-6 py-4 text-slate-300 font-medium">{st.course.name}</td>
+                    <td className="px-6 py-4">
+                      <div className="text-blue-400 text-xs max-w-xs truncate">{st.action}</div>
+                      <div className="text-[10px] text-slate-500 mt-1">{new Date(st.createdAt).toLocaleDateString('vi-VN')}</div>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button onClick={() => navigate('/inbox')} className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-xl transition-colors tooltip-trigger" title="Mở hộp thư">
+                          <MessageSquare size={16} />
+                        </button>
+                        <button onClick={() => handleUpdateStatus(st.id, 'RESOLVED')} disabled={updating} className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-lg">
+                          Đã Vượt Khó
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      {/* Table 3: Resolved */}
+      <div className="glass-card rounded-3xl border border-emerald-500/20 overflow-hidden relative">
+        <div className="p-6 border-b border-white/5 flex items-center gap-3">
+          <CheckCircle2 size={24} className="text-emerald-500" />
+          <h3 className="text-xl font-bold text-white">3. Đã vượt khó thành công</h3>
+          <span className="ml-auto bg-emerald-500/20 text-emerald-400 text-xs px-3 py-1 rounded-full font-bold">{data.resolved.length} sinh viên</span>
+        </div>
+        <div className="overflow-x-auto">
+          {data.resolved.length === 0 ? (
+            <div className="p-8 text-center text-slate-400">Chưa có dữ liệu thành công.</div>
+          ) : (
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-white/5 text-slate-400 text-xs uppercase">
+                <tr>
+                  <th className="px-6 py-4">Sinh viên</th>
+                  <th className="px-6 py-4">Môn học</th>
+                  <th className="px-6 py-4">Kết quả</th>
+                  <th className="px-6 py-4 text-right">Ngày ghi nhận</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {data.resolved.map((st) => (
+                  <tr key={st.id} className="hover:bg-white/5 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="font-bold text-slate-200">{st.student.name}</div>
+                      <div className="text-slate-500 text-xs">{st.mssv}</div>
+                    </td>
+                    <td className="px-6 py-4 text-slate-300 font-medium">{st.course.name}</td>
+                    <td className="px-6 py-4">
+                      <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded-lg text-xs font-bold">Thành công</span>
+                    </td>
+                    <td className="px-6 py-4 text-right text-slate-400 text-xs">
+                      {new Date(st.updatedAt).toLocaleDateString('vi-VN')}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      {/* Roadmap Modal */}
+      {showRoadmapModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
+            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+              <Send size={20} className="text-blue-400" /> Can thiệp bằng Lộ trình
+            </h3>
+            <p className="text-xs text-slate-400 mb-4">Gửi lộ trình qua hộp thư cho <b>{selectedStudent?.student.name}</b> để bắt đầu can thiệp.</p>
+            <textarea
+              value={roadmapMsg}
+              onChange={(e) => setRoadmapMsg(e.target.value)}
+              className="w-full h-48 bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-slate-200 outline-none focus:border-blue-500/50 mb-4 custom-scrollbar"
+            />
+            <div className="flex justify-end gap-3">
+              <button onClick={() => setShowRoadmapModal(false)} className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">Hủy</button>
+              <button onClick={handleSendRoadmap} disabled={sendingMsg} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg disabled:opacity-50">
+                {sendingMsg ? 'Đang gửi...' : 'Gửi & Đưa vào Theo dõi'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

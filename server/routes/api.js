@@ -1753,6 +1753,67 @@ router.post('/students/:mssv/flag', async (req, res) => {
 });
 
 // ============================================================
+// API: Get Intervention Management lists
+// ============================================================
+router.get('/interventions-management', async (req, res) => {
+  try {
+    // 1. Lấy danh sách can thiệp
+    const interventions = await prisma.intervention.findMany({
+      include: {
+        student: { include: { scores: true } },
+        course: true
+      },
+      orderBy: { updatedAt: 'desc' }
+    });
+
+    const active = interventions.filter(i => i.status === 'PENDING' || i.status === 'ACTIVE');
+    const resolved = interventions.filter(i => i.status === 'RESOLVED');
+
+    const activeMssvSet = new Set(active.map(i => i.mssv + '_' + i.courseId));
+    const resolvedMssvSet = new Set(resolved.map(i => i.mssv + '_' + i.courseId));
+
+    // 2. Lấy danh sách có nguy cơ nhưng CHƯA ĐƯỢC CAN THIỆP (HIGH & MEDIUM)
+    const dbPredictions = await prisma.prediction.findMany({
+      where: { risk: { in: ['HIGH', 'MEDIUM'] } },
+      include: {
+        student: { include: { scores: true } },
+        course: true
+      },
+      orderBy: { predictedScore: 'asc' }
+    });
+
+    const atRisk = [];
+    for (const pred of dbPredictions) {
+      const key = pred.mssv + '_' + pred.courseId;
+      if (!activeMssvSet.has(key) && !resolvedMssvSet.has(key)) {
+        atRisk.push(pred);
+      }
+    }
+
+    res.json({ atRisk, active, resolved });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
+// API: Update Intervention Status
+// ============================================================
+router.post('/interventions/:id/status', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const intervention = await prisma.intervention.update({
+      where: { id: parseInt(id) },
+      data: { status }
+    });
+    res.json({ success: true, intervention });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
 // API: Update or Create Student Grade (Inline Grade Editor)
 // ============================================================
 router.post('/students/update-score', async (req, res) => {

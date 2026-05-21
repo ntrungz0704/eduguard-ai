@@ -12,7 +12,8 @@ import AIChat from './pages/AIChat';
 import Login from './pages/Login';
 import StudentDashboard from './pages/StudentDashboard';
 import Inbox from './pages/Inbox';
-import { LogOut, GraduationCap, Mails } from 'lucide-react';
+import Interventions from './pages/Interventions';
+import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const advisorNavItems = [
     { path: '/', icon: <LayoutDashboard size={20} />, label: 'Tổng quan (Dashboard)' },
     { path: '/search', icon: <Search size={20} />, label: 'Tra cứu học vụ' },
+    { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
@@ -304,6 +306,7 @@ function App() {
                   <Route path="/search" element={<StudentSearch />} />
                   <Route path="/predict" element={<Predict />} />
                   <Route path="/gpa" element={<GPA />} />
+                  <Route path="/interventions" element={<Interventions />} />
                   <Route path="/chat" element={<AIChat />} />
                   <Route path="/inbox" element={<Inbox />} />
                   <Route path="/student/:mssv" element={<StudentProfile />} />
