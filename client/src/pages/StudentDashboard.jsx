@@ -441,6 +441,11 @@ function OverviewTab({ data, curriculumCourses }) {
                       <span className="text-sm font-bold text-slate-200 truncate">{p.courseId}</span>
                     </div>
                     <div className="flex items-center gap-2">
+                      {p.confidence && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-800/50 border-slate-700 text-blue-300">
+                          ĐỘ TIN CẬY: {(p.confidence * 100).toFixed(0)}%
+                        </span>
+                      )}
                       <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
                         p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-500/30 text-rose-400' :
                         p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-500/30 text-amber-400' :
@@ -453,6 +458,14 @@ function OverviewTab({ data, curriculumCourses }) {
                   </div>
 
                   {/* Explainable AI details (XAI) */}
+                  <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-2">
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Giải thích XAI (Explainable AI):</p>
+                    
+                    {p.explanation && (
+                      <div className="p-2 rounded-lg bg-black/20 border border-white/5 text-xs text-slate-300">
+                        {p.explanation}
+                      </div>
+                    )}
                   {p.reasons && p.reasons.length > 0 ? (
                     <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-1.5">
                       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Giải thích nguyên nhân từ AI:</p>

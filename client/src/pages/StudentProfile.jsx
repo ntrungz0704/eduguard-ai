@@ -368,9 +368,58 @@ export default function StudentProfile() {
           </div>
         </div>
 
-        {/* Right column: Action panel & History */}
+        {/* Right column: Action panel & History & AI Forecast */}
         <div className="space-y-8">
           
+          {/* AI Forecast / XAI Panel */}
+          {student.predictions && student.predictions.length > 0 && (
+            <div className="glass-card p-6 rounded-3xl border border-blue-500/20 bg-gradient-to-b from-blue-950/20 to-slate-900/40 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <Brain className="text-blue-400" size={20} /> Phân Tích AI (XAI)
+              </h3>
+              <div className="space-y-4">
+                {student.predictions.map((p, i) => {
+                  const isHigh = p.risk === 'HIGH';
+                  return (
+                    <div key={i} className={`p-4 rounded-xl border bg-black/40 ${isHigh ? 'border-rose-500/30' : 'border-white/10'}`}>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-bold text-slate-200">{p.courseId}</span>
+                        <div className="flex items-center gap-2">
+                           <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
+                            p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-500/30 text-rose-400' :
+                            p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-500/30 text-amber-400' :
+                            'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                          }`}>
+                            {p.risk}
+                          </span>
+                          <span className={`font-black ${isHigh ? 'text-rose-400' : 'text-blue-400'}`}>{p.predictedScore.toFixed(1)}</span>
+                        </div>
+                      </div>
+                      
+                      {p.confidence && (
+                        <div className="mb-2">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-800/50 border-slate-700 text-blue-300">
+                            ĐỘ TIN CẬY: {(p.confidence * 100).toFixed(0)}%
+                          </span>
+                        </div>
+                      )}
+
+                      {p.explanation && (
+                        <div className="mt-2 pt-2 border-t border-white/5 space-y-1">
+                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Giải thích nguyên nhân:</span>
+                          <p className="text-xs text-slate-300 leading-relaxed">
+                            {p.explanation}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Action: Send Warning / Intervention Flag */}
           <div className="glass-card p-6 rounded-3xl border border-rose-500/20 bg-gradient-to-b from-rose-950/20 to-slate-900/40 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl"></div>

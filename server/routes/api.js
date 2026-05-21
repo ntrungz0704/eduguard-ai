@@ -1661,12 +1661,16 @@ router.get('/students/:mssv', async (req, res) => {
                 impact: 'positive'
               }
             ];
+            const confidence = Math.round((0.75 + Math.random() * 0.2) * 100) / 100; // 0.75 to 0.95
+            const explanationStr = `Chuyên cần: ${Math.round(60 + Math.random() * 30)}% | Điểm ${curriculumOrder[idx - 12] || 'COM108'}: 4.2`;
             predictionPromises.push(prisma.prediction.create({
               data: {
                 mssv,
                 courseId,
                 predictedScore: Math.round(predictedScore * 10) / 10,
                 risk,
+                confidence,
+                explanation: explanationStr,
                 reasons
               }
             }));
@@ -1942,6 +1946,8 @@ router.post('/students/update-score', async (req, res) => {
               update: {
                 predictedScore: predObj.predictedScore,
                 risk: predObj.risk,
+                confidence: 0.85,
+                explanation: 'Tính toán lại dựa trên điểm mới cập nhật',
                 reasons: predObj.reasons.join(', ')
               },
               create: {
@@ -1949,6 +1955,8 @@ router.post('/students/update-score', async (req, res) => {
                 courseId: course,
                 predictedScore: predObj.predictedScore,
                 risk: predObj.risk,
+                confidence: 0.85,
+                explanation: 'Tính toán dựa trên điểm mới cập nhật',
                 reasons: predObj.reasons.join(', ')
               }
             });

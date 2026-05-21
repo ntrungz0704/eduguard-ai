@@ -48,6 +48,7 @@ model Score {
   mssv      String
   courseId  String
   value     Float? // Nullable for currently studying / withdrew / test predicting
+  attendance Float?  // To simulate Feature Engineering (e.g., 60%)
   semester  String
   status    String   @default("STUDYING") // PASSED, FAILED, STUDYING, NOT_STARTED
   createdAt DateTime @default(now())
@@ -67,6 +68,8 @@ model Prediction {
   courseId       String
   predictedScore Float
   risk           String   // HIGH, MEDIUM, LOW
+  confidence     Float    @default(0.0) // E.g., 0.85 (85%)
+  explanation    String?  // Textual reason explaining the risk for XAI
   reasons        Json     // Stores structured XAI reasons array as JSON (maps to TEXT in SQLite)
   createdAt      DateTime @default(now())
 
