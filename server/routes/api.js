@@ -1263,6 +1263,36 @@ ${worst.map((c, i) => `${i + 1}. **Môn ${c.id}**: Tỷ lệ rớt **${c.failRat
         }
       }
       
+      // Dynamic Query 3: Sinh viên tự tra cứu rủi ro bản thân
+      if (response.intent === 'student.query.my_risk' && studentContext) {
+        try {
+          const myPredictions = await prisma.prediction.findMany({
+            where: { studentId: studentContext.id || studentContext.mssv, risk: { in: ['HIGH', 'MEDIUM'] } },
+            include: { course: true },
+            orderBy: { predictedScore: 'asc' }
+          });
+          
+          if (myPredictions.length > 0) {
+            return `🤖 **[AI Pipeline - Local DB]** Chào ${studentContext.name}, hệ thống phát hiện bạn đang có rủi ro ở các môn sau:
+${myPredictions.map((p, i) => `${i + 1}. **Môn ${p.course.name}**: Dự báo ${p.predictedScore.toFixed(1)}đ (${p.risk === 'HIGH' ? '🔴 Nguy cơ trượt rất cao' : '🟡 Có nguy cơ'})`).join('\n')}
+
+💡 **Khuyên bạn:** Hãy sắp xếp thời gian ôn tập lại kiến thức các môn tiên quyết của những môn này nhé!`;
+          } else {
+            return `🤖 **[AI Pipeline - Local DB]** Tuyệt vời ${studentContext.name}! Hiện tại dữ liệu cho thấy bạn không nằm trong vùng nguy hiểm ở môn học nào. Hãy tiếp tục phát huy nhé!`;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // Dynamic Query 4: Tư vấn lộ trình cho sinh viên
+      if (response.intent === 'student.query.advice') {
+        return `🤖 **[AI Pipeline - Local NLP]** Để cải thiện điểm số, AI EduGuard đề xuất bạn:
+1. **Ôn tập cuốn chiếu:** Không để dồn đến lúc thi.
+2. **Kiểm tra kiến thức hổng:** Những môn bị cảnh báo Vàng/Đỏ thường do bạn yếu môn tiên quyết. Hãy tìm tài liệu môn tiên quyết đọc lại.
+3. **Liên hệ Mentor:** Nếu tự học quá khó, hãy nhờ Giảng viên hoặc các Mentor hỗ trợ bạn kịp thời!`;
+      }
+      
       // Static Answer Fallback
       if (response.answer) {
         return `🤖 **[AI Pipeline - Local NLP]** ${response.answer}`;

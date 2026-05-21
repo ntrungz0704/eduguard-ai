@@ -1064,17 +1064,11 @@ export default function AIChat() {
                     <Plus size={16} />
                   </button>
 
-                  {/* Model Selector Dropdown */}
+                  {/* Local AI Badge */}
                   <div className="relative">
-                    <select
-                      value={provider}
-                      onChange={(e) => updateActiveSession({ provider: e.target.value })}
-                      className="appearance-none pl-3.5 pr-8 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-bold text-slate-300 outline-none cursor-pointer focus:ring-1 focus:ring-purple-500/30 transition-all"
-                    >
-                      <option value="gemini" className="bg-slate-950 text-slate-200">Gemini 2.0 Flash</option>
-                      <option value="groq" className="bg-slate-950 text-slate-200">Llama 3.3 (Groq)</option>
-                    </select>
-                    <ChevronDown size={11} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                    <div className="appearance-none px-3.5 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full text-xs font-bold text-green-400">
+                      Local AI Pipeline
+                    </div>
                   </div>
 
                   {/* Pro Mode active indicator */}
@@ -1127,7 +1121,7 @@ export default function AIChat() {
 
             {/* Sub-label warning footer */}
             <span className="text-[10px] text-slate-500 font-semibold text-center block mt-3.5">
-              Gemini là AI và có thể mắc sai sót. Vui lòng xác nhận thông tin quan trọng.
+              EduGuard Local AI Pipeline. Dữ liệu học thuật được bảo mật 100% tại máy chủ cục bộ (Không sử dụng API bên ngoài).
             </span>
           </div>
         </div>

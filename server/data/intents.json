@@ -68,5 +68,32 @@
       "hello"
     ],
     "answer": "Xin chào! Tôi là Trợ lý AI Pipeline (Chế độ Offline). Tôi có thể lấy dữ liệu trực tiếp từ CSDL để thống kê sinh viên rớt môn hoặc môn học khó nhất. Bạn cần tìm gì?"
+  },
+  {
+    "intent": "student.query.my_risk",
+    "examples": [
+      "em có nguy cơ rớt không",
+      "em học môn nào yếu",
+      "môn nào em dễ tạch",
+      "điểm em thế nào",
+      "đánh giá học lực hiện tại của tôi",
+      "tôi sắp rớt môn nào",
+      "học kỳ mới có môn nào nguy hiểm không",
+      "môn nào có nguy cơ trượt cao",
+      "có môn nào đáng lo không"
+    ]
+  },
+  {
+    "intent": "student.query.advice",
+    "examples": [
+      "em nên học thế nào",
+      "tư vấn lộ trình học",
+      "làm sao để cải thiện",
+      "đề xuất phương pháp học",
+      "cách học hiệu quả",
+      "bài tập ôn luyện",
+      "xin lời khuyên học tập",
+      "làm sao qua môn"
+    ]
   }
 ]

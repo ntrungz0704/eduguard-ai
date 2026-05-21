@@ -163,7 +163,7 @@ export default function Chatbot() {
               </h4>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                <span className="text-[10px] text-green-400 font-medium">Sẵn sàng (Gemini 2.0)</span>
+                <span className="text-[10px] text-green-400 font-medium">Sẵn sàng (Local NLP)</span>
               </div>
             </div>
           </div>
