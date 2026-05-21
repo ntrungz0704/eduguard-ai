@@ -1,0 +1,72 @@
+[
+  {
+    "intent": "query.risk_students",
+    "examples": [
+      "những ai sắp rớt",
+      "đứa nào sắp toang",
+      "sinh viên nguy cơ rớt",
+      "danh sách sinh viên yếu",
+      "lớp có ai đáng lo không",
+      "ai học yếu",
+      "top sinh viên yếu",
+      "những sinh viên nào cần can thiệp",
+      "hiển thị cho tôi sinh viên bị cảnh báo",
+      "em nào sắp tạch",
+      "em nào rủi ro cao",
+      "ai sắp bay màu",
+      "danh sách cảnh báo đỏ",
+      "lớp này ai chuẩn bị cook",
+      "sinh viên nào có khả năng rớt cao nhất"
+    ]
+  },
+  {
+    "intent": "query.weak_subjects",
+    "examples": [
+      "môn nào dễ rớt nhất",
+      "môn nào sinh viên chết nhiều nhất",
+      "môn học yếu",
+      "thống kê rớt môn",
+      "tỷ lệ rớt các môn là bao nhiêu",
+      "môn nào điểm thấp nhất",
+      "học phần nào dễ tạch",
+      "môn nào khó nhất",
+      "sinh viên lớp này hay rớt môn gì",
+      "môn gì hay rớt",
+      "môn nào dễ chết nhất",
+      "môn học nào là ác mộng"
+    ]
+  },
+  {
+    "intent": "ask.features",
+    "examples": [
+      "hệ thống này làm được gì",
+      "có những tính năng nào",
+      "EduGuard là gì",
+      "phần mềm này giúp được gì",
+      "các tính năng chính của hệ thống"
+    ],
+    "answer": "Hệ thống EduGuard có 3 tính năng chính: 1. Cảnh báo Đỏ (Dự đoán rớt môn bằng AI). 2. Quản lý Can thiệp (Theo dõi và gửi lộ trình khắc phục). 3. Trợ lý AI Cố vấn (như tôi đang chat với bạn)."
+  },
+  {
+    "intent": "ask.algorithm",
+    "examples": [
+      "pearson là gì",
+      "thuật toán đằng sau là gì",
+      "tại sao lại dùng pearson",
+      "mô hình dự đoán hoạt động ra sao",
+      "tính rủi ro dựa vào đâu"
+    ],
+    "answer": "EduGuard sử dụng thuật toán Hồi quy tuyến tính (Linear Regression) kết hợp với Hệ số tương quan Pearson. AI phân tích điểm của các môn học tiên quyết để tính ra trọng số dự đoán rủi ro rớt môn chính xác."
+  },
+  {
+    "intent": "greetings.hello",
+    "examples": [
+      "xin chào",
+      "chào bạn",
+      "chào bot",
+      "hi",
+      "hello"
+    ],
+    "answer": "Xin chào! Tôi là Trợ lý AI Pipeline (Chế độ Offline). Tôi có thể lấy dữ liệu trực tiếp từ CSDL để thống kê sinh viên rớt môn hoặc môn học khó nhất. Bạn cần tìm gì?"
+  }
+]
