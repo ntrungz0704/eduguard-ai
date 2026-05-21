@@ -94,7 +94,7 @@ async function syncUploadedData(validStudents) {
 // LOAD PRE-TRAINED DATA & CACHED MODELS
 // ============================================================
 const dataPath = path.join(__dirname, '..', 'data', 'training_data.json');
-const modelCachePath = path.join(__dirname, '..', 'data', 'model_cache.json');
+const modelCachePath = path.join(__dirname, '..', 'ml', 'trained_model.json');
 let trainingData = { students: [], subjects: [], curriculumOrder: [] };
 let modelCache = {};
 
