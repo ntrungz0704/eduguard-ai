@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import {
@@ -205,6 +206,36 @@ function OverviewTab({ data, curriculumCourses }) {
     aiFeedback = "AI cảnh báo phong độ hiện tại ở mức Trung bình. Bản đồ lỗ hổng cho thấy bạn gặp khó khăn ở các môn lập trình nền tảng. Bạn nên tham gia các buổi hướng dẫn phụ đạo hoặc hỏi ngay Cố vấn học vụ để tránh nguy cơ rủi ro.";
   }
 
+  // Data for Charts
+  const chartData = useMemo(() => {
+    const sems = [
+      { name: 'Kỳ 1', courses: curriculumCourses.slice(0, 6) },
+      { name: 'Kỳ 2', courses: curriculumCourses.slice(6, 11) },
+      { name: 'Kỳ 3', courses: curriculumCourses.slice(11, 16) },
+      { name: 'Kỳ 4', courses: curriculumCourses.slice(16, 21) },
+      { name: 'Kỳ 5', courses: curriculumCourses.slice(21, 27) },
+      { name: 'Kỳ 6', courses: curriculumCourses.slice(27, curriculumCourses.length) }
+    ];
+    let cumTotal = 0;
+    let cumCount = 0;
+
+    return sems.map(sem => {
+      const validC = sem.courses.filter(c => c.value !== null && !isConditionalCourse(c.courseId, c.courseId));
+      let semAvg = null;
+      if (validC.length > 0) {
+        semAvg = validC.reduce((sum, c) => sum + c.value, 0) / validC.length;
+        cumTotal += validC.reduce((sum, c) => sum + c.value, 0);
+        cumCount += validC.length;
+      }
+      return {
+        name: sem.name,
+        'GPA Học kỳ': semAvg !== null ? Math.round(semAvg * 10) / 10 : null,
+        'CPA Tích lũy': cumCount > 0 ? Math.round((cumTotal / cumCount) * 10) / 10 : null,
+        'Trung bình lớp (Giả định)': 7.5 // Dữ liệu mẫu (mock)
+      };
+    }).filter(d => d['GPA Học kỳ'] !== null || d['CPA Tích lũy'] !== null);
+  }, [curriculumCourses]);
+
   return (
     <div className="space-y-6">
 
@@ -266,6 +297,59 @@ function OverviewTab({ data, curriculumCourses }) {
         </div>
         <p className="text-slate-300 text-sm leading-relaxed">{aiFeedback}</p>
       </div>
+
+      {/* Performance Charts */}
+      {chartData.length > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* Fluctuation Line Chart */}
+          <div className="glass-card p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Dao động phong độ qua từng kỳ</h4>
+            <div className="h-[200px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
+                  <XAxis dataKey="name" stroke="#ffffff50" fontSize={10} tickLine={false} axisLine={false} />
+                  <YAxis domain={[0, 10]} stroke="#ffffff50" fontSize={10} tickLine={false} axisLine={false} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                    itemStyle={{ color: '#e2e8f0' }}
+                  />
+                  <Line type="monotone" dataKey="GPA Học kỳ" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#0f172a' }} activeDot={{ r: 6 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Ranking Area Chart */}
+          <div className="glass-card p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">So sánh năng lực (Tích lũy vs Chuẩn)</h4>
+            <div className="h-[200px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                  <defs>
+                    <linearGradient id="colorCpa" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    </linearGradient>
+                    <linearGradient id="colorAvg" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
+                  <XAxis dataKey="name" stroke="#ffffff50" fontSize={10} tickLine={false} axisLine={false} />
+                  <YAxis domain={[0, 10]} stroke="#ffffff50" fontSize={10} tickLine={false} axisLine={false} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
+                  />
+                  <Area type="monotone" dataKey="Trung bình lớp (Giả định)" stroke="#f59e0b" fillOpacity={1} fill="url(#colorAvg)" strokeDasharray="5 5" />
+                  <Area type="monotone" dataKey="CPA Tích lũy" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorCpa)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Strengths & Weaknesses Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

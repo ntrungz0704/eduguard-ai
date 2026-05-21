@@ -95,6 +95,15 @@ export default function StudentSearch() {
   const [results, setResults] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(false);
+  
+  const [allStudents, setAllStudents] = useState([]);
+  const [sortType, setSortType] = useState('name-asc');
+
+  useEffect(() => {
+    if (!selectedStudent) {
+      api.get('/students-search?q=').then(res => setAllStudents(res.data)).catch(console.error);
+    }
+  }, [selectedStudent]);
 
   useEffect(() => {
     if (activeStudent) {
@@ -1471,14 +1480,62 @@ export default function StudentSearch() {
 
       </div>
           ) : (
-            <div className="glass-card p-12 rounded-3xl border border-dashed border-white/15 text-center flex flex-col items-center justify-center">
-              <div className="bg-slate-800/40 p-4 rounded-3xl border border-white/5 mb-4 text-slate-400">
-                <User size={48} className="text-slate-500" />
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-4 rounded-2xl border border-white/10">
+                <div>
+                  <h4 className="text-lg font-bold text-white">Danh sách Sinh viên</h4>
+                  <p className="text-xs text-slate-400">Chọn sinh viên để xem chi tiết học bạ và tư vấn AI.</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-slate-400 font-semibold">Sắp xếp theo:</span>
+                  <select
+                    value={sortType}
+                    onChange={(e) => setSortType(e.target.value)}
+                    className="bg-slate-900 border border-white/20 rounded-xl px-3 py-2 text-sm text-slate-200 outline-none focus:border-blue-500/50"
+                  >
+                    <option value="name-asc">Tên (A-Z)</option>
+                    <option value="name-desc">Tên (Z-A)</option>
+                    <option value="risk-desc">Rủi ro (Cao - Thấp)</option>
+                  </select>
+                </div>
               </div>
-              <h4 className="text-xl font-bold text-slate-300 mb-1">Chưa chọn hồ sơ sinh viên</h4>
-              <p className="text-slate-500 text-sm max-w-sm">
-                Vui lòng tìm kiếm sinh viên từ thanh tìm kiếm phía trên để nạp thông tin học bạ chi tiết và bắt đầu hội thoại cố vấn cá nhân hóa.
-              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {[...allStudents].sort((a, b) => {
+                  if (sortType === 'name-asc') return a.name.localeCompare(b.name);
+                  if (sortType === 'name-desc') return b.name.localeCompare(a.name);
+                  if (sortType === 'risk-desc') {
+                    const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
+                    const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
+                    return riskB - riskA;
+                  }
+                  return 0;
+                }).map(st => {
+                  const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
+                  return (
+                    <button
+                      key={st.id}
+                      onClick={() => handleSelectStudent(st)}
+                      className="glass-card p-5 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all text-left flex items-start justify-between group"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-700 to-slate-600 flex items-center justify-center text-white font-bold group-hover:from-blue-600 group-hover:to-indigo-600 transition-colors">
+                          {st.name.charAt(0)}
+                        </div>
+                        <div>
+                          <h5 className="font-bold text-slate-200 group-hover:text-blue-400 transition-colors">{st.name}</h5>
+                          <p className="text-xs text-slate-400 mt-1">{st.id} • Lớp {st.classCode || 'WD18301'}</p>
+                        </div>
+                      </div>
+                      {riskCount > 0 && (
+                        <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] px-2 py-1 rounded-lg font-bold">
+                          {riskCount} rủi ro
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

@@ -11,6 +11,8 @@ export default function Inbox() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   
+  const [filterTab, setFilterTab] = useState('all'); // 'all', 'urgent', 'resolved'
+  
   const [inputMsg, setInputMsg] = useState('');
   const [file, setFile] = useState(null);
   const [sending, setSending] = useState(false);
@@ -104,15 +106,43 @@ export default function Inbox() {
       {/* Left sidebar - Conversation list */}
       <div className={`w-80 border-r border-white/5 flex flex-col bg-slate-900/50 ${activePartnerId ? 'hidden md:flex' : 'flex'}`}>
         <div className="p-4 border-b border-white/5 bg-slate-950/50">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
             <MessageSquare size={18} className="text-blue-400" /> Hộp thư Inbox
           </h2>
+          <div className="flex bg-black/40 p-1 rounded-lg">
+            <button 
+              onClick={() => setFilterTab('all')}
+              className={`flex-1 text-[10px] font-bold py-1.5 rounded-md transition-all ${filterTab === 'all' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+            >
+              Tất cả
+            </button>
+            <button 
+              onClick={() => setFilterTab('urgent')}
+              className={`flex-1 text-[10px] font-bold py-1.5 rounded-md transition-all ${filterTab === 'urgent' ? 'bg-rose-500/20 text-rose-400' : 'text-slate-400 hover:text-slate-200'}`}
+            >
+              Cần xử lý gấp
+            </button>
+            <button 
+              onClick={() => setFilterTab('resolved')}
+              className={`flex-1 text-[10px] font-bold py-1.5 rounded-md transition-all ${filterTab === 'resolved' ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-slate-200'}`}
+            >
+              Đã theo dõi
+            </button>
+          </div>
         </div>
         <div className="flex-1 overflow-y-auto custom-scrollbar">
-          {conversations.length === 0 ? (
-            <div className="p-8 text-center text-slate-500 text-sm">Chưa có cuộc trò chuyện nào.</div>
+          {conversations.filter(c => {
+            if (filterTab === 'urgent') return c.unreadCount > 0;
+            if (filterTab === 'resolved') return c.unreadCount === 0;
+            return true;
+          }).length === 0 ? (
+            <div className="p-8 text-center text-slate-500 text-sm">Chưa có cuộc trò chuyện nào phù hợp.</div>
           ) : (
-            conversations.map(conv => (
+            conversations.filter(c => {
+              if (filterTab === 'urgent') return c.unreadCount > 0;
+              if (filterTab === 'resolved') return c.unreadCount === 0;
+              return true;
+            }).map(conv => (
               <div 
                 key={conv.partnerId}
                 onClick={() => setActivePartnerId(conv.partnerId)}
