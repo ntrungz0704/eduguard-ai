@@ -74,17 +74,25 @@ Future AI monitoring includes:
 
 EduGuard AI hỗ trợ triển khai quy mô lớn (Multi-container Docker).
 
-### Dùng Docker Compose (Enterprise Setup)
+### 1. Dùng Docker Compose (Khuyên dùng)
 Bạn chỉ cần cài đặt Docker và chạy lệnh:
 ```bash
 docker-compose up --build -d
 ```
-Cấu trúc Container sẽ tự động thiết lập:
-1. `frontend`: Cổng 80 (Vercel Build Simulation)
-2. `backend`: Cổng 5000 (REST API Server)
-3. `ai-worker`: Xử lý Prediction / Retraining ngầm
-4. `redis`: Message Queue
-5. `postgres`: Database chính
+Hệ thống sẽ tự động khởi tạo Backend API (cổng 5000) và Frontend UI (cổng 80) sẵn sàng hoạt động.
+
+### 2. Dùng Local Development (Môi trường Dev)
+```bash
+# Cài đặt thư viện gốc và frontend
+npm install
+cd client && npm install && cd ..
+
+# Khởi tạo Database (SQLite)
+npx prisma db push
+
+# Chạy hệ thống (vừa backend vừa frontend)
+npm run dev
+```
 
 ---
 
