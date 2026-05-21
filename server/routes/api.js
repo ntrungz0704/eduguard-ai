@@ -11,6 +11,7 @@ const { prisma } = require('../services/prisma');
 const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../services/dataService');
 const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../ai/regression');
 const { validateModel } = require('../ai/validation');
+const { NlpManager } = require('node-nlp');
 
 // Import RAG and AI Orchestration Services
 const { getStudentContext } = require('../services/ragService');
@@ -106,6 +107,15 @@ if (fs.existsSync(dataPath)) {
 if (fs.existsSync(modelCachePath)) {
   modelCache = JSON.parse(fs.readFileSync(modelCachePath, 'utf8'));
   console.log(`⚡ Pre-trained models cache loaded in Router: ${Object.keys(modelCache).length} subjects`);
+}
+
+const nlpManager = new NlpManager({ languages: ['vi', 'en'] });
+const chatbotModelPath = path.join(__dirname, '..', 'ml', 'chatbot_model.nlp');
+let nlpModelLoaded = false;
+if (fs.existsSync(chatbotModelPath)) {
+  nlpManager.load(chatbotModelPath);
+  nlpModelLoaded = true;
+  console.log("🤖 Local NLP Chatbot Model loaded successfully!");
 }
 
 // In-memory store for uploaded student data (Mock database fallback for GET requests)
@@ -1197,6 +1207,13 @@ Bạn có thể hỏi mình những câu như:
 • *"môn nào mình có nguy cơ trượt học kỳ mới?"*
 • *"đề xuất lộ trình tự học và ôn tập giúp mình"*
 Chúc bạn học tập thật tốt nhé! 🌟`;
+  }
+  // 3. NLP Fallback for general questions (if no specific student intent matched)
+  if (nlpModelLoaded) {
+    const response = await nlpManager.process('vi', message);
+    if (response.intent !== 'None' && response.score > 0.5 && response.answer) {
+      return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** ${response.answer}`;
+    }
   }
 
   return `🤖 **[AI Cố vấn Học Vụ - Offline Mode]** Xin chào! Tôi là Trợ lý Cố vấn Học Vụ được kết nối trực tiếp với SQLite Database của EduGuard.

@@ -8,6 +8,7 @@
     "start": "node server/server.js",
     "dev": "concurrently \"node --watch server/server.js\" \"npm run dev --prefix client\"",
     "train": "node server/ml/train.js",
+    "train:chat": "node server/ml/train_chatbot.js",
     "postinstall": "prisma generate",
     "kill": "powershell -Command \"$ports = @(3000, 5173, 5174); foreach ($p in $ports) { $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; if ($conns) { foreach ($c in $conns) { if ($c.OwningProcess -gt 4) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue } } } }\""
   },
@@ -29,6 +30,7 @@
     "express": "^4.19.2",
     "groq-sdk": "^1.2.0",
     "multer": "^1.4.5-lts.1",
+    "node-nlp": "^5.0.0-alpha.5",
     "pptxgenjs": "^4.0.1",
     "xlsx": "^0.18.5"
   },
