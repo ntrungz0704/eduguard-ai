@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
-import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X } from 'lucide-react';
 import Dashboard from './pages/Dashboard';
 import Predict from './pages/Predict';
 import GPA from './pages/GPA';
@@ -14,7 +14,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import Inbox from './pages/Inbox';
 import { LogOut, GraduationCap, Mails } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
   const currentUser = useStore(state => state.currentUser);
   
@@ -36,13 +36,28 @@ const Sidebar = () => {
   const navItems = currentUser?.role === 'STUDENT' ? studentNavItems : advisorNavItems;
 
   return (
-    <aside className="w-64 glass-panel border-r border-white/5 h-screen fixed top-0 left-0 flex flex-col z-20">
-      <div className="h-20 flex items-center px-6 border-b border-white/10">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mr-3 shadow-lg shadow-blue-500/20">
-          <BrainCircuit className="text-white" size={22} />
+    <>
+      {/* Mobile overlay */}
+      {mobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/60 z-30 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+      <aside className={`w-64 glass-panel border-r border-white/5 h-screen fixed top-0 left-0 flex flex-col z-40 transition-transform duration-300 md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="h-20 flex items-center px-6 border-b border-white/10 relative">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mr-3 shadow-lg shadow-blue-500/20">
+            <BrainCircuit className="text-white" size={22} />
+          </div>
+          <h1 className="font-bold text-2xl tracking-tight">Edu<span className="text-blue-500">Guard</span></h1>
+          
+          <button 
+            className="md:hidden absolute right-4 text-slate-400 hover:text-white"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <X size={24} />
+          </button>
         </div>
-        <h1 className="font-bold text-2xl tracking-tight">Edu<span className="text-blue-500">Guard</span></h1>
-      </div>
       
       <div className="p-6">
         <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-4">Phân tích Học vụ</div>
@@ -85,10 +100,11 @@ const Sidebar = () => {
         </div>
       </div>
     </aside>
+    </>
   );
 };
 
-const Header = () => {
+const Header = ({ setMobileMenuOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const setActiveStudent = useStore(state => state.setActiveStudent);
@@ -155,9 +171,15 @@ const Header = () => {
   };
 
   return (
-    <header className="h-20 glass-panel border-b border-white/5 flex items-center justify-between px-10 sticky top-0 z-20">
+    <header className="h-20 glass-panel border-b border-white/5 flex items-center justify-between px-4 md:px-10 sticky top-0 z-20">
       {/* Title & Brand */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
+        <button 
+          className="md:hidden text-slate-300 hover:text-white p-2"
+          onClick={() => setMobileMenuOpen(true)}
+        >
+          <Menu size={24} />
+        </button>
         <h2 className="font-semibold text-xl text-white hidden md:block">SmartGen {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
       </div>
 
@@ -236,6 +258,7 @@ const Header = () => {
 function App() {
   const fetchTrainingData = useStore(state => state.fetchTrainingData);
   const { isLoading, error, currentUser } = useStore();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchTrainingData();
@@ -254,10 +277,10 @@ function App() {
   return (
     <BrowserRouter>
       <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="ml-64 flex-1 flex flex-col relative w-full" style={{ marginLeft: '16rem' }}>
-          <Header />
-          <main className="p-8 flex-1 overflow-auto relative z-0">
+        <Sidebar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+        <div className="flex-1 flex flex-col relative w-full md:ml-64">
+          <Header setMobileMenuOpen={setMobileMenuOpen} />
+          <main className="p-4 md:p-8 flex-1 overflow-auto relative z-0">
             {error && (
               <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl mb-6 flex items-center gap-3">
                 <span className="text-2xl">⚠️</span> 
