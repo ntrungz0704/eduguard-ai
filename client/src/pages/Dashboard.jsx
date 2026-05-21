@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../store';
-import { Users, BookOpen, AlertTriangle, Database, TrendingUp, ShieldAlert, CheckCircle2, MessageSquare, Activity, Target } from 'lucide-react';
+import { Users, BookOpen, AlertTriangle, Database, TrendingUp, ShieldAlert, CheckCircle2, MessageSquare, Activity, Target, Send, X } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 import { api, requestWithRestartRetry } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,13 @@ export default function Dashboard() {
   const [redAlerts, setRedAlerts] = useState(null);
   const [kpi, setKpi] = useState({ totalInterventions: 0, improvementRate: 0 });
   const navigate = useNavigate();
+  const currentUser = useStore(state => state.currentUser);
+
+  // Send Roadmap State
+  const [showRoadmapModal, setShowRoadmapModal] = useState(false);
+  const [selectedAlert, setSelectedAlert] = useState(null);
+  const [roadmapMsg, setRoadmapMsg] = useState('');
+  const [sendingMsg, setSendingMsg] = useState(false);
 
   useEffect(() => {
     const fetchRedAlerts = async () => {
@@ -41,6 +48,39 @@ export default function Dashboard() {
     e.stopPropagation();
     setActiveStudent({ id: alert.mssv, name: alert.name, classCode: alert.classCode });
     navigate('/chat');
+  };
+
+  const handleOpenRoadmap = (alert, e) => {
+    e.stopPropagation();
+    setSelectedAlert(alert);
+    let msg = `Chào ${alert.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${alert.targetCourse} sắp tới (Dự báo: ${alert.predictedScore.toFixed(1)}đ).`;
+    if (alert.weakPrereqs.length > 0) {
+      msg += ` Nguyên nhân chính do em bị hổng kiến thức từ các môn: ${alert.weakPrereqs.map(w => `${w.courseId} (${w.score}đ)`).join(', ')}.`;
+    } else {
+      msg += ` Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
+    }
+    msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+    setRoadmapMsg(msg);
+    setShowRoadmapModal(true);
+  };
+
+  const handleSendRoadmap = async () => {
+    setSendingMsg(true);
+    try {
+      await api.post('/comm/messages', {
+        senderId: currentUser.id,
+        receiverId: selectedAlert.mssv,
+        content: roadmapMsg
+      });
+      setShowRoadmapModal(false);
+      // Mark as intervened
+      handleIntervene(selectedAlert.mssv, selectedAlert.targetCourse, { stopPropagation: () => {} });
+      alert('Đã gửi Lộ trình thành công qua Hộp thư cho sinh viên!');
+    } catch (e) {
+      alert('Lỗi gửi tin nhắn: ' + e.message);
+    } finally {
+      setSendingMsg(false);
+    }
   };
 
   if (!trainingData) return <div className="flex h-64 items-center justify-center text-slate-400">
@@ -156,6 +196,13 @@ export default function Dashboard() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                         <button 
+                          onClick={(e) => handleOpenRoadmap(alert, e)}
+                          className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-xl transition-colors shadow-lg shadow-indigo-500/20 tooltip-trigger flex items-center gap-1 text-xs font-bold"
+                          title="Gửi Lộ trình qua Hộp thư"
+                        >
+                          <Send size={14} /> Gửi Lộ trình
+                        </button>
+                        <button 
                           onClick={(e) => handleChat(alert, e)}
                           className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-xl transition-colors shadow-lg shadow-blue-500/20 tooltip-trigger"
                           title="Tư vấn với AI"
@@ -266,6 +313,48 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Roadmap Modal */}
+      {showRoadmapModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
+            <button 
+              onClick={() => setShowRoadmapModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+              <Send size={20} className="text-blue-400" /> Gửi Lộ trình qua Hộp thư
+            </h3>
+            <p className="text-xs text-slate-400 mb-4">
+              Tin nhắn này sẽ được gửi trực tiếp đến hộp thư của sinh viên <b>{selectedAlert?.name} ({selectedAlert?.mssv})</b>.
+            </p>
+            
+            <textarea
+              value={roadmapMsg}
+              onChange={(e) => setRoadmapMsg(e.target.value)}
+              className="w-full h-48 bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-slate-200 outline-none focus:border-blue-500/50 mb-4 custom-scrollbar"
+            />
+            
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={() => setShowRoadmapModal(false)}
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5 transition-colors"
+              >
+                Hủy bỏ
+              </button>
+              <button 
+                onClick={handleSendRoadmap}
+                disabled={sendingMsg}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                {sendingMsg ? 'Đang gửi...' : <><Send size={16} /> Gửi ngay</>}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
