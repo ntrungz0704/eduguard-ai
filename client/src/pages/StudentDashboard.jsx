@@ -490,6 +490,7 @@ function OverviewTab({ data, curriculumCourses }) {
                       Dự báo dựa trên xu hướng học lực chung.
                     </div>
                   )}
+                  </div>
                 </div>
               );
             })}

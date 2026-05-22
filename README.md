@@ -1,130 +1,73 @@
-# EduGuard AI - Enterprise Academic Intelligence Platform 🎓
+# EduGuard AI - Nền tảng Phân tích Học vụ & Cảnh báo Sớm (Academic Intelligence Platform) 🎓
 
 > **"Không để bất kỳ sinh viên nào bị bỏ lại phía sau."**
 
-EduGuard AI là một Nền tảng Phân tích Học vụ và Trí tuệ Nhân tạo (Academic Intelligence Platform) được thiết kế đặc biệt cho các Cơ sở Giáo dục Đại học. Khác với các hệ thống cảnh báo "khám nghiệm tử thi" truyền thống, EduGuard AI đóng vai trò như một Hệ thống Hỗ trợ ra quyết định (Decision Support System) giúp dự báo sớm rủi ro học thuật bằng kỹ thuật Học Máy (Machine Learning) và Explainable AI (XAI) chạy hoàn toàn 100% Offline (Local AI).
-
-![EduGuard AI Dashboard](https://via.placeholder.com/1000x500?text=EduGuard+AI+Dashboard)
+EduGuard AI là một Nền tảng Phân tích Học vụ (Academic Intelligence Platform) được thiết kế cho Cố vấn học tập và Ban giám hiệu. Hệ thống sử dụng **Máy học Minh bạch (Explainable AI - XAI)** và **Xử lý Ngôn ngữ Tự nhiên (Local NLP)** chạy hoàn toàn Offline (bảo mật dữ liệu 100%) để dự đoán sớm nguy cơ rớt môn của sinh viên ngay từ tuần thứ 3 của học kỳ.
 
 ---
 
-## 🌟 Điểm nổi bật (Core Features)
+## 🚀 Hướng dẫn Cài đặt & Chạy Dự án (Dành cho Lập trình viên)
 
-*   🧠 **Predictive Academic Analytics:** Tích hợp mô hình hồi quy tuyến tính lai (Hybrid Linear Regression) và hệ số tương quan Pearson, dự báo nguy cơ rớt môn của sinh viên ngay từ khi đăng ký học.
-*   📊 **Explainable AI (XAI):** AI giải thích trực quan (minh bạch) nguyên nhân rủi ro thông qua Feature Engineering (Điểm chuyên cần, Điểm các môn tiên quyết).
-*   🔒 **100% Offline & Data Privacy (GDPR/FERPA):** Hệ thống được nhúng Local NLP Intent Classification Engine (node-nlp). Trợ lý ảo Chatbot hoạt động cực mượt mà không cần truy xuất dữ liệu ra bất kỳ bên thứ 3 nào (như OpenAI hay Gemini).
-*   🎛️ **Actionable Decision Support:** Giao diện Dashboard cho phép Giảng viên/CVHT nhanh chóng lập "Cờ cảnh báo" và tiến hành can thiệp y tế học thuật trực tiếp.
+Dự án này đã được tối ưu cấu hình để bất kỳ ai clone về cũng có thể chạy thành công 100% chỉ với vài lệnh đơn giản.
 
----
+### Yêu cầu hệ thống:
+- Đã cài đặt **Node.js** (Phiên bản 18 trở lên).
+- Đã cài đặt **Git**.
 
-## 🔬 Đóng Góp Nghiên Cứu (Research Contribution)
-
-Dự án này đóng góp những phương pháp luận mới trong lĩnh vực Ứng dụng AI vào Giáo dục (EdTech):
-- Xây dựng **Local AI Architecture** dành riêng cho phân tích học vụ, loại bỏ hoàn toàn sự phụ thuộc vào API mạng lưới bên ngoài.
-- Ứng dụng thành công **Explainable Academic Prediction**, biến hộp đen AI thành các quyết định có thể lý giải được (Interpretable Machine Learning).
-- Triển khai **Privacy-preserving AI Pipeline**, đảm bảo tuân thủ nghiêm ngặt chuẩn bảo mật dữ liệu sinh viên.
-
----
-
-## ⚔️ So Sánh Cạnh Tranh (Competitive Comparison)
-
-| Capability | Traditional LMS | EduGuard AI |
-| :--- | :---: | :---: |
-| **Predictive Analytics** | ❌ | ✅ |
-| **Explainable AI (XAI)** | ❌ | ✅ |
-| **Offline AI** | ❌ | ✅ |
-| **Risk Intervention** | ❌ | ✅ |
-| **Academic Digital Twin** | ❌ | ✅ |
-
----
-
-## 🏛️ Quản Trị Trí Tuệ Nhân Tạo (AI Governance & Ethics)
-
-EduGuard AI tuân thủ các nguyên tắc đạo đức cốt lõi trong AI:
-- **Bias Mitigation (Giảm thiểu thiên kiến):** Mô hình hồi quy được tinh chỉnh liên tục để tránh thiên kiến cục bộ (ví dụ: thiên vị giới tính hoặc hoàn cảnh sinh viên).
-- **Human Oversight (Sự kiểm soát của con người):** AI chỉ đưa ra "Cờ cảnh báo". Quyết định can thiệp cuối cùng (Intervention) phải do Cố Vấn Học Tập / Giảng viên thực hiện.
-- **Transparency (Độ minh bạch):** Thuật toán XAI cho phép bất kỳ giảng viên nào cũng có thể kiểm chứng tại sao một dự báo được đưa ra.
-- **Security-by-Design:** Kiến trúc bảo mật với JWT rotation, rate limiting, API validation và audit trail toàn diện.
-
----
-
-## 🏗️ Kiến trúc Hệ thống, Distributed Infrastructure & Failure Recovery
-
-Dự án được thiết kế với **Distributed Architecture Mindset** (Tư duy hệ thống phân tán) sẵn sàng để Scale:
-*   **Hiện tại (Implemented):** Frontend React.js, Backend Node.js API, Prisma ORM, Local NLP + ML.
-*   **Sẵn sàng Production (Production-ready):** Docker Multi-container (Tách biệt UI, API Orchestration, Redis Message Broker, AI Worker Background, PostgreSQL Persistence).
-*   **Failure Recovery Architecture (Kiến trúc phục hồi lỗi):** Nếu Prediction Worker gặp sự cố, các task dự báo vẫn được lưu trữ (persisted) an toàn trong Redis queue và sẽ tự động retry khi Worker khởi động lại.
-
----
-
-## 👁️ Observability & Monitoring (Roadmap)
-
-Future AI monitoring includes:
-- **Prometheus** (Metrics) & **Grafana** (Monitoring)
-- **Loki** (Logging)
-- **Concept drift detection**
-- **Prediction quality monitoring**
-- **False alert analytics**
-
-*(Chi tiết kiến trúc, ERD, Sequence Diagram, AI Flow vui lòng xem trong `docs/architecture.md`)*
-
----
-
-## 🚀 Hướng dẫn Cài đặt & Triển khai (Deployment)
-
-EduGuard AI hỗ trợ triển khai quy mô lớn (Multi-container Docker).
-
-### 1. Dùng Docker Compose (Khuyên dùng)
-Bạn chỉ cần cài đặt Docker và chạy lệnh:
+### Bước 1: Tải mã nguồn và Cài đặt thư viện
+Mở Terminal / Command Prompt và chạy các lệnh sau:
 ```bash
-docker-compose up --build -d
-```
-Hệ thống sẽ tự động khởi tạo Backend API (cổng 5000) và Frontend UI (cổng 80) sẵn sàng hoạt động.
+# 1. Clone source code từ Github
+git clone https://github.com/ntrungz0704/eduguard-ai.git
+cd eduguard-ai
 
-### 2. Dùng Local Development (Môi trường Dev)
-```bash
-# Cài đặt thư viện gốc và frontend
+# 2. Cài đặt các thư viện cần thiết cho Backend (Server)
 npm install
-cd client && npm install && cd ..
 
-# Khởi tạo Database (SQLite)
+# 3. Cài đặt các thư viện cần thiết cho Frontend (Client)
+cd client
+npm install
+cd ..
+
+# 4. Khởi tạo Cơ sở dữ liệu nội bộ (SQLite)
 npx prisma db push
-
-# Chạy hệ thống (vừa backend vừa frontend)
-npm run dev
 ```
 
----
+### Bước 2: Khởi động Toàn bộ Hệ thống (Chỉ 1 lệnh)
+Chúng tôi đã tích hợp sẵn một lệnh tự động dọn dẹp cổng, huấn luyện AI, và khởi chạy toàn bộ server + client. Bạn chỉ cần gõ đúng 1 lệnh này ở thư mục gốc (`eduguard-ai`):
 
-## 🗺️ Lộ trình Phát triển (Product Roadmap)
+```bash
+npm run boot
+```
+*Lệnh này sẽ:*
+1. Dọn dẹp kẹt cổng (cổng 3000, 5173).
+2. Chạy thuật toán học máy dự báo điểm (`npm run train`).
+3. Chạy thuật toán xử lý ngôn ngữ tự nhiên Chatbot (`npm run train:chat`).
+4. Bật giao diện Web.
 
-Chúng tôi định vị EduGuard AI không chỉ là một đồ án, mà là một Startup AI EdTech. Lộ trình phát triển như sau:
-
-*   **Giai đoạn 1: Hoàn thiện Hiện tại (Current State)** ✅
-    *   Predictive Analytics & Explainable AI (XAI) Dashboard.
-    *   Local NLP Chatbot Pipeline.
-    *   Cấu trúc Docker Multi-container Architecture.
-
-*   **Giai đoạn 2: Trí tuệ Nâng cao (Advanced AI)** 🚧
-    *   **Semantic Embeddings & Vector DB:** Tìm kiếm ngữ nghĩa vượt ra ngoài Intent cơ bản bằng mô hình MiniLM và ChromaDB.
-    *   **AI Memory Layer:** AI ghi nhớ lịch sử học thuật dài hạn của từng sinh viên.
-    *   **Recommendation Engine:** Hệ thống tự động đề xuất video học liệu và ghép nối Mentor-Mentee.
-
-*   **Giai đoạn 3: Enterprise AI (Quy mô Lớn)**
-    *   Bảng điều khiển Giám sát AI (AI Monitoring Dashboard).
-    *   **Model Drift Detection:** Đo lường sự suy giảm chất lượng dữ liệu và tự động tái huấn luyện (Retraining Pipeline).
-    *   Graph Analytics (Knowledge Graph) cho chương trình đào tạo.
-
-*   **Giai đoạn 4: Startup & SaaS License**
-    *   Multi-school Federation Learning (Liên kết AI học thuật ẩn danh giữa các trường).
-    *   Giấy phép phần mềm B2B SaaS cho các trung tâm giáo dục.
+**Sau khoảng 10 giây, bạn hãy mở trình duyệt và truy cập:** `http://localhost:5173`
 
 ---
 
-## 📝 Tài liệu thuyết trình & Pitching
-* [Kiến trúc Dữ liệu & Sơ đồ luồng (Architecture)](docs/architecture.md)
-* [Pitch Deck Khởi nghiệp 10 Slides (Pitch Deck)](docs/pitch_deck.md)
-* [Kịch bản Trình diễn 5 phút (Demo Script)](docs/demo_script.md)
+## 🗄️ Hướng dẫn Xem & Sửa Dữ liệu Database
+
+Dự án sử dụng Prisma ORM và SQLite. Bạn có thể xem trực quan toàn bộ dữ liệu điểm số, thông tin sinh viên cực kỳ dễ dàng bằng công cụ Prisma Studio.
+
+Mở một **Terminal MỚI** (nhớ giữ nguyên terminal đang chạy hệ thống), và gõ lệnh:
+```bash
+npx prisma studio
+```
+Lệnh này sẽ tự động mở một tab mới trên trình duyệt (thường là `http://localhost:5555`). Tại đây bạn có thể xem các bảng `Student`, `Course`, `Score`, `Prediction`, `Intervention` y như dùng Excel!
+
+---
+
+## 🌟 Điểm nổi bật về Kỹ thuật (Technical Highlights)
+
+*   🧠 **Predictive Academic Analytics:** Tích hợp mô hình hồi quy tuyến tính (Linear Regression) và hệ số tương quan Pearson, tìm ra quy luật "Môn tiên quyết" để dự báo nguy cơ rớt môn.
+*   📊 **Explainable AI (XAI):** AI giải thích trực quan nguyên nhân rủi ro (Ví dụ: Do điểm môn tiên quyết C++ thấp và nghỉ học 3 buổi).
+*   🔒 **100% Offline & Data Privacy (FERPA):** Trợ lý ảo Chatbot sử dụng Lightweight Local NLP (`node-nlp`), không phụ thuộc API ChatGPT/Gemini, đảm bảo dữ liệu sinh viên không bao giờ rò rỉ ra ngoài.
+*   🎛️ **Materialized Prediction View:** Logic tính toán AI nặng được thiết kế để chạy nền (Background Worker) và lưu vào Database, giúp truy xuất API đạt tốc độ O(1).
+*   🚀 **Enterprise Mindset:** Kiến trúc mã nguồn sạch, tách biệt Frontend (React/Vite) và Backend (Node/Express), tích hợp JWT, Rate Limiting và Prisma ORM.
 
 ---
 *Phát triển bởi đội ngũ Kỹ sư EduGuard AI - Nâng tầm trí tuệ giáo dục.*
