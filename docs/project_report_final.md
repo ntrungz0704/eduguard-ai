@@ -3,26 +3,25 @@
 
 **Tài liệu dành cho:** Hội đồng Khoa học, Nhà đầu tư (VC), Ban giám khảo chuyên môn và Đội ngũ Kỹ sư Phát triển.
 **Đơn vị thực hiện:** EduGuard AI Team
-**Phiên bản Tài liệu:** 2.0.0 (Enterprise Production-Ready)
-**Ngày phát hành:** Tháng 5 / 2026
+**Phiên bản Tài liệu:** 3.0 (Synchronized with EduGuard_AI_SmartGen2026_v2.pptx)
 
 ---
 
 ## 1. GIỚI THIỆU DỰ ÁN (PROJECT OVERVIEW & VISION)
 
 ### 1.1 Tổng quan dự án
-Giáo dục đại học hiện đại đang tạo ra một lượng dữ liệu khổng lồ (Big Data) mỗi ngày, từ điểm số, điểm danh, đến hành vi tương tác trên hệ thống quản lý học tập (LMS). Tuy nhiên, hầu hết các trường đại học vẫn đang hoạt động theo mô hình quản trị "thụ động" (Reactive) — tức là chỉ nhận diện vấn đề sau khi sinh viên đã thực sự thi rớt hoặc bảo lưu. 
+Giáo dục đại học và cao đẳng hiện đại đang tạo ra một lượng dữ liệu khổng lồ (Big Data) mỗi ngày, từ điểm số, điểm danh, đến hành vi tương tác trên hệ thống quản lý học tập (LMS). Tuy nhiên, hầu hết các trường đại học vẫn đang hoạt động theo mô hình quản trị "thụ động" (Reactive) — tức là chỉ nhận diện vấn đề sau khi sinh viên đã thực sự thi rớt hoặc bảo lưu. 
 
-EduGuard AI ra đời như một "Hệ thần kinh trung ương" (Central Nervous System) của học đường. Nó không chỉ là một bảng điều khiển hiển thị dữ liệu thô, mà là một **Nền tảng Phân tích Học vụ (Academic Intelligence Platform)** tích hợp sâu trí tuệ nhân tạo (AI) và khai phá dữ liệu giáo dục (Educational Data Mining - EDM) để đưa ra các phán đoán có cơ sở khoa học về tương lai học thuật của từng cá nhân sinh viên.
+EduGuard AI ra đời như một "Hệ thần kinh trung ương" (Central Nervous System) của học đường. Nó không chỉ là một bảng điều khiển hiển thị dữ liệu thô, mà còn là một **Nền tảng Phân tích Học vụ (Academic Intelligence Platform)** tích hợp sâu trí tuệ nhân tạo (AI) và khai phá dữ liệu giáo dục (Educational Data Mining - EDM) để đưa ra các phán đoán có cơ sở khoa học về tương lai học thuật của từng cá nhân sinh viên.
 
 ### 1.2 Ý tưởng hình thành và sự cấp thiết
-Mỗi sinh viên thi rớt không chỉ là một thất bại cá nhân, mà còn là một sự lãng phí nguồn lực khổng lồ đối với hệ thống giáo dục. Những phân tích sơ bộ cho thấy rớt môn mang tính "dây chuyền" (Domino Effect). Một sinh viên hổng kiến thức ở môn Nhập môn Lập trình sẽ có tỷ lệ rớt môn Cấu trúc Dữ liệu lên tới 80%. Nếu có một hệ thống AI cảnh báo kịp thời ở ngay tuần thứ 3 của học kỳ, Giảng viên có thể can thiệp, cứu vãn toàn bộ chặng đường đại học của sinh viên đó. EduGuard AI được xây dựng để trở thành "Lá chắn" bảo vệ tương lai đó.
+Mỗi sinh viên thi rớt không chỉ là một thất bại cá nhân, mà còn là một sự lãng phí nguồn lực khổng lồ đối với hệ thống giáo dục. Những phân tích sơ bộ cho thấy rớt môn mang tính "dây chuyền" (Domino Effect). Một sinh viên hổng kiến thức ở môn Nhập môn Lập trình sẽ có tỷ lệ rớt môn Cấu trúc Dữ liệu lên tới 80%. Nếu có một hệ thống AI cảnh báo kịp thời ngay từ tuần thứ 3 của học kỳ, giảng viên có thể can thiệp, cứu vãn toàn bộ chặng đường đại học của sinh viên đó. EduGuard AI được xây dựng để trở thành "Lá chắn" bảo vệ tương lai đó.
 
 ### 1.3 Mục tiêu & Tầm nhìn tương lai
 Tầm nhìn của EduGuard AI là trở thành một "Bản sao số học thuật" (Academic Digital Twin). Hệ thống phục vụ đồng thời 3 đối tượng:
-- **Giảng viên / Cố vấn học tập:** Trở thành trợ lý phân tích dữ liệu vô hình, giúp họ đưa ra quyết định can thiệp chính xác.
-- **Sinh viên:** Trở thành một "AI Study Planner", đưa ra các cảnh báo sớm và lộ trình phục hồi.
-- **Nhà trường:** Một công cụ quản trị rủi ro vĩ mô, trực tiếp giảm thiểu tỷ lệ bỏ học (Dropout Rate) và bảo vệ dòng doanh thu (Retention Revenue).
+*   **Giảng viên / Cố vấn học tập:** Trở thành trợ lý phân tích dữ liệu vô hình, giúp họ đưa ra quyết định can thiệp chính xác.
+*   **Sinh viên:** Trở thành một "AI Study Planner", đưa ra các cảnh báo sớm và lộ trình phục hồi.
+*   **Nhà trường:** Một công cụ quản trị rủi ro vĩ mô, trực tiếp giảm thiểu tỷ lệ bỏ học (Dropout Rate) và bảo vệ dòng doanh thu (Retention Revenue).
 
 ---
 
@@ -31,104 +30,96 @@ Tầm nhìn của EduGuard AI là trở thành một "Bản sao số học thu�
 Hệ thống quản lý sinh viên hiện tại tồn tại những "nỗi đau" (Pain points) sâu sắc khiến cả giảng viên và sinh viên đều kiệt sức:
 
 ### 2.1 Giảng viên và sự quá tải (Advisor Burnout)
-Một cố vấn học vụ trung bình quản lý từ 100 đến 300 sinh viên. Họ phải theo dõi thủ công bằng Microsoft Excel, dùng hàm VLOOKUP để đối chiếu điểm. Đây là một quy trình làm việc bào mòn sức lao động, khiến giảng viên từ một nhà giáo dục (Educator) biến thành một thợ gõ dữ liệu (Data Entry Worker), hoàn toàn không còn thời gian cho việc "khai vấn" hay định hướng nghề nghiệp.
+Một cố vấn học vụ trung bình quản lý từ 100 đến 300 sinh viên. Họ phải theo dõi thủ công bằng Microsoft Excel, dùng hàm VLOOKUP để đối chiếu điểm. Đây là một quy trình làm việc bào mòn sức lao động, khiến giảng viên từ một nhà giáo dục biến thành thợ gõ dữ liệu, không còn thời gian cho việc "khai vấn" hay định hướng nghề nghiệp.
 
 ### 2.2 Sự phân mảnh dữ liệu (Data Silos)
-Thông tin về điểm danh (nằm ở sổ tay hoặc phần mềm riêng), điểm bài tập (nằm trên LMS), và điểm thi (nằm trên SIS) hoàn toàn rời rạc. Dữ liệu không nói chuyện với nhau. Việc vắng mặt liên tục ở tuần 1 và 2 thường có tương quan mạnh mẽ với việc thi rớt ở tuần 15, nhưng vì Data Silos, không một hệ thống nào tự động chỉ ra mối liên hệ nhân quả này.
+Thông tin về điểm danh, điểm bài tập và điểm thi hoàn toàn rời rạc. Việc vắng mặt liên tục ở tuần 1 và tuần 2 thường có tương quan mạnh mẽ với việc thi rớt ở tuần 15, nhưng vì Data Silos, không một hệ thống nào tự động chỉ ra mối liên hệ nhân quả này.
 
 ### 2.3 "Khám nghiệm tử thi" học thuật (Post-mortem Alerts)
-Hầu hết các trường chỉ gửi "Cảnh báo học vụ" vào CUỐI học kỳ, khi điểm trung bình tích lũy (CGPA) đã tụt xuống dưới mức cho phép. Đây là sự can thiệp quá muộn (Too little, too late). Giống như việc y tế chỉ thông báo cho bệnh nhân khi họ đã ung thư giai đoạn cuối, việc phục hồi lúc này tốn kém và tỷ lệ thành công cực thấp. Sinh viên mất động lực và hệ quả tất yếu là Dropout.
+Hầu hết các trường chỉ gửi "Cảnh báo học vụ" vào CUỐI học kỳ, khi điểm trung bình tích lũy đã tụt xuống dưới mức cho phép. Đây là sự can thiệp quá muộn (Too little, too late). Giống như việc y tế chỉ thông báo cho bệnh nhân khi họ đã ung thư giai đoạn cuối, việc phục hồi lúc này tốn kém và tỷ lệ thành công cực thấp.
 
 ---
 
 ## 3. GIẢI PHÁP EDUGUARD AI (THE ENTERPRISE SOLUTION)
 
-EduGuard AI không phải là một tính năng, nó là một Nền tảng AI hoàn chỉnh (Complete AI Platform) cung cấp chuỗi giá trị từ Phân tích -> Dự báo -> Giải thích -> Can thiệp.
+EduGuard AI không phải là một tính năng; nó là một nền tảng AI hoàn chỉnh (Complete AI Platform) cung cấp chuỗi giá trị từ Phân tích -> Dự báo -> Giải thích -> Can thiệp.
 
 ### 3.1 Predictive Academic Analytics (Phân tích Dự báo)
-Sử dụng các mô hình học máy (Linear Regression & Pearson Correlation), hệ thống liên tục tính toán Risk Score (Điểm rủi ro) của sinh viên theo thời gian thực. Thay vì chờ đến cuối kỳ, EduGuard phân tích ngay từ tuần học đầu tiên dựa trên lịch sử điểm các môn tiên quyết và tỷ lệ đi học.
+Thay vì chờ đến cuối kỳ, EduGuard phân tích ngay từ tuần học đầu tiên dựa trên lịch sử điểm các môn tiên quyết và tỷ lệ đi học. 
+Cách hệ thống tư duy và vận hành bao gồm các khái niệm cốt lõi:
+*   **Predictive Analytics:** Phát hiện "Sinh viên này có khả năng rớt môn 78% hoặc Sinh viên này đang ổn định".
+*   **Linear Regression:** Tìm xu hướng giữa dữ liệu đầu vào (đầu vào: chuyên cần, điểm quá khứ) và kết quả (đầu ra: điểm số tương lai).
+*   **Pearson Correlation:** Tìm ra hai biến dữ liệu có liên quan với nhau mạnh hay yếu.
+*   **Risk Score:** Chính là Điểm đánh giá mức độ nguy hiểm học tập của sinh viên.
+*   **Real-time:** Hệ thống cam kết có dữ liệu mới là cập nhật tính toán ngay lập tức.
+*   **Môn tiên quyết:** Đây chính là PHẦN MẠNH NHẤT của dự án, khai thác triệt để mối quan hệ giữa các môn học để đưa ra dự đoán dài hạn.
 
 ### 3.2 Red Alert System (Hệ thống Cảnh báo Đỏ)
-Phân loại hàng ngàn sinh viên thành 3 nhóm: Đỏ (High Risk), Vàng (Medium Risk), và Xanh (Safe). Hệ thống sẽ đẩy Push Notification hoặc đánh dấu cờ (Flag) những sinh viên Đỏ lên màn hình của Cố vấn học tập, buộc họ phải đưa ra hành động (Actionable Insights).
+Phân loại sinh viên thành 3 nhóm: Đỏ (High Risk), Vàng (Medium Risk), và Xanh (Safe). Hệ thống sẽ đẩy Push Notification hoặc đánh dấu cờ (Flag) những sinh viên Đỏ lên màn hình của Cố vấn học tập.
 
 ### 3.3 Explainable AI (XAI) - Máy học minh bạch
-Chúng tôi từ chối mô hình "Hộp đen" (Blackbox). AI của EduGuard sinh ra các giải thích tường minh: *"Sinh viên này có 88% nguy cơ rớt môn Thiết kế Web vì: 1. Điểm môn HTML quá thấp (Trọng số 40%); 2. Tuần qua nghỉ 3 buổi (Trọng số 35%)"*. Tính năng này giúp giảng viên có căn cứ khoa học để thuyết phục sinh viên khi gọi lên tư vấn.
+Chúng tôi từ chối mô hình "Hộp đen" (Blackbox). Model của EduGuard sinh ra các giải thích tường minh: *"Sinh viên này có 88% nguy cơ rớt môn Thiết kế Web vì: 1. Điểm môn HTML quá thấp (Trọng số 40%); 2. Tuần qua nghỉ 3 buổi (Trọng số 35%)"*.
 
 ### 3.4 What-if GPA Simulation (Giả lập tương lai)
-Một tính năng tâm lý học cực mạnh. Khi sinh viên đang chán nản (Burnout), giảng viên có thể dùng thanh trượt để giả lập: "Nếu từ tuần sau em đi học đủ 100% và đạt 7.0 điểm giữa kỳ, rủi ro rớt môn của em sẽ giảm từ 88% xuống còn 30% (Vùng xanh)". Trực quan hóa dữ liệu giúp sinh viên lấy lại động lực một cách diệu kỳ.
+Một tính năng tâm lý học cực mạnh. Giảng viên có thể dùng thanh trượt để giả lập: *"Nếu từ tuần sau em đi học đủ 100% và đạt 7.0 điểm giữa kỳ, rủi ro rớt môn của em sẽ giảm từ 88% xuống còn 30%"*. Trực quan hóa dữ liệu giúp sinh viên lấy lại động lực một cách diệu kỳ.
 
-### 3.5 AI Intervention System (Hệ thống can thiệp)
-Mọi lịch sử cảnh báo và tư vấn được lưu thành Audit Log (Nhật ký can thiệp). Hệ thống theo dõi liệu sinh viên có sự cải thiện sau khi được giảng viên tư vấn hay không, tạo thành một vòng lặp kín (Closed-loop Intervention).
+### 3.5 AI Intervention System (Hệ thống can thiệp khép kín)
+Không chỉ phát hiện sinh viên có nguy cơ học kém mà còn theo dõi toàn bộ quá trình hỗ trợ. Cảnh báo và hoạt động tư vấn đều được lưu lại (Audit Log) để hệ thống đánh giá xem sinh viên có cải thiện sau khi được hỗ trợ hay không. Điều này tạo ra một vòng lặp liên tục giúp tối ưu hiệu quả can thiệp học tập (Closed-loop Intervention).
+*   **Audit Log:** Ghi nhận bằng chứng tư vấn liệu có hiệu quả hay không.
+*   **Cơ chế 2 tuần:** Hệ thống sẽ chủ động theo dõi sinh viên có cải thiện không sau đúng 2 tuần từ lúc can thiệp.
+*   **Vòng lặp Closed-loop:** AI cảnh báo => Giáo viên can thiệp => Theo dõi tiến bộ => Đánh giá kết quả (Model đánh giá hiệu quả) => Tiếp tục cải thiện và tối ưu.
 
 ---
 
 ## 4. KIẾN TRÚC HỆ THỐNG (SYSTEM ARCHITECTURE)
 
-Hệ thống được thiết kế theo nguyên lý Enterprise Architecture (Microservices-ready) nhằm đảm bảo tính mở rộng (Scalability), độ ổn định (Reliability) và tính khả dụng cao (High Availability).
+Hệ thống được thiết kế theo nguyên lý Enterprise Architecture (Microservices-ready) nhằm đảm bảo tính mở rộng, độ ổn định và tính khả dụng cao.
 
-### 4.1 Frontend Layer (Trình diễn dữ liệu)
-*   Sử dụng **React.js** kết hợp **Tailwind CSS**.
-*   Áp dụng kiến trúc Single Page Application (SPA). Quản lý State bằng **Zustand** giúp giao diện không bị giật lag khi re-render các biểu đồ D3.js/Chart.js nặng nề.
+### 4.1 Frontend Layer (Giao diện người dùng)
+Đây là phần giao diện người dùng thấy được. EduGuard sử dụng sự kết hợp hoàn hảo giữa **React.js** và **Tailwind CSS**.
+*   **React.js làm gì?** Component hóa giao diện, hỗ trợ render cực nhanh, biến EduGuard thành một Dashboard realtime với các biểu đồ động mượt mà.
+*   **Tailwind CSS làm gì?** Giúp code CSS nhanh, tạo ra cấu trúc Responsive, UI hiện đại và cực kỳ dễ bảo trì (maintain).
 
-### 4.2 Backend API & Orchestration Layer
-*   Xây dựng bằng **Node.js** và **Express**, đóng vai trò là API Gateway và Traffic Orchestrator.
-*   Layer này thực hiện việc xác thực (JWT Authentication), Rate Limiting (Chống DDoS), và Validation dữ liệu đầu vào. Nó hoàn toàn Non-blocking (Không nghẽn) nhờ vào mô hình Event-driven của Node.
+### 4.2 Backend API Layer
+Sử dụng **Node.js** và **Express**, đóng vai trò là API Gateway, xác thực JWT, Rate Limiting chống DDoS, hoàn toàn Asynchronous và Non-blocking.
 
-### 4.3 Database & Persistence Layer
-*   Sử dụng **PostgreSQL** (hoặc SQLite cho môi trường Local Dev). PostgreSQL cung cấp ACID transaction, đảm bảo dữ liệu điểm số không bao giờ bị sai lệch.
-*   Giao tiếp thông qua **Prisma ORM**, đảm bảo Type-safety từ Backend xuống tận Database, triệt tiêu hoàn toàn lỗi SQL Injection.
+### 4.3 Database Layer
+Sử dụng **PostgreSQL** kết hợp **Prisma ORM**, đảm bảo ACID transaction và Type-safety từ Backend xuống DB, triệt tiêu lỗi SQL Injection.
 
 ### 4.4 Redis Queue & Cache Layer
-*   Sử dụng **Redis** làm Message Broker (Trạm trung chuyển thông điệp) và In-memory Cache. Các request nặng (như tính toán lại rủi ro cho toàn trường) sẽ được đẩy vào Redis thay vì chạy trực tiếp trên Backend.
+**Redis** làm Message Broker và Cache. Các request tính toán Machine Learning nặng sẽ được đẩy vào Redis thay vì chạy trực tiếp trên Web Server, giúp server không bị nghẽn.
 
 ### 4.5 AI Background Workers
-*   Một Container độc lập chuyên xử lý Machine Learning. Worker này sẽ "pop" các task từ Redis Queue, load các mô hình học máy vào RAM, thực thi thuật toán Linear Regression, và ghi (Write-back) kết quả vào PostgreSQL. Việc tách riêng Worker giúp Web API không bao giờ bị Crash khi AI đang train dữ liệu.
+Một container độc lập chạy ngầm. Worker này sẽ "pop" các task từ Redis Queue, load các mô hình học máy vào RAM, thực thi thuật toán Linear Regression, và ghi kết quả (Write-back) vào PostgreSQL.
 
 ---
 
 ## 5. KIẾN TRÚC CHATBOT KÉP (DUAL CHATBOT ARCHITECTURE)
 
-EduGuard AI sở hữu một "Trợ lý ảo học thuật" (Academic Virtual Assistant) tích hợp sâu vào giao diện, với kiến trúc lai (Hybrid) độc nhất vô nhị.
+Khác với các công cụ chỉ bọc API (GPT Wrapper), EduGuard AI áp dụng **Hybrid AI Architecture** độc nhất vô nhị.
 
 ### 5.1 Local AI Mode (Offline & NLP Engine)
-*   **Công nghệ:** Nhúng trực tiếp thư viện `node-nlp` vào backend.
-*   **Luồng xử lý (Flow):** Khi giáo viên gõ: *"Tìm các sinh viên nguy cơ rớt môn Java lớp IT1"*. Local AI sẽ Tokenize câu, Stemming, và trích xuất Intent (`query.high_risk`) cùng Entities (`course: Java`, `class: IT1`).
-*   **Tại sao lại cần Local AI?** 
-    1. **Bảo mật tuyệt đối:** Dữ liệu học tập là tài sản nhạy cảm (tuân thủ FERPA/GDPR). Việc đẩy điểm số lên OpenAI tiềm ẩn rủi ro lộ lọt dữ liệu. Local AI chạy 100% trên máy chủ của trường.
-    2. **Độ trễ bằng 0 (Zero Latency):** Phản hồi dưới 100ms.
-    3. **Zero Cost:** Không tốn tiền gọi API mạng lưới.
-    4. **Hoạt động Offline:** Kể cả khi rớt mạng cáp quang quốc tế, trường học vẫn hoạt động bình thường.
+Nhúng trực tiếp thư viện `node-nlp` vào backend. Khi giáo viên gõ: *"Tìm các sinh viên nguy cơ rớt môn Java"*, Local AI sẽ Tokenize, Stemming, và trích xuất Intent. 
+*Lợi ích:* Hoạt động 100% Offline không cần Internet, độ trễ 0ms, và giải quyết triệt để bài toán **Bảo mật Dữ liệu (Data Privacy)** vì không đẩy thông tin nhạy cảm của sinh viên lên máy chủ bên thứ ba.
 
 ### 5.2 Online AI Mode (Gemini API & Semantic RAG)
-*   **Công nghệ:** Tích hợp Gemini API kết hợp kỹ thuật RAG (Retrieval-Augmented Generation).
-*   **Luồng xử lý:** Khi câu hỏi vượt ra ngoài khả năng của Local NLP (Ví dụ: *"Phân tích cho tôi sự chênh lệch chất lượng giữa khóa K18 và K19"*), hệ thống tự động Fail-over (Chuyển đổi) sang Gemini. Hệ thống sẽ Query dữ liệu thô từ Database, định dạng thành Prompt ngữ cảnh (Context), và đẩy cho Gemini suy luận.
-*   **Lợi ích:** Mang lại khả năng suy luận vĩ mô (Macro Reasoning) mạnh mẽ của LLM mà không sợ tình trạng "Ảo giác" (Hallucination) vì AI bị ép phải trả lời dựa trên Ground-truth data của trường.
+Khi câu hỏi mang tính suy luận vĩ mô vượt quá khả năng của Local NLP, hệ thống tự động Fail-over sang Gemini API. Áp dụng **RAG (Retrieval-Augmented Generation)**: AI Query dữ liệu thô từ Database trường, nhúng thành Context và ép Gemini phải trả lời dựa trên Ground-truth data đó, loại bỏ hoàn toàn tình trạng Ảo giác (Hallucination).
 
 ---
 
 ## 6. PHÂN TÍCH AI & MACHINE LEARNING CHI TIẾT
 
-Chúng tôi không lạm dụng mạng nơ-ron sâu (Deep Learning) vì nó là "Hộp đen" (Blackbox). Trong giáo dục, sự giải thích được là ưu tiên số 1. Vì vậy, chúng tôi chọn **Interpretable Machine Learning** (Máy học có thể lý giải).
+Trong giáo dục, sự minh bạch là ưu tiên số 1. Vì vậy, chúng tôi chọn **Interpretable Machine Learning** (Máy học có thể lý giải) thay vì Deep Learning.
 
-### 6.1 Feature Engineering (Kỹ thuật trích xuất đặc trưng)
-Hệ thống kết hợp cả **Dữ liệu Lịch sử** (Historical Data: Điểm các môn học trước) và **Dữ liệu Hành vi** (Behavioral Analytics: Điểm danh, tương tác LMS).
+### 6.1 Pearson Correlation
+Tự động quét toàn bộ cơ sở dữ liệu để tìm ra mối tương quan nhân quả giữa các môn học. Ví dụ phát hiện điểm Toán Rời Rạc có $r=0.85$ (tương quan cực mạnh) với môn Cấu Trúc Dữ Liệu.
 
-### 6.2 Pearson Correlation (Tương quan Pearson)
-Hệ thống tự động quét toàn bộ cơ sở dữ liệu để tìm ra mối tương quan nhân quả giữa các môn học. Thuật toán Pearson đo lường mức độ đồng biến/nghịch biến (từ -1 đến 1). 
-*Kết quả:* Hệ thống phát hiện sinh viên đạt điểm cao môn "Toán rời rạc" có tỷ lệ 85% sẽ qua môn "Cấu trúc dữ liệu". Từ đây, Toán rời rạc được chọn làm *Prerequisite Feature* cực kỳ quan trọng.
+### 6.2 Linear Regression
+Hệ thống nội suy Điểm tương lai dựa trên hàm hồi quy đa biến: `Predicted = W1*(Prerequisite) + W2*(Attendance) + Bias`. Trọng số (Weights) được tối ưu hóa liên tục để phát hiện ra biến nào đang kéo sinh viên xuống vực.
 
-### 6.3 Linear Regression (Hồi quy tuyến tính)
-Dựa vào các Features đã chọn, một mô hình Hồi quy tuyến tính được huấn luyện (Training Pipeline) để dự báo biến mục tiêu (Y - Điểm tổng kết tương lai).
-Phương trình: `Predicted_Score = W1*(Prerequisite_Score) + W2*(Attendance_Rate) + Bias`
-Các trọng số (Weights - W) được tối ưu hóa qua hàm mất mát (Loss Function). Nếu W2 (Chuyên cần) mang giá trị lớn, hệ thống chứng minh được rằng việc đi học đầy đủ quyết định sinh tử đến việc qua môn.
-
-### 6.4 Risk Score & Confidence
-Từ `Predicted_Score`, hệ thống nội suy ra `Risk Level` (Cao, Trung bình, Thấp) và gán thêm một `Confidence Score` (Độ tự tin của mô hình). Ví dụ: "Dự báo rớt: 90% (Độ tin cậy: 85%)".
-
-### 6.5 Model Evaluation (Đánh giá mô hình)
-Chúng tôi sử dụng:
-*   **RMSE (Root Mean Square Error):** Để đo lường sai số dự báo điểm.
-*   **Precision, Recall, F1-Score:** Trong bài toán cảnh báo, chúng tôi tối ưu hóa **Recall** (Độ phủ). Hệ thống thà báo động nhầm (False Positive) còn hơn là bỏ sót (False Negative) một sinh viên có nguy cơ rớt.
+### 6.3 Đánh giá Mô hình
+*   **RMSE:** Đo sai số dự báo điểm thực tế.
+*   **Precision, Recall, F1-Score:** Hệ thống ưu tiên tối ưu hóa **Recall**. Chúng tôi thà báo động nhầm (False Positive) còn hơn là bỏ sót (False Negative) một sinh viên có nguy cơ rớt.
 
 ---
 
@@ -137,153 +128,139 @@ Chúng tôi sử dụng:
 1.  **User Input:** Giảng viên chat: *"Những sinh viên nào lớp WEB101 vắng quá 3 buổi?"*
 2.  **NLP Parsing:** `node-nlp` nhận diện Intent `student.filter.attendance` và trích xuất Entity `course: WEB101`, `absent: >3`.
 3.  **AI Router:** Phân loại đây là câu lệnh truy xuất Data, không cần suy luận Generative AI.
-4.  **Query Generation:** Prisma ORM biến Entity thành truy vấn SQL an toàn, tìm trong DB.
-5.  **Analytics / Prediction (Nếu cần):** Dữ liệu thô được đẩy qua mô hình Hồi quy đã lưu trong RAM để update lại Risk Score real-time.
-6.  **XAI Explanation:** Thuật toán gắn thêm nhãn giải thích (Reasons) dựa trên trọng số âm của điểm chuyên cần.
-7.  **Response Formatting:** Hệ thống trả về một cấu trúc JSON, Frontend tự động render thành một bảng danh sách (Data Visualization) nổi lên ngay trong cửa sổ chat.
+4.  **Query Generation:** Prisma ORM biến Entity thành truy vấn SQL an toàn.
+5.  **Prediction Engine:** Dữ liệu thô đi qua mô hình Hồi quy để tính lại Risk Score real-time.
+6.  **XAI Explanation:** Thuật toán gắn thêm nhãn giải thích dựa trên trọng số âm.
+7.  **Response Formatting:** Trả về UI ngay trong cửa sổ chat dưới 200ms.
 
 ---
 
-## 8. THIẾT KẾ CƠ SỞ DỮ LIỆU (DATABASE DESIGN)
+## 8. DATABASE DESIGN
 
-Thiết kế CSDL đạt chuẩn Normalization (Chuẩn hóa 3NF) và tối ưu hóa cho truy vấn cực nhanh.
+Thiết kế CSDL chuẩn hóa (Normalization 3NF) và tối ưu hóa cho Scale-up.
+*   **Student, Course:** Bảng Metadata cốt lõi.
+*   **Score:** Bảng Event/Fact lưu điểm và chuyên cần phình to theo thời gian.
+*   **Prediction:** Bảng **Materialized View Cache**. Chứa kết quả AI (RiskScore, Confidence, XAI_Reasons). API chỉ việc SELECT từ đây, đảm bảo O(1) Fetching Time.
+*   **Intervention:** Bảng Audit Log ghi nhận mọi hành động can thiệp của giảng viên.
 
-### 8.1 Schema Cốt lõi
-*   `Student` (MSSV, Tên, Mã Lớp): Thông tin định danh.
-*   `Course` (ID, Tên, Số Tín Chỉ): Danh mục môn học.
-*   `Score` (MSSV, CourseID, Điểm KQ, Điểm Danh): Bảng Event/Fact khổng lồ, lưu trữ mọi điểm thành phần.
-*   `Prediction` (MSSV, CourseID, RiskScore, Confidence, XAI_Reasons): Đây là bảng **Materialized View** (Cache). AI Worker tính toán xong sẽ ghi đè vào đây. Frontend chỉ việc SELECT từ bảng này, đảm bảo O(1) Fetching Time, giao diện load trong nháy mắt.
-*   `Intervention` (MSSV, AdvisorID, Action, Status): Bảng Audit Log (Nhật ký) lưu lại mọi hành động can thiệp. Giúp ban giám hiệu theo dõi hiệu suất của từng Cố vấn học tập.
-
-### 8.2 Indexing & Scalability
-Chúng tôi sử dụng Composite Index trên `Score(mssv, courseId)` và Index B-Tree cho các cột thường xuyên query như `classCode`. Giúp hệ thống không bị nghẽn (Table Scan) khi dữ liệu đạt mốc hàng triệu dòng.
+Chúng tôi thiết lập Composite Indexes trên `Score(mssv, courseId)` để tránh Table Scan khi dữ liệu đạt mốc hàng triệu dòng, bảo đảm Database Consistency thông qua DB Transactions.
 
 ---
 
-## 9. THIẾT KẾ TRẢI NGHIỆM NGƯỜI DÙNG (FRONTEND UI/UX)
+## 9. FRONTEND UI/UX
 
-Triết lý thiết kế của EduGuard AI là **"Enterprise Dashboard Mindset"** (Tư duy Bảng điều khiển Doanh nghiệp).
-
-*   **Dark Mode (Chế độ tối):** Giảm thiểu hiện tượng mỏi mắt (Screen Fatigue) cho các giảng viên phải nhìn màn hình 8 tiếng/ngày. Tone màu tối giúp các khối màu Cảnh báo (Đỏ/Vàng) nổi bật hơn bao giờ hết.
-*   **Psychology Color System:** Màu Đỏ (High Risk) chỉ xuất hiện khi thực sự khẩn cấp. Mọi nút bấm thông thường đều dùng màu Xanh (Neutral/Safe) để tránh làm loãng mức độ nghiêm trọng của màu Cảnh báo.
-*   **Conversational UI:** Việc nhúng Chatbot như một Floating Widget (Cửa sổ nổi) cho phép thao tác "Zero-UI". Thay vì bấm 5 click chuột vào các Menu lọc phức tạp, giảng viên chỉ cần gõ 1 câu lệnh tự nhiên.
-*   **Responsive & Accessibility:** Hệ thống tương thích đa thiết bị, sẵn sàng cho việc giảng viên check cảnh báo ngay trên iPad khi đang đứng lớp.
+Triết lý: **Enterprise Dashboard Mindset** (Tư duy Bảng điều khiển Doanh nghiệp).
+*   **Dark Mode:** Giảm mỏi mắt cho giảng viên (Screen Fatigue), tăng độ tương phản của dữ liệu cảnh báo.
+*   **Semantic Color System:** Màu Đỏ (High Risk) CHỈ xuất hiện khi thực sự khẩn cấp. Nút bấm bình thường dùng màu trung tính để tránh làm loãng ý nghĩa cảnh báo.
+*   **Zero-UI Navigation:** Khung Chat AI được nhúng thẳng vào góc màn hình. Giảng viên chỉ cần ra lệnh bằng ngôn ngữ tự nhiên thay vì bấm vào hàng chục Menu lọc (Filters) phức tạp.
 
 ---
 
-## 10. LỰA CHỌN CÔNG NGHỆ VÀ TÍNH KHẢ THI PRODUCTION
+## 10. CÔNG NGHỆ SỬ DỤNG VÀ TÍNH KHẢ THI PRODUCTION
 
-Mọi công nghệ đều được lựa chọn với lăng kính của một Startup CTO — Ưu tiên độ ổn định, dễ tuyển người bảo trì và tốc độ xử lý:
-*   **Node.js & Express:** Đem lại khả năng xử lý bất đồng bộ tuyệt vời (Asynchronous), hoàn hảo cho việc đẩy dữ liệu realtime qua lại giữa Server và Client.
-*   **Prisma ORM:** Kẻ thay đổi cuộc chơi (Game Changer) trong hệ sinh thái Node. Nó tự sinh ra Type an toàn cho TypeScript, giúp Developer tránh được các lỗi Runtime tồi tệ liên quan đến sai tên cột DB.
-*   **PostgreSQL:** Database tiêu chuẩn vàng của ngành công nghiệp, xử lý tốt dữ liệu lớn và concurrent connections (kết nối đồng thời).
-*   **Redis & Docker:** Việc "Container hóa" bằng Docker giúp việc triển khai (Deployment) lên bất kỳ máy chủ nào (AWS, Google Cloud hay máy chủ vật lý của trường) đều dễ dàng và đồng nhất. Redis giải quyết trọn vẹn bài toán Queue cho AI Worker.
-
----
-
-## 11. ĐIỂM KHÁC BIỆT CỐT LÕI (USP - UNIQUE SELLING PROPOSITIONS)
-
-EduGuard AI hoàn toàn đè bẹp các hệ thống quản lý LMS truyền thống và các công cụ "ChatGPT bọc vỏ" (Wrappers) ở các khía cạnh:
-
-1.  **AI Thực Chiến & Minh Bạch (XAI):** Khác với ChatGPT (bạn không biết vì sao nó nói vậy), EduGuard AI giải thích rõ ràng từng con số nó tính ra.
-2.  **Privacy-preserving AI:** Hoạt động Local 100%, bảo vệ dữ liệu trường học.
-3.  **Lai ghép linh hoạt (Hybrid):** Thông minh như Gemini nhưng lại nhanh và bảo mật như Local NLP.
-4.  **Hệ Sinh Thái Khép Kín (Decision Support):** Nó không dừng ở phân tích dữ liệu, nó bao gồm cả luồng Giao việc (Intervention System) để giải quyết vấn đề.
+*   **React + Tailwind + Zustand:** Kiến trúc Component mạnh mẽ, xóa bỏ CSS rác, quản lý State nhẹ nhàng không gây Re-render thừa.
+*   **Node.js + Express:** Xử lý Asynchronous Non-blocking xuất sắc, phù hợp cho Web API chịu tải đồng thời cao.
+*   **Prisma ORM + PostgreSQL:** Tiêu chuẩn vàng của lưu trữ điểm số học vụ (ACID Compliant) kết hợp với Type-safety ở mức Code.
+*   **Redis + Docker:** Docker đóng gói mọi thứ thành các Container độc lập dễ deploy. Redis là Message Broker trung gian nối các kiến trúc vi dịch vụ (Microservices).
+*   **node-nlp + Gemini API:** Sức mạnh NLP siêu nhẹ chạy Local kết hợp với LLM toàn cầu khi cần thiết.
 
 ---
 
-## 12. KHÓ KHĂN, THÁCH THỨC VÀ CÁCH KHẮC PHỤC
+## 11. ĐIỂM KHÁC BIỆT CỦA DỰ ÁN (USP)
 
-*   **Dữ liệu thiếu & Lệch (Imbalanced Data):** Số lượng sinh viên giỏi luôn nhiều hơn sinh viên rớt (Tỷ lệ rớt chỉ chiếm 10-15%). Điều này khiến AI dễ bị thiên kiến (Bias) và dự đoán "Ai cũng qua môn". 
-    *   *Khắc phục:* Áp dụng kỹ thuật Oversampling (SMOTE) hoặc tinh chỉnh ngưỡng Threshold của mô hình Linear Regression để tăng độ nhạy (Recall) đối với nhóm yếu kém.
-*   **Khởi động nguội (Cold Start):** Sinh viên năm nhất không có lịch sử học tập.
-    *   *Khắc phục:* Hệ thống chuyển trọng số (Weight Shifting) sang đánh giá dựa hoàn toàn vào Behavioral Analytics (Điểm danh, số lần nộp bài tập đúng hạn).
-*   **Nghẽn cổ chai Server (Latency):**
-    *   *Khắc phục:* Nếu AI được tính toán trực tiếp trên Main Thread của Node.js, toàn bộ API sẽ bị treo (Block Event Loop). Chúng tôi dùng kiến trúc Message Broker (Redis) tách riêng Background AI Worker.
+EduGuard AI đè bẹp các hệ thống LMS truyền thống và các công cụ "ChatGPT bọc vỏ" (Wrappers) ở 4 khía cạnh:
+1.  **AI Minh Bạch (XAI):** Không bắt người dùng tin mù quáng, rủi ro được giải thích bằng dữ liệu.
+2.  **Offline AI (Privacy-preserving):** Xử lý hoàn toàn trong nội mạng trường học, không lo rò rỉ dữ liệu lên mây (Cloud).
+3.  **Hybrid Architecture:** Thiết kế thông minh kết hợp sự nhanh gọn của Local ML và sự sâu sắc của Cloud LLM.
+4.  **Hệ Sinh Thái Khép Kín:** Từ Phát hiện -> Cảnh báo -> Giải thích -> Can thiệp -> Theo dõi phục hồi.
 
 ---
 
-## 13. SẴN SÀNG QUY MÔ LỚN (SCALABILITY & PRODUCTION ENGINEERING)
+## 12. KHÓ KHĂN & THÁCH THỨC
 
-Nếu EduGuard AI triển khai cho một Đại học Quốc Gia với 50.000 sinh viên và 1 triệu dòng dữ liệu điểm:
-*   **Nginx Load Balancer:** Phân phối tải (Traffic) cho nhiều Container Node.js API.
-*   **Queue Systems (Hàng đợi):** Khi phòng đào tạo upload file Excel 1 triệu dòng. Hệ thống lập tức trả về `202 Accepted` cho Frontend. File được chia nhỏ thành các Chunk và ném vào Redis.
-*   **Horizontal Scaling:** AI Worker sẽ tự động kéo (Pull) các Chunk này về xử lý dần. Nếu CPU quá tải, ta chỉ việc bật thêm 5 Container AI Worker (Chạy song song) để cắn hết hàng đợi trong Redis.
-*   **Observability (Giám sát):** Trong lộ trình, hệ thống sẽ tích hợp Prometheus (Đo lường CPU/RAM) và Grafana (Vẽ biểu đồ sức khỏe Server) để phát hiện sớm các sự cố sập nguồn.
+*   **Cold Start Problem (Dữ liệu thiếu):** Sinh viên năm nhất không có lịch sử học tập.
+    *   *Khắc phục:* AI tự động chuyển trọng số sang tập trung vào Behavioral Analytics (Điểm danh, Tương tác hệ thống LMS).
+*   **Imbalanced Data (Dữ liệu lệch):** Số sinh viên rớt luôn ít hơn sinh viên đậu, dễ gây thiên kiến (Bias).
+    *   *Khắc phục:* Áp dụng tinh chỉnh ngưỡng Threshold và ưu tiên độ nhạy Recall.
+*   **Ảo giác LLM (Hallucination):**
+    *   *Khắc phục:* Chặn đứng bằng kiến trúc RAG, bắt buộc Gemini chỉ nói dựa trên Context từ truy vấn SQL.
+
+---
+
+## 13. SẴN SÀNG QUY MÔ LỚN (SCALABILITY & SYSTEM ENGINEERING)
+
+Nếu triển khai cho một Đại học Quốc Gia với 50,000 sinh viên:
+*   **Queue Systems:** Upload file 1 triệu dòng điểm, Web Server sẽ trả về `202 Accepted` và ném công việc vào Redis Queue. Giao diện không bao giờ bị đơ (frozen).
+*   **Background Workers & Retry:** Worker sẽ nhẩn nha kéo data từ Queue về xử lý. Nếu Database quá tải, Redis sẽ tự động Retry với Exponential Backoff.
+*   **Horizontal Scaling:** Bằng Docker/Kubernetes, chúng ta có thể dễ dàng nhân bản AI Worker lên 10-20 instances để cắn hết hàng đợi trong Redis.
 
 ---
 
 ## 14. TRIẾT LÝ THIẾT KẾ AI (AI ENGINEERING PHILOSOPHY)
 
-Tại EduGuard, chúng tôi theo đuổi triết lý: **"Dùng đúng búa cho đúng đinh"**.
-Chúng tôi không sùng bái Deep Learning (Mạng nơ-ron sâu). 
-*   Phần **Thống kê & Machine Learning** (Pearson, Regression) được dùng để làm toán và dự báo vì chúng có tốc độ ánh sáng và độ chính xác toán học.
-*   Phần **NLP** (node-nlp) được dùng để định tuyến ý định (Orchestration).
-*   Phần **Generative AI** (Gemini) chỉ dùng khi cần sinh văn bản mượt mà hoặc suy luận kiến thức chung.
+Triết lý của chúng tôi: **"Sử dụng đúng búa cho đúng đinh"**.
+*   Phân loại ý định? -> Dùng NLP.
+*   Dự báo điểm số liên tục? -> Dùng Thống kê & Machine Learning (Pearson, Regression).
+*   Sinh văn bản suy luận vĩ mô? -> Dùng LLMs.
 
-Và quan trọng nhất: **AI trong giáo dục không bao giờ được phép ra quyết định thay con người.** Nó chỉ là Hệ thống Hỗ trợ Quyết định. Con người (Giảng viên) mới là người bấm nút "Gửi cảnh báo" cuối cùng, vì con người mới có sự đồng cảm và trách nhiệm đạo đức.
+Lạm dụng AI hộp đen (Deep Learning) trong giáo dục là vô đạo đức, vì nó tước đi quyền được biết "TẠI SAO tôi bị đánh giá thấp" của sinh viên. Do đó, **Human-in-the-loop** là nguyên lý cốt lõi: AI chỉ "Kiến nghị" (Recommend), Giảng viên mới là người "Ra Quyết định" (Decide).
 
 ---
 
 ## 15. KỊCH BẢN MÔ PHỎNG THỰC TẾ (REAL-WORLD SCENARIOS)
 
-**Kịch bản: Cuộc tư vấn đổi đời**
-Vào tuần thứ 4, Dashboard của Thầy X nhấp nháy ĐỎ tại tên sinh viên Nguyễn Văn B (Rủi ro rớt: 92%). Thầy X bấm vào xem chi tiết (XAI): *"Lý do: B từng nợ môn Tiếng Anh 1, và tuần này vắng mặt toàn bộ các buổi thực hành"*.
-Thầy X gọi B lên văn phòng. B tỏ ra buông xuôi vì nghĩ đã quá trễ.
-Thầy X mở công cụ **What-if GPA Simulation**. Thầy kéo thanh trượt "Điểm danh từ nay đến cuối kỳ" lên 100%, thanh "Điểm giữa kỳ" lên 6.5. Ngay lập tức, thuật toán chạy và đồ thị biểu diễn tương lai của B uốn cong xuống vùng An toàn (Rủi ro chỉ còn 40%).
-B nhìn thấy dữ liệu chứng minh rằng mình vẫn CÒN CƠ HỘI. Tâm lý buông xuôi (Burnout) biến mất. Một cú click "Đã can thiệp" của thầy X đã cứu vãn một tương lai bỏ học (Dropout).
+**Cứu vãn một sự bỏ cuộc (Burnout):** 
+Giảng viên mở Dashboard phát hiện Sinh viên A có Risk Score 92% (Vùng đỏ). Lý do XAI: *"Điểm môn tiên quyết thấp và tuần nay vắng mặt 3 buổi"*. Giảng viên gọi A lên văn phòng. A chán nản muốn bỏ học. Giảng viên mở thanh What-if Simulation, kéo điểm danh từ nay đến cuối kỳ lên 100%, đồ thị rủi ro lập tức tụt xuống 40% (Vùng xanh). Mắt A sáng lên. Thuật toán đã đóng vai trò là một "Người chữa lành" (Healer), cung cấp hy vọng dựa trên toán học xác suất.
 
 ---
 
-## 16. MÔ HÌNH KHỞI NGHIỆP VÀ KINH DOANH (STARTUP BUSINESS MODEL)
+## 16. MÔ HÌNH KINH DOANH VÀ STARTUP (BUSINESS MODEL)
 
-EduGuard AI sở hữu DNA của một Startup EdTech trị giá hàng triệu đô la.
-*   **Thị trường (TAM/SAM):** Việt Nam có hàng trăm trường Đại học và Cao đẳng. Nỗi đau rớt môn và quản lý sinh viên là bài toán mà trường nào cũng sẵn sàng chi tiền để giải quyết.
-*   **Mô hình SaaS B2B:** Thu phí Subscription định kỳ hàng năm dựa trên Tier (Quy mô sinh viên). Ví dụ: Gói Basic (Dưới 5000 sinh viên), Gói Enterprise (Dành cho Đại học Quốc Gia).
-*   **Licensing On-premise:** Bán giấy phép cài đặt hệ thống Offline cho các trường có yêu cầu an ninh dữ liệu đặc biệt (ví dụ: Các học viện quân sự, an ninh). EduGuard thắng thế tuyệt đối vì kiến trúc Local AI.
+EduGuard AI mang DNA của một kỳ lân EdTech B2B (SaaS).
+*   **Thị trường (TAM/SAM):** Mọi trường Đại học, Cao đẳng tại Việt Nam đều đau đầu với tỷ lệ rớt môn 15-20%.
+*   **Mô hình doanh thu (Revenue Streams):** Thu phí Subscription định kỳ hàng năm dựa trên Tier quy mô sinh viên (Ví dụ: 1$/sinh viên/năm).
+*   **Enterprise Licensing:** Bán gói triển khai On-premise (Local AI) với giá cao cho các trường An ninh, Quân đội đòi hỏi bảo mật khép kín.
+*   **ROI (Lợi nhuận đầu tư) cho nhà trường:** Giảm 2% tỷ lệ bỏ học đồng nghĩa với việc giữ lại hàng chục tỷ đồng học phí. EduGuard AI tự chi trả cho chính nó.
 
 ---
 
 ## 17. ĐÓNG GÓP NGHIÊN CỨU & HỌC THUẬT (RESEARCH CONTRIBUTION)
 
-Dự án mở ra các hướng nghiên cứu học thuật (Research Papers) vô giá:
-1.  **Educational Data Mining (EDM):** Cung cấp bộ Benchmark về tương quan giữa hành vi đi học (Attendance Behavior) và hiệu suất điểm số (Academic Performance).
-2.  **Privacy-Preserving AI:** Chứng minh tính khả thi của việc triển khai Edge AI/Local NLP trong quản trị giáo dục mà không suy giảm hiệu năng.
-3.  **Explainable AI trong Quyết định Xã hội:** Là Case-study điển hình về việc dùng XAI để giải quyết các rào cản đạo đức (Ethical Barriers) khi ứng dụng AI vào đánh giá con người.
+Dự án mang giá trị xuất bản khoa học (Research Paper):
+1.  Cung cấp bộ Benchmark thực tiễn về ảnh hưởng của hành vi chuyên cần (Attendance) lên Predictive Academic Analytics.
+2.  Tiên phong áp dụng mô hình Lai (Hybrid) giữa NLP cục bộ và LLM toàn cầu để giải bài toán Data Privacy tại Việt Nam.
 
 ---
 
 ## 18. ĐẠO ĐỨC TRÍ TUỆ NHÂN TẠO & BẢO MẬT (AI ETHICS & DATA PRIVACY)
 
-Dữ liệu giáo dục được pháp luật bảo vệ nghiêm ngặt.
-*   **Mindset GDPR/FERPA:** Hệ thống được phân quyền theo cơ chế **RBAC (Role-Based Access Control)**. Giảng viên A không bao giờ xem được dữ liệu sinh viên của Giảng viên B.
-*   **Bias Mitigation (Khử thiên kiến):** Mô hình hồi quy không sử dụng các tham số nhạy cảm như (Giới tính, Tôn giáo, Thu nhập gia đình) làm Feature đầu vào. AI đánh giá sinh viên hoàn toàn dựa trên nỗ lực học thuật và hành vi, đảm bảo sự công bằng tuyệt đối (AI Fairness).
-*   **Audit Logs:** Hệ thống ghi nhận mọi lượt truy cập, mọi thay đổi điểm số bằng công nghệ băm (Hash/Encryption), đảm bảo tính toàn vẹn dữ liệu.
+*   **Tư duy FERPA/GDPR:** Tuân thủ pháp luật về dữ liệu giáo dục.
+*   **RBAC (Role-based Access Control):** Giảng viên khoa này không thể xem được phổ rủi ro của sinh viên khoa khác.
+*   **Bias Mitigation (Khử thiên kiến):** AI không sử dụng các tham số nhạy cảm (Giới tính, Thu nhập gia đình) làm đặc trưng (Feature) học máy, đảm bảo tính công bằng (AI Fairness).
 
 ---
 
-## 19. TƯƠNG LAI PHÁT TRIỂN (PRODUCT ROADMAP)
+## 19. TƯƠNG LAI PHÁT TRIỂN (THE FUTURE ROADMAP)
 
-EduGuard AI hiện tại là V1.0. Tương lai mở rộng (Scale-up) bao gồm:
-*   **Federated Learning (Học máy liên kết):** Các trường Đại học sẽ chia sẻ "Trọng số học máy" (Weights) thay vì "Dữ liệu sinh viên". Qua đó, tạo ra một Siêu mô hình AI dự báo ngành giáo dục quốc gia mà không xâm phạm quyền riêng tư của bất kỳ ai.
-*   **AI Mental Health Detection:** Phân tích ngữ nghĩa từ các đoạn chat phản hồi của sinh viên để dự báo nguy cơ trầm cảm (Depression Detection).
-*   **Smart Recommendation Engine:** Gợi ý lộ trình học tập, tự động ghép đôi (Matching) sinh viên Yếu với các sinh viên Giỏi (Mentor-Mentee) dựa trên thuật toán tương đồng Vector.
+*   **Federated Learning (Học máy liên kết):** Đại học Bách Khoa và Quốc Gia có thể chung tay train một mô hình siêu việt bằng cách chỉ chia sẻ "Trọng số Toán học" (Weights) mà tuyệt đối không lộ dữ liệu điểm thật của trường mình cho bên kia.
+*   **AI Emotion Detection:** Nhận diện ngôn ngữ chat của sinh viên để phát hiện trầm cảm (Depression) trước khi bi kịch học đường xảy ra.
+*   **AI Career Advisor:** Từ môn học sinh viên giỏi nhất, AI sẽ Recommend hướng đi nghề nghiệp chuẩn xác nhất.
 
 ---
 
-## 20. GIÁ TRỊ THỰC TẾ & TÁC ĐỘNG XÃ HỘI (SOCIAL IMPACT)
+## 20. GIÁ TRỊ THỰC TẾ & TÁC ĐỘNG XÃ HỘI
 
-Xét về mặt Kinh tế, EduGuard AI giúp nhà trường tối ưu hóa quy trình quản trị, giảm chi phí vận hành, và giữ lại hàng chục tỷ đồng doanh thu học phí thông qua việc giảm tỷ lệ Dropout.
-Xét về mặt Xã hội, hệ thống là một hàng rào bảo vệ tâm lý thanh thiếu niên. Rớt môn và đuổi học là nguyên nhân hàng đầu dẫn đến khủng hoảng tuổi trẻ. EduGuard AI can thiệp sớm để cứu vãn những cuộc đời đó. Nó định hình lại công nghệ giáo dục: **Công nghệ sinh ra không phải để loại bỏ con người, mà để con người (Giảng viên) có thể yêu thương và quan tâm đến con người (Sinh viên) một cách sâu sắc hơn.**
+*   **Xã hội:** Cứu vãn thanh xuân và tương lai của hàng ngàn sinh viên khỏi vết trượt dài mang tên "bỏ học giữa chừng". Giảm gánh nặng cho gia đình và nhà nước.
+*   **Giáo dục:** Giải phóng giảng viên khỏi các thao tác Excel thủ công, đưa họ về đúng vai trò của một Người hướng dẫn (Mentor) với sự hỗ trợ của công nghệ.
 
 ---
 
 ## 21. KẾT LUẬN (CONCLUSION)
 
-EduGuard AI vươn xa khỏi khuôn khổ của một Đồ án Tốt nghiệp hay một bài tập sinh viên thông thường. 
+EduGuard AI vượt xa khuôn khổ của một đồ án tốt nghiệp sinh viên thông thường.
 
-Nó là một **Sản phẩm Khởi nghiệp (Startup Product)** mang đậm tư duy thiết kế hệ thống cấp doanh nghiệp (Enterprise Architecture) và triết lý Kỹ thuật AI thực chiến (AI Engineering Philosophy). Bằng sự kết hợp hoàn hảo giữa giao diện UX đẳng cấp, kiến trúc dữ liệu phân tán (Docker/Redis), thuật toán học máy minh bạch (XAI) và cơ chế Chatbot Offline siêu việt, EduGuard AI khẳng định vị thế dẫn đầu trong kỷ nguyên EdTech mới.
+Nó là một AI SaaS Platform mang đậm tư duy thiết kế hệ thống cấp doanh nghiệp (Enterprise Architecture) và triết lý Kỹ thuật AI thực chiến (AI Engineering Philosophy). Bằng sự kết hợp hoàn hảo giữa giao diện UX đẳng cấp, kiến trúc dữ liệu phân tán (Docker/Redis), thuật toán học máy minh bạch (XAI) và cơ chế Chatbot Kép siêu việt, EduGuard AI khẳng định vị thế dẫn đầu trong kỷ nguyên EdTech.
 
-> **"Dữ liệu là quá khứ. Trí tuệ nhân tạo là hiện tại. Còn tương lai thuộc về những ai biết dùng Trí tuệ nhân tạo để kiến tạo lại Dữ liệu."** EduGuard AI chính là chìa khóa cho tương lai đó.
+Công nghệ không sinh ra để loại bỏ con người. Trí tuệ nhân tạo vĩ đại nhất là trí tuệ biết dùng sức mạnh của thuật toán để giữ lại những con người sắp bỏ cuộc. **EduGuard AI chính là hệ thống đó.**
 
-*(Tài liệu Báo Cáo Kỹ Thuật Chính Thức Kết Thúc)*
+*(HẾT BÁO CÁO)*
