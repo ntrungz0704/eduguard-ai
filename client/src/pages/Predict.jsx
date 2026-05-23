@@ -724,7 +724,7 @@ export default function Predict() {
             )}
           </div>
 
-          {/* AI Prediction Insights Dashboard */}
+          {/* ML Risk Analysis Dashboard */}
           {(() => {
             const totalPreds = result?.predictions?.length || 0;
             const highRiskCount = result?.predictions?.filter(p => p.risk === 'high').length || 0;

@@ -5,10 +5,10 @@
   "main": "server/server.js",
   "type": "commonjs",
   "scripts": {
-    "boot": "npm run kill && npm run train && npm run train:chat && npm run dev",
+    "boot": "npm run kill && npm run dev",
     "start": "node server/server.js",
     "dev": "concurrently \"node --watch server/server.js\" \"npm run dev --prefix client\"",
-    "train": "node server/ml/train.js",
+    "train": "node server/ml/train.js && node server/scripts/train.js",
     "train:chat": "node server/ml/train_chatbot.js",
     "postinstall": "prisma generate",
     "kill": "powershell -Command \"$ports = @(3000, 5173, 5174); foreach ($p in $ports) { $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; if ($conns) { foreach ($c in $conns) { if ($c.OwningProcess -gt 4) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue } } } }; exit 0\""
@@ -24,19 +24,25 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "@tensorflow/tfjs": "^4.22.0",
     "better-sqlite3": "^12.10.0",
     "cors": "^2.8.5",
     "csv-parse": "^5.6.0",
     "dotenv": "^16.4.7",
+    "envalid": "^8.1.1",
     "express": "^4.19.2",
+    "express-rate-limit": "^8.5.2",
     "groq-sdk": "^1.2.0",
     "multer": "^1.4.5-lts.1",
     "node-nlp": "^5.0.0-alpha.5",
     "pptxgenjs": "^4.0.1",
+    "uuid": "^14.0.0",
+    "winston": "^3.19.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@prisma/client": "^7.8.0",
+    "autocannon": "^8.0.0",
     "concurrently": "^9.2.1",
     "prisma": "^7.8.0"
   }

@@ -1,40 +1,38 @@
-# Stage 1: Build Frontend (React + Vite)
-FROM node:18-alpine AS frontend-builder
-WORKDIR /app/client
+# Stage 1: Build the React Application
+FROM node:18-alpine AS builder
 
-# Cài đặt dependencies cho frontend
-COPY client/package*.json ./
-RUN npm install
-
-# Copy source code frontend và build
-COPY client/ ./
-RUN npm run build
-
-# Stage 2: Setup Backend (Node.js + Prisma + Local AI)
-FROM node:18-alpine AS backend
 WORKDIR /app
 
-# Khai báo biến môi trường cho Production
-ENV NODE_ENV=production
-ENV PORT=5000
-
-# Cài đặt dependencies cho backend
+# Install dependencies for both client and server (using root package.json if monorepo, or separately)
 COPY package*.json ./
-RUN npm install --production=false
+COPY client/package*.json ./client/
+RUN npm install
+RUN cd client && npm install
 
-# Copy Prisma schema và tự động generate client
-COPY prisma/ ./prisma/
-RUN npx prisma generate
+# Copy source code
+COPY . .
 
-# Copy toàn bộ mã nguồn backend và models AI
-COPY server/ ./server/
-COPY .env.example .env
+# Build the client
+RUN cd client && npm run build
 
-# Copy file build từ frontend sang (Tùy chọn nếu muốn serve chung port)
-COPY --from=frontend-builder /app/client/dist ./client/dist
+# Stage 2: Production Server
+FROM node:18-alpine
 
-# Expose port (5000)
-EXPOSE 5000
+WORKDIR /app
 
-# Khởi chạy server API và Local AI Pipeline
-CMD ["npm", "start"]
+# We only need production dependencies for the server
+COPY package*.json ./
+RUN npm install --production
+
+# Copy built assets from builder
+COPY --from=builder /app/client/dist ./public
+
+# Copy server code
+COPY server ./server
+COPY .env ./
+
+# Expose API port
+EXPOSE 3000
+
+# Start server
+CMD ["node", "server/server.js"]

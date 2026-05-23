@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import { 
@@ -105,28 +105,42 @@ export default function StudentSearch() {
     }
   }, [selectedStudent]);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const urlId = searchParams.get('id');
+    if (urlId && !activeStudent && !selectedStudent) {
+      api.get(`/students/${urlId}`).then(res => {
+        setActiveStudent(res.data);
+      }).catch(console.error);
+    }
+  }, [searchParams, activeStudent, selectedStudent, setActiveStudent]);
+
   useEffect(() => {
     if (activeStudent) {
+      setSearchParams({ id: activeStudent.mssv || activeStudent.id }, { replace: true });
       setSelectedStudent(activeStudent);
       setChatHistory([
         {
           role: 'ai',
-          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên **${activeStudent.name}** (${activeStudent.mssv}). Bạn có thể hỏi tôi về:
-          \n- *Tại sao sinh viên này có nguy cơ trượt môn nào đó?*
-          \n- *Gợi ý lộ trình can thiệp và cải thiện điểm số.*
-          \n- *Phân tích chi tiết lỗ hổng kiến thức tiên quyết.*`
+          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên ${activeStudent.name} (${activeStudent.mssv}). Bạn có thể hỏi tôi về:
+          \n- Tại sao sinh viên này có nguy cơ trượt môn nào đó?
+          \n- Gợi ý lộ trình can thiệp và cải thiện điểm số.
+          \n- Phân tích chi tiết lỗ hổng kiến thức tiên quyết.`
         }
       ]);
     } else {
+      setSearchParams({}, { replace: true });
       setSelectedStudent(null);
     }
-  }, [activeStudent]);
+  }, [activeStudent, setSearchParams]);
   
   // Chatbot State
   const [chatMessage, setChatMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [chatLoading, setChatLoading] = useState(false);
   const chatEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   // Inline Grade Editor State
   const [editingCourseId, setEditingCourseId] = useState(null);
@@ -214,7 +228,7 @@ export default function StudentSearch() {
       totalCredits += credits;
     });
 
-    const gpa = totalCredits > 0 ? (Math.floor(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10).toFixed(1) : '0.0';
+    const gpa = totalCredits > 0 ? (Math.round(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10).toFixed(1) : '0.0';
     
     const failedSubjects = selectedStudent.scores?.filter(s => s.value !== null && s.value < 5) || [];
     const failedListHTML = failedSubjects.length > 0
@@ -475,9 +489,13 @@ export default function StudentSearch() {
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
-  // Scroll to bottom of chat
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [chatHistory]);
 
   const handleSearch = async (q) => {
@@ -499,7 +517,9 @@ export default function StudentSearch() {
   const handleSelectStudent = async (student) => {
     try {
       setLoading(true);
-      const res = await api.get(`/students/${student.id}`);
+      const studentId = student.mssv || student.id;
+      const res = await api.get(`/students/${studentId}`);
+      setActiveStudent(res.data);
       setSelectedStudent(res.data);
       // Reset chat history for the newly selected student with a warm welcome
       setChatHistory([
@@ -651,7 +671,7 @@ export default function StudentSearch() {
                     }
                   });
 
-                  const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
+                  const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
                   const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.floor(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
 
                   return {
@@ -967,12 +987,7 @@ export default function StudentSearch() {
                                         return (
                                           <tr 
                                             key={i}
-                                            onDoubleClick={() => {
-                                              setEditingCourseId(sc.courseId);
-                                              setEditValue(sc.value !== null ? sc.value.toString() : '');
-                                            }}
-                                            className="hover:bg-white/5 transition-colors duration-150 cursor-pointer group/row"
-                                            title="Double-click để sửa điểm trực tiếp"
+                                            className="hover:bg-white/5 transition-colors duration-150 group/row"
                                           >
                                             {/* Mã Môn */}
                                             <td className="px-4 py-3 font-mono font-bold text-xs text-slate-100">{sc.courseId}</td>
@@ -993,36 +1008,11 @@ export default function StudentSearch() {
                                             
                                             {/* Tổng Kết */}
                                             <td className="px-4 py-3 text-center">
-                                              {isEditing ? (
-                                                <div className="flex items-center justify-center gap-1" onClick={e => e.stopPropagation()}>
-                                                  <input
-                                                    type="number"
-                                                    step="0.1"
-                                                    min="0"
-                                                    max="10"
-                                                    value={editValue}
-                                                    onChange={e => setEditValue(e.target.value)}
-                                                    onKeyDown={e => {
-                                                      if (e.key === 'Enter') handleSaveScore(sc.courseId);
-                                                      if (e.key === 'Escape') setEditingCourseId(null);
-                                                    }}
-                                                    className="w-14 px-1 py-0.5 text-xs bg-slate-900 border border-purple-500 rounded text-white font-mono text-center outline-none"
-                                                    autoFocus
-                                                  />
-                                                  <button
-                                                    onClick={() => handleSaveScore(sc.courseId)}
-                                                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] px-1.5 py-0.5 rounded font-bold"
-                                                  >
-                                                    Lưu
-                                                  </button>
-                                                </div>
-                                              ) : (
-                                                <span className={`font-black text-xs ${
-                                                  isFailed ? 'text-rose-400' : isStudying ? 'text-blue-400' : 'text-emerald-400'
-                                                }`}>
-                                                  {isStudying ? '—' : sc.value.toFixed(1)}
-                                                </span>
-                                              )}
+                                              <span className={`font-black text-xs ${
+                                                isFailed ? 'text-rose-400' : isStudying ? 'text-blue-400' : 'text-emerald-400'
+                                              }`}>
+                                                {isStudying ? '—' : sc.value.toFixed(1)}
+                                              </span>
                                             </td>
 
                                             {/* Hệ Chữ (4) */}
@@ -1047,7 +1037,8 @@ export default function StudentSearch() {
                                                     💬 Nhắc Zalo
                                                   </button>
                                                 )}
-                                                {!selectedStudent.interventions?.some(inV => inV.courseId === sc.courseId) ? (
+                                                {/* Chỉ cho phép can thiệp nếu môn chưa qua (isStudying hoặc isFailed) */}
+                                                {(isStudying || isFailed) && !selectedStudent.interventions?.some(inV => inV.courseId === sc.courseId) && (
                                                   <button 
                                                     onClick={() => handleFlagIntervention(sc.courseId)}
                                                     className="text-[9px] text-amber-400 hover:text-amber-300 font-bold bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5"
@@ -1055,7 +1046,8 @@ export default function StudentSearch() {
                                                   >
                                                     <Flag size={9}/> Can thiệp
                                                   </button>
-                                                ) : (
+                                                )}
+                                                {(isStudying || isFailed) && selectedStudent.interventions?.some(inV => inV.courseId === sc.courseId) && (
                                                   <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-lg flex items-center gap-0.5">
                                                     <CheckCircle size={9}/> Đã nạp
                                                   </span>
@@ -1372,7 +1364,7 @@ export default function StudentSearch() {
 
                     {/* Persistent AI Chatbot Side Panel (Right) */}
                     <div className="xl:col-span-4">
-                <div className="glass-card h-[600px] flex flex-col rounded-3xl border border-white/10 overflow-hidden relative">
+                <div className="glass-card h-[650px] flex flex-col rounded-3xl border border-white/10 overflow-hidden relative">
                   
                   {/* Chatbot Header */}
                   <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 p-4 border-b border-white/10 flex items-center gap-2">
@@ -1386,7 +1378,7 @@ export default function StudentSearch() {
                   </div>
 
                   {/* Chat Messages */}
-                  <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[460px]">
+                  <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
                     {chatHistory.map((chat, idx) => (
                       <div 
                         key={idx} 

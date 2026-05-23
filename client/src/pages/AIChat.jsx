@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { Bot, Send, Sparkles, AlertTriangle, BookOpen, Terminal, User, Hash, Trash2, HelpCircle, ArrowRight, MessageSquare, ShieldAlert, Plus, ChevronDown, Bookmark, Share, ArrowUp, Search, Loader2, X, PanelLeftClose, PanelLeft, Edit3, Check } from 'lucide-react';
 import { useStore } from '../store';
 import { api } from '../lib/api';
+import GPATrendChart from './charts/GPATrendChart';
+import RiskBreakdownChart from './charts/RiskBreakdownChart';
+import AttendanceChart from './charts/AttendanceChart';
 
 export default function AIChat() {
   const activeStudent = useStore(state => state.activeStudent);
@@ -53,8 +56,8 @@ export default function AIChat() {
     const defaultSessionId = 'session_' + Date.now();
     const isStudent = currentUser?.role === 'STUDENT';
     const defaultWelcomeText = isStudent
-      ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc nhờ tôi tư vấn phương pháp, lộ trình cải thiện kết quả học tập nhé!`
-      : '👋 Xin chào! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của FPT Polytechnic.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập câu hỏi tự do hoặc nhấn chọn các phím tắt hỏi nhanh ở cột bên dưới nhé!';
+      ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là Academic NLP Assistant của hệ thống EduGuard, được phân quyền truy cập trên dữ liệu học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc yêu cầu hệ thống xuất báo cáo phương pháp, lộ trình cải thiện kết quả học tập nhé!`
+      : '👋 Xin chào! Tôi là NLP Assistant của hệ thống EduGuard, được kết nối với cơ sở dữ liệu học thuật của nhà trường.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập truy vấn tự do hoặc nhấn chọn các phím tắt phân tích nhanh ở cột bên dưới nhé!';
 
     return [
       {
@@ -202,7 +205,7 @@ export default function AIChat() {
   // Sanitize student sessions to replace any Lecturer-oriented welcome message in local history
   useEffect(() => {
     if (currentUser?.role === 'STUDENT' && sessions.length > 0) {
-      const defaultStudentWelcome = `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc nhờ tôi tư vấn phương pháp, lộ trình cải thiện kết quả học tập nhé!`;
+      const defaultStudentWelcome = `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là Academic NLP Assistant của hệ thống EduGuard, được phân quyền truy cập trên dữ liệu học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc yêu cầu hệ thống xuất báo cáo phương pháp, lộ trình cải thiện kết quả học tập nhé!`;
       
       let changed = false;
       const updated = sessions.map(s => {
@@ -294,8 +297,8 @@ export default function AIChat() {
     const newId = 'session_' + Date.now();
     const isStudent = currentUser?.role === 'STUDENT';
     const defaultWelcomeText = isStudent
-      ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc nhờ tôi tư vấn phương pháp, lộ trình cải thiện kết quả học tập nhé!`
-      : '👋 Xin chào! Tôi là trợ lý EduGuard AI, được huấn luyện trên dữ liệu điểm và học thuật của FPT Polytechnic.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập câu hỏi tự do hoặc nhấn chọn các phím tắt hỏi nhanh ở cột bên dưới nhé!';
+      ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là Academic NLP Assistant của hệ thống EduGuard, được phân quyền truy cập trên dữ liệu học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc yêu cầu hệ thống xuất báo cáo phương pháp, lộ trình cải thiện kết quả học tập nhé!`
+      : '👋 Xin chào! Tôi là NLP Assistant của hệ thống EduGuard, được kết nối với cơ sở dữ liệu học thuật của nhà trường.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập truy vấn tự do hoặc nhấn chọn các phím tắt phân tích nhanh ở cột bên dưới nhé!';
 
     const newSession = {
       id: newId,
@@ -426,13 +429,14 @@ export default function AIChat() {
       const aiReply = {
         sender: 'ai',
         text: res.data.reply || 'Rất tiếc, tôi đang gặp lỗi xử lý dữ liệu học tập.',
+        chartData: res.data.chartData || null,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       updateActiveSession({ messages: [...updatedMessages, aiReply] });
     } catch (err) {
       const errorReply = {
         sender: 'ai',
-        text: '❌ Không thể kết nối với máy chủ AI. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau.',
+        text: '❌ Không thể kết nối với API Gateway. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau.',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       updateActiveSession({ messages: [...updatedMessages, errorReply] });
@@ -449,7 +453,7 @@ export default function AIChat() {
 
   const handleExport = () => {
     const userRoleText = currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên';
-    const textToExport = messages.map(m => `${m.sender === 'user' ? userRoleText : 'AI Assistant'} (${m.time}):\n${m.text}`).join('\n\n');
+    const textToExport = messages.map(m => `${m.sender === 'user' ? userRoleText : 'NLP Analytics Engine'} (${m.time}):\n${m.text}`).join('\n\n');
     const blob = new Blob([textToExport], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -792,11 +796,11 @@ export default function AIChat() {
             </div>
             <div>
               <h3 className="font-extrabold text-white text-sm flex items-center gap-1.5">
-                {currentUser?.role === 'STUDENT' ? 'Gia sư Học tập AI' : 'Trợ lý Cố vấn Học vụ AI'} <Sparkles size={14} className="text-amber-400 animate-pulse" />
+                {currentUser?.role === 'STUDENT' ? 'Academic NLP Assistant' : 'Hệ thống Phân tích Học vụ (DSS)'} <Sparkles size={14} className="text-amber-400 animate-pulse" />
               </h3>
               <p className="text-[10px] text-slate-400 font-medium">
                 {currentUser?.role === 'STUDENT'
-                  ? 'Học bạ cá nhân và Cố vấn học tập AI của bạn'
+                  ? 'Học bạ cá nhân và Báo cáo Analytics'
                   : sessionActiveStudent 
                     ? `Đang cố vấn cho sinh viên ${sessionActiveStudent.name} (${sessionActiveStudent.mssv || sessionActiveStudent.id})` 
                     : 'Phân tích dữ liệu học thuật & liên kết học bạ thông minh'}
@@ -916,7 +920,7 @@ export default function AIChat() {
         </div>
 
         {/* Messages thread history area - Full width */}
-        <div className="flex-1 p-8 overflow-y-auto space-y-6 custom-scrollbar relative z-10 bg-slate-950/10">
+        <div className="flex-1 min-h-0 overflow-y-auto px-8 py-6 custom-scrollbar relative z-10 bg-slate-950/10">
           <div className="max-w-6xl mx-auto w-full space-y-6">
             {messages.map((msg, i) => (
               <div
@@ -943,6 +947,19 @@ export default function AIChat() {
                     {msg.sender === 'ai' ? (
                       <div className="prose prose-invert prose-sm max-w-none relative group pb-2">
                         {formatText(msg.text)}
+                        {msg.chartData && (
+                          <div className="mt-4 mb-2 bg-slate-950/40 p-4 rounded-xl border border-white/10 w-[500px] max-w-full overflow-x-auto">
+                            {msg.chartData.type === 'gpa' && <GPATrendChart data={msg.chartData.data} />}
+                            {msg.chartData.type === 'risk' && <RiskBreakdownChart data={msg.chartData.data} />}
+                            {msg.chartData.type === 'attendance' && <AttendanceChart data={msg.chartData.data} />}
+                          </div>
+                        )}
+                        <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
+                          <button onClick={() => setInput('Xem Risk Score')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Xem Risk Score</button>
+                          <button onClick={() => setInput('Môn nào dễ rớt')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Phân tích môn yếu</button>
+                          <button onClick={() => setInput('Đề xuất lộ trình')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Đề xuất lộ trình</button>
+                          <button onClick={() => setInput('Tình trạng chuyên cần')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Chuyên cần</button>
+                        </div>
                         <div className="absolute -bottom-3 right-0 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           {sessionActiveStudent && currentUser?.role !== 'STUDENT' && (
                             <button 
@@ -971,7 +988,7 @@ export default function AIChat() {
                   <div className={`text-[9px] text-slate-500 font-semibold px-2 flex items-center gap-1.5 ${
                     msg.sender === 'user' ? 'justify-end' : 'justify-start'
                   }`}>
-                    <span>{msg.sender === 'user' ? (currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên') : 'Trợ lý AI'}</span>
+                    <span>{msg.sender === 'user' ? (currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên') : 'Hệ thống'}</span>
                     <span>•</span>
                     <span>{msg.time}</span>
                   </div>
@@ -989,7 +1006,7 @@ export default function AIChat() {
                     <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
                     <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce delay-300"></span>
-                    <span>AI đang truy xuất dữ liệu SQLite...</span>
+                    <span>NLP Router đang truy vấn Database...</span>
                   </div>
                 </div>
               </div>
@@ -1038,9 +1055,9 @@ export default function AIChat() {
                   }}
                   placeholder={
                     currentUser?.role === 'STUDENT'
-                      ? "Hỏi AI về kết quả học tập, rủi ro trượt môn và phương pháp cải thiện..."
+                      ? "Truy vấn hệ thống về kết quả học tập, rủi ro trượt môn và phương pháp cải thiện..."
                       : sessionActiveStudent
-                        ? `Hỏi AI về học lực, điểm số rủi ro của ${sessionActiveStudent.name}...`
+                        ? `Hỏi hệ thống về học lực, điểm số rủi ro của ${sessionActiveStudent.name}...`
                         : "Nhập câu hỏi học thuật, thống kê học sinh yếu toàn khoa..."
                   }
                   disabled={loading}
@@ -1121,7 +1138,7 @@ export default function AIChat() {
 
             {/* Sub-label warning footer */}
             <span className="text-[10px] text-slate-500 font-semibold text-center block mt-3.5">
-              EduGuard Local AI Pipeline. Dữ liệu học thuật được bảo mật 100% tại máy chủ cục bộ (Không sử dụng API bên ngoài).
+              EduGuard Offline Machine Learning Pipeline. Dữ liệu học thuật được bảo mật 100% tại máy chủ cục bộ (Không phụ thuộc Cloud API).
             </span>
           </div>
         </div>

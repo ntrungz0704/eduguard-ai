@@ -26,12 +26,12 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
-    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý AI' }
+    { path: '/chat', icon: <MessageSquare size={20} />, label: 'NLP Analytics Assistant' }
   ];
 
   const studentNavItems = [
     { path: '/student-dashboard', icon: <LayoutDashboard size={20} />, label: 'Bảng điểm của tôi' },
-    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Gia sư AI' },
+    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Conversational Analytics' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Tin nhắn Cố vấn' }
   ];
 

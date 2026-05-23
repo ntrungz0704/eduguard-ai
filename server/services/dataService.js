@@ -273,7 +273,7 @@ function calculateFptGPA(scores) {
     });
   }
 
-  return totalCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10;
+  return totalCredits === 0 ? 0.0 : Math.round(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10;
 }
 
 module.exports = {

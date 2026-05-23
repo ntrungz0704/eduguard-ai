@@ -1,7 +1,19 @@
 // ============================================================
 // ACADEMIC PREREQUISITES GRAPH (Causal Knowledge Network)
-// Source: ACM/IEEE Computing Curricula & FPT Polytechnic Web Syllabus
 // ============================================================
+const fs = require('fs');
+const path = require('path');
+const depPath = path.join(__dirname, '..', 'data', 'subject_dependencies.json');
+
+let SUBJECT_DEPENDENCIES = [];
+if (fs.existsSync(depPath)) {
+  try {
+    SUBJECT_DEPENDENCIES = JSON.parse(fs.readFileSync(depPath, 'utf8')) || [];
+  } catch (e) {
+    console.error("Error loading subject dependencies:", e);
+  }
+}
+
 const ACADEMIC_PREREQUISITES = {
   "Lập trình PHP 1": ["Lập trình PHP cơ bản", "Cơ sở dữ liệu", "Xây dựng trang Web"],
   "Lập trình Javascript nâng cao": ["Lập trình cơ sở với JavaScript", "Nhập môn lập trình"],
@@ -14,6 +26,11 @@ const ACADEMIC_PREREQUISITES = {
   "Dự án 1": ["Lập trình PHP 1", "Thiết kế UI/UX", "Thiết kế Web với HTML5 & CSS3", "Cơ sở dữ liệu", "Lập trình cơ sở với JavaScript"],
   "Dự án tốt nghiệp": ["NodeJS & Restful Web Service", "Lập trình Front-End Framework 1", "Dự án 1", "Cơ sở dữ liệu", "Lập trình PHP 1"]
 };
+
+// Override / Merge with JSON configuration
+SUBJECT_DEPENDENCIES.forEach(dep => {
+  ACADEMIC_PREREQUISITES[dep.target] = dep.prerequisites;
+});
 
 // ============================================================
 // [FIX A] IQR OUTLIER FILTER
@@ -235,7 +252,24 @@ function weightedPrediction(features, target, students) {
       });
 
       // [FIX C]: Áp dụng Statistical Calibration cho kết quả chính
-      return calibrate(Math.round(pred * 10) / 10, targetTrainingScores);
+      let finalPred = calibrate(Math.round(pred * 10) / 10, targetTrainingScores);
+
+      // --- CASCADING RISK PROPAGATION ---
+      const deps = SUBJECT_DEPENDENCIES.find(d => d.target === target);
+      if (deps && deps.prerequisites.length > 0) {
+        let cascadePenalty = 0;
+        deps.prerequisites.forEach(prereq => {
+          if (studentScores[prereq] !== undefined && studentScores[prereq] !== null) {
+            if (studentScores[prereq] < 5.0) cascadePenalty += 2.0;
+            else if (studentScores[prereq] < 6.5) cascadePenalty += 0.5;
+          }
+        });
+        if (cascadePenalty > 0) {
+          finalPred = Math.max(0, finalPred - cascadePenalty);
+        }
+      }
+
+      return finalPred;
     }
   };
 }

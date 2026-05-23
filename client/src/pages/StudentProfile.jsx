@@ -196,8 +196,8 @@ export default function StudentProfile() {
       }
     });
 
-    const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
-    const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.floor(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
+    const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
+    const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
 
     return {
       gpa10,

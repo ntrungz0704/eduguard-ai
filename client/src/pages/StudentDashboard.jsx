@@ -162,8 +162,8 @@ const calculateFptStats = (curriculumCourses) => {
     }
   });
   
-  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
-  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
+  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
+  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
   
   return {
     gpa10,

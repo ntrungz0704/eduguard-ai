@@ -1,0 +1,8002 @@
+[
+  {
+    "attendance": 76,
+    "quizAvg": 8.5,
+    "labAvg": 6.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 3.1,
+    "labAvg": 3.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 8.5,
+    "labAvg": 4.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 2.9,
+    "labAvg": 9.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 8.1,
+    "labAvg": 4.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 5.6,
+    "labAvg": 3.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 5.1,
+    "labAvg": 7.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 2.4,
+    "labAvg": 3,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 2.3,
+    "labAvg": 3.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 3.9,
+    "labAvg": 6.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 6,
+    "labAvg": 3.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 4,
+    "labAvg": 5,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 9.3,
+    "labAvg": 3.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 9.9,
+    "labAvg": 5.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 8.2,
+    "labAvg": 9.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 9.7,
+    "labAvg": 6.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 9.5,
+    "labAvg": 4.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 4.7,
+    "labAvg": 7.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 4.5,
+    "labAvg": 6.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 9.2,
+    "labAvg": 4.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 8.6,
+    "labAvg": 4.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 8.2,
+    "labAvg": 7.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 7,
+    "labAvg": 8.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 4.1,
+    "labAvg": 8.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 6.2,
+    "labAvg": 5.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 9,
+    "labAvg": 8.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 6,
+    "labAvg": 5,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 3,
+    "labAvg": 6.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 6,
+    "labAvg": 7.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 6.8,
+    "labAvg": 9.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 3.5,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 4.1,
+    "labAvg": 8.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 6,
+    "labAvg": 9.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 5.2,
+    "labAvg": 7.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 4,
+    "labAvg": 5.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 8.1,
+    "labAvg": 3.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 4.1,
+    "labAvg": 4.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 8.7,
+    "labAvg": 2.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 4.4,
+    "labAvg": 2.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 3.8,
+    "labAvg": 9.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 8.6,
+    "labAvg": 5.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 3.3,
+    "labAvg": 3.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 4.7,
+    "labAvg": 7.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 9.4,
+    "labAvg": 4.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 4.7,
+    "labAvg": 5.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 5.2,
+    "labAvg": 4.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 7.6,
+    "labAvg": 9.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 3,
+    "labAvg": 8.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 6.7,
+    "labAvg": 8.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 8.2,
+    "labAvg": 3.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 4.5,
+    "labAvg": 7.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 3.5,
+    "labAvg": 5.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 5.4,
+    "labAvg": 4.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 4.5,
+    "labAvg": 6.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 4.1,
+    "labAvg": 2.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 4.7,
+    "labAvg": 9.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 4.3,
+    "labAvg": 3.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 9.7,
+    "labAvg": 4.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 7.2,
+    "labAvg": 7.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 7.9,
+    "labAvg": 3.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 2.4,
+    "labAvg": 3.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 6.1,
+    "labAvg": 5.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 5.7,
+    "labAvg": 3.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 4.4,
+    "labAvg": 8.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 8,
+    "labAvg": 4.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 3.8,
+    "labAvg": 7.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 9,
+    "labAvg": 5.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 4.9,
+    "labAvg": 7.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 6.1,
+    "labAvg": 4.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 3.7,
+    "labAvg": 4.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 8.8,
+    "labAvg": 9.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 3.4,
+    "labAvg": 9,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 5,
+    "labAvg": 4,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 7.9,
+    "labAvg": 2.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 4.4,
+    "labAvg": 2.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 2.2,
+    "labAvg": 7.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 7.9,
+    "labAvg": 4.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 4.5,
+    "labAvg": 9.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 2.7,
+    "labAvg": 5,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 3.3,
+    "labAvg": 7.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 5,
+    "labAvg": 3,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 6,
+    "labAvg": 8.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 2.4,
+    "labAvg": 3.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 2.3,
+    "labAvg": 4.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 9.4,
+    "labAvg": 4.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 6.4,
+    "labAvg": 7.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 5.4,
+    "labAvg": 9.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 4.9,
+    "labAvg": 5.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 6.8,
+    "labAvg": 2.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 9.1,
+    "labAvg": 8.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 5.8,
+    "labAvg": 8.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 6.2,
+    "labAvg": 5.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 2.8,
+    "labAvg": 9.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 4.8,
+    "labAvg": 3.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 9.3,
+    "labAvg": 3.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 6.3,
+    "labAvg": 4.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 6.2,
+    "labAvg": 2.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 2.9,
+    "labAvg": 7.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 4.6,
+    "labAvg": 3.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 3.3,
+    "labAvg": 9.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 2.8,
+    "labAvg": 3.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 9.9,
+    "labAvg": 5.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 8.3,
+    "labAvg": 10,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 6.9,
+    "labAvg": 7.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 9.5,
+    "labAvg": 6.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 6.2,
+    "labAvg": 8.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 9.1,
+    "labAvg": 9.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 9,
+    "labAvg": 4.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 3.7,
+    "labAvg": 5.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 7,
+    "labAvg": 6,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 7.1,
+    "labAvg": 4.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 4.6,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 7.3,
+    "labAvg": 7.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 2.7,
+    "labAvg": 3.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 4.4,
+    "labAvg": 8.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 9.7,
+    "labAvg": 2.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 6.8,
+    "labAvg": 7.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 6.9,
+    "labAvg": 7.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 6.3,
+    "labAvg": 6.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 9.1,
+    "labAvg": 8.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 3.9,
+    "labAvg": 7.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 2.4,
+    "labAvg": 9.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 6.7,
+    "labAvg": 4.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 5.5,
+    "labAvg": 4.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 8,
+    "labAvg": 4.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 2.8,
+    "labAvg": 6.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 4.7,
+    "labAvg": 9.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 3.3,
+    "labAvg": 3.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 9.8,
+    "labAvg": 6.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 7.8,
+    "labAvg": 8.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 4.9,
+    "labAvg": 9.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 7.2,
+    "labAvg": 2.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 10,
+    "labAvg": 7.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 8.8,
+    "labAvg": 9.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 5.4,
+    "labAvg": 6.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 9.5,
+    "labAvg": 3.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 8.7,
+    "labAvg": 8.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 2.7,
+    "labAvg": 2.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 7.6,
+    "labAvg": 6.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 6.1,
+    "labAvg": 5.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 3.8,
+    "labAvg": 4.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 6.4,
+    "labAvg": 6.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 9,
+    "labAvg": 4.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 7.7,
+    "labAvg": 9.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 5.6,
+    "labAvg": 6,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 4.7,
+    "labAvg": 4.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 2.5,
+    "labAvg": 2.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 9,
+    "labAvg": 2.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 8.3,
+    "labAvg": 2.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 6.3,
+    "labAvg": 9.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 6.1,
+    "labAvg": 7.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 4.6,
+    "labAvg": 4.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 6.1,
+    "labAvg": 10,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 9.4,
+    "labAvg": 5.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 4.3,
+    "labAvg": 6,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 6.2,
+    "labAvg": 5,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 6.5,
+    "labAvg": 4,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 9.8,
+    "labAvg": 4.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 9.7,
+    "labAvg": 8.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 3.6,
+    "labAvg": 7.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 4.9,
+    "labAvg": 4.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 9.5,
+    "labAvg": 3.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 5.1,
+    "labAvg": 6.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 6.7,
+    "labAvg": 7.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 2.9,
+    "labAvg": 3.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 8.9,
+    "labAvg": 4.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 3.5,
+    "labAvg": 8.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 9.2,
+    "labAvg": 9.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 2.9,
+    "labAvg": 9.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 7.8,
+    "labAvg": 8.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 5.9,
+    "labAvg": 2.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 5.5,
+    "labAvg": 9.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 5.9,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 9.6,
+    "labAvg": 6.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 2.5,
+    "labAvg": 8,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 9.7,
+    "labAvg": 4.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 8.8,
+    "labAvg": 4.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 5.5,
+    "labAvg": 9.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 6.9,
+    "labAvg": 9.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 5.4,
+    "labAvg": 9.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 9,
+    "labAvg": 6.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 3.5,
+    "labAvg": 8.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 3,
+    "labAvg": 6,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 4.6,
+    "labAvg": 7.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 4.2,
+    "labAvg": 7.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 9.9,
+    "labAvg": 7.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 7.4,
+    "labAvg": 6.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 9.1,
+    "labAvg": 6.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 6.2,
+    "labAvg": 3.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 7.7,
+    "labAvg": 3.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 5.4,
+    "labAvg": 8.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 4.3,
+    "labAvg": 5,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 2.2,
+    "labAvg": 6.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 9.4,
+    "labAvg": 4.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 5.7,
+    "labAvg": 9.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 8.5,
+    "labAvg": 6.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 6.8,
+    "labAvg": 4.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 4.3,
+    "labAvg": 3,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 7.2,
+    "labAvg": 4.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 4.2,
+    "labAvg": 6.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 2.8,
+    "labAvg": 3.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 9.2,
+    "labAvg": 6.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 8.2,
+    "labAvg": 4.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 5.2,
+    "labAvg": 5.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 6.6,
+    "labAvg": 8.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 2.4,
+    "labAvg": 5.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 7.1,
+    "labAvg": 2.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 2.3,
+    "labAvg": 5.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 2.7,
+    "labAvg": 3.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 2.7,
+    "labAvg": 8.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 5.6,
+    "labAvg": 3.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 5.8,
+    "labAvg": 7.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 9.3,
+    "labAvg": 4.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 3,
+    "labAvg": 7.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 9.3,
+    "labAvg": 8,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 4.2,
+    "labAvg": 6.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 8.5,
+    "labAvg": 4.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 4,
+    "labAvg": 3.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 8.7,
+    "labAvg": 7.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 5.7,
+    "labAvg": 9.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 4.5,
+    "labAvg": 3.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 3.3,
+    "labAvg": 6.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 6.8,
+    "labAvg": 8.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 7.9,
+    "labAvg": 9.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 8.5,
+    "labAvg": 9.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 4.1,
+    "labAvg": 10,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 2.1,
+    "labAvg": 7,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 3.6,
+    "labAvg": 4.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 8.7,
+    "labAvg": 6.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 5.7,
+    "labAvg": 7.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 3.4,
+    "labAvg": 4.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 8.6,
+    "labAvg": 3.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 3.4,
+    "labAvg": 4,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 5.2,
+    "labAvg": 4.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 2.1,
+    "labAvg": 9.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 9.1,
+    "labAvg": 2.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 9.3,
+    "labAvg": 7.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 7.7,
+    "labAvg": 9,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 4.9,
+    "labAvg": 9.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 9.4,
+    "labAvg": 6.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 5.6,
+    "labAvg": 4.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 8.5,
+    "labAvg": 7.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 4.6,
+    "labAvg": 3.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 3.9,
+    "labAvg": 5.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 5.3,
+    "labAvg": 4.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 2.1,
+    "labAvg": 3,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 5.1,
+    "labAvg": 8.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 5.1,
+    "labAvg": 2.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 6.2,
+    "labAvg": 8.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 8,
+    "labAvg": 4.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 6.7,
+    "labAvg": 7.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 9.3,
+    "labAvg": 7.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 6.2,
+    "labAvg": 4.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 2.2,
+    "labAvg": 3.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 9.1,
+    "labAvg": 8.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 3.6,
+    "labAvg": 4.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 6,
+    "labAvg": 3.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 9.3,
+    "labAvg": 9,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 5.8,
+    "labAvg": 8.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 2.8,
+    "labAvg": 4.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 4.1,
+    "labAvg": 6.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 7.4,
+    "labAvg": 8.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 4.6,
+    "labAvg": 5.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 8.8,
+    "labAvg": 6.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 7.6,
+    "labAvg": 2.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 3.6,
+    "labAvg": 9.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 2.6,
+    "labAvg": 3.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 6.2,
+    "labAvg": 4.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 8.4,
+    "labAvg": 3.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 2.9,
+    "labAvg": 8.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 6.7,
+    "labAvg": 2,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 6.3,
+    "labAvg": 2.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 3.1,
+    "labAvg": 4,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 7.5,
+    "labAvg": 5.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 6.5,
+    "labAvg": 8.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 5.3,
+    "labAvg": 9.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 3.2,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 7.7,
+    "labAvg": 9.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 2.2,
+    "labAvg": 6.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 9.5,
+    "labAvg": 5.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 5.4,
+    "labAvg": 3.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 9.1,
+    "labAvg": 7.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 5.3,
+    "labAvg": 5.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 5.4,
+    "labAvg": 5.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 8.9,
+    "labAvg": 6,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 7.7,
+    "labAvg": 5.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 6.7,
+    "labAvg": 2.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 6.4,
+    "labAvg": 7.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 45,
+    "quizAvg": 6.5,
+    "labAvg": 5.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 4.3,
+    "labAvg": 2.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 6.4,
+    "labAvg": 2.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 2.9,
+    "labAvg": 8.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 4.1,
+    "labAvg": 5.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 5.5,
+    "labAvg": 7.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 8.7,
+    "labAvg": 3,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 2.9,
+    "labAvg": 3.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 5.5,
+    "labAvg": 9.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 3.1,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 7.8,
+    "labAvg": 9,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 9.2,
+    "labAvg": 4.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 4.4,
+    "labAvg": 8.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 2.1,
+    "labAvg": 2.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 5.7,
+    "labAvg": 4.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 7.8,
+    "labAvg": 6.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 2.3,
+    "labAvg": 4.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 2.8,
+    "labAvg": 6.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 6.3,
+    "labAvg": 9.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 9.4,
+    "labAvg": 9.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 9.3,
+    "labAvg": 3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 3.6,
+    "labAvg": 9.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 6.1,
+    "labAvg": 2.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 7.4,
+    "labAvg": 3.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 4,
+    "labAvg": 6.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 9.1,
+    "labAvg": 5,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 2.2,
+    "labAvg": 9.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 2.6,
+    "labAvg": 3.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 2.6,
+    "labAvg": 4.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 9.1,
+    "labAvg": 5.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 4.8,
+    "labAvg": 5.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 4.7,
+    "labAvg": 4.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 6.6,
+    "labAvg": 3.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 5.6,
+    "labAvg": 7.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 9.8,
+    "labAvg": 2.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 5.2,
+    "labAvg": 5.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 5.8,
+    "labAvg": 7.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 9.4,
+    "labAvg": 8.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 5.4,
+    "labAvg": 2.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 5.1,
+    "labAvg": 3.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 2.5,
+    "labAvg": 5.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 5.4,
+    "labAvg": 8.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 6.4,
+    "labAvg": 9.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 9.2,
+    "labAvg": 8.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 2.9,
+    "labAvg": 6.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 3.1,
+    "labAvg": 4.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 5.1,
+    "labAvg": 6.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 7.7,
+    "labAvg": 3,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 9,
+    "labAvg": 4,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 9.6,
+    "labAvg": 2.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 2.7,
+    "labAvg": 2.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 4.6,
+    "labAvg": 8.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 5,
+    "labAvg": 9.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 5,
+    "labAvg": 3.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 8.8,
+    "labAvg": 7.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 8.8,
+    "labAvg": 7.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 45,
+    "quizAvg": 2.1,
+    "labAvg": 4.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 4.1,
+    "labAvg": 6.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 9.8,
+    "labAvg": 3.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 4.5,
+    "labAvg": 4.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 3.9,
+    "labAvg": 7.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 6.7,
+    "labAvg": 10,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 4,
+    "labAvg": 5.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 6.3,
+    "labAvg": 4.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 8.8,
+    "labAvg": 2.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 7.5,
+    "labAvg": 2.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 6,
+    "labAvg": 7.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 5.3,
+    "labAvg": 3,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 2.1,
+    "labAvg": 7.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 3.4,
+    "labAvg": 3.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 7.4,
+    "labAvg": 9.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 4.2,
+    "labAvg": 6.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 6.2,
+    "labAvg": 5.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 5.4,
+    "labAvg": 5.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 5.9,
+    "labAvg": 7,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 4.8,
+    "labAvg": 6.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 9,
+    "labAvg": 9.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 8,
+    "labAvg": 5.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 8.9,
+    "labAvg": 4.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 5.4,
+    "labAvg": 8.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 5.4,
+    "labAvg": 5.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 4.1,
+    "labAvg": 6.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 5.3,
+    "labAvg": 10,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 4.3,
+    "labAvg": 2.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 6.4,
+    "labAvg": 5.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 7.1,
+    "labAvg": 4,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 3.2,
+    "labAvg": 9.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 4.2,
+    "labAvg": 2.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 3.1,
+    "labAvg": 7.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 4.3,
+    "labAvg": 5.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 9.3,
+    "labAvg": 8.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 2.2,
+    "labAvg": 4.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 5,
+    "labAvg": 6,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 5.6,
+    "labAvg": 5.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 8,
+    "labAvg": 5.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 7.5,
+    "labAvg": 3.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 3.2,
+    "labAvg": 5.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 7.2,
+    "labAvg": 4.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 6.7,
+    "labAvg": 10,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 6.3,
+    "labAvg": 7.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 6.2,
+    "labAvg": 4.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 5.5,
+    "labAvg": 5.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 4.3,
+    "labAvg": 7,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 7.5,
+    "labAvg": 3.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 7.4,
+    "labAvg": 7,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 3.1,
+    "labAvg": 6.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 6.6,
+    "labAvg": 6.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 9.5,
+    "labAvg": 9.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 8.6,
+    "labAvg": 6.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 9,
+    "labAvg": 3.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 4.1,
+    "labAvg": 5.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 8.4,
+    "labAvg": 6.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 4.7,
+    "labAvg": 2.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 9.9,
+    "labAvg": 2.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 9.6,
+    "labAvg": 8.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 4.7,
+    "labAvg": 2.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 4.1,
+    "labAvg": 2.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 8,
+    "labAvg": 9.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 2.2,
+    "labAvg": 3,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 9.9,
+    "labAvg": 5.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 3.8,
+    "labAvg": 7.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 9.3,
+    "labAvg": 2.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 8.4,
+    "labAvg": 7.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 8.3,
+    "labAvg": 8.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 7.5,
+    "labAvg": 8.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 8.8,
+    "labAvg": 5.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 45,
+    "quizAvg": 5.7,
+    "labAvg": 2.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 7.8,
+    "labAvg": 2.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 9.1,
+    "labAvg": 8.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 3.6,
+    "labAvg": 3.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 9.2,
+    "labAvg": 4.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 5.6,
+    "labAvg": 3.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 5.5,
+    "labAvg": 4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 7.7,
+    "labAvg": 8.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 3.1,
+    "labAvg": 6.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 9.8,
+    "labAvg": 4.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 4.6,
+    "labAvg": 9.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 9.8,
+    "labAvg": 3.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 4.3,
+    "labAvg": 2.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 9.3,
+    "labAvg": 3.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 6.3,
+    "labAvg": 7.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 5.1,
+    "labAvg": 3.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 4.8,
+    "labAvg": 2.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 6.4,
+    "labAvg": 2.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 5.3,
+    "labAvg": 5,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 7.8,
+    "labAvg": 9.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 5.1,
+    "labAvg": 5.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 3.3,
+    "labAvg": 2.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 3.7,
+    "labAvg": 9.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 3.5,
+    "labAvg": 3.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 9.3,
+    "labAvg": 5.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 2.2,
+    "labAvg": 4.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 8.5,
+    "labAvg": 4.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 7.9,
+    "labAvg": 7.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 5.6,
+    "labAvg": 3.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 6.1,
+    "labAvg": 2.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 4.7,
+    "labAvg": 7.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 2.5,
+    "labAvg": 6.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 5.3,
+    "labAvg": 6.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 8.8,
+    "labAvg": 9,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 2.2,
+    "labAvg": 7.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 6.1,
+    "labAvg": 3.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 9.4,
+    "labAvg": 5.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 3,
+    "labAvg": 3.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 4.7,
+    "labAvg": 3.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 9.1,
+    "labAvg": 6,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 6.1,
+    "labAvg": 9.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 3.4,
+    "labAvg": 2.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 9.1,
+    "labAvg": 4.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 6.5,
+    "labAvg": 9.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 6.5,
+    "labAvg": 5,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 8.5,
+    "labAvg": 4.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 7.9,
+    "labAvg": 3.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 2.2,
+    "labAvg": 3.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 9.8,
+    "labAvg": 5.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 4.4,
+    "labAvg": 7.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 8.4,
+    "labAvg": 8.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 7.7,
+    "labAvg": 8.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 3.1,
+    "labAvg": 4.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 3.6,
+    "labAvg": 8,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 5.2,
+    "labAvg": 4,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 9.3,
+    "labAvg": 2.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 5.2,
+    "labAvg": 2.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 9.8,
+    "labAvg": 5.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 6.4,
+    "labAvg": 7.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 6.3,
+    "labAvg": 6.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 7.2,
+    "labAvg": 4.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 9.5,
+    "labAvg": 3,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 2.1,
+    "labAvg": 4.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 8.6,
+    "labAvg": 8,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 2.5,
+    "labAvg": 3.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 8.2,
+    "labAvg": 7.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 4.7,
+    "labAvg": 9.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 3.2,
+    "labAvg": 6.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 9.9,
+    "labAvg": 2.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 3.4,
+    "labAvg": 7.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 7.1,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 6.8,
+    "labAvg": 2.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 3.1,
+    "labAvg": 6.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 7.8,
+    "labAvg": 9.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 2.8,
+    "labAvg": 7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 7.9,
+    "labAvg": 6.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 3.4,
+    "labAvg": 4.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 2.7,
+    "labAvg": 7.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 2.3,
+    "labAvg": 9.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 6.2,
+    "labAvg": 9.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 9.6,
+    "labAvg": 5.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 3.5,
+    "labAvg": 2.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 4.4,
+    "labAvg": 9.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 9.2,
+    "labAvg": 3.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 6.5,
+    "labAvg": 3.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 8.2,
+    "labAvg": 6.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 3,
+    "labAvg": 2.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 3.4,
+    "labAvg": 2.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 9.1,
+    "labAvg": 9.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 5.6,
+    "labAvg": 4.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 8.6,
+    "labAvg": 6.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 8.5,
+    "labAvg": 8.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 8.2,
+    "labAvg": 8.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 2,
+    "labAvg": 7.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 45,
+    "quizAvg": 8.7,
+    "labAvg": 2.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 6.5,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 8.5,
+    "labAvg": 7,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 9.9,
+    "labAvg": 4.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 7.7,
+    "labAvg": 4.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 2.8,
+    "labAvg": 5.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 8.5,
+    "labAvg": 5.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 7.5,
+    "labAvg": 4.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 9.1,
+    "labAvg": 7.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 3.9,
+    "labAvg": 4.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 3.7,
+    "labAvg": 4.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 9,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 4.1,
+    "labAvg": 6.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 8.5,
+    "labAvg": 6.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 4.4,
+    "labAvg": 9.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 9.1,
+    "labAvg": 7.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 3.2,
+    "labAvg": 3.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 2.7,
+    "labAvg": 3,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 5.6,
+    "labAvg": 9.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 8.8,
+    "labAvg": 9.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 9.4,
+    "labAvg": 5.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 2.9,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 9.4,
+    "labAvg": 6.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 6.3,
+    "labAvg": 9.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 9.3,
+    "labAvg": 7.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 6.3,
+    "labAvg": 3.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 6.5,
+    "labAvg": 8.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 7.9,
+    "labAvg": 2.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 6.7,
+    "labAvg": 8.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 4.8,
+    "labAvg": 3.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 7.9,
+    "labAvg": 9.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 4.4,
+    "labAvg": 4.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 3.3,
+    "labAvg": 2.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 2.3,
+    "labAvg": 5.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 4.5,
+    "labAvg": 7.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 8.3,
+    "labAvg": 7.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 4.6,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 7,
+    "labAvg": 3.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 4.7,
+    "labAvg": 2,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 8.6,
+    "labAvg": 7.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 5.6,
+    "labAvg": 7.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 5.2,
+    "labAvg": 9.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 4.2,
+    "labAvg": 3.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 4.3,
+    "labAvg": 2.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 3.3,
+    "labAvg": 2.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 9.9,
+    "labAvg": 9.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 3.7,
+    "labAvg": 7,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 4.9,
+    "labAvg": 4.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 2.6,
+    "labAvg": 4.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 3.7,
+    "labAvg": 5.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 4.9,
+    "labAvg": 6.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 7.2,
+    "labAvg": 7.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 10,
+    "labAvg": 7,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 3,
+    "labAvg": 2.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 4.7,
+    "labAvg": 8.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 3.4,
+    "labAvg": 7.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 7.8,
+    "labAvg": 3.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 6.8,
+    "labAvg": 5.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 5.2,
+    "labAvg": 3.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 9.7,
+    "labAvg": 2.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 4.5,
+    "labAvg": 7.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 7.1,
+    "labAvg": 2.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 9.1,
+    "labAvg": 2.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 5.2,
+    "labAvg": 3.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 6.5,
+    "labAvg": 4.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 3.7,
+    "labAvg": 9.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 3.7,
+    "labAvg": 5,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 9.7,
+    "labAvg": 6.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 9.3,
+    "labAvg": 6.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 3,
+    "labAvg": 6.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 2.4,
+    "labAvg": 6.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 7.9,
+    "labAvg": 6.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 7.2,
+    "labAvg": 6,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 8.6,
+    "labAvg": 2,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 3,
+    "labAvg": 2.5,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 7.4,
+    "labAvg": 5.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 8.4,
+    "labAvg": 3.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 6.4,
+    "labAvg": 3.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 7.1,
+    "labAvg": 5.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 7.4,
+    "labAvg": 3.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 9.1,
+    "labAvg": 5.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 7,
+    "labAvg": 4.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 6.8,
+    "labAvg": 5.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 8.6,
+    "labAvg": 10,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 3.3,
+    "labAvg": 6.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 8,
+    "labAvg": 8.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 8.9,
+    "labAvg": 2.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 5.9,
+    "labAvg": 9.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 7.2,
+    "labAvg": 8.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 8.6,
+    "labAvg": 2.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 7.3,
+    "labAvg": 7.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 2.3,
+    "labAvg": 7.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 9.9,
+    "labAvg": 5.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 5.2,
+    "labAvg": 4.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 7.6,
+    "labAvg": 7.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 7.6,
+    "labAvg": 9.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 4.3,
+    "labAvg": 4.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 3.5,
+    "labAvg": 9.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 2.3,
+    "labAvg": 7.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 5.6,
+    "labAvg": 2.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 6.3,
+    "labAvg": 8.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 5,
+    "labAvg": 5.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 8.7,
+    "labAvg": 10,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 7.8,
+    "labAvg": 6.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 7.6,
+    "labAvg": 4.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 9.2,
+    "labAvg": 6.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 9,
+    "labAvg": 5,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 3,
+    "labAvg": 8.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 9.1,
+    "labAvg": 6.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 8.3,
+    "labAvg": 5.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 9.8,
+    "labAvg": 2.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 5.2,
+    "labAvg": 6.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 4.2,
+    "labAvg": 3.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 9.5,
+    "labAvg": 2.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 6.7,
+    "labAvg": 3.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 9.3,
+    "labAvg": 4.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 2.9,
+    "labAvg": 3.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 5.1,
+    "labAvg": 2.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 8.5,
+    "labAvg": 2.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 2.9,
+    "labAvg": 8,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 7.4,
+    "labAvg": 4.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 9.9,
+    "labAvg": 3,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 2.4,
+    "labAvg": 4.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 8.3,
+    "labAvg": 2.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 6.1,
+    "labAvg": 7.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 8.2,
+    "labAvg": 5,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 8.3,
+    "labAvg": 8.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 6.1,
+    "labAvg": 6.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 2.2,
+    "labAvg": 8.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 7.4,
+    "labAvg": 5.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 2.5,
+    "labAvg": 9.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 9.9,
+    "labAvg": 4,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 7.3,
+    "labAvg": 5.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 6.4,
+    "labAvg": 5.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 7.7,
+    "labAvg": 4.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 5.9,
+    "labAvg": 2,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 4.1,
+    "labAvg": 3.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 8.4,
+    "labAvg": 9,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 4.2,
+    "labAvg": 7.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 7.7,
+    "labAvg": 8.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 4.7,
+    "labAvg": 4.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 4,
+    "labAvg": 6,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 45,
+    "quizAvg": 7.9,
+    "labAvg": 7.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 8.7,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 7.6,
+    "labAvg": 6.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 8.2,
+    "labAvg": 9.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 9,
+    "labAvg": 6.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 4.7,
+    "labAvg": 6.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 8,
+    "labAvg": 2.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 9.3,
+    "labAvg": 7.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 8.8,
+    "labAvg": 8.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 7.1,
+    "labAvg": 5.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 8.6,
+    "labAvg": 3.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 9,
+    "labAvg": 4.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 7.2,
+    "labAvg": 3.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 7.4,
+    "labAvg": 2.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 9.9,
+    "labAvg": 4.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 9.3,
+    "labAvg": 7.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 9.6,
+    "labAvg": 7.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 3.1,
+    "labAvg": 9.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 6.8,
+    "labAvg": 4,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 4.8,
+    "labAvg": 4.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 5.7,
+    "labAvg": 3.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 5.3,
+    "labAvg": 9.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 9.6,
+    "labAvg": 9.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 5.8,
+    "labAvg": 4,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 3.4,
+    "labAvg": 7.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 9.9,
+    "labAvg": 6.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 2.6,
+    "labAvg": 3.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 9,
+    "labAvg": 5.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 5.7,
+    "labAvg": 7,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 2.6,
+    "labAvg": 2.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 6.9,
+    "labAvg": 5.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 45,
+    "quizAvg": 5.9,
+    "labAvg": 2.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 3.9,
+    "labAvg": 7.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 4.6,
+    "labAvg": 2.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 3.9,
+    "labAvg": 6.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 4.1,
+    "labAvg": 9.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 4.1,
+    "labAvg": 2.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 8,
+    "labAvg": 6.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 7.1,
+    "labAvg": 8.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 5.9,
+    "labAvg": 5.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 3.2,
+    "labAvg": 3.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 4.9,
+    "labAvg": 7.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 3.2,
+    "labAvg": 6.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 6.8,
+    "labAvg": 2,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 9.6,
+    "labAvg": 6.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 2.6,
+    "labAvg": 6.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 7,
+    "labAvg": 3.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 8.1,
+    "labAvg": 7.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 3.7,
+    "labAvg": 4.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 7,
+    "labAvg": 7.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 5.1,
+    "labAvg": 9.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 2.1,
+    "labAvg": 5.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 9.1,
+    "labAvg": 2.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 8.4,
+    "labAvg": 5.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 3.7,
+    "labAvg": 2.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 2.9,
+    "labAvg": 8.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 8.2,
+    "labAvg": 3.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 2.4,
+    "labAvg": 6.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 9.7,
+    "labAvg": 4.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 9.6,
+    "labAvg": 2.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 3.8,
+    "labAvg": 2.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 6.6,
+    "labAvg": 6.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 4.6,
+    "labAvg": 5.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 2.3,
+    "labAvg": 5.9,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 6,
+    "labAvg": 6.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 7.1,
+    "labAvg": 9.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 2.9,
+    "labAvg": 6,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 3.9,
+    "labAvg": 7.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 8.4,
+    "labAvg": 6.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 9.6,
+    "labAvg": 9.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 6.7,
+    "labAvg": 7,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 39,
+    "quizAvg": 9.7,
+    "labAvg": 7.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 6.5,
+    "labAvg": 4.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 2.3,
+    "labAvg": 8.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 5.9,
+    "labAvg": 8.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 8.3,
+    "labAvg": 7.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 4.3,
+    "labAvg": 6.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 6.7,
+    "labAvg": 7.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 4.1,
+    "labAvg": 9.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 7.5,
+    "labAvg": 8.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 4.6,
+    "labAvg": 6.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 3.6,
+    "labAvg": 3.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 9.2,
+    "labAvg": 6.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 2.9,
+    "labAvg": 5.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 2.2,
+    "labAvg": 9,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 2.2,
+    "labAvg": 8.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 9.6,
+    "labAvg": 8.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 8,
+    "labAvg": 9,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 4.3,
+    "labAvg": 2.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 5.5,
+    "labAvg": 3.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 2.2,
+    "labAvg": 4.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 7,
+    "labAvg": 3.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 2.5,
+    "labAvg": 7.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 7.8,
+    "labAvg": 9.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 6.6,
+    "labAvg": 8.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 99,
+    "quizAvg": 3.6,
+    "labAvg": 3.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 6.3,
+    "labAvg": 4.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 7.7,
+    "labAvg": 7,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 8.2,
+    "labAvg": 6.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 3.1,
+    "labAvg": 7.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 8.2,
+    "labAvg": 8.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 7.6,
+    "labAvg": 8.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 4.5,
+    "labAvg": 4.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 3.7,
+    "labAvg": 5.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 6.4,
+    "labAvg": 7.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 9.5,
+    "labAvg": 5,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 8.5,
+    "labAvg": 6.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 8.3,
+    "labAvg": 4.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 4.2,
+    "labAvg": 7.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 3.9,
+    "labAvg": 8.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 9.3,
+    "labAvg": 7.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 5.5,
+    "labAvg": 9.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 2.3,
+    "labAvg": 7.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 4,
+    "labAvg": 8.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 8.8,
+    "labAvg": 7.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 5.9,
+    "labAvg": 9,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 7.2,
+    "labAvg": 10,
+    "failedSubjects": 0,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 7.4,
+    "labAvg": 5.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 6.1,
+    "labAvg": 5.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 4,
+    "labAvg": 5.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 4.2,
+    "labAvg": 4.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 4.3,
+    "labAvg": 3.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 7.2,
+    "labAvg": 6.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 3.5,
+    "labAvg": 6,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 7.6,
+    "labAvg": 9.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 2.3,
+    "labAvg": 4.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 7.5,
+    "labAvg": 3.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 5.3,
+    "labAvg": 4.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 36,
+    "quizAvg": 7.9,
+    "labAvg": 7.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 5.7,
+    "labAvg": 9.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 3.6,
+    "labAvg": 6.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 4.5,
+    "labAvg": 4.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 3,
+    "labAvg": 8.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 4,
+    "labAvg": 2.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 3.2,
+    "labAvg": 7.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 8.7,
+    "labAvg": 5.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 4.7,
+    "labAvg": 5.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 8.4,
+    "labAvg": 4.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 9.6,
+    "labAvg": 7.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 6,
+    "labAvg": 3.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 2.2,
+    "labAvg": 2.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 5.2,
+    "labAvg": 9.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 3.3,
+    "labAvg": 3.5,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 9,
+    "labAvg": 4.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 88,
+    "quizAvg": 5.4,
+    "labAvg": 5.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 3.3,
+    "labAvg": 8.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 2.9,
+    "labAvg": 4.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 7.6,
+    "labAvg": 3,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 4.8,
+    "labAvg": 3.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 2.2,
+    "labAvg": 7.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 6.9,
+    "labAvg": 8.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 6.5,
+    "labAvg": 9.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 6.7,
+    "labAvg": 9,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 5.8,
+    "labAvg": 9.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 2.5,
+    "labAvg": 9.4,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 2.9,
+    "labAvg": 3,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 9.1,
+    "labAvg": 9,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 5.5,
+    "labAvg": 7.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 3.3,
+    "labAvg": 4.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 8.7,
+    "labAvg": 5.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 6.4,
+    "labAvg": 4.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 2.7,
+    "labAvg": 2.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 4.1,
+    "labAvg": 2.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 6.5,
+    "labAvg": 9.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 8.4,
+    "labAvg": 4.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 9.8,
+    "labAvg": 9.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 76,
+    "quizAvg": 4.2,
+    "labAvg": 4,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 6.1,
+    "labAvg": 5.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 8.4,
+    "labAvg": 4.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 8.3,
+    "labAvg": 5.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 3.7,
+    "labAvg": 9.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 9,
+    "labAvg": 8.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 0
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 6.8,
+    "labAvg": 3.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 6.8,
+    "labAvg": 9.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 92,
+    "quizAvg": 4.6,
+    "labAvg": 5.5,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 67,
+    "quizAvg": 6.3,
+    "labAvg": 4.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 4.3,
+    "labAvg": 6.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 2.4,
+    "labAvg": 5.2,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 5.2,
+    "labAvg": 2.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 3.7,
+    "labAvg": 7.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 31,
+    "quizAvg": 3.1,
+    "labAvg": 5.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 87,
+    "quizAvg": 7.4,
+    "labAvg": 5.5,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 3.1,
+    "labAvg": 4.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 9.9,
+    "labAvg": 7.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 8.8,
+    "labAvg": 6.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 9.8,
+    "labAvg": 8.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 5.1,
+    "labAvg": 8.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 8.9,
+    "labAvg": 3.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 3.2,
+    "labAvg": 2.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 53,
+    "quizAvg": 9.1,
+    "labAvg": 2.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 8.2,
+    "labAvg": 7.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 90,
+    "quizAvg": 5.2,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 5,
+    "labAvg": 9.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 9.8,
+    "labAvg": 3.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 8.6,
+    "labAvg": 5.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 3.5,
+    "labAvg": 9.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 6.5,
+    "labAvg": 6,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 2.6,
+    "labAvg": 5.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 9.5,
+    "labAvg": 3.7,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 5,
+    "labAvg": 9.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 6.1,
+    "labAvg": 3.6,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 7.3,
+    "labAvg": 3.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 4.2,
+    "labAvg": 4.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 6.6,
+    "labAvg": 6,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 4.8,
+    "labAvg": 9.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 4.4,
+    "labAvg": 4.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 9,
+    "labAvg": 7.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 91,
+    "quizAvg": 7.1,
+    "labAvg": 5.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 3.5,
+    "labAvg": 6.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 4.1,
+    "labAvg": 3.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 9,
+    "labAvg": 9.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 4.5,
+    "labAvg": 4.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 8.7,
+    "labAvg": 3.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 4.3,
+    "labAvg": 8.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 58,
+    "quizAvg": 5.4,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 8.8,
+    "labAvg": 7.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 8.9,
+    "labAvg": 9.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 0
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 10,
+    "labAvg": 8.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 6.1,
+    "labAvg": 4.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 6.1,
+    "labAvg": 2,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 6.7,
+    "labAvg": 7.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 2.4,
+    "labAvg": 5.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 9.5,
+    "labAvg": 4.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 6.4,
+    "labAvg": 5.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 5.3,
+    "labAvg": 3.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 2.4,
+    "labAvg": 3.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 8.8,
+    "labAvg": 8.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 30,
+    "quizAvg": 5.8,
+    "labAvg": 3.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 7.8,
+    "labAvg": 8.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 4.4,
+    "labAvg": 9.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 5,
+    "labAvg": 9.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 7.1,
+    "labAvg": 3.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 9.6,
+    "labAvg": 6.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 10,
+    "labAvg": 4.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 3.4,
+    "labAvg": 2.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 8.8,
+    "labAvg": 5.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 95,
+    "quizAvg": 7.1,
+    "labAvg": 5.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 7.5,
+    "labAvg": 8.3,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 5.2,
+    "labAvg": 7.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 7.4,
+    "labAvg": 4.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 9.7,
+    "labAvg": 9.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 3.3,
+    "labAvg": 7,
+    "failedSubjects": 1,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 7.2,
+    "labAvg": 7.4,
+    "failedSubjects": 5,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 38,
+    "quizAvg": 7.7,
+    "labAvg": 6.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 9.1,
+    "labAvg": 3.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 6.2,
+    "labAvg": 6.2,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 9.7,
+    "labAvg": 5.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 5.6,
+    "labAvg": 4.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 94,
+    "quizAvg": 7.8,
+    "labAvg": 3,
+    "failedSubjects": 2,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 2.6,
+    "labAvg": 6.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 8.4,
+    "labAvg": 6.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 44,
+    "quizAvg": 9.6,
+    "labAvg": 9.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 80,
+    "quizAvg": 9.9,
+    "labAvg": 9.3,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 61,
+    "quizAvg": 5.3,
+    "labAvg": 6.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 3.9,
+    "labAvg": 5,
+    "failedSubjects": 5,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 9.7,
+    "labAvg": 3.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 7.7,
+    "labAvg": 4.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 3.4,
+    "labAvg": 6.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 9.4,
+    "labAvg": 4.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 9.7,
+    "labAvg": 9.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 97,
+    "quizAvg": 5,
+    "labAvg": 3.9,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 43,
+    "quizAvg": 9.3,
+    "labAvg": 5.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 56,
+    "quizAvg": 6.1,
+    "labAvg": 9.1,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 3.5,
+    "labAvg": 6.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 60,
+    "quizAvg": 5.4,
+    "labAvg": 5.8,
+    "failedSubjects": 1,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 7,
+    "labAvg": 5.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 5.2,
+    "labAvg": 7.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 2.3,
+    "labAvg": 3.7,
+    "failedSubjects": 2,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 9.6,
+    "labAvg": 4.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 4.7,
+    "labAvg": 2.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 6.4,
+    "labAvg": 5,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 7.6,
+    "labAvg": 4.1,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 82,
+    "quizAvg": 6.8,
+    "labAvg": 2.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 81,
+    "quizAvg": 2.6,
+    "labAvg": 2.4,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 46,
+    "quizAvg": 2.6,
+    "labAvg": 4.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 3.2,
+    "labAvg": 5.2,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 55,
+    "quizAvg": 4.8,
+    "labAvg": 2.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 2.3,
+    "labAvg": 9.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 5.2,
+    "labAvg": 8.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 9.7,
+    "labAvg": 2.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 9.8,
+    "labAvg": 3,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 41,
+    "quizAvg": 9.7,
+    "labAvg": 7.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 9.9,
+    "labAvg": 9.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 98,
+    "quizAvg": 3,
+    "labAvg": 9.9,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 9.4,
+    "labAvg": 9.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 3.3,
+    "labAvg": 4.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 9.1,
+    "labAvg": 2.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 3.4,
+    "labAvg": 5,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 89,
+    "quizAvg": 3.7,
+    "labAvg": 9.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 0
+  },
+  {
+    "attendance": 64,
+    "quizAvg": 4.9,
+    "labAvg": 5,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 9.6,
+    "labAvg": 5.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 57,
+    "quizAvg": 4.4,
+    "labAvg": 5.6,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 9.2,
+    "labAvg": 4.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 93,
+    "quizAvg": 9.7,
+    "labAvg": 9.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 4,
+    "risk": 0
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 3.5,
+    "labAvg": 6.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 35,
+    "quizAvg": 9.3,
+    "labAvg": 2.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 77,
+    "quizAvg": 8.6,
+    "labAvg": 4.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 9,
+    "labAvg": 6,
+    "failedSubjects": 5,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 4.1,
+    "labAvg": 7,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 6.4,
+    "labAvg": 6.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 51,
+    "quizAvg": 8.2,
+    "labAvg": 7.7,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 7.5,
+    "labAvg": 5.7,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 8.9,
+    "labAvg": 5.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 4,
+    "labAvg": 4.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 68,
+    "quizAvg": 9.7,
+    "labAvg": 8.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 84,
+    "quizAvg": 6.9,
+    "labAvg": 8.6,
+    "failedSubjects": 2,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 78,
+    "quizAvg": 2.8,
+    "labAvg": 9.6,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 4.2,
+    "labAvg": 9,
+    "failedSubjects": 1,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 96,
+    "quizAvg": 3.8,
+    "labAvg": 4.7,
+    "failedSubjects": 5,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 6.1,
+    "labAvg": 5.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 42,
+    "quizAvg": 2.9,
+    "labAvg": 2.8,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 3.6,
+    "labAvg": 4.1,
+    "failedSubjects": 4,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 5.2,
+    "labAvg": 9.3,
+    "failedSubjects": 3,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 66,
+    "quizAvg": 3.9,
+    "labAvg": 9.4,
+    "failedSubjects": 2,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 32,
+    "quizAvg": 2.7,
+    "labAvg": 4,
+    "failedSubjects": 3,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 63,
+    "quizAvg": 6.3,
+    "labAvg": 4.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 33,
+    "quizAvg": 4.6,
+    "labAvg": 2.6,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 52,
+    "quizAvg": 7.9,
+    "labAvg": 5.3,
+    "failedSubjects": 5,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 7.4,
+    "labAvg": 9.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 7,
+    "risk": 0
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 9.2,
+    "labAvg": 3.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 70,
+    "quizAvg": 8.5,
+    "labAvg": 3.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 5.7,
+    "labAvg": 3.5,
+    "failedSubjects": 2,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 5.9,
+    "labAvg": 7.3,
+    "failedSubjects": 0,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 59,
+    "quizAvg": 3.1,
+    "labAvg": 5.8,
+    "failedSubjects": 5,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 83,
+    "quizAvg": 8.2,
+    "labAvg": 9.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 37,
+    "quizAvg": 2.8,
+    "labAvg": 8,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 73,
+    "quizAvg": 2.1,
+    "labAvg": 9.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 72,
+    "quizAvg": 6.9,
+    "labAvg": 7.4,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 6.2,
+    "labAvg": 5.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 1,
+    "risk": 1
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 5.1,
+    "labAvg": 4.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 9,
+    "risk": 1
+  },
+  {
+    "attendance": 69,
+    "quizAvg": 4.9,
+    "labAvg": 8.9,
+    "failedSubjects": 0,
+    "dependencyImpact": 1,
+    "risk": 0
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 8.6,
+    "labAvg": 3.8,
+    "failedSubjects": 4,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 8.1,
+    "labAvg": 5.1,
+    "failedSubjects": 3,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 50,
+    "quizAvg": 3.5,
+    "labAvg": 2.1,
+    "failedSubjects": 1,
+    "dependencyImpact": 3,
+    "risk": 1
+  },
+  {
+    "attendance": 48,
+    "quizAvg": 7.2,
+    "labAvg": 4.8,
+    "failedSubjects": 3,
+    "dependencyImpact": 0,
+    "risk": 1
+  },
+  {
+    "attendance": 49,
+    "quizAvg": 4.3,
+    "labAvg": 3.2,
+    "failedSubjects": 3,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 54,
+    "quizAvg": 5.2,
+    "labAvg": 4.9,
+    "failedSubjects": 1,
+    "dependencyImpact": 8,
+    "risk": 1
+  },
+  {
+    "attendance": 100,
+    "quizAvg": 8.2,
+    "labAvg": 4.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 6,
+    "risk": 1
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 2.9,
+    "labAvg": 6.6,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 79,
+    "quizAvg": 4.8,
+    "labAvg": 9.5,
+    "failedSubjects": 3,
+    "dependencyImpact": 2,
+    "risk": 0
+  },
+  {
+    "attendance": 85,
+    "quizAvg": 8.9,
+    "labAvg": 7.2,
+    "failedSubjects": 5,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 71,
+    "quizAvg": 8.1,
+    "labAvg": 3,
+    "failedSubjects": 0,
+    "dependencyImpact": 0,
+    "risk": 0
+  },
+  {
+    "attendance": 65,
+    "quizAvg": 3.8,
+    "labAvg": 9.8,
+    "failedSubjects": 2,
+    "dependencyImpact": 4,
+    "risk": 1
+  },
+  {
+    "attendance": 40,
+    "quizAvg": 4,
+    "labAvg": 5.2,
+    "failedSubjects": 0,
+    "dependencyImpact": 2,
+    "risk": 1
+  },
+  {
+    "attendance": 34,
+    "quizAvg": 6.2,
+    "labAvg": 2,
+    "failedSubjects": 3,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 86,
+    "quizAvg": 2.5,
+    "labAvg": 7.9,
+    "failedSubjects": 4,
+    "dependencyImpact": 7,
+    "risk": 1
+  },
+  {
+    "attendance": 47,
+    "quizAvg": 8.7,
+    "labAvg": 5.3,
+    "failedSubjects": 4,
+    "dependencyImpact": 5,
+    "risk": 1
+  },
+  {
+    "attendance": 75,
+    "quizAvg": 8,
+    "labAvg": 7.4,
+    "failedSubjects": 4,
+    "dependencyImpact": 6,
+    "risk": 0
+  },
+  {
+    "attendance": 74,
+    "quizAvg": 9.8,
+    "labAvg": 4.1,
+    "failedSubjects": 0,
+    "dependencyImpact": 3,
+    "risk": 0
+  },
+  {
+    "attendance": 62,
+    "quizAvg": 6.3,
+    "labAvg": 5.7,
+    "failedSubjects": 1,
+    "dependencyImpact": 2,
+    "risk": 0
+  }
+]

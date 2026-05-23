@@ -1,0 +1,22 @@
+[
+  {
+    "target": "Lập trình Javascript nâng cao",
+    "prerequisites": ["Lập trình cơ sở với JavaScript"],
+    "skills": ["JavaScript cơ bản", "Logic lập trình", "DOM Manipulation"]
+  },
+  {
+    "target": "Lập trình Front-End Framework 1",
+    "prerequisites": ["Lập trình Javascript nâng cao"],
+    "skills": ["JavaScript nâng cao", "ES6+", "Xử lý Bất đồng bộ (Async/Await)"]
+  },
+  {
+    "target": "Lập trình Front-End Framework 2",
+    "prerequisites": ["Lập trình Front-End Framework 1"],
+    "skills": ["React State Management", "Props & Components"]
+  },
+  {
+    "target": "NodeJS & Restful Web Service",
+    "prerequisites": ["Lập trình Front-End Framework 2", "Cơ sở dữ liệu"],
+    "skills": ["Tư duy CSDL (Database Thinking)", "SQL", "Kiến trúc API", "NodeJS Backend"]
+  }
+]
