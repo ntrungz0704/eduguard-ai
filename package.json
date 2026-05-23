@@ -11,7 +11,8 @@
     "train": "node server/ml/train.js && node server/scripts/train.js",
     "train:chat": "node server/ml/train_chatbot.js",
     "postinstall": "prisma generate",
-    "kill": "powershell -Command \"$ports = @(3000, 5173, 5174); foreach ($p in $ports) { $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; if ($conns) { foreach ($c in $conns) { if ($c.OwningProcess -gt 4) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue } } } }; exit 0\""
+    "kill": "powershell -Command \"$ports = @(3000, 5173, 5174); foreach ($p in $ports) { $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; if ($conns) { foreach ($c in $conns) { if ($c.OwningProcess -gt 4) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue } } } }; exit 0\"",
+    "test": "jest"
   },
   "keywords": [
     "ai",
@@ -38,12 +39,15 @@
     "pptxgenjs": "^4.0.1",
     "uuid": "^14.0.0",
     "winston": "^3.19.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@prisma/client": "^7.8.0",
     "autocannon": "^8.0.0",
     "concurrently": "^9.2.1",
-    "prisma": "^7.8.0"
+    "jest": "^30.4.2",
+    "prisma": "^7.8.0",
+    "supertest": "^7.2.2"
   }
 }

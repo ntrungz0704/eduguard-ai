@@ -1,0 +1,4 @@
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-23T11:19:36.889Z"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-23T11:19:36.892Z"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-23T11:23:24.133Z"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-23T11:23:24.135Z"}

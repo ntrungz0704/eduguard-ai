@@ -1,11 +1,11 @@
 node_modules/
-.env
-*.log
-logs/
-coverage/
 dist/
 build/
-.DS_Store
+generated/
+logs/
+.env
+temp/
 *.db
 *.db-journal
-generated/
+.DS_Store
+coverage/

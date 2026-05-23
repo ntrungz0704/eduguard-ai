@@ -5,10 +5,9 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') }
 const env = require('./src/config/env'); // Validate environment immediately
 
 const app = require('./src/app');
-const { PrismaClient } = require('@prisma/client');
+const { prisma } = require('./src/infrastructure/database/prisma');
 const logger = require('./src/infrastructure/logger');
 
-const prisma = new PrismaClient();
 const PORT = env.PORT;
 
 const startServer = (port) => {

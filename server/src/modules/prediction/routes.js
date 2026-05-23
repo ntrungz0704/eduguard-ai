@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const predictionController = require('./controller');
-const validator = require('./validator');
+const { validate, predictSubjectSchema } = require('./validator');
 
-// Define prediction routes
-// e.g. router.post('/upload-predict', validator.validateUpload, predictionController.handleUploadPredict);
+// GET /api/v1/prediction/:subject
+// We accept both GET and POST for legacy compatibility during migration
+router.all('/:subject', validate(predictSubjectSchema), predictionController.predictSubject);
 
 module.exports = router;

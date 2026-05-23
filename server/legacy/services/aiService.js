@@ -1,6 +1,6 @@
 const Groq = require('groq-sdk');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { prisma } = require('./prisma');
+const { prisma } = require('../../src/infrastructure/database/prisma');
 
 // Initialize API clients
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });

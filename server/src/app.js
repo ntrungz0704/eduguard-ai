@@ -3,8 +3,8 @@ const cors = require('cors');
 const path = require('path');
 
 const rateLimit = require('express-rate-limit');
-const traceIdMiddleware = require('./middlewares/traceId');
-const errorHandler = require('./middlewares/errorHandler');
+const traceIdMiddleware = require('./middlewares/tracing');
+const errorHandler = require('./middlewares/errors');
 
 const app = express();
 
@@ -40,10 +40,13 @@ app.get('/api/health', (req, res) => {
 });
 
 // We will mount modular routers here shortly
-const apiRouter = require('../routes/api');
-const commRouter = require('../routes/communication');
+const apiRouter = require('../legacy/routes/api');
+const commRouter = require('../legacy/routes/communication');
+const predictionRouter = require('./modules/prediction/routes');
+
 app.use('/api', apiLimiter, apiRouter);
 app.use('/api/comm', apiLimiter, commRouter);
+app.use('/api/v1/prediction', apiLimiter, predictionRouter);
 
 // Fallback to legacy index.html
 app.get('*', (req, res) => {

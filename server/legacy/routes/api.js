@@ -5,19 +5,19 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 const path = require('path');
 // Import unified Prisma client
-const { prisma } = require('../services/prisma');
+const { prisma } = require('../../src/infrastructure/database/prisma');
 
 // Import modular services
 const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../services/dataService');
-const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../src/ai/regression');
-const { validateModel } = require('../src/ai/validation');
+const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../../src/ai/regression');
+const { validateModel } = require('../../src/ai/validation');
 const { NlpManager } = require('node-nlp');
 
 // Import RAG and AI Orchestration Services
 const { getStudentContext } = require('../services/ragService');
 const { buildPrompt } = require('../services/promptService');
 const { askGroq, askGemini } = require('../services/aiService');
-const { predictRisk } = require('../src/ai/inference/riskPredictor');
+const { predictRisk } = require('../../src/ai/inference/riskPredictor');
 
 // Setup upload
 const upload = multer({ storage: multer.memoryStorage() });
@@ -95,23 +95,23 @@ async function syncUploadedData(validStudents) {
 // ============================================================
 // LOAD PRE-TRAINED DATA & CACHED MODELS
 // ============================================================
-const dataPath = path.join(__dirname, '..', 'data', 'training_data.json');
-const modelCachePath = path.join(__dirname, '..', 'ml', 'trained_model.json');
-let trainingData = { students: [], subjects: [], curriculumOrder: [] };
-let modelCache = {};
+const dataPath = path.join(__dirname, '..', '..', 'src', 'ai', 'datasets', 'training_data.json');
+const modelCachePath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'trained_model.json');
+const cache = require('../../src/shared/cache');
+
 
 if (fs.existsSync(dataPath)) {
-  trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-  console.log(`📚 Pre-trained data loaded in Router: ${trainingData.students.length} SV, ${trainingData.subjects.length} môn`);
+  cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+  console.log(`📚 Pre-trained data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
 }
 
 if (fs.existsSync(modelCachePath)) {
-  modelCache = JSON.parse(fs.readFileSync(modelCachePath, 'utf8'));
-  console.log(`⚡ Pre-trained models cache loaded in Router: ${Object.keys(modelCache).length} subjects`);
+  cache.modelCache = JSON.parse(fs.readFileSync(modelCachePath, 'utf8'));
+  console.log(`⚡ Pre-trained models cache loaded in Router: ${Object.keys(cache.modelCache).length} subjects`);
 }
 
 const nlpManager = new NlpManager({ languages: ['vi', 'en'] });
-const chatbotModelPath = path.join(__dirname, '..', 'ml', 'chatbot_model.nlp');
+const chatbotModelPath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'model.nlp');
 let nlpModelLoaded = false;
 if (fs.existsSync(chatbotModelPath)) {
   nlpManager.load(chatbotModelPath);
@@ -120,10 +120,10 @@ if (fs.existsSync(chatbotModelPath)) {
 }
 
 // In-memory store for uploaded student data (Mock database fallback for GET requests)
-let uploadedStudents = [];
 
-const interventionsPath = path.join(__dirname, '..', 'data', 'interventions.json');
-const subjectDependenciesPath = path.join(__dirname, '..', 'data', 'subject_dependencies.json');
+
+const interventionsPath = path.join(__dirname, '..', '..', 'src', 'ai', 'datasets', 'interventions.json');
+const subjectDependenciesPath = path.join(__dirname, '..', '..', 'src', 'ai', 'datasets', 'subject_dependencies.json');
 
 function getSubjectDependencies() {
   if (fs.existsSync(subjectDependenciesPath)) {
@@ -166,8 +166,8 @@ function saveIntervention(studentId, subject, intervened) {
 // API: Get pre-trained data info
 // ============================================================
 router.get('/training-info', (req, res) => {
-  const subjects = trainingData.subjects || [];
-  const students = trainingData.students || [];
+  const subjects = cache.trainingData.subjects || [];
+  const students = cache.trainingData.students || [];
 
   const stats = subjects.map(sub => {
     const scored = students.filter(s => s.scores[sub] != null);
@@ -187,10 +187,10 @@ router.get('/training-info', (req, res) => {
     totalStudents: students.length,
     totalSubjects: subjects.length,
     displaySubjects: stats.length,
-    source: trainingData.source || 'Pre-trained',
-    lastUpdated: trainingData.lastUpdated,
+    source: cache.trainingData.source || 'Pre-trained',
+    lastUpdated: cache.trainingData.lastUpdated,
     stats,
-    curriculumOrder: trainingData.curriculumOrder || []
+    curriculumOrder: cache.trainingData.curriculumOrder || []
   });
 });
 
@@ -365,7 +365,7 @@ router.post('/upload-predict', upload.any(), (req, res) => {
       }
 
       // 2. VALIDATE & CLEAN
-      const cleanResult = validateAndCleanData(parsedRows, headers, fileType, trainingData.subjects);
+      const cleanResult = validateAndCleanData(parsedRows, headers, fileType, cache.trainingData.subjects);
       const { validStudents, errors, subjectCols, fileType: detectedFileType } = cleanResult;
 
       if (detectedFileType === 'class') {
@@ -401,17 +401,17 @@ router.post('/upload-predict', upload.any(), (req, res) => {
       return res.status(400).json({ error: allErrors[0] || 'Dữ liệu không hợp lệ.' });
     }
 
-    uploadedStudents = mergedValidStudents;
+    cache.uploadedStudents = mergedValidStudents;
 
     // 4. PREPARE PREDICTION SUBJECTS
-    const trainSubjects = new Set(trainingData.subjects || []);
+    const trainSubjects = new Set(cache.trainingData.subjects || []);
     const predictable = [];
     const uniqueSubjectCols = Array.from(allSubjectCols);
 
     uniqueSubjectCols.forEach(s => {
       if (!trainSubjects.has(s)) return;
-      const prereqs = getPrerequisites(s, trainingData);
-      const isTrainable = prereqs.length > 0 && trainingData.students.filter(st => st.scores[s] != null).length >= 5;
+      const prereqs = getPrerequisites(s, cache.trainingData);
+      const isTrainable = prereqs.length > 0 && cache.trainingData.students.filter(st => st.scores[s] != null).length >= 5;
 
       if (isTrainable) {
         const missingCount = mergedValidStudents.filter(st => st.scores[s] == null).length;
@@ -453,8 +453,8 @@ router.post('/upload-predict', upload.any(), (req, res) => {
 router.all('/predict/:subject', async (req, res) => {
   try {
     const target = decodeURIComponent(req.params.subject);
-    const trainStudents = trainingData.students || [];
-    const currOrder = trainingData.curriculumOrder || [];
+    const trainStudents = cache.trainingData.students || [];
+    const currOrder = cache.trainingData.curriculumOrder || [];
     const trainScores = trainStudents.filter(s => s.scores[target] != null).map(s => s.scores[target]);
 
     // Query database students
@@ -499,7 +499,7 @@ router.all('/predict/:subject', async (req, res) => {
     });
 
     // 3. Merge in-memory uploaded students
-    uploadedStudents.forEach(s => {
+    cache.uploadedStudents.forEach(s => {
       if (allStudentsMap[s.id]) {
         allStudentsMap[s.id].scores = { ...allStudentsMap[s.id].scores, ...s.scores };
         if (s.name) allStudentsMap[s.id].name = s.name;
@@ -533,7 +533,7 @@ router.all('/predict/:subject', async (req, res) => {
     });
 
     // 1. FAST PATH: Check if pre-trained cached model is available
-    const cachedModel = modelCache[target];
+    const cachedModel = cache.modelCache[target];
     if (cachedModel) {
       const predictions = [];
       const topFeatures = cachedModel.topFeatures; // Array of { subject, r, absR, hybridScore, a, b, samples }
@@ -692,7 +692,7 @@ router.all('/predict/:subject', async (req, res) => {
           samples: f.samples
         })),
         validation: cachedModel.validation,
-        prerequisites: getPrerequisites(target, trainingData),
+        prerequisites: getPrerequisites(target, cache.trainingData),
         formula: {
           name: 'Knowledge-Enhanced Hybrid Regression (HK-Pearson V2.1 - IQR & Calibrated)',
           expression: 'ŷ = Calibrate( Σ(|rᵢ|^1.5 × KWᵢ / Σ(|r_k|^1.5 × KW_k)) × (aᵢ + bᵢ×xᵢ) )',
@@ -703,7 +703,7 @@ router.all('/predict/:subject', async (req, res) => {
     }
 
     // 2. SLOW PATH (Fallback to on-the-fly model generation if not cached)
-    const prereqs = getPrerequisites(target, trainingData);
+    const prereqs = getPrerequisites(target, cache.trainingData);
     const model = weightedPrediction(prereqs, target, trainStudents);
 
     if (model.topFeatures.length === 0) {
@@ -836,12 +836,12 @@ router.all('/predict/:subject', async (req, res) => {
 // ============================================================
 router.get('/validate/:subject', (req, res) => {
   const target = decodeURIComponent(req.params.subject);
-  const trainStudents = trainingData.students || [];
+  const trainStudents = cache.trainingData.students || [];
   const activeInterventions = getInterventions()[target] || [];
   trainStudents.forEach(s => {
     s.intervened = activeInterventions.includes(s.id);
   });
-  const result = validateModel(target, trainStudents, trainingData.curriculumOrder);
+  const result = validateModel(target, trainStudents, cache.trainingData.curriculumOrder);
   res.json(result);
 });
 
@@ -857,7 +857,7 @@ router.post('/interventions', (req, res) => {
     saveIntervention(studentId, subject, !!intervened);
 
     // Cập nhật bộ nhớ đệm RAM nếu khớp
-    const trainStudents = trainingData.students || [];
+    const trainStudents = cache.trainingData.students || [];
     const student = trainStudents.find(s => s.id === studentId);
     if (student) {
       student.intervened = !!intervened;
@@ -874,10 +874,10 @@ router.post('/interventions', (req, res) => {
 // ============================================================
 router.get('/api/stats', (req, res) => {
   // Backwards compatibility endpoint if called directly
-  const students = trainingData.students || [];
+  const students = cache.trainingData.students || [];
   if (students.length === 0) return res.json({ empty: true });
 
-  const subjects = trainingData.subjects || [];
+  const subjects = cache.trainingData.subjects || [];
   const stats = subjects.map(sub => {
     const scored = students.filter(s => s.scores[sub] != null);
     const avg = scored.length ? scored.map(s => s.scores[sub]).reduce((a, b) => a + b, 0) / scored.length : 0;
@@ -885,15 +885,15 @@ router.get('/api/stats', (req, res) => {
     return { subject: sub, total: students.length, scored: scored.length, missing: students.length - scored.length, avg: Math.round(avg * 10) / 10, atRisk };
   }).filter(s => s.scored >= 5);
 
-  res.json({ stats, total: students.length, source: trainingData.source });
+  res.json({ stats, total: students.length, source: cache.trainingData.source });
 });
 
 // Direct route /stats (Vite maps to /api/stats)
 router.get('/stats', (req, res) => {
-  const students = trainingData.students || [];
+  const students = cache.trainingData.students || [];
   if (students.length === 0) return res.json({ empty: true });
 
-  const subjects = trainingData.subjects || [];
+  const subjects = cache.trainingData.subjects || [];
   const stats = subjects.map(sub => {
     const scored = students.filter(s => s.scores[sub] != null);
     const avg = scored.length ? scored.map(s => s.scores[sub]).reduce((a, b) => a + b, 0) / scored.length : 0;
@@ -908,15 +908,15 @@ router.get('/stats', (req, res) => {
     };
   }).filter(s => s.scored >= 5);
 
-  res.json({ stats, total: students.length, source: trainingData.source });
+  res.json({ stats, total: students.length, source: cache.trainingData.source });
 });
 
 // ============================================================
 // API: Get uploaded students
 // ============================================================
 router.get('/students', (req, res) => {
-  const students = uploadedStudents.length > 0 ? uploadedStudents : trainingData.students;
-  const subjects = uploadedStudents.length > 0 ? Object.keys(students[0]?.scores || {}) : (trainingData.subjects || []);
+  const students = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
+  const subjects = cache.uploadedStudents.length > 0 ? Object.keys(students[0]?.scores || {}) : (cache.trainingData.subjects || []);
   res.json({ students, subjects });
 });
 
@@ -940,7 +940,7 @@ router.post('/save-uploaded', async (req, res) => {
     await syncUploadedData(students);
 
     // Persist as current active uploaded list in RAM
-    uploadedStudents = students;
+    cache.uploadedStudents = students;
 
     res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database!` });
   } catch (err) {
@@ -1001,13 +1001,13 @@ router.get('/students-search', async (req, res) => {
 
     // 2. Query from memory cache (pre-trained 649 students + custom uploaded RAM cache)
     const sourceMap = {};
-    if (trainingData && Array.isArray(trainingData.students)) {
-      trainingData.students.forEach(s => {
+    if (cache.trainingData && Array.isArray(cache.trainingData.students)) {
+      cache.trainingData.students.forEach(s => {
         if (s && s.id) sourceMap[s.id] = s;
       });
     }
-    if (Array.isArray(uploadedStudents)) {
-      uploadedStudents.forEach(s => {
+    if (Array.isArray(cache.uploadedStudents)) {
+      cache.uploadedStudents.forEach(s => {
         if (s && s.id) sourceMap[s.id] = s;
       });
     }
@@ -1648,7 +1648,7 @@ router.get('/students/:mssv', async (req, res) => {
 
     if (!student) {
       // Fallback to checking the in-memory array if not found in DB
-      const memStudent = (uploadedStudents.length > 0 ? uploadedStudents : trainingData.students).find(st => st.id === mssv);
+      const memStudent = (cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students).find(st => st.id === mssv);
       if (memStudent) {
         // Map scores map to the same format
         const scores = Object.entries(memStudent.scores || {}).map(([cId, val]) => {
@@ -1695,7 +1695,7 @@ router.get('/students/:mssv', async (req, res) => {
           }
         });
 
-        const curriculumOrder = trainingData.curriculumOrder || [];
+        const curriculumOrder = cache.trainingData.curriculumOrder || [];
         
         // Ensure courses exist first in DB
         for (const courseId of curriculumOrder) {
@@ -1802,7 +1802,7 @@ router.get('/students/:mssv', async (req, res) => {
       } catch (dbErr) {
         console.warn("⚠️ Error auto-seeding mock student, falling back to dynamic JSON response:", dbErr.message);
         
-        const curriculumOrder = trainingData.curriculumOrder || [];
+        const curriculumOrder = cache.trainingData.curriculumOrder || [];
         const scores = curriculumOrder.map((courseId, idx) => {
           let status = 'NOT_STARTED';
           let value = null;
@@ -1901,7 +1901,7 @@ router.post('/students/:mssv/flag', async (req, res) => {
     saveIntervention(mssv, courseId, true);
 
     // Sync state to memory arrays if student exists in RAM cache
-    const memStudent = (uploadedStudents.length > 0 ? uploadedStudents : trainingData.students).find(st => st.id === mssv);
+    const memStudent = (cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students).find(st => st.id === mssv);
     if (memStudent) {
       memStudent.intervened = true;
     }
@@ -2030,10 +2030,10 @@ router.post('/students/update-score', async (req, res) => {
       });
 
       // Recalculate linear regression forecast for each predicted subject
-      const subjects = trainingData.subjects || [];
+      const subjects = cache.trainingData.subjects || [];
       for (const course of subjects) {
         if (scoresMap[course] === undefined) {
-          const predObj = weightedPrediction({ scores: scoresMap }, course, modelCache);
+          const predObj = weightedPrediction({ scores: scoresMap }, course, cache.modelCache);
           if (predObj) {
             await prisma.prediction.upsert({
               where: {
@@ -2083,11 +2083,11 @@ router.post('/students/update-score', async (req, res) => {
 // ============================================================
 router.get('/pearson-matrix', async (req, res) => {
   try {
-    const subjects = trainingData.subjects || [];
+    const subjects = cache.trainingData.subjects || [];
 
     // Use the curriculum order for core subjects to display sequential dependency
-    const coreSubjects = trainingData.curriculumOrder && trainingData.curriculumOrder.length > 0
-      ? trainingData.curriculumOrder
+    const coreSubjects = cache.trainingData.curriculumOrder && cache.trainingData.curriculumOrder.length > 0
+      ? cache.trainingData.curriculumOrder
       : subjects;
 
     // Gather all students in memory to calculate correlation
@@ -2109,7 +2109,7 @@ router.get('/pearson-matrix', async (req, res) => {
 
     // Combine training data students and database students
     const allStudentsMap = {};
-    trainingData.students.forEach(s => {
+    cache.trainingData.students.forEach(s => {
       allStudentsMap[s.id] = { id: s.id, scores: { ...s.scores } };
     });
     dbStudents.forEach(s => {
@@ -2124,7 +2124,7 @@ router.get('/pearson-matrix', async (req, res) => {
     const matrix = [];
 
     // Import from modular regression utilities
-    const { pearsonCorrelation, filterOutliersByIQR } = require('../src/ai/regression');
+    const { pearsonCorrelation, filterOutliersByIQR } = require('../../src/ai/regression');
 
     for (let i = 0; i < coreSubjects.length; i++) {
       const subA = coreSubjects[i];

@@ -1,5 +1,5 @@
-const logger = require('../infrastructure/logger');
-const AppError = require('../shared/errors/AppError');
+const logger = require('../../infrastructure/logger');
+const AppError = require('../../shared/errors/AppError');
 
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;

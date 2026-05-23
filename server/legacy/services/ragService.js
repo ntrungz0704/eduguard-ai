@@ -1,4 +1,4 @@
-const { prisma } = require('./prisma');
+const { prisma } = require('../../src/infrastructure/database/prisma');
 const { calculateFptGPA } = require('./dataService');
 
 async function getStudentContext(mssv, limit = 5) {
