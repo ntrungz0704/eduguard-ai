@@ -40,7 +40,7 @@ async function runTraining() {
     console.log("🚀 [TRAIN PIPELINE] Bắt đầu huấn luyện mô hình TensorFlow.js...");
     
     // Đọc dataset
-    const datasetPath = path.join(__dirname, '../ai_engine/students_dataset.json');
+    const datasetPath = path.join(__dirname, '../datasets/students_dataset.json');
     if (!fs.existsSync(datasetPath)) {
         console.error("❌ Không tìm thấy dataset tại", datasetPath);
         process.exit(1);
@@ -90,10 +90,10 @@ async function runTraining() {
         metrics: ["accuracy"]
     });
 
-    console.log(`🧠 Đang huấn luyện với ${features.length} bản ghi...`);
+    console.log(`⏳ Đang huấn luyện với ${features.length} bản ghi...`);
     
     await model.fit(xs, ys, {
-        epochs: 100, // Tăng epoch vì chạy offline không lo chậm server boot
+        epochs: 100, // Tổng epoch và chạy offline không lo chậm server boot
         shuffle: true,
         verbose: 1
     });
@@ -103,7 +103,7 @@ async function runTraining() {
 
     console.log(`✅ Huấn luyện hoàn tất! Độ chính xác (Accuracy): ${(accuracy * 100).toFixed(2)}%`);
     
-    const modelDir = path.join(__dirname, '../ai_engine/model_data');
+    const modelDir = path.join(__dirname, '../ai/models/tfjs');
     await model.save(customFileHandler(modelDir));
     console.log(`💾 Model đã được lưu thành công tại thư mục: ${modelDir}`);
 }

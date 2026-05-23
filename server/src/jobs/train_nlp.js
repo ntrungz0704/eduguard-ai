@@ -6,7 +6,7 @@ const fs = require('fs');
 const manager = new NlpManager({ languages: ['vi', 'en'], forceNER: true });
 
 // Đường dẫn lưu file mô hình
-const modelPath = path.join(__dirname, '..', 'ml', 'chatbot_model.nlp');
+const modelPath = path.join(__dirname, '..', 'ai', 'models', 'nlp', 'chatbot_model.nlp');
 
 // 1. Dạy AI hiểu các ý định (Intents)
 // ==========================================
@@ -32,8 +32,7 @@ manager.addDocument('vi', 'Cảnh báo rủi ro học thuật', 'query.risk_warn
 manager.addDocument('vi', 'Danh sách môn nguy hiểm', 'query.risk_warning');
 manager.addDocument('vi', 'Sinh viên này có nguy cơ rớt môn không', 'query.risk_warning');
 
-// 2. Dạy AI trả lời tĩnh (Answers) - Có thể dùng nếu không muốn xử lý bằng Database
-// (Trong api.js chúng ta đang dùng intent để trigger Database, nên phần này có thể bổ sung cho các câu xã giao)
+// 2. Dạy AI trả lời tĩnh (Answers)
 // ==========================================
 manager.addAnswer('vi', 'greeting', 'Chào bạn! Tôi là EduGuard AI, tôi có thể giúp gì cho bạn?');
 manager.addDocument('vi', 'Xin chào', 'greeting');
@@ -44,12 +43,11 @@ manager.addDocument('vi', 'Hi', 'greeting');
   await manager.train();
   
   // Lưu mô hình
-  const mlDir = path.join(__dirname, '..', 'ml');
+  const mlDir = path.join(__dirname, '..', 'ai', 'models', 'nlp');
   if (!fs.existsSync(mlDir)) {
     fs.mkdirSync(mlDir, { recursive: true });
   }
   
   manager.save(modelPath);
   console.log(`✅ Huấn luyện thành công! Mô hình đã được lưu tại: ${modelPath}`);
-  console.log("💡 Bạn có thể khởi động lại Server (hoặc nó đã tự động reload) để AI nhận thức được kiến thức mới!");
 })();

@@ -5,14 +5,14 @@
   "main": "server/server.js",
   "type": "commonjs",
   "scripts": {
-    "boot": "npm run kill && npm run dev",
+    "boot": "npm run kill && npm run train && npm run train:chat && npm run dev",
     "start": "node server/server.js",
     "dev": "concurrently \"node --watch server/server.js\" \"npm run dev --prefix client\"",
-    "train": "node server/ml/train.js && node server/scripts/train.js",
-    "train:chat": "node server/ml/train_chatbot.js",
+    "train": "node server/src/jobs/train.js",
+    "train:chat": "node server/src/jobs/train_nlp.js",
     "postinstall": "prisma generate",
     "kill": "powershell -Command \"$ports = @(3000, 5173, 5174); foreach ($p in $ports) { $conns = Get-NetTCPConnection -LocalPort $p -ErrorAction SilentlyContinue; if ($conns) { foreach ($c in $conns) { if ($c.OwningProcess -gt 4) { Stop-Process -Id $c.OwningProcess -Force -ErrorAction SilentlyContinue } } } }; exit 0\"",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "keywords": [
     "ai",

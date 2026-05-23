@@ -11,7 +11,7 @@ async function main() {
   console.log('🌱 Start seeding historical training data...');
   
   // Read training_data.json
-  const dataPath = path.join(__dirname, '..', 'server', 'data', 'training_data.json');
+  const dataPath = path.join(__dirname, '..', 'server', 'src', 'datasets', 'training_data.json');
   if (!fs.existsSync(dataPath)) {
     console.error('❌ Training data file not found at:', dataPath);
     return;
@@ -130,6 +130,63 @@ async function main() {
     data: scoreCreates,
   });
   console.log('✅ Grade history seeded.');
+
+  // 5. Insert Special Demo Cases (For Demo / UI)
+  console.log('🎭 Inserting Special Demo Cases...');
+  const demoStudents = [
+    {
+      mssv: 'DEMO001',
+      name: 'Nguyễn Văn A (Burnout)',
+      classCode: 'DEMO1',
+      scores: {
+        'Nhập môn lập trình': { value: 9.0, status: 'PASSED', attendance: 0.95 },
+        'Xây dựng trang Web': { value: 8.5, status: 'PASSED', attendance: 0.90 },
+        'Cơ sở dữ liệu': { value: 3.5, status: 'FAILED', attendance: 0.40 }, // Sudden drop
+        'Lập trình PHP cơ bản': { value: 4.0, status: 'FAILED', attendance: 0.45 }
+      }
+    },
+    {
+      mssv: 'DEMO002',
+      name: 'Trần Thị B (Cần Cù Bù Thông Minh)',
+      classCode: 'DEMO1',
+      scores: {
+        'Nhập môn lập trình': { value: 5.5, status: 'PASSED', attendance: 1.0 },
+        'Xây dựng trang Web': { value: 5.0, status: 'PASSED', attendance: 1.0 },
+        'Cơ sở dữ liệu': { value: 4.5, status: 'FAILED', attendance: 1.0 },
+        'Lập trình PHP cơ bản': { value: null, status: 'STUDYING', attendance: 1.0 }
+      }
+    },
+    {
+      mssv: 'DEMO003',
+      name: 'Lê Văn C (Hổng Kiến Thức Nền)',
+      classCode: 'DEMO1',
+      scores: {
+        'Nhập môn lập trình': { value: 2.0, status: 'FAILED', attendance: 0.8 }, // Failed Core Prereq
+        'Xây dựng trang Web': { value: 6.0, status: 'PASSED', attendance: 0.9 },
+        'Cơ sở dữ liệu': { value: null, status: 'STUDYING', attendance: 0.85 }
+      }
+    }
+  ];
+
+  await prisma.student.createMany({
+    data: demoStudents.map(s => ({ mssv: s.mssv, name: s.name, classCode: s.classCode }))
+  });
+
+  const demoScores = [];
+  for (const s of demoStudents) {
+    for (const [courseId, scoreData] of Object.entries(s.scores)) {
+      demoScores.push({
+        mssv: s.mssv,
+        courseId,
+        value: scoreData.value,
+        status: scoreData.status,
+        attendance: scoreData.attendance,
+        semester: 'Fall 2025'
+      });
+    }
+  }
+  await prisma.score.createMany({ data: demoScores });
+  console.log('✅ Special Demo Cases Seeded.');
   
   console.log('🎉 Seeding completed successfully!');
 }
