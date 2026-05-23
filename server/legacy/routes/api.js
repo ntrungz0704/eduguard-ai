@@ -111,7 +111,7 @@ if (fs.existsSync(modelCachePath)) {
 }
 
 const nlpManager = new NlpManager({ languages: ['vi', 'en'] });
-const chatbotModelPath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'nlp', 'model.nlp');
+const chatbotModelPath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'nlp', 'chatbot_model.nlp');
 let nlpModelLoaded = false;
 if (fs.existsSync(chatbotModelPath)) {
   nlpManager.load(chatbotModelPath);
@@ -1044,7 +1044,7 @@ router.get('/students-search', async (req, res) => {
 // ============================================================
 // CHATBOT (Gemini with database-grounded context & advanced SQLite local fallback)
 // ============================================================
-async function smartLocalReply(message, studentContext, userRole, userId) {
+async function smartLocalReply(message, studentContext, userRole, userId, nlpIntent = 'None') {
   let msg = message.toLowerCase();
   const isStudent = userRole === 'STUDENT';
 
@@ -1093,13 +1093,8 @@ async function smartLocalReply(message, studentContext, userRole, userId) {
 
   try {
     // 3. Dynamic Student Resolver
-    let activeMssv = null;
-    const mssvMatch = message.toUpperCase().match(/(?:PS)?\d{5}/);
-    if (mssvMatch) {
-      activeMssv = mssvMatch[0].startsWith('PS') ? mssvMatch[0] : `PS${mssvMatch[0]}`;
-    } else if (studentContext) {
-      activeMssv = studentContext.mssv || studentContext.id;
-    }
+    // We now rely mostly on the studentContext passed down from the Orchestrator (which uses Session Memory).
+    let activeMssv = studentContext ? (studentContext.mssv || studentContext.id) : null;
 
     if (isStudent && userId) {
       activeMssv = userId;
@@ -1117,7 +1112,7 @@ async function smartLocalReply(message, studentContext, userRole, userId) {
     }
 
     // A. SYSTEM_STATS Intent
-    if (msg.includes('thống kê') || msg.includes('danh sách') || msg.includes('toàn trường')) {
+    if (nlpIntent === 'query.statistics' || msg.includes('thống kê') || msg.includes('danh sách') || msg.includes('toàn trường')) {
       if (isStudent) {
         return `🔒 BẢO MẬT HỆ THỐNG\n\nXin lỗi, bạn không có quyền xem dữ liệu thống kê chung của toàn trường. Bạn chỉ có thể tra cứu thông tin của chính mình.`;
       }
@@ -1131,7 +1126,17 @@ async function smartLocalReply(message, studentContext, userRole, userId) {
       return `📈 THỐNG KÊ HỆ THỐNG\n\nTỔNG QUAN\n• Tổng sinh viên quản lý: ${totalStudents}\n• Sinh viên từng nợ môn: ${atRiskCount.length} (${Math.round(atRiskCount.length / (totalStudents || 1) * 100)}%)\n\n🔴 DANH SÁCH CẦN THEO DÕI\n• Các MSSV: ${atRiskCount.slice(0, 3).map(s => s.mssv).join(', ')}\n\n💡 KHUYẾN NGHỊ\nGõ mã số sinh viên cụ thể (VD: PS47261) để phân tích sâu hơn.`;
     }
 
-    // B. YÊU CẦU DỮ LIỆU
+    // B. SYSTEM_INFO Intent
+    if (nlpIntent === 'query.system_info' || msg.includes('bạn làm được gì') || msg.includes('hệ thống') || msg.includes('công thức')) {
+      return `⚙️ THÔNG TIN HỆ THỐNG EDUGUARD AI\n\nTôi là EduGuard AI - Nền tảng Phân tích Học vụ & Cảnh báo Sớm.\n• **Kiến trúc**: Chạy 100% Offline Local với mô hình NLP và Regression AI.\n• **Tính năng chính**: Phân tích rủi ro trượt môn, Xây dựng lộ trình cải thiện điểm số, Trích xuất danh sách sinh viên nguy cơ.\n• **Thuật toán**: Sử dụng HK-Pearson Weighted Regression (TensorFlow.js) để dự báo dựa trên chuỗi thành tích cá nhân và độ khó học phần.\n\nBạn có thể hỏi tôi về bất kỳ sinh viên nào (VD: "Phân tích PS47261") hoặc xem bảng xếp hạng môn học nguy hiểm.`;
+    }
+
+    // C. GREETING Intent
+    if (nlpIntent === 'greeting') {
+      return `👋 Xin chào! Tôi là trợ lý NLP của EduGuard AI.\nTôi có thể hỗ trợ phân tích rủi ro học thuật, tư vấn lộ trình và thống kê điểm số. Bạn hãy cung cấp mã số sinh viên hoặc đặt câu hỏi nhé!`;
+    }
+
+    // D. YÊU CẦU DỮ LIỆU
     if (!student) {
       return `🔍 YÊU CẦU DỮ LIỆU\n\nTôi chưa nhận diện được bạn muốn phân tích cho sinh viên nào. Vui lòng chọn một sinh viên từ thanh tìm kiếm hoặc gõ trực tiếp mã số (VD: PS47261) nhé!`;
     }
@@ -1391,7 +1396,9 @@ async function smartLocalReply(message, studentContext, userRole, userId) {
 
 // ============================================================
 // AI CHAT ORCHESTRATION (Express Endpoint)
-// ============================================================
+// Session Memory Store
+const chatSessions = {};
+
 router.post('/chat', async (req, res) => {
   const cleanReply = (text) => {
     if (!text) return "";
@@ -1403,37 +1410,63 @@ router.post('/chat', async (req, res) => {
   };
 
   try {
-    const { message, mssv, studentContext, provider, history } = req.body;
+    const { message, mssv, studentContext, provider, history, sessionId } = req.body;
     if (!message) return res.status(400).json({ error: 'Thiếu tin nhắn' });
 
-    // Extract authentication details from headers
+    // 1. NLP Intent Parsing
+    let intent = 'None';
+    if (nlpModelLoaded) {
+      const nlpResult = await nlpManager.process('vi', message);
+      if (nlpResult && nlpResult.intent) {
+        intent = nlpResult.intent;
+      }
+    }
+
+    // 2. Session Management
+    const sessionKey = sessionId || req.ip || 'guest';
+    if (!chatSessions[sessionKey]) {
+      chatSessions[sessionKey] = { selectedStudent: null, lastIntent: null };
+    }
+    chatSessions[sessionKey].lastIntent = intent;
+
+    // 3. Authentication extraction
     const userRole = req.headers['x-user-role'];
     const userId = req.headers['x-user-id'];
     const isStudent = userRole === 'STUDENT';
 
-    // Extract active student identifier (compatible with both mssv and studentContext format)
+    // Priority 2: Intent Priority (General/System/Greeting intents do not require MSSV)
+    const noMssvRequired = intent === 'query.system_info' || intent === 'query.statistics' || intent === 'greeting' || intent === 'None';
+
+    // 4. MSSV Resolution (Priority 1 & 3: Contextual Follow-up)
     let activeMssv = mssv || (studentContext ? (studentContext.mssv || studentContext.id) : null);
 
-    // If Student, force the active MSSV to be their own authenticated ID to prevent unauthorized access.
     if (isStudent && userId) {
       activeMssv = userId;
     } else if (!activeMssv) {
-      // Dynamic pattern matching: search for MSSV directly mentioned in the message text
-      const mssvMatch = message.match(/(?:PS)?\b\d{5}\b/i);
+      const mssvMatch = message.match(/(?:PS|PC|PD)\b\d{5}\b/i);
       if (mssvMatch) {
         const matchedStr = mssvMatch[0].toUpperCase();
-        activeMssv = matchedStr.startsWith('PS') ? matchedStr : `PS${matchedStr}`;
+        activeMssv = matchedStr.startsWith('P') ? matchedStr : `PS${matchedStr}`;
+      } else {
+        // Fallback to Session Memory!
+        activeMssv = chatSessions[sessionKey].selectedStudent;
       }
     }
 
-    // Layered Retrieval: Retrieve student RAG context details
+    // 5. Save to Session Memory
+    if (activeMssv) {
+      chatSessions[sessionKey].selectedStudent = activeMssv;
+    }
+
+    // 6. Layered Retrieval: Retrieve student RAG context details
     const { student, chunks } = activeMssv
       ? await getStudentContext(activeMssv)
       : { student: null, chunks: [] };
 
     // General academic statistics query grounding if relevant
     const normalizedMsg = message.toLowerCase();
-    const isQueryingStats = normalizedMsg.includes('nguy cơ') ||
+    const isQueryingStats = intent === 'query.statistics' || 
+      normalizedMsg.includes('nguy cơ') ||
       normalizedMsg.includes('cảnh báo') ||
       normalizedMsg.includes('rủi ro') ||
       normalizedMsg.includes('tỷ lệ') ||
@@ -1594,7 +1627,7 @@ Bạn có toàn quyền truy cập số liệu thực tế này. Hãy tự tin g
 
     // TẦNG DUY NHẤT: Smart Local SQLite Pipeline (100% Offline & Private)
     console.log("[AI Orchestrator] Đang gọi Local Pipeline (Intent-to-SQL)...");
-    let reply = await smartLocalReply(message, studentContext || student, userRole, userId);
+    let reply = await smartLocalReply(message, studentContext || student, userRole, userId, intent);
     let chartData = null;
     
     const chartMatch = reply.match(/\|\|\|CHART_DATA:(.*?)\|\|\|/);

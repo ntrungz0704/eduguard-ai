@@ -32,11 +32,32 @@ manager.addDocument('vi', 'Cảnh báo rủi ro học thuật', 'query.risk_warn
 manager.addDocument('vi', 'Danh sách môn nguy hiểm', 'query.risk_warning');
 manager.addDocument('vi', 'Sinh viên này có nguy cơ rớt môn không', 'query.risk_warning');
 
+// Intent: Hỏi về hệ thống, cấu trúc, công thức (Không cần MSSV)
+manager.addDocument('vi', 'bạn có thể làm gì', 'query.system_info');
+manager.addDocument('vi', 'giới thiệu về hệ thống', 'query.system_info');
+manager.addDocument('vi', 'kiến trúc hệ thống là gì', 'query.system_info');
+manager.addDocument('vi', 'công thức pearson', 'query.system_info');
+manager.addDocument('vi', 'chi tiết công thức', 'query.system_info');
+manager.addDocument('vi', 'hệ thống hoạt động thế nào', 'query.system_info');
+manager.addDocument('vi', 'help', 'query.system_info');
+manager.addDocument('vi', 'giúp đỡ', 'query.system_info');
+
+// Intent: Hỏi về thống kê tổng quan (Không cần MSSV)
+manager.addDocument('vi', 'thống kê hệ thống', 'query.statistics');
+manager.addDocument('vi', 'thống kê danh sách sinh viên học lực yếu', 'query.statistics');
+manager.addDocument('vi', 'danh sách sinh viên nguy cơ', 'query.statistics');
+manager.addDocument('vi', 'môn nào dễ tạch nhất hệ thống', 'query.statistics');
+manager.addDocument('vi', 'tỉ lệ rớt môn', 'query.statistics');
+manager.addDocument('vi', 'có bao nhiêu sinh viên', 'query.statistics');
+
 // 2. Dạy AI trả lời tĩnh (Answers)
 // ==========================================
 manager.addAnswer('vi', 'greeting', 'Chào bạn! Tôi là EduGuard AI, tôi có thể giúp gì cho bạn?');
 manager.addDocument('vi', 'Xin chào', 'greeting');
 manager.addDocument('vi', 'Hi', 'greeting');
+manager.addDocument('vi', 'Hello', 'greeting');
+manager.addDocument('vi', 'Lô', 'greeting');
+manager.addDocument('vi', 'Chào', 'greeting');
 
 (async () => {
   console.log("🚀 Đang tiến hành huấn luyện (Training) Mô hình NLP...");

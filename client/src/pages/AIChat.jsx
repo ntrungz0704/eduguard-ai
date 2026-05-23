@@ -421,6 +421,7 @@ export default function AIChat() {
 
     try {
       const res = await api.post('/chat', {
+        sessionId: currentSessionId,
         message: finalMessage,
         studentContext: sessionActiveStudent,
         provider: provider,
