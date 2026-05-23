@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { Bot, Send, Sparkles, AlertTriangle, BookOpen, Terminal, User, Hash, Trash2, HelpCircle, ArrowRight, MessageSquare, ShieldAlert, Plus, ChevronDown, Bookmark, Share, ArrowUp, Search, Loader2, X, PanelLeftClose, PanelLeft, Edit3, Check } from 'lucide-react';
 import { useStore } from '../store';
 import { api } from '../lib/api';
-import GPATrendChart from './charts/GPATrendChart';
-import RiskBreakdownChart from './charts/RiskBreakdownChart';
-import AttendanceChart from './charts/AttendanceChart';
+import GPATrendChart from '../components/charts/GPATrendChart';
+import RiskBreakdownChart from '../components/charts/RiskBreakdownChart';
+import AttendanceChart from '../components/charts/AttendanceChart';
 
 export default function AIChat() {
   const activeStudent = useStore(state => state.activeStudent);
