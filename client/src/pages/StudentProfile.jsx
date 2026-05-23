@@ -150,14 +150,27 @@ export default function StudentProfile() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center text-slate-400">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mr-3"></div>
-        Đang mở bệnh án học thuật của sinh viên...
+  if (loading) return (
+    <div className="space-y-6 animate-pulse p-8">
+      <div className="glass-card p-6 rounded-3xl h-48 bg-white/5 border border-white/5 flex flex-col gap-4">
+        <div className="flex gap-6 items-center">
+          <div className="w-24 h-24 rounded-full bg-white/10"></div>
+          <div className="space-y-3 flex-1">
+            <div className="h-8 bg-white/10 rounded-lg w-1/3"></div>
+            <div className="h-4 bg-white/5 rounded-lg w-1/4"></div>
+            <div className="flex gap-2 mt-2">
+              <div className="h-6 w-20 bg-white/10 rounded-full"></div>
+              <div className="h-6 w-20 bg-white/10 rounded-full"></div>
+            </div>
+          </div>
+        </div>
       </div>
-    );
-  }
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="glass-card h-[400px] rounded-3xl bg-white/5 border border-white/5"></div>
+        <div className="glass-card h-[400px] lg:col-span-2 rounded-3xl bg-white/5 border border-white/5"></div>
+      </div>
+    </div>
+  );
 
   if (error) {
     return (

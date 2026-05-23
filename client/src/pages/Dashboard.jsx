@@ -83,10 +83,24 @@ export default function Dashboard() {
     }
   };
 
-  if (!trainingData) return <div className="flex h-64 items-center justify-center text-slate-400">
-    <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mr-3"></div>
-    Đang tải dữ liệu...
-  </div>;
+  if (!trainingData) return (
+    <div className="space-y-8 animate-pulse pb-10">
+      <div className="glass-card p-8 rounded-3xl h-32 bg-white/5 border border-white/5 flex items-center justify-between">
+        <div className="space-y-3">
+          <div className="h-8 bg-white/10 rounded-lg w-64"></div>
+          <div className="h-4 bg-white/5 rounded-lg w-96"></div>
+        </div>
+        <div className="flex gap-4">
+          <div className="h-16 bg-white/10 rounded-2xl w-32"></div>
+          <div className="h-16 bg-white/10 rounded-2xl w-32"></div>
+        </div>
+      </div>
+      <div className="glass-card rounded-3xl h-64 bg-white/5 border border-white/5"></div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map(i => <div key={i} className="glass-card h-28 rounded-2xl bg-white/5 border border-white/5"></div>)}
+      </div>
+    </div>
+  );
 
   if (!trainingData.stats) return <div className="flex h-64 items-center justify-center text-slate-400 bg-white/5 rounded-2xl border border-white/10">Chưa có dữ liệu huấn luyện.</div>;
 
