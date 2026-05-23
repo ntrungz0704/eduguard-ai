@@ -95,8 +95,8 @@ async function syncUploadedData(validStudents) {
 // ============================================================
 // LOAD PRE-TRAINED DATA & CACHED MODELS
 // ============================================================
-const dataPath = path.join(__dirname, '..', '..', 'src', 'ai', 'datasets', 'training_data.json');
-const modelCachePath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'trained_model.json');
+const dataPath = path.join(__dirname, '..', '..', 'src', 'datasets', 'training_data.json');
+const modelCachePath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'regression', 'trained_model.json');
 const cache = require('../../src/shared/cache');
 
 
@@ -111,7 +111,7 @@ if (fs.existsSync(modelCachePath)) {
 }
 
 const nlpManager = new NlpManager({ languages: ['vi', 'en'] });
-const chatbotModelPath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'model.nlp');
+const chatbotModelPath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'nlp', 'model.nlp');
 let nlpModelLoaded = false;
 if (fs.existsSync(chatbotModelPath)) {
   nlpManager.load(chatbotModelPath);
@@ -122,8 +122,8 @@ if (fs.existsSync(chatbotModelPath)) {
 // In-memory store for uploaded student data (Mock database fallback for GET requests)
 
 
-const interventionsPath = path.join(__dirname, '..', '..', 'src', 'ai', 'datasets', 'interventions.json');
-const subjectDependenciesPath = path.join(__dirname, '..', '..', 'src', 'ai', 'datasets', 'subject_dependencies.json');
+const interventionsPath = path.join(__dirname, '..', '..', 'src', 'datasets', 'interventions.json');
+const subjectDependenciesPath = path.join(__dirname, '..', '..', 'src', 'datasets', 'subject_dependencies.json');
 
 function getSubjectDependencies() {
   if (fs.existsSync(subjectDependenciesPath)) {
