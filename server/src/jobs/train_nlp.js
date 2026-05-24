@@ -11,26 +11,38 @@ const modelPath = path.join(__dirname, '..', 'ai', 'models', 'nlp', 'chatbot_mod
 // 1. Dạy AI hiểu các ý định (Intents)
 // ==========================================
 
-// Intent: Hỏi về học lực / điểm số
+// Intent: Hỏi về học lực / điểm số (Academic)
 manager.addDocument('vi', 'Hãy phân tích chi tiết kết quả học lực hiện tại của sinh viên này', 'query.academic_performance');
 manager.addDocument('vi', 'Sinh viên này học lực thế nào', 'query.academic_performance');
 manager.addDocument('vi', 'Đánh giá điểm số của em này', 'query.academic_performance');
 manager.addDocument('vi', 'Xem kết quả học tập', 'query.academic_performance');
 manager.addDocument('vi', 'Sinh viên này có giỏi không', 'query.academic_performance');
+manager.addDocument('vi', 'xem điểm', 'query.academic_performance');
+manager.addDocument('vi', 'gpa hiện tại', 'query.academic_performance');
+manager.addDocument('vi', 'học lực ra sao', 'query.academic_performance');
+manager.addDocument('vi', 'điểm yếu môn nào', 'query.academic_performance');
 
-// Intent: Hỏi về lộ trình / can thiệp
+// Intent: Hỏi về lộ trình / can thiệp (Recommendation)
 manager.addDocument('vi', 'Hãy lập lộ trình can thiệp học tập và kế hoạch ôn tập', 'query.learning_path');
 manager.addDocument('vi', 'Làm sao để sinh viên này cải thiện điểm số', 'query.learning_path');
 manager.addDocument('vi', 'Gợi ý giải pháp phụ đạo', 'query.learning_path');
 manager.addDocument('vi', 'Lộ trình giúp em này qua môn', 'query.learning_path');
 manager.addDocument('vi', 'Có lời khuyên nào cho sinh viên này không', 'query.learning_path');
+manager.addDocument('vi', 'gợi ý cải thiện', 'query.learning_path');
+manager.addDocument('vi', 'lộ trình học', 'query.learning_path');
+manager.addDocument('vi', 'cần học gì', 'query.learning_path');
+manager.addDocument('vi', 'cách cứu sinh viên này', 'query.learning_path');
 
-// Intent: Hỏi về rủi ro / cảnh báo
+// Intent: Hỏi về rủi ro / cảnh báo / Alert
 manager.addDocument('vi', 'Môn nào có nguy cơ trượt học kỳ mới', 'query.risk_warning');
 manager.addDocument('vi', 'Sinh viên này dễ tạch môn nào', 'query.risk_warning');
 manager.addDocument('vi', 'Cảnh báo rủi ro học thuật', 'query.risk_warning');
 manager.addDocument('vi', 'Danh sách môn nguy hiểm', 'query.risk_warning');
 manager.addDocument('vi', 'Sinh viên này có nguy cơ rớt môn không', 'query.risk_warning');
+manager.addDocument('vi', 'ai cần can thiệp gấp', 'query.risk_warning');
+manager.addDocument('vi', 'sinh viên đỏ', 'query.risk_warning');
+manager.addDocument('vi', 'critical students', 'query.risk_warning');
+manager.addDocument('vi', 'đứa nào cứu gấp', 'query.risk_warning');
 
 // Intent: Hỏi về hệ thống, cấu trúc, công thức (Không cần MSSV)
 manager.addDocument('vi', 'bạn có thể làm gì', 'query.system_info');
@@ -42,7 +54,7 @@ manager.addDocument('vi', 'hệ thống hoạt động thế nào', 'query.syste
 manager.addDocument('vi', 'help', 'query.system_info');
 manager.addDocument('vi', 'giúp đỡ', 'query.system_info');
 
-// Intent: Hỏi về thống kê tổng quan (Không cần MSSV)
+// Intent: Thống kê tổng quan lớp học / Top rủi ro
 manager.addDocument('vi', 'thống kê hệ thống', 'query.statistics');
 manager.addDocument('vi', 'thống kê danh sách sinh viên học lực yếu', 'query.statistics');
 manager.addDocument('vi', 'danh sách sinh viên nguy cơ', 'query.statistics');
@@ -53,11 +65,35 @@ manager.addDocument('vi', 'cho tôi biết top 5 sv học yếu', 'query.statist
 manager.addDocument('vi', 'top 5 sv', 'query.statistics');
 manager.addDocument('vi', 'top 10 sv', 'query.statistics');
 manager.addDocument('vi', 'tình hình lớp học như thế nào', 'query.statistics');
-manager.addDocument('vi', 'môn nào dễ trượt nhất', 'query.statistics');
-manager.addDocument('vi', 'môn nào kéo gpa cả lớp', 'query.statistics');
-manager.addDocument('vi', 'môn tiên quyết nào gây fail dây chuyền nhiều nhất', 'query.statistics');
-manager.addDocument('vi', 'ai cần can thiệp gấp', 'query.statistics');
 manager.addDocument('vi', 'cho tôi biết sv nào có nguy cơ', 'query.statistics');
+manager.addDocument('vi', 'ai sắp rớt', 'query.statistics');
+manager.addDocument('vi', 'mấy đứa nguy hiểm nhất', 'query.statistics');
+manager.addDocument('vi', 'top sinh viên yếu', 'query.statistics');
+manager.addDocument('vi', 'đứa nào học tệ nhất', 'query.statistics');
+manager.addDocument('vi', 'sinh viên đỏ nhất', 'query.statistics');
+manager.addDocument('vi', 'danh sách cần cứu gấp', 'query.statistics');
+manager.addDocument('vi', 'phân tích toàn lớp', 'query.statistics');
+
+// Intent: Bottleneck Subject
+manager.addDocument('vi', 'môn nào dễ trượt nhất', 'query.bottleneck');
+manager.addDocument('vi', 'môn nào kéo gpa cả lớp', 'query.bottleneck');
+manager.addDocument('vi', 'môn tiên quyết nào gây fail dây chuyền nhiều nhất', 'query.bottleneck');
+manager.addDocument('vi', 'môn khó nhất', 'query.bottleneck');
+manager.addDocument('vi', 'môn fail nhiều', 'query.bottleneck');
+manager.addDocument('vi', 'môn tiên quyết nguy hiểm', 'query.bottleneck');
+
+// Intent: Trend
+manager.addDocument('vi', 'xu hướng lớp học', 'query.trend');
+manager.addDocument('vi', 'tình hình tuần này', 'query.trend');
+manager.addDocument('vi', 'gpa đang tăng hay giảm', 'query.trend');
+
+// Intent: Follow-up / Context
+manager.addDocument('vi', 'đứa đầu tiên thì sao', 'query.followup');
+manager.addDocument('vi', 'môn đó là môn gì', 'query.followup');
+manager.addDocument('vi', 'vì sao', 'query.followup');
+manager.addDocument('vi', 'chi tiết hơn', 'query.followup');
+manager.addDocument('vi', 'tiếp tục', 'query.followup');
+manager.addDocument('vi', 'giải thích thêm đi', 'query.followup');
 
 // 2. Dạy AI trả lời tĩnh (Answers)
 // ==========================================

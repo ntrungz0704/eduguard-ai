@@ -184,38 +184,40 @@ ${formatTimeline(timeline)}
 }
 
 function buildClassAnalyticsResponse(data) {
-  const { analytics } = data;
+  const { analytics, topN } = data;
   const chartData = buildRiskDistributionChartData(analytics.distribution);
   const bottleneckChart = buildBottleneckChartData(analytics.bottleneckSubjects);
 
-  const topRisk = analytics.topAtRisk.slice(0, 3)
-    .map(s => `- **${s.mssv}** (${s.name || 'N/A'}): ${formatRiskBadge(s.level, s.riskScore)} | Nợ ${s.failedCourses?.length || 0} môn`)
-    .join('\n');
+  const limit = topN || 5;
+  const topRiskList = analytics.topAtRisk.slice(0, limit)
+    .map((s, i) => `${i + 1}. **${s.name || 'Sinh viên'}** (${s.mssv})\n   • Risk Score: ${s.riskScore}/100\n   • Trạng thái: ${formatRiskBadge(s.level, s.riskScore)}\n   • Nguy cơ: Đang nợ ${s.failedCourses?.length || 0} môn nền tảng.`)
+    .join('\n\n');
 
-  const bottleneckStr = analytics.bottleneckSubjects.slice(0, 5)
-    .map((b, i) => `${i + 1}. **${b.courseId}** — ${b.failCount} sinh viên failed`)
-    .join('\n');
+  const bottleneckStr = analytics.bottleneckSubjects.slice(0, 3)
+    .map((b, i) => `${i + 1}. **${b.courseId}**\n   • Tỷ lệ fail: ${analytics.total ? Math.round((b.failCount / analytics.total) * 100) : b.failCount}%\n   • Tác động: Gây nguy cơ rớt dây chuyền mạnh.`)
+    .join('\n\n');
 
-  const text = `📈 **PHÂN TÍCH QUẢN TRỊ LỚP HỌC (CLASS ANALYTICS)**
-Tổng số sinh viên: **${analytics.total}**
+  const text = `📈 **TÌNH HÌNH LỚP HỌC (Dữ liệu hiện tại cho thấy...)**
+Tổng sinh viên: **${analytics.total || 'N/A'}**
 
-**Phân phối rủi ro:**
-🔴 CRITICAL: **${analytics.criticals}** SV | 🟠 HIGH: **${analytics.highs}** SV
-🟡 MEDIUM: **${analytics.mediums}** SV | 🟢 LOW: **${analytics.lows}** SV
-
----
-🚨 **Top 3 Sinh viên cần can thiệp khẩn cấp:**
-${topRisk || '- Không có sinh viên ở mức CRITICAL.'}
+🟢 Stable (LOW): **${analytics.lows || 0}**
+🟡 Medium Risk: **${analytics.mediums || 0}**
+🟠 High Risk: **${analytics.highs || 0}**
+🔴 Critical: **${analytics.criticals || 0}**
 
 ---
-🔥 **Môn Bottleneck (Tỷ lệ fail cao nhất):**
-${bottleneckStr || '- Không có dữ liệu.'}
+⚠ **DANH SÁCH SINH VIÊN CẦN CAN THIỆP SỚM (TOP ${limit})**
+
+${topRiskList || '✅ Không có sinh viên nguy cơ cao.'}
 
 ---
-💡 **Chiến lược can thiệp đề xuất:**
-- Nhóm CRITICAL: Gọi điện trực tiếp, gửi mail phụ huynh ngay tuần này
-- Nhóm HIGH: Lên kế hoạch phụ đạo và bổ trợ trong 2 tuần tới
-- Các môn bottleneck: Xem xét tổ chức ôn tập, review bài lab`;
+📉 **MÔN HỌC THẮT CỔ CHAI (BOTTLENECK)**
+
+${bottleneckStr || '✅ Không có môn học đáng lo ngại.'}
+
+📌 **Nhận định & Khuyến nghị (⚠ Confidence: High):**
+- Nhóm CRITICAL cần được liên hệ ngay lập tức trong tuần này.
+- Cần tổ chức lớp phụ đạo cho các môn thắt cổ chai để tránh rớt dây chuyền.`;
 
   return {
     text,
@@ -362,13 +364,8 @@ Hoặc hỏi về toàn lớp: *"tình hình lớp"*, *"top sinh viên rủi ro"
 function buildFallbackResponse(activeMssv) {
   return {
     text: activeMssv
-      ? `🤔 Tôi chưa hiểu yêu cầu này. Bạn đang hỏi về sinh viên **${activeMssv}**. Bạn muốn xem:
-→ *"nguyên nhân"* | *"chuyên cần"* | *"can thiệp"* | *"timeline"* | *"điểm mạnh"*`
-      : `🤔 Tôi chưa hiểu yêu cầu. Hãy thử:
-- Nhập **MSSV** (VD: *PS47261*) để phân tích sinh viên
-- Hỏi *"tình hình lớp"* để xem class analytics
-- Hỏi *"top nguy cơ"* để xem risk ranking
-- Gõ *"help"* để xem hướng dẫn`,
+      ? `🤖 **Tôi chưa hiểu hoàn toàn yêu cầu của bạn.**\n\nBạn đang phân tích sinh viên **${activeMssv}**. Bạn có muốn xem:\n1. ⚠️ **Nguyên nhân rủi ro (XAI)**\n2. 📅 **Tình trạng chuyên cần**\n3. 💊 **Đề xuất can thiệp**\n4. ⏳ **Lộ trình học tập**\n5. 🌟 **Phân tích điểm mạnh**\n\n*(Gợi ý: Hãy chọn một trong các thao tác trên hoặc gõ "tình hình lớp" để về màn hình chính)*`
+      : `🤖 **Tôi chưa hiểu hoàn toàn yêu cầu của bạn.**\n\nBạn có muốn:\n1. 📊 **Xem top sinh viên rủi ro** (Gõ: *"top sinh viên rủi ro"*)\n2. 📈 **Xem tình hình lớp học** (Gõ: *"tình hình lớp"*)\n3. 👨‍🎓 **Phân tích 1 sinh viên** (Gõ: MSSV, VD: *"PS47261"*)\n4. ⚙️ **Tìm hiểu hệ thống** (Gõ: *"kiến trúc hệ thống"*)\n\n*(Gợi ý: Bạn có thể chọn các nút thao tác nhanh ở bên dưới)*`,
     chartData: null,
     actions: ['Tình hình lớp', 'Top rủi ro cao', 'help']
   };
@@ -399,17 +396,23 @@ function buildResponse(decisionData) {
     case 'CLASS_ANALYTICS':
       return buildClassAnalyticsResponse(decisionData);
 
-    case 'RISK_RANKING':
-      return buildClassAnalyticsResponse({ analytics: {
-        total: decisionData.topAtRisk.length,
-        criticals: decisionData.topAtRisk.filter(s => s.level === 'CRITICAL').length,
-        highs: decisionData.topAtRisk.filter(s => s.level === 'HIGH').length,
-        mediums: 0,
-        lows: 0,
-        topAtRisk: decisionData.topAtRisk,
-        bottleneckSubjects: decisionData.bottleneck || [],
-        distribution: decisionData.distribution
-      }});
+    case 'RISK_RANKING': {
+      const dist = decisionData.distribution || { CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0 };
+      const total = dist.CRITICAL + dist.HIGH + dist.MEDIUM + dist.LOW;
+      return buildClassAnalyticsResponse({
+        topN: decisionData.topN,
+        analytics: {
+          total: total,
+          criticals: dist.CRITICAL,
+          highs: dist.HIGH,
+          mediums: dist.MEDIUM,
+          lows: dist.LOW,
+          topAtRisk: decisionData.topAtRisk,
+          bottleneckSubjects: decisionData.bottleneck || [],
+          distribution: dist
+        }
+      });
+    }
 
     case 'FOLLOWUP_ROOT_CAUSE':
     case 'FOLLOWUP_ATTENDANCE':

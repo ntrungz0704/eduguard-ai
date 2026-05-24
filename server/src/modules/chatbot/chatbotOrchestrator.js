@@ -104,6 +104,15 @@ async function orchestrateChatbot(req, sessionId) {
       entities,
       session
     });
+    
+    // Save lastTopStudents to session for Contextual Follow-up
+    if (decisionData.topAtRisk && decisionData.topAtRisk.length > 0) {
+      session.lastTopStudents = decisionData.topAtRisk.map(s => s.mssv);
+      appLogger.session(`Saved lastTopStudents for follow-up context`, sessionId);
+    } else if (decisionData.analytics && decisionData.analytics.topAtRisk && decisionData.analytics.topAtRisk.length > 0) {
+      session.lastTopStudents = decisionData.analytics.topAtRisk.map(s => s.mssv);
+      appLogger.session(`Saved lastTopStudents for follow-up context`, sessionId);
+    }
   } catch (err) {
     appLogger.error(`[AI_ORCHESTRATOR] Decision engine error: ${err.message}`, { stack: err.stack });
     decisionData = { type: 'FALLBACK', activeMssv: effectiveMssv };

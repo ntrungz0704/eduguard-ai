@@ -199,11 +199,17 @@ async function executeDecision({ intent, activeMssv, entities, session }) {
       return await handleStudentAnalytics(mssv);
     }
 
-    case 'CLASS_ANALYTICS_INTENT':
-      return await handleClassAnalytics();
+    case 'CLASS_ANALYTICS_INTENT': {
+      const res = await handleClassAnalytics();
+      res.topN = entities.topN;
+      return res;
+    }
 
-    case 'RISK_RANKING_INTENT':
-      return await handleRiskRanking();
+    case 'RISK_RANKING_INTENT': {
+      const res = await handleRiskRanking();
+      res.topN = entities.topN;
+      return res;
+    }
 
     case 'FOLLOWUP_ROOT_CAUSE_INTENT':
     case 'FOLLOWUP_ATTENDANCE_INTENT':

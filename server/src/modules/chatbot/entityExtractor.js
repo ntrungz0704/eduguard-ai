@@ -166,9 +166,34 @@ function detectFollowupType(message) {
 }
 
 /**
+ * Extract Top N from a message.
+ * Examples: "top 5 sv", "10 đứa", "top 10"
+ * @param {string} message
+ * @returns {number|null}
+ */
+function extractTopN(message) {
+  if (!message) return null;
+  const msgLower = message.toLowerCase();
+  
+  // top N or N sv/đứa
+  const topMatch = msgLower.match(/(?:top\s*|)(\d+)\s*(?:sv|đứa|sinh viên|người)/);
+  if (topMatch) {
+    return parseInt(topMatch[1]);
+  }
+  
+  // just top N
+  const topOnlyMatch = msgLower.match(/top\s*(\d+)/);
+  if (topOnlyMatch) {
+    return parseInt(topOnlyMatch[1]);
+  }
+  
+  return null;
+}
+
+/**
  * Extract ALL entities from a message at once.
  * @param {string} message
- * @returns {{ mssv, courseId, allCourseIds, gpaRef, attendanceRef, timeline, followupType }}
+ * @returns {{ mssv, courseId, allCourseIds, gpaRef, attendanceRef, timeline, followupType, topN }}
  */
 function extractAllEntities(message) {
   return {
@@ -178,7 +203,8 @@ function extractAllEntities(message) {
     gpaRef: extractGpaRef(message),
     attendanceRef: extractAttendanceRef(message),
     timeline: extractTimeline(message),
-    followupType: detectFollowupType(message)
+    followupType: detectFollowupType(message),
+    topN: extractTopN(message)
   };
 }
 
@@ -190,5 +216,6 @@ module.exports = {
   extractAttendanceRef,
   extractTimeline,
   detectFollowupType,
+  extractTopN,
   extractAllEntities
 };
