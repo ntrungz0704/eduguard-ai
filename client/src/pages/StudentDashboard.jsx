@@ -314,7 +314,8 @@ function OverviewTab({ data, curriculumCourses }) {
                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
                     itemStyle={{ color: '#e2e8f0' }}
                   />
-                  <Line type="monotone" dataKey="GPA Học kỳ" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#0f172a' }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" name="GPA Học kỳ (Dao động)" dataKey="GPA Học kỳ" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#0f172a' }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" name="CPA (Tích lũy)" dataKey="CPA Tích lũy" stroke="#10b981" strokeWidth={2} strokeDasharray="5 5" dot={{ r: 3, fill: '#10b981', strokeWidth: 1, stroke: '#0f172a' }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

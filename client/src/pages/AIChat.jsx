@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Bot, Send, Sparkles, AlertTriangle, BookOpen, Terminal, User, Hash, Trash2, HelpCircle, ArrowRight, MessageSquare, ShieldAlert, Plus, ChevronDown, Bookmark, Share, ArrowUp, Search, Loader2, X, PanelLeftClose, PanelLeft, Edit3, Check } from 'lucide-react';
 import { useStore } from '../store';
-import { api } from '../lib/api';
+import { api, requestWithRestartRetry } from '../lib/api';
 import GPATrendChart from '../components/charts/GPATrendChart';
 import RiskBreakdownChart from '../components/charts/RiskBreakdownChart';
 import AttendanceChart from '../components/charts/AttendanceChart';
@@ -431,17 +431,18 @@ export default function AIChat() {
       : msgText;
 
     try {
-      const res = await api.post('/chat', {
+      const res = await requestWithRestartRetry(() => api.post('/chat', {
         sessionId: currentSessionId,
         message: finalMessage,
         studentContext: sessionActiveStudent,
         provider: provider,
         history: historyPayload.slice(0, -1)
-      });
+      }));
       const aiReply = {
         sender: 'ai',
         text: res.data.reply || 'Rất tiếc, tôi đang gặp lỗi xử lý dữ liệu học tập.',
         chartData: res.data.chartData || null,
+        actions: res.data.actions || null,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       updateActiveSession({ messages: [...updatedMessages, aiReply] });
