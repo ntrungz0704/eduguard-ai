@@ -5,7 +5,7 @@ const XLSX = require('xlsx');
 // ============================================================
 // CẤU HÌNH ĐƯỜNG DẪN VÀ THƯ MỤC
 // ============================================================
-const trainingDataPath = path.join(__dirname, '..', 'data', 'training_data.json');
+const trainingDataPath = path.join(__dirname, '..', 'datasets', 'training_data.json');
 const outputPersonalDir = path.join(__dirname, '..', '..', 'generated', 'personal_transcripts');
 const outputClassDir = path.join(__dirname, '..', '..', 'generated', 'class_format_transcripts');
 
@@ -162,6 +162,69 @@ activeStudents.forEach((student, index) => {
   if ((index + 1) % 20 === 0 || index === 99) {
     console.log(`✔️ Đã sinh file thành công cho ${index + 1}/100 sinh viên...`);
   }
+});
+
+// ============================================================
+// 3. TẠO CÁC PERSONA ĐẶC BIỆT CHO DEMO (DATA REALISM)
+// ============================================================
+const personas = [
+  {
+    id: 'DEMO_BURNOUT',
+    name: 'Nguyễn Văn Burnout',
+    description: 'Học giỏi 3 kỳ đầu nhưng kỳ cuối rớt sạch, chuyên cần tụt dốc.',
+    scores: {
+      "Tin học": 9.5, "Pháp luật": 8.0, "Kỹ năng học tập": 8.5,
+      "Tiếng Anh 1.1": 8.5, "Nhập môn lập trình": 9.0, "Xây dựng trang Web": 8.5,
+      "Cơ sở dữ liệu": 8.0, "Lập trình cơ sở với JavaScript": 8.5,
+      // Đột ngột rớt
+      "Lập trình PHP cơ bản": 4.0, "Lập trình PHP 1": 3.5, "Lập trình Javascript nâng cao": 2.0,
+      "Thiết kế Web với HTML5 & CSS3": 1.0, "Dự án mẫu (TKTW)": 1.5,
+      "Dự án 1 (TKTW)": 1.0, "Lập trình Front-End Framework 1": null, "Dự án tốt nghiệp": null
+    }
+  },
+  {
+    id: 'DEMO_ATTENDANCE',
+    name: 'Trần Thị Vắng Mặt',
+    description: 'Điểm khá nhưng chuyên cần cực thấp, dễ bị cấm thi.',
+    scores: {
+      "Tin học": 7.5, "Pháp luật": 7.0, "Nhập môn lập trình": 8.0,
+      "Xây dựng trang Web": 7.5, "Cơ sở dữ liệu": 8.0,
+      "Lập trình cơ sở với JavaScript": 7.5, "Lập trình PHP 1": null,
+      "Lập trình Front-End Framework 1": null, "Dự án tốt nghiệp": null
+    }
+  },
+  {
+    id: 'DEMO_CHAIN_FAIL',
+    name: 'Lê Văn Dây Chuyền',
+    description: 'Rớt môn tiên quyết (Cơ sở dữ liệu) kéo theo rớt hàng loạt.',
+    scores: {
+      "Tin học": 6.5, "Pháp luật": 5.0, "Nhập môn lập trình": 5.5,
+      "Cơ sở dữ liệu": 3.0, "Xây dựng trang Web": 5.0,
+      "Lập trình PHP cơ bản": 2.5, "Lập trình cơ sở với JavaScript": 4.0,
+      "Lập trình PHP 1": 1.5, "Dự án 1 (TKTW)": 1.0,
+      "Dự án tốt nghiệp": null
+    }
+  }
+];
+
+personas.forEach(persona => {
+  const wsPersonalRows = curriculumOrder.map(subName => {
+    let scoreVal = persona.scores[subName];
+    if (scoreVal === undefined) scoreVal = "";
+    return {
+      "Môn học": subName,
+      "Điểm số": scoreVal
+    };
+  });
+  
+  const wsPersonal = XLSX.utils.json_to_sheet(wsPersonalRows);
+  wsPersonal['!cols'] = [{ wch: 35 }, { wch: 12 }];
+  const wbPersonal = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wbPersonal, wsPersonal, "Bảng điểm");
+  
+  const personaPath = path.join(outputPersonalDir, `${persona.id}_${persona.name.replace(/ /g, '_')}.xlsx`);
+  XLSX.writeFile(wbPersonal, personaPath);
+  console.log(`🌟 Đã tạo Persona: ${persona.id} - ${persona.description}`);
 });
 
 console.log('\n🎉 THÀNH CÔNG! Đã tạo xong 100 file Excel điểm sinh viên mẫu!');
