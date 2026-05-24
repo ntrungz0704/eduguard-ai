@@ -1,96 +1,93 @@
-# EduGuard AI: Academic Intelligence Platform 🎓
+# EduGuard AI DSS: Hybrid Educational Decision Support System 🎓
 
-> "Không để bất kỳ sinh viên nào bị bỏ lại phía sau."
+> "Nền tảng Hỗ trợ Ra quyết định Học vụ bằng Trí tuệ nhân tạo, giúp dự báo sớm và ngăn chặn chuỗi rủi ro học thuật của sinh viên."
 
-EduGuard AI là một Nền tảng Phân tích Học vụ (Academic Intelligence Platform) được thiết kế cho Cố vấn học tập và Ban giám hiệu. Hệ thống sử dụng **Máy học Minh bạch (Explainable AI - XAI)** và **Xử lý Ngôn ngữ Tự nhiên (Local NLP)** chạy hoàn toàn Offline (bảo mật dữ liệu 100%) để dự đoán sớm nguy cơ rớt môn của sinh viên ngay từ tuần thứ 3 của học kỳ.
-
-![EduGuard AI Architecture](docs/architecture/system_design.png)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
+[![React Version](https://img.shields.io/badge/React-18.x-61dafb.svg)](https://reactjs.org/)
 
 ---
 
-## 🚀 Hướng dẫn Cài đặt & Chạy Dự án (Dành cho Lập trình viên)
-Dự án này đã được tối ưu cấu hình để bất kỳ ai clone về cũng có thể chạy thành công 100% chỉ với vài lệnh đơn giản.
+## 1. Project Overview (Tổng quan dự án)
+EduGuard AI DSS là một hệ thống phân tích học vụ (Academic Intelligence Platform) kết hợp giữa Hệ thống Hỗ trợ Ra Quyết định (DSS) và Trí tuệ Nhân tạo (AI). Hệ thống sử dụng Xử lý ngôn ngữ tự nhiên (NLP) để cung cấp một trợ lý ảo đàm thoại, đồng thời ứng dụng công nghệ **Explainable AI (XAI)** để tính toán và giải thích mức độ rủi ro rớt môn của từng sinh viên ngay từ những tuần đầu tiên của học kỳ.
 
-**Yêu cầu hệ thống:**
-- Đã cài đặt Node.js (Phiên bản 18 trở lên).
-- Đã cài đặt Git.
+## 2. Problem Statement (Bài toán thực tế)
+Tại các trường Đại học và Cao đẳng, quy trình giám sát học vụ đang gặp phải nhiều nút thắt:
+- **Phát hiện quá muộn:** Sinh viên rớt môn thường chỉ được phát hiện khi điểm thi cuối kỳ công bố, dẫn đến việc can thiệp không còn ý nghĩa.
+- **Quá tải nhân sự:** Cố vấn học tập (CVHT) phải theo dõi hàng trăm sinh viên qua các bảng tính Excel thủ công.
+- **Đứt gãy chuỗi môn tiên quyết:** Việc rớt một môn nền tảng có thể kéo theo sự sụp đổ của toàn bộ học kỳ sau, nhưng thiếu hệ thống tự động cảnh báo sớm.
+- **Dữ liệu phân mảnh:** Điểm số, điểm chuyên cần, và các dữ liệu học vụ khác nằm rải rác.
 
-### Bước 1: Tải mã nguồn và Cài đặt thư viện
-Mở Terminal / Command Prompt và chạy các lệnh sau:
+## 3. Proposed Solution (Giải pháp đề xuất)
+Giải pháp của chúng tôi là xây dựng **EduGuard AI DSS** — chuyển đổi từ quản lý dữ liệu thụ động (Descriptive) sang dự báo chủ động (Predictive):
+- 🤖 **AI Academic Assistant:** Trợ lý ảo giao tiếp qua ngôn ngữ tự nhiên, hiểu ngữ cảnh và truy xuất dữ liệu cá nhân hóa.
+- 📊 **Explainable Risk Scoring:** Hệ thống chấm điểm rủi ro có khả năng giải thích (XAI).
+- 📈 **Class-level Analytics:** Bảng phân tích toàn diện cấp độ lớp, hiển thị các môn học "nút thắt cổ chai".
+- 🔗 **Dependency Chain Analysis:** Phát hiện tức thời nguy cơ gãy chuỗi môn tiên quyết.
 
+## 4. System Architecture (Kiến trúc Hệ thống)
+Hệ thống được thiết kế theo mô hình **Modular Monolith** chuẩn Enterprise, phân tách rõ ràng các service:
+- **Frontend (Presentation Layer):** Giao diện Single Page Application (SPA) với React.
+- **Backend (API & Orchestrator):** Điều hướng Pipeline xử lý dữ liệu và AI.
+- **AI Core (DSS & NLP Engine):** Cụm module tính toán điểm số rủi ro và nhận diện ý định.
+- **Data Layer:** SQLite Database kết nối qua Prisma ORM, đi kèm Cache in-memory.
+
+![Architecture Diagram](https://placehold.co/800x400/1e293b/fff?text=System+Architecture+Diagram)
+
+## 5. AI Components (Thành phần Trí tuệ Nhân tạo)
+Khác với các hệ thống phụ thuộc hoàn toàn vào API bên thứ 3, EduGuard sử dụng **Hybrid AI**:
+- **Intent Router (NLP):** Phân loại ý định của người dùng (node-nlp) chạy offline hoàn toàn, bảo mật 100% dữ liệu (FERPA compliance).
+- **Entity Extractor:** Nhận diện thực thể (MSSV, Tên môn học, Ngữ cảnh).
+- **Session Memory:** Ghi nhớ sinh viên đang được thảo luận để đàm thoại theo ngữ cảnh (Contextual Conversation) mà không cần lặp lại thông tin.
+
+## 6. DSS Engine (Hệ thống Hỗ trợ Ra quyết định)
+Lõi của DSS là thuật toán **Weighted Risk Scoring (Chấm điểm trọng số rủi ro)**, phân phối như sau:
+- `40%` — Rớt môn / Nợ môn (Failed Subjects)
+- `25%` — Suy giảm chuyên cần (Attendance Drop)
+- `15%` — Điểm thực hành thấp (Lab Scores)
+- `10%` — Gãy chuỗi tiên quyết (Prerequisite Break)
+- `10%` — Suy giảm phong độ GPA (GPA Trend Decline)
+
+*Mô hình XAI sẽ ánh xạ ngược các trọng số này thành một báo cáo nguyên nhân chi tiết để CVHT dễ dàng tư vấn.*
+
+## 7. Tech Stack (Công nghệ sử dụng)
+* **Frontend:** React, Vite, Tailwind CSS, Recharts, Lucide Icons.
+* **Backend:** Node.js, Express, Winston Logger.
+* **Database:** Prisma ORM, SQLite.
+* **AI & NLP:** `node-nlp` (Offline Intent Classification), Custom Rule-based Expert System.
+
+## 8. Features (Tính năng cốt lõi)
+1. **Student Risk Analysis:** Xếp hạng rủi ro sinh viên theo 4 cấp độ (LOW, MEDIUM, HIGH, CRITICAL).
+2. **Academic Timeline:** Theo dõi dòng thời gian học thuật, cảnh báo ngay khi phát sinh sự kiện rủi ro.
+3. **Bottleneck Subject Detection:** Phát hiện "môn học sát thủ" đang kéo tụt GPA của nhiều sinh viên nhất.
+4. **Follow-up AI Conversation:** Đặt câu hỏi đào sâu ("Tại sao nguy cơ cao?", "Timeline ra sao?", "Cần can thiệp gì?").
+5. **Role-based Access Control (RBAC):** Phân quyền nghiêm ngặt giữa Giáo viên (xem tất cả) và Sinh viên (chỉ xem chính mình).
+
+## 9. Screenshots (Giao diện hệ thống)
+
+*(Placeholder - Sẽ thay bằng ảnh thật của dự án)*
+
+| Trang chủ Analytics (Dashboard) | Trợ lý AI (Chatbot) | Phân tích Môn Tiên quyết |
+|:---:|:---:|:---:|
+| ![Dashboard](https://placehold.co/400x250/1e293b/fff?text=Dashboard+Analytics) | ![Chatbot](https://placehold.co/400x250/1e293b/fff?text=AI+Contextual+Chatbot) | ![Prereq](https://placehold.co/400x250/1e293b/fff?text=Dependency+Graph) |
+
+## 10. Future Improvements (Hướng phát triển tương lai)
+1. **LMS Integration:** Tích hợp trực tiếp với hệ thống Canvas/Moodle qua RESTful/GraphQL API.
+2. **Real-time Notifications:** Gửi cảnh báo tự động qua Zalo ZNS / Mobile App khi mức rủi ro chuyển sang CRITICAL.
+3. **Deep Learning Prediction:** Áp dụng mô hình LSTM để học và dự đoán chuỗi thời gian dựa trên Big Data thực tế.
+4. **Intervention Tracking:** Theo dõi và đo lường tỷ lệ thành công sau mỗi lần cố vấn học tập can thiệp.
+
+---
+
+## 🚀 Hướng dẫn khởi chạy dự án
 ```bash
-# 1. Clone source code từ Github
-git clone https://github.com/ntrungz0704/eduguard-ai.git
-cd eduguard-ai
+# 1. Cài đặt thư viện
+npm install && cd server && npm install && cd ../client && npm install && cd ..
 
-# 2. Cài đặt các thư viện cần thiết cho Backend (Server)
-npm install
-cd server
-npm install
-cd ..
+# 2. Khởi tạo Database
+cd server && npx prisma db push && cd ..
 
-# 3. Cài đặt các thư viện cần thiết cho Frontend (Client)
-cd client
-npm install
-cd ..
-
-# 4. Khởi tạo Cơ sở dữ liệu nội bộ (SQLite)
-cd server
-npx prisma db push
-cd ..
-```
-
-### Bước 2: Khởi động Toàn bộ Hệ thống (Chỉ 1 lệnh)
-Chúng tôi đã tích hợp sẵn một lệnh tự động dọn dẹp cổng, huấn luyện AI, và khởi chạy toàn bộ server + client. Bạn chỉ cần gõ đúng 1 lệnh này ở thư mục gốc (`eduguard-ai`):
-
-```bash
+# 3. Chạy hệ thống (Tự động train model & bật server/client)
 npm run boot
 ```
-
-**Lệnh này sẽ:**
-1. Dọn dẹp kẹt cổng (cổng 3000, 5173).
-2. Chạy thuật toán học máy dự báo điểm (`npm run train`).
-3. Chạy thuật toán xử lý ngôn ngữ tự nhiên Chatbot (`npm run train:chat`).
-4. Bật giao diện Web.
-
-Sau khoảng 10 giây, bạn hãy mở trình duyệt và truy cập: **[http://localhost:5173](http://localhost:5173)**
-
----
-
-## 🗄️ Hướng dẫn Xem & Sửa Dữ liệu Database
-Dự án sử dụng Prisma ORM và SQLite. Bạn có thể xem trực quan toàn bộ dữ liệu điểm số, thông tin sinh viên cực kỳ dễ dàng bằng công cụ Prisma Studio.
-
-Mở một Terminal **MỚI** (nhớ giữ nguyên terminal đang chạy hệ thống), và gõ lệnh:
-
-```bash
-cd server
-npx prisma studio
-```
-
-Lệnh này sẽ tự động mở một tab mới trên trình duyệt (thường là `http://localhost:5555`). Tại đây bạn có thể xem các bảng `Student`, `Course`, `Score`, `Prediction`, `Intervention` y như dùng Excel!
-
----
-
-## 🌟 Điểm nổi bật về Kỹ thuật (Technical Highlights)
-
-- 🧠 **Predictive Academic Analytics**: Tích hợp mô hình hồi quy tuyến tính (Linear Regression) và hệ số tương quan Pearson, tìm ra quy luật "Môn tiên quyết" để dự báo nguy cơ rớt môn.
-- 📊 **Explainable AI (XAI)**: AI giải thích trực quan nguyên nhân rủi ro (Ví dụ: *Do điểm môn tiên quyết C++ thấp và nghỉ học 3 buổi*).
-- 🔒 **100% Offline & Data Privacy (FERPA)**: Trợ lý ảo Chatbot sử dụng Lightweight Local NLP (`node-nlp`), không phụ thuộc API ChatGPT/Gemini, đảm bảo dữ liệu sinh viên không bao giờ rò rỉ ra ngoài.
-- 🎛️ **Materialized Prediction View**: Logic tính toán AI nặng được thiết kế để chạy nền (Background Worker) và lưu vào Database, giúp truy xuất API đạt tốc độ `O(1)`.
-- 🚀 **Enterprise Mindset**: Kiến trúc mã nguồn sạch (Domain-Driven Design), tách biệt Frontend (React/Vite) và Backend (Node/Express), tích hợp Zod Validator, JWT, Rate Limiting và Prisma ORM.
-
----
-
-## 🔭 Lộ Trình Nâng Cấp Hệ Thống Trong Tương Lai
-Nếu muốn phát triển dự án này từ "Đồ án xuất sắc" thành một sản phẩm khởi nghiệp (Startup/SaaS) thực thụ, team đang triển khai các bước sau:
-
-1. **Docker hóa dự án**: Viết file `Dockerfile` và `docker-compose.yml` để đóng gói toàn bộ server + DB vào container, chạy trên mọi VPS chỉ bằng 1 lệnh.
-2. **PostgreSQL Migration**: Chuyển đổi từ SQLite sang PostgreSQL để chịu tải song song.
-3. **Caching Layer**: Tích hợp Redis để tối ưu hóa truy xuất dữ liệu mô hình.
-4. **Auto-Deployment**: Kết nối GitHub với Vercel (cho Frontend) và Render / Railway (cho Backend) để tự động deploy bản live mỗi khi merge PR.
-5. **AI Pipeline Versioning**: Sử dụng DVC để quản lý lịch sử các phiên bản mô hình AI (Model Registry).
-
----
-
-*Phát triển bởi đội ngũ Kỹ sư EduGuard AI - Nâng tầm trí tuệ giáo dục.*
-*(Xem hướng dẫn dành cho người đóng góp tại [CONTRIBUTING.md](CONTRIBUTING.md))*
+*Truy cập hệ thống tại: `http://localhost:5173`*
