@@ -8,8 +8,11 @@ const { validateRole } = require('./roleValidator');
 const { extractAllEntities } = require('./entityExtractor');
 const { getSession } = require('./sessionMemory');
 const { executeDecision } = require('./aiDecisionEngine');
+const { executeStudentDecision } = require('./studentEngine');
 const { buildResponse } = require('./responseBuilder');
+const { buildStudentResponse } = require('./studentResponseBuilder');
 const { guardConfidence } = require('./confidenceGuard');
+const { routeStudentIntent } = require('./studentIntentRouter');
 const appLogger = require('../../infrastructure/logger');
 
 // ─── NLP: Orchestrator does not own the NLP model.
@@ -78,57 +81,62 @@ async function orchestrateChatbot(req, sessionId) {
   }
 
   // ─── Step 5: Intent Routing ──────────────────────────────
-  const intent = routeIntent(message, nlpIntent, effectiveMssv);
-  session.lastIntent = intent;
-  appLogger.aiRouter(intent, effectiveMssv, { sessionId, nlpIntent });
-  appLogger.intentTrace(message, nlpIntent, intent, sessionId);
+  let intent, decisionData, text, chartData, actions;
 
-  // ─── Step 6: Role Validation ─────────────────────────────
-  const validation = validateRole(resolvedRole, effectiveMssv, userId, intent);
-  if (!validation.allowed) {
-    appLogger.security(
-      `Blocked ${intent} for ${resolvedRole}`,
-      userId || 'unknown',
-      { intent, targetMssv: effectiveMssv }
-    );
-    const duration = Date.now() - startTime;
-    appLogger.request('POST', '/api/chatbot', 403, duration, req.traceId);
-    return {
-      reply: validation.reason,
-      chartData: null,
-      actions: null,
-      intent,
-      activeMssv: session.activeStudent,
-      sessionId,
-      riskData: null
-    };
-  }
+  if (isStudent) {
+    // ─── STUDENT BRANCH ──────────────────────────────
+    intent = routeStudentIntent(message, nlpIntent);
+    session.lastIntent = intent;
+    appLogger.aiRouter(intent, effectiveMssv, { sessionId, nlpIntent, role: 'STUDENT' });
+    appLogger.intentTrace(message, nlpIntent, intent, sessionId);
 
-  // ─── Step 7: AI Decision Engine ──────────────────────────
-  let decisionData;
-  try {
-    decisionData = await executeDecision({
-      intent,
-      activeMssv: effectiveMssv,
-      entities,
-      session
-    });
-    
-    // Save lastTopStudents to session for Contextual Follow-up
-    if (decisionData.topAtRisk && decisionData.topAtRisk.length > 0) {
-      session.lastTopStudents = decisionData.topAtRisk.map(s => s.mssv);
-      appLogger.session(`Saved lastTopStudents for follow-up context`, sessionId);
-    } else if (decisionData.analytics && decisionData.analytics.topAtRisk && decisionData.analytics.topAtRisk.length > 0) {
-      session.lastTopStudents = decisionData.analytics.topAtRisk.map(s => s.mssv);
-      appLogger.session(`Saved lastTopStudents for follow-up context`, sessionId);
+    try {
+      decisionData = await executeStudentDecision({ intent, activeMssv: effectiveMssv, session });
+    } catch (err) {
+      appLogger.error(`[STUDENT_ENGINE] Error: ${err.message}`, { stack: err.stack });
+      decisionData = { type: 'STUDENT_FALLBACK', activeMssv: effectiveMssv };
     }
-  } catch (err) {
-    appLogger.error(`[AI_ORCHESTRATOR] Decision engine error: ${err.message}`, { stack: err.stack });
-    decisionData = { type: 'FALLBACK', activeMssv: effectiveMssv };
-  }
 
-  // ─── Step 8: Build Response ───────────────────────────────
-  const { text, chartData, actions } = buildResponse(decisionData);
+    const responseObj = buildStudentResponse(decisionData);
+    text = responseObj.text;
+    chartData = responseObj.chartData;
+    actions = responseObj.actions;
+
+  } else {
+    // ─── TEACHER/ADMIN BRANCH ────────────────────────
+    intent = routeIntent(message, nlpIntent, effectiveMssv);
+    session.lastIntent = intent;
+    appLogger.aiRouter(intent, effectiveMssv, { sessionId, nlpIntent });
+    appLogger.intentTrace(message, nlpIntent, intent, sessionId);
+
+    // Step 6: Role Validation
+    const validation = validateRole(resolvedRole, effectiveMssv, userId, intent);
+    if (!validation.allowed) {
+      appLogger.security(`Blocked ${intent} for ${resolvedRole}`, userId || 'unknown', { intent, targetMssv: effectiveMssv });
+      const duration = Date.now() - startTime;
+      appLogger.request('POST', '/api/chatbot', 403, duration, req.traceId);
+      return { reply: validation.reason, chartData: null, actions: null, intent, activeMssv: session.activeStudent, sessionId, riskData: null };
+    }
+
+    // Step 7: AI Decision Engine
+    try {
+      decisionData = await executeDecision({ intent, activeMssv: effectiveMssv, entities, session });
+      if (decisionData.topAtRisk && decisionData.topAtRisk.length > 0) {
+        session.lastTopStudents = decisionData.topAtRisk.map(s => s.mssv);
+      } else if (decisionData.analytics && decisionData.analytics.topAtRisk && decisionData.analytics.topAtRisk.length > 0) {
+        session.lastTopStudents = decisionData.analytics.topAtRisk.map(s => s.mssv);
+      }
+    } catch (err) {
+      appLogger.error(`[AI_ORCHESTRATOR] Decision engine error: ${err.message}`, { stack: err.stack });
+      decisionData = { type: 'FALLBACK', activeMssv: effectiveMssv };
+    }
+
+    // Step 8: Build Response
+    const responseObj = buildResponse(decisionData);
+    text = responseObj.text;
+    chartData = responseObj.chartData;
+    actions = responseObj.actions;
+  }
 
   // Update session state
   session.lastIntent = intent;

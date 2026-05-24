@@ -95,6 +95,48 @@ manager.addDocument('vi', 'chi tiết hơn', 'query.followup');
 manager.addDocument('vi', 'tiếp tục', 'query.followup');
 manager.addDocument('vi', 'giải thích thêm đi', 'query.followup');
 
+// ==========================================
+// 1.5. Dạy AI hiểu các ý định của Sinh viên (STUDENT AI)
+// ==========================================
+
+// STUDENT_OVERVIEW_INTENT
+manager.addDocument('vi', 'tình hình học tập của tôi sao rồi', 'student.overview');
+manager.addDocument('vi', 'tôi đang ổn không', 'student.overview');
+manager.addDocument('vi', 'học lực hiện tại thế nào', 'student.overview');
+manager.addDocument('vi', 'xem kết quả của tôi', 'student.overview');
+manager.addDocument('vi', 'điểm trung bình của tôi', 'student.overview');
+
+// STUDENT_RISK_INTENT
+manager.addDocument('vi', 'tôi dễ rớt môn nào', 'student.risk');
+manager.addDocument('vi', 'môn nào nguy hiểm nhất', 'student.risk');
+manager.addDocument('vi', 'tôi sắp tạch môn nào', 'student.risk');
+manager.addDocument('vi', 'có khả năng rớt môn không', 'student.risk');
+
+// STUDENT_RECOMMENDATION_INTENT
+manager.addDocument('vi', 'làm sao cải thiện gpa', 'student.recommendation');
+manager.addDocument('vi', 'gợi ý học tập', 'student.recommendation');
+manager.addDocument('vi', 'tôi nên học gì tuần này', 'student.recommendation');
+manager.addDocument('vi', 'cách kéo điểm', 'student.recommendation');
+manager.addDocument('vi', 'lên kế hoạch học tập', 'student.recommendation');
+
+// STUDENT_MOTIVATION_INTENT
+manager.addDocument('vi', 'tôi còn cứu được không', 'student.motivation');
+manager.addDocument('vi', 'tôi học ngu quá', 'student.motivation');
+manager.addDocument('vi', 'tôi stress', 'student.motivation');
+manager.addDocument('vi', 'thấy nản quá', 'student.motivation');
+manager.addDocument('vi', 'có hy vọng gì không', 'student.motivation');
+
+// STUDENT_GPA_SIMULATION_INTENT
+manager.addDocument('vi', 'nếu tôi được 8 final thì gpa bao nhiêu', 'student.gpa_simulation');
+manager.addDocument('vi', 'tôi cần bao nhiêu điểm để qua môn', 'student.gpa_simulation');
+manager.addDocument('vi', 'tính thử điểm gpa', 'student.gpa_simulation');
+manager.addDocument('vi', 'mục tiêu điểm số', 'student.gpa_simulation');
+
+// STUDENT_PROGRESS_INTENT
+manager.addDocument('vi', 'tôi có tiến bộ không', 'student.progress');
+manager.addDocument('vi', 'so với tuần trước thì sao', 'student.progress');
+manager.addDocument('vi', 'thống kê tuần này', 'student.progress');
+
 // 2. Dạy AI trả lời tĩnh (Answers)
 // ==========================================
 manager.addAnswer('vi', 'greeting', 'Chào bạn! Tôi là EduGuard AI, tôi có thể giúp gì cho bạn?');
