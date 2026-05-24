@@ -18,6 +18,9 @@ function getSession(sessionId, userRole = 'TEACHER') {
       activeStudent: null,
       role: userRole,
       lastIntent: 'None',
+      lastSubject: null,
+      lastRiskLevel: null,
+      lastTopStudents: [],
       updatedAt: Date.now()
     };
     console.log(`[SESSION] New session created: ${sessionId}`);

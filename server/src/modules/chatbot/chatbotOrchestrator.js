@@ -9,6 +9,7 @@ const { extractAllEntities } = require('./entityExtractor');
 const { getSession } = require('./sessionMemory');
 const { executeDecision } = require('./aiDecisionEngine');
 const { buildResponse } = require('./responseBuilder');
+const { guardConfidence } = require('./confidenceGuard');
 const appLogger = require('../../infrastructure/logger');
 
 // ─── NLP: Orchestrator does not own the NLP model.
@@ -50,7 +51,15 @@ async function orchestrateChatbot(req, sessionId) {
 
   // ─── Step 2: NLP Intent Detection ───────────────────────
   // nlpIntent pre-computed by api.js NLP manager and forwarded via req.body
-  const nlpIntent = req.body?.nlpIntent || 'None';
+  const nlpIntentRaw = req.body?.nlpIntent || 'None';
+  const nlpScore = req.body?.nlpScore || 0;
+  const nlpClassifications = req.body?.nlpClassifications || [];
+  
+  const { finalIntent: nlpIntent, secondaryIntent } = guardConfidence(nlpIntentRaw, nlpScore, nlpClassifications);
+  if (nlpIntentRaw !== 'None' && nlpIntent === 'FALLBACK_INTENT') {
+    appLogger.info(`[NLP_GUARD] Blocked intent ${nlpIntentRaw} due to low confidence (${nlpScore})`);
+  }
+  
   appLogger.intentTrace(message, nlpIntent, 'pending', sessionId);
 
 
@@ -125,6 +134,10 @@ async function orchestrateChatbot(req, sessionId) {
   session.lastIntent = intent;
   if (decisionData?.student?.mssv) {
     session.activeStudent = decisionData.student.mssv;
+    session.lastRiskLevel = decisionData.riskData?.level || null;
+  }
+  if (decisionData?.analytics?.bottleneckSubjects?.length > 0) {
+    session.lastSubject = decisionData.analytics.bottleneckSubjects[0].courseId;
   }
 
   const duration = Date.now() - startTime;

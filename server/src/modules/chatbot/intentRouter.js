@@ -26,34 +26,54 @@ function routeIntent(msg, nlpIntent = 'None', activeStudent = null) {
 
   let intent = 'FALLBACK_INTENT';
 
-  if (greetingKeywords.some(kw => msgLower === kw || msgLower.startsWith(kw + ' ') || msgLower.endsWith(' ' + kw)) || nlpIntent === 'greeting') {
+  // Direct mapping from NLP
+  if (nlpIntent === 'greeting') {
     intent = 'GREETING_INTENT';
-  } else if (classKeywords.some(kw => msgLower.includes(kw)) || nlpIntent === 'CLASS_ANALYTICS' || nlpIntent === 'query.statistics') {
+  } else if (nlpIntent === 'query.statistics' || nlpIntent === 'CLASS_ANALYTICS') {
     intent = 'CLASS_ANALYTICS_INTENT';
-  } else if (systemKeywords.some(kw => msgLower.includes(kw)) || nlpIntent === 'query.system_info') {
+  } else if (nlpIntent === 'query.system_info') {
     intent = 'GENERAL_SYSTEM_INTENT';
-  } else {
-    // Check if it's a student-specific followup keyword
-    let matchedFollowup = null;
-    for (const [intentName, keywords] of Object.entries(followupKeywords)) {
-      if (keywords.some(kw => msgLower.includes(kw))) {
-        matchedFollowup = intentName;
-        break;
-      }
-    }
-    
-    if (matchedFollowup) {
-      intent = `FOLLOWUP_${matchedFollowup}_INTENT`;
+  } else if (nlpIntent === 'query.academic_performance' || nlpIntent === 'query.risk_warning') {
+    intent = 'STUDENT_ANALYTICS_INTENT';
+  } else if (nlpIntent === 'query.recommendation' || nlpIntent === 'query.learning_path') {
+    intent = 'FOLLOWUP_INTERVENTION_INTENT';
+  } else if (nlpIntent === 'query.bottleneck') {
+    intent = 'CLASS_ANALYTICS_INTENT'; // Fallback to class analytics which has bottleneck data
+  } else if (nlpIntent === 'query.trend') {
+    intent = 'CLASS_ANALYTICS_INTENT';
+  } else if (nlpIntent === 'query.followup') {
+    intent = 'STUDENT_ANALYTICS_INTENT'; // Let context resolver handle the exact student
+  } 
+  
+  // If no direct map or fallback, try heuristics
+  if (intent === 'FALLBACK_INTENT') {
+    if (greetingKeywords.some(kw => msgLower === kw || msgLower.startsWith(kw + ' ') || msgLower.endsWith(' ' + kw))) {
+      intent = 'GREETING_INTENT';
+    } else if (classKeywords.some(kw => msgLower.includes(kw))) {
+      intent = 'CLASS_ANALYTICS_INTENT';
+    } else if (systemKeywords.some(kw => msgLower.includes(kw))) {
+      intent = 'GENERAL_SYSTEM_INTENT';
     } else {
-      // Check if there is an explicit MSSV pattern in the message
-      const hasMssv = extractMssv(msgLower);
-      if (hasMssv || studentKeywords.some(kw => msgLower.includes(kw))) {
-        intent = 'STUDENT_ANALYTICS_INTENT';
+      let matchedFollowup = null;
+      for (const [intentName, keywords] of Object.entries(followupKeywords)) {
+        if (keywords.some(kw => msgLower.includes(kw))) {
+          matchedFollowup = intentName;
+          break;
+        }
+      }
+      
+      if (matchedFollowup) {
+        intent = `FOLLOWUP_${matchedFollowup}_INTENT`;
+      } else {
+        const hasMssv = extractMssv(msgLower);
+        if (hasMssv || studentKeywords.some(kw => msgLower.includes(kw))) {
+          intent = 'STUDENT_ANALYTICS_INTENT';
+        }
       }
     }
   }
 
-  console.log(`[AI_ROUTER] Routed Intent: ${intent} | Message: "${msg}"`);
+  console.log(`[AI_ROUTER] Routed Intent: ${intent} | Message: "${msg}" | NLP: ${nlpIntent}`);
   return intent;
 }
 

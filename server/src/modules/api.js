@@ -1310,13 +1310,21 @@ router.post('/chat', async (req, res) => {
     // Pre-compute NLP intent using api.js's already-loaded nlpManager
     // then forward it via req.body for the orchestrator
     let nlpIntent = 'None';
+    let nlpScore = 0;
+    let nlpClassifications = [];
     if (nlpModelLoaded) {
       try {
         const nlpResult = await nlpManager.process('vi', message);
-        if (nlpResult && nlpResult.intent) nlpIntent = nlpResult.intent;
+        if (nlpResult && nlpResult.intent) {
+          nlpIntent = nlpResult.intent;
+          nlpScore = nlpResult.score || 0;
+          nlpClassifications = nlpResult.classifications || [];
+        }
       } catch (e) { /* graceful fallback to keyword routing */ }
     }
     req.body.nlpIntent = nlpIntent;
+    req.body.nlpScore = nlpScore;
+    req.body.nlpClassifications = nlpClassifications;
 
     // Delegate to the NLP Orchestrator pipeline
     const result = await orchestrateChatbot(req, resolvedSessionId);

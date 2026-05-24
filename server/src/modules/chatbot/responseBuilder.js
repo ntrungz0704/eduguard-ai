@@ -3,6 +3,10 @@
 // Converts structured AI decision data into human-readable responses
 // ============================================================
 
+const { buildRiskDistributionChartData, buildBottleneckChartData, buildGpaChartData } = require('./chartRenderer');
+const { generateClassInsight, generateStudentInsight } = require('./insightGenerator');
+const { generateInterventionRoadmap } = require('./recommendationEngine');
+
 /**
  * Build GPA chart data payload for frontend rendering.
  */
@@ -164,6 +168,8 @@ Mức độ rủi ro: **${formatRiskBadge(riskData.level, riskData.riskScore)}**
 **Phân rã nguyên nhân (theo trọng số):**
 ${formatReasons(riskData.reasons)}
 
+${generateStudentInsight(riskData)}
+
 ---
 ⏳ **ACADEMIC TIMELINE — Monitoring**
 ${formatTimeline(timeline)}
@@ -216,8 +222,7 @@ ${topRiskList || '✅ Không có sinh viên nguy cơ cao.'}
 ${bottleneckStr || '✅ Không có môn học đáng lo ngại.'}
 
 📌 **Nhận định & Khuyến nghị (⚠ Confidence: High):**
-- Nhóm CRITICAL cần được liên hệ ngay lập tức trong tuần này.
-- Cần tổ chức lớp phụ đạo cho các môn thắt cổ chai để tránh rớt dây chuyền.`;
+${generateClassInsight(analytics)}`;
 
   return {
     text,
@@ -279,20 +284,16 @@ ${cc < 60
     }
 
     case 'INTERVENTION': {
-      const level = riskData.level;
+      const roadmap = generateInterventionRoadmap(student, riskData);
       return {
-        text: `💊 **PHƯƠNG ÁN CAN THIỆP HỌC VỤ (DSS ACTION CHECKLIST)**
+        text: `💊 **ĐỀ XUẤT CAN THIỆP CHUYÊN SÂU**
 👨‍🎓 Sinh viên: **${studentName}**
-🚨 Mức độ: **${formatRiskBadge(level, riskData.riskScore)}**
 
-**Hành động đề xuất cho Cố vấn học tập (CVHT):**
-- [ ] 📞 Gọi điện trao đổi trực tiếp và gửi mail thông báo tình trạng
-- [ ] 📚 Đăng ký lớp phụ đạo bổ trợ cho các môn nền tảng bị hổng
-- [ ] 📝 Giao bài tập lab bù đắp kiến thức cơ bản từ tuần này
-- [ ] 👁️ Theo dõi chuyên cần chặt chẽ trong 3 tuần tiếp theo
-${level === 'CRITICAL' ? '- [ ] 🆘 Báo cáo Ban Giám hiệu và thông báo phụ huynh ngay lập tức' : ''}${chartStr}`,
+${roadmap}
+
+*(Gợi ý: Cố vấn học tập có thể gửi email cảnh báo tự động cho sinh viên ngay lúc này.)*${chartStr}`,
         chartData: chartStr,
-        actions: ['timeline', 'nguyên nhân']
+        actions: ['nguyên nhân', 'chuyên cần', 'timeline']
       };
     }
 
