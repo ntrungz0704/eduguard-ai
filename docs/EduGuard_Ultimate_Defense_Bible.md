@@ -120,30 +120,97 @@ Nếu bảo vệ xong, trường tài trợ 1 tỷ đồng để làm tiếp, b�
 
 ---
 
-## PHẦN 10 — CẤU TRÚC 20 SLIDE PITCHING CHUẨN STARTUP
+## PHẦN 10 — 10 VŨ KHÍ BÍ MẬT NÂNG TẦM STARTUP (ĐIỂM TUYỆT ĐỐI)
+
+Đây là những "mảng ghép" nâng tầm đồ án sinh viên thành một sản phẩm Startup giáo dục thực thụ. Bắt buộc phải đưa vào Slide thuyết trình!
+
+**1. IMPACT METRICS (Đo lường hiệu quả KPI)**
+Đừng chỉ nói "hệ thống rất tốt", hãy lượng hóa bằng con số:
+- **Thời gian tra cứu SV nguy hiểm:** Giảm từ 2-3 giờ (thủ công) xuống còn **5 phút**.
+- **Thời điểm phát hiện rủi ro:** Đẩy sớm từ Cuối kỳ lên ngay **Tuần 3 - Tuần 4**.
+- **Tỷ lệ xử lý rủi ro:** Chuyển từ 100% rà soát thủ công sang **80% tự động hóa (AI) - 20% con người ra quyết định**.
+- **Khả năng giải thích:** LMS truyền thống = Không; EduGuard = Có XAI.
+
+**2. DATA FLOW PIPELINE (Dòng chảy dữ liệu)**
+Hội đồng rất thích nhìn thấy hệ thống vận hành thế nào. Hãy show quy trình này:
+`Điểm số / Chuyên cần` $\rightarrow$ `Backend API` $\rightarrow$ `Risk Engine (Chấm điểm)` $\rightarrow$ `XAI Layer (Giải thích)` $\rightarrow$ `Dashboard / NLP Chatbot`.
+
+**3. RISK SCORE FORMULA (Công thức chấm điểm)**
+Phải cho hội đồng thấy tư duy toán học và trọng số (Weighted Scoring). Ví dụ:
+`Risk Score = (Rớt môn × 40%) + (Vắng mặt × 25%) + (Điểm thấp × 20%) + (Trễ Deadline × 15%)`
+$\rightarrow$ Lập luận: Trọng số này có thể dễ dàng Customize (Tùy chỉnh) theo từng trường đại học.
+
+**4. BOTTLENECK SUBJECT ANALYSIS (Môn học "thắt cổ chai")**
+Đây là tính năng Academic Analytics cực mạnh. Hệ thống chỉ ra: "Môn WEB101 đang có 43% sinh viên nợ".
+$\rightarrow$ Giúp Phòng đào tạo mở lớp phụ đạo khẩn cấp, ngăn chặn hàng nghìn sinh viên bị kẹt lại.
+
+**5. INTERVENTION TRACKING (Theo dõi can thiệp - Tương lai)**
+Không chỉ cảnh báo, hệ thống tạo ra một chu trình khép kín (Closed-loop DSS):
+- SV A bị báo Đỏ $\rightarrow$ CVHT gọi điện phụ huynh $\rightarrow$ Kết quả: SV A cải thiện (Đỏ chuyển Xanh).
+$\rightarrow$ Đây là tính năng đo lường ROI (tỷ suất hoàn vốn) của phần mềm.
+
+**6. ETHICS & DATA PRIVACY (Đạo đức & Bảo mật)**
+Phải có 1 slide bảo vệ quyền riêng tư:
+- Chatbot NLP chạy 100% Offline, không gửi data học sinh lên server ChatGPT / OpenAI.
+- AI không bao giờ tự động gửi email đuổi học sinh viên (Decision Support, con người quyết định cuối cùng).
+- Quyền truy cập phân tầng (RBAC): Chỉ CVHT mới thấy được sinh viên của mình.
+
+**7. TECH STACK VISUAL (Công nghệ trực quan)**
+Làm 1 slide hiển thị Logo:
+- **Frontend:** React, Vite, Tailwind, Recharts.
+- **Backend:** Node.js, Express.
+- **AI:** node-nlp (Offline).
+- **Database:** SQLite, Prisma ORM.
+
+**8. SO SÁNH VỚI HỆ THỐNG HIỆN TẠI (LMS/FAP)**
+Lập một bảng so sánh:
+| Tính năng | FAP/LMS | EduGuard |
+|-----------|---------|----------|
+| Xem điểm | ✅ | ✅ |
+| Dự báo rủi ro sớm | ❌ | ✅ |
+| Trợ lý ảo NLP | ❌ | ✅ |
+| Giải thích rủi ro (XAI) | ❌ | ✅ |
+
+**9. DEMO FALLBACK PLAN (Kế hoạch B khi Demo lỗi)**
+**1. IMPACT METRICS (Đo lường hiệu quả KPI):** Giảm thời gian tra cứu từ 3 giờ xuống 5 phút, chuyển từ 100% thủ công sang 80% tự động hóa.
+**2. DATA FLOW PIPELINE:** Show sơ đồ từ `Dữ liệu thô` $\rightarrow$ `Risk Engine` $\rightarrow$ `XAI` $\rightarrow$ `Dashboard`.
+**3. RISK SCORE FORMULA:** `Risk Score = (Rớt môn × 40%) + (Vắng mặt × 25%) + (Điểm thấp × 20%) + (Trễ Deadline × 15%)`.
+**4. BOTTLENECK SUBJECT ANALYSIS:** Phát hiện môn học "thắt cổ chai" có tỷ lệ nợ môn cao để mở lớp phụ đạo.
+**5. INTERVENTION TRACKING:** Theo dõi quá trình "cứu" sinh viên (SV bị flag $\rightarrow$ CVHT gọi $\rightarrow$ cải thiện).
+**6. ETHICS & DATA PRIVACY:** Chatbot chạy Local, không đẩy dữ liệu lên AI Public, phân quyền (RBAC) nghiêm ngặt.
+**7. TECH STACK VISUAL:** Trực quan hóa công nghệ (React, Node.js, Prisma, SQLite).
+**8. SO SÁNH VỚI LMS/FAP:** Bảng so sánh (EduGuard có Dự báo sớm, NLP, XAI).
+**9. DEMO FALLBACK PLAN:** Video backup, file SQLite sao lưu, Screenshot để phòng rủi ro sập server.
+**10. MINDSET:** Tư duy Software Engineering thực chiến, không Over-engineering.
+
+---
+
+## PHẦN 11 — CẤU TRÚC 25 SLIDE PITCHING CHUẨN STARTUP
 
 1. **Title:** EduGuard DSS - Tương lai của Quản lý học vụ.
 2. **Pain Point 1:** Cố vấn học tập kiệt sức vì quản 1000 sinh viên bằng Excel.
 3. **Pain Point 2:** Sinh viên rớt môn dây chuyền vì phát hiện quá muộn.
 4. **The "AHA" Moment:** Giáo dục cần "Y tế dự phòng", không phải "Khám nghiệm tử thi".
 5. **Solution:** EduGuard = Data Analytics + DSS + NLP.
-6. **Descriptive vs Predictive:** Khác biệt giữa Hệ thống cũ và EduGuard.
-7. **Architecture (Kiến trúc):** Sơ đồ Modular Monolith (Để lấy điểm Kỹ thuật).
-8. **AI Pipeline:** Sơ đồ luồng NLP Chatbot.
-9. **Core Feature 1:** Dashboard & Heatmap (Ít chữ, dán ảnh màn hình to).
-10. **Core Feature 2:** Academic Timeline & XAI.
-11. **Core Feature 3:** NLP Chatbot & Session Memory.
-12. **Database Optimization:** Virtualized Rendering, Prisma, Lazy Loading.
-13. **Business Model:** B2B SaaS. Bài toán ROI (Hoàn vốn) cho nhà trường.
-14. **Limitations (Thành thật):** Mock Data, Rule-based Prototype.
-15. **Roadmap:** LSTM ML, Real-time Attendance, PostgreSQL.
-16. **Demo Time:** Chuyển qua màn hình Demo.
-
-*(Quy tắc làm Slide: Cực ít chữ, phông nền Dark Theme, dán ảnh giao diện to, chèn icon Flat design).*
+6. **Competitor Comparison:** Bảng so sánh EduGuard vs LMS/FAP.
+7. **Impact Metrics (KPI):** Cắt giảm thời gian từ 3 giờ xuống 5 phút.
+8. **Architecture:** Sơ đồ Modular Monolith.
+9. **Tech Stack:** (Hình logo React, Node, SQLite...).
+10. **Data Flow & Risk Formula:** Cách tính Risk Score minh bạch.
+11. **Core Feature 1:** Dashboard & Heatmap (Ít chữ, dán ảnh màn hình to).
+12. **Core Feature 2:** Academic Timeline & XAI.
+13. **Core Feature 3:** NLP Chatbot & Session Memory.
+14. **Core Feature 4:** Bottleneck Subject Analysis.
+15. **Database Optimization:** Virtualized Rendering, Prisma, Lazy Loading.
+16. **Ethics & Data Privacy:** Không lộ data cho AI Public, AI chạy Local.
+17. **Business Model:** B2B SaaS. Bài toán ROI cho nhà trường.
+18. **Limitations (Thành thật):** Mock Data, Rule-based Prototype.
+19. **Roadmap:** Deep Learning, Real-time Attendance, Intervention Tracking.
+20. **Demo Time:** Chuyển qua màn hình Demo.
 
 ---
 
-## PHẦN 11 — KỊCH BẢN DEMO FLOW (5 PHÚT TỎA SÁNG)
+## PHẦN 12 — KỊCH BẢN DEMO FLOW (5 PHÚT TỎA SÁNG)
 
 - **[Mở đầu 00:30]:** "Chào Ban Giám khảo. Xin mời mọi người bỏ qua bảng Excel truyền thống để bước vào EduGuard Dashboard." (Chuyển trang Dashboard).
 - **[WOW 1 - Heatmap 01:30]:** "Đây là Heatmap của toàn khóa. Thay vì dò 1000 con số, Thầy cô chỉ cần nhìn vào 5 chấm Đỏ. 5 sinh viên nguy kịch nhất đã tự động nổi lên."
