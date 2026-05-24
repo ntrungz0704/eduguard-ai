@@ -1,19 +1,20 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
 import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X } from 'lucide-react';
-import Dashboard from './pages/Dashboard';
-import Predict from './pages/Predict';
-import GPA from './pages/GPA';
-import StudentSearch from './pages/StudentSearch';
-import StudentProfile from './pages/StudentProfile';
-import AIChat from './pages/AIChat';
-import Login from './pages/Login';
-import StudentDashboard from './pages/StudentDashboard';
-import Inbox from './pages/Inbox';
-import Interventions from './pages/Interventions';
 import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
+
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Predict = lazy(() => import('./pages/Predict'));
+const GPA = lazy(() => import('./pages/GPA'));
+const StudentSearch = lazy(() => import('./pages/StudentSearch'));
+const StudentProfile = lazy(() => import('./pages/StudentProfile'));
+const AIChat = lazy(() => import('./pages/AIChat'));
+const Login = lazy(() => import('./pages/Login'));
+const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
+const Inbox = lazy(() => import('./pages/Inbox'));
+const Interventions = lazy(() => import('./pages/Interventions'));
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -269,9 +270,18 @@ function App() {
   if (!currentUser) {
     return (
       <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<Login />} />
-        </Routes>
+        <Suspense fallback={
+          <div className="h-screen w-full flex items-center justify-center bg-[#0b1120]">
+            <div className="flex flex-col items-center space-y-4">
+              <Loader2 size={32} className="text-blue-500 animate-spin" />
+              <p className="text-slate-400 font-medium">Đang tải...</p>
+            </div>
+          </div>
+        }>
+          <Routes>
+            <Route path="*" element={<Login />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     );
   }
@@ -292,28 +302,37 @@ function App() {
                 </div>
               </div>
             )}
-            <Routes>
-              {currentUser.role === 'STUDENT' ? (
-                <>
-                  <Route path="/student-dashboard" element={<StudentDashboard />} />
-                  <Route path="/chat" element={<AIChat />} />
-                  <Route path="/inbox" element={<Inbox />} />
-                  <Route path="*" element={<StudentDashboard />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/search" element={<StudentSearch />} />
-                  <Route path="/predict" element={<Predict />} />
-                  <Route path="/gpa" element={<GPA />} />
-                  <Route path="/interventions" element={<Interventions />} />
-                  <Route path="/chat" element={<AIChat />} />
-                  <Route path="/inbox" element={<Inbox />} />
-                  <Route path="/student/:mssv" element={<StudentProfile />} />
-                  <Route path="*" element={<Dashboard />} />
-                </>
-              )}
-            </Routes>
+            <Suspense fallback={
+              <div className="h-full w-full flex items-center justify-center">
+                <div className="flex flex-col items-center space-y-4">
+                  <Loader2 size={32} className="text-blue-500 animate-spin" />
+                  <p className="text-slate-400 font-medium animate-pulse">Đang nạp phân hệ...</p>
+                </div>
+              </div>
+            }>
+              <Routes>
+                {currentUser.role === 'STUDENT' ? (
+                  <>
+                    <Route path="/student-dashboard" element={<StudentDashboard />} />
+                    <Route path="/chat" element={<AIChat />} />
+                    <Route path="/inbox" element={<Inbox />} />
+                    <Route path="*" element={<StudentDashboard />} />
+                  </>
+                ) : (
+                  <>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/search" element={<StudentSearch />} />
+                    <Route path="/predict" element={<Predict />} />
+                    <Route path="/gpa" element={<GPA />} />
+                    <Route path="/interventions" element={<Interventions />} />
+                    <Route path="/chat" element={<AIChat />} />
+                    <Route path="/inbox" element={<Inbox />} />
+                    <Route path="/student/:mssv" element={<StudentProfile />} />
+                    <Route path="*" element={<Dashboard />} />
+                  </>
+                )}
+              </Routes>
+            </Suspense>
           </main>
         </div>
       </div>

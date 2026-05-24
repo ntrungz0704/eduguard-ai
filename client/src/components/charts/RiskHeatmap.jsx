@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RISK_COLORS = {
   CRITICAL: '#ef4444',
@@ -19,8 +20,9 @@ const RISK_BG = {
  * Shows top N students (rows) × weeks (columns)
  * Color intensity = risk level at that week
  */
-export default function RiskHeatmap({ students = [], title = 'Risk Heatmap — Top Sinh viên × Tuần' }) {
-  const weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+const RiskHeatmap = React.memo(({ students = [], title = 'Risk Heatmap — Top Sinh viên × Tuần' }) => {
+  const navigate = useNavigate();
+  const weeks = [1, 2, 3, 4, 5, 6, 7, 8];
   const displayStudents = students.slice(0, 8);
 
   if (displayStudents.length === 0) {
@@ -45,7 +47,7 @@ export default function RiskHeatmap({ students = [], title = 'Risk Heatmap — T
 
       <div style={{ minWidth: 600 }}>
         {/* Week header */}
-        <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(16, 1fr)', gap: 3, marginBottom: 4 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(8, 1fr)', gap: 3, marginBottom: 4 }}>
           <div />
           {weeks.map(w => (
             <div key={w} style={{ textAlign: 'center', color: '#475569', fontSize: 10, fontWeight: 600 }}>
@@ -56,7 +58,7 @@ export default function RiskHeatmap({ students = [], title = 'Risk Heatmap — T
 
         {/* Student rows */}
         {displayStudents.map((student, idx) => (
-          <div key={student.mssv} style={{ display: 'grid', gridTemplateColumns: '100px repeat(16, 1fr)', gap: 3, marginBottom: 3 }}>
+          <div key={student.mssv} style={{ display: 'grid', gridTemplateColumns: '100px repeat(8, 1fr)', gap: 3, marginBottom: 3 }}>
             <div style={{ color: '#94a3b8', fontSize: 11, display: 'flex', alignItems: 'center', paddingRight: 8, fontWeight: 600 }}>
               {student.mssv}
             </div>
@@ -73,17 +75,24 @@ export default function RiskHeatmap({ students = [], title = 'Risk Heatmap — T
               return (
                 <div
                   key={week}
-                  title={`${student.mssv} | Tuần ${week} | ${level}`}
+                  title={`${student.name || student.mssv} | Tuần ${week}\nRisk Level: ${level}\nGPA Hiện tại: ${student.gpa || 'N/A'}\nChuyên cần: ${student.attendance || 'N/A'}%\nMôn đã fail: ${student.failedSubjects || 0}`}
+                  onClick={() => navigate(`/student/${student.mssv}`)}
                   style={{
                     height: 22,
                     borderRadius: 3,
                     background: RISK_BG[level],
                     border: `1px solid ${RISK_COLORS[level]}55`,
-                    transition: 'transform 0.1s',
-                    cursor: 'default'
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer'
                   }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.15)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'scale(1.15)';
+                    e.currentTarget.style.zIndex = '10';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.zIndex = '1';
+                  }}
                 />
               );
             })}
@@ -102,10 +111,11 @@ export default function RiskHeatmap({ students = [], title = 'Risk Heatmap — T
       </div>
     </div>
   );
-}
+});
 
 function RiskHeatmapMock({ title }) {
-  const weeks = Array.from({ length: 16 }, (_, i) => i + 1);
+  const navigate = useNavigate();
+  const weeks = Array.from({ length: 8 }, (_, i) => i + 1);
   const mockStudents = [
     { mssv: 'PS47261', riskScore: 88, level: 'CRITICAL' },
     { mssv: 'PS12345', riskScore: 72, level: 'HIGH' },
@@ -131,14 +141,14 @@ function RiskHeatmapMock({ title }) {
       </p>
 
       <div style={{ minWidth: 600 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(16, 1fr)', gap: 3, marginBottom: 4 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(8, 1fr)', gap: 3, marginBottom: 4 }}>
           <div />
           {weeks.map(w => (
             <div key={w} style={{ textAlign: 'center', color: '#475569', fontSize: 10, fontWeight: 600 }}>T{w}</div>
           ))}
         </div>
         {mockStudents.map(student => (
-          <div key={student.mssv} style={{ display: 'grid', gridTemplateColumns: '100px repeat(16, 1fr)', gap: 3, marginBottom: 3 }}>
+          <div key={student.mssv} style={{ display: 'grid', gridTemplateColumns: '100px repeat(8, 1fr)', gap: 3, marginBottom: 3 }}>
             <div style={{ color: '#94a3b8', fontSize: 11, display: 'flex', alignItems: 'center', paddingRight: 8, fontWeight: 600 }}>
               {student.mssv}
             </div>
@@ -146,11 +156,19 @@ function RiskHeatmapMock({ title }) {
               const escW = Math.max(1, 8 - Math.floor(student.riskScore / 15));
               let level = week >= escW ? student.level : 'LOW';
               return (
-                <div key={week} style={{
-                  height: 22, borderRadius: 3,
-                  background: RISK_BG[level],
-                  border: `1px solid ${RISK_COLORS[level]}55`,
-                }} />
+                <div key={week} 
+                  onClick={() => navigate(`/student/${student.mssv}`)}
+                  title={`${student.mssv} | Tuần ${week}\nRisk Level: ${level}`}
+                  style={{
+                    height: 22, borderRadius: 3,
+                    background: RISK_BG[level],
+                    border: `1px solid ${RISK_COLORS[level]}55`,
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer'
+                  }} 
+                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.15)'}
+                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                />
               );
             })}
           </div>
@@ -168,3 +186,5 @@ function RiskHeatmapMock({ title }) {
     </div>
   );
 }
+
+export default RiskHeatmap;

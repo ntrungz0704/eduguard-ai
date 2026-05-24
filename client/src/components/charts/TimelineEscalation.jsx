@@ -11,7 +11,7 @@ const LEVEL_COLOR = {
   LOW: '#22c55e'
 };
 
-export default function TimelineEscalation({ data, title = 'Timeline Leo thang Cảnh báo' }) {
+const TimelineEscalation = React.memo(({ data, title = 'Timeline Leo thang Cảnh báo' }) => {
   // data: array of weekly risk events
   // [{ week: 3, eventCount: 2, level: 'WARNING' }, ...]
   const chartData = data || generateMockTimeline();
@@ -92,25 +92,19 @@ export default function TimelineEscalation({ data, title = 'Timeline Leo thang C
       </ResponsiveContainer>
     </div>
   );
-}
+});
+
+export default TimelineEscalation;
 
 function generateMockTimeline() {
   return [
     { week: 1, warnings: 0, critical: 0 },
     { week: 2, warnings: 1, critical: 0 },
-    { week: 3, warnings: 2, critical: 0 },
-    { week: 4, warnings: 3, critical: 1 },
-    { week: 5, warnings: 4, critical: 1 },
-    { week: 6, warnings: 5, critical: 2 },
-    { week: 7, warnings: 4, critical: 3 },
-    { week: 8, warnings: 6, critical: 4 },
-    { week: 9, warnings: 5, critical: 4 },
-    { week: 10, warnings: 7, critical: 5 },
-    { week: 11, warnings: 6, critical: 5 },
-    { week: 12, warnings: 8, critical: 6 },
-    { week: 13, warnings: 7, critical: 6 },
-    { week: 14, warnings: 5, critical: 4 },
-    { week: 15, warnings: 3, critical: 2 },
-    { week: 16, warnings: 1, critical: 1 }
+    { week: 3, warnings: 2, critical: 1 },
+    { week: 4, warnings: 4, critical: 2 },
+    { week: 5, warnings: 6, critical: 3 },
+    { week: 6, warnings: 5, critical: 4 },
+    { week: 7, warnings: 3, critical: 2 },
+    { week: 8, warnings: 1, critical: 1 }
   ];
 }

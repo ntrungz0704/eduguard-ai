@@ -6,7 +6,7 @@ import {
 
 const FAIL_COLORS = ['#ef4444', '#f97316', '#f97316', '#eab308', '#eab308'];
 
-export default function BottleneckChart({ data, title = 'Môn Học Bottleneck' }) {
+const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) => {
   // data: [{ name: 'COM108', failCount: 12 }, ...]
   const chartData = data || [];
 
@@ -87,4 +87,6 @@ export default function BottleneckChart({ data, title = 'Môn Học Bottleneck' 
       </ResponsiveContainer>
     </div>
   );
-}
+});
+
+export default BottleneckChart;

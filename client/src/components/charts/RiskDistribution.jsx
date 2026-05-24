@@ -25,7 +25,7 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
   );
 };
 
-export default function RiskDistribution({ data, title = 'Phân phối Rủi ro' }) {
+const RiskDistribution = React.memo(({ data, title = 'Phân phối Rủi ro' }) => {
   // data: [{ name: 'CRITICAL', value: 5 }, ...]
   const chartData = data || [
     { name: 'CRITICAL', value: 0 },
@@ -105,4 +105,6 @@ export default function RiskDistribution({ data, title = 'Phân phối Rủi ro'
       </div>
     </div>
   );
-}
+});
+
+export default RiskDistribution;

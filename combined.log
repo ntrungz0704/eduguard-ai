@@ -255,3 +255,32 @@
 {"domain":"DSS","factorCount":3,"level":"info","message":"[DSS] MSSV: PS00001 | Score: 30 | Level: MEDIUM | Factors: 3","mssv":"PS00001","riskScore":30,"service":"eduguard-ai-backend","timestamp":"2026-05-24 16:49:31"}
 {"domain":"DSS","factorCount":3,"level":"info","message":"[DSS] MSSV: PS00002 | Score: 30 | Level: MEDIUM | Factors: 3","mssv":"PS00002","riskScore":30,"service":"eduguard-ai-backend","timestamp":"2026-05-24 16:49:31"}
 {"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00003 | Score: 42 | Level: MEDIUM | Factors: 4","mssv":"PS00003","riskScore":42,"service":"eduguard-ai-backend","timestamp":"2026-05-24 16:49:31"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:38:36"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:38:36"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:38:38"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:38:38"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:38:46"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:38:46"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:59:23"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:59:23"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:59:24"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 19:59:24"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:01:31"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:01:31"}
+{"level":"info","message":"\nSIGINT received. Bắt đầu Graceful Shutdown...","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:05:14"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:08:01"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:08:01"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:08:36"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:08:36"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:11:37"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:11:37"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:12:02"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:12:02"}
+{"level":"info","message":"\nSIGINT received. Bắt đầu Graceful Shutdown...","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:14:19"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:19:06"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:19:06"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:26:16"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:26:16"}
+{"level":"info","message":"\nSIGINT received. Bắt đầu Graceful Shutdown...","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:37:22"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:52:13"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-24 20:52:13"}

@@ -290,60 +290,60 @@ function generateAcademicTimeline(student, riskData) {
   if (level === 'CRITICAL') {
     if (avgAttendance < 80) {
       timeline.push({
-        week: 3,
+        week: 1,
         type: 'WARNING',
         event: `Hệ thống ghi nhận chuyên cần bắt đầu giảm sút (${Math.round(Math.min(100, avgAttendance + 10))}%)`
       });
     }
     if (failedCourses.length > 0) {
       timeline.push({
-        week: 5,
+        week: 2,
         type: 'DANGER',
         event: `Cảnh báo sớm: Dấu hiệu hổng kiến thức môn ${failedCourses[0].courseId} (${failedCourses[0].value?.toFixed(1) || 'N/A'}đ)`
       });
     }
     timeline.push({
-      week: 6,
+      week: 3,
       type: 'DANGER',
       event: `Xu hướng GPA dự báo giảm mạnh — thiếu kỷ luật học tập tích lũy`
     });
     timeline.push({
-      week: 8,
+      week: 4,
       type: 'CRITICAL',
       event: `🚨 Báo động Đỏ: Risk Score leo thang mức CRITICAL (${riskData.riskScore}/100)`
     });
     if (failedCourses.length >= 2) {
       timeline.push({
-        week: 10,
+        week: 6,
         type: 'CRITICAL',
         event: `Nguy cơ đứt gãy dây chuyền: Rớt ${failedCourses.length} môn có thể khoá học phần phụ thuộc`
       });
     }
     timeline.push({
-      week: 14,
+      week: 8,
       type: 'INTERVENTION',
       event: `Khuyến nghị: Cố vấn học tập cần can thiệp trực tiếp trước khi thi cuối kỳ`
     });
   } else if (level === 'HIGH') {
     timeline.push({
-      week: 4,
+      week: 2,
       type: 'WARNING',
       event: `Phong độ học tập có dấu hiệu chững lại — GPA dự báo dưới 6.5`
     });
     if (failedCourses.length > 0) {
       timeline.push({
-        week: 6,
+        week: 4,
         type: 'DANGER',
         event: `Cần theo dõi sát sao: Dấu hiệu yếu môn ${failedCourses[0].courseId}`
       });
     }
     timeline.push({
-      week: 8,
+      week: 6,
       type: 'WARNING',
       event: `Mức độ rủi ro: HIGH — Nên lên kế hoạch can thiệp`
     });
     timeline.push({
-      week: 12,
+      week: 8,
       type: 'INTERVENTION',
       event: `Đề xuất: Bổ sung bài tập thực hành bù đắp điểm yếu`
     });
@@ -354,21 +354,21 @@ function generateAcademicTimeline(student, riskData) {
       event: `Học lực ổn định nhưng có một số điểm cần cải thiện`
     });
     timeline.push({
-      week: 8,
+      week: 6,
       type: 'INFO',
       event: `Mức độ rủi ro: MEDIUM — Tiếp tục giám sát`
     });
     timeline.push({
-      week: 12,
+      week: 8,
       type: 'INFO',
       event: `GPA hiện tại: ${gpa.toFixed(1)}/10 — Cần nỗ lực duy trì hoặc cải thiện`
     });
   } else {
     // LOW risk
-    timeline.push({ week: 3, type: 'SUCCESS', event: `Kết quả đầu kỳ duy trì phong độ tốt` });
-    timeline.push({ week: 5, type: 'SUCCESS', event: `Hoàn thành tốt các bài kiểm tra thực hành` });
-    timeline.push({ week: 8, type: 'SUCCESS', event: `Học lực ổn định (GPA: ${gpa.toFixed(1)}/10) — Tiếp tục phát huy` });
-    timeline.push({ week: 12, type: 'SUCCESS', event: `Không ghi nhận sự kiện cảnh báo — Học tập tốt` });
+    timeline.push({ week: 2, type: 'SUCCESS', event: `Kết quả đầu kỳ duy trì phong độ tốt` });
+    timeline.push({ week: 4, type: 'SUCCESS', event: `Hoàn thành tốt các bài kiểm tra thực hành` });
+    timeline.push({ week: 6, type: 'SUCCESS', event: `Học lực ổn định (GPA: ${gpa.toFixed(1)}/10) — Tiếp tục phát huy` });
+    timeline.push({ week: 8, type: 'SUCCESS', event: `Không ghi nhận sự kiện cảnh báo — Học tập tốt` });
   }
 
   return timeline.sort((a, b) => a.week - b.week);

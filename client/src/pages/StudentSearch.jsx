@@ -12,6 +12,8 @@ import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 const getCourseCredits = (courseNameOrId) => {
   const name = String(courseNameOrId || '').trim();
@@ -1491,42 +1493,65 @@ export default function StudentSearch() {
                   </select>
                 </div>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {[...allStudents].sort((a, b) => {
-                  if (sortType === 'name-asc') return a.name.localeCompare(b.name);
-                  if (sortType === 'name-desc') return b.name.localeCompare(a.name);
-                  if (sortType === 'risk-desc') {
-                    const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
-                    const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
-                    return riskB - riskA;
-                  }
-                  return 0;
-                }).map(st => {
-                  const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
-                  return (
-                    <button
-                      key={st.id}
-                      onClick={() => handleSelectStudent(st)}
-                      className="glass-card p-5 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all text-left flex items-start justify-between group"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-700 to-slate-600 flex items-center justify-center text-white font-bold group-hover:from-blue-600 group-hover:to-indigo-600 transition-colors">
-                          {st.name.charAt(0)}
+              <div style={{ height: 'calc(100vh - 200px)', minHeight: 500 }}>
+                <AutoSizer>
+                  {({ height, width }) => {
+                    const sortedStudents = [...allStudents].sort((a, b) => {
+                      if (sortType === 'name-asc') return a.name.localeCompare(b.name);
+                      if (sortType === 'name-desc') return b.name.localeCompare(a.name);
+                      if (sortType === 'risk-desc') {
+                        const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
+                        const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
+                        return riskB - riskA;
+                      }
+                      return 0;
+                    });
+
+                    // We render rows of 1 item for a table-like view
+                    const Row = ({ index, style }) => {
+                      const st = sortedStudents[index];
+                      const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
+                      
+                      return (
+                        <div style={{ ...style, padding: '4px 8px' }}>
+                          <button
+                            onClick={() => handleSelectStudent(st)}
+                            className="glass-card p-4 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all text-left flex items-center justify-between group w-full h-full"
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-700 to-slate-600 flex items-center justify-center text-white font-bold group-hover:from-blue-600 group-hover:to-indigo-600 transition-colors flex-shrink-0">
+                                {st.name.charAt(0)}
+                              </div>
+                              <div className="flex flex-col">
+                                <h5 className="font-bold text-slate-200 group-hover:text-blue-400 transition-colors">{st.name}</h5>
+                                <p className="text-xs text-slate-400">{st.id} • Lớp {st.classCode || 'WD18301'}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              {riskCount > 0 && (
+                                <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] px-2.5 py-1 rounded-lg font-bold whitespace-nowrap">
+                                  {riskCount} rủi ro
+                                </span>
+                              )}
+                              <ChevronRight className="text-slate-500 group-hover:text-blue-400 transition-all" size={18} />
+                            </div>
+                          </button>
                         </div>
-                        <div>
-                          <h5 className="font-bold text-slate-200 group-hover:text-blue-400 transition-colors">{st.name}</h5>
-                          <p className="text-xs text-slate-400 mt-1">{st.id} • Lớp {st.classCode || 'WD18301'}</p>
-                        </div>
-                      </div>
-                      {riskCount > 0 && (
-                        <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] px-2 py-1 rounded-lg font-bold">
-                          {riskCount} rủi ro
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
+                      );
+                    };
+
+                    return (
+                      <List
+                        height={height}
+                        itemCount={sortedStudents.length}
+                        itemSize={80}
+                        width={width}
+                      >
+                        {Row}
+                      </List>
+                    );
+                  }}
+                </AutoSizer>
               </div>
             </div>
           )}

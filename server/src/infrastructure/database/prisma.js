@@ -1,4 +1,4 @@
-const { PrismaClient } = require('../../../../generated/prisma/client');
+const { PrismaClient } = require('../../../generated/prisma');
 const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 const path = require('path');
 

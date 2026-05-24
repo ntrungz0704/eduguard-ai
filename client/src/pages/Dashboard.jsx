@@ -107,7 +107,12 @@ export default function Dashboard() {
     </div>
   );
 
-  if (!trainingData.stats) return <div className="flex h-64 items-center justify-center text-slate-400 bg-white/5 rounded-2xl border border-white/10">Chưa có dữ liệu huấn luyện.</div>;
+  if (!trainingData.stats) return (
+    <div className="flex flex-col gap-4 h-64 items-center justify-center text-slate-400 bg-white/5 rounded-3xl border border-white/10">
+      <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+      <p className="text-sm font-medium animate-pulse">Đang tải dữ liệu phân tích học vụ...</p>
+    </div>
+  );
 
   const totalAtRisk = trainingData.stats.reduce((acc, curr) => acc + curr.atRisk, 0);
 
@@ -438,7 +443,10 @@ export default function Dashboard() {
             mssv: a.mssv,
             name: a.name,
             riskScore: a.riskScore || 70,
-            level: a.priorityLevel
+            level: a.priorityLevel,
+            gpa: a.gpa || 0,
+            attendance: a.avgAttendance || 100,
+            failedSubjects: a.failedCourses?.length || 0
           })) : []}
         />
       </div>

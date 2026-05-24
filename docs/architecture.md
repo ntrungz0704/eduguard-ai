@@ -1,185 +1,37 @@
-# EduGuard AI - Architecture & Diagrams
+# EduGuard AI DSS - Kiến Trúc Hệ Thống (Enterprise Prototype)
 
-Tài liệu này cung cấp cái nhìn tổng quan về Kiến trúc hệ thống, Luồng xử lý AI (AI Pipeline), Luồng ra quyết định (AI Decision Flow) và Mô hình Triển khai (Deployment) của Nền tảng EduGuard AI.
+## 1. Tổng Quan Kiến Trúc
+Hệ thống EduGuard AI DSS được thiết kế theo mô hình **Modular Monolith** kết hợp với **Event-driven architecture**, rất phù hợp cho giai đoạn prototype/demo nhưng vẫn đảm bảo tính mở rộng cao theo chuẩn Enterprise.
 
-## 1. System Architecture Diagram
+### 1.1 Tầng Frontend (Client Layer)
+- **Công nghệ:** React.js, Vite, TailwindCSS, Recharts.
+- **Vai trò:** Hiển thị Dashboard, quản lý trạng thái, hiển thị đồ thị và cung cấp giao diện tương tác với AI Chatbot.
+- **Tối ưu:** Sử dụng cơ chế Lazy Loading, React Window (Virtualization) cho danh sách sinh viên lớn, và phân tách Production Build tối ưu qua lệnh `npm run preview`.
 
-Cấu trúc tổng thể của hệ thống tuân theo chuẩn Enterprise, tách bạch Frontend, Backend, AI Workers và Database.
+### 1.2 Tầng Backend (Server Layer)
+- **Công nghệ:** Node.js, Express.js.
+- **Cấu trúc lõi (`server/src/`):**
+  - `ai/`: Chứa các thuật toán Decision Support System (DSS) Engine và Machine Learning inference (TF.js).
+  - `modules/`: Chứa các controller và logic nghiệp vụ tách biệt (Chatbot, Prediction, API lõi).
+  - `infrastructure/`: Quản lý cấu hình database (Prisma), logging, và event bus.
+  - `events/`: Hệ thống Pub/Sub cục bộ để decouple các luồng xử lý nặng (vd: lưu log, train dữ liệu).
 
-```mermaid
-graph TD
-    %% Frontend Layer
-    subgraph Frontend [Presentation Layer - Vercel / Netlify]
-        UI[React.js SPA]
-        Tailwind[Tailwind CSS UI]
-        State[Zustand State Manager]
-        UI --> State
-        State --> Tailwind
-    end
+### 1.3 Tầng Database (Data Layer)
+- **Công nghệ:** SQLite + Prisma ORM.
+- **Vai trò:** Lưu trữ thông tin sinh viên, điểm số, lịch sử dự đoán và nhật ký can thiệp.
+- **Định hướng mở rộng:** ORM Prisma cho phép chuyển đổi sang PostgreSQL mà hầu như không cần sửa đổi mã nguồn.
 
-    %% Backend Layer
-    subgraph Backend [Application Layer - Render / Docker]
-        API[Node.js Express API]
-        Auth[JWT Authentication]
-        Router[Intent Router]
-        API --> Auth
-        API --> Router
-    end
+## 2. Luồng Xử Lý AI (AI Pipeline)
 
-    %% Local AI Pipeline
-    subgraph LocalAI [AI Intelligence Layer]
-        NLP[Node-NLP Intent Classifier]
-        Predictor[Predictive ML Engine]
-        XAI[Explainable AI Module]
-        NLP --> Router
-        Predictor --> XAI
-    end
+Luồng xử lý cốt lõi của hệ thống được tuân thủ nghiêm ngặt qua 3 bước:
+1. **INPUT:** Tiếp nhận Điểm số, Attendance (Điểm danh), Môn tiên quyết, Timeline học tập.
+2. **PROCESSING:** Dữ liệu đi qua Orchestrator để:
+   - NLP Engine (node-nlp) phân loại Intent (Ý định người dùng).
+   - Weighted Risk Engine tính toán điểm rủi ro.
+   - Rule-based DSS phân tích đứt gãy môn tiên quyết.
+3. **OUTPUT:** Trả ra Risk Score (Chỉ số rủi ro), Academic Timeline (Lộ trình leo thang), Heatmap và Intervention Suggestion (Gợi ý can thiệp).
 
-    %% Data Layer
-    subgraph DatabaseLayer [Data Persistence]
-        SQLite[(SQLite / PostgreSQL)]
-        Prisma[Prisma ORM]
-        Prisma --> SQLite
-    end
-
-    %% Connections
-    Frontend -- HTTP/REST --> API
-    Router -- Extract Intent --> NLP
-    Router -- Query Data --> Prisma
-    API -- Call ML --> Predictor
-    XAI -- Results --> Prisma
-```
-
-## 2. AI Decision Flow Diagram (Cốt lõi Trí tuệ Nhân tạo)
-
-Mô tả cách dữ liệu thô biến thành một quyết định hành động thông qua hệ thống Học máy, thể hiện tính "AI Systems Engineering" đích thực.
-
-```mermaid
-graph TD
-    A[Student Historical Score] --> C(Feature Engineering)
-    B[Attendance Records] --> C
-    C --> D{Pearson Correlation Analysis}
-    D -- Môn tiên quyết tương quan mạnh --> E[Linear Regression Model]
-    E --> EVAL{Model Evaluation Layer}
-    EVAL -- RMSE / Precision / Recall --> F[Risk Classification Engine]
-    F -- Dự báo: Yếu kém --> G[High Risk Flag]
-    F -- Dự báo: Trung bình --> H[Medium Risk Flag]
-    F -- Dự báo: Tốt --> I[Low Risk Flag]
-    G --> J(Explainable AI Module)
-    H --> J
-    I --> J
-    J --> K[Academic Dashboard + XAI Reason]
-```
-
-## 3. Deployment Diagram (Enterprise Scalability)
-
-Mô hình triển khai nhắm tới mở rộng hệ thống (Scalability) với Worker độc lập và Hàng đợi (Queue), không bị sập khi phải Training hàng nghìn dữ liệu sinh viên.
-
-```mermaid
-graph TD
-    User((Giảng viên)) -->|HTTPS| Frontend[Vercel: UI / SPA]
-    Frontend -->|REST API| LoadBalancer[Nginx Load Balancer]
-    LoadBalancer --> NodeAPI[Node API: Orchestration Layer]
-    NodeAPI -->|Push Task| RedisQueue[(Redis: Message Broker)]
-    RedisQueue -->|Pop Task| AIWorker[AI Worker: Async Prediction Jobs]
-    
-    NodeAPI --> DB[(PostgreSQL: Persistent Storage)]
-    AIWorker -->|Write Predictions| DB
-    
-    subgraph Observability [Monitoring & Governance]
-        Prometheus[Prometheus Metrics]
-        Grafana[Grafana Dashboard]
-    end
-    
-    NodeAPI -.-> Prometheus
-    AIWorker -.-> Prometheus
-```
-
-## 4. AI Pipeline Sequence Diagram (Local NLP)
-
-Luồng xử lý khi người dùng trò chuyện với hệ thống Chatbot. Mọi xử lý đều được thực hiện 100% Offline (Local AI) để đảm bảo Quyền riêng tư Dữ liệu (Privacy).
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant U as Giảng viên (User)
-    participant UI as React UI (Frontend)
-    participant API as Express (Backend)
-    participant NLP as Local NLP Engine (node-nlp)
-    participant Router as Intent Router (Logic)
-    participant DB as Prisma (Database)
-
-    U->>UI: "Khóa này lớp WD18301 có ai nguy cơ rớt không?"
-    UI->>API: POST /api/chat { message }
-    API->>NLP: Xử lý ngôn ngữ tự nhiên (Tokenize, Stemming)
-    NLP-->>API: Trả về Intent: "student.query.high_risk"
-    API->>Router: Ánh xạ Intent vào Data Query
-    Router->>DB: SELECT * FROM Prediction WHERE risk='HIGH'
-    DB-->>Router: Trả về 5 sinh viên (kèm XAI Reasons)
-    Router->>API: Format kết quả (Natural Language)
-    API-->>UI: "Lớp này có 5 em rủi ro cao, đặc biệt là PS12345 do điểm C thấp."
-    UI-->>U: Hiển thị kết quả & Đề xuất Can thiệp
-```
-
-## 5. Database ERD (Entity-Relationship Diagram)
-
-Sơ đồ thực thể liên kết (ERD) mô tả cách dữ liệu được tổ chức để phục vụ Predictive Academic Analytics.
-
-```mermaid
-erDiagram
-    USER ||--o{ INTERVENTION : "Thực hiện"
-    USER {
-        string id PK
-        string email
-        string name
-        string role "ADMIN / ADVISOR"
-    }
-
-    STUDENT ||--o{ SCORE : "Sở hữu"
-    STUDENT ||--o{ PREDICTION : "Có"
-    STUDENT ||--o{ INTERVENTION : "Nhận"
-    STUDENT {
-        string mssv PK
-        string name
-        string classCode
-    }
-
-    COURSE ||--o{ SCORE : "Chứa"
-    COURSE ||--o{ PREDICTION : "Gắn với"
-    COURSE {
-        string id PK
-        string name
-        int credits
-        string prerequisites
-    }
-
-    SCORE {
-        int id PK
-        string mssv FK
-        string courseId FK
-        float value
-        float attendance "Feature Engineering"
-        string semester
-        string status "PASSED / FAILED"
-    }
-
-    PREDICTION {
-        int id PK
-        string mssv FK
-        string courseId FK
-        float predictedScore
-        string risk "HIGH / LOW"
-        float confidence "Độ tin cậy %"
-        string explanation "Explainable AI Text"
-        json reasons "Chi tiết XAI Array"
-    }
-
-    INTERVENTION {
-        int id PK
-        string mssv FK
-        string courseId FK
-        string advisorId FK
-        string action "Ghi chú can thiệp"
-        string status "PENDING / RESOLVED"
-    }
-```
+## 3. Lý Do Chọn Kiến Trúc Này
+1. **Modular Monolith:** Phù hợp với team size nhỏ và nhu cầu triển khai đồ án nhanh chóng, tránh over-engineering như Microservices nhưng vẫn giữ ranh giới module rõ ràng.
+2. **Offline-first AI:** NLP Model chạy cục bộ, đảm bảo bảo mật dữ liệu sinh viên 100%, tốc độ phản hồi tính bằng ms thay vì phụ thuộc API ngoài.
+3. **Event-driven:** Cải thiện thời gian phản hồi (Response Time) bằng cách đưa các tác vụ lưu trữ và phân tích nặng xuống nền (background processing).

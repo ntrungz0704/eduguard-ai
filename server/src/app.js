@@ -40,8 +40,8 @@ app.get('/api/health', (req, res) => {
 });
 
 // We will mount modular routers here shortly
-const apiRouter = require('../legacy/routes/api');
-const commRouter = require('../legacy/routes/communication');
+const apiRouter = require('./modules/api');
+const commRouter = require('./modules/communication');
 const predictionRouter = require('./modules/prediction/routes');
 
 app.use('/api', apiLimiter, apiRouter);
