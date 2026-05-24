@@ -49,6 +49,15 @@ manager.addDocument('vi', 'danh sách sinh viên nguy cơ', 'query.statistics');
 manager.addDocument('vi', 'môn nào dễ tạch nhất hệ thống', 'query.statistics');
 manager.addDocument('vi', 'tỉ lệ rớt môn', 'query.statistics');
 manager.addDocument('vi', 'có bao nhiêu sinh viên', 'query.statistics');
+manager.addDocument('vi', 'cho tôi biết top 5 sv học yếu', 'query.statistics');
+manager.addDocument('vi', 'top 5 sv', 'query.statistics');
+manager.addDocument('vi', 'top 10 sv', 'query.statistics');
+manager.addDocument('vi', 'tình hình lớp học như thế nào', 'query.statistics');
+manager.addDocument('vi', 'môn nào dễ trượt nhất', 'query.statistics');
+manager.addDocument('vi', 'môn nào kéo gpa cả lớp', 'query.statistics');
+manager.addDocument('vi', 'môn tiên quyết nào gây fail dây chuyền nhiều nhất', 'query.statistics');
+manager.addDocument('vi', 'ai cần can thiệp gấp', 'query.statistics');
+manager.addDocument('vi', 'cho tôi biết sv nào có nguy cơ', 'query.statistics');
 
 // 2. Dạy AI trả lời tĩnh (Answers)
 // ==========================================
