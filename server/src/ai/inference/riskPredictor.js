@@ -29,7 +29,7 @@ function customFileHandler(modelDir) {
 
 async function loadModel() {
     console.log("🚀 [TFJS] Đang nạp mô hình Machine Learning (Inference Pipeline)...");
-    const modelDir = path.join(__dirname, '..', 'models');
+    const modelDir = path.join(__dirname, '..', 'models', 'tfjs');
     
     try {
         model = await tf.loadLayersModel(customFileHandler(modelDir));
