@@ -68,7 +68,10 @@ export default function AIChat() {
           {
             sender: 'ai',
             text: defaultWelcomeText,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            actions: isStudent 
+              ? ['Tình hình học lực', 'Môn nào dễ rớt', 'Đề xuất lộ trình']
+              : ['Xem Risk Score', 'Phân tích môn yếu', 'Đề xuất lộ trình', 'Chuyên cần']
           }
         ],
         provider: 'gemini',
@@ -244,7 +247,10 @@ export default function AIChat() {
         text: isStudent
           ? `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ cá nhân của bạn**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Bạn có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của tôi?*\n• *Lộ trình cải thiện GPA và môn có nguy cơ trượt của tôi?*\n• *Đề xuất phương pháp học tập hiệu quả giúp tôi nâng cao kết quả?*`
           : `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ sinh viên ${activeStudent.name} (${activeStudent.mssv || activeStudent.id})**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Giảng viên có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của em ấy?*\n• *Môn học kỳ mới dự báo trượt cao và đề xuất phụ đạo?*\n• *Soạn tin nhắn Zalo gửi sinh viên cảnh báo nhẹ nhàng?*`,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actions: isStudent 
+          ? ['Đánh giá học lực', 'Môn dễ trượt', 'Phương pháp học']
+          : ['Đánh giá sinh viên', 'Dự báo trượt', 'Soạn tin cảnh báo']
       };
       
       const alreadyLinked = sessionActiveStudent?.id === activeStudent.id || sessionActiveStudent?.mssv === activeStudent.id;
@@ -272,7 +278,8 @@ export default function AIChat() {
       const welcomeContext = {
         sender: 'ai',
         text: `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ sinh viên ${studentDetail.name} (${studentDetail.mssv || studentDetail.id})**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Giảng viên có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của em ấy?*\n• *Môn học kỳ mới dự báo trượt cao và đề xuất phụ đạo?*\n• *Soạn tin nhắn Zalo gửi sinh viên cảnh báo nhẹ nhàng?*`,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actions: ['Đánh giá sinh viên', 'Dự báo trượt', 'Soạn tin cảnh báo']
       };
       
       updateActiveSession({
@@ -308,7 +315,10 @@ export default function AIChat() {
         {
           sender: 'ai',
           text: defaultWelcomeText,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          actions: isStudent 
+            ? ['Tình hình học lực', 'Môn nào dễ rớt', 'Đề xuất lộ trình']
+            : ['Xem Risk Score', 'Phân tích môn yếu', 'Đề xuất lộ trình', 'Chuyên cần']
         }
       ],
       provider: 'gemini',
@@ -985,12 +995,15 @@ export default function AIChat() {
                             {msg.chartData.type === 'attendance' && <AttendanceChart data={msg.chartData.data} />}
                           </div>
                         )}
-                        <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
-                          <button onClick={() => setInput('Xem Risk Score')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Xem Risk Score</button>
-                          <button onClick={() => setInput('Môn nào dễ rớt')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Phân tích môn yếu</button>
-                          <button onClick={() => setInput('Đề xuất lộ trình')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Đề xuất lộ trình</button>
-                          <button onClick={() => setInput('Tình trạng chuyên cần')} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">Chuyên cần</button>
-                        </div>
+                        {msg.actions && msg.actions.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
+                            {msg.actions.map((actionText, idx) => (
+                              <button key={idx} onClick={() => { setInput(actionText); handleSend(actionText); }} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">
+                                {actionText}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                         <div className="absolute -bottom-3 right-0 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           {sessionActiveStudent && currentUser?.role !== 'STUDENT' && (
                             <button 
