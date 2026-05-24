@@ -158,7 +158,7 @@ Tuy nhiên, nguyên tắc chung là:
 
 function buildStudentFallback() {
   return {
-    text: `🤖 **Mình chưa hiểu rõ ý bạn lắm.**\n\nBạn có muốn Copilot hỗ trợ:\n1. 📊 Xem tổng quan học lực\n2. ⚠ Kiểm tra môn nào dễ rớt\n3. 🎯 Gợi ý lộ trình cải thiện điểm\n4. 💙 Lấy lại động lực học tập\n\n*(Gợi ý: Hãy bấm vào các nút bên dưới)*`,
+    text: `🤖 **Mình chưa hiểu rõ ý bạn lắm.**\n\nBạn có muốn trợ lý AI của EduGuard hỗ trợ:\n1. 📊 Xem tổng quan học lực\n2. ⚠ Kiểm tra môn nào dễ rớt\n3. 🎯 Gợi ý lộ trình cải thiện điểm\n4. 💙 Lấy lại động lực học tập\n\n*(Gợi ý: Hãy bấm vào các nút bên dưới)*`,
     chartData: null,
     actions: ['Tình hình học tập', 'Làm sao kéo điểm', 'Động lực học']
   };

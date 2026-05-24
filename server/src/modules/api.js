@@ -1341,6 +1341,15 @@ router.post('/chat', async (req, res) => {
       } catch (e) { /* ignore parse error */ }
     }
 
+    if (typeof chartData === 'string' && chartData.includes('|||CHART_DATA:')) {
+      const match = chartData.match(/\|\|\|CHART_DATA:(.*?)\|\|\|/);
+      if (match) {
+        try {
+          chartData = JSON.parse(match[1]);
+        } catch (e) {}
+      }
+    }
+
     // Strip <think> tags from any LLM response
     reply = reply.replace(/<think>[\s\S]*?<\/think>\s*/gi, '').trim();
 

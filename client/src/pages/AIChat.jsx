@@ -989,10 +989,10 @@ export default function AIChat() {
                     {msg.sender === 'ai' ? (
                       <div className="prose prose-invert prose-sm max-w-none relative group pb-2">
                         {formatText(msg.text)}
-                        {msg.chartData && (
+                        {msg.chartData && typeof msg.chartData === 'object' && ['gpa', 'risk', 'attendance', 'risk_distribution', 'bottleneck'].includes(msg.chartData.type) && (
                           <div className="mt-4 mb-2 bg-slate-950/40 p-4 rounded-xl border border-white/10 w-[500px] max-w-full overflow-x-auto">
                             {msg.chartData.type === 'gpa' && <GPATrendChart data={msg.chartData.data} />}
-                            {msg.chartData.type === 'risk' && <RiskBreakdownChart data={msg.chartData.data} />}
+                            {(msg.chartData.type === 'risk' || msg.chartData.type === 'risk_distribution') && <RiskBreakdownChart data={msg.chartData.data} />}
                             {msg.chartData.type === 'attendance' && <AttendanceChart data={msg.chartData.data} />}
                           </div>
                         )}
