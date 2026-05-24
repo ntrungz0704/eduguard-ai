@@ -51,11 +51,14 @@ manager.addDocument('vi', 'kiến trúc hệ thống là gì', 'query.system_inf
 manager.addDocument('vi', 'công thức pearson', 'query.system_info');
 manager.addDocument('vi', 'chi tiết công thức', 'query.system_info');
 manager.addDocument('vi', 'hệ thống hoạt động thế nào', 'query.system_info');
+manager.addDocument('vi', 'Tổng quan chương trình đào tạo FPT có tổng cộng bao nhiêu môn học?', 'query.system_info');
+manager.addDocument('vi', 'Mô hình phân tích chuỗi môn học tiên quyết hoạt động như thế nào?', 'query.system_info');
 manager.addDocument('vi', 'help', 'query.system_info');
 manager.addDocument('vi', 'giúp đỡ', 'query.system_info');
 
 // Intent: Thống kê tổng quan lớp học / Top rủi ro
 manager.addDocument('vi', 'thống kê hệ thống', 'query.statistics');
+manager.addDocument('vi', 'Thống kê danh sách sinh viên học lực yếu có nguy cơ cao?', 'query.statistics');
 manager.addDocument('vi', 'thống kê danh sách sinh viên học lực yếu', 'query.statistics');
 manager.addDocument('vi', 'danh sách sinh viên nguy cơ', 'query.statistics');
 manager.addDocument('vi', 'môn nào dễ tạch nhất hệ thống', 'query.statistics');
@@ -75,6 +78,7 @@ manager.addDocument('vi', 'danh sách cần cứu gấp', 'query.statistics');
 manager.addDocument('vi', 'phân tích toàn lớp', 'query.statistics');
 
 // Intent: Bottleneck Subject
+manager.addDocument('vi', 'Môn nào dễ trượt nhất hệ thống?', 'query.bottleneck');
 manager.addDocument('vi', 'môn nào dễ trượt nhất', 'query.bottleneck');
 manager.addDocument('vi', 'môn nào kéo gpa cả lớp', 'query.bottleneck');
 manager.addDocument('vi', 'môn tiên quyết nào gây fail dây chuyền nhiều nhất', 'query.bottleneck');

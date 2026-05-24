@@ -8,11 +8,13 @@ function routeIntent(msg, nlpIntent = 'None', activeStudent = null) {
   const classKeywords = [
     "ai cần can thiệp", "sinh viên nguy cơ cao", "tình hình lớp", "bottleneck", 
     "môn dễ fail", "môn kéo gpa", "top sinh viên rủi ro", "phân tích lớp", 
-    "thống kê lớp", "tình hình toàn lớp", "danh sách sinh viên nguy cơ"
+    "thống kê lớp", "tình hình toàn lớp", "danh sách sinh viên nguy cơ",
+    "môn nào dễ trượt", "sinh viên học lực yếu", "thống kê danh sách"
   ];
   const systemKeywords = [
     "hệ thống hoạt động thế nào", "thuật toán gì", "pearson", "regression", 
-    "explainable ai", "dependency graph", "kiến trúc", "hybrid"
+    "explainable ai", "dependency graph", "kiến trúc", "hybrid", "mô hình phân tích chuỗi",
+    "hoạt động như thế nào", "tổng quan chương trình đào tạo", "bao nhiêu môn học"
   ];
   const studentKeywords = ["phân tích sinh viên", "risk score của", "gpa của", "phân tích"];
   
