@@ -394,6 +394,7 @@ export default function AIChat() {
   };
 
   const handleSend = async (textToSend) => {
+    if (loading) return;
     const msgText = textToSend || input;
     if (!msgText.trim()) return;
 
@@ -1090,7 +1091,6 @@ export default function AIChat() {
                         ? `Hỏi hệ thống về học lực, điểm số rủi ro của ${sessionActiveStudent.name}...`
                         : "Nhập câu hỏi học thuật, thống kê học sinh yếu toàn khoa..."
                   }
-                  disabled={loading}
                   className="flex-1 bg-transparent border-none outline-none text-slate-100 text-sm py-1.5 px-2 resize-none placeholder-slate-500 min-h-[38px] custom-scrollbar focus:ring-0"
                 />
               </div>
