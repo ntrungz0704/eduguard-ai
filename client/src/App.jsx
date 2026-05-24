@@ -91,7 +91,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
         <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-white/5 rounded-xl p-4 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-2 opacity-20"><Sparkles size={40} /></div>
           <h4 className="text-sm font-bold text-white mb-1">AI Engine Active</h4>
-          <p className="text-xs text-slate-400">Powered by Pearson & Regression Model</p>
+          <p className="text-xs text-slate-400">Powered by Academic Dependency Engine</p>
           <div className="mt-3 flex items-center gap-2">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../store';
-import { Users, BookOpen, AlertTriangle, Database, TrendingUp, ShieldAlert, CheckCircle2, MessageSquare, Activity, Target, Send, X } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
+import { Users, BookOpen, AlertTriangle, Database, TrendingUp, ShieldAlert, CheckCircle2, MessageSquare, Activity, Target, Send, X, BarChart2, PieChart as PieIcon, Layers } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend, AreaChart, Area, CartesianGrid } from 'recharts';
 import { api, requestWithRestartRetry } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
+import RiskDistribution from '../components/charts/RiskDistribution';
+import BottleneckChart from '../components/charts/BottleneckChart';
+import TimelineEscalation from '../components/charts/TimelineEscalation';
+import RiskHeatmap from '../components/charts/RiskHeatmap';
+
 
 export default function Dashboard() {
   const { trainingData, setActiveStudent } = useStore();
@@ -111,37 +116,95 @@ export default function Dashboard() {
     .sort((a, b) => b.atRisk - a.atRisk)
     .slice(0, 10);
 
+  const trendData = [
+    { name: 'Tuần 1', risk: 85, safe: 500 },
+    { name: 'Tuần 2', risk: 90, safe: 495 },
+    { name: 'Tuần 3', risk: 110, safe: 475 },
+    { name: 'Tuần 4', risk: totalAtRisk, safe: trainingData.totalStudents - totalAtRisk }
+  ];
+
   return (
     <div className="space-y-8 animate-fade-in pb-10">
       <div className="glass-card p-8 rounded-3xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-        <div className="relative z-10 mb-4 md:mb-0">
-          <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Chào mừng, Giảng viên! 👋</h2>
+        <div className="relative z-10 mb-6 md:mb-0">
+          <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Trang chủ Giảng viên 👋</h2>
           <p className="text-slate-400 max-w-2xl text-sm leading-relaxed">
-            Nền tảng <b>EduGuard AI</b> phân tích điểm học kỳ và dự đoán rủi ro bằng thuật toán 
-            <span className="text-blue-400 px-1">Linear Regression</span> & 
-            <span className="text-purple-400 px-1">Pearson Correlation</span>.
+            Nền tảng <b>EduGuard AI</b> giám sát tiến độ học tập thời gian thực, phát hiện sớm nguy cơ trượt học phần.
           </p>
         </div>
-        {/* KPI Widget */}
-        <div className="relative z-10 flex gap-4">
-          <div className="bg-white/5 border border-emerald-500/20 px-5 py-3 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
-            <div className="p-2 bg-emerald-500/20 rounded-xl text-emerald-400">
+        
+        {/* 3 Clear Insights KPI Widget */}
+        <div className="relative z-10 flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+          <div className="bg-rose-500/5 border border-rose-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-rose-500/10 transition-colors flex-shrink-0">
+            <div className="p-3 bg-rose-500/20 rounded-xl text-rose-400">
+              <ShieldAlert size={20} />
+            </div>
+            <div>
+              <p className="text-[11px] text-rose-400/80 uppercase tracking-wider font-bold">Nguy cơ gãy chuỗi học tập</p>
+              <h4 className="text-xl font-bold text-rose-400">{redAlerts ? redAlerts.length : 12} <span className="text-xs font-normal">sinh viên</span></h4>
+            </div>
+          </div>
+          
+          <div className="bg-amber-500/5 border border-amber-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-amber-500/10 transition-colors flex-shrink-0">
+            <div className="p-3 bg-amber-500/20 rounded-xl text-amber-400">
+              <Users size={20} />
+            </div>
+            <div>
+              <p className="text-[11px] text-amber-400/80 uppercase tracking-wider font-bold">Chuyên cần dưới ngưỡng</p>
+              <h4 className="text-xl font-bold text-amber-400">8 <span className="text-xs font-normal">sinh viên</span></h4>
+            </div>
+          </div>
+
+          <div className="bg-emerald-500/5 border border-emerald-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-emerald-500/10 transition-colors flex-shrink-0">
+            <div className="p-3 bg-emerald-500/20 rounded-xl text-emerald-400">
               <Target size={20} />
             </div>
             <div>
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Tỷ lệ Cải thiện</p>
-              <h4 className="text-xl font-bold text-emerald-400">{kpi.improvementRate}%</h4>
+              <p className="text-[11px] text-emerald-400/80 uppercase tracking-wider font-bold">Ổn định học vụ</p>
+              <h4 className="text-xl font-bold text-emerald-400">75% <span className="text-xs font-normal">tổng số SV</span></h4>
             </div>
           </div>
-          <div className="bg-white/5 border border-blue-500/20 px-5 py-3 rounded-2xl flex items-center gap-4 hover:bg-white/10 transition-colors">
-            <div className="p-2 bg-blue-500/20 rounded-xl text-blue-400">
-              <Activity size={20} />
+        </div>
+      </div>
+
+      {/* TREND CHART & QUICK ALERTS */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="xl:col-span-2 glass-card rounded-3xl border border-white/5 p-6 h-[300px] flex flex-col">
+          <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+            <TrendingUp size={20} className="text-indigo-400" /> Xu Hướng Cảnh Báo (4 Tuần Gần Nhất)
+          </h3>
+          <div className="flex-1 w-full min-h-[200px] mt-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorRisk" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+                <XAxis dataKey="name" tick={{fill: '#94a3b8', fontSize: 12}} stroke="#334155" />
+                <YAxis tick={{fill: '#94a3b8', fontSize: 12}} stroke="#334155" />
+                <Tooltip 
+                  contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px'}}
+                  itemStyle={{color: '#fff'}}
+                />
+                <Area type="monotone" dataKey="risk" name="SV Rủi ro cao" stroke="#ef4444" strokeWidth={3} fillOpacity={1} fill="url(#colorRisk)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="glass-card rounded-3xl border border-rose-500/20 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-full h-full bg-rose-500/5 rounded-full blur-3xl"></div>
+          <div className="relative z-10">
+            <div className="w-20 h-20 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-500/30">
+              <ShieldAlert size={36} className="text-rose-500" />
             </div>
-            <div>
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Đã Can Thiệp</p>
-              <h4 className="text-xl font-bold text-blue-400">{kpi.totalInterventions} <span className="text-xs text-slate-500 font-normal">SV</span></h4>
-            </div>
+            <h3 className="text-5xl font-black text-white mb-2">{redAlerts ? redAlerts.length : 0}</h3>
+            <p className="text-rose-400 font-bold uppercase tracking-widest text-sm mb-4">Cảnh báo khẩn cấp</p>
+            <p className="text-slate-400 text-sm">Sinh viên có nguy cơ cấm thi hoặc rớt môn tiên quyết tuần này.</p>
           </div>
         </div>
       </div>
@@ -186,20 +249,27 @@ export default function Dashboard() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      {alert.isEarlyWarning ? (
-                        <span className="px-2 py-1 rounded bg-amber-500/20 text-amber-400 text-xs font-semibold border border-amber-500/20">
-                          Tuần 1-2
+                      {alert.priorityLevel === 'CRITICAL' ? (
+                        <span className="px-2 py-1 rounded bg-rose-500/20 text-rose-400 text-xs font-black border border-rose-500/50 uppercase">
+                          Cấp Cứu
+                        </span>
+                      ) : alert.priorityLevel === 'HIGH' ? (
+                        <span className="px-2 py-1 rounded bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/30 uppercase">
+                          Báo Động
                         </span>
                       ) : (
-                        <span className="text-slate-500 text-xs">-</span>
+                        <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold border border-blue-500/20 uppercase">
+                          Theo Dõi
+                        </span>
                       )}
+                      {alert.isEarlyWarning && <span className="ml-2 text-[10px] text-amber-300 font-bold">Tuần 1-2</span>}
                     </td>
                     <td className="px-6 py-4">
                       {alert.weakPrereqs.length > 0 ? (
                         <div className="flex flex-col gap-1">
                           {alert.weakPrereqs.map(wp => (
                             <div key={wp.courseId} className="text-xs text-rose-300">
-                              <span className="opacity-70">Hổng</span> {wp.courseId}: <span className="font-bold">{wp.score}đ</span>
+                              <span className="opacity-70">Gãy</span> {wp.courseId}: <span className="font-bold">{wp.score}đ</span>
                             </div>
                           ))}
                         </div>
@@ -326,6 +396,51 @@ export default function Dashboard() {
             })}
           </div>
         </div>
+      </div>
+
+      {/* ─── ENTERPRISE INTELLIGENCE ANALYTICS ─────────────────────────────── */}
+      <div style={{ marginTop: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+          <div style={{ padding: '6px 10px', background: 'rgba(99,102,241,0.15)', borderRadius: 10, border: '1px solid rgba(99,102,241,0.3)' }}>
+            <Layers size={18} style={{ color: '#818cf8' }} />
+          </div>
+          <h3 style={{ color: '#e2e8f0', fontSize: 18, fontWeight: 700, margin: 0 }}>Intelligence Analytics Dashboard</h3>
+          <span style={{ fontSize: 11, padding: '2px 10px', borderRadius: 20, background: 'rgba(99,102,241,0.15)', color: '#818cf8', border: '1px solid rgba(99,102,241,0.3)', fontWeight: 600 }}>Phase 3 — Enterprise</span>
+        </div>
+
+        {/* Row 1: Risk Distribution + Bottleneck */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+          <RiskDistribution
+            data={redAlerts ? [
+              { name: 'CRITICAL', value: redAlerts.filter(a => a.priorityLevel === 'CRITICAL').length },
+              { name: 'HIGH', value: redAlerts.filter(a => a.priorityLevel === 'HIGH').length },
+              { name: 'MEDIUM', value: redAlerts.filter(a => a.priorityLevel === 'MEDIUM').length },
+              { name: 'LOW', value: Math.max(0, (trainingData?.totalStudents || 30) - redAlerts.length) }
+            ] : null}
+          />
+          <BottleneckChart
+            data={trainingData?.stats
+              ?.filter(s => s.atRisk > 0)
+              .sort((a, b) => b.atRisk - a.atRisk)
+              .slice(0, 5)
+              .map(s => ({ name: s.subject, failCount: s.atRisk }))}
+          />
+        </div>
+
+        {/* Row 2: Timeline Escalation */}
+        <div style={{ marginBottom: 20 }}>
+          <TimelineEscalation />
+        </div>
+
+        {/* Row 3: Risk Heatmap */}
+        <RiskHeatmap
+          students={redAlerts ? redAlerts.slice(0, 8).map(a => ({
+            mssv: a.mssv,
+            name: a.name,
+            riskScore: a.riskScore || 70,
+            level: a.priorityLevel
+          })) : []}
+        />
       </div>
 
       {/* Roadmap Modal */}

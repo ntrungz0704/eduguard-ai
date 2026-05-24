@@ -581,7 +581,36 @@ export default function AIChat() {
         flushList(`list-${i}`);
       }
       
-      // 3. Regular text paragraph
+      // 3. Headers
+      if (line.startsWith('### ')) {
+        const text = line.replace('### ', '');
+        elements.push(
+          <h4 key={`h4-${i}`} className="text-lg font-bold text-white mt-4 mb-2">
+            {parseInlineStyles(text)}
+          </h4>
+        );
+        continue;
+      }
+      if (line.startsWith('## ')) {
+        const text = line.replace('## ', '');
+        elements.push(
+          <h3 key={`h3-${i}`} className="text-xl font-bold text-white mt-5 mb-3 border-b border-white/10 pb-2">
+            {parseInlineStyles(text)}
+          </h3>
+        );
+        continue;
+      }
+      if (line.startsWith('# ')) {
+        const text = line.replace('# ', '');
+        elements.push(
+          <h2 key={`h2-${i}`} className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 mt-6 mb-4">
+            {parseInlineStyles(text)}
+          </h2>
+        );
+        continue;
+      }
+      
+      // 4. Regular text paragraph
       if (line === '') {
         continue;
       }
@@ -645,7 +674,7 @@ export default function AIChat() {
       : [
           { text: 'Môn nào dễ trượt nhất hệ thống?', label: '🔥 Top môn dễ trượt', icon: <AlertTriangle size={12} className="text-rose-400" /> },
           { text: 'Thống kê danh sách sinh viên học lực yếu có nguy cơ cao?', label: '⚠️ Cảnh báo sinh viên yếu', icon: <Bot size={12} className="text-purple-400" /> },
-          { text: 'Chi tiết công thức toán thuật toán Pearson dự đoán học thuật?', label: '📐 Thuật toán Pearson', icon: <Terminal size={12} className="text-cyan-400" /> },
+          { text: 'Mô hình phân tích chuỗi môn học tiên quyết hoạt động như thế nào?', label: '📐 Knowledge Graph', icon: <Terminal size={12} className="text-cyan-400" /> },
           { text: 'Tổng quan chương trình đào tạo FPT có tổng cộng bao nhiêu môn học?', label: '📚 Chương trình đào tạo', icon: <BookOpen size={12} className="text-emerald-400" /> }
         ];
 

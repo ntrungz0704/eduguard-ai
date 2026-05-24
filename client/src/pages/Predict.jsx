@@ -93,11 +93,11 @@ export default function Predict() {
   const [predictableSubjects, setPredictableSubjects] = useState([]);
   const [uploadedStudentsData, setUploadedStudentsData] = useState([]);
 
-  // Pearson correlation matrix state
-  const [pearsonData, setPearsonData] = useState(null);
-  const [pearsonLoading, setPearsonLoading] = useState(false);
+  // Dependency Graph state
+  const [graphData, setGraphData] = useState(null);
+  const [graphLoading, setGraphLoading] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
-  const [pearsonFilter, setPearsonFilter] = useState('core');
+  const [graphFilter, setGraphFilter] = useState('core');
 
   // Pending save variables for verification workflow
   const [pendingStudents, setPendingStudents] = useState([]);
@@ -125,21 +125,21 @@ export default function Predict() {
   }, [subject]);
 
   useEffect(() => {
-    const fetchPearsonMatrix = async () => {
-      setPearsonLoading(true);
+    const fetchDependencyGraph = async () => {
+      setGraphLoading(true);
       try {
         const res = await requestWithRestartRetry(() => api.get('/pearson-matrix'));
-        setPearsonData(res.data);
+        setGraphData(res.data);
       } catch (err) {
         console.error("Lỗi nạp Pearson Matrix:", err);
       } finally {
-        setPearsonLoading(false);
+        setGraphLoading(false);
       }
     };
-    fetchPearsonMatrix();
+    fetchDependencyGraph();
   }, []);
 
-  const subjects = predictableSubjects.length > 0 ? predictableSubjects : (trainingData?.stats?.map(s => s.subject) || []);
+  const subjects = predictableSubjects.length > 0 ? predictableSubjects : (trainingData?.stats?.map(s => typeof s === 'string' ? s : s.subject) || []);
 
   const handlePredict = async () => {
     if (!subject) return alert('Vui lòng chọn môn cần dự đoán!');
@@ -346,7 +346,7 @@ export default function Predict() {
           <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
             <Zap size={22} className="text-blue-400" /> AI Engine Core
           </h3>
-          <p className="text-sm text-slate-400 mb-6">EduGuard AI sẽ phân tích các môn tiên quyết có hệ số tương quan (Pearson r) cao nhất để tính toán điểm rủi ro.</p>
+          <p className="text-sm text-slate-400 mb-6">EduGuard AI sẽ phân tích mức độ hụt kiến thức của các môn học nền tảng để tính toán nguy cơ rớt môn chuyên ngành.</p>
           
           <div className="space-y-4">
             <div className="relative">
@@ -376,7 +376,7 @@ export default function Predict() {
         </div>
       </div>
 
-      {/* Pearson Correlation Matrix */}
+      {/* Dependency Graph Matrix */}
       <div className="glass-card p-6 rounded-3xl border border-white/10 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <TrendingUp size={120} className="text-blue-400" />
@@ -385,26 +385,26 @@ export default function Predict() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 relative z-10">
           <div>
             <h3 className="text-xl font-bold text-white flex items-center gap-2">
-              <TrendingUp size={22} className="text-blue-400" /> Bản Đồ Hệ Số Tương Quan Học Thuật (Pearson Matrix)
+              <TrendingUp size={22} className="text-blue-400" /> Bản Đồ Liên Kết Môn Tiên Quyết (Dependency Graph)
             </h3>
             <p className="text-xs text-slate-400 mt-1 max-w-2xl">
-              Hệ số Pearson (r) chỉ ra mức độ liên kết học vụ giữa các học phần trong FPT Polytechnic. Giúp phát hiện lỗ hổng kiến thức dây chuyền của sinh viên.
+              Sơ đồ chỉ ra mức độ liên kết học vụ giữa các học phần nền tảng và chuyên ngành trong chương trình 34 môn. Giúp phát hiện lỗ hổng kiến thức dây chuyền của sinh viên.
             </p>
           </div>
           
           <div className="flex bg-black/35 p-1 rounded-xl border border-white/10 self-start md:self-auto">
             <button
-              onClick={() => { setPearsonFilter('core'); setSelectedCell(null); }}
+              onClick={() => { setGraphFilter('core'); setSelectedCell(null); }}
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                pearsonFilter === 'core' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+                graphFilter === 'core' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               8 Môn Cốt Lõi
             </button>
             <button
-              onClick={() => { setPearsonFilter('all'); setSelectedCell(null); }}
+              onClick={() => { setGraphFilter('all'); setSelectedCell(null); }}
               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                pearsonFilter === 'all' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
+                graphFilter === 'all' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               Tất Cả Môn
@@ -412,14 +412,14 @@ export default function Predict() {
           </div>
         </div>
 
-        {pearsonLoading ? (
+        {graphLoading ? (
           <div className="p-12 text-center text-slate-400 flex items-center justify-center gap-2">
             <span className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-bounce"></span>
             <span className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-bounce delay-75"></span>
             <span className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-bounce delay-150"></span>
-            Đang tính toán hệ số tương quan học bạ...
+            Đang phân tích chuỗi liên kết 34 môn học...
           </div>
-        ) : pearsonData ? (
+        ) : graphData ? (
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 relative z-10">
             
             {/* Heatmap Grid */}
@@ -429,8 +429,8 @@ export default function Predict() {
                   <thead>
                     <tr>
                       <th className="p-2 text-[10px] font-bold text-slate-500 text-left w-36 uppercase tracking-wider">Môn học gốc</th>
-                      {pearsonData.subjects
-                        .filter(sub => pearsonFilter === 'all' || CORE_SUBJECTS_FILTER.includes(sub))
+                      {graphData.subjects
+                        .filter(sub => graphFilter === 'all' || CORE_SUBJECTS_FILTER.includes(sub))
                         .map(sub => (
                           <th key={sub} className="p-2 text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center w-20 truncate max-w-[80px]" title={sub}>
                             {sub.split(' ').pop()}
@@ -440,10 +440,10 @@ export default function Predict() {
                     </tr>
                   </thead>
                   <tbody>
-                    {pearsonData.matrix
-                      .filter(row => pearsonFilter === 'all' || CORE_SUBJECTS_FILTER.includes(row.subject))
+                    {graphData.matrix && graphData.matrix
+                      .filter(row => graphFilter === 'all' || CORE_SUBJECTS_FILTER.includes(row.subject))
                       .map(row => {
-                        const activeSubjects = pearsonData.subjects.filter(sub => pearsonFilter === 'all' || CORE_SUBJECTS_FILTER.includes(sub));
+                        const activeSubjects = graphData.subjects.filter(sub => graphFilter === 'all' || CORE_SUBJECTS_FILTER.includes(sub));
                         return (
                           <tr key={row.subject} className="hover:bg-white/5 transition-colors border-b border-white/5">
                             <td className="p-2.5 text-slate-300 font-semibold text-xs text-left truncate max-w-[140px]" title={row.subject}>
@@ -518,7 +518,7 @@ export default function Predict() {
                     </div>
 
                     <div className="text-[9px] text-slate-500 mt-4 text-right italic">
-                      Dữ liệu tính toán từ {pearsonData.matrix.length} học bạ thực tế.
+                      Dữ liệu tính toán từ {graphData.matrix.length} học bạ thực tế.
                     </div>
                   </div>
                 );
@@ -538,7 +538,7 @@ export default function Predict() {
           </div>
         ) : (
           <div className="p-6 text-center text-slate-500 text-xs border border-white/5 rounded-2xl">
-            Không thể tải dữ liệu ma trận Pearson. Vui lòng kiểm tra lại kết nối API.
+            Không thể tải sơ đồ liên kết môn học. Vui lòng kiểm tra lại kết nối API.
           </div>
         )}
       </div>
@@ -699,7 +699,7 @@ export default function Predict() {
                     <span className="font-bold text-rose-400 text-lg">{result.validation.rmse}</span>
                   </div>
                   <div className="col-span-2 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20 flex justify-between items-center">
-                    <span className="text-emerald-400 font-medium">Độ chính xác (Accuracy)</span>
+                    <span className="text-emerald-400 font-medium">Độ tin cậy (Confidence)</span>
                     <span className="font-black text-emerald-400 text-xl">{result.validation.accuracy}%</span>
                   </div>
                 </div>
@@ -713,7 +713,7 @@ export default function Predict() {
                   {result.topFeatures.map(f => (
                     <div key={f.subject} className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs flex items-center gap-2 hover:bg-white/10 transition-colors">
                       <span className="text-slate-200 font-medium">{f.subject}</span>
-                      <span className="text-blue-400 font-bold bg-blue-500/10 px-2 py-0.5 rounded-md" title="Hệ số tương quan tuyến tính Pearson (r)">r = {f.r}</span>
+                      <span className="text-blue-400 font-bold bg-blue-500/10 px-2 py-0.5 rounded-md" title="Mức độ ảnh hưởng dây chuyền">Impact: {f.r > 0.5 ? "Mạnh" : "Vừa"}</span>
                       {f.hybridScore !== undefined && (
                         <span className="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md" title="Hệ số tương quan kết hợp sơ đồ môn học tiên quyết (Hybrid Score)">Độ ưu tiên: {f.hybridScore}</span>
                       )}
@@ -748,7 +748,7 @@ export default function Predict() {
                   {result.validation?.accuracy && (
                     <div className="bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-2 rounded-2xl flex items-center gap-2 self-start sm:self-auto">
                       <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                      <span className="text-xs font-bold text-emerald-400">Độ chính xác AI: {result.validation.accuracy}%</span>
+                      <span className="text-xs font-bold text-emerald-400">Độ tin cậy hệ thống: {result.validation.accuracy}%</span>
                     </div>
                   )}
                 </div>
@@ -853,37 +853,41 @@ export default function Predict() {
                     <h6 className="text-[10px] text-slate-400 uppercase tracking-widest font-black mb-3">Phân tích yếu tố ảnh hưởng (Explainable AI)</h6>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wide">Môn học tác động tích cực</span>
-                        <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
+                        <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wide">Điểm mạnh / Hỗ trợ chuyên ngành</span>
+                        <ul className="space-y-2 max-h-36 overflow-y-auto pr-1 list-none">
                           {singleStudent.reasons?.filter(r => r.impact === 'positive').length > 0 ? (
                             singleStudent.reasons?.filter(r => r.impact === 'positive').map((r, i) => (
-                              <div key={i} className="p-2.5 bg-emerald-500/5 border border-emerald-500/10 rounded-xl text-xs flex items-center gap-2 text-emerald-300">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
-                                <span className="font-semibold">{r.subject}: {r.score}đ</span>
-                                <span className="text-[10px] bg-emerald-500/10 px-1.5 py-0.5 rounded-md font-bold">r = {r.r}</span>
-                              </div>
+                              <li key={i} className="text-xs flex items-center gap-2 text-emerald-300">
+                                <span>🟢</span>
+                                <span className="font-semibold">Nắm vững môn nền tảng: {r.subject} ({r.score}đ)</span>
+                              </li>
                             ))
                           ) : (
-                            <span className="text-xs text-slate-500 italic block">Không có môn bổ trợ điểm nổi bật.</span>
+                            <span className="text-xs text-slate-500 italic block">Chưa ghi nhận ưu điểm nổi bật.</span>
                           )}
-                        </div>
+                        </ul>
                       </div>
 
                       <div className="space-y-2">
-                        <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wide">Môn học kéo điểm / Rủi ro hổng</span>
-                        <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
+                        <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wide">Lỗ hổng kiến thức / Cảnh báo</span>
+                        <ul className="space-y-2 max-h-36 overflow-y-auto pr-1 list-none">
                           {singleStudent.reasons?.filter(r => r.impact === 'negative').length > 0 ? (
                             singleStudent.reasons?.filter(r => r.impact === 'negative').map((r, i) => (
-                              <div key={i} className="p-2.5 bg-rose-500/5 border border-rose-500/10 rounded-xl text-xs flex items-center gap-2 text-rose-300">
-                                <div className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></div>
-                                <span className="font-semibold">{r.subject}: {r.score}đ</span>
-                                <span className="text-[10px] bg-rose-500/10 px-1.5 py-0.5 rounded-md font-bold">r = {r.r}</span>
-                              </div>
+                              <li key={i} className="text-xs flex items-center gap-2 text-rose-300">
+                                <span>🔴</span>
+                                <span className="font-semibold">Mất gốc môn {r.subject} ({r.score}đ) gây đứt gãy chuỗi.</span>
+                              </li>
                             ))
                           ) : (
-                            <span className="text-xs text-slate-500 italic block">Hệ thống chưa ghi nhận môn hổng kiến thức.</span>
+                            <span className="text-xs text-slate-500 italic block">Chưa ghi nhận hổng kiến thức nền tảng.</span>
                           )}
-                        </div>
+                          {singleStudent.risk === 'high' && (
+                            <li className="text-xs flex items-center gap-2 text-rose-300">
+                                <span>🔴</span>
+                                <span className="font-semibold">Dấu hiệu chuyên cần giảm sút trong chuỗi học vụ.</span>
+                            </li>
+                          )}
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -1071,7 +1075,7 @@ export default function Predict() {
             <div>
               <h4 className="text-xl font-bold text-white mb-2">Chưa đủ dữ liệu hồi quy</h4>
               <p className="text-slate-300 text-sm leading-relaxed max-w-xl">
-                {result.message || 'Mô hình học máy hiện chưa có đủ số lượng mẫu sinh viên để xây dựng hồi quy tuyến tính'} cho môn học <strong>{result.target}</strong>. Điểm số của sinh viên không thể dự báo chính xác bằng mô hình HK-Pearson hiện tại.
+                {result.message || 'Hệ thống hiện chưa có đủ số lượng sinh viên học qua chuỗi môn này để phân tích chuỗi rủi ro'} cho môn học <strong>{result.target}</strong>. Điểm số của sinh viên không thể phân tích chính xác bằng Academic Dependency Engine hiện tại.
               </p>
               <div className="mt-4 flex gap-3">
                 <button onClick={() => setSubject('')} className="px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 rounded-xl text-xs font-bold border border-amber-500/20 transition-all">Chọn môn học khác</button>

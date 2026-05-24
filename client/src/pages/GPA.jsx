@@ -36,9 +36,8 @@ export default function GPA() {
     api.get('/students-search?q=').then(res => setStudents(res.data)).catch(console.error);
   }, []);
 
-  const handleStudentSelect = async (e) => {
-    const id = e.target.value;
-    setSelectedStudentId(id);
+  const fetchStudentData = async () => {
+    const id = selectedStudentId.trim().toUpperCase();
     if (!id) {
       setStudentData(null);
       return;
@@ -151,12 +150,22 @@ export default function GPA() {
 
         <div className="relative z-10 w-full md:w-80 group">
           <label className="block text-xs uppercase tracking-wider font-semibold text-cyan-400 mb-2 flex items-center gap-2"><User size={14}/> Phân tích theo sinh viên</label>
-          <select value={selectedStudentId} onChange={handleStudentSelect} className="w-full p-4 bg-black/40 border border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 text-white transition-all appearance-none cursor-pointer">
-            <option value="">-- Lựa chọn Sinh viên --</option>
-            {students.map(s => (
-              <option key={s.id || s.mssv} value={s.id || s.mssv}>{s.name} ({s.id || s.mssv})</option>
-            ))}
-          </select>
+          <div className="flex gap-2">
+            <input 
+              type="text" 
+              placeholder="Nhập MSSV (VD: PS12345)..." 
+              value={selectedStudentId} 
+              onChange={e => setSelectedStudentId(e.target.value)} 
+              onKeyDown={e => e.key === 'Enter' && fetchStudentData()}
+              className="w-full p-4 bg-black/40 border border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 text-white transition-all font-bold uppercase"
+            />
+            <button 
+              onClick={fetchStudentData} 
+              className="bg-cyan-600 hover:bg-cyan-500 text-white p-4 rounded-2xl transition-colors shadow-lg shadow-cyan-500/20 font-bold whitespace-nowrap"
+            >
+              Phân tích
+            </button>
+          </div>
         </div>
       </div>
 
