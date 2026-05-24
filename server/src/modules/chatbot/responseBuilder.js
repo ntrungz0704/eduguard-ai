@@ -3,7 +3,7 @@
 // Converts structured AI decision data into human-readable responses
 // ============================================================
 
-const { buildRiskDistributionChartData, buildBottleneckChartData, buildGpaChartData } = require('./chartRenderer');
+
 const { generateClassInsight, generateStudentInsight } = require('./insightGenerator');
 const { generateInterventionRoadmap } = require('./recommendationEngine');
 

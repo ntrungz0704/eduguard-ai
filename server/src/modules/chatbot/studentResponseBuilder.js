@@ -3,7 +3,7 @@
 // Formatting responses for students (Encouraging tone)
 // ============================================================
 
-const { buildGpaChartData } = require('./chartRenderer');
+const { buildGpaChartData } = require('./responseBuilder');
 
 function buildStudentResponse(decisionData) {
   if (!decisionData) return buildStudentFallback(null);
