@@ -4,7 +4,7 @@ const path = require('path');
 
 let model = null;
 
-// Custom IOHandler to load model locally without using @tensorflow/tfjs-node C++ bindings
+// Custom IOHandler to load model locally
 function customFileHandler(modelDir) {
     return {
         load: async () => {
@@ -28,36 +28,38 @@ function customFileHandler(modelDir) {
 }
 
 async function loadModel() {
-    console.log("🚀 [TFJS] Đang nạp mô hình Machine Learning (Inference Pipeline)...");
-    const modelDir = path.join(__dirname, '..', 'models', 'tfjs');
+    console.log("🚀 [TFJS] Đang nạp Prototype ML Prediction Model...");
+    const modelDir = path.join(__dirname, '..', 'training', 'risk_model'); // Trỏ tới thư mục vừa export
     
     try {
         model = await tf.loadLayersModel(customFileHandler(modelDir));
-        console.log("✅ [TFJS] Tải mô hình thành công. Hệ thống ML Prediction sẵn sàng.");
+        console.log("✅ [TFJS] Tải mô hình thành công. ML Prediction Engine sẵn sàng.");
     } catch (err) {
-        console.warn("⚠️ [TFJS] Chưa tìm thấy dữ liệu huấn luyện (model_data). Đang chạy Fallback mode (chưa có trọng số học máy). Hãy chạy `npm run train`.");
+        console.warn("⚠️ [TFJS] Chưa tìm thấy dữ liệu huấn luyện. Hãy chạy `npm run train`.");
         model = null;
     }
 }
 
-// Hàm dự đoán rủi ro
-function predictRisk(attendance, quizAvg, labAvg, failedSubjects, dependencyImpact) {
+// Hàm dự đoán rủi ro (ML Prediction)
+// Features: [gpa, failRate, attendance_rate, assignment_avg, quiz_avg, late_submission, missed_deadlines]
+function predictRisk(gpa, failRate, attendance, assignAvg, quizAvg, lateSub, missedDeadlines) {
     if (!model) {
-        // Fallback rule-based risk if ML model isn't loaded
-        const baseRisk = failedSubjects * 15 + dependencyImpact * 10;
-        return Math.min(Math.max((baseRisk + (100 - attendance) / 2) / 100, 0), 1);
+        // Fallback
+        return 0;
     }
     
     const inputTensor = tf.tensor2d([[
+        gpa,
+        failRate,
         attendance,
+        assignAvg,
         quizAvg,
-        labAvg,
-        failedSubjects,
-        dependencyImpact
+        lateSub,
+        missedDeadlines
     ]]);
     
     const prediction = model.predict(inputTensor);
-    const riskScore = prediction.dataSync()[0]; // Trả về giá trị 0.0 -> 1.0
+    const riskScore = prediction.dataSync()[0]; // 0.0 -> 1.0
     
     return riskScore;
 }

@@ -11,7 +11,7 @@ const app = express();
 // Apply Rate Limiting
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
+  max: 10000, // Increased for demo to avoid blocking
   standardHeaders: true,
   legacyHeaders: false,
   message: { status: 'error', message: 'Quá nhiều request, vui lòng thử lại sau.' }

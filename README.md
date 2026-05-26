@@ -88,13 +88,14 @@ eduguard-ai/
 ```
 
 ## 12. Future Roadmap
-- Nâng cấp mô hình từ Weighted Scoring tĩnh sang **Deep Learning (LSTM/RNN)** để phân tích chuỗi thời gian (Time-series prediction).
-- Tích hợp trực tiếp với API của LMS (Canvas/Moodle) để lấy dữ liệu Real-time Attendance và Quiz scores.
-- Bắn thông báo can thiệp tự động qua SMS/Zalo ZNS.
+- Tích hợp trực tiếp với API của LMS (Canvas/Moodle) để lấy dữ liệu hành vi thực tế (Real-time Attendance, Quiz scores, Assignment submissions) thay vì nội suy từ điểm số học thuật.
+- Cập nhật mô hình từ **Prototype Prediction Model** lên các thuật toán Time-series (RNN/LSTM) để dự báo xu hướng chuỗi thời gian dựa trên các sự kiện tương tác của sinh viên.
+- Bắn thông báo can thiệp tự động qua SMS/Zalo ZNS cho sinh viên và cố vấn học tập.
 
-## 13. Limitations
-- **Dataset:** Dữ liệu huấn luyện hiện tại là dữ liệu mô phỏng (Mock data), chưa phải là Big Data thực tế do rào cản bảo mật của nhà trường.
-- Hệ thống chỉ mới đóng gói thành Enterprise-style Prototype, chưa triển khai lên kiến trúc Cloud Native (Microservices) do giới hạn về tài nguyên.
+## 13. Limitations (Giới hạn hiện tại của mô hình)
+- **Data Correlation & Self-labeling:** Dữ liệu hành vi học tập hiện tại (attendance, quiz) được nội suy dựa trên tương quan với điểm số học thuật thực tế nhằm mục đích trình diễn tính khả thi của hệ thống (Prototype Demo). Do sử dụng phương pháp tự dán nhãn (Self-labeling) dựa trên các bộ quy tắc (Rules), mô hình có thể gặp hiện tượng *overfitting nhẹ*.
+- **Quy mô tập dữ liệu:** Hệ thống đang được huấn luyện trên tập dữ liệu bảng điểm của hơn 650 sinh viên. Dù là dữ liệu thật, nhưng chưa đạt đến quy mô Big Data để các mô hình Deep Learning có thể phát huy tối đa sức mạnh.
+- **Kiến trúc Deployment:** Hệ thống được thiết kế dưới dạng Enterprise-style Prototype (Modular Monolith) để dễ dàng triển khai cục bộ, chưa đóng gói thành kiến trúc Cloud Native (Microservices) do giới hạn về tài nguyên.
 
 ## 14. Authors
 - **Sinh viên thực hiện:** [Nguyễn Phạm Thành Trung - PS47261], [Nguyễn Minh Hiếu - PS47348], [Mai Thị Vỹ An - PS47503]

@@ -244,16 +244,32 @@ function calculateExplainableRisk(student) {
   }
 
   // ─────────────────────────────────────────────────────────────
-  // FINAL SCORE
+  // FINAL SCORE & HYBRID PREDICTION
   // ─────────────────────────────────────────────────────────────
   const riskScore = Math.min(100, Math.round(totalScore));
   const riskLevel = getRiskLevel(riskScore);
 
   // Sort reasons by impact descending
   reasons.sort((a, b) => b.impact - a.impact);
+  
+  // Call ML Predictor for AI Assessment
+  const { predictRisk } = require('./inference/riskPredictor');
+  
+  // Simulate behavioral features based on real GPA for the Prototype Engine
+  // In a real production system, these would be fetched from LMS (Canvas/Moodle)
+  const failRate = student.scores.length > 0 ? failedCount / student.scores.length : 0;
+  const simAttendance = avgAttendance / 100;
+  const simAssignAvg = gpa; 
+  const simQuizAvg = Math.max(0, gpa - 1);
+  const simLateSub = gpa > 7 ? 0 : 3;
+  const simMissed = gpa > 6 ? 0 : 2;
+  
+  const mlRawScore = predictRisk(gpa, failRate, simAttendance, simAssignAvg, simQuizAvg, simLateSub, simMissed);
+  const mlProbability = Math.round(mlRawScore * 100);
 
   const result = {
-    riskScore,
+    riskScore, // Rule-based (XAI) Risk Score
+    mlProbability, // Machine Learning Prediction
     level: riskLevel.label,
     emoji: riskLevel.emoji,
     reasons,
