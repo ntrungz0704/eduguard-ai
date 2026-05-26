@@ -1,0 +1,13 @@
+node_modules
+client/node_modules
+.git
+.github
+dist
+build
+coverage
+.env
+*.log
+docs
+.vscode
+.next
+.cache
