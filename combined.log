@@ -1508,3 +1508,30 @@
 {"domain":"DSS","factorCount":0,"level":"info","message":"[DSS] MSSV: PS47261 | Score: 0 | Level: LOW | Factors: 0","mssv":"PS47261","riskScore":0,"service":"eduguard-ai-backend","timestamp":"2026-05-25 06:07:15"}
 {"domain":"REQUEST","durationMs":5,"level":"info","message":"[REQUEST] POST /api/chatbot | 200 | 5ms | TraceId: f7ef6be4-0716-45a4-9bae-29aee4db7b75","method":"POST","path":"/api/chatbot","service":"eduguard-ai-backend","statusCode":200,"timestamp":"2026-05-25 06:07:15","traceId":"f7ef6be4-0716-45a4-9bae-29aee4db7b75"}
 {"level":"info","message":"[NLP_ORCHESTRATOR] Pipeline complete in 5ms | Intent: STUDENT_RECOMMENDATION_INTENT","service":"eduguard-ai-backend","timestamp":"2026-05-25 06:07:15"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-25 06:10:10"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-25 06:10:10"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:40:23"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:40:24"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:40:57"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:40:58"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:40:59"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:00"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:01"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:02"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:03"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:04"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:05"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:06"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:07"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:08"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:09"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:10"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:11"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:12"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:13"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:14"}
+{"level":"warn","message":"⚠️ Cổng 3000 đang bận, sẽ tự động thử lại sau 1 giây...","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:15"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:16"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:41:16"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:42:06"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:42:06"}
