@@ -15,7 +15,6 @@
     "boot:full": "npm run kill && npm run train && npm run train:chat && npm run build:client && concurrently \"npm run server\" \"npm run preview\"",
     "start": "node server/server.js",
     "preview": "npm run preview --prefix client -- --port 5173",
-    "postinstall": "prisma generate",
     "kill": "node server/src/jobs/kill-ports.js",
     "test": "jest --passWithNoTests"
   },
