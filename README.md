@@ -97,5 +97,8 @@ eduguard-ai/
 - Hệ thống chỉ mới đóng gói thành Enterprise-style Prototype, chưa triển khai lên kiến trúc Cloud Native (Microservices) do giới hạn về tài nguyên.
 
 ## 14. Authors
-- **Sinh viên thực hiện:** [Tên sinh viên]
-- **Giảng viên hướng dẫn:** [Tên giảng viên]
+- **Sinh viên thực hiện:** [Tên của bạn - PS47261]
+- **Giảng viên hướng dẫn:** [Tên Giảng viên]
+
+---
+*Tài liệu, hướng dẫn cài đặt và bảo vệ đồ án chi tiết được lưu trữ trong thư mục `/docs`. Chúc bạn bảo vệ đồ án thành công!*
