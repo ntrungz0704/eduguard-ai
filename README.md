@@ -97,7 +97,7 @@ eduguard-ai/
 - Hệ thống chỉ mới đóng gói thành Enterprise-style Prototype, chưa triển khai lên kiến trúc Cloud Native (Microservices) do giới hạn về tài nguyên.
 
 ## 14. Authors
-- **Sinh viên thực hiện:** [Tên của bạn - PS47261]
+- **Sinh viên thực hiện:** [Nguyễn Phạm Thành Trung - PS47261], [Nguyễn Minh Hiếu - PS47348], [Mai Thị Vỹ An - PS47503]
 - **Giảng viên hướng dẫn:** [Tên Giảng viên]
 
 ---
