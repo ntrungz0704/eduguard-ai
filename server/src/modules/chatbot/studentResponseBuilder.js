@@ -11,7 +11,7 @@ function buildStudentResponse(decisionData) {
   switch (decisionData.type) {
     case 'STUDENT_GREETING':
       return {
-        text: '👋 Xin chào! Mình là Copilot học tập của bạn. Hôm nay bạn muốn xem tình hình học tập, kiểm tra môn nguy hiểm hay lên lộ trình kéo điểm?',
+        text: '👋 Xin chào! Mình là Trợ lý AI EduGuard của bạn. Hôm nay bạn muốn xem tình hình học tập, kiểm tra môn nguy hiểm hay lên lộ trình kéo điểm?',
         chartData: null,
         actions: ['Tình hình học tập', 'Môn nào nguy hiểm', 'Cách kéo điểm']
       };
