@@ -29,7 +29,7 @@ COPY --from=builder /app/client/dist ./public
 
 # Copy server code
 COPY server ./server
-COPY .env ./
+
 
 # Expose API port
 EXPOSE 3000
