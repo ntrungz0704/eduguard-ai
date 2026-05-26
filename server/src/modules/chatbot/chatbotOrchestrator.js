@@ -9,8 +9,8 @@ const { extractAllEntities } = require('./entityExtractor');
 const { getSession } = require('./sessionMemory');
 const { executeDecision } = require('./aiDecisionEngine');
 const { executeStudentDecision } = require('./studentEngine');
-const { buildResponse } = require('./responseBuilder');
-const { buildStudentResponse } = require('./studentResponseBuilder');
+const { buildTeacherResponse } = require('./response/teacherResponseBuilder');
+const { buildStudentResponse } = require('./response/studentResponseBuilder');
 const { guardConfidence } = require('./confidenceGuard');
 const { routeStudentIntent } = require('./studentIntentRouter');
 const appLogger = require('../../infrastructure/logger');
@@ -132,7 +132,7 @@ async function orchestrateChatbot(req, sessionId) {
     }
 
     // Step 8: Build Response
-    const responseObj = buildResponse(decisionData);
+    const responseObj = buildTeacherResponse(decisionData);
     text = responseObj.text;
     chartData = responseObj.chartData;
     actions = responseObj.actions;

@@ -1541,3 +1541,5 @@
 {"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:47:58"}
 {"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:51:45"}
 {"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:51:45"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:56:02"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-26 17:56:02"}

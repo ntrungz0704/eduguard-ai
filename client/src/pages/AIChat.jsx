@@ -1051,7 +1051,7 @@ export default function AIChat() {
                     <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
                     <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce delay-300"></span>
-                    <span>NLP Router đang truy vấn Database...</span>
+                    <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">🧠 EduGuard AI đang phân tích dữ liệu học tập...</span>
                   </div>
                 </div>
               </div>
