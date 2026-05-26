@@ -996,7 +996,7 @@ export default function AIChat() {
                             {msg.chartData.type === 'attendance' && <AttendanceChart data={msg.chartData.data} />}
                           </div>
                         )}
-                        {msg.actions && msg.actions.length > 0 && (
+                        {Array.isArray(msg.actions) && msg.actions.length > 0 && (
                           <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
                             {msg.actions.map((actionText, idx) => (
                               <button key={idx} onClick={() => { setInput(actionText); handleSend(actionText); }} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">
