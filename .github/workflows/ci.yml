@@ -21,10 +21,10 @@ jobs:
         cache: 'npm'
 
     - name: Install Root Dependencies
-      run: npm ci
+      run: npm ci --legacy-peer-deps
 
     - name: Install Client Dependencies
-      run: cd client && npm ci
+      run: cd client && npm ci --legacy-peer-deps
 
     - name: Generate Prisma Client
       run: npx prisma generate
