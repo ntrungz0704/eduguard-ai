@@ -80,24 +80,35 @@ eduguard-ai/
 │   │   ├── modules/  # Controller giao tiếp (API, NLP Assistant)
 │   │   └── infrastructure/ # Database, Logger, Cache
 ├── prisma/           # Schema & SQLite Database
-├── docs/             # Tài liệu đồ án
+├── docs/             # Tài liệu đồ án và Báo cáo thi SmartGen AI
+│   ├── BaoCao_EduGuardAI.md
+│   ├── PitchDeck_EduGuardAI.md
+│   ├── Presentation_Script.md
+│   └── Architecture_EduGuardAI.md
 ├── screenshots/      # Ảnh chụp giao diện
 ├── generated/        # Dữ liệu xuất (Excel, PDF)
 ├── package.json
 └── README.md
 ```
 
-## 12. Future Roadmap
+## 12. SmartGen AI Challenge 2026 🏆
+Dự án được chuẩn bị cho vòng sơ loại cuộc thi SmartGen AI Challenge 2026. Các tài liệu bảo vệ dự án bao gồm:
+- 📄 **[Báo Cáo Kỹ Thuật (Sơ loại)](docs/BaoCao_EduGuardAI.md)**: Chi tiết kiến trúc, dữ liệu và DSS.
+- 🖼️ **[Pitch Deck (20 Slides)](docs/PitchDeck_EduGuardAI.md)**: Slide thuyết trình chuẩn Startup.
+- 🎤 **[Kịch Bản Thuyết Trình (5 Phút) & Q&A](docs/Presentation_Script.md)**: Script nói và bộ 10 câu hỏi phòng thủ.
+- 🗺️ **[Sơ đồ Kiến trúc AI](docs/Architecture_EduGuardAI.md)**: Mermaid diagram của hệ thống.
+
+## 13. Future Roadmap
 - Tích hợp trực tiếp với API của LMS (Canvas/Moodle) để lấy dữ liệu hành vi thực tế (Real-time Attendance, Quiz scores, Assignment submissions) thay vì nội suy từ điểm số học thuật.
 - Cập nhật mô hình từ **Prototype Prediction Model** lên các thuật toán Time-series (RNN/LSTM) để dự báo xu hướng chuỗi thời gian dựa trên các sự kiện tương tác của sinh viên.
 - Bắn thông báo can thiệp tự động qua SMS/Zalo ZNS cho sinh viên và cố vấn học tập.
 
-## 13. Limitations (Giới hạn hiện tại của mô hình)
+## 14. Limitations (Giới hạn hiện tại của mô hình)
 - **Data Correlation & Self-labeling:** Dữ liệu hành vi học tập hiện tại (attendance, quiz) được nội suy dựa trên tương quan với điểm số học thuật thực tế nhằm mục đích trình diễn tính khả thi của hệ thống (Prototype Demo). Do sử dụng phương pháp tự dán nhãn (Self-labeling) dựa trên các bộ quy tắc (Rules), mô hình có thể gặp hiện tượng *overfitting nhẹ*.
 - **Quy mô tập dữ liệu:** Hệ thống đang được huấn luyện trên tập dữ liệu bảng điểm của hơn 650 sinh viên. Dù là dữ liệu thật, nhưng chưa đạt đến quy mô Big Data để các mô hình Deep Learning có thể phát huy tối đa sức mạnh.
 - **Kiến trúc Deployment:** Hệ thống được thiết kế dưới dạng Enterprise-style Prototype (Modular Monolith) để dễ dàng triển khai cục bộ, chưa đóng gói thành kiến trúc Cloud Native (Microservices) do giới hạn về tài nguyên.
 
-## 14. Authors
+## 15. Authors
 - **Sinh viên thực hiện:** [Nguyễn Phạm Thành Trung - PS47261], [Nguyễn Minh Hiếu - PS47348], [Mai Thị Vỹ An - PS47503]
 - **Giảng viên hướng dẫn:** [Tên Giảng viên]
 
