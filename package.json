@@ -30,6 +30,8 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "prisma": "^7.8.0",
     "@tensorflow/tfjs": "^4.22.0",
     "better-sqlite3": "^12.10.0",
     "cors": "^2.8.5",
@@ -48,11 +50,9 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@prisma/client": "^7.8.0",
     "autocannon": "^8.0.0",
     "concurrently": "^9.2.1",
     "jest": "^30.4.2",
-    "prisma": "^7.8.0",
     "supertest": "^7.2.2"
   }
 }
