@@ -2232,3 +2232,4 @@
 {"action":"SET","domain":"CACHE","key":"class:analytics","level":"info","message":"[CACHE] SET | class:analytics → TTL: 300s","service":"eduguard-ai-backend","timestamp":"2026-05-26 22:00:03"}
 {"domain":"REQUEST","durationMs":1301,"level":"info","message":"[REQUEST] POST /api/chatbot | 200 | 1301ms | TraceId: 0062c341-862c-4de5-8c0e-913e61510b98","method":"POST","path":"/api/chatbot","service":"eduguard-ai-backend","statusCode":200,"timestamp":"2026-05-26 22:00:03","traceId":"0062c341-862c-4de5-8c0e-913e61510b98"}
 {"level":"info","message":"[NLP_ORCHESTRATOR] Pipeline complete in 1301ms | Intent: CLASS_ANALYTICS_INTENT","service":"eduguard-ai-backend","timestamp":"2026-05-26 22:00:03"}
+{"level":"info","message":"\nSIGINT received. Bắt đầu Graceful Shutdown...","service":"eduguard-ai-backend","timestamp":"2026-05-26 22:05:01"}

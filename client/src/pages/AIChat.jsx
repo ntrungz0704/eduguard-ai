@@ -5,6 +5,7 @@ import { api, requestWithRestartRetry } from '../lib/api';
 import GPATrendChart from '../components/charts/GPATrendChart';
 import RiskBreakdownChart from '../components/charts/RiskBreakdownChart';
 import AttendanceChart from '../components/charts/AttendanceChart';
+import BottleneckChart from '../components/charts/BottleneckChart';
 
 export default function AIChat() {
   const activeStudent = useStore(state => state.activeStudent);
@@ -991,9 +992,10 @@ export default function AIChat() {
                         {formatText(msg.text)}
                         {msg.chartData && typeof msg.chartData === 'object' && ['gpa', 'risk', 'attendance', 'risk_distribution', 'bottleneck'].includes(msg.chartData.type) && (
                           <div className="mt-4 mb-2 bg-slate-950/40 p-4 rounded-xl border border-white/10 w-[500px] max-w-full overflow-x-auto">
-                            {msg.chartData.type === 'gpa' && <GPATrendChart data={msg.chartData.data} />}
-                            {(msg.chartData.type === 'risk' || msg.chartData.type === 'risk_distribution') && <RiskBreakdownChart data={msg.chartData.data} />}
-                            {msg.chartData.type === 'attendance' && <AttendanceChart data={msg.chartData.data} />}
+                            {msg.chartData.type === 'gpa' && Array.isArray(msg.chartData.data) && <GPATrendChart data={msg.chartData.data} />}
+                            {(msg.chartData.type === 'risk' || msg.chartData.type === 'risk_distribution') && Array.isArray(msg.chartData.data) && <RiskBreakdownChart data={msg.chartData.data} />}
+                            {msg.chartData.type === 'attendance' && Array.isArray(msg.chartData.data) && <AttendanceChart data={msg.chartData.data} />}
+                            {msg.chartData.type === 'bottleneck' && Array.isArray(msg.chartData.data) && <BottleneckChart data={msg.chartData.data} />}
                           </div>
                         )}
                         {Array.isArray(msg.actions) && msg.actions.length > 0 && (
