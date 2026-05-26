@@ -1033,9 +1033,9 @@ export default function AIChat() {
                   <div className={`text-[9px] text-slate-500 font-semibold px-2 flex items-center gap-1.5 ${
                     msg.sender === 'user' ? 'justify-end' : 'justify-start'
                   }`}>
-                    <span>{msg.sender === 'user' ? (currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên') : 'Hệ thống'}</span>
+                    <span>{msg.sender === 'user' ? (currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên') : 'EduGuard AI'}</span>
                     <span>•</span>
-                    <span>{msg.time}</span>
+                    <span>{msg.sender === 'user' ? msg.time : `Last Analysis: ${msg.time}`}</span>
                   </div>
                 </div>
               </div>
