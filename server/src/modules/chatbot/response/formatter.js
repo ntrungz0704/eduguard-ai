@@ -5,15 +5,21 @@
 // ============================================================
 
 /**
- * Phân tích điểm Risk Score để đưa ra Mức độ Tự tin (Confidence)
+ * Phân tích điểm Risk Score để đưa ra Mức độ Tự tin (Confidence Calibration)
  * @param {number} riskScore 
  * @returns {string} High/Medium/Low
  */
 function formatConfidence(riskScore) {
-  if (typeof riskScore !== 'number') return 'Medium';
-  if (riskScore >= 80) return 'High';
-  if (riskScore >= 60) return 'Medium';
-  return 'Low';
+  if (typeof riskScore !== 'number') return 'Medium (Probability: N/A)';
+  
+  // Normalize risk score to probability (0.0 to 1.0)
+  const prob = riskScore / 100;
+  
+  let confidence = 'Low';
+  if (prob >= 0.85) confidence = 'High';
+  else if (prob >= 0.65) confidence = 'Medium';
+  
+  return `${confidence} (Probability: ${(prob * 100).toFixed(1)}%)`;
 }
 
 /**

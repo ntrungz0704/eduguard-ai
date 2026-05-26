@@ -85,6 +85,10 @@ manager.addDocument('vi', 'môn tiên quyết nào gây fail dây chuyền nhi�
 manager.addDocument('vi', 'môn khó nhất', 'query.bottleneck');
 manager.addDocument('vi', 'môn fail nhiều', 'query.bottleneck');
 manager.addDocument('vi', 'môn tiên quyết nguy hiểm', 'query.bottleneck');
+manager.addDocument('vi', 'môn dễ rớt', 'query.bottleneck');
+manager.addDocument('vi', 'môn dễ fail', 'query.bottleneck');
+manager.addDocument('vi', 'môn bottleneck', 'query.bottleneck');
+manager.addDocument('vi', 'môn nào dễ trượt', 'query.bottleneck');
 
 // Intent: Trend
 manager.addDocument('vi', 'xu hướng lớp học', 'query.trend');
