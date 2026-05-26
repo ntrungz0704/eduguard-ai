@@ -25,6 +25,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN apk add --no-cache python3 make g++
 RUN npm install --production --legacy-peer-deps
+COPY prisma ./prisma
+RUN npx prisma generate
 
 # Copy built assets from builder
 COPY --from=builder /app/client/dist ./public
