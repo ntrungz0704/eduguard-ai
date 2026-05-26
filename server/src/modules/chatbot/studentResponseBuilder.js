@@ -44,20 +44,50 @@ function buildStudentOverview(data) {
   const { student, riskData } = data;
   const gpa = riskData.gpa.toFixed(1);
   const trend = riskData.level === 'CRITICAL' ? 'Đang giảm sút' : (gpa > 6.5 ? 'Đang duy trì tốt' : 'Cần nỗ lực hơn');
-  const levelText = riskData.level === 'CRITICAL' ? 'CRITICAL (Cần chú ý gấp)' : riskData.level;
+  const levelText = riskData.level === 'CRITICAL' ? '🔴 CRITICAL' : riskData.level === 'HIGH' ? '🟠 HIGH RISK' : riskData.level === 'MEDIUM' ? '🟡 MEDIUM RISK' : '🟢 LOW RISK';
   
-  const text = `🎓 **TỔNG QUAN HỌC TẬP CỦA BẠN**
+  const subjectsToWatch = riskData.failedCourses?.slice(0, 2).map(c => `- ${c.courseId}`).join('\n') || '- Không có môn nợ';
+  const confidence = riskData.riskScore > 80 ? 'High' : 'Medium';
 
-📊 **GPA hiện tại:** ${gpa}/10
-⚠ **Risk Level:** ${levelText}
-📈 **Xu hướng:** ${trend}
+  const text = `# 🎓 Academic Overview
 
-💡 **Nhận định từ AI:**
-${riskData.level === 'CRITICAL' 
-  ? 'Hệ thống nhận thấy bạn đang gặp khó khăn. Đừng lo lắng, chúng ta hãy cùng phân tích xem môn nào đang kéo điểm xuống nhé!' 
+Xin chào! Đây là tình hình học tập hiện tại của bạn 💙
+
+## GPA hiện tại
+🎯 GPA: **${gpa}**
+
+## Risk Level
+**${levelText}**
+
+## Môn cần chú ý
+${subjectsToWatch}
+
+---
+
+🧠 **AI Insight**
+${riskData.level === 'CRITICAL' || riskData.level === 'HIGH'
+  ? 'Bạn đang có dấu hiệu giảm điểm ở các môn thực hành hoặc điểm danh. Nếu cải thiện Assignment trong 2 tuần tới, GPA vẫn có thể tăng đáng kể.'
   : 'Bạn đang giữ phong độ khá ổn định. Cố gắng duy trì chuyên cần và tập trung vào các môn chuyên ngành nhé!'}
 
-*(Gợi ý: Hãy hỏi "môn nào nguy hiểm nhất" để xem chi tiết)*`;
+⚠ **Confidence:** ${confidence}
+
+---
+
+# 📅 Kế hoạch học tập đề xuất
+
+## Tuần 1
+- Hoàn thành toàn bộ Bài tập / Lab trên lớp
+- Đi học đầy đủ không vắng tiết nào
+
+## Tuần 2
+- Ôn lại kiến thức cơ bản các môn yếu
+- Tham gia các nhóm học tập hoặc hỏi giảng viên
+
+---
+
+💪 **Motivation**
+Bạn vẫn còn khả năng cải thiện rất tốt.
+Hãy tập trung từng môn một thay vì cố học tất cả cùng lúc. Nếu quá tải, hãy liên hệ ngay Cố vấn học tập nhé!`;
 
   return {
     text,

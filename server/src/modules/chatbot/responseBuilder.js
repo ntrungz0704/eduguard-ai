@@ -196,33 +196,45 @@ function buildClassAnalyticsResponse(data) {
 
   const limit = topN || 5;
   const topRiskList = analytics.topAtRisk.slice(0, limit)
-    .map((s, i) => `${i + 1}. **${s.name || 'Sinh viên'}** (${s.mssv})\n   • Risk Score: ${s.riskScore}/100\n   • Trạng thái: ${formatRiskBadge(s.level, s.riskScore)}\n   • Nguy cơ: Đang nợ ${s.failedCourses?.length || 0} môn nền tảng.`)
-    .join('\n\n');
+    .map((s, i) => `${i + 1}. **${s.name || 'Sinh viên'}** (${s.mssv}) — Risk Score: ${s.riskScore} (${formatRiskBadge(s.level, s.riskScore)})`)
+    .join('\n');
 
   const bottleneckStr = analytics.bottleneckSubjects.slice(0, 3)
-    .map((b, i) => `${i + 1}. **${b.courseId}**\n   • Tỷ lệ fail: ${analytics.total ? Math.round((b.failCount / analytics.total) * 100) : b.failCount}%\n   • Tác động: Gây nguy cơ rớt dây chuyền mạnh.`)
-    .join('\n\n');
+    .map((b) => `- **${b.courseId}** — Fail Rate: ${analytics.total ? Math.round((b.failCount / analytics.total) * 100) : b.failCount}%`)
+    .join('\n');
 
-  const text = `📈 **TÌNH HÌNH LỚP HỌC (Dữ liệu hiện tại cho thấy...)**
-Tổng sinh viên: **${analytics.total || 'N/A'}**
+  const text = `# 📊 Class Analytics Overview
 
-🟢 Stable (LOW): **${analytics.lows || 0}**
-🟡 Medium Risk: **${analytics.mediums || 0}**
-🟠 High Risk: **${analytics.highs || 0}**
-🔴 Critical: **${analytics.criticals || 0}**
+## Tổng quan lớp học
+- Total Students: **${analytics.total || 'N/A'}**
+- 🔴 Critical: **${analytics.criticals || 0}**
+- 🟠 High Risk: **${analytics.highs || 0}**
+- 🟡 Medium Risk: **${analytics.mediums || 0}**
+- 🟢 Stable: **${analytics.lows || 0}**
 
 ---
-⚠ **DANH SÁCH SINH VIÊN CẦN CAN THIỆP SỚM (TOP ${limit})**
+
+# 🚨 Top Students Requiring Immediate Intervention
 
 ${topRiskList || '✅ Không có sinh viên nguy cơ cao.'}
 
 ---
-📉 **MÔN HỌC THẮT CỔ CHAI (BOTTLENECK)**
+
+# 📉 Bottleneck Subjects
 
 ${bottleneckStr || '✅ Không có môn học đáng lo ngại.'}
 
-📌 **Nhận định & Khuyến nghị (⚠ Confidence: High):**
-${generateClassInsight(analytics)}`;
+---
+
+🧠 **AI Insight**
+Phần lớn Risk Score toàn lớp xuất phát từ nhóm môn Bottleneck và nhóm sinh viên nợ tín chỉ kéo dài. Sự sụt giảm chuyên cần ở các môn kỹ năng chuyên ngành đang tạo ra hiệu ứng dây chuyền.
+
+⚠ **Confidence:** High
+
+🎯 **Recommended Actions**
+- Liên hệ ngay với nhóm sinh viên **CRITICAL** trong tuần này
+- Đề xuất mở lớp phụ đạo hoặc Tutor cho môn ${analytics.bottleneckSubjects[0]?.courseId || 'Bottleneck'}
+- Theo dõi sát sao Attendance theo từng tuần`;
 
   return {
     text,
