@@ -15,7 +15,7 @@ const Login = lazy(() => import('./pages/Login'));
 const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
 const Inbox = lazy(() => import('./pages/Inbox'));
 const Interventions = lazy(() => import('./pages/Interventions'));
-const KnowledgeGraphDashboard = lazy(() => import('./pages/KnowledgeGraphDashboard'));
+const AcademicRiskMap = lazy(() => import('./pages/AcademicRiskMap'));
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -27,7 +27,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
-    { path: '/knowledge-graph', icon: <Network size={20} />, label: 'Knowledge Graph' },
+    { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Learning Path Risk' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'NLP Analytics Assistant' }
   ];
@@ -326,7 +326,7 @@ function App() {
                     <Route path="/search" element={<StudentSearch />} />
                     <Route path="/predict" element={<Predict />} />
                     <Route path="/gpa" element={<GPA />} />
-                    <Route path="/knowledge-graph" element={<KnowledgeGraphDashboard />} />
+                    <Route path="/academic-risk-map" element={<AcademicRiskMap />} />
                     <Route path="/interventions" element={<Interventions />} />
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />
