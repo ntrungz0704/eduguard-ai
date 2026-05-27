@@ -1,15 +1,16 @@
-name: EduGuard AI CI/CD Pipeline
+name: EduGuard AI — CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 jobs:
   build-and-test:
+    name: Lint, Test & Build
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
@@ -32,7 +33,17 @@ jobs:
     - name: Lint Code
       run: npm run lint --if-present
 
-    - name: Test ML Offline Training Pipeline
+    - name: Run Unit Tests (AI Engine)
+      run: npm test
+      env:
+        NODE_ENV: test
+        DATABASE_URL: "file:./prisma/dev.db"
+
+    - name: Security Audit (High & Critical only)
+      run: npm audit --audit-level=high
+      continue-on-error: true  # Report but don't block CI until fixed
+
+    - name: Train ML Pipeline (Smoke Test)
       run: npm run train
 
     - name: Build Frontend
@@ -40,3 +51,4 @@ jobs:
 
     - name: Test Docker Image Build
       run: docker build -t eduguard-api:test .
+

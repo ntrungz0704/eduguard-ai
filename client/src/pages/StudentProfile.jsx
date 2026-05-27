@@ -433,6 +433,63 @@ export default function StudentProfile() {
             </div>
           )}
 
+          {/* Rule-based Recommendation Layer */}
+          {student.predictions && student.predictions.some(p => p.risk === 'CRITICAL' || p.risk === 'HIGH') && (
+            <div className="glass-card p-6 rounded-3xl border border-amber-500/20 bg-gradient-to-b from-amber-950/20 to-slate-900/40 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2 relative z-10">
+                <HeartHandshake className="text-amber-400" size={20} /> AI Đề Xuất Can Thiệp
+              </h3>
+              
+              <div className="space-y-3 relative z-10">
+                {student.predictions.map((p, i) => {
+                  if (p.risk !== 'CRITICAL' && p.risk !== 'HIGH') return null;
+                  
+                  let recommendations = [];
+                  if (p.risk === 'CRITICAL') {
+                    recommendations = [
+                      "🚨 Gọi điện khẩn cấp cho phụ huynh thông báo tình hình.",
+                      "📅 Đặt lịch hẹn cố vấn học tập 1-1 ngay trong tuần này.",
+                      "⚠️ Cảnh báo nguy cơ cấm thi do vắng quá 20% (nếu có)."
+                    ];
+                  } else if (p.risk === 'HIGH') {
+                    recommendations = [
+                      "📧 Gửi email nhắc nhở về tiến độ học tập và bài tập.",
+                      "👥 Đề xuất tham gia nhóm học tập/Tutoring của bộ môn.",
+                      "📚 Yêu cầu nộp bù bài tập/lab còn thiếu."
+                    ];
+                  }
+
+                  return (
+                    <div key={i} className="p-4 bg-black/40 rounded-xl border border-white/5 hover:border-amber-500/30 transition-colors">
+                      <div className="text-xs font-bold text-amber-400 mb-2 uppercase tracking-wider">
+                        Đối với môn {p.courseId} ({p.risk})
+                      </div>
+                      <ul className="space-y-2">
+                        {recommendations.map((rec, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
+                            <span className="text-amber-500 mt-0.5">•</span>
+                            <span>{rec}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSelectedCourse(p.courseId);
+                          setInterventionNote(recommendations.join('\n'));
+                        }}
+                        className="mt-3 px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-bold rounded-lg transition-colors border border-amber-500/20"
+                      >
+                        Áp dụng đề xuất này
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Action: Send Warning / Intervention Flag */}
           <div className="glass-card p-6 rounded-3xl border border-rose-500/20 bg-gradient-to-b from-rose-950/20 to-slate-900/40 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl"></div>

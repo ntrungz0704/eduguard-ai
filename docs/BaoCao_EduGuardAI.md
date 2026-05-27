@@ -24,10 +24,18 @@ EduGuard phục vụ hệ sinh thái gồm 3 nhóm người dùng chính:
 - **Sinh viên:** Có một "trợ lý học tập cá nhân" đồng hành, biết chính xác mình đang ở đâu, yếu môn nào, và cần làm gì để cải thiện.
 
 ## 4. GIẢI PHÁP ĐỀ XUẤT (THE SOLUTION)
-Chúng tôi xây dựng **EduGuard AI DSS** - hệ thống hỗ trợ phát hiện sớm nguy cơ học vụ dựa trên dữ liệu lịch sử, bao gồm:
-- **AI Risk Engine:** Mô hình Machine Learning được sử dụng để hỗ trợ phân loại mức độ nguy cơ học vụ dựa trên dữ liệu học tập lịch sử và các rule nghiệp vụ được xây dựng trong giai đoạn prototype.
+Chúng tôi xây dựng **EduGuard AI DSS** (Enterprise-style Prototype DSS) - hệ thống hỗ trợ phát hiện sớm nguy cơ học vụ dựa trên dữ liệu lịch sử, bao gồm:
+- **Prototype Predictive Scoring Model:** Phân tích dữ liệu để dự báo sớm lộ trình leo thang cảnh báo học vụ, kết hợp Rule-based + probabilistic educational risk analysis.
 - **Explainable AI (XAI):** Không chỉ đưa ra con số rủi ro, hệ thống giải thích rõ *nguyên nhân* bằng ngôn ngữ con người (vd: "Rủi ro do nợ 2 môn tiên quyết và GPA đang có xu hướng giảm sút").
 - **NLP Academic Assistant:** Trợ lý ảo hỗ trợ hội thoại theo ngữ cảnh phiên làm việc, hoạt động nội bộ, giúp tra cứu hồ sơ và đề xuất phương án can thiệp ngay trên cửa sổ chat.
+
+## 4.1. CÔNG THỨC TÍNH ĐIỂM RỦI RO (RISK FORMULA)
+Hệ thống sử dụng cơ chế kết hợp trọng số xác suất (không phải ngẫu nhiên, có logic kiểm chứng được) để phân loại mức độ rủi ro của sinh viên. Công thức prototype cơ bản:
+- **40%** Biến động GPA (GPA Trend)
+- **25%** Tỷ lệ Rớt môn / Nợ tiên quyết
+- **15%** Tỷ lệ Chuyên cần (Attendance)
+- **10%** Độ trễ nộp bài (Assignment Delay)
+- **10%** Mức độ Tương tác LMS (Login/Activity)
 
 ## 5. TÍNH NĂNG CỐT LÕI TẠO NÊN SỰ KHÁC BIỆT
 - **Risk Ranking (Phân loại Nguy cơ):** Tự động phân luồng sinh viên thành 4 nhóm (CRITICAL, HIGH, MEDIUM, LOW) dựa trên thuật toán AI.

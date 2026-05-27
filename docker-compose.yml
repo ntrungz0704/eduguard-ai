@@ -1,6 +1,14 @@
 version: '3.8'
 
+# ─────────────────────────────────────────────────────────────────────────────
+# EduGuard AI — Local Development Infrastructure
+# Run: docker-compose up -d
+# This starts the full local stack: App + PostgreSQL + Redis
+# ─────────────────────────────────────────────────────────────────────────────
+
 services:
+
+  # ── Main Application ────────────────────────────────────────────────────────
   eduguard-api:
     build: .
     container_name: eduguard-api
@@ -9,13 +17,63 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - DATABASE_URL=file:./prisma/dev.db  # SQLite for current prototype
+      - REDIS_URL=redis://redis_cache:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis_cache:
+        condition: service_started
     restart: unless-stopped
     volumes:
-      - ./server/prisma/dev.db:/app/server/prisma/dev.db
-      - ./server/ai_engine/model_data:/app/server/ai_engine/model_data
+      - ./prisma/dev.db:/app/prisma/dev.db
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
+      start_period: 15s
+    networks:
+      - app-network
+
+  # ── PostgreSQL (Ready for Phase 2 migration) ──────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: eduguard_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: eduguard
+      POSTGRES_PASSWORD: eduguard_dev_password
+      POSTGRES_DB: eduguard_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eduguard -d eduguard_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # ── Redis Cache ───────────────────────────────────────────────────────────
+  redis_cache:
+    image: redis:7-alpine
+    container_name: eduguard_redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+# ─────────────────────────────────────────────────────────────────────────────
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+

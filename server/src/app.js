@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const path = require('path');
 
 const rateLimit = require('express-rate-limit');
@@ -17,8 +18,18 @@ const apiLimiter = rateLimit({
   message: { status: 'error', message: 'Quá nhiều request, vui lòng thử lại sau.' }
 });
 
-app.use(cors());
-app.use(express.json());
+// Security Headers (sets 11 HTTP security headers automatically)
+app.use(helmet());
+
+// Strict CORS — only allow configured frontend origin
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-user-role', 'x-user-id', 'x-trace-id'],
+}));
+
+app.use(express.json({ limit: '10mb' }));
 app.use(traceIdMiddleware);
 
 // Serve static dashboard assets from public
@@ -43,10 +54,14 @@ app.get('/api/health', (req, res) => {
 const apiRouter = require('./modules/api');
 const commRouter = require('./modules/communication');
 const predictionRouter = require('./modules/prediction/routes');
+const authRouter = require('./modules/auth/routes');
+const studentsRouter = require('./modules/students/routes');
 
 app.use('/api', apiLimiter, apiRouter);
 app.use('/api/comm', apiLimiter, commRouter);
 app.use('/api/v1/prediction', apiLimiter, predictionRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/students', apiLimiter, studentsRouter);
 
 // Fallback to legacy index.html
 app.get('*', (req, res) => {
