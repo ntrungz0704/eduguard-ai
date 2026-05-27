@@ -1,17 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Network, AlertTriangle, ArrowRight, ShieldAlert, ShieldCheck, CheckCircle2, User, Loader2, Info } from 'lucide-react';
 import { api } from '../lib/api';
+import {
+  ReactFlow,
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  Handle,
+  Position,
+  MarkerType,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+
+// Custom Node for Course
+const CourseNode = ({ data }) => {
+  const { node } = data;
+  let bgClass = "bg-slate-800 border-slate-600";
+  let icon = <CheckCircle2 className="text-green-400" size={18} />;
+  
+  if (node.status === 'Failed' || node.status === 'Missing') {
+     bgClass = "bg-red-950/80 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.4)]";
+     icon = <ShieldAlert className="text-red-400" size={18} />;
+  } else if (node.status === 'Warning') {
+     bgClass = "bg-orange-950/80 border-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.2)]";
+     icon = <AlertTriangle className="text-orange-400" size={18} />;
+  } else if (node.status === 'Predicted Risk' || node.status === 'At Risk') {
+     bgClass = "bg-rose-950/60 border-rose-500 border-dashed border-2 shadow-[0_0_10px_rgba(244,63,94,0.3)]";
+     icon = <ShieldAlert className="text-rose-400" size={18} />;
+  }
+
+  return (
+    <div 
+      className={`rounded-xl p-3 border-2 transition-all w-56 ${bgClass} cursor-pointer hover:brightness-110`}
+      onClick={() => data.onSelect(node.id)}
+    >
+      <Handle type="target" position={Position.Left} className="w-2 h-2 bg-slate-400" />
+      <div className="flex items-start justify-between">
+         <div>
+            <div className="text-[10px] font-bold text-slate-400 mb-1">HK{node.semester || '?'} • {node.id}</div>
+            <div className="font-semibold text-white text-xs leading-tight mb-2">{node.name}</div>
+         </div>
+         <div className="ml-2 flex-shrink-0">{icon}</div>
+      </div>
+      <div className="flex items-center justify-between text-[10px] mt-1 pt-2 border-t border-white/10">
+         <span className="text-slate-400">Status: <span className="font-medium text-slate-200">{node.status}</span></span>
+         <span className="text-slate-400">Score: <span className="font-medium text-white text-xs">{node.score !== null ? node.score : 'N/A'}</span></span>
+      </div>
+      <Handle type="source" position={Position.Right} className="w-2 h-2 bg-slate-400" />
+    </div>
+  );
+};
 
 const AcademicRiskMap = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  
-  const [riskData, setRiskData] = useState(null);
   const [isLoadingRisk, setIsLoadingRisk] = useState(false);
+  const [explanations, setExplanations] = useState([]);
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
 
-  // Search for students
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  // React Flow node types must be memoized
+  const nodeTypes = useMemo(() => ({ course: CourseNode }), []);
+
   useEffect(() => {
     if (!searchQuery.trim()) {
       setSearchResults([]);
@@ -31,13 +87,65 @@ const AcademicRiskMap = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Load Risk Chain when a student is selected
+  const handleNodeClick = useCallback((nodeId) => {
+    setSelectedNodeId(nodeId);
+  }, []);
+
   const loadStudentRisk = async (mssv) => {
     setIsLoadingRisk(true);
-    setRiskData(null);
+    setNodes([]);
+    setEdges([]);
+    setExplanations([]);
+    setSelectedNodeId(null);
+
     try {
       const res = await api.get(`/graph/student-risk/${mssv}`);
-      setRiskData(res.data);
+      const data = res.data;
+      setExplanations(data.explanations || []);
+
+      // Group nodes by semester to calculate positions
+      const nodesBySem = {};
+      data.nodes.forEach(n => {
+        const s = n.semester || 0;
+        if (!nodesBySem[s]) nodesBySem[s] = [];
+        nodesBySem[s].push(n);
+      });
+
+      const flowNodes = [];
+      Object.keys(nodesBySem).forEach(semStr => {
+        const sem = parseInt(semStr);
+        const semNodes = nodesBySem[sem];
+        semNodes.forEach((n, idx) => {
+          flowNodes.push({
+            id: n.id,
+            type: 'course',
+            position: { x: (sem > 0 ? sem - 1 : 0) * 300, y: idx * 120 },
+            data: { node: n, onSelect: handleNodeClick }
+          });
+        });
+      });
+
+      const flowEdges = data.edges.map((e, idx) => {
+        let color = '#94a3b8'; // normal gray
+        if (e.type === 'critical') color = '#ef4444'; // red
+        else if (e.type === 'warning') color = '#f97316'; // orange
+
+        return {
+          id: \`e-\${e.from}-\${e.to}-\${idx}\`,
+          source: e.from,
+          target: e.to,
+          type: 'smoothstep',
+          animated: e.type === 'critical' || e.type === 'warning',
+          style: { stroke: color, strokeWidth: e.type === 'critical' ? 3 : 2 },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            color: color,
+          },
+        };
+      });
+
+      setNodes(flowNodes);
+      setEdges(flowEdges);
     } catch (err) {
       console.error(err);
       alert('Không thể phân tích chuỗi rủi ro cho sinh viên này.');
@@ -46,12 +154,16 @@ const AcademicRiskMap = () => {
     }
   };
 
-  // Demo List of students if search is empty
   const demoStudents = [
     { id: 'PC07988', name: 'Nguyễn Văn A' },
     { id: 'PS27463', name: 'Lê Thị B' },
     { id: 'PS28758', name: 'Trần Văn C' }
   ];
+
+  // Filter explanations for the selected node
+  const activeExplanations = selectedNodeId 
+    ? explanations.filter(e => e.course === selectedNodeId)
+    : explanations;
 
   return (
     <div className="h-full flex flex-col">
@@ -61,12 +173,12 @@ const AcademicRiskMap = () => {
             <Network className="text-blue-500" size={32} />
             Academic Risk Map
           </h1>
-          <p className="text-slate-400 mt-2">Phân tích chuỗi rủi ro học vụ (Learning Path Risk Analysis)</p>
+          <p className="text-slate-400 mt-2">Guided Academic Risk Flow Graph</p>
         </div>
       </div>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[600px]">
-        {/* LEFT COLUMN: Student Selection (3 cols) */}
+        {/* LEFT COLUMN: Student Selection */}
         <div className="lg:col-span-3 glass-panel rounded-2xl p-5 border border-white/5 flex flex-col h-full">
           <h2 className="font-semibold text-lg text-white mb-4 flex items-center gap-2">
             <User size={18} className="text-blue-400" /> Chọn Sinh Viên
@@ -98,114 +210,80 @@ const AcademicRiskMap = () => {
                 {st.name && <div className="text-xs text-slate-400 mt-1">{st.name}</div>}
               </button>
             ))}
-            {searchQuery && searchResults.length === 0 && !isSearching && (
-              <div className="text-center text-slate-500 text-sm mt-4">Không tìm thấy sinh viên</div>
-            )}
-            {isSearching && (
-              <div className="flex justify-center mt-4"><Loader2 className="animate-spin text-blue-500" size={20} /></div>
-            )}
           </div>
         </div>
 
-        {/* CENTER COLUMN: Risk Chain Flow (5 cols) */}
-        <div className="lg:col-span-5 glass-panel rounded-2xl p-6 border border-white/5 relative overflow-hidden flex flex-col">
-          <div className="absolute top-0 right-0 p-3 opacity-10"><Network size={120} /></div>
-          <h2 className="font-semibold text-lg text-white mb-6 relative z-10">Student Risk Chain</h2>
-          
-          {!selectedStudent ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-slate-500">
-              <Network size={48} className="mb-4 opacity-50" />
-              <p>Chọn một sinh viên để xem chuỗi rủi ro</p>
-            </div>
-          ) : isLoadingRisk ? (
+        {/* CENTER COLUMN: React Flow Timeline */}
+        <div className="lg:col-span-6 glass-panel rounded-2xl border border-white/5 relative overflow-hidden flex flex-col bg-[#0f172a]">
+          {isLoadingRisk ? (
             <div className="flex-1 flex flex-col items-center justify-center text-slate-500">
               <Loader2 size={48} className="mb-4 animate-spin text-blue-500" />
-              <p>Đang phân tích Knowledge Graph...</p>
+              <p>Đang tải Academic Dependency Map...</p>
             </div>
-          ) : riskData && riskData.nodes.length > 0 ? (
-            <div className="flex-1 overflow-y-auto relative z-10 px-2 py-4">
-               {/* Custom vertical flowchart rendering */}
-               <div className="flex flex-col items-center space-y-4">
-                 {riskData.nodes.map((node, idx) => {
-                    // Check if node is a source of a critical edge
-                    const isCriticalSource = riskData.edges.some(e => e.from === node.id && e.type === 'critical');
-                    const isCriticalTarget = riskData.edges.some(e => e.to === node.id && e.type === 'critical');
-                    
-                    let bgClass = "bg-slate-800/80 border-slate-600";
-                    let icon = <CheckCircle2 className="text-green-400" size={20} />;
-                    
-                    if (node.status === 'Failed' || node.status === 'Missing') {
-                       bgClass = "bg-red-900/40 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)]";
-                       icon = <ShieldAlert className="text-red-400" size={20} />;
-                    } else if (node.status === 'Warning') {
-                       bgClass = "bg-orange-900/40 border-orange-500";
-                       icon = <AlertTriangle className="text-orange-400" size={20} />;
-                    } else if (node.status === 'Predicted Risk' || node.status === 'At Risk' || isCriticalTarget) {
-                       bgClass = "bg-rose-900/30 border-rose-500 border-dashed border-2";
-                       icon = <ShieldAlert className="text-rose-400" size={20} />;
-                    }
-
-                    return (
-                      <React.Fragment key={node.id}>
-                        <div className={`w-full max-w-sm rounded-xl p-4 border transition-all ${bgClass} backdrop-blur-md`}>
-                          <div className="flex items-start justify-between">
-                             <div>
-                                <div className="text-xs font-bold text-slate-400 mb-1">{node.id}</div>
-                                <div className="font-semibold text-white text-sm">{node.name}</div>
-                             </div>
-                             <div>{icon}</div>
-                          </div>
-                          <div className="mt-3 flex items-center justify-between text-xs">
-                             <span className="text-slate-400">Status: <span className="font-medium text-slate-200">{node.status}</span></span>
-                             <span className="text-slate-400">Score: <span className="font-medium text-white">{node.score !== null ? node.score : 'N/A'}</span></span>
-                          </div>
-                        </div>
-                        
-                        {/* Render downward arrow if not the last node and there is an edge */}
-                        {idx < riskData.nodes.length - 1 && (
-                          <div className="flex flex-col items-center">
-                            <div className={`w-0.5 h-6 ${isCriticalSource ? 'bg-red-500' : 'bg-slate-600'}`}></div>
-                            <ArrowRight className={`transform rotate-90 -mt-1 ${isCriticalSource ? 'text-red-500' : 'text-slate-600'}`} size={16} />
-                          </div>
-                        )}
-                      </React.Fragment>
-                    );
-                 })}
-               </div>
+          ) : !selectedStudent ? (
+             <div className="flex-1 flex flex-col items-center justify-center text-slate-500">
+              <Network size={48} className="mb-4 opacity-50" />
+              <p>Chọn sinh viên để xem luồng học tập</p>
             </div>
-          ) : (
+          ) : nodes.length === 0 ? (
              <div className="flex-1 flex flex-col items-center justify-center text-slate-500">
               <ShieldCheck size={48} className="mb-4 text-green-500 opacity-50" />
-              <p>Sinh viên này không có chuỗi rủi ro nghiêm trọng.</p>
+              <p>Không có chuỗi rủi ro nào được phát hiện.</p>
+            </div>
+          ) : (
+            <div className="w-full h-full relative">
+              <div className="absolute top-4 left-4 z-10 flex gap-4 text-xs font-semibold text-slate-400">
+                 <div className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-red-500"></span> High Risk</div>
+                 <div className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-orange-500"></span> Dependency</div>
+                 <div className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-slate-500"></span> Normal</div>
+              </div>
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                nodeTypes={nodeTypes}
+                fitView
+                fitViewOptions={{ padding: 0.2 }}
+                minZoom={0.5}
+                maxZoom={1.5}
+                className="bg-slate-900"
+              >
+                <Background color="#334155" gap={20} />
+                <Controls className="!bg-slate-800 !border-slate-700 !fill-white" />
+              </ReactFlow>
             </div>
           )}
         </div>
 
-        {/* RIGHT COLUMN: AI Explanation & Actions (4 cols) */}
-        <div className="lg:col-span-4 flex flex-col gap-6">
-          <div className="glass-panel rounded-2xl p-6 border border-blue-500/20 bg-blue-900/10 shadow-[0_0_30px_rgba(59,130,246,0.05)] flex-1">
+        {/* RIGHT COLUMN: AI Explanation & Actions */}
+        <div className="lg:col-span-3 flex flex-col gap-6">
+          <div className="glass-panel rounded-2xl p-6 border border-blue-500/20 bg-blue-900/10 shadow-[0_0_30px_rgba(59,130,246,0.05)] flex-1 overflow-y-auto">
             <h2 className="font-semibold text-lg text-white mb-4 flex items-center gap-2">
-              <Info size={18} className="text-blue-400" /> AI Risk Explanation
+              <Info size={18} className="text-blue-400" /> Risk Narrative
             </h2>
             
-            {!selectedStudent || !riskData ? (
+            {!selectedStudent || !nodes.length ? (
               <p className="text-sm text-slate-400">Chờ dữ liệu phân tích...</p>
-            ) : riskData.explanations.length > 0 ? (
-              <div className="space-y-4">
-                {riskData.explanations.map((exp, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <AlertTriangle size={14} className="text-rose-400" />
-                      <span className="text-sm font-bold text-slate-200">{exp.course} - {exp.status}</span>
-                    </div>
-                    <p className="text-xs text-rose-300 font-medium mb-1">Căn nguyên: {exp.impact}</p>
-                    <p className="text-sm text-slate-300 leading-relaxed">{exp.explanation}</p>
-                  </div>
-                ))}
-              </div>
             ) : (
-              <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
-                <p className="text-sm text-green-400">Không phát hiện chuỗi hổng kiến thức nghiêm trọng.</p>
+              <div className="space-y-4">
+                {selectedNodeId && (
+                   <div className="text-xs text-blue-400 mb-2 font-medium">Đang xem: {selectedNodeId}</div>
+                )}
+                {activeExplanations.length > 0 ? (
+                  activeExplanations.map((exp, i) => (
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <AlertTriangle size={14} className="text-rose-400" />
+                        <span className="text-sm font-bold text-slate-200">{exp.course}</span>
+                      </div>
+                      <p className="text-xs text-rose-300 font-medium mb-1">Căn nguyên: {exp.impact}</p>
+                      <p className="text-sm text-slate-300 leading-relaxed">{exp.explanation}</p>
+                    </div>
+                  ))
+                ) : (
+                   <div className="text-sm text-slate-400">Bấm vào một môn học bị cảnh báo để xem AI Explanation.</div>
+                )}
               </div>
             )}
           </div>
@@ -214,33 +292,24 @@ const AcademicRiskMap = () => {
              <h2 className="font-semibold text-lg text-white mb-4 flex items-center gap-2">
               <ShieldAlert size={18} className="text-orange-400" /> Suggested Actions
             </h2>
-            
             <div className="space-y-3">
               <label className="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500 focus:ring-offset-slate-900" />
                 <div>
-                  <div className="text-sm font-medium text-slate-200 group-hover:text-blue-400 transition-colors">Đăng ký phụ đạo môn nền tảng</div>
-                  <div className="text-xs text-slate-500">Yêu cầu sinh viên học lại các môn rớt.</div>
+                  <div className="text-sm font-medium text-slate-200 group-hover:text-blue-400 transition-colors">Đăng ký Mentor</div>
+                  <div className="text-xs text-slate-500">Khắc phục hổng kiến thức</div>
                 </div>
               </label>
               <label className="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500 focus:ring-offset-slate-900" />
                 <div>
-                  <div className="text-sm font-medium text-slate-200 group-hover:text-blue-400 transition-colors">Gắn cờ theo dõi đặc biệt</div>
-                  <div className="text-xs text-slate-500">Cảnh báo giảng viên môn chuyên ngành.</div>
-                </div>
-              </label>
-              <label className="flex items-start gap-3 cursor-pointer group">
-                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500 focus:ring-offset-slate-900" />
-                <div>
-                  <div className="text-sm font-medium text-slate-200 group-hover:text-blue-400 transition-colors">Gửi cảnh báo qua Email/SMS</div>
-                  <div className="text-xs text-slate-500">Thông báo tự động tới sinh viên và gia đình.</div>
+                  <div className="text-sm font-medium text-slate-200 group-hover:text-blue-400 transition-colors">Gửi cảnh báo SMS</div>
+                  <div className="text-xs text-slate-500">Báo động nguy cơ kẹt tín chỉ</div>
                 </div>
               </label>
             </div>
-            
             <button className="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-xl transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]">
-              Cập nhật hồ sơ Can thiệp
+              Ghi nhận Can thiệp
             </button>
           </div>
         </div>

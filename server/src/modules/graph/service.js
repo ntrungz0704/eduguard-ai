@@ -73,6 +73,7 @@ class GraphService {
 
   async getStudentRiskChain(mssv) {
     const dataPath = path.join(__dirname, '../../datasets/training_data.json');
+    const curriculumPath = path.join(__dirname, '../../../../../data/curriculum.json');
     if (!fs.existsSync(dataPath)) {
       throw new Error('Training data not found');
     }
@@ -81,6 +82,22 @@ class GraphService {
     if (!student) {
       throw new Error('Student not found');
     }
+
+    let curriculumData = null;
+    if (fs.existsSync(curriculumPath)) {
+      curriculumData = JSON.parse(fs.readFileSync(curriculumPath, 'utf8'));
+    }
+
+    // Helper to find semester
+    const getSemester = (courseName) => {
+      if (!curriculumData) return 0;
+      for (const sem of curriculumData.semesters) {
+        if (sem.courses.some(c => c.name === courseName)) {
+           return sem.semester;
+        }
+      }
+      return 0; // default if not found
+    };
 
     const driver = getNeo4jDriver();
     const session = driver.session();
@@ -127,11 +144,23 @@ class GraphService {
 
         // Add nodes
         if (!processedNodes.has(chain.prereqCode)) {
-          riskNodes.push({ id: chain.prereqCode, name: chain.prereqName, score: pScore, status: pStatus });
+          riskNodes.push({ 
+            id: chain.prereqCode, 
+            name: chain.prereqName, 
+            score: pScore, 
+            status: pStatus,
+            semester: getSemester(chain.prereqName)
+          });
           processedNodes.add(chain.prereqCode);
         }
         if (!processedNodes.has(chain.dependentCode)) {
-          riskNodes.push({ id: chain.dependentCode, name: chain.dependentName, score: dScore, status: dStatus });
+          riskNodes.push({ 
+            id: chain.dependentCode, 
+            name: chain.dependentName, 
+            score: dScore, 
+            status: dStatus,
+            semester: getSemester(chain.dependentName)
+          });
           processedNodes.add(chain.dependentCode);
         }
 
