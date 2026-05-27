@@ -22,11 +22,17 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# We only need production dependencies for the server
-COPY package*.json ./
+# Copy Prisma schema first
 COPY prisma ./prisma
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies with --ignore-scripts to skip postinstall
 RUN apk add --no-cache python3 make g++
-RUN npm install --production --legacy-peer-deps
+RUN npm install --production --legacy-peer-deps --ignore-scripts
+
+# Now run Prisma generate after schema is in place
 RUN npx prisma generate
 
 # Copy built assets from builder
@@ -34,7 +40,6 @@ COPY --from=builder /app/client/dist ./public
 
 # Copy server code
 COPY server ./server
-
 
 # Expose API port
 EXPOSE 3000
