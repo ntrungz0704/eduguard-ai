@@ -1,0 +1,202 @@
+{
+  "course_code": "WEB502",
+  "course_name": "Lập trình TypeScript",
+  "english_name": "Typescript Programming",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Môn học này đề cập đến những chủ đề sau: Cài đặt và biên dịch typescript. Các loại dữ liệu, hàm trong typescipt. Lập trình hướng đối tượng trong typescript. Các thư viện bên thứ 3 với typescript. Cài đặt, biên dịch và sử dụng được typescript. Tạo được Project đơn giản với typescript (các thành phần dữ liệu cơ bản, mới, nâng cao và arrow function). Lập trình hướng đối tượng với typescript ( class, interface, generic, ...). Tạo được Project tương tác với DOM ( namespace, modules và công cụ build tool, thư viện bên thứ 3, nodejs,....).",
+  "prerequisites": [
+    "Lập trình cơ sở với Javascript"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Cài đặt, biên dịch và sử dụng typescript",
+      "details": "Hiểu được typescript là gì?; Cài đặt và biên dịch typescript code; Biên dịch nhiều tập tin typescript; Hiểu và phân biệt được các thành phần trong tập tin cấu hình typescript (tsconfig.json); Chế độ watch mode"
+    },
+    {
+      "code": "CLO2",
+      "title": "Tạo project đơn giản với typescript",
+      "details": "Biết và sử dụng các loại dữ liệu trong typescript; Biết và sử dụng được các loại dữ liệu mới được thêm bởi typescript; Phân biệt và sử dụng được function , arrow function, function return, function as type; Biết và sử dụng các loại tham số trong function; Biết và phân biệt được các loại dữ liệu nâng cao trong typescript"
+    },
+    {
+      "code": "CLO3",
+      "title": "Lập trình hướng đối tượng với typescript",
+      "details": "Kế thừa; Phân biệt và sử dụng được class, abstract class, interface; Phân biệt được các access modifier( private, public, protected, readonly); Hiểu được phương thức và thuộc tính static; Generics là gì và cách sử dụng generics"
+    },
+    {
+      "code": "CLO4",
+      "title": "Tạo được project tương tác với DOM",
+      "details": "Decorators là gì? Phân biệt và sử dụng các loại decorators; Phân biệt và sử dụng modules và namespace; Webpack với typescript; Sử dụng thư viện bên thứ 3 (3rd party libraries) với typescript; Nodejs, Express và Typescript"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (08)",
+      "is_online": false
+    },
+    {
+      "type": "Assigment (01)",
+      "is_online": false
+    },
+    {
+      "type": "goalkicker.com (Sách gốc: Typescript - Notes for Professional)",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Tổng quan typescript (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan typescript (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Typescript cơ bản và các loại dữ liệu cơ bản (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Typescript cơ bản và các loại dữ liệu cơ bản (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Next-generation Javascript & Typescript, The Typescript Compiler (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Next-generation Javascript & Typescript, The Typescript Compiler (P2), Đánh giá Assignment GĐ 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Classes & Interfaces (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Classes & Interfaces (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Advanced Types, Generics (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Advanced Types, Generics (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "Decorators (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Decorators (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 13,
+      "topic": "Modules & namespace, Webpack with Typescript (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 14,
+      "topic": "Modules & namespace, Webpack with Typescript (P2), Đánh giá Assignment GĐ 2",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 15,
+      "topic": "Thư viện bên thứ 3, Nodejs, Express & Typescript (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 16,
+      "topic": "Thư viện bên thứ 3, Nodejs, Express & Typescript (P2), Hướng dẫn nộp Final",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (8 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.6,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.52
+  }
+}

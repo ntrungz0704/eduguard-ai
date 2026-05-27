@@ -1,0 +1,226 @@
+{
+  "course_code": "WEB2081",
+  "course_name": "Lập trình Front-End Framework 1",
+  "english_name": "Front-End Framework 1",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Cung cấp cho sinh viên kiến thức cơ bản về Angular. Làm việc với component trong Angular. Thực hiện DataBinding với Angular. Hiểu và cài đặt Router. Làm việc với Form Angular. Sử dụng http service kết nối Backend. Thực hiện Authencation với Angular. Sử dụng được module trong Angular và giao tiếp CRUD với firebase.",
+  "prerequisites": [
+    "Lập trình TypeScript"
+  ],
+  "tools_required": [
+    "Visual studio code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Kiến thức cơ bản về Angular",
+      "details": "Biết được các khái niệm cơ bản về angular, cài đặt và khởi tạo prroject; Biết cơ bản về cấu trúc tổ chức code angular"
+    },
+    {
+      "code": "CLO2",
+      "title": "Làm việc với component trong Angular",
+      "details": "Làm việc tốt với component template; Thực hiện gắn kết dữ liệu (databinding) tốt; Sử dụng thành thạo các Directive như ngFor, ngIf"
+    },
+    {
+      "code": "CLO3",
+      "title": "Thực hiện DataBinding với Angular",
+      "details": "Thao tác Databinding chuyên sâu như Property, event hay custom binding; Hiểu và ứng dụng tốt ViewChild(), ContentChild() và Lifecycle Hooks"
+    },
+    {
+      "code": "CLO4",
+      "title": "Hiểu và cài đặt Router",
+      "details": "Hiểu và cài đặt Routing; Truyền và nhận tham số trong Router; Bảo vệ route, điều khiển điều hướng với canDectivate"
+    },
+    {
+      "code": "CLO5",
+      "title": "Làm việc với Form Angular",
+      "details": "Hiểu template-drive và reactive form; Thao tác tốt với các control trên form; Validation form với angular"
+    },
+    {
+      "code": "CLO6",
+      "title": "Sử dụng http service kết nối Backend",
+      "details": "Hiểu, cài đặt sử dụng service trong Angular; Sử dụng service kết nối các component; Thực hiện kết nối với Backend thông qua http service; Thực hiện tốt với GET,POST, DELETE, PUT; Quản lý lỗi khi sử dụng http service"
+    },
+    {
+      "code": "CLO7",
+      "title": "Thực hiện Authencation với Angular",
+      "details": "Hiểu và cài đặt Authencation trong angular; Signup, Login và xử lý lỗi Login; Lưu trữ User, thêm Token, cài đặt login, logout tự động"
+    },
+    {
+      "code": "CLO8",
+      "title": "Sử dụng module trong Angular và giao tiếp CRUD với Firebase",
+      "details": "Biết sử dụng module core và share module; Hiểu và cài đặt Lazy Loading; Thực hiện deploy ứng dụng"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (08)",
+      "is_online": false
+    },
+    {
+      "type": "Assignment (01)",
+      "is_online": false
+    },
+    {
+      "type": "http://angular.io",
+      "is_online": true
+    },
+    {
+      "type": "https://viblo.asia/p/angular-4-tu-a-den-z-Qbq5QLpwlD8",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Tổng quan về Framework Angular (P1), Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan về Framework Angular (P2), Lab1(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Angular - component (P1), Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Angular - component (P2), Lab2(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Databinding (P1), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Databinding (P2), Lab3(P2), Đánh giá Assignment Giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "Routing trong Angular (P1), Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 8,
+      "topic": "Routing trong Angular (P2), Lab4(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "Form trong Angular (P1), Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 10,
+      "topic": "Form trong Angular (P2), Lab5(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 11,
+      "topic": "Service và Angular HttpClient (P1), Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 12,
+      "topic": "Service và http service (P2), Lab6(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 13,
+      "topic": "Authentication trong Angular (P1), Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 14,
+      "topic": "Authentication trong Angular (P2), Lab7(P2), Đánh giá Assignment Giai đoạn 2",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 15,
+      "topic": "Angular Modules và deploying (P1), Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 16,
+      "topic": "Angular Modules và deploying (P2), Lab8(P2), Hướng dẫn nộp Final",
+      "type": "Offline",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (8 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.8,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.52
+  }
+}

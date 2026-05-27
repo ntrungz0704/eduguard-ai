@@ -1,0 +1,188 @@
+{
+  "course_code": "WEB2063",
+  "course_name": "Lập trình Javascript nâng cao",
+  "english_name": "Advanced Javascript Programming",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 61,
+    "exam_hours": 2
+  },
+  "description": "Khóa học này giúp chúng ta tìm hiểu đầy đủ các nguyên tắc cơ bản của JavaScript, cách để xây dựng các ứng dụng hiện đại và phức tạp hiện nay. Khóa học giúp nắm vững kiến thức về JavaScript như: biến, câu lệnh điều kiện, toán tử, logic boolean, hàm, mảng, đối tượng, vòng lặp, chuỗi. Tìm hiểu cách viết JavaScript hiện đại (ES6+) ngay từ đầu: arrow functions, destructuring, spread operator, default arguments, optional chaining… (ES2020). Đi sâu vào lập trình hướng đối tượng: kế thừa nguyên mẫu, hàm dựng (ES5), lớp (ES6), đóng gói, trừu tượng, kế thừa và đa hình. Đi sâu vào JavaScript bất đồng bộ: event loop, promises, async/await và error handling. Sử dụng để truy cập dữ liệu từ các API của bên thứ ba với các lệnh gọi AJAX.",
+  "prerequisites": [
+    "Lập trình cơ sở với JavaScript"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Sử dụng Data Structures và Modern Operators",
+      "details": "Sử dụng Data Structures (Array, Object, Strings,..) và Modern Operators (Spread Operators, Rest Pattern and Parameters, Short Circuiting, The Nullish Coalscing Operators,...)"
+    },
+    {
+      "code": "CLO2",
+      "title": "Sử dụng Hàm nâng cao",
+      "details": "Sử dụng Hàm nâng cao: Default parameters, Value vs. Reference,…"
+    },
+    {
+      "code": "CLO3",
+      "title": "Làm việc với Mảng, Maps, Sets và các phương thức",
+      "details": "Làm việc với Mảng, Maps, Sets và các phương thức (map, filter, reduce, Magic of Chaining, find, findIndex, some and every, flat and flatMap,….)"
+    },
+    {
+      "code": "CLO4",
+      "title": "DOM và xử lý sự kiện nâng cao",
+      "details": "DOM và xử lý sự kiện nâng cao (Page Navigation, Sticky Navigation, Reveal Elements on Scroll, Lazy Loading Images, Slider Component)"
+    },
+    {
+      "code": "CLO5",
+      "title": "Hướng đối tượng (OOP) trong Javascript",
+      "details": "Hướng đối tượng (OOP) trong Javascript: Constructor Functions and the new Operator, Setters & Getters, Encapsulation,…"
+    },
+    {
+      "code": "CLO6",
+      "title": "Bất đồng bộ trong Javascript",
+      "details": "Bất đồng bộ trong Javascript (Asynchronous Javascript): Event Loop, Callback Hell, Promises, async/await, AJAX calls and APIs, Throw Errors, Error Handling,…"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Udemy Video (8)",
+      "is_online": true
+    },
+    {
+      "type": "Lab Guide (8)",
+      "is_online": false
+    },
+    {
+      "type": "https://fpl.udemy.com/learning-paths/4045324/",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Hướng dẫn hình thức học, Ôn tập Javascript cơ bản",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: Data Structures, Modern Operators",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: Data Structures, Functions",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Rà soát và hỗ trợ cách thức học online (Bài 1, 2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: Working with Array (P1)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 4: Working with Array (cont)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "Hỗ trợ nội dung bài online Section 4, 5",
+      "type": "ORIT",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 5: Advanced DOM and Events",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 6: Advanced DOM and Events (cont)",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 10,
+      "topic": "Hỗ trợ nội dung bài online Section 6, 7",
+      "type": "ORIT",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 6: Advanced DOM and Events (cont)",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 7: OOP with Javascript",
+      "type": "Online",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 13,
+      "topic": "Hỗ trợ nội dung bài online Section 7, 8",
+      "type": "ORIT",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 7: OOP with Javascript (ES6 Classes)",
+      "type": "Online",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 15,
+      "topic": "Bài 8: Asynchronous Javascript (Promises, async/await, AJAX)",
+      "type": "Online",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 16,
+      "topic": "Hỗ trợ nội dung bài online Section 7, 8, Hướng dẫn bảo vệ cuối môn",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Hoàn thành khóa học",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thi thực hành cuối môn (Final Exam)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.8,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.81
+  }
+}

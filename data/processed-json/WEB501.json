@@ -1,0 +1,178 @@
+{
+  "course_code": "WEB501",
+  "course_name": "Lập trình ECMAScript",
+  "english_name": "ECMA Script Programming",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Lập trình ECMAScript là môn học cung cấp các kiến thức về chuẩn ECMAScript 6. Trong khóa học này, bạn sẽ đi sâu vào những thay đổi mới nhất được thực hiện đối với ngôn ngữ lập trình JavaScript với ECMAScript đặc biệt là phiên bản ECMAScript 2015 (ES6). Hiều về khái niệm ECMAScript. Tìm hiểu các cách mới để xác định biến. Áp dụng cú pháp Arrow function và hiểu được khái niệm con trỏ this. Sử dụng desctructuring để làm việc hiệu quả hơn với arrays và object. Nắm bắt được các kĩ thuật mới để làm việc với bất đồng bộ. Sử dụng ESlint để kiểm tra và giúp code sạch sẽ hơn. Tạo môi trường phát triển website sử dụng JS trên Firebase.",
+  "prerequisites": [],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Tổng quan ECMAScript",
+      "details": "Tổng quan ECMAScript: Nắm được khái niệm ES6; Giải thích được một vài tính mới về ES6; Sử dụng được arrow function và nắm được khái niệm con trỏ this; Sử dụng được Asnc & Await để làm việc với bất đồng bộ; Nắm được cách sử dụng Async với thư viện axios; Kiểm soát các lỗi trong quá trình lập trình; Giải thích được khái niệm và kế thừa lớp trong ES6; Giải thích được khái niệm module trong ES6; Sử dụng export và import để tạo module trong ES6"
+    },
+    {
+      "code": "CLO2",
+      "title": "ECMAScript với ESlint và Firebase",
+      "details": "ECMAScript với ESlint và Firebase: Giải thích được khái niệm ESlint và lý do vì sao sử dụng; Cài đặt thư viện ESLint và môi trường chạy ESLint; Sử dụng được Firebase để tương tác với Javascript"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "https://exploringjs.com/es6/index.html (Sách gốc: Exploring JS6: upgrade to the next version of Javascript)",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, phiên bản ECMAScript, tính năng mới ES6, Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Giới thiệu tính năng mới ES6 (tt), Lab1(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: Biến và tham số (Let, Const, Template String, Destructuring, Spread, Rest), Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "Bài 2: Biến và tham số (tt), Lab2(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: Hàm và đối tượng (Arrow function, this, Generators), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 3: Hàm và đối tượng (tt), Lab3(P2), Đánh giá Assignment Giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 7,
+      "topic": "Bài 4: Xử lý bất đồng bộ (Async & Await, Axios), Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 4: Xử lý bất đồng bộ (tt), Lab4(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 5: Lớp trong ES (ES Classes, Kế thừa, Getters/Setters), Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 10,
+      "topic": "Bài 5: Lớp trong ES (tt), Lab5(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 6: Javascript Module (Export, Import), Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 6: Javascript Module (tt), Lab6(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 13,
+      "topic": "Bài 7: Tối ưu code Javascript với ESlint, Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 7: Tối ưu code Javascript với ESlint (tt), Lab7(P2), Đánh giá Assignment Giai đoạn 2",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 15,
+      "topic": "Bài 8: Tương tác với Firebase (API với ES6), Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 16,
+      "topic": "Bài 8: Tương tác với Firebase (tt), Lab8(P2), Hướng dẫn nộp Final",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (8 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.7,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.52
+  }
+}

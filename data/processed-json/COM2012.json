@@ -1,0 +1,212 @@
+{
+  "course_code": "COM2012",
+  "course_name": "Cơ sở dữ liệu",
+  "english_name": "Database Fundamentals",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Module/môn học này sẽ đề cập những chủ đề sau: Giải thích khái niệm CSDL và sự cần thiết phải quản lý CSDL; Tìm hiểu về ngôn ngữ truy vấn dữ liệu có cấu trúc (SQL) và thực hiện các truy vấn với hệ quản trị CSDL Access và My SQL; Xây dựng CSDL mức logic, vẽ sơ đồ ERD từ đó xây dựng CSDL mức vật lý.",
+  "prerequisites": [],
+  "tools_required": [
+    "Microsoft Office Access 2007",
+    "My SQL",
+    "Microsoft Office Visio"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Giải thích được CSDL là gì",
+      "details": "Giải thích được CSDL là gì"
+    },
+    {
+      "code": "CLO2",
+      "title": "Phân biệt được hệ quản trị CSDL và CSDL quan hệ",
+      "details": "Phân biệt được hệ quản trị CSDL và CSDL quan hệ"
+    },
+    {
+      "code": "CLO3",
+      "title": "Sử dụng được các tính năng cơ bản của một số hệ quản trị CSDL",
+      "details": "Sử dụng được các tính năng cơ bản của một số hệ quản trị CSDL như SQL Server, Microsoft Access, My SQL"
+    },
+    {
+      "code": "CLO4",
+      "title": "Vẽ được sơ đồ thực thể liên kết ERD",
+      "details": "Vẽ được sơ đồ thực thể liên kết ERD"
+    },
+    {
+      "code": "CLO5",
+      "title": "Viết được các câu lệnh T-SQL để truy vấn dữ liệu",
+      "details": "Viết được các câu lệnh T-SQL để truy vấn dữ liệu"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (08)",
+      "is_online": true
+    },
+    {
+      "type": "Assignment (01)",
+      "is_online": false
+    },
+    {
+      "type": "w3schools.com / vietjack.com",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Tổng quan về Cơ Sở Dữ Liệu, Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan về Cơ Sở Dữ Liệu, Lab1(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 3,
+      "topic": "Các bước xây dựng CSDL (P1), Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 4,
+      "topic": "Các bước xây dựng CSDL (P2), Lab2(P2), Quiz2",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 5,
+      "topic": "Mô hình ERD và chuẩn hoá cơ sở dữ liệu (P1), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 6,
+      "topic": "Mô hình ERD và chuẩn hoá cơ sở dữ liệu (P2), Lab3(P2), Quiz3",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 7,
+      "topic": "Ngôn ngữ T-SQL - Ngôn ngữ định nghĩa dữ liệu DDL (P1), Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3.1, CLO1"
+    },
+    {
+      "session": 8,
+      "topic": "Ngôn ngữ định nghĩa dữ liệu DDL (P2), Lab4(P2), Quiz4",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 9,
+      "topic": "Ngôn ngữ truy vấn SQL - Truy vấn dữ liệu trên một bảng (P1), Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 10,
+      "topic": "Ngôn ngữ truy vấn SQL - Truy vấn dữ liệu trên một bảng (P2), Lab5(P2), Quiz5",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 11,
+      "topic": "Ngôn ngữ truy vấn SQL - Truy vấn dữ liệu trên nhiều bảng (P1), Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 12,
+      "topic": "Ngôn ngữ truy vấn SQL - Truy vấn dữ liệu trên nhiều bảng (P2), Lab6, Quiz6",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 13,
+      "topic": "Ngôn ngữ thao tác dữ liệu DML (P1), Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 14,
+      "topic": "Ngôn ngữ thao tác dữ liệu DML (P2), Lab7(P2), Quiz7",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 15,
+      "topic": "Tìm hiểu Chỉ mục - Sao lưu và backup CSDL (P1), Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 16,
+      "topic": "Tìm hiểu Chỉ mục - Sao lưu và backup CSDL (P2), Lab8(P2), Quiz8",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (8 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.7,
+    "workload_score": 0.7,
+    "practice_ratio": 0.7,
+    "theory_ratio": 0.3,
+    "online_learning_ratio": 0.52
+  }
+}

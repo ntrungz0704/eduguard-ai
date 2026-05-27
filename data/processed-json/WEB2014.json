@@ -1,0 +1,205 @@
+{
+  "course_code": "WEB2014",
+  "course_name": "Lập trình PHP 1",
+  "english_name": "PHP 1 Programming",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 36,
+    "online_hours": 37,
+    "exam_hours": 2
+  },
+  "description": "Môn học này đề cập đến những chủ đề sau: Các phương pháp lập trình; PHP OOP cơ bản; Database sử dụng PHP OOP cơ bản; Mô hình MVC và PHP OOP cơ bản.",
+  "prerequisites": [
+    "Lập trình PHP cơ bản",
+    "Xây dựng trang web",
+    "Cơ sở dữ liệu"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Lập trình PHP OOP cơ bản",
+      "details": "Lập trình PHP OOP cơ bản"
+    },
+    {
+      "code": "CLO2",
+      "title": "MVC và PHP OOP cơ bản",
+      "details": "MVC và PHP OOP cơ bản"
+    },
+    {
+      "code": "CLO3",
+      "title": "Database sử dụng PHP OOP kết hợp với mô hình MVC",
+      "details": "Database sử dụng PHP OOP kết hợp với mô hình MVC"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (04)",
+      "is_online": false
+    },
+    {
+      "type": "Assignment (01)",
+      "is_online": false
+    },
+    {
+      "type": "https://www.w3schools.com/php/default.asp",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Ôn tập PHP cơ bản (P1), Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Ôn tập PHP cơ bản (P2), Lab1(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "PHP OOP cơ bản (P1), Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "PHP OOP cơ bản (P2), Lab2(P2), Quiz 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "MVC trong PHP OOP (P1), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "MVC trong PHP OOP (P2), Lab3(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "MVC trong PHP OOP với Database 1, Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "MVC trong PHP OOP với Database 1, Lab4(P2), Quiz 2",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Đánh giá Assignment giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "MVC trong PHP OOP với Database 2, Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "MVC trong PHP OOP với Database 2, Lab5(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "MVC trong PHP OOP với Database 3, Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "MVC trong PHP OOP với Database 3, Lab6(P2), Quiz 3",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "MVC trong PHP OOP với Database 4, Tổng quan mô hình MVC, Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 15,
+      "topic": "MVC trong PHP OOP với Database 4, Lab7(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "MVC trong PHP OOP với Database 5, Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 17,
+      "topic": "MVC trong PHP OOP với Database 5, Lab8(P2), Quiz 4",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 18,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.7,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.49
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "course_code": "SYB3013",
+  "course_name": "Khởi sự doanh nghiệp",
+  "english_name": "Start Your Business",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 61,
+    "exam_hours": 2
+  },
+  "description": "Khóa học Khởi sự doanh nghiệp (Startup Your Business) cung cấp những kiến thức, kỹ năng cơ bản từ tổng quan đến thực hành, để sinh viên định hướng được cách thức tự khởi nghiệp. Sau khi hoàn thành khóa học, sinh viên có thể: Phân tích được Lý thuyết tổng quan về doanh nhân và Hành trình 4 bước của doanh nhân dựa trên 4 giai đoạn của 1 vòng đời kinh doanh; Xây dựng và thực hành các kỹ năng cần thiết để biến ý tưởng kinh doanh thành 1 dự án khởi nghiệp có khả năng khởi động trên thực tế; Xây dựng được kế hoạch kinh doanh chi tiết cho 1 dự án khởi nghiệp sử dụng công cụ và biểu mẫu; Xây dựng được cách thức Vận hành mô hình kinh doanh một cách sáng tạo dựa trên sự khác biệt hóa để phát triển.",
+  "prerequisites": [],
+  "tools_required": [
+    "Microsoft Excel"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Tổng quan",
+      "details": "Tổng quan: Phân tích được Lý thuyết tổng quan về doanh nhân và Hành trình 4 bước của doanh nhân dựa trên 4 giai đoạn của 1 vòng đời kinh doanh."
+    },
+    {
+      "code": "CLO2",
+      "title": "Khởi động",
+      "details": "Khởi động: Xây dựng và thực hành các kỹ năng cần thiết để biến ý tưởng kinh doanh thành 1 dự án khởi nghiệp có khả năng khởi động trên thực tế."
+    },
+    {
+      "code": "CLO3",
+      "title": "Kế hoạch",
+      "details": "Kế hoạch: Xây dựng được kế hoạch kinh doanh chi tiết cho 1 dự án khởi nghiệp sử dụng công cụ và biểu mẫu."
+    },
+    {
+      "code": "CLO4",
+      "title": "Vận hành",
+      "details": "Vận hành: Xây dựng được cách thức Vận hành mô hình kinh doanh một cách sáng tạo dựa trên sự khác biệt hóa để phát triển."
+    },
+    {
+      "code": "CLO5",
+      "title": "Thái độ",
+      "details": "Rèn luyện thái độ tôn trọng, nghiêm túc trong học tập và công việc."
+    }
+  ],
+  "materials": [
+    {
+      "type": "Tài nguyên dành cho sinh viên (https://fpl.udemy.com)",
+      "is_online": true
+    },
+    {
+      "type": "Level I CFA® Prep 2022/2023 - Financial Statement Analysis",
+      "is_online": true
+    },
+    {
+      "type": "Financial Planning & Analysis: Building a Company's Budget",
+      "is_online": true
+    },
+    {
+      "type": "The Non-Technical Person's guide to building products & apps",
+      "is_online": true
+    },
+    {
+      "type": "1 day MVP 2.0 | Go from idea to MVP in just 1 day",
+      "is_online": true
+    },
+    {
+      "type": "Rapid prototyping for entrepreneurs / build a demo in 2 hours",
+      "is_online": true
+    },
+    {
+      "type": "How to come up with killer business ideas: complete workshop",
+      "is_online": true
+    },
+    {
+      "type": "Financial Modeling for Startups & Small Businesses",
+      "is_online": true
+    },
+    {
+      "type": "Recruiting Talent: How to find & attract the best candidates",
+      "is_online": true
+    },
+    {
+      "type": "Digital Marketing Masterclass: Get your first 1,000 customer",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2, CLO3, CLO4, CLO5"
+    },
+    {
+      "session": 2,
+      "topic": "Module 1: Intro to Entrepreneurship: Bài 1 - Lý thuyết tổng quan về doanh nhân",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO5"
+    },
+    {
+      "session": 3,
+      "topic": "Module 1: Intro to Entrepreneurship: Bài 2 - Ý tưởng kinh doanh: Xác thực và khởi tạo",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO5"
+    },
+    {
+      "session": 4,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    },
+    {
+      "session": 5,
+      "topic": "Module 1: Intro to Entrepreneurship: Bài 3 - Ý tưởng kinh doanh: Khởi động trên thực tế",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO5"
+    },
+    {
+      "session": 6,
+      "topic": "Module 1: Intro to Entrepreneurship: Bài 4 - Mô hình kinh doanh",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO5"
+    },
+    {
+      "session": 7,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    },
+    {
+      "session": 8,
+      "topic": "Module 2: The Complete Business Plan Course: Bài 5 - Lập kế hoạch kinh doanh (Phần 1)",
+      "type": "Online",
+      "learning_outcome": "CLO3, CLO5"
+    },
+    {
+      "session": 9,
+      "topic": "Module 2: The Complete Business Plan Course: Bài 6 - Lập kế hoạch kinh doanh (Phần 2)",
+      "type": "Online",
+      "learning_outcome": "CLO3, CLO5"
+    },
+    {
+      "session": 10,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    },
+    {
+      "session": 11,
+      "topic": "Module 2: The Complete Business Plan Course: Bài 7 - Lập kế hoạch kinh doanh (Phần 3)",
+      "type": "Online",
+      "learning_outcome": "CLO3, CLO5"
+    },
+    {
+      "session": 12,
+      "topic": "Module 2: The Complete Business Plan Course: Bài 8 - Xây dựng biểu mẫu, công cụ lập bản kế hoạch kinh doanh",
+      "type": "Online",
+      "learning_outcome": "CLO3, CLO5"
+    },
+    {
+      "session": 13,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    },
+    {
+      "session": 14,
+      "topic": "Module 3: Business Model Innovation: Bài 9 - Mô hình kinh doanh sáng tạo: Giới thiệu tổng quan",
+      "type": "Online",
+      "learning_outcome": "CLO4, CLO5"
+    },
+    {
+      "session": 15,
+      "topic": "Module 3: Business Model Innovation: Bài 10 - Mô hình kinh doanh sáng tạo: Phân loại các loại hình",
+      "type": "Online",
+      "learning_outcome": "CLO4, CLO5"
+    },
+    {
+      "session": 16,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Bảo vệ Assignment",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    },
+    {
+      "type": "Hoàn thành khóa học Online",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.6,
+    "workload_score": 0.6,
+    "practice_ratio": 0.6,
+    "theory_ratio": 0.4,
+    "online_learning_ratio": 0.81
+  }
+}

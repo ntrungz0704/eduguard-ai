@@ -1,0 +1,164 @@
+{
+  "course_code": "PRO2201",
+  "course_name": "Dự án tốt nghiệp (TKTW-Single page Application)",
+  "english_name": "Capstone Project (Web Design)",
+  "credits": 5,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 225,
+    "class_hours": 10,
+    "online_hours": 213,
+    "exam_hours": 2
+  },
+  "description": "Sinh viên làm dự án tốt nghiệp theo nhóm, từ 4-7 sinh viên/nhóm. Một giảng viên chỉ hướng dẫn tối đa 07 nhóm và có 10 giờ hướng dẫn trên lớp/nhóm sinh viên. Dự án tốt nghiệp được tổ chức vào cuối chương trình học nhằm tạo cơ hội cho SV tiếp xúc và trải nghiệm với công việc thực tế có sự hướng dẫn hoặc hỗ trợ của giảng viên. SV được khuyến khích vận dụng kiến thức thực tập tại doanh nghiệp để thực hiện hoặc giảng viên giao đề tài hoặc sinh viên làm dự án tự chọn theo hướng khởi nghiệp. Tùy thuộc vào nhu cầu thực tế, năng lực hoặc kiến thức chuyên sâu mà sinh viên có thể lựa chọn đề tài cho phù hợp. Khuyến khích sinh viên thực hiện các đề tài mang tính thực tiễn, có tính đột phá, sáng tạo.",
+  "prerequisites": [
+    "Participated: Tất cả các môn 5 học kỳ đầu (ngoại trừ: Tiếng Anh và các môn trong học kỳ song song)",
+    "Passed: Dự án 1 (TKTW); Lập trình JavaScript nâng cao; NodeJS & Restful Web Service"
+  ],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Khảo sát, phân tích hiện trạng",
+      "details": "Khảo sát và đánh giá được thực trạng của doanh nghiệp; Lập kế hoạch thực hiện dự án, phân công cụ thể công việc cho các thành viên; Phân tích được yêu cầu của hệ thống; Liệt kê được các tình huống và quy trình hoạt động; Vẽ được sơ đồ Use case và mô hình ứng dụng; Đề xuất được giải pháp phù hợp với thực tiễn"
+    },
+    {
+      "code": "CLO2",
+      "title": "Thiết kế giải pháp CNTT",
+      "details": "Thiết kế sơ đồ tổ chức liên kết các chức năng trong ứng dụng; Thiết kế được giao diện tổng thể và giao diện chức năng (vai trò quản trị và người dùng); Thiết kế được sơ đồ ERD; Thiết kế được sơ đồ lớp (Class Diagram); Thiết kế được kiến trúc công nghệ của ứng dụng"
+    },
+    {
+      "code": "CLO3",
+      "title": "Vận dụng công nghệ phù hợp",
+      "details": "Tổ chức mã nguồn dự án thành các package, thư mục, chuyên đề,; Xây dựng được giao diện tổng thể, giao diện chức năng; Xây dựng được CSDL trên hệ quản trị MySql hoặc SqlServer (hoặc NoSQL như MongoDB, Firebase Realtime) dựa vào ERD; Xây dựng được các lớp theo sơ đồ lớp đã thiết kế; Xây dựng được kịch bản kiểm thử, tiến hành kiểm thử và lập trình sửa lỗi theo kịch bản"
+    },
+    {
+      "code": "CLO4",
+      "title": "Đóng gói và triển khai",
+      "details": "Đóng gói và triển khai được sản phẩm lên môi trường cụ thể (WebServer, Hosting, Android, ios,....); Xây dựng được tài liệu hướng dẫn sử dụng và cấu hình"
+    },
+    {
+      "code": "CLO5",
+      "title": "Thái độ và kỹ năng làm việc nhóm",
+      "details": "Chấp hành tốt bảng phân công công việc, chịu trách nhiệm với kết quả công việc của bản thân và nhóm; Hỗ trợ, phối hợp với đồng nghiệp giải quyết công việc phát sinh; Có ý thức nghề nghiệp, tuân thủ chuẩn mực quy định; Tôn trọng, ứng xử, giao tiếp đúng mực với các bên liên quan"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Tài liệu hướng dẫn thực hiện",
+      "is_online": false
+    },
+    {
+      "type": "Tài liệu báo cáo mẫu",
+      "is_online": false
+    },
+    {
+      "type": "Tài liệu slide trình bày",
+      "is_online": false
+    },
+    {
+      "type": "Slide nói về sự thành công của dự án",
+      "is_online": false
+    },
+    {
+      "type": "Tài liệu dự án",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "KHẢO SÁT YÊU CẦU",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO5"
+    },
+    {
+      "session": 2,
+      "topic": "BÁO CÁO DỮ LIỆU KHẢO SÁT, PHÂN TÍCH HIỆN TRẠNG",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO5"
+    },
+    {
+      "session": 3,
+      "topic": "BÁO CÁO PHÂN TÍCH HIỆN TRẠNG, THIẾT KẾ HỆ THỐNG",
+      "type": "ORIT",
+      "learning_outcome": "CLO2, CLO5"
+    },
+    {
+      "session": 4,
+      "topic": "BÁO CÁO THIẾT KẾ HỆ THỐNG",
+      "type": "ORIT",
+      "learning_outcome": "CLO2, CLO3, CLO5"
+    },
+    {
+      "session": 5,
+      "topic": "Review giai đoạn 1",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO3, CLO5"
+    },
+    {
+      "session": 6,
+      "topic": "THỰC HIỆN DỰ ÁN",
+      "type": "ORIT",
+      "learning_outcome": "CLO3, CLO5"
+    },
+    {
+      "session": 7,
+      "topic": "BÁO CÁO THỰC HIỆN DỰ ÁN",
+      "type": "ORIT",
+      "learning_outcome": "CLO3, CLO5"
+    },
+    {
+      "session": 8,
+      "topic": "KIỂM THỬ, TRIỂN KHAI",
+      "type": "ORIT",
+      "learning_outcome": "CLO4, CLO5"
+    },
+    {
+      "session": 9,
+      "topic": "BÁO CÁO KIỂM THỬ, TRIỂN KHAI",
+      "type": "ORIT",
+      "learning_outcome": "CLO4, CLO5"
+    },
+    {
+      "session": 10,
+      "topic": "Review giai đoạn 2",
+      "type": "ORIT",
+      "learning_outcome": "CLO1- CLO5"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Document",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Giai đoạn 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Giai đoạn 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Giai đoạn 3",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 50.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 1.0,
+    "workload_score": 1.0,
+    "practice_ratio": 0.9,
+    "theory_ratio": 0.1,
+    "online_learning_ratio": 0.95
+  }
+}

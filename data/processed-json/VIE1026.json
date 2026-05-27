@@ -1,0 +1,167 @@
+{
+  "course_code": "VIE1026",
+  "course_name": "Pháp luật",
+  "english_name": "Law",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 30,
+    "class_hours": 8,
+    "online_hours": 19,
+    "exam_hours": 3
+  },
+  "description": "Môn học Pháp luật cung cấp cho sinh viên những kiến thức cơ bản nhất về pháp luật, đảm bảo sự tuân thủ của công dân với các quy định có liên quan trong công việc và trong đời sống. Môn học bắt đầu với một số vấn đề chung về nhà nước và pháp luật; Hiến pháp; pháp luật dân sự; pháp luật lao động; pháp luật hành chính; pháp luật hình sự; pháp luật phòng chống tham nhũng và pháp luật về bảo vệ quyền lợi người tiêu dùng. Kết thúc mỗi bài học, sinh viên sẽ thực hiện Quiz. Sinh viên cũng có 05 assignment được thực hiện theo hình thức thi và chấm chéo giữa các sinh viên. Cuối kỳ, sinh viên có bài thi kiểm tra cuối kỳ online.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Nhà nước và hệ thống pháp luật",
+      "details": "Phân tích được các đặc trưng về nhà nước và hệ thống pháp luật Việt Nam"
+    },
+    {
+      "code": "CLO2",
+      "title": "Hiến pháp",
+      "details": "Giải thích được những nội dung cơ bản của Hiến pháp"
+    },
+    {
+      "code": "CLO3",
+      "title": "Pháp luật dân sự",
+      "details": "Vận dụng được các quy định của pháp luật dân sự vào cuộc sống"
+    },
+    {
+      "code": "CLO4",
+      "title": "Pháp luật lao động",
+      "details": "Phân tích được các quy định của pháp luật lao động"
+    },
+    {
+      "code": "CLO5",
+      "title": "Pháp luật hành chính",
+      "details": "Kể ra được những quy định của pháp luật hành chính Việt Nam"
+    },
+    {
+      "code": "CLO6",
+      "title": "Pháp luật hình sự",
+      "details": "Vân dụng pháp luật để giải quyết các vấn đề liên quan đến pháp luật hình sự"
+    },
+    {
+      "code": "CLO7",
+      "title": "Pháp luật phòng, chống tham nhũng",
+      "details": "Phân tích được các quy định của pháp luật phòng, chống tham nhũng"
+    },
+    {
+      "code": "CLO8",
+      "title": "Pháp luật bảo vệ quyền lợi người tiêu dùng",
+      "details": "Áp dụng được các quy định của pháp luật bảo vệ quyền lợi người tiêu dùng vào tình huống thực tế"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bài học online: 08",
+      "is_online": true
+    },
+    {
+      "type": "Assignment: 01",
+      "is_online": false
+    },
+    {
+      "type": "Giáo trình Pháp luật (Dùng trong CTĐT trình độ cao đẳng)",
+      "is_online": false
+    },
+    {
+      "type": "Cuốn sách :\"Kiên quyết, kiên trì đấu tranh phòng chống tham nhũng, tiêu cực, góp phần xây dựng Đảng và Nhà nước ta ngày càng trong sạch, vững mạnh",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Bài giới thiệu môn học",
+      "type": "ORIT",
+      "learning_outcome": ""
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: Một số vấn đề chung về nhà nước và pháp luật, Bài 2: Hiến pháp",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 3: Pháp luật dân sự, Bài 4: Pháp luật lao động",
+      "type": "Online",
+      "learning_outcome": "CLO3, CLO4"
+    },
+    {
+      "session": 4,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": ""
+    },
+    {
+      "session": 5,
+      "topic": "Bài 5: Pháp luật hành chính, Bài 6: Pháp luật hình sự",
+      "type": "Online",
+      "learning_outcome": "CLO5, CLO6"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 7: Pháp luật phòng, chống tham nhũng",
+      "type": "Online",
+      "learning_outcome": "CLO7, CLO8"
+    },
+    {
+      "session": 7,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "CLO1-CLO7"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 8: Pháp luật bảo vệ quyền lợi người tiêu dùng",
+      "type": "Online",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 9,
+      "topic": "Assignment",
+      "type": "Online",
+      "learning_outcome": "CLO1-CLO8"
+    },
+    {
+      "session": 10,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "CLO1-CLO8"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Online Quizzes",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thi trắc nghiệm",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.5,
+    "workload_score": 0.4,
+    "practice_ratio": 0.2,
+    "theory_ratio": 0.8,
+    "online_learning_ratio": 0.63
+  }
+}

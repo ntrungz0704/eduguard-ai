@@ -1,0 +1,48 @@
+{
+  "course_code": "VIE104",
+  "course_name": "Giáo dục quốc phòng",
+  "english_name": "Defense Education",
+  "credits": 4,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 71,
+    "online_hours": 0,
+    "exam_hours": 4
+  },
+  "description": "Môn học trang bị một số kiến thức cơ bản về lực lượng vũ trang, một số nhiệm vụ công tác quốc phòng - an ninh của Đảng, Nhà nước trong tình hình mới, bao gồm những nội dung chủ yếu về xây dựng lực lượng dự bị động viên, phòng chống chiến tranh công nghệ cao, đánh bại chiến lược 'diễn biến hòa bình', bạo loạn lật đổ của các thế lực thù địch đối với cách mạng Việt Nam; bảo vệ chủ quyền lãnh thổ, biên giới, an ninh quốc gia. Rèn luyện các kỹ năng đội ngũ không có súng; thực hành bắn súng tiểu liên AK bài 1b; huấn luyện những động tác cơ bản chiến thuật chiến đấu bộ binh: các tư thế vận động trên chiến trường, cách quan sát phát hiện mục tiêu, lợi dụng địa hình, địa vật, hành động của cá nhân trong công sự, ngoài công sự trong chiến đấu tiến công và phòng ngự.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Quốc phòng toàn dân, an ninh nhân dân",
+      "details": "Hiểu được những nội dung chính về xây dựng nền quốc phòng toàn dân, an ninh nhân dân. Nắm vững âm mưu thủ đoạn 'diễn biến hoà bình' bạo loạn lật đổ của các thế lực thù địch với cách mạng Việt Nam"
+    },
+    {
+      "code": "CLO2",
+      "title": "Lịch sử truyền thống đấu tranh",
+      "details": "Hiểu rõ truyền thống đấu tranh dựng nước và giữ nước của dân tộc, lịch sử truyền thống vẻ vang của các lực lượng vũ trang, làm tốt công tác quốc phòng, an ninh ở cơ sở và sẵn sàng tham gia lực lượng vũ trang"
+    },
+    {
+      "code": "CLO3",
+      "title": "Kỹ năng quân sự, đội ngũ",
+      "details": "Thành thạo đội ngũ từng người không có súng, các kỹ năng quân sự cần thiết, biết vận dụng vào phòng vệ cá nhân và tham gia bảo vệ an toàn đơn vị, cơ sở"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Giáo trình Giáo dục quốc phòng - an ninh (Dùng trong CTĐT trình độ cao đẳng)",
+      "is_online": false
+    }
+  ],
+  "sessions": [],
+  "assessments": [],
+  "metadata": {
+    "difficulty_score": 0.6,
+    "workload_score": 0.7,
+    "practice_ratio": 0.5,
+    "theory_ratio": 0.5,
+    "online_learning_ratio": 0.0
+  }
+}

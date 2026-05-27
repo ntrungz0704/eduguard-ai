@@ -1,0 +1,224 @@
+{
+  "course_code": "ITI101",
+  "course_name": "Nhập môn công nghệ thông tin",
+  "english_name": "Information Technology Introduction",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 36,
+    "online_hours": 37,
+    "exam_hours": 2
+  },
+  "description": "Cung cấp khái niệm cơ sở về máy tính và các phần mềm ứng dụng phục vụ công việc và học tập. Qua môn này, người học có thể hiểu về cấu tạo của máy tính; cách thức máy tính vận hành; biết được các loại phần mềm khác nhau ; hiểu cách thức con người ra lệnh cho máy tính thông qua công cụ có tên gọi là “ngôn ngữ lập trình”; Những nghề nghiệp phổ biến trong ngành CNTT… Môn học truyền tải kiến thức cập nhật nhất về lĩnh vực công nghệ thông tin cũng như giúp người học hình dung về những thay đổi trong tương lai không xa của kỷ nguyên công nghệ số.",
+  "prerequisites": [],
+  "tools_required": [
+    "Windows 10",
+    "MS Office 10",
+    "Camtasia",
+    "Typing Pro"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Biết khái niệm về tổng quan công nghệ thông tin",
+      "details": "Nắm bắt được lịch sử công nghệ thông tin; Hiểu về nhóm lĩnh vực chính của công nghệ thông tin; Hiểu các ngành nghề liên quan công nghệ thông tin; Sử dụng được các phím tắt trên hệ điều hành Windows 10"
+    },
+    {
+      "code": "CLO2",
+      "title": "Nắm vững kiến thức tổng quan về máy tính",
+      "details": "Biết lịch sử hình thành của máy tính; Phân loại được các loại máy tính; Biết các thành phần phần cứng máy tính; Biết lựa chọn thiết bị học tập"
+    },
+    {
+      "code": "CLO3",
+      "title": "Cài đặt hệ điều hành và phần mềm",
+      "details": "Cài đặt được phần mềm giả lập; Cài đặt được hệ điều hành Windows 10; Cài đặt được các phần mềm cơ bản; Cài đặt được phần mềm chuyên dụng; Biết cách download được các phần mềm trên Internet; Cài đặt được phần mềm bảo mật"
+    },
+    {
+      "code": "CLO4",
+      "title": "Nắm được các kiến thức liên quan đến Internet, Network, Web",
+      "details": "Hiểu lịch sử hình thành Internet; Biết các dịch vụ cơ bản Internet; Hiểu được sự vận hành của Internet; Biết các thiết bị để truy cập mạng; Sử dụng thành thạo trình duyệt web; Biết sử dụng thành thạo dịch vụ Email; Sử dụng được Google để tìm kiếm tài nguyên"
+    },
+    {
+      "code": "CLO5",
+      "title": "Nắm vững các ngôn ngữ lập trình",
+      "details": "Phân biệt được các hệ đếm; Phân biệt được các ngôn ngữ lập trình; Cài đặt được các IDE học lập trình"
+    },
+    {
+      "code": "CLO6",
+      "title": "Nắm được các kiến thức về công nghệ thông tin và tương lai",
+      "details": "Biết được khái niệm AI, Internet of Things, Blockchain; Biết được xu hướng phần mềm tương lai"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (04)",
+      "is_online": false
+    },
+    {
+      "type": "Assignment (01)",
+      "is_online": false
+    },
+    {
+      "type": "Sách Tin học văn phòng theo chuẩn quốc tế ICDL (Syllabus 5)",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Tổng quan về công nghệ thông tin (Giới thiệu, Lịch sử, Nhóm lĩnh vực)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan về công nghệ thông tin (Windows 10, Phím tắt)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Tổng quan về máy tính (Lịch sử, Phân loại, Phần cứng, Lựa chọn thiết bị)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Tổng quan về máy tính (CPU, RAM, Bộ nhớ, Thiết bị ngoại vi)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Hệ điều hành & phần mềm hệ thống (Máy ảo, Cài đặt OS)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Hệ điều hành & phần mềm hệ thống (Thực hành cài đặt Windows 10, Driver)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "Phần mềm ứng dụng (Phần mềm cơ bản/chuyên dụng, Bản quyền, Cài đặt/Gỡ phần mềm)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Hệ điều hành và phần mềm (Phần mềm bảo mật)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Đánh giá Assignment giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Internet, Network, Web (Lịch sử Internet, Dịch vụ cơ bản)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 11,
+      "topic": "Internet, Network, Web (Mạng máy tính, Thiết bị mạng, Trình duyệt web)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Internet, Network, Web (Email, Dịch vụ tìm kiếm Google)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 13,
+      "topic": "Internet, Network, Web (Điện toán đám mây, Lưu trữ Internet, SAAS)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 14,
+      "topic": "Ngôn ngữ lập trình (Hệ nhị phân, Bát phân, Thập lục phân)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 15,
+      "topic": "Ngôn ngữ lập trình (Tìm hiểu NNLT, Cài đặt IDE)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 16,
+      "topic": "Công nghệ thông tin và tương lai (AI, IoT, Blockchain)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 17,
+      "topic": "Công nghệ thông tin và tương lai (Xu hướng phần mềm, Cơ hội nghề nghiệp)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 18,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.3,
+    "workload_score": 0.5,
+    "practice_ratio": 0.7,
+    "theory_ratio": 0.3,
+    "online_learning_ratio": 0.49
+  }
+}

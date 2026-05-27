@@ -1,0 +1,235 @@
+{
+  "course_code": "WEB105",
+  "course_name": "Thiết kế UI/UX",
+  "english_name": "Website Development",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 36,
+    "online_hours": 37,
+    "exam_hours": 2
+  },
+  "description": "Môn học này cung cấp cho sinh viên những kiến thức, kỹ năng cơ bản về thiết kế UI/UX và kỹ năng sử dụng AI để tăng tốc công việc thiết kế. Môn học trang bị cho sinh viên các mảng kiến thức, kỹ năng cơ bản giúp sinh viên có thể: Tổng quan UI/UX & Tư duy thiết kế; Nguyên lý thị giác & Bố cục (Layout); Màu sắc & Typography chuyên sâu; Thiết kế tài nguyên bằng AI & Tool; UI Design với Figma (Cơ bản); UI Design & Hệ thống thiết kế (Design System); Prototyping & Micro-interaction; Tối ưu Handoff & Portfolio.",
+  "prerequisites": [],
+  "tools_required": [
+    "Figma"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Phân biệt UI/UX, quy trình Design Thinking",
+      "details": "Phân biệt UI/UX, quy trình Design Thinking. Nghiên cứu đối tượng người dùng. Dùng ChatGPT/Gemini để phân tích chân dung khách hàng (User Persona) và lập sitemap."
+    },
+    {
+      "code": "CLO2",
+      "title": "Quy tắc 1/3, lưới (Grid system), sự cân bằng, tương phản",
+      "details": "Quy tắc 1/3, lưới (Grid system), sự cân bằng, tương phản. Sử dụng Relume Library AI hoặc Wireframe Designer để tạo nhanh khung xương layout từ ý tưởng."
+    },
+    {
+      "code": "CLO3",
+      "title": "Tâm lý học màu sắc, cách phối chữ (font pairing) trong Web",
+      "details": "Tâm lý học màu sắc, cách phối chữ (font pairing) trong Web. Dùng Adobe Color AI hoặc Khroma để sinh bảng màu dựa trên phong cách thương hiệu."
+    },
+    {
+      "code": "CLO4",
+      "title": "Xử lý hình ảnh, tạo icon, tối ưu hóa dung lượng ảnh web",
+      "details": "Xử lý hình ảnh, tạo icon, tối ưu hóa dung lượng ảnh web. Dùng Adobe Firefly (Generative Fill) để mở rộng ảnh hoặc Midjourney/Canva AI để tạo ảnh minh họa độc bản."
+    },
+    {
+      "code": "CLO5",
+      "title": "Làm quen Figma, Components, Auto Layout",
+      "details": "Làm quen Figma, Components, Auto Layout. Sử dụng Magician (Figma Plugin) để tạo icon và nội dung bằng AI ngay trong Figma."
+    },
+    {
+      "code": "CLO6",
+      "title": "Xây dựng bộ UI Kit, Button, Input field, Navigation bar",
+      "details": "Xây dựng bộ UI Kit, Button, Input field, Navigation bar. Ứng dụng Figma AI để tự động hóa việc đặt tên layer và tổ chức hệ thống thiết kế."
+    },
+    {
+      "code": "CLO7",
+      "title": "Tạo hiệu ứng chuyển động, liên kết các trang (Smart Animate)",
+      "details": "Tạo hiệu ứng chuyển động, liên kết các trang (Smart Animate). Dùng AI gợi ý luồng trải nghiệm (User Flow) tối ưu để giảm tỷ lệ thoát trang."
+    },
+    {
+      "code": "CLO8",
+      "title": "Cách xuất file cho Coder, đóng gói Project trên Behance",
+      "details": "Cách xuất file cho Coder, đóng gói Project trên Behance. Dùng AI để viết mô tả dự án (Case study) chuyên nghiệp để gây ấn tượng với nhà tuyển dụng."
+    }
+  ],
+  "materials": [
+    {
+      "type": "Assignment:1",
+      "is_online": false
+    },
+    {
+      "type": "Bài học online Udemy Video: 8",
+      "is_online": true
+    },
+    {
+      "type": "Bài giảng trên lớp: 8",
+      "is_online": false
+    },
+    {
+      "type": "Lab: 4",
+      "is_online": false
+    },
+    {
+      "type": "Quiz: 4",
+      "is_online": false
+    },
+    {
+      "type": "https://fpl.udemy.com/learning-paths/11321903/",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Tổng quan UI/UX & Tư duy thiết kế (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan UI/UX & Tư duy thiết kế (P2), Quy trình Design Thinking",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Nguyên lý thị giác & Bố cục (Layout) (P1), Nghiên cứu Persona",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO5, CLO6"
+    },
+    {
+      "session": 4,
+      "topic": "Lập Sitemap & Luồng người dùng, Nộp Lab 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Màu sắc & Typography chuyên sâu (P1), Hệ thống Lưới",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Tương phản & Quy tắc 1/3, Nộp bài Assignment giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Thiết kế tài nguyên bằng AI & Tool (P1), Sự cân bằng & White Space",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Wireframing với trợ lý AI, Nộp Lab 2",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "Đánh giá Assignment giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3, CLO4, CLO5"
+    },
+    {
+      "session": 10,
+      "topic": "UI Design với Figma (Cơ bản) (P1), Tâm lý học Màu sắc",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "UI Design với Figma (Cơ bản) (P2), Typography & Font Pairing",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO6"
+    },
+    {
+      "session": 12,
+      "topic": "UI Design & Hệ thống thiết kế (Design System) (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "Iconography & Tối ưu dung lượng, Nộp Lab3",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Prototyping & Micro-interaction (P1), UI Components & Auto Layout",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 15,
+      "topic": "UX Writing & High-Fidelity UI, Nộp bài Assignment giai đoạn 2",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 16,
+      "topic": "Prototyping & Hiệu ứng (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 17,
+      "topic": "Tối ưu Handoff & Portfolio (P2), Nộp Lab4",
+      "type": "Offline",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 18,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Bài học online",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (4 bài)",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.5,
+    "workload_score": 0.6,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.49
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "course_code": "ENT213",
+  "course_name": "Tiếng Anh 2.1",
+  "english_name": "English 2.1",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 60,
+    "class_hours": 34,
+    "online_hours": 24,
+    "exam_hours": 2
+  },
+  "description": "Cung cấp kiến thức nền tảng cho người học tiếng Anh ở mức độ sơ cấp. Người học rèn luyện kỹ năng nghe nói đọc viết, từ vựng và ngữ pháp cơ bản thông qua các bài hội thoại, video, bài giảng liên quan đến những chủ đề quen thuộc trong cuộc sống như: các hoạt động hàng ngày, các lễ hội và ngày lễ, giáo dục và nghề nghiệp, phòng ốc trong nhà và các địa điểm ở nơi bạn sống, các hình thức giải trí ở hiện tại và quá khứ. Khóa học giúp sinh viên củng cố và phát triển lên trình độ A1+ (tiệm cận A2) theo khung CEFR. Người học luyện tập nghe, nói, đọc, viết ở mức độ dài và phức tạp hơn, chuẩn bị sẵn sàng để đạt A2.",
+  "prerequisites": [
+    "Passed Tiếng Anh 1.2"
+  ],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Kỹ năng nghe",
+      "details": "Có khả năng nghe để lấy thông tin chi tiết, nghe ý chính, nghe và ghi chú hay phân loại, nghe để dự đoán...trong những tình huống đơn giản"
+    },
+    {
+      "code": "CLO2",
+      "title": "Kỹ năng nói",
+      "details": "Sử dụng từ vựng và cấu trúc ngữ pháp đã học để nói và trình bày thông tin, so sánh đặc điểm, đưa ra yêu cầu... trong những tình huống giao tiếp đơn giản, cụ thể."
+    },
+    {
+      "code": "CLO3",
+      "title": "Kỹ năng đọc",
+      "details": "Đọc, tìm hiểu thông tin thông qua đoạn văn bản ngắn và đơn giản với nội dung khác nhau như thông tin cá nhân, sự kiện trên trang web, bài khảo sát, thực đơn"
+    },
+    {
+      "code": "CLO4",
+      "title": "Kỹ năng viết",
+      "details": "Sử dụng được đúng cấu trúc ngữ pháp và từ vựng đã học để viết bài mô tả ngắn về mô tả người, sở thích âm nhạc, mô tả về gia đình hay nhà hàng yêu thích."
+    }
+  ],
+  "materials": [
+    {
+      "type": "Language Café Level 1 (Truy cập tại: https://lms.languagehub.vn)",
+      "is_online": true
+    },
+    {
+      "type": "App Practice-On-The-Go",
+      "is_online": true
+    },
+    {
+      "type": "Bộ câu hỏi thi Speaking",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu Tổng quan môn học, Unit 2: People (Lesson 4)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 2,
+      "topic": "Unit 3: Days (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 3,
+      "topic": "Unit 3: Days (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Unit 3: Days (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 5,
+      "topic": "Unit 4: Work and education (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Unit 4: Work and education (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Unit 4: Work and education (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 8,
+      "topic": "Sửa bài Portfolio Giai đoạn 1 (Topic 1 + 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Unit 5: Places (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO 4"
+    },
+    {
+      "session": 10,
+      "topic": "Unit 5: Places (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 11,
+      "topic": "Unit 5 (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 12,
+      "topic": "Unit 6 (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 13,
+      "topic": "Unit 6: That's entertainment (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 14,
+      "topic": "Unit 6 (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 15,
+      "topic": "Sửa bài Portfolio Giai đoạn 2 (Topic 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "Course Review, EOS Test",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 17,
+      "topic": "Speaking practice (Study for final assignment - Oral test)",
+      "type": "Offline",
+      "learning_outcome": "CLO 4"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Điểm tích cực tham gia các hoạt động học tập",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "EOS Test",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Unit quiz",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.4,
+    "workload_score": 0.6,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.4
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "course_code": "WEB3023",
+  "course_name": "Thiết kế Web với HTML5&CSS3",
+  "english_name": "Web design with HTML5 & CSS3",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 61,
+    "exam_hours": 2
+  },
+  "description": "Thiết kế web với HTML5 & CSS 3 đang thay đổi bộ mặt của ngành thiết kế web theo một cách mới đầy thú vị, giúp tạo ra các chức năng hiện đại và cung cấp trải nghiệm người dùng tuyệt vời. Khóa học này sẽ giúp bạn mở khóa sức mạnh của HTML 5 và CSS3, đồng thời giúp bạn thiết kế và phát triển trang web một cách dễ dàng. Sử dụng thành thạo các thẻ tag cũng như cấu trúc trang web theo chuẩn HTML5, tối ưu hóa cho SEO. Truy cập và thiết lập thuộc tính các đối tượng trong mô hình đối tượng của trang HTML, làm chủ các đối tượng và điều khiển trang Web theo ý muốn. Biết cách sử dụng Geolocation để xác định vị trí người dùng trong HTML5. Nhúng font và icon vào website. Bố cục layout, kiến thức về responsive web design và cách tạo các hiệu ứng đẹp nhờ CSS.",
+  "prerequisites": [
+    "Lập trình cơ sở với Javascript"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Nhận diện, sử dụng các thẻ HTML5; lập trình JavaScript với Canvas, SVG, Drag/drop, Geolocation và Storage",
+      "details": "Nhận diện, sử dụng các thẻ HTML5; lập trình JavaScript với Canvas, SVG, Drag/drop, Geolocation và Storage: Giải thích HTML5 và các thẻ mới định nghĩa khu vực; Sử dụng được các thuộc tính mới input Form HTML5; Sử dụng được các thẻ media : Audio, Video; Giải thích được đồ họa trong HTML5: Canvas, SVG; Sử dụng HTML5 API: Drag/drop; Sử dụng HTML5 API: Geolocation; Sử dụng HTML5 API: Storage"
+    },
+    {
+      "code": "CLO2",
+      "title": "Định dạng CSS với các thuộc tính mới trong CSS3",
+      "details": "Định dạng CSS với các thuộc tính mới trong CSS3: Giới thiệu về CSS3 và lý do sử dụng; Sử dụng được biến trong CSS3; Sử dụng Font và icon; Sử dụng background, gradient, shadow; Hiểu và sử dụng được các hiệu ứng animation và transform; Sử dụng thuộc tính Display trong CSS3; Giải thích Web responsive design"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bài học online:08",
+      "is_online": true
+    },
+    {
+      "type": "Assignment: 1 (pdf)",
+      "is_online": false
+    },
+    {
+      "type": "Thiết kế web với HTML5 & CSS3 :Tài liệu nguồn mở trên LMS",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Hướng dẫn hình thức học",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: Giới thiệu HTML 5 (Thẻ mới, Input, Media)",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: Xây dựng đồ họa trong HTML5 (Canvas, SVG)",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "Rà soát và hỗ trợ cách thức học online (Bài 1, 2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: Làm việc với HTML5 API (Drag/Drop, Geolocation, Web Storage)",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 4: Tổng quan về CSS3",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Hỗ trợ nội dung bài online 3, 4",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 5: Hiệu ứng màu sắc trong thiết kế website (Background, Gradients, Shadow)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 6: CSS Animation",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 10,
+      "topic": "Hỗ trợ nội dung bài online 5, 6",
+      "type": "ORIT",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 7: Thuộc tính Display trong CSS3 (Flex, Grid)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 7: Thuộc tính Display trong CSS3 (tt)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 13,
+      "topic": "Hỗ trợ nội dung bài online 7",
+      "type": "ORIT",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 8: Responsive Web Design (Media Queries)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 15,
+      "topic": "Bài 8: Responsive Web Design (Bootstrap)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 16,
+      "topic": "Hỗ trợ, rà soát quá trình học, hướng dẫn bảo vệ cuối môn",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Online Quizzes",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.6,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.81
+  }
+}

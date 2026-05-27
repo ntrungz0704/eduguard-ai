@@ -1,0 +1,186 @@
+{
+  "course_code": "WEB2041",
+  "course_name": "Dự án mẫu (TKTW)",
+  "english_name": "Sample Project (Web design)",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 61,
+    "exam_hours": 2
+  },
+  "description": "Môn học này cung cấp cho sinh viên một cái nhìn tổng quan về việc làm dự án website theo qui trình sát với thực tế hiện nay. Qua môn học này sinh viên cần biết sử dụng tài liệu dự án được xây dựng sẵn để xây dựng ra một phần mềm – đó là website giới thiệu sản phẩm cho hệ thống siêu thị X-Shop. Thông qua môn học này sinh viên sẽ được hướng dẫn từng bước cụ thể để bắt đầu và kết thúc một dự án website có bài bản từ yêu cầu của một nhà bán lẻ vừa và nhỏ.",
+  "prerequisites": [
+    "Cơ sở dữ liệu",
+    "Xây dựng trang Web",
+    "Lập trình cơ sở với Javascript",
+    "Lập trình PHP 1"
+  ],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Nắm rõ yêu cầu, phân tích và thiết kế được dự án",
+      "details": "Nắm rõ yêu cầu, phân tích và thiết kế được dự án. Hoàn thiện giai đoạn thiết kế layout website với figma. Layout các trang cơ bản với HTML và CSS."
+    },
+    {
+      "code": "CLO2",
+      "title": "Xây dựng được mô hình lập trình MVC",
+      "details": "Xây dựng được mô hình lập trình MVC. Hoàn thiện các model cần thiết cho việc lập trình dự án. Hoàn thiện kết nối CSDL và load dữ liệu, lọc dữ liệu, liên kết trang. Quản trị được dữ liệu cần thiết cơ bản của một website."
+    },
+    {
+      "code": "CLO3",
+      "title": "Hoàn thiện được các chức năng phụ và bổ sung website",
+      "details": "Hoàn thiện được các chức năng phụ và bổ sung website. Thực hiện được phần kiểm lỗi. Đóng gói và triển khai website."
+    }
+  ],
+  "materials": [
+    {
+      "type": "08 bài online trên hệ thống CMS",
+      "is_online": true
+    },
+    {
+      "type": "08 slide tham khảo đi kèm với 08 bài online",
+      "is_online": true
+    },
+    {
+      "type": "01 assignment (tài liệu dự án mẫu được sử dụng để làm 8 bài lab)",
+      "is_online": false
+    },
+    {
+      "type": "01 hướng dẫn thực hành (bao gồm 08 demo hướng dẫn xây dựng tài liệu dự án)",
+      "is_online": false
+    },
+    {
+      "type": "09 Quiz (8 bài kèm với bài online và 1 final)",
+      "is_online": true
+    },
+    {
+      "type": "Tài liệu hướng dẫn thực hiện dự án",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Hướng dẫn hình thức học",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Bài online 1: Giới thiệu dự án",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài online 2: Phân tích dự án",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "Rà soát và hỗ trợ cách thức học online (Bài 1, 2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "Bài online 3: Thiết kế dự án",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 6,
+      "topic": "Bài online 4: Xây dựng dự án",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 7,
+      "topic": "Hỗ trợ nội dung bài online 3, 4",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 8,
+      "topic": "Bài online 5: Thực thi dự án (1)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 9,
+      "topic": "Bài online 6: Thực thi dự án (2)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 10,
+      "topic": "Hỗ trợ nội dung bài online 5, 6",
+      "type": "ORIT",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 11,
+      "topic": "Bài online 7: Bình luận (P1)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Bài online 7: Bình luận (P2)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "Hỗ trợ nội dung bài online 7",
+      "type": "ORIT",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Bài online 8: Kiểm lỗi, Đóng gói và triển khai dự án (P1)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 15,
+      "topic": "Bài online 8: Kiểm lỗi, Đóng gói và triển khai dự án (P2)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "Hỗ trợ nội dung bài online 8, Hướng dẫn bảo vệ cuối môn",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Online Quizzes",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.8,
+    "workload_score": 0.8,
+    "practice_ratio": 0.9,
+    "theory_ratio": 0.1,
+    "online_learning_ratio": 0.81
+  }
+}

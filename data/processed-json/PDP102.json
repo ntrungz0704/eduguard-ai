@@ -1,0 +1,202 @@
+{
+  "course_code": "PDP102",
+  "course_name": "Kỹ năng học tập",
+  "english_name": "Learning Skills",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 45,
+    "class_hours": 28,
+    "online_hours": 15,
+    "exam_hours": 2
+  },
+  "description": "Module/môn học này sẽ đề cập những chủ đề sau: Nhận thức bản thân: điểm mạnh yếu, hệ giá trị; Quản lý bản thân: quản lý thời gian, tiền bạc, cảm xúc; Lập kế hoạch mục tiêu học tập; Tạo lập thói quen tích cực cho bản thân, từ bỏ những thói quen tiêu cực; Phá bỏ niềm tin giới hạn; Kỹ năng học tập hiệu quả: các phương pháp học tập; Kỹ năng giao tiếp: viết email, mạng xã hội và hàn gắn mối quan hệ; Kỹ năng thuyết trình: thuyết trình tự tin, sử dụng phi ngôn từ linh hoạt; Thực hành làm việc nhóm.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Có khả năng nhận thức bản thân, lập mục tiêu kế hoạch",
+      "details": "Có khả năng nhận thức bản thân, lập mục tiêu kế hoạch"
+    },
+    {
+      "code": "CLO2",
+      "title": "Có khả năng giao tiếp hiệu quả qua email, mạng xã hội và giao tiếp hàn gắn mối quan hệ",
+      "details": "Có khả năng giao tiếp hiệu quả qua email, mạng xã hội và giao tiếp hàn gắn mối quan hệ"
+    },
+    {
+      "code": "CLO3",
+      "title": "Có khả năng áp dụng các kỹ năng học tập hiệu quả tại môi trường FPoly",
+      "details": "Có khả năng áp dụng các kỹ năng học tập hiệu quả tại môi trường FPoly"
+    },
+    {
+      "code": "CLO4",
+      "title": "Có khả năng thuyết trình tự tin và thực hành rút kinh nghiệm cho bản thân",
+      "details": "Có khả năng thuyết trình tự tin và thực hành rút kinh nghiệm cho bản thân"
+    },
+    {
+      "code": "CLO5",
+      "title": "Có khả năng làm việc nhóm",
+      "details": "Có khả năng làm việc nhóm"
+    },
+    {
+      "code": "CLO6",
+      "title": "Có khả năng tạo lập các thói quen tích cực và từ bỏ những thói quen xấu",
+      "details": "Có khả năng tạo lập các thói quen tích cực và từ bỏ những thói quen xấu"
+    },
+    {
+      "code": "CLO7",
+      "title": "Có khả năng phá bỏ các niềm tin giới hạn của bản thân để tạo ra những niềm tin sức mạnh",
+      "details": "Có khả năng phá bỏ các niềm tin giới hạn của bản thân để tạo ra những niềm tin sức mạnh"
+    },
+    {
+      "code": "CLO8",
+      "title": "Có khả năng quản lý cảm xúc, quản lý tiền bạc và quản lý thời gian",
+      "details": "Có khả năng quản lý cảm xúc, quản lý tiền bạc và quản lý thời gian"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bài học online (14 bài)",
+      "is_online": true
+    },
+    {
+      "type": "Slide hướng dẫn Giảng viên",
+      "is_online": false
+    },
+    {
+      "type": "Sách tham khảo: Ngày xưa có một con bò",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu hành trình phát triển bản thân",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tự tin giao tiếp, thuyết trình và thực hành phi ngôn từ trong thuyết trình",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Kỹ năng nhận thức bản thân",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "Giá trị sống",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "Thấu hiểu sức khỏe",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Tạo lập thói quen và quản lý thời gian",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Kỹ năng giao tiếp",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 8,
+      "topic": "Quản lý tiền bạc",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 9,
+      "topic": "Kỹ năng học tập",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 10,
+      "topic": "Mục tiêu cuộc đời: Thiết lập mục tiêu học tập",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 11,
+      "topic": "Niềm tin",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Quản lý cảm xúc",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 13,
+      "topic": "Thuyết trình nhóm",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO5"
+    },
+    {
+      "session": 14,
+      "topic": "Trình bày sản phẩm nhóm. Tổng kết điểm môn học. Ngoại khóa",
+      "type": "Offline",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Bài học online",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Test 1 (Viết thư, Đọc sách)",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Test 2 (Tạo thói quen tích cực: chạy bộ hoặc đọc sách)",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thực hành cá nhân (Duolingo)",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Workshop 2 (Thuyết trình sách Ngày xưa có một con bò)",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Workshop 1 (Bữa ăn 20k, Dự án từ thiện)",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam - Bộ phim cuộc đời)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.2,
+    "workload_score": 0.4,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.33
+  }
+}

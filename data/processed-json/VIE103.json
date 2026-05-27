@@ -1,0 +1,186 @@
+{
+  "course_code": "VIE103",
+  "course_name": "Giáo dục thể chất - Vovinam",
+  "english_name": "Physical education",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 60,
+    "class_hours": 34,
+    "online_hours": 22,
+    "exam_hours": 4
+  },
+  "description": "Môn học Vovinam là môn học rèn luyện kỹ năng và thể lực cho sinh viên. Được tổ chức ở kỳ học song song. Hướng dẫn sinh viên các nội dung chính bao gồm: Hiểu được: Lịch sử, nguồn gốc môn Vovinam; Lý luận về Võ đạo của cha ông và thời kỳ mới; nguyên lý kỹ thuật động tác; phương pháp tập luyện kỹ thuật, thể lực. Hiểu được phương pháp thi đấu và trọng tài. Tập trung vào các nội dung: các kỹ thuật cơ bản; các bài tập bổ trợ kỹ - chiến thuật.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Trình bày được tác dụng, các kỹ thuật cơ bản và một số quy định",
+      "details": "Trình bày được tác dụng, các kỹ thuật cơ bản và một số quy định của luật môn thể dục thể thao được học để rèn luyện sức khỏe, phát triển thể lực chung"
+    },
+    {
+      "code": "CLO2",
+      "title": "Tự tập luyện, rèn luyện đúng các yêu cầu về kỹ thuật",
+      "details": "Tự tập luyện, rèn luyện đúng các yêu cầu về kỹ thuật, quy định của môn thể dục thể thao được học"
+    },
+    {
+      "code": "CLO3",
+      "title": "Có ý thức tự giác và hình thành thói quen tập luyện",
+      "details": "Có ý thức tự giác và hình thành thói quen tập luyện thể dục thể thao hàng ngày để góp phần bảo đảm sức khỏe trong học tập, lao động và trong các hoạt động khác"
+    },
+    {
+      "code": "CLO4",
+      "title": "Hiểu được sơ lược về sự hình thành và phát triển môn Vovinam",
+      "details": "Hiểu được sơ lược về sự hình thành và phát triển môn Vovinam – Việt võ đạo trong nước và thế giới"
+    },
+    {
+      "code": "CLO5",
+      "title": "Hiểu được môn quy và các quy định trong tập luyện",
+      "details": "Hiểu được môn quy và các quy định trong tập luyện Vovinam Cao đẳng thực hành FPT"
+    },
+    {
+      "code": "CLO6",
+      "title": "Nắm được và thực hiện được các kỹ thuật trong Vovinam",
+      "details": "Nắm được và thực hiện được các kỹ thuật trong Vovinam"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Luật thi đấu Vovinam 2002",
+      "is_online": false
+    },
+    {
+      "type": "Giáo trình giáo dục thể chất",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Làm quen với môn học, Lịch sử, Bộ Tấn",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 2,
+      "topic": "Bộ Tấn (Đinh tấn, tam giác tấn), Ngã chống sấp, Bộ chém",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 3,
+      "topic": "Bộ chém, Lăn vai trước, Bộ đấm (Đấm thẳng, móc, múc)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 4,
+      "topic": "Lăn vai sau, Bộ đấm (Đấm lao, phạt ngang, bật ngược, thấp)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 5,
+      "topic": "Bộ Gạt",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 6,
+      "topic": "Bộ Chỏ, Đá thẳng",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 7,
+      "topic": "Bộ Chỏ, Đá tạt",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 8,
+      "topic": "Ôn luyện kỹ thuật, Lý thuyết võ đạo (10 điều tâm niệm)",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 9,
+      "topic": "Kiểm tra giữa kỳ",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 10,
+      "topic": "Khóa Gỡ (Bóp cổ trước), Đối kháng cơ bản",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 11,
+      "topic": "Khóa Gỡ (Nắm tóc trước), Đối kháng, Võ đạo",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 12,
+      "topic": "Chiến lược 1-2",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 13,
+      "topic": "Chiến lược 3",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 14,
+      "topic": "Phản đòn trình độ 1 (Đấm thẳng)",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 15,
+      "topic": "Phản đòn (Đấm thấp)",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 16,
+      "topic": "Phổ biến quy trình thi, Thi thử",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    },
+    {
+      "session": 17,
+      "topic": "Tổng ôn - Chấm điểm ý thức",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO4, CLO5, CLO6"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Điểm rèn luyện ý thức",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Kiểm tra giữa kỳ",
+      "weight": 30.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thi thực hành (Final Exam)",
+      "weight": 50.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.15,
+    "workload_score": 0.3,
+    "practice_ratio": 1.0,
+    "theory_ratio": 0.0,
+    "online_learning_ratio": 0.36
+  }
+}

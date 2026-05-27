@@ -1,0 +1,197 @@
+{
+  "course_code": "ENT123",
+  "course_name": "Tiếng Anh 1.2",
+  "english_name": "English1.2",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 45,
+    "class_hours": 34,
+    "online_hours": 9,
+    "exam_hours": 2
+  },
+  "description": "Cung cấp kiến thức nền tảng cho người học tiếng Anh ở mức độ sơ cấp. Người học rèn luyện kỹ năng nghe nói đọc viết, từ vựng và ngữ pháp cơ bản thông qua các bài hội thoại, video, bài giảng liên quan đến những chủ đề quen thuộc trong cuộc sống như: các khả năng của con người, trang phục trong những hoàn cảnh khác nhau, các nhân vật nổi tiếng trong lịch sử, các sự kiện trong quá khứ, và du lịch. Khóa học giúp sinh viên đạt trình độ tiếng Anh A1 theo khung CEFR. Người học mở rộng vốn từ và cấu trúc ngữ pháp, rèn luyện bốn kỹ năng về các chủ đề mở rộng như khả năng con người, sự kiện, du lịch và các chủ đề quá khứ.",
+  "prerequisites": [
+    "Passed: Tiếng Anh 1.1"
+  ],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Kỹ năng nghe",
+      "details": "Có khả năng nghe để lấy thông tin chi tiết, nghe ý chính, ...trong những tình huống đơn giản"
+    },
+    {
+      "code": "CLO2",
+      "title": "Kỹ năng nói",
+      "details": "Sử dụng từ vựng và cấu trúc ngữ pháp đã học để nói và trình bày thông tin, mô tả, so sánh đặc điểm, đưa ra yêu cầu, lên kế hoạch, ... trong những tình huống giao tiếp cụ thể"
+    },
+    {
+      "code": "CLO3",
+      "title": "Kỹ năng đọc",
+      "details": "Đọc tìm ý chính và thông tin chi tiết thông qua đoạn văn bản ngắn và đơn giản với nội dung khác nhau như thông tin cá nhân, tin nhắn, đoạn văn ngắn, bài báo, tin tức, …"
+    },
+    {
+      "code": "CLO4",
+      "title": "Kỹ năng viết",
+      "details": "Sử dụng được đúng cấu trúc ngữ pháp và từ vựng đã học để viết bài mô tả con người, sự việc, kế hoạch, ..."
+    }
+  ],
+  "materials": [
+    {
+      "type": "Language Café Level Starter (Truy cập tại: https://lms.languagehub.vn)",
+      "is_online": true
+    },
+    {
+      "type": "App Practice-On-The-Go",
+      "is_online": true
+    },
+    {
+      "type": "Bộ câu hỏi thi Speaking",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu Tổng quan môn học, Hướng dẫn Assignment (ASM), Unit 7: Skills (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 2,
+      "topic": "Unit 7: Skills (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 3,
+      "topic": "Unit 7: Skills (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Unit 8: The here and now (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Unit 8: The here and now (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Unit 8: The here and now (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Unit 9: Looking back (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 8,
+      "topic": "Unit 9: Looking back (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Unit 9: Looking back (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 10,
+      "topic": "Sửa bài Portfolio Giai đoạn 1 (Topic 1 + 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "Unit 10: It's history (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Unit 10: It's history (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 13,
+      "topic": "Unit 12: Going away (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Unit 12: Going away (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 15,
+      "topic": "Sửa bài Portfolio Giai đoạn 2 (Topic 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "Course Review, EOS Test",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 17,
+      "topic": "Speaking practice (Study for final assignment - Oral test)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Điểm tích cực tham gia các hoạt động học tập",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "EOS Test",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Unit quiz",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.35,
+    "workload_score": 0.45,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.2
+  }
+}

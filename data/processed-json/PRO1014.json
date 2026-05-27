@@ -1,0 +1,221 @@
+{
+  "course_code": "PRO1014",
+  "course_name": "Dự án 1 (TKTW)",
+  "english_name": "Project 1 (Web Development)",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Môn học này yêu cầu sinh viên thực hiện một dự án hoàng chỉnh. Sinh viên sử dụng kiến thức lập trình PHP 1 và MySQL để xây dựng ra một ứng dụng web theo chủ đề tự chọn hoặc giảng viên giao. Sinh viên bắt buộc phải thực hiện tất cả các khâu từ khảo sát, phân tích, thiết kế, thực hiện, kiểm thử và triển khai. Sinh viên cần ghi nhận quá trình thực hiện qua báo cáo theo mẫu đính kèm.",
+  "prerequisites": [
+    "Dự án mẫu (TKTW)"
+  ],
+  "tools_required": [
+    "NetBean 8.2+",
+    "Xampp"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Khảo sát và phân tích yêu cầu người dùng",
+      "details": "Khảo sát và phân tích yêu cầu người dùng"
+    },
+    {
+      "code": "CLO2",
+      "title": "Thiết kế các chức năng (giao diện và CSDL)",
+      "details": "Thiết kế các chức năng (giao diện và CSDL)"
+    },
+    {
+      "code": "CLO3",
+      "title": "Viết mã thực hiện các chức năng",
+      "details": "Viết mã thực hiện các chức năng"
+    },
+    {
+      "code": "CLO4",
+      "title": "Kiểm thử ứng dụng web",
+      "details": "Kiểm thử ứng dụng web"
+    },
+    {
+      "code": "CLO5",
+      "title": "Đóng gói và triển khai",
+      "details": "Đóng gói và triển khai"
+    },
+    {
+      "code": "CLO6",
+      "title": "Viết tài liệu dự án",
+      "details": "Viết tài liệu dự án"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Danh mục các dự án",
+      "is_online": false
+    },
+    {
+      "type": "Mẫu tài liệu dự án",
+      "is_online": false
+    },
+    {
+      "type": "Mẫu báo cáo dự án",
+      "is_online": false
+    },
+    {
+      "type": "Hướng dẫn thực hiện dự án thành công",
+      "is_online": false
+    },
+    {
+      "type": "NetBean 8.2",
+      "is_online": false
+    },
+    {
+      "type": "Xampp",
+      "is_online": false
+    },
+    {
+      "type": "Ebook: Tài liệu hướng dẫn thực hiện dự án",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, chia nhóm, đăng ký đề tài, giới thiệu qui trình thực hiện",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Phân tích yêu cầu (Viết bảng yêu cầu, Use Case)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Thiết kế dự án (Hướng dẫn thiết kế giao diện)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Thiết kế dự án (Tổ chức giao diện)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Thực hiện dự án 1 (Hướng dẫn vẽ sơ đồ ERD)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Thực hiện dự án 2 (Tạo CSDL, Nộp giai đoạn 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Thực hiện dự án 3 (Xây dựng thư viện, DAO)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Thực hiện dự án 4 (Xây dựng công cụ quản trị)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Thực hiện dự án 5 (Xây dựng công cụ quản trị)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Thực hiện dự án 6 (Xây dựng web người dùng)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "Thực hiện dự án 7 (Xây dựng web người dùng)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Thực hiện dự án 8 (Xây dựng web người dùng, Nộp giai đoạn 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "Kiểm lỗi (Lập checklist, thực hiện kiểm lỗi)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 14,
+      "topic": "Kiểm lỗi (tt)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 15,
+      "topic": "Đóng gói và triển khai",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 16,
+      "topic": "Hoàn thiện tài liệu dự án, Nộp giai đoạn 3",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá GĐ 2",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá GĐ 3",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Document",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 45.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.8,
+    "workload_score": 0.8,
+    "practice_ratio": 0.9,
+    "theory_ratio": 0.1,
+    "online_learning_ratio": 0.52
+  }
+}

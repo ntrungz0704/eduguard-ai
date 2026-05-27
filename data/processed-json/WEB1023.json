@@ -1,0 +1,200 @@
+{
+  "course_code": "WEB1023",
+  "course_name": "Quản trị website",
+  "english_name": "Website administrator",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 61,
+    "exam_hours": 2
+  },
+  "description": "Môn học này sẽ đề cập những chủ đề sau: Tìm hiểu về domain; Tìm hiểu về hosting; Mua domain và quản trị domain; Mua hosting và quản trị hosting; Upload website lên hosting, cấu hình website; Quản trị nội dung website; Vận hành website: bảo mật, backup restore...; Cloud Computing.",
+  "prerequisites": [
+    "Xây dựng trang web hoặc Thiết kế trang web"
+  ],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Hiểu các khái niệm liên quan đến domain",
+      "details": "Hiểu các khái niệm liên quan đến domain"
+    },
+    {
+      "code": "CLO2",
+      "title": "Hiểu các khái niệm liên quan đến hosting",
+      "details": "Hiểu các khái niệm liên quan đến hosting"
+    },
+    {
+      "code": "CLO3",
+      "title": "Biết thực hiện mua domain và biết quản trị các record trong domain",
+      "details": "Biết thực hiện mua domain và biết quản trị các record trong domain"
+    },
+    {
+      "code": "CLO4",
+      "title": "Biết thực hiện mua hosting và sử dụng được các chức năng trong hosting đã mua",
+      "details": "Biết thực hiện mua hosting và sử dụng được các chức năng trong hosting đã mua"
+    },
+    {
+      "code": "CLO5",
+      "title": "Biết cách thức đưa website lên hosting và cài đặt website",
+      "details": "Biết cách thức đưa website lên hosting và cài đặt website"
+    },
+    {
+      "code": "CLO6",
+      "title": "Biết thực hiện các thao tác để quản trị nội dung website",
+      "details": "Biết thực hiện các thao tác để quản trị nội dung website"
+    },
+    {
+      "code": "CLO7",
+      "title": "Biết vận hành để đảm bảo website hoạt động tốt: bảo mật, backup, restore website…",
+      "details": "Biết vận hành để đảm bảo website hoạt động tốt: bảo mật, backup, restore website…"
+    },
+    {
+      "code": "CLO8",
+      "title": "Hiểu các khái niệm về Cloud Computing",
+      "details": "Hiểu các khái niệm về Cloud Computing"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Udemy Video (8)",
+      "is_online": true
+    },
+    {
+      "type": "Lab Guide (8)",
+      "is_online": false
+    },
+    {
+      "type": "01 Assignment",
+      "is_online": false
+    },
+    {
+      "type": "https://fpl.udemy.com/learning-paths/10392609",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Hướng dẫn hình thức học",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: Tìm hiểu về domain",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: Tìm hiểu về hosting",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Rà soát và hỗ trợ cách thức học online (Bài 1, 2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: Mua domain và quản trị domain (P1)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 3: Mua và quản trị domain (P2)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "Hỗ trợ nội dung bài online Section 3",
+      "type": "ORIT",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 4: Mua hosting và quản trị hosting (P1)",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 4: Mua hosting và quản trị hosting (P2)",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 10,
+      "topic": "Hỗ trợ nội dung bài online Section 4",
+      "type": "ORIT",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 5: Upload website lên hosting, cấu hình website",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 6: Quản trị nội dung website (Wordpress)",
+      "type": "Online",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 13,
+      "topic": "Hỗ trợ nội dung bài online Section 6, 7 (5,6)",
+      "type": "ORIT",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 7: Vận hành website: backup restore, bảo mật website",
+      "type": "Online",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 15,
+      "topic": "Bài 8: Cloud Computing",
+      "type": "Online",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 16,
+      "topic": "Hỗ trợ nội dung bài online Section 8, Hướng dẫn bảo vệ cuối môn",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Hoàn thành khóa học (Learning Path)",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.5,
+    "workload_score": 0.6,
+    "practice_ratio": 0.7,
+    "theory_ratio": 0.3,
+    "online_learning_ratio": 0.81
+  }
+}

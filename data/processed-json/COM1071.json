@@ -1,0 +1,189 @@
+{
+  "course_code": "COM1071",
+  "course_name": "Tin học",
+  "english_name": "Informatics",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 24,
+    "online_hours": 49,
+    "exam_hours": 2
+  },
+  "description": "Sau khi học xong môn học này, người học đạt được Chuẩn kỹ năng sử dụng công nghệ thông tin cơ bản theo quy định của Bộ Thông tin và Truyền thông, cụ thể: 1. Về kiến thức... 2. Về kỹ năng... 3. Về năng lực tự chủ và trách nhiệm...",
+  "prerequisites": [],
+  "tools_required": [
+    "Microsoft Window 10+",
+    "Microsoft Office 2010+"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Nhận diện các thiết bị máy tính và các ứng dụng cơ bản",
+      "details": "Mô tả học liệu và cách học tập; Trình bày được lịch sử phát triển và các khái niệm cơ bản của máy tính? Gõ dấu Tiếng Việt"
+    },
+    {
+      "code": "CLO2",
+      "title": "Giải thích và sử dụng các tính năng soạn thảo văn bản vơi MS Word",
+      "details": "Giải thích được các tính năng và quy trình soạn thảo văn bản; Căn chỉnh được trang in theo chuẩn và định dạng văn bản đơn giản; Tạo được các bảng biểu và định dạng các bảng đã tạo; Tạo được liên kết trong hoặc ngoài trang văn bản; Sử dụng được Mail Merge"
+    },
+    {
+      "code": "CLO3",
+      "title": "Giải thích và sử dụng các tính năng bảng tính với MS Excel",
+      "details": "Thực hiện được các chức năng nâng cao; Giải thích và sử dụng được công dụng và cú pháp các hàm thống kê trong MS Excel; Kết hợp được các hàm trong MS Excel; Phân tích và thống kê được dữ liệu để lập báo cáo. In ấn các trang bảng tính; Giải thích được chức năng và nhiệm vụ của Microsoft Excel để làm gì? Thao tác và định dạng cơ bản trong MS Excel; Giải thích và sử dụng được các hàm cơ bản"
+    },
+    {
+      "code": "CLO4",
+      "title": "Giải thích và sử dụng các tính năng trình chiếu với MS PowerPoint",
+      "details": "Mô tả và tạo được bài trình chiếu; Sử dụng được các công cụ đã học để thiết kế bài trình chiếu theo yêu cầu; Sử dụng được các hiệu ứng cho bài trình chiếu thêm sinh động; In ấn được bài trình chiếu"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Video",
+      "is_online": true
+    },
+    {
+      "type": "Assignment",
+      "is_online": false
+    },
+    {
+      "type": "Giáo trình Tin học (Dùng trong CTĐT trình độ cao đẳng)",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học (Syllabus)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Hiểu biết về CNTT cơ bản, Sử dụng máy tính cơ bản, ChatGPT",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Ôn tập Chương 1 và Chương II",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "Giới thiệu Chương III. Xử lý văn bản cơ bản",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "Chương III. Xử lý văn bản cơ bản (Word cơ bản và nâng cao)",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Ôn tập Chương III",
+      "type": "ORIT",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Giới thiệu Chương IV. Sử dụng bảng tính cơ bản",
+      "type": "ORIT",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 8,
+      "topic": "Chương IV. Sử dụng bảng tính cơ bản (Excel 1)",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Ôn tập Chương IV (1)",
+      "type": "ORIT",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Giới thiệu Chương IV. Sử dụng bảng tính cơ bản (2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO2-CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "Chương IV. Sử dụng bảng tính cơ bản (Excel 2)",
+      "type": "Online",
+      "learning_outcome": "CLO2-CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Ôn tập Chương IV (2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO2-CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "Giới thiệu Chương V. Sử dụng trình chiếu cơ bản",
+      "type": "ORIT",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Chương V. Sử dụng trình chiếu cơ bản (PowerPoint 1)",
+      "type": "Online",
+      "learning_outcome": "CLO1-CLO3"
+    },
+    {
+      "session": 15,
+      "topic": "Ôn tập Chương V (1)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1-CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "Giới thiệu Chương V (2), Hướng dẫn thực hiện final test",
+      "type": "ORIT",
+      "learning_outcome": "CLO1-CLO3"
+    },
+    {
+      "session": 17,
+      "topic": "Chương V (PowerPoint 2), Chương VI. Sử dụng Internet cơ bản",
+      "type": "Online",
+      "learning_outcome": "CLO1-CLO4"
+    },
+    {
+      "session": 18,
+      "topic": "Gamma: Presentations and Slide Decks with AI",
+      "type": "ORIT",
+      "learning_outcome": "CLO1-CLO4"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Online Quizzes",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.45,
+    "workload_score": 0.65,
+    "practice_ratio": 0.7,
+    "theory_ratio": 0.3,
+    "online_learning_ratio": 0.65
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "course_code": "ENT223",
+  "course_name": "Tiếng Anh 2.2",
+  "english_name": "English 2.2",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 60,
+    "class_hours": 34,
+    "online_hours": 24,
+    "exam_hours": 2
+  },
+  "description": "Cung cấp kiến thức và kĩ năng tiếng Anh ở mức độ căn bản, giúp người học đạt trình độ A2 theo khung CEFR. Người học phát triển kỹ năng nghe nói đọc viết, từ vựng và ngữ pháp phục vụ giao tiếp các tình huống quen thộc trong đời sống và học tập thông qua các bài hội thoại, video, bài giảng liên quan đến những chủ đề quen thuộc như: gọi món trong nhà hàng, thảo luận về các thói quen mua sắm, các hoạt động thường ngày, các hoạt động đang diễn ra tại thời điểm nói, mô tả thời tiết, cảnh quan thiên thiên, thảo luận về chăm sóc sức khoẻ, trải nghiệm cuộc sống, lập kế hoạch và dự định, đưa ra dự đoán trong tương lai. Khóa học giúp sinh viên đạt trình độ tiếng Anh A2 theo khung CEFR. Người học có thể giao tiếp thành thạo hơn trong các tình huống thực tế như mua sắm, sức khỏe, mô tả thiên nhiên, lập kế hoạch và trình bày dự định.",
+  "prerequisites": [
+    "Passed Tiếng Anh 2.1"
+  ],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Kỹ năng nghe",
+      "details": "Có khả năng nghe để lấy thông tin chi tiết, nghe ý chính, nghe và ghi chú hay phân loại, nghe để dự đoán...trong những tình huống đơn giản"
+    },
+    {
+      "code": "CLO2",
+      "title": "Kỹ năng nói",
+      "details": "Sử dụng từ vựng và cấu trúc ngữ pháp đã học để nói và trình bày thông tin, so sánh đặc điểm, đưa ra yêu cầu... trong những tình huống giao tiếp đơn giản, cụ thể."
+    },
+    {
+      "code": "CLO3",
+      "title": "Kỹ năng đọc",
+      "details": "Đọc, tìm hiểu thông tin thông qua đoạn văn bản ngắn và đơn giản với nội dung khác nhau như thông tin cá nhân, sự kiện trên trang web, bài khảo sát, thực đơn"
+    },
+    {
+      "code": "CLO4",
+      "title": "Kỹ năng viết",
+      "details": "Sử dụng được đúng cấu trúc ngữ pháp và từ vựng đã học đề viết bài về các sở thích, thói quen khi mua sắm; mô tả thời tiết; trải nghiệm; các thói quen trên mạng xã hội"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Language Café Level 1 (Truy cập tại: https://lms.languagehub.vn)",
+      "is_online": true
+    },
+    {
+      "type": "App Practice-On-The-Go",
+      "is_online": true
+    },
+    {
+      "type": "Bộ câu hỏi thi Speaking",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu Tổng quan môn học, Unit 8: Food and drink (Lesson 4)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 2,
+      "topic": "Unit 9: Shopping (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 3,
+      "topic": "Unit 9: Shopping (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 4,
+      "topic": "Unit 9: Shopping (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 5,
+      "topic": "Unit 10: The great outdoors (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Unit 10: The great outdoors (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 7,
+      "topic": "Unit 10: The great outdoors (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Sửa bài Portfolio Giai đoạn 1 (Topic 1 + 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Unit 11: The body (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 10,
+      "topic": "Unit 11: The body (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "Unit 11: The body (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Unit 12: Modern lives (Lesson 1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 13,
+      "topic": "Unit 12: Modern lives (Lesson 2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Unit 12: Modern lives (Lesson 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO4"
+    },
+    {
+      "session": 15,
+      "topic": "Sửa bài Portfolio Giai đoạn 2 (Topic 3)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "Course Review, EOS Test",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 17,
+      "topic": "Speaking practice (Study for final assignment - Oral test)",
+      "type": "Offline",
+      "learning_outcome": "CLO 4"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Điểm tích cực tham gia các hoạt động học tập",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "EOS Test",
+      "weight": 15.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Unit quiz",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.45,
+    "workload_score": 0.6,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.4
+  }
+}

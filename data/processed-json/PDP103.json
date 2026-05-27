@@ -1,0 +1,173 @@
+{
+  "course_code": "PDP103",
+  "course_name": "Kỹ năng phát triển bản thân",
+  "english_name": "Personal development skills",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 45,
+    "class_hours": 20,
+    "online_hours": 23,
+    "exam_hours": 2
+  },
+  "description": "Module/môn học này sẽ đề cập những chủ đề sau: Kỹ năng làm việc nhóm; Giá trị sống: Tha thứ và bao dung; Trân trọng và biết ơn; Tính nam, tính nữ. Tình yêu tuổi trưởng thành; Thấu hiểu yêu thương; Tư duy xuất chúng và các quy luật tinh thần cho giới trẻ; Giao tiếp tạo lập mối quan hệ; Lập kế hoạch cá nhân và kaizen.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Có khả năng làm việc nhóm, giải quyết các vấn đề trong nhóm",
+      "details": "Có khả năng làm việc nhóm, giải quyết các vấn đề trong nhóm"
+    },
+    {
+      "code": "CLO2",
+      "title": "Tăng cao giá trị sống của bản thân",
+      "details": "Tăng cao giá trị sống của bản thân, biết bao dung tha thứ cho người và cho mình"
+    },
+    {
+      "code": "CLO3",
+      "title": "Có tâm thái trân trọng biết ơn",
+      "details": "Có tâm thái trân trọng biết ơn trong cuộc sống và những tư duy tích cực cho bản thân"
+    },
+    {
+      "code": "CLO4",
+      "title": "Yêu thương bản thân và yêu thương mọi người xung quanh",
+      "details": "Yêu thương bản thân và yêu thương mọi người xung quanh hơn, đặt mục tiêu cho học tập, thói quen lập kế hoạch và kaizen"
+    },
+    {
+      "code": "CLO5",
+      "title": "Có kỹ năng đọc sách và tạo được thói quen đọc sách",
+      "details": "Có kỹ năng đọc sách và tạo được thói quen đọc sách"
+    },
+    {
+      "code": "CLO6",
+      "title": "Hiểu biết đúng về tình nam, tính nữ lành mạnh",
+      "details": "Hiểu biết đúng về tình nam, tính nữ lành mạnh và tình yêu tuổi trưởng thành"
+    },
+    {
+      "code": "CLO7",
+      "title": "Có khả năng giao tiếp tạo lập những mối quan hệ tốt đẹp",
+      "details": "Có khả năng giao tiếp tạo lập những mối quan hệ tốt đẹp trong cuộc sống"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bài học online",
+      "is_online": true
+    },
+    {
+      "type": "Slide hướng dẫn giảng viên",
+      "is_online": false
+    },
+    {
+      "type": "Sách tham khảo Trên đường băng - Tony buổi sáng (2010)",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Bài 1: Giới thiệu hành trình phát triển bản thân",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 2: Kỹ năng làm việc nhóm hiệu quả",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 3: Tháu hiểu tình yêu, cân bằng tính nam tính nữ",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 4,
+      "topic": "Bài 4: Lập kế hoạch cá nhân OKRs và kaizen",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 5: Tư duy phát triển và các quy luật tinh thần của thành công",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 6: Giá trị sống: Tha thứ và bao dung",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 7,
+      "topic": "Bài 7: Sức mạnh của trân trọng và biết ơn",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 8: Giao tiếp tạo lập mối quan hệ",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 9: Thấu hiểu yêu thương kiến tạo hạnh phúc",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Thực hành bài 10: Thực hành chia sẻ sự chuyển hóa và hỏi đáp tư vấn",
+      "type": "Offline",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Bài học online",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Test 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Test 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thực hành cá nhân 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thực hành cá nhân 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Workshop",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.3,
+    "workload_score": 0.4,
+    "practice_ratio": 0.7,
+    "theory_ratio": 0.3,
+    "online_learning_ratio": 0.51
+  }
+}

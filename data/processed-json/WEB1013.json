@@ -1,0 +1,234 @@
+{
+  "course_code": "WEB1013",
+  "course_name": "Xây dựng trang Web",
+  "english_name": "Website Development",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Môn học này cung cấp cho sinh viên những kiến thức, kỹ năng cơ bản về lập trình web cơ bản. Môn học trang bị cho sinh viên các mảng kiến thức, kỹ năng cơ bản giúp sinh viên có thể: + Ứng dụng web là gì + Qui trình thiết kế trang web + Ngôn ngữ HTML + CSS + Bảng định kiểu + Các tiện ích + Quản trị website hiệu quả",
+  "prerequisites": [],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Trang web và ngôn ngữ HTML",
+      "details": "Phân biệt trang web và ngôn ngữ HTML; Sử dụng thẻ định dạng văn bản, hình ảnh, liên kết, phân vùng, phân đoạn"
+    },
+    {
+      "code": "CLO2",
+      "title": "Định dạng các thành phần giao diện web",
+      "details": "Mô tả CSS, selector; Các thuộc tính CSS định dạng văn bản và qui luật nạp chồng CSS, màu sắc, đơn vị, typography"
+    },
+    {
+      "code": "CLO3",
+      "title": "Thiết kế Layout",
+      "details": "Sử dụng các thuộc tính CSS về Box Model; Bố cục trang web (float, flexbox, grid)"
+    },
+    {
+      "code": "CLO4",
+      "title": "Thiết kế menu",
+      "details": "Đinh vị và các thẻ danh sách; Thiết kế menu"
+    },
+    {
+      "code": "CLO5",
+      "title": "Thiết kế form",
+      "details": "Các phần tử form; Validation và định dạng form"
+    },
+    {
+      "code": "CLO6",
+      "title": "Bảng và đa phương tiện",
+      "details": "Tạo và định dạng bảng và Ứng dụng bảng; các thành phần đa phương tiện (image, audio, video, animation, gallery,.....)"
+    },
+    {
+      "code": "CLO7",
+      "title": "Tích hợp các tiện ích vào website",
+      "details": ""
+    },
+    {
+      "code": "CLO8",
+      "title": "Triển khai website",
+      "details": ""
+    }
+  ],
+  "materials": [
+    {
+      "type": "Assignment",
+      "is_online": true
+    },
+    {
+      "type": "Bài học online Udemy Video",
+      "is_online": true
+    },
+    {
+      "type": "Bài giảng trên lớp",
+      "is_online": true
+    },
+    {
+      "type": "Lab",
+      "is_online": true
+    },
+    {
+      "type": "Quiz",
+      "is_online": true
+    },
+    {
+      "type": "Internet",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học: Syllabus, Mục tiêu môn học, Assignment. Bài 1: HTML (P1), Lab1 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: HTML (P2), Lab1 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: HTML (P1), Lab 2 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO5, CLO6"
+    },
+    {
+      "session": 4,
+      "topic": "Bài 2: HTML và CSS (P1), Lab 2 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: CSS (P1), Lab 3 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 3: CSS (P2), Lab 3 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Bài 4: CSS (P3), Lab 4 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 4: CSS (P4), Lab 4 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 5: CSS (P5), Lab 5 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Bài 5: CSS (P6), Lab 5 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3, CLO6"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 6: CSS (P7), Lab 6 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 6: CSS (P8), Lab 6 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "Bài 7: CSS(P9), Lab 7 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 7: Javascript không cần viết mã (P2), Lab 7 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 15,
+      "topic": "Bài 8: JavaScript không cần viết mã (P1), Lab 8 (P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 16,
+      "topic": "Bài 8: Hoàn thiện website (P1), Lab 8 (P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bài học online",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (4 bài)",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.65,
+    "workload_score": 0.8,
+    "practice_ratio": 0.58,
+    "theory_ratio": 0.42,
+    "online_learning_ratio": 0.52
+  }
+}

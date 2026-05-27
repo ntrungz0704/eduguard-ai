@@ -1,0 +1,189 @@
+{
+  "course_code": "VIE108",
+  "course_name": "Giáo dục chính trị",
+  "english_name": "Political Education",
+  "credits": 5,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 60,
+    "exam_hours": 3
+  },
+  "description": "Sau khi học xong môn học, người học đạt được: 1. Về kiến thức Trình bày được một số nội dung cơ bản của chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh; quan điểm, đường lối của Đảng Cộng sản Việt Nam và những nhiệm vụ chính trị của đất nước hiện nay; nội dung học tập, rèn luyện để trở thành người công dân tốt, người lao động tốt. 2. Về kỹ năng Vận dụng được được các kiến thức chung được học về quan điểm, đường lối, chính sách của Đảng và Nhà nước vào giải quyết các vấn đề của cá nhân, xã hội và các vấn đề khác trong quá trình học tập, lao động, hoạt động hàng ngày và tham gia xây dựng, bảo vệ Tổ quốc. 3. Về năng lực tự chủ và trách nhiệm Có năng lực vận dụng các nội dung đã học để rèn luyện phẩm chất chính trị, đạo đức, lối sống; thực hiện tốt quan điểm, đường lối của Đảng; chính sách, pháp luật của Nhà nước.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Giải thích được những nội dung cơ bản về chủ nghĩa Mác- Lênin",
+      "details": "Giải thích được những nội dung cơ bản về chủ nghĩa Mác- Lênin"
+    },
+    {
+      "code": "CLO2",
+      "title": "Trình bày được những điểm cơ bản về nguồn gốc, quá trình hình thành, nội dung và giá trị của tư tưởng Hồ Chí Minh",
+      "details": "Trình bày được những điểm cơ bản về nguồn gốc, quá trình hình thành, nội dung và giá trị của tư tưởng Hồ Chí Minh"
+    },
+    {
+      "code": "CLO3",
+      "title": "Giải thích được những nội dung về quan điểm, đường lối của Đảng cộng sản Việt Nam",
+      "details": "Giải thích được những nội dung về quan điểm, đường lối của Đảng cộng sản Việt Nam. Phân tích vai trò của Đảng cộng sản Việt Nam trong việc xây dựng và phát triển đất nước. Nâng cao tinh thần yêu nước."
+    },
+    {
+      "code": "CLO4",
+      "title": "Phân tích được đặc trưng và phương hướng xây dựng xã hội chủ nghĩa ở Việt Nam",
+      "details": "Phân tích được đặc trưng và phương hướng xây dựng xã hội chủ nghĩa ở Việt Nam"
+    },
+    {
+      "code": "CLO5",
+      "title": "Giải thích được các nội dung về nhà nước Pháp quyền xã hội chủ nghĩa Việt Nam",
+      "details": "Giải thích được các nội dung về nhà nước Pháp quyền xã hội chủ nghĩa Việt Nam"
+    },
+    {
+      "code": "CLO6",
+      "title": "Có khả năng tu dưỡng, rèn luyện để trở thành công dân tốt, người lao động tốt",
+      "details": "Có khả năng tu dưỡng, rèn luyện để trở thành công dân tốt, người lao động tốt."
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bài học online: 09",
+      "is_online": true
+    },
+    {
+      "type": "Assignment: 1 (pdf)",
+      "is_online": false
+    },
+    {
+      "type": "Giáo trình giáo dục chính trị (Dùng trong CTĐT trình độ cao đẳng)",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Bài giới thiệu môn học",
+      "type": "ORIT",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: Khái quát về chủ nghĩa Mác - Lênin",
+      "type": "Online",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: Khái quát về tư tưởng Hồ Chí Minh",
+      "type": "Online",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: Những thành tựu của cách mạng Việt Nam dưới sự lãnh đạo của Đảng",
+      "type": "Online",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 4: Đặc trưng và phương hướng xây dựng xã hội chủ nghĩa ở Việt Nam",
+      "type": "Online",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 7,
+      "topic": "Bảo vệ Assignment giai đoạn 1",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 5: Phát triển kinh tế, xã hội, văn hóa, con người ở Việt Nam",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 6: Tăng cường quốc phòng an ninh, mở rộng quan hệ đối ngoại và hội nhập quốc tế",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 10,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 7: Xây dựng và hoàn thiện nhà nước pháp quyền xã hội chủ nghĩa Việt Nam",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 8: Phát huy sức mạnh của khối đại đoàn kết toàn dân tộc",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 13,
+      "topic": "Ôn tập",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 9: Tu dưỡng, rèn luyện để trở thành người công dân tốt, người lao động tốt",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 15,
+      "topic": "Sinh viên thực hiện Assignment (90 phút) và chấm chéo 2 Assignment",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO2, CLO3, CLO4"
+    },
+    {
+      "session": 16,
+      "topic": "Đánh giá giai đoạn 2 của Assignment. Cung cấp đề cương ôn tập cuối môn",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Online Quizzes",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Thi hết môn (Final Test EOS)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.4,
+    "workload_score": 0.6,
+    "practice_ratio": 0.1,
+    "theory_ratio": 0.9,
+    "online_learning_ratio": 0.8
+  }
+}

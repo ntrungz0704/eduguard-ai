@@ -1,0 +1,212 @@
+{
+  "course_code": "WEB2091",
+  "course_name": "Lập trình Front-End Framework 2",
+  "english_name": "Front-End Framework 2",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Sau khi hoàn thành xong khoá học này, sinh viên sẽ (có khả năng): Sử dụng React. React component. Giao tiếp giữa client & server. Context và useReducer.",
+  "prerequisites": [
+    "Lập trình JavaScript nâng cao"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Sử dụng React",
+      "details": "Biết được các khái niệm về React; Cài đặt Vitejs ; Styling tailwindcss"
+    },
+    {
+      "code": "CLO2",
+      "title": "JSX và basic components",
+      "details": "Nắm được cú pháp JSX; JSX với basic components (các thành phần cơ bản)."
+    },
+    {
+      "code": "CLO3",
+      "title": "Event và Form",
+      "details": "Làm việc với Event và Form và sử dụng package React hook form"
+    },
+    {
+      "code": "CLO4",
+      "title": "Giao tiếp giữa client & server",
+      "details": "Giao tiếp giữa client & server: Form, API request: API request với React"
+    },
+    {
+      "code": "CLO5",
+      "title": "React router và Authentication",
+      "details": "React router: React router; Authentication với React"
+    },
+    {
+      "code": "CLO6",
+      "title": "useContext & useReducer",
+      "details": "Làm việc với useContext & useReducer"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (08)",
+      "is_online": false
+    },
+    {
+      "type": "Assigment (01)",
+      "is_online": false
+    },
+    {
+      "type": "https://reactjs.org/docs/getting-started.html",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Tổng quan React và cài đặt dự án với Vite (P1), Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Styling, Lab1(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "JSX và Component, Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Component & Props, Lab2(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "React component: State, Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Conditional Rendering & Rendering lists, Lab3(P2), Đánh giá Assignment Giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 7,
+      "topic": "Xử lý kiện và Form trong React, Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Sử dụng React Hook Form, Lab4(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Lifecycle component: useEffect, Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 10,
+      "topic": "API request với Axios, Lab5(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 11,
+      "topic": "React router dom - cơ bản, Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 12,
+      "topic": "Authenticate, Lab6(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 13,
+      "topic": "useContext & useReducer (P1), Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 14,
+      "topic": "useContext & useReducer (P2), Lab7(P2), Đánh giá Assignment Giai đoạn 2",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 15,
+      "topic": "Giới thiệu về React-Query, Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 16,
+      "topic": "Deploy Dự án react, Lab8(P2), Hướng dẫn nộp Final",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (8 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.8,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.52
+  }
+}

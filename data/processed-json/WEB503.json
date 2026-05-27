@@ -1,0 +1,205 @@
+{
+  "course_code": "WEB503",
+  "course_name": "NodeJS & Restful Web Service",
+  "english_name": "NodeJS & Restful Web Service",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Sau khi hoàn thành xong khóa học này, sinh viên sẽ (có khả năng): Cung cấp cho sinh viên kiến thức cơ bản về NodeJS. Xử lý tương tác giao diện tốt với template engine và mô hình lập trình MVC. Lập trình tương tác cơ sở dữ liệu MySQL với NodeJS. Hiểu và cài đặt Resfull API với NodeJS. Kết hợp với front end framework tạo ứng dụng hoàn chỉnh. Xác thực, phân quyền và validation. Lập trình tương tác cơ sở dữ liệu MongoDB với NodeJS.",
+  "prerequisites": [
+    "Cơ sở dữ liệu"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Kiến thức cơ bản về NodeJS",
+      "details": "Biết được các khái niệm cơ bản về NodeJS; Nắm được các thành phần cơ bản của Node; Sử dụng được modules Express"
+    },
+    {
+      "code": "CLO2",
+      "title": "Template engine và mô hình lập trình MVC",
+      "details": "Xử lý tương tác giao diện với template engine và mô hình lập trình MVC: Thao tác trên image; Sử dụng được template Enginers; Tổ chức code với mô hình MVC"
+    },
+    {
+      "code": "CLO3",
+      "title": "Cơ sở dữ liệu MySQL với NodeJS",
+      "details": "Lập trình tương tác cơ sở dữ liệu MySQL với NodeJS: Thao tác kết nối và đọc dữ liệu với MySQL; Thao tác create, update, delete dữ liệu với MySQL"
+    },
+    {
+      "code": "CLO4",
+      "title": "Restfull API với NodeJS",
+      "details": "Hiểu và cài đặt Restfull API với NodeJS: Hiểu được vai trò và ứng dụng của Restful API; Cài đặt Resful API với NodeJS; Dùng công cụ postman để test Resful API"
+    },
+    {
+      "code": "CLO5",
+      "title": "Kết hợp frontend framework",
+      "details": "Kết hợp frontend framework tạo ứng dụng hoàn chỉnh: Cách sử dụng Http service trong front end framework; Sử dụng Restful API thông qua front end"
+    },
+    {
+      "code": "CLO6",
+      "title": "Xác thực, phân quyền và validation",
+      "details": "Xác thực, phân quyền và validation: Hiểu, cài đặt được Xác thực và phân quyền; Validation"
+    },
+    {
+      "code": "CLO7",
+      "title": "Cơ sở dữ liệu MongoDB",
+      "details": "Lập trình với cơ sở dữ liệu NoSQL, hệ quản trị mongoDB"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "http://expressjs.com",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Tổng quan về NodeJS (P1), Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan về NodeJS (P2), Lab1(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Template engine (P1), Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Template engine (P2), Lab2(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Lập trình NodeJS với Cơ Sở Dữ Liệu MySQL (P1), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Lập trình NodeJS với Cơ Sở Dữ Liệu MySQL (P2), Lab3(P2), Đánh giá Assignment Giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "MVC NodeJS (P1), Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "MVC NodeJS (P2), Lab4(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "RESTFUL web service (P1), Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 10,
+      "topic": "RESTFUL web service (P2), Lab5(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 11,
+      "topic": "RESTFUL API và FrontEnd (P1), Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 12,
+      "topic": "RESTFUL API và FrontEnd (P2), Lab6(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 13,
+      "topic": "Authentication và validattion (P1), Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 14,
+      "topic": "Authentication và validattion (P2), Lab7(P2), Đánh giá Assignment Giai đoạn 2",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 15,
+      "topic": "NodeJS với NoSQL (P1), Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 16,
+      "topic": "NodeJS với NoSQL (P2), Lab8(P2), Hướng dẫn nộp Final",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (8 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.8,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.52
+  }
+}

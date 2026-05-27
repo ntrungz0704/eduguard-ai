@@ -1,0 +1,208 @@
+{
+  "course_code": "WEB2055",
+  "course_name": "Marketing trên Internet",
+  "english_name": "Internet Marketing",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 12,
+    "online_hours": 61,
+    "exam_hours": 2
+  },
+  "description": "Môn học này sẽ đề cập những chủ đề sau: Giải thích được các khái niệm cốt lõi, hiểu lịch sử và vai trò của hoạch định chiến lược. Vận dụng được marketing mix online và khởi tạo nền tảng website wordpress. Hiểu tâm lý khách hàng và phân biệt được các mô hình quảng cáo tìm kiếm (SEM/SEO). Thực hiện tối ưu hoá website thân thiện với bộ máy tìm kiếm google. Triển khai các chiến dịch quảng cáo trả phí trên Google, Facebook và tối ưu cho di động. Xây dựng hệ thống email marketing và quy trình chăm sóc khách hàng tự động. Quản trị các kênh mạng xã hội và hiểu cơ chế lan truyền nội dung (viral). Đọc hiểu các chỉ số phân tích để tối ưu hiệu quả chuyển đổi và tuân thủ dữ liệu. Ứng dụng AI trong xây dựng chân dung khách hàng, cập nhật xu hướng thị trường, tạo biểu tượng, ảnh đại diện, viết tiêu đề thu hút, tự động tối ưu hoá dòng tiêu đề email,…..",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Giải thích được các khái niệm cốt lõi, hiểu lịch sử và vai trò của hoạch định chiến lược",
+      "details": "Giải thích được các khái niệm cốt lõi, hiểu lịch sử và vai trò của hoạch định chiến lược"
+    },
+    {
+      "code": "CLO2",
+      "title": "Vận dụng được marketing mix online và khởi tạo nền tảng website wordpress",
+      "details": "Vận dụng được marketing mix online và khởi tạo nền tảng website wordpress"
+    },
+    {
+      "code": "CLO3",
+      "title": "Hiểu tâm lý khách hàng và phân biệt được các mô hình quảng cáo tìm kiếm (SEM/SEO)",
+      "details": "Hiểu tâm lý khách hàng và phân biệt được các mô hình quảng cáo tìm kiếm (SEM/SEO)"
+    },
+    {
+      "code": "CLO4",
+      "title": "Thực hiện tối ưu hoá website thân thiện với bộ máy tìm kiếm google",
+      "details": "Thực hiện tối ưu hoá website thân thiện với bộ máy tìm kiếm google"
+    },
+    {
+      "code": "CLO5",
+      "title": "Triển khai các chiến dịch quảng cáo trả phí trên Google, Facebook và tối ưu cho di động",
+      "details": "Triển khai các chiến dịch quảng cáo trả phí trên Google, Facebook và tối ưu cho di động"
+    },
+    {
+      "code": "CLO6",
+      "title": "Xây dựng hệ thống email marketing và quy trình chăm sóc khách hàng tự động",
+      "details": "Xây dựng hệ thống email marketing và quy trình chăm sóc khách hàng tự động"
+    },
+    {
+      "code": "CLO7",
+      "title": "Quản trị các kênh mạng xã hội và hiểu cơ chế lan truyền nội dung (viral)",
+      "details": "Quản trị các kênh mạng xã hội và hiểu cơ chế lan truyền nội dung (viral)"
+    },
+    {
+      "code": "CLO8",
+      "title": "Đọc hiểu các chỉ số phân tích để tối ưu hiệu quả chuyển đổi và tuân thủ dữ liệu",
+      "details": "Đọc hiểu các chỉ số phân tích để tối ưu hiệu quả chuyển đổi và tuân thủ dữ liệu"
+    },
+    {
+      "code": "CLO9",
+      "title": "Ứng dụng AI trong marketing",
+      "details": "Ứng dụng AI trong xây dựng chân dung khách hàng, cập nhật xu hướng thị trường, tạo biểu tượng, ảnh đại diện, viết tiêu đề thu hút, tự động tối ưu hoá dòng tiêu đề email,….."
+    }
+  ],
+  "materials": [
+    {
+      "type": "Udemy Video (8)",
+      "is_online": true
+    },
+    {
+      "type": "Lab Guide (8)",
+      "is_online": false
+    },
+    {
+      "type": "01 Assignment",
+      "is_online": false
+    },
+    {
+      "type": "https://fpl.udemy.com/learning-paths/11716501/",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Giới thiệu môn học, Hướng dẫn hình thức học",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    },
+    {
+      "session": 2,
+      "topic": "Bài 1: Tổng quan và chiến lược marketing",
+      "type": "Online",
+      "learning_outcome": "CLO1, CLO9"
+    },
+    {
+      "session": 3,
+      "topic": "Bài 2: Xây dựng nền tảng website và UI/UX",
+      "type": "Online",
+      "learning_outcome": "CLO2, CLO9"
+    },
+    {
+      "session": 4,
+      "topic": "Rà soát và hỗ trợ cách thức học online (Bài 1, 2)",
+      "type": "ORIT",
+      "learning_outcome": "CLO1, CLO2, CLO9"
+    },
+    {
+      "session": 5,
+      "topic": "Bài 3: Sáng tạo nội dung trực tuyến và web PR",
+      "type": "Online",
+      "learning_outcome": "CLO3, CLO9"
+    },
+    {
+      "session": 6,
+      "topic": "Bài 4: Tối ưu hoá công cụ tìm kiếm",
+      "type": "Online",
+      "learning_outcome": "CLO4, CLO9"
+    },
+    {
+      "session": 7,
+      "topic": "Hỗ trợ nội dung bài online Section 3 và 4",
+      "type": "ORIT",
+      "learning_outcome": "CLO3, CLO4, CLO9"
+    },
+    {
+      "session": 8,
+      "topic": "Bài 5: Quảng cáo và tiếp thị di động (Adwords, Facebook)",
+      "type": "Online",
+      "learning_outcome": "CLO5, CLO9"
+    },
+    {
+      "session": 9,
+      "topic": "Bài 5: Quảng cáo và tiếp thị di động (Mobile marketing)",
+      "type": "Online",
+      "learning_outcome": "CLO5, CLO9"
+    },
+    {
+      "session": 10,
+      "topic": "Hỗ trợ nội dung bài online Section 5",
+      "type": "ORIT",
+      "learning_outcome": "CLO5, CLO9"
+    },
+    {
+      "session": 11,
+      "topic": "Bài 6: Email marketing và tự động hoá",
+      "type": "Online",
+      "learning_outcome": "CLO6, CLO9"
+    },
+    {
+      "session": 12,
+      "topic": "Bài 7: Social media & viral marketing (Chiến lược Social)",
+      "type": "Online",
+      "learning_outcome": "CLO7, CLO9"
+    },
+    {
+      "session": 13,
+      "topic": "Hỗ trợ nội dung bài online Section 6, 7",
+      "type": "ORIT",
+      "learning_outcome": "CLO6, CLO7, CLO9"
+    },
+    {
+      "session": 14,
+      "topic": "Bài 7: Social media & Viral marketing (Viral marketing)",
+      "type": "Online",
+      "learning_outcome": "CLO7, CLO9"
+    },
+    {
+      "session": 15,
+      "topic": "Bài 8: Phân tích web và tối ưu hoá công cụ chuyển đổi",
+      "type": "Online",
+      "learning_outcome": "CLO8, CLO9"
+    },
+    {
+      "session": 16,
+      "topic": "Hỗ trợ nội dung bài online Section 7(tt) và 8, Hướng dẫn bảo vệ cuối môn",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Hoàn thành khóa học",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Tích cực",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Tiến độ",
+      "weight": 0.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.5,
+    "workload_score": 0.6,
+    "practice_ratio": 0.6,
+    "theory_ratio": 0.4,
+    "online_learning_ratio": 0.81
+  }
+}

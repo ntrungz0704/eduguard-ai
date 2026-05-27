@@ -1,0 +1,69 @@
+{
+  "course_code": "PRO116",
+  "course_name": "Thực tập tốt nghiệp (TKTW)",
+  "english_name": "Graduation Internship (Web Development)",
+  "credits": 5,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 225,
+    "class_hours": 0,
+    "online_hours": 225,
+    "exam_hours": 0
+  },
+  "description": "Thực tập doanh nghiệp (TTDN) là học phần quan trọng trong quá trình đào tạo sinh viên (SV) của FPT PolyTechnic, giúp SV có điều kiện tiếp cận và ứng dụng những kiến thức đã học vào thực tiễn doanh nghiệp, đồng thời tạo được những quan hệ mới và có cơ hội làm việc tại nơi SV đã trải qua đợt thực tập của mình.",
+  "prerequisites": [
+    "Participated: Tất cả các môn 5 học kỳ đầu (ngoại trừ Tiếng Anh và các môn trong HK song song)",
+    "Passed: Dự án 1 (TKTW)"
+  ],
+  "tools_required": [
+    "Tài nguyên dành cho sinh viên và giảng viên (http://lms.poly.edu.vn)",
+    "Bộ kit thực tập doanh nghiệp"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Tiếp cận môi trường làm việc",
+      "details": "SV được tiếp cận, rèn luyện phương pháp, kỹ năng làm việc, kỹ năng tổ chức công việc, làm quen với môi trường làm việc thực tế tại DN"
+    },
+    {
+      "code": "CLO2",
+      "title": "Vận dụng kiến thức",
+      "details": "Vận dụng được các kiến thức đã học để giải quyết các vấn đề thực tiễn thuộc lĩnh vực nghề nghiệp đã được học"
+    },
+    {
+      "code": "CLO3",
+      "title": "Củng cố kiến thức, kỹ năng",
+      "details": "Củng cố và bổ sung kiến thức, kỹ năng nghề nghiệp; kỹ năng, thái đội xã hội"
+    },
+    {
+      "code": "CLO4",
+      "title": "Kỹ năng ứng xử",
+      "details": "Học hỏi, rèn luyện phong cách làm việc và ứng xử trong các mối quan hệ công tác nơi công sở.H13"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bộ kit thực tập doanh nghiệp",
+      "is_online": false
+    },
+    {
+      "type": "Quy chế thực tập",
+      "is_online": false
+    }
+  ],
+  "sessions": [],
+  "assessments": [
+    {
+      "type": "Thực tập tốt nghiệp (Final)",
+      "weight": 100.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.9,
+    "workload_score": 1.0,
+    "practice_ratio": 1.0,
+    "theory_ratio": 0.0,
+    "online_learning_ratio": 1.0
+  }
+}

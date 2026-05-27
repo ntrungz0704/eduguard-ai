@@ -1,0 +1,235 @@
+{
+  "course_code": "COM108",
+  "course_name": "Nhập môn lập trình",
+  "english_name": "Programming Introduction",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 36,
+    "online_hours": 37,
+    "exam_hours": 2
+  },
+  "description": "Môn học này cung cấp cho người học những khái niệm cơ bản trong lập trình đồng như biến, biểu thức, lệnh, mảng, thuật toán… thời được sử dụng để định hướng chuyên ngành phù hợp với năng lực, sở thích của người học sau khi kết thúc học kỳ 1.",
+  "prerequisites": [],
+  "tools_required": [
+    "CFree 5"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Hiểu rõ các vấn đề cơ bản của lập trình",
+      "details": "Hiểu rõ các vấn đề cơ bản về lập trình; Hiểu rõ các khái niệm về C"
+    },
+    {
+      "code": "CLO2",
+      "title": "Hiểu rõ các khái niệm về biến, hằng, toán tử, biểu thức",
+      "details": "Hiểu rõ các khái niệm về biến, hằng; Hiểu rõ các khái niệm về toán tử, biêu thức"
+    },
+    {
+      "code": "CLO3",
+      "title": "Vận dụng câu điều kiện vào các bài toán",
+      "details": "Vận dụng câu lệnh if để làm các bài toán; Vận dụng câu lệnh switch để làm các bài toán"
+    },
+    {
+      "code": "CLO4",
+      "title": "Vận dụng vòng lặp vào các bài toán",
+      "details": "Vận dụng câu lệnh while, do whie để làm các bài toán; Vận dụng câu lệnh if để làm các bài toán; Vận dụng break, continue, goto để làm các bài toán"
+    },
+    {
+      "code": "CLO5",
+      "title": "Hiểu rõ về mảng và vận dụng trong các bài toán",
+      "details": "Vận dụng mảng 1 chiều để làm các bài toán; Vận dung mảng 2 chiều để làm các bài toán"
+    },
+    {
+      "code": "CLO6",
+      "title": "Vận dụng các hàm thao tác chuỗi",
+      "details": "Vận dụng các hàm thao tác chuỗi để làm các bài toán"
+    },
+    {
+      "code": "CLO7",
+      "title": "Hiểu về cấu trúc và vận dụng trong các bài toán",
+      "details": "Vận dụng cấu trúc Structure để làm các bài toán; Vận dung cấu trúc Union để làm các bài toán"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Assignment",
+      "is_online": false
+    },
+    {
+      "type": "Bài học online",
+      "is_online": true
+    },
+    {
+      "type": "Bài giảng trên lớp",
+      "is_online": false
+    },
+    {
+      "type": "Lab",
+      "is_online": false
+    },
+    {
+      "type": "Slide (08 ppt)",
+      "is_online": false
+    },
+    {
+      "type": "Internet (freetuts.net)",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Tổng quan lập trình; Lab 1.1",
+      "type": "Offline",
+      "learning_outcome": "CLO1.1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan lập trình; Lab 1.2 (Cú pháp C cơ bản, Kiểu dữ liệu)",
+      "type": "Offline",
+      "learning_outcome": "CLO1.2"
+    },
+    {
+      "session": 3,
+      "topic": "Các khái niệm cơ bản; Lab 2.1 (Biến, Hằng số)",
+      "type": "Offline",
+      "learning_outcome": "CLO2.1"
+    },
+    {
+      "session": 4,
+      "topic": "Các khái niệm cơ bản; Lab 2.2 (Toán tử, Xây dựng biểu thức)",
+      "type": "Offline",
+      "learning_outcome": "CLO2.2"
+    },
+    {
+      "session": 5,
+      "topic": "Câu lệnh điều kiện; Lab 3.1 (If)",
+      "type": "Offline",
+      "learning_outcome": "CLO3.1"
+    },
+    {
+      "session": 6,
+      "topic": "Câu lệnh điều kiện; Lab 3.2 (Switch)",
+      "type": "Offline",
+      "learning_outcome": "CLO3.2"
+    },
+    {
+      "session": 7,
+      "topic": "Vòng lặp; Lab 4.1 (While, Do While)",
+      "type": "Offline",
+      "learning_outcome": "CLO4.1"
+    },
+    {
+      "session": 8,
+      "topic": "Vòng lặp; Lab 4.2 (For, Break, Continue, Goto)",
+      "type": "Offline",
+      "learning_outcome": "CLO4.2"
+    },
+    {
+      "session": 9,
+      "topic": "Đánh giá Assignment giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Hàm; Lab 5.1",
+      "type": "Offline",
+      "learning_outcome": "CLO4.3"
+    },
+    {
+      "session": 11,
+      "topic": "Hàm; Lab 5.2",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 12,
+      "topic": "Mảng; Lab 6.1 (Mảng 1 chiều)",
+      "type": "Offline",
+      "learning_outcome": "CLO5.1"
+    },
+    {
+      "session": 13,
+      "topic": "Mảng; Lab 6.2 (Mảng 2 chiều)",
+      "type": "Offline",
+      "learning_outcome": "CLO5.2"
+    },
+    {
+      "session": 14,
+      "topic": "Chuỗi; Lab 7.1",
+      "type": "Offline",
+      "learning_outcome": "CLO6.1"
+    },
+    {
+      "session": 15,
+      "topic": "Chuỗi; Lab 7.2",
+      "type": "Offline",
+      "learning_outcome": "CLO6.1"
+    },
+    {
+      "session": 16,
+      "topic": "Cấu trúc; Lab 8.1 (Structure)",
+      "type": "Offline",
+      "learning_outcome": "CLO7.1"
+    },
+    {
+      "session": 17,
+      "topic": "Cấu trúc; Lab 8.2 (Union)",
+      "type": "Offline",
+      "learning_outcome": "CLO7.2"
+    },
+    {
+      "session": 18,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bài học online",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (4 phần, 8 bài)",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.7,
+    "workload_score": 0.7,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.49
+  }
+}

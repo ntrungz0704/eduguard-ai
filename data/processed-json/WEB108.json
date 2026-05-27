@@ -1,0 +1,208 @@
+{
+  "course_code": "WEB108",
+  "course_name": "Lập trình PHP cơ bản",
+  "english_name": "PHP Basic Programming",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 36,
+    "online_hours": 37,
+    "exam_hours": 2
+  },
+  "description": "Khóa học cung cấp cho sinh viên những kiến thức, kỹ năng cơ bản về lập trình PHP. Khóa học trang bị cho sinh viên các mảng kiến thức, kỹ năng cơ bản giúp sinh viên có thể: Tổng quan PHP; PHP code; PHP & HTML; PHP & MySQL",
+  "prerequisites": [
+    "Xây dựng trang web"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Giới thiệu tổng quan về PHP và kiến thức PHP cơ bản",
+      "details": "Giới thiệu tổng quan về PHP và kiến thức PHP cơ bản: biến, toán tử, mảng, hằng, cấu trúc điều khiển,…"
+    },
+    {
+      "code": "CLO2",
+      "title": "Biết sử dụng PHP kết hợp HTML",
+      "details": "Biết sử dụng PHP kết hợp HTML: Form, List, Get, Post, Request,…"
+    },
+    {
+      "code": "CLO3",
+      "title": "Biết cách kết nối cơ sở dữ liệu, hiển thị cơ sở liệu và các thao tác trên cơ sở dữ liệu",
+      "details": "Biết cách kết nối cơ sở dữ liệu, hiển thị cơ sở liệu và các thao tác trên cơ sở dữ liệu qua ngôn ngữ lập trình PHP"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": false
+    },
+    {
+      "type": "Quiz (04)",
+      "is_online": false
+    },
+    {
+      "type": "Assignment (01)",
+      "is_online": false
+    },
+    {
+      "type": "https://www.tutorialspoint.com/php/php_and_mysql.htm",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Tổng quan về PHP (P1), Lab1(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan về PHP (P2), Lab1(P2), Quiz 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "PHP cơ bản (P1), Lab2(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "PHP cơ bản (P2), Lab2(P2), Quiz 2",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 5,
+      "topic": "PHP & HTML (P1), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 6,
+      "topic": "Cơ sở dữ liệu (P2), Lab3(P2), Quiz 3",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "PHP và cơ sở dữ liệu (P1), Lab4(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 8,
+      "topic": "Multipages trong PHP (P2), Lab4(P2), Quiz4",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 9,
+      "topic": "Đánh giá Assignment giai đoạn 1",
+      "type": "Offline",
+      "learning_outcome": "CLO1, CLO2, CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "HTML Form và PHP (P1), Lab5(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 11,
+      "topic": "HTML Form và PHP (P2), Lab5(P2), Quiz 5",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 12,
+      "topic": "Hàm và Validation trong PHP (P1), Lab6(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 13,
+      "topic": "Hàm và Validation trong PHP (P2), Lab6(P2), Quiz 6",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 14,
+      "topic": "Edit data trong database từ PHP (P1), Lab7(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 15,
+      "topic": "Delete data trong database từ PHP (P2), Lab7(P2), Quiz 7",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 16,
+      "topic": "Session để Login & Restrict Access (P1), Lab8(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 17,
+      "topic": "Session (P2), Lab8(P2), Quiz 8",
+      "type": "Offline",
+      "learning_outcome": "CLO2, CLO3"
+    },
+    {
+      "session": 18,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLO"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.6,
+    "workload_score": 0.6,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.49
+  }
+}

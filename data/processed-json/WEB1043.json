@@ -1,0 +1,217 @@
+{
+  "course_code": "WEB1043",
+  "course_name": "Lập trình cơ sở với JavaScript",
+  "english_name": "Basic Programming with Javascript",
+  "credits": 3,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 75,
+    "class_hours": 34,
+    "online_hours": 39,
+    "exam_hours": 2
+  },
+  "description": "Môn học này cung cấp cho sinh viên những kiến thức, kỹ năng cơ bản về lập trình Javascript. Môn học trang bị cho sinh viên các mảng kiến thức, kỹ năng cơ bản giúp sinh viên có thể: Lập trình được với JavaScript; Lập trình hướng đối tượng trong JavaScript; Hiểu và sử dụng mô hình BOM và DOM; Pre-Intermediate Javascript: Form Submision; Animating element; Strict mode, using cookies, local storage; Libraries: Upload Files; Geolocation; Media on page; Ứng dụng các công cụ AI vào lập trình.",
+  "prerequisites": [
+    "Xây dựng trang Web"
+  ],
+  "tools_required": [
+    "Visual Studio Code"
+  ],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Hiểu và áp dụng được các cấu trúc cơ bản của ngôn ngữ Javascript",
+      "details": "Hiểu và áp dụng được các cấu trúc cơ bản của ngôn ngữ Javascript"
+    },
+    {
+      "code": "CLO2",
+      "title": "Hiểu và áp dụng được hướng đối tượng cơ bản trong Javascript",
+      "details": "Hiểu và áp dụng được hướng đối tượng cơ bản trong Javascript"
+    },
+    {
+      "code": "CLO3",
+      "title": "Hiểu và sử dụng được mô hình BOM và DOM vào website",
+      "details": "Hiểu và sử dụng được mô hình BOM và DOM vào website"
+    },
+    {
+      "code": "CLO4",
+      "title": "Hiểu và áp dụng được các hiệu ứng cơ bản của js vào website",
+      "details": "Hiểu và áp dụng được các hiệu ứng cơ bản của js vào website"
+    },
+    {
+      "code": "CLO5",
+      "title": "Sử dụng các libraries như drag, drop, geolocation, local storage, session storage và ứng dụng web",
+      "details": "Sử dụng các libraries như drag, drop, geolocation, local storage, session storage và ứng dụng web"
+    },
+    {
+      "code": "CLO6",
+      "title": "Áp dụng được các công cụ AI đang có vào lập trình web",
+      "details": "Áp dụng được các công cụ AI đang có vào lập trình web"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Slide (08)",
+      "is_online": false
+    },
+    {
+      "type": "Lab (08)",
+      "is_online": true
+    },
+    {
+      "type": "Quiz (04)",
+      "is_online": false
+    },
+    {
+      "type": "Assignment (01)",
+      "is_online": false
+    },
+    {
+      "type": "https://www.w3schools.com/js/",
+      "is_online": true
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Tổng quan ngôn ngữ Javascript (P1), Lab 1.1",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Tổng quan ngôn ngữ Javascript (P2), Lab 1.2",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 3,
+      "topic": "Toán tử & cấu trúc điều khiển (P1), Lab 2.1",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 4,
+      "topic": "Toán tử & cấu trúc điều khiển (P2), Lab 2.2",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 5,
+      "topic": "Hàm và phạm vi (P1), Lab3(P1)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 6,
+      "topic": "Hàm và phạm vi (P2), Lab3(P2)",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 7,
+      "topic": "Mảng và Object (P1), Lab 4.1",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 8,
+      "topic": "Mảng và Object (P2), Lab 4.2",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 9,
+      "topic": "OOP cơ bản(P1), Lab 5.1",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 10,
+      "topic": "OOP cơ bản (P2), Lab 5.2",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 11,
+      "topic": "BOM và DOM cơ bản (P1), Lab6.1",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 12,
+      "topic": "BOM và DOM cơ bản (P2), Lab6.2",
+      "type": "Offline",
+      "learning_outcome": "CLO6"
+    },
+    {
+      "session": 13,
+      "topic": "Hiệu ứng và sự kiện (P1), Lab7.1",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 14,
+      "topic": "Hiệu ứng và sự kiện (P2), Lab7.2",
+      "type": "Offline",
+      "learning_outcome": "CLO7"
+    },
+    {
+      "session": 15,
+      "topic": "Tích hợp API và thư viện vào ứng dụng web (P1), Lab8.1",
+      "type": "Offline",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 16,
+      "topic": "Tích hợp API và thư viện vào ứng dụng web (P2), Lab8.2",
+      "type": "Offline",
+      "learning_outcome": "CLO8"
+    },
+    {
+      "session": 17,
+      "topic": "Hoạt động mở",
+      "type": "ORIT",
+      "learning_outcome": "All CLOs"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Assignment",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 1",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Đánh giá Assignment GĐ 2",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Lab (8 bài)",
+      "weight": 28.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Quiz (4 bài)",
+      "weight": 12.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.6,
+    "workload_score": 0.6,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.52
+  }
+}

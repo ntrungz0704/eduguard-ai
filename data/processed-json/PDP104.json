@@ -1,0 +1,167 @@
+{
+  "course_code": "PDP104",
+  "course_name": "Kỹ năng làm việc",
+  "english_name": "Professional skills",
+  "credits": 2,
+  "degree_level": "Cao đẳng",
+  "time_allocation": {
+    "total_hours": 45,
+    "class_hours": 20,
+    "online_hours": 23,
+    "exam_hours": 2
+  },
+  "description": "Môn Kỹ năng làm việc giúp sinh viên chuẩn bị bước vào nghề nghiệp sau khi ra trường bằng cách cung cấp cái nhìn tổng quan về những kỹ năng cần thiết trong công việc, như cách viết CV xin việc hiệu quả và các kỹ năng chuẩn bị, thực hành phỏng vấn xin việc. Ngoài ra, môn học còn trang bị cho sinh viên các kiến thức và bài tập thực hành về giao tiếp nơi công sở, quản lý tài chính cá nhân, cũng như những kiến thức liên quan đến tình yêu, hôn nhân và đam mê, mục đích trong cuộc sống. Sinh viên còn có cơ hội trải nghiệm làm việc nhóm thông qua các dự án học tập, giúp họ áp dụng những kiến thức đã học vào thực tế và cải thiện khả năng làm việc chung.",
+  "prerequisites": [],
+  "tools_required": [],
+  "learning_outcomes": [
+    {
+      "code": "CLO1",
+      "title": "Quản lý bản thân, mục tiêu sự nghiệp, và phát triển tài năng",
+      "details": "Có khả năng quản lý được bản thân, có mục tiêu sự nghiệp, và phát triển tài năng nơi làm việc"
+    },
+    {
+      "code": "CLO2",
+      "title": "Giao tiếp và làm việc nhóm hiệu quả",
+      "details": "Có khả năng giao tiếp bằng lời nói hiệu quả trong môi trường công sở, nâng cao kỹ năng làm việc đội nhóm"
+    },
+    {
+      "code": "CLO3",
+      "title": "Viết CV và email chuyên nghiệp",
+      "details": "Có thể viết được một bản CV ứng tuyển tự tin đi phỏng vấn và viết email chuyên nghiệp"
+    },
+    {
+      "code": "CLO4",
+      "title": "Quản lý tài chính cá nhân",
+      "details": "Có khả năng quản lý tài chính cá nhân và có kiến thức đúng đắn về tiền bạc khi đi làm"
+    },
+    {
+      "code": "CLO5",
+      "title": "Kiến thức về tình yêu hôn nhân",
+      "details": "Có thêm kiến thức hiểu biết về tình yêu hôn nhân khi bước vào cuộc sống"
+    }
+  ],
+  "materials": [
+    {
+      "type": "Bài học online: 8",
+      "is_online": true
+    },
+    {
+      "type": "Assignment: 1 (pdf)",
+      "is_online": false
+    },
+    {
+      "type": "Bài giảng trên lớp: 7 (ppt)",
+      "is_online": false
+    },
+    {
+      "type": "Sách tham khảo: Người dám cho đi (Tác giả: Bob Burg, John David Mann)",
+      "is_online": false
+    }
+  ],
+  "sessions": [
+    {
+      "session": 1,
+      "topic": "Buổi 1: Giới thiệu môn học",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 2,
+      "topic": "Buổi 2: Phát triển đam mê và sự nghiệp",
+      "type": "Offline",
+      "learning_outcome": "CLO2"
+    },
+    {
+      "session": 3,
+      "topic": "Buổi 3: Thấu hiểu tài chính cá nhân",
+      "type": "Offline",
+      "learning_outcome": "CLO1"
+    },
+    {
+      "session": 4,
+      "topic": "Buổi 4: Kỹ năng viết email, CV tìm việc",
+      "type": "Offline",
+      "learning_outcome": "CLO4"
+    },
+    {
+      "session": 5,
+      "topic": "Buổi 5: Kỹ năng phỏng vấn, tìm kiếm việc làm",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 6,
+      "topic": "Buổi 6: Thực hành phỏng vấn nhóm 1 -2",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 7,
+      "topic": "Buổi 7: Thực hành phỏng vấn nhóm 3 -4",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 8,
+      "topic": "Buổi 8: Thực hành phỏng vấn nhóm 5 -6",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    },
+    {
+      "session": 9,
+      "topic": "Buổi 9: Kỹ năng giao tiếp nơi công sở",
+      "type": "Offline",
+      "learning_outcome": "CLO3"
+    },
+    {
+      "session": 10,
+      "topic": "Buổi 10: Tình yêu hôn nhân và gia đình, Tổng kết",
+      "type": "Offline",
+      "learning_outcome": "CLO5"
+    }
+  ],
+  "assessments": [
+    {
+      "type": "Bài học online",
+      "weight": 0.0,
+      "min_score_to_pass": 10
+    },
+    {
+      "type": "Biết ơn các mối quan hệ",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "CV ứng tuyển",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Hoạt động trên lớp",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Kỷ luật bản thân",
+      "weight": 10.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Phỏng vấn tuyển dụng",
+      "weight": 20.0,
+      "min_score_to_pass": 0
+    },
+    {
+      "type": "Bảo vệ Assignment (Final Exam)",
+      "weight": 40.0,
+      "min_score_to_pass": 5
+    }
+  ],
+  "metadata": {
+    "difficulty_score": 0.3,
+    "workload_score": 0.3,
+    "practice_ratio": 0.8,
+    "theory_ratio": 0.2,
+    "online_learning_ratio": 0.51
+  }
+}
