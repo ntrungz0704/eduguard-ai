@@ -6,6 +6,7 @@ WORKDIR /app
 # Install dependencies for both client and server (using root package.json if monorepo, or separately)
 RUN apk add --no-cache python3 make g++
 COPY package*.json ./
+COPY prisma ./prisma
 COPY client/package*.json ./client/
 RUN npm install --legacy-peer-deps
 RUN cd client && npm install --legacy-peer-deps
@@ -23,9 +24,9 @@ WORKDIR /app
 
 # We only need production dependencies for the server
 COPY package*.json ./
+COPY prisma ./prisma
 RUN apk add --no-cache python3 make g++
 RUN npm install --production --legacy-peer-deps
-COPY prisma ./prisma
 RUN npx prisma generate
 
 # Copy built assets from builder
