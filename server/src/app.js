@@ -56,12 +56,14 @@ const commRouter = require('./modules/communication');
 const predictionRouter = require('./modules/prediction/routes');
 const authRouter = require('./modules/auth/routes');
 const studentsRouter = require('./modules/students/routes');
+const graphRouter = require('./modules/graph/routes');
 
 app.use('/api', apiLimiter, apiRouter);
 app.use('/api/comm', apiLimiter, commRouter);
 app.use('/api/v1/prediction', apiLimiter, predictionRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/students', apiLimiter, studentsRouter);
+app.use('/api/v1/graph', apiLimiter, graphRouter);
 
 // Fallback to legacy index.html
 app.get('*', (req, res) => {

@@ -1,0 +1,96 @@
+{
+  "program": "Web Development",
+  "total_courses": 34,
+  "total_credits": 103,
+  "total_hours": 2700,
+  "semesters": [
+    {
+      "semester": 1,
+      "name": "NĂM 1 (N1) - Học kỳ 1",
+      "total_credits": 16,
+      "total_hours": 405,
+      "courses": [
+        { "code": "PDP102", "name": "Kỹ năng học tập", "credits": 2, "hours": 45 },
+        { "code": "COM107", "name": "Tin học", "credits": 3, "hours": 75 },
+        { "code": "COM108", "name": "Nhập môn lập trình", "credits": 3, "hours": 75 },
+        { "code": "ITI101", "name": "Nhập môn Công nghệ thông tin", "credits": 3, "hours": 75 },
+        { "code": "ENT112", "name": "Tiếng Anh 1.1", "credits": 3, "hours": 75 },
+        { "code": "VIE103", "name": "Giáo dục thể chất - Vovinam", "credits": 2, "hours": 60 }
+      ]
+    },
+    {
+      "semester": 2,
+      "name": "Học kỳ 2",
+      "total_credits": 19,
+      "total_hours": 450,
+      "courses": [
+        { "code": "WEB101", "name": "Xây dựng trang Web", "credits": 3, "hours": 75 },
+        { "code": "WEB108", "name": "Lập trình PHP cơ bản", "credits": 3, "hours": 75 },
+        { "code": "COM201", "name": "Cơ sở dữ liệu", "credits": 3, "hours": 75 },
+        { "code": "WEB104", "name": "Lập trình cơ sở với JavaScript", "credits": 3, "hours": 75 },
+        { "code": "ENT122", "name": "Tiếng Anh 1.2", "credits": 3, "hours": 75 },
+        { "code": "VIE101", "name": "Chính trị", "credits": 4, "hours": 75 }
+      ]
+    },
+    {
+      "semester": 3,
+      "name": "Học kỳ 3",
+      "total_credits": 17,
+      "total_hours": 420,
+      "courses": [
+        { "code": "WEB302", "name": "Thiết kế Web với HTML5&CSS3", "credits": 3, "hours": 75 },
+        { "code": "WEB201", "name": "Lập trình PHP 1", "credits": 3, "hours": 75 },
+        { "code": "WEB102", "name": "Quản trị website", "credits": 3, "hours": 75 },
+        { "code": "WEB204", "name": "Dự án mẫu", "credits": 3, "hours": 75 },
+        { "code": "ENT212", "name": "Tiếng Anh 2.1", "credits": 3, "hours": 75 },
+        { "code": "PDP103", "name": "Kỹ năng phát triển cá nhân", "credits": 2, "hours": 45 }
+      ]
+    },
+    {
+      "semester": 4,
+      "name": "NĂM 2 (N2) - Học kỳ 4",
+      "total_credits": 18,
+      "total_hours": 450,
+      "courses": [
+        { "code": "WEB105", "name": "Thiết kế UI/UX", "credits": 3, "hours": 75 },
+        { "code": "WEB205", "name": "Marketing trên Internet", "credits": 3, "hours": 75 },
+        { "code": "WEB206", "name": "Lập trình JavaScript nâng cao", "credits": 3, "hours": 75 },
+        { "code": "PRO101", "name": "Dự án 1", "credits": 3, "hours": 75 },
+        { "code": "WEB207", "name": "Front-End Frameworks", "credits": 3, "hours": 75, "branch": "CN1" },
+        { "code": "WEB501", "name": "Lập trình ECMAScript", "credits": 3, "hours": 75, "branch": "CN2" },
+        { "code": "ENT222", "name": "Tiếng Anh 2.2", "credits": 3, "hours": 75 }
+      ]
+    },
+    {
+      "semester": 5,
+      "name": "Học kỳ 5",
+      "total_credits": 17,
+      "total_hours": 420,
+      "courses": [
+        { "code": "WEB301", "name": "Lập trình PHP 2", "credits": 3, "hours": 75, "branch": "CN1" },
+        { "code": "WEB503", "name": "NodeJS & Restful Web Service", "credits": 3, "hours": 75, "branch": "CN2" },
+        { "code": "WEB203", "name": "Xây dựng trang Web 2", "credits": 3, "hours": 75, "branch": "CN1" },
+        { "code": "WEB502", "name": "Lập trình TypeScript", "credits": 3, "hours": 75, "branch": "CN2" },
+        { "code": "PDP104", "name": "Kỹ năng làm việc", "credits": 2, "hours": 45 },
+        { "code": "PMA101", "name": "Quản lý dự án với Agile", "credits": 3, "hours": 75, "branch": "CN1" },
+        { "code": "WEB208", "name": "Lập trình Front-End Framework 1", "credits": 3, "hours": 75, "branch": "CN2" },
+        { "code": "WEB401", "name": "Lập trình PHP 3", "credits": 3, "hours": 75, "branch": "CN1" },
+        { "code": "WEB209", "name": "Lập trình Front-End Framework 2", "credits": 3, "hours": 75, "branch": "CN2" },
+        { "code": "SYB301", "name": "Khởi sự doanh nghiệp", "credits": 3, "hours": 75 }
+      ]
+    },
+    {
+      "semester": 6,
+      "name": "Học kỳ 6",
+      "total_credits": 16,
+      "total_hours": 555,
+      "courses": [
+        { "code": "PRO116", "name": "Thực tập tốt nghiệp", "credits": 5, "hours": 225 },
+        { "code": "PRO224", "name": "Dự án tốt nghiệp", "credits": 5, "hours": 225, "branch": "CN1" },
+        { "code": "PRO220", "name": "Dự án tốt nghiệp", "credits": 5, "hours": 225, "branch": "CN2" },
+        { "code": "VIE102", "name": "Pháp luật", "credits": 2, "hours": 30 },
+        { "code": "VIE104", "name": "Giáo dục quốc phòng", "credits": 4, "hours": 75 }
+      ]
+    }
+  ]
+}

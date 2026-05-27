@@ -16,7 +16,8 @@
     "start": "node server/server.js",
     "preview": "npm run preview --prefix client -- --port 5173",
     "kill": "node server/src/jobs/kill-ports.js",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "ingest:graph": "node scripts/ingest_graph.js"
   },
   "keywords": [
     "ai",
@@ -43,6 +44,7 @@
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^1.4.5-lts.1",
+    "neo4j-driver": "^6.0.1",
     "node-nlp": "^5.0.0-alpha.5",
     "pptxgenjs": "^4.0.1",
     "prisma": "^7.8.0",

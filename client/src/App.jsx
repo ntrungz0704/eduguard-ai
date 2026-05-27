@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
-import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network } from 'lucide-react';
 import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -15,6 +15,7 @@ const Login = lazy(() => import('./pages/Login'));
 const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
 const Inbox = lazy(() => import('./pages/Inbox'));
 const Interventions = lazy(() => import('./pages/Interventions'));
+const KnowledgeGraphDashboard = lazy(() => import('./pages/KnowledgeGraphDashboard'));
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
+    { path: '/knowledge-graph', icon: <Network size={20} />, label: 'Knowledge Graph' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'NLP Analytics Assistant' }
   ];
@@ -324,6 +326,7 @@ function App() {
                     <Route path="/search" element={<StudentSearch />} />
                     <Route path="/predict" element={<Predict />} />
                     <Route path="/gpa" element={<GPA />} />
+                    <Route path="/knowledge-graph" element={<KnowledgeGraphDashboard />} />
                     <Route path="/interventions" element={<Interventions />} />
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />

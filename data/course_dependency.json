@@ -1,0 +1,82 @@
+[
+  {
+    "course_code": "WEB104",
+    "depends_on": ["COM108"]
+  },
+  {
+    "course_code": "WEB206",
+    "depends_on": ["WEB104"]
+  },
+  {
+    "course_code": "WEB207",
+    "depends_on": ["WEB206"]
+  },
+  {
+    "course_code": "WEB209",
+    "depends_on": ["WEB207"]
+  },
+  {
+    "course_code": "WEB302",
+    "depends_on": ["WEB101"]
+  },
+  {
+    "course_code": "WEB203",
+    "depends_on": ["WEB302"]
+  },
+  {
+    "course_code": "WEB503",
+    "depends_on": ["COM201", "WEB104"]
+  },
+  {
+    "course_code": "WEB501",
+    "depends_on": ["WEB104"]
+  },
+  {
+    "course_code": "WEB502",
+    "depends_on": ["WEB104"]
+  },
+  {
+    "course_code": "WEB208",
+    "depends_on": ["WEB206"]
+  },
+  {
+    "course_code": "WEB201",
+    "depends_on": ["WEB108"]
+  },
+  {
+    "course_code": "WEB301",
+    "depends_on": ["WEB201"]
+  },
+  {
+    "course_code": "WEB401",
+    "depends_on": ["WEB301"]
+  },
+  {
+    "course_code": "ENT122",
+    "depends_on": ["ENT112"]
+  },
+  {
+    "course_code": "ENT212",
+    "depends_on": ["ENT122"]
+  },
+  {
+    "course_code": "ENT222",
+    "depends_on": ["ENT212"]
+  },
+  {
+    "course_code": "PRO101",
+    "depends_on": ["WEB108", "WEB104", "WEB302"]
+  },
+  {
+    "course_code": "PRO116",
+    "depends_on": ["PRO101"]
+  },
+  {
+    "course_code": "PRO224",
+    "depends_on": ["PRO116", "WEB401", "WEB203"]
+  },
+  {
+    "course_code": "PRO220",
+    "depends_on": ["PRO116", "WEB209", "WEB503"]
+  }
+]
