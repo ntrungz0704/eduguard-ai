@@ -57,7 +57,7 @@ async function ingestGraph() {
       for (const course of sem.courses) {
         await session.run(
           `
-          MATCH (c:Course {code: $code})
+          MATCH (c:Course) WHERE c.code STARTS WITH $code
           SET c.semester = $semester,
               c.branch = $branch
           `,
@@ -76,8 +76,8 @@ async function ingestGraph() {
       for (const prereqCode of dep.depends_on) {
         await session.run(
           `
-          MATCH (c:Course {code: $code})
-          MATCH (p:Course {code: $prereqCode})
+          MATCH (c:Course) WHERE c.code STARTS WITH $code
+          MATCH (p:Course) WHERE p.code STARTS WITH $prereqCode
           MERGE (p)-[:PREREQUISITE_FOR]->(c)
           `,
           { code: courseCode, prereqCode }

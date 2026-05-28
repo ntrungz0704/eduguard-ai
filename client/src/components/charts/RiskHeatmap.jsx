@@ -26,8 +26,19 @@ const RiskHeatmap = React.memo(({ students = [], title = 'Risk Heatmap — Top S
   const displayStudents = students.slice(0, 8);
 
   if (displayStudents.length === 0) {
-    // Render mock data for visual demo
-    return <RiskHeatmapMock title={title} />;
+    return (
+      <div style={{
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: 16,
+        padding: '40px 16px',
+        textAlign: 'center',
+        color: '#64748b'
+      }}>
+        <h3 style={{ color: '#e2e8f0', fontSize: 14, fontWeight: 700, marginBottom: 8 }}>{title}</h3>
+        <p>Không có dữ liệu sinh viên (Empty State)</p>
+      </div>
+    );
   }
 
   return (
@@ -113,78 +124,6 @@ const RiskHeatmap = React.memo(({ students = [], title = 'Risk Heatmap — Top S
   );
 });
 
-function RiskHeatmapMock({ title }) {
-  const navigate = useNavigate();
-  const weeks = Array.from({ length: 8 }, (_, i) => i + 1);
-  const mockStudents = [
-    { mssv: 'PS47261', riskScore: 88, level: 'CRITICAL' },
-    { mssv: 'PS12345', riskScore: 72, level: 'HIGH' },
-    { mssv: 'PS98765', riskScore: 65, level: 'HIGH' },
-    { mssv: 'PS11111', riskScore: 48, level: 'MEDIUM' },
-    { mssv: 'PS22222', riskScore: 35, level: 'MEDIUM' },
-    { mssv: 'PS33333', riskScore: 18, level: 'LOW' },
-  ];
 
-  return (
-    <div style={{
-      background: 'rgba(255,255,255,0.04)',
-      border: '1px solid rgba(255,255,255,0.1)',
-      borderRadius: 16,
-      padding: '20px 16px',
-      overflowX: 'auto'
-    }}>
-      <h3 style={{ color: '#e2e8f0', fontSize: 14, fontWeight: 700, marginBottom: 4, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-        {title}
-      </h3>
-      <p style={{ color: '#64748b', fontSize: 12, marginBottom: 16 }}>
-        Demo — Mức độ rủi ro theo tuần học
-      </p>
-
-      <div style={{ minWidth: 600 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '100px repeat(8, 1fr)', gap: 3, marginBottom: 4 }}>
-          <div />
-          {weeks.map(w => (
-            <div key={w} style={{ textAlign: 'center', color: '#475569', fontSize: 10, fontWeight: 600 }}>T{w}</div>
-          ))}
-        </div>
-        {mockStudents.map(student => (
-          <div key={student.mssv} style={{ display: 'grid', gridTemplateColumns: '100px repeat(8, 1fr)', gap: 3, marginBottom: 3 }}>
-            <div style={{ color: '#94a3b8', fontSize: 11, display: 'flex', alignItems: 'center', paddingRight: 8, fontWeight: 600 }}>
-              {student.mssv}
-            </div>
-            {weeks.map(week => {
-              const escW = Math.max(1, 8 - Math.floor(student.riskScore / 15));
-              let level = week >= escW ? student.level : 'LOW';
-              return (
-                <div key={week} 
-                  onClick={() => navigate(`/student/${student.mssv}`)}
-                  title={`${student.mssv} | Tuần ${week}\nRisk Level: ${level}`}
-                  style={{
-                    height: 22, borderRadius: 3,
-                    background: RISK_BG[level],
-                    border: `1px solid ${RISK_COLORS[level]}55`,
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer'
-                  }} 
-                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.15)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-                />
-              );
-            })}
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: 'flex', gap: 16, marginTop: 12 }}>
-        {Object.entries(RISK_COLORS).map(([level, color]) => (
-          <div key={level} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <div style={{ width: 12, height: 12, borderRadius: 2, background: RISK_BG[level], border: `1px solid ${color}` }} />
-            <span style={{ color: '#64748b', fontSize: 11 }}>{level}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export default RiskHeatmap;

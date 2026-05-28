@@ -154,6 +154,19 @@ manager.addDocument('vi', 'Hello', 'greeting');
 manager.addDocument('vi', 'Lô', 'greeting');
 manager.addDocument('vi', 'Chào', 'greeting');
 
+// Intent: Syllabus / Course Content
+manager.addDocument('vi', 'Nội dung môn học này là gì', 'query.syllabus');
+manager.addDocument('vi', 'Đề cương chi tiết môn này', 'query.syllabus');
+manager.addDocument('vi', 'Cho xem đề cương môn', 'query.syllabus');
+manager.addDocument('vi', 'Môn này học những gì', 'query.syllabus');
+manager.addDocument('vi', 'Syllabus môn', 'query.syllabus');
+manager.addDocument('vi', 'nội dung môn', 'query.syllabus');
+
+// STUDENT_SYLLABUS_INTENT
+manager.addDocument('vi', 'môn này tôi sẽ học gì', 'student.syllabus');
+manager.addDocument('vi', 'nội dung khóa học', 'student.syllabus');
+manager.addDocument('vi', 'đề cương của môn', 'student.syllabus');
+
 (async () => {
   console.log("🚀 Đang tiến hành huấn luyện (Training) Mô hình NLP...");
   await manager.train();

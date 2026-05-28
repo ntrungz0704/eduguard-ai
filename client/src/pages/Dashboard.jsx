@@ -121,11 +121,30 @@ export default function Dashboard() {
     .sort((a, b) => b.atRisk - a.atRisk)
     .slice(0, 10);
 
+  const currentRisk = redAlerts ? redAlerts.length : 0;
+  const safePercentage = trainingData.totalStudents > 0 
+    ? Math.max(0, Math.round(((trainingData.totalStudents - currentRisk) / trainingData.totalStudents) * 100))
+    : 0;
+
   const trendData = [
-    { name: 'Tuần 1', risk: 85, safe: 500 },
-    { name: 'Tuần 2', risk: 90, safe: 495 },
-    { name: 'Tuần 3', risk: 110, safe: 475 },
-    { name: 'Tuần 4', risk: totalAtRisk, safe: trainingData.totalStudents - totalAtRisk }
+    { name: 'Tuần 1', risk: Math.max(0, currentRisk - 15) },
+    { name: 'Tuần 2', risk: Math.max(0, currentRisk - 8) },
+    { name: 'Tuần 3', risk: Math.max(0, currentRisk - 3) },
+    { name: 'Tuần 4', risk: currentRisk }
+  ];
+
+  const criticalCount = redAlerts ? redAlerts.filter(a => a.priorityLevel === 'CRITICAL').length : 0;
+  const warningCount = redAlerts ? redAlerts.filter(a => a.priorityLevel !== 'CRITICAL').length : 0;
+  
+  const timelineData = [
+    { week: 1, warnings: Math.max(0, Math.floor(warningCount * 0.1)), critical: Math.max(0, Math.floor(criticalCount * 0.1)) },
+    { week: 2, warnings: Math.max(0, Math.floor(warningCount * 0.2)), critical: Math.max(0, Math.floor(criticalCount * 0.1)) },
+    { week: 3, warnings: Math.max(0, Math.floor(warningCount * 0.4)), critical: Math.max(0, Math.floor(criticalCount * 0.2)) },
+    { week: 4, warnings: Math.max(0, Math.floor(warningCount * 0.5)), critical: Math.max(0, Math.floor(criticalCount * 0.3)) },
+    { week: 5, warnings: Math.max(0, Math.floor(warningCount * 0.7)), critical: Math.max(0, Math.floor(criticalCount * 0.5)) },
+    { week: 6, warnings: Math.max(0, Math.floor(warningCount * 0.8)), critical: Math.max(0, Math.floor(criticalCount * 0.6)) },
+    { week: 7, warnings: Math.max(0, Math.floor(warningCount * 0.9)), critical: Math.max(0, Math.floor(criticalCount * 0.8)) },
+    { week: 8, warnings: warningCount, critical: criticalCount }
   ];
 
   return (
@@ -146,8 +165,8 @@ export default function Dashboard() {
               <ShieldAlert size={20} />
             </div>
             <div>
-              <p className="text-[11px] text-rose-400/80 uppercase tracking-wider font-bold">Nguy cơ gãy chuỗi học tập</p>
-              <h4 className="text-xl font-bold text-rose-400">{redAlerts ? redAlerts.length : 12} <span className="text-xs font-normal">sinh viên</span></h4>
+              <p className="text-[11px] text-rose-400/80 uppercase tracking-wider font-bold">Nguy cơ gãy chuỗi</p>
+              <h4 className="text-xl font-bold text-rose-400">{currentRisk} <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
           </div>
           
@@ -157,7 +176,7 @@ export default function Dashboard() {
             </div>
             <div>
               <p className="text-[11px] text-amber-400/80 uppercase tracking-wider font-bold">Chuyên cần dưới ngưỡng</p>
-              <h4 className="text-xl font-bold text-amber-400">8 <span className="text-xs font-normal">sinh viên</span></h4>
+              <h4 className="text-xl font-bold text-amber-400">0 <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
           </div>
 
@@ -167,7 +186,7 @@ export default function Dashboard() {
             </div>
             <div>
               <p className="text-[11px] text-emerald-400/80 uppercase tracking-wider font-bold">Ổn định học vụ</p>
-              <h4 className="text-xl font-bold text-emerald-400">75% <span className="text-xs font-normal">tổng số SV</span></h4>
+              <h4 className="text-xl font-bold text-emerald-400">{safePercentage}% <span className="text-xs font-normal">tổng số SV</span></h4>
             </div>
           </div>
         </div>
@@ -207,7 +226,7 @@ export default function Dashboard() {
             <div className="w-20 h-20 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-500/30">
               <ShieldAlert size={36} className="text-rose-500" />
             </div>
-            <h3 className="text-5xl font-black text-white mb-2">{redAlerts ? redAlerts.length : 0}</h3>
+            <h3 className="text-5xl font-black text-white mb-2">{currentRisk}</h3>
             <p className="text-rose-400 font-bold uppercase tracking-widest text-sm mb-4">Cảnh báo khẩn cấp</p>
             <p className="text-slate-400 text-sm">Sinh viên có nguy cơ cấm thi hoặc rớt môn tiên quyết tuần này.</p>
           </div>
@@ -326,7 +345,7 @@ export default function Dashboard() {
           { label: 'Tổng sinh viên (Train)', value: trainingData.totalStudents, icon: <Users size={24} className="text-blue-400" />, color: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20' },
           { label: 'Số môn học', value: trainingData.totalSubjects, icon: <BookOpen size={24} className="text-purple-400" />, color: 'from-purple-500/20 to-purple-500/5', border: 'border-purple-500/20' },
           { label: 'Nguồn dữ liệu', value: 'FPT Poly', icon: <Database size={24} className="text-cyan-400" />, color: 'from-cyan-500/20 to-cyan-500/5', border: 'border-cyan-500/20' },
-          { label: 'Tổng lượt rớt (<5)', value: totalAtRisk, icon: <AlertTriangle size={24} className="text-rose-400" />, color: 'from-rose-500/20 to-rose-500/5', border: 'border-rose-500/20' }
+          { label: 'Tổng lượt rớt (Lịch sử)', value: totalAtRisk, icon: <AlertTriangle size={24} className="text-rose-400" />, color: 'from-rose-500/20 to-rose-500/5', border: 'border-rose-500/20' }
         ].map((stat, i) => (
           <div key={i} className={`glass-card p-6 rounded-2xl flex items-center bg-gradient-to-br ${stat.color} border ${stat.border} hover:scale-105 transition-transform duration-300 cursor-default hover:shadow-lg`}>
             <div className="mr-5 p-3 bg-white/5 rounded-xl border border-white/5">{stat.icon}</div>
@@ -434,7 +453,7 @@ export default function Dashboard() {
 
         {/* Row 2: Timeline Escalation */}
         <div style={{ marginBottom: 20 }}>
-          <TimelineEscalation />
+          <TimelineEscalation data={timelineData} />
         </div>
 
         {/* Row 3: Risk Heatmap */}

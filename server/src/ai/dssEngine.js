@@ -1,4 +1,4 @@
-const { calculateFptGPA } = require('../../legacy/services/dataService');
+const { calculateFptGPA } = require('../utils/dataService');
 const appLogger = require('../infrastructure/logger');
 
 // ============================================================

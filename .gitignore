@@ -9,3 +9,5 @@ temp/
 *.db-journal
 .DS_Store
 coverage/
+
+*.log

@@ -72,7 +72,7 @@ export default function GPA() {
       const studying = data.scores?.filter(s => s.status === 'STUDYING') || [];
       const att = studying.length > 0 ? studying.reduce((acc, s) => acc + (s.attendance || 100), 0) / studying.length : 100;
 
-      // Mock trend
+      // Estimate trend based on recent failures
       const trend = failed.length > 0 ? 'down' : 'up';
       const riskLevel = dangers.length >= 2 ? 'HIGH' : (dangers.length === 1 ? 'MEDIUM' : 'LOW');
 
@@ -90,8 +90,7 @@ export default function GPA() {
     } catch (err) {
       console.error(err);
     } finally {
-      // Fake a slight delay for "AI Analyzing" feel
-      setTimeout(() => setLoadingStudent(false), 800);
+      setLoadingStudent(false);
     }
   };
 

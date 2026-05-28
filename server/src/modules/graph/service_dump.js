@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const { getNeo4jDriver } = require('../../config/neo4j');
 const { prisma } = require('../../infrastructure/database/prisma');
-const _ = require('lodash');
 const cache = require('../../shared/cache');
 const { calculateFptGPA } = require('../../utils/dataService');
 
@@ -410,9 +409,7 @@ class GraphService {
       };
     });
 
-    const uniqueChains = _.uniqBy(chains, (chain) => chain.blockedPath);
-
-    return uniqueChains.sort((left, right) => {
+    return chains.sort((left, right) => {
       const severityDelta = this.getRiskLevelWeight(left.riskLevel) - this.getRiskLevelWeight(right.riskLevel);
       if (severityDelta !== 0) {
         return severityDelta;

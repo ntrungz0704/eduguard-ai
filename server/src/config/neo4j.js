@@ -8,7 +8,15 @@ function getNeo4jDriver() {
     const user = process.env.NEO4J_USER || 'neo4j';
     const password = process.env.NEO4J_PASSWORD || 'eduguard_neo4j_password';
     
+    console.log('[Neo4j] Initializing connection to database (Optional)...');
     driver = neo4j.driver(uri, neo4j.auth.basic(user, password));
+    
+    // Fire and forget verification silently
+    driver.getServerInfo().then(serverInfo => {
+      console.log(`[Neo4j] ✅ Connection Verified! Connected to server: ${serverInfo.address}`);
+    }).catch(error => {
+      // Silently fail, GraphService handles fallback
+    });
   }
   return driver;
 }

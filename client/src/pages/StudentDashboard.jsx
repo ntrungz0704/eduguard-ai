@@ -230,8 +230,7 @@ function OverviewTab({ data, curriculumCourses }) {
       return {
         name: sem.name,
         'GPA Học kỳ': semAvg !== null ? Math.round(semAvg * 10) / 10 : null,
-        'CPA Tích lũy': cumCount > 0 ? Math.round((cumTotal / cumCount) * 10) / 10 : null,
-        'Trung bình lớp (Giả định)': 7.5 // Dữ liệu mẫu (mock)
+        'CPA Tích lũy': cumCount > 0 ? Math.round((cumTotal / cumCount) * 10) / 10 : null
       };
     }).filter(d => d['GPA Học kỳ'] !== null || d['CPA Tích lũy'] !== null);
   }, [curriculumCourses]);
@@ -323,7 +322,7 @@ function OverviewTab({ data, curriculumCourses }) {
 
           {/* Ranking Area Chart */}
           <div className="glass-card p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">So sánh năng lực (Tích lũy vs Chuẩn)</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Tiến trình CPA (Tích lũy)</h4>
             <div className="h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -332,10 +331,6 @@ function OverviewTab({ data, curriculumCourses }) {
                       <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
                       <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                     </linearGradient>
-                    <linearGradient id="colorAvg" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
-                    </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                   <XAxis dataKey="name" stroke="#ffffff50" fontSize={10} tickLine={false} axisLine={false} />
@@ -343,7 +338,6 @@ function OverviewTab({ data, curriculumCourses }) {
                   <Tooltip 
                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
                   />
-                  <Area type="monotone" dataKey="Trung bình lớp (Giả định)" stroke="#f59e0b" fillOpacity={1} fill="url(#colorAvg)" strokeDasharray="5 5" />
                   <Area type="monotone" dataKey="CPA Tích lũy" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorCpa)" />
                 </AreaChart>
               </ResponsiveContainer>

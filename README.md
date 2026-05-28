@@ -29,6 +29,13 @@ Hệ thống giải quyết bài toán cốt lõi của các cơ sở giáo dụ
 - **Hybrid NLP Assistant:** Chatbot truy vấn học vụ cục bộ (Zero-cost API) kết hợp LLM Fallback.
 - **Enterprise Dashboard:** Giao diện trực quan hóa dữ liệu (Heatmap, Trends, Analytics Cards) đẳng cấp nghiệp vụ.
 
+### Academic Risk Map UX
+- Student search and overview load first.
+- The API returns grouped `riskChains` instead of one flattened curriculum graph.
+- Teachers review risk summary cards before opening a chain.
+- React Flow renders only the selected chain and auto-fits the viewport.
+- The right panel updates the risk narrative from the selected chain context.
+
 ---
 
 ## 🏗️ Kiến trúc Hệ thống (System Architecture)
@@ -46,7 +53,19 @@ EduGuard AI được thiết kế theo chuẩn **Modular Monolith**, sẵn sàng
   - `JWT Auth` + `RBAC` (Phân quyền Admin/Advisor/Student)
   - `Audit Logger` (Nhật ký kiểm toán truy cập)
 
-*(Xem chi tiết bộ sơ đồ kiến trúc Mermaid tại file [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md))*
+*(Xem chi tiết tài liệu kiến trúc tại thư mục [docs/](./docs/))*
+- [SYSTEM_ARCHITECTURE.md](./docs/SYSTEM_ARCHITECTURE.md)
+- [GRAPH_PIPELINE.md](./docs/GRAPH_PIPELINE.md)
+- [DATA_FLOW.md](./docs/DATA_FLOW.md)
+
+### Graph API Contract
+`GET /api/v1/graph/student-risk/:mssv`
+
+Returns:
+- `student`: real overview metrics only
+- `riskChains`: grouped dependency chains for drill-down analysis
+
+This endpoint no longer returns a single full-curriculum graph payload for the UI to render at once.
 
 ---
 

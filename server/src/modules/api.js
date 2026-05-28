@@ -8,15 +8,17 @@ const path = require('path');
 const { prisma } = require('../infrastructure/database/prisma');
 
 // Import modular services
-const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../../legacy/services/dataService');
+const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../utils/dataService');
+const { getNeo4jDriver } = require('../config/neo4j');
+const { spawn } = require('child_process');
 const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../ai/regression');
 const { validateModel } = require('../ai/validation');
 const { NlpManager } = require('node-nlp');
 
 // Import RAG and AI Orchestration Services
-const { getStudentContext } = require('../../legacy/services/ragService');
-const { buildPrompt } = require('../../legacy/services/promptService');
-const { askGroq, askGemini } = require('../../legacy/services/aiService');
+const { getStudentContext } = require('../ai/ragService');
+const { buildPrompt } = require('../ai/promptService');
+const { askGroq, askGemini } = require('../ai/aiService');
 const { predictRisk } = require('../ai/inference/riskPredictor');
 
 // Setup upload
@@ -97,7 +99,7 @@ async function syncUploadedData(validStudents) {
 // ============================================================
 const dataPath = path.join(__dirname, '..', '..', 'src', 'datasets', 'training_data.json');
 const modelCachePath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'regression', 'trained_model.json');
-const cache = require('../../src/shared/cache');
+const cache = require('../shared/cache');
 
 
 if (fs.existsSync(dataPath)) {
@@ -1183,21 +1185,8 @@ Hệ thống hoạt động hoàn toàn bảo mật và chính xác cho môi tr�
     const avg = riskData.gpa;
     const rank = avg >= 8.0 ? 'Giỏi' : (avg >= 6.5 ? 'Khá' : (avg >= 5.0 ? 'Trung bình' : 'Yếu'));
 
-    // Setup chart data for UI
-    const gpaMockHK = avg >= 8.0 ? [7.5, 7.8, 8.2] : (avg >= 6.5 ? [6.5, 6.8, 7.0] : (avg >= 5.0 ? [7.5, 6.5, 5.5] : [6.0, 5.0, 4.0]));
-    const chartDataPayload = {
-      type: 'gpa',
-      data: [
-        { semester: 'HK1', gpa: gpaMockHK[0] },
-        { semester: 'HK2', gpa: gpaMockHK[1] },
-        { semester: 'HK3', gpa: gpaMockHK[2] },
-        { semester: 'HK4', gpa: parseFloat(avg.toFixed(1)) }
-      ]
-    };
-
-    const chartDataStr = `|||CHART_DATA:${JSON.stringify(chartDataPayload)}|||`;
-
-    // Tailored Follow-up Responses
+    // Remove fake chart data mock
+    const chartDataStr = '';
     if (detectedIntent === 'FOLLOWUP_ROOT_CAUSE_INTENT') {
       const explanationStr = riskData.explanations.map(e => `- ${e.text}: +${e.impact} risk`).join('\n');
       return `⚠️ GIẢI THÍCH NGUYÊN NHÂN CỐT LÕI (XAI)
@@ -1411,222 +1400,32 @@ router.get('/students/:mssv', async (req, res) => {
       // Fallback to checking the in-memory array if not found in DB
       const memStudent = (cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students).find(st => st.id === mssv);
       if (memStudent) {
-        const getRealisticAttendance = (status, value) => {
-          if (status === 'PASSED') {
-            if (value >= 8) return Math.floor(Math.random() * 11) + 90;
-            if (value >= 6) return Math.floor(Math.random() * 15) + 80;
-            return Math.floor(Math.random() * 20) + 75;
-          }
-          if (status === 'FAILED') {
-            if (value < 3) return Math.floor(Math.random() * 20) + 40;
-            return Math.floor(Math.random() * 20) + 60;
-          }
-          return Math.floor(Math.random() * 31) + 70;
-        };
-        // Map scores map to the same format
+        // Student exists in memory cache but not in DB — return it without fake attendance
         const scores = Object.entries(memStudent.scores || {}).map(([cId, val]) => {
-          const status = val >= 5 ? 'PASSED' : (val === null ? 'STUDYING' : 'FAILED');
-          const attendance = getRealisticAttendance(status, val);
+          const status = val === null ? 'STUDYING' : (val >= 5 ? 'PASSED' : 'FAILED');
           return {
             courseId: cId,
             value: val,
             status,
-            attendance,
+            attendance: null, // No real attendance data available
             course: { id: cId, name: cId, credits: getCourseCredits(cId) }
           };
         });
         return res.json({
           mssv,
           name: memStudent.name || `Sinh viên ${mssv}`,
-          classCode: 'WD18301',
+          classCode: memStudent.classCode || 'N/A',
           scores,
           predictions: [],
           interventions: []
         });
       }
 
-      // ── DYNAMIC FAIL-SAFE MOCK STUDENT GENERATOR & PERSISTENCE ──
-      // This guarantees that any custom MSSV entered during testing/demo gets a gorgeous, fully-loaded student dashboard.
-      const VN_NAMES = [
-        "Nguyễn Minh Triết", "Trần Hoàng Nam", "Lê Thị Mai Anh", "Phạm Quốc Bảo",
-        "Hoàng Nhật Minh", "Vũ Tuyết Băng", "Đỗ Gia Huy", "Bùi Minh Tuấn",
-        "Ngô Khánh Chi", "Dương Trung Kiên", "Phan Gia Bảo", "Lý Thanh Hằng"
-      ];
-      const nameIndex = Math.abs(mssv.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % VN_NAMES.length;
-      const selectedName = VN_NAMES[nameIndex];
-      const classCode = `WD183` + (nameIndex + 1).toString().padStart(2, '0');
-
-      try {
-        console.log(`🌱 Auto-generating mock profile for new demo MSSV: ${mssv} (${selectedName})...`);
-        
-        // Ensure student exists in DB
-        await prisma.student.create({
-          data: {
-            mssv,
-            name: selectedName,
-            classCode
-          }
-        });
-
-        const curriculumOrder = cache.trainingData.curriculumOrder || [];
-        
-        // Ensure courses exist first in DB
-        for (const courseId of curriculumOrder) {
-          await prisma.course.upsert({
-            where: { id: courseId },
-            update: {},
-            create: {
-              id: courseId,
-              name: courseId,
-              credits: getCourseCredits(courseId)
-            }
-          });
-        }
-
-        // Insert mock scores and predictions
-        const scorePromises = [];
-        const predictionPromises = [];
-        
-        curriculumOrder.forEach((courseId, idx) => {
-          if (idx < 18) {
-            const scoreSeed = (nameIndex + idx) % 10;
-            let gradeVal = 6.0 + (scoreSeed * 0.35);
-            let status = 'PASSED';
-            if (idx === 5) {
-              gradeVal = 4.2;
-              status = 'FAILED';
-            }
-            const value = Math.round(gradeVal * 10) / 10;
-            scorePromises.push(prisma.score.create({
-              data: {
-                mssv,
-                courseId,
-                value,
-                semester: 'Summer 2025',
-                status
-              }
-            }));
-          } else if (idx >= 18 && idx < 21) {
-            scorePromises.push(prisma.score.create({
-              data: {
-                mssv,
-                courseId,
-                value: null,
-                semester: 'Fall 2025',
-                status: 'STUDYING',
-                attendance: Math.floor(Math.random() * 21) + 80 // STUDYING: 80-100
-              }
-            }));
-
-            let predictedScore = 5.2 + ((nameIndex + idx) % 5) * 0.8;
-            if (idx === 19) predictedScore = 4.3; // failed prediction for alert
-            const risk = predictedScore < 5 ? 'HIGH' : (predictedScore < 6.5 ? 'MEDIUM' : 'LOW');
-            const reasons = [
-              {
-                subject: curriculumOrder[idx - 12] || 'COM108',
-                score: 4.2,
-                impact: predictedScore < 5 ? 'negative' : 'positive'
-              },
-              {
-                subject: curriculumOrder[idx - 6] || 'WEB101',
-                score: 8.5,
-                impact: 'positive'
-              }
-            ];
-            const confidence = Math.round((0.75 + Math.random() * 0.2) * 100) / 100; // 0.75 to 0.95
-            const explanationStr = `Chuyên cần: ${Math.round(60 + Math.random() * 30)}% | Điểm ${curriculumOrder[idx - 12] || 'COM108'}: 4.2`;
-            predictionPromises.push(prisma.prediction.create({
-              data: {
-                mssv,
-                courseId,
-                predictedScore: Math.round(predictedScore * 10) / 10,
-                risk,
-                confidence,
-                explanation: explanationStr,
-                reasons
-              }
-            }));
-          }
-        });
-
-        await Promise.all(scorePromises);
-        await Promise.all(predictionPromises);
-
-        // Fetch back with all relations loaded
-        const freshStudent = await prisma.student.findUnique({
-          where: { mssv },
-          include: {
-            scores: {
-              include: {
-                course: true
-              }
-            },
-            predictions: true,
-            interventions: {
-              include: {
-                advisor: true
-              }
-            }
-          }
-        });
-
-        return res.json(freshStudent);
-
-      } catch (dbErr) {
-        console.warn("⚠️ Error auto-seeding mock student, falling back to dynamic JSON response:", dbErr.message);
-        
-        const curriculumOrder = cache.trainingData.curriculumOrder || [];
-        const scores = curriculumOrder.map((courseId, idx) => {
-          let status = 'NOT_STARTED';
-          let value = null;
-          if (idx < 18) {
-            const scoreSeed = (nameIndex + idx) % 10;
-            let gradeVal = 6.0 + (scoreSeed * 0.35);
-            status = 'PASSED';
-            if (idx === 5) {
-              gradeVal = 4.2;
-              status = 'FAILED';
-            }
-            value = Math.round(gradeVal * 10) / 10;
-          } else if (idx >= 18 && idx < 21) {
-            status = 'STUDYING';
-          }
-          return {
-            courseId,
-            value,
-            status,
-            course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
-          };
-        });
-
-        const predictions = [
-          {
-            courseId: curriculumOrder[18] || 'WEB105',
-            predictedScore: 7.2,
-            risk: 'LOW',
-            reasons: [
-              { subject: curriculumOrder[6], score: 8.2, impact: 'positive' }
-            ]
-          },
-          {
-            courseId: curriculumOrder[19] || 'WEB106',
-            predictedScore: 4.3,
-            risk: 'HIGH',
-            reasons: [
-              { subject: curriculumOrder[5], score: 4.2, impact: 'negative' }
-            ]
-          }
-        ];
-
-        return res.json({
-          mssv,
-          name: selectedName,
-          classCode,
-          scores,
-          predictions,
-          interventions: []
-        });
-      }
+      return res.status(404).json({ 
+        error: 'Không tìm thấy sinh viên.',
+        mssv,
+        hint: 'Hãy upload bảng điểm của lớp trước khi tra cứu.'
+      });
     }
 
     res.json(student);

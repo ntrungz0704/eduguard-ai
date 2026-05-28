@@ -1,5 +1,5 @@
-const { prisma } = require('../../src/infrastructure/database/prisma');
-const { calculateFptGPA } = require('./dataService');
+const { prisma } = require('../infrastructure/database/prisma');
+const { calculateFptGPA } = require('../utils/dataService');
 
 async function getStudentContext(mssv, limit = 5) {
   if (!mssv) return { student: null, chunks: [] };
