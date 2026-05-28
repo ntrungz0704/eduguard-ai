@@ -22,6 +22,12 @@ export default function Interventions() {
   const [showAllActive, setShowAllActive] = useState(false);
   const [showAllResolved, setShowAllResolved] = useState(false);
 
+  // Bulk Intervention State
+  const [showBulkModal, setShowBulkModal] = useState(false);
+  const [bulkMsg, setBulkMsg] = useState('Chào {name},\n\nHệ thống AI phát hiện em đang có nguy cơ gặp khó khăn ở môn {course}. Vui lòng sắp xếp thời gian ôn tập và liên hệ Cố vấn học tập nếu cần hỗ trợ!\n\nChúc em học tốt!');
+  const [bulkSending, setBulkSending] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState(0);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -81,6 +87,43 @@ export default function Interventions() {
     }
   };
 
+  const handleOpenBulk = () => {
+    if (data.atRisk.length === 0) {
+      alert("Không có sinh viên nào cần can thiệp!");
+      return;
+    }
+    setShowBulkModal(true);
+  };
+
+  const handleSendBulk = async () => {
+    setBulkSending(true);
+    setBulkProgress(0);
+    let count = 0;
+    for (const st of data.atRisk) {
+      const personalizedMsg = bulkMsg.replace('{name}', st.student.name).replace('{course}', st.course.name);
+      try {
+        await api.post('/comm/messages', {
+          senderId: currentUser.id,
+          receiverId: st.mssv,
+          content: personalizedMsg
+        });
+        await api.post(`/students/${st.mssv}/flag`, {
+          courseId: st.courseId,
+          action: 'Đã gửi Can thiệp tự động (AI)',
+          status: 'ACTIVE'
+        });
+      } catch(e) {
+        console.error("Error bulk sending to", st.mssv);
+      }
+      count++;
+      setBulkProgress(Math.floor((count / data.atRisk.length) * 100));
+    }
+    setShowBulkModal(false);
+    setBulkSending(false);
+    alert(`Đã hoàn tất gửi thông báo can thiệp tự động cho ${count} sinh viên!`);
+    fetchData();
+  };
+
   if (loading) {
     return <div className="flex h-64 items-center justify-center text-slate-400">Đang tải dữ liệu...</div>;
   }
@@ -97,7 +140,12 @@ export default function Interventions() {
         <div className="p-6 border-b border-white/5 flex items-center gap-3">
           <ShieldAlert size={24} className="text-rose-500" />
           <h3 className="text-xl font-bold text-white">1. Sinh viên có nguy cơ (Chưa can thiệp)</h3>
-          <span className="ml-auto bg-rose-500/20 text-rose-400 text-xs px-3 py-1 rounded-full font-bold">{data.atRisk.length} sinh viên</span>
+          <span className="bg-rose-500/20 text-rose-400 text-xs px-3 py-1 rounded-full font-bold ml-auto">{data.atRisk.length} sinh viên</span>
+          {data.atRisk.length > 0 && (
+            <button onClick={handleOpenBulk} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-lg flex items-center gap-2">
+              <Activity size={16} /> AI Can thiệp hàng loạt
+            </button>
+          )}
         </div>
         <div className="overflow-x-auto">
           {data.atRisk.length === 0 ? (
@@ -264,6 +312,43 @@ export default function Interventions() {
               <button onClick={() => setShowRoadmapModal(false)} className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5">Hủy</button>
               <button onClick={handleSendRoadmap} disabled={sendingMsg} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg disabled:opacity-50">
                 {sendingMsg ? 'Đang gửi...' : 'Gửi & Đưa vào Theo dõi'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Intervention Modal */}
+      {showBulkModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
+            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+              <Activity size={20} className="text-purple-400" /> AI Can thiệp tự động
+            </h3>
+            <p className="text-sm text-slate-400 mb-4">
+              Hệ thống sẽ tự động cá nhân hóa thông báo cho <b>{data.atRisk.length}</b> sinh viên. Các biến <span className="text-cyan-400 font-mono text-xs">{'{name}'}</span> và <span className="text-cyan-400 font-mono text-xs">{'{course}'}</span> sẽ được điền tự động.
+            </p>
+            <textarea
+              value={bulkMsg}
+              onChange={(e) => setBulkMsg(e.target.value)}
+              className="w-full h-32 bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-slate-200 outline-none focus:border-purple-500/50 mb-4 custom-scrollbar"
+            />
+            {bulkSending && (
+              <div className="mb-4">
+                <div className="flex justify-between text-xs text-slate-400 mb-1">
+                  <span>Tiến độ phân tích & gửi...</span>
+                  <span>{bulkProgress}%</span>
+                </div>
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-300" style={{ width: `${bulkProgress}%` }}></div>
+                </div>
+              </div>
+            )}
+            <div className="flex justify-end gap-3">
+              <button onClick={() => setShowBulkModal(false)} disabled={bulkSending} className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5 disabled:opacity-50">Hủy</button>
+              <button onClick={handleSendBulk} disabled={bulkSending} className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-xl text-sm font-bold shadow-lg disabled:opacity-50 flex items-center gap-2">
+                {bulkSending ? <Loader2 className="animate-spin" size={16} /> : <Send size={16} />} 
+                {bulkSending ? 'Đang xử lý...' : 'Bắt đầu Phân tích & Gửi'}
               </button>
             </div>
           </div>
