@@ -45,6 +45,8 @@ function routeIntent(msg, nlpIntent = 'None', activeStudent = null) {
     intent = 'CLASS_ANALYTICS_INTENT';
   } else if (nlpIntent === 'query.followup') {
     intent = 'STUDENT_ANALYTICS_INTENT'; // Let context resolver handle the exact student
+  } else if (nlpIntent === 'query.syllabus' || nlpIntent === 'student.syllabus') {
+    intent = 'SYLLABUS_INTENT';
   } 
   
   // If no direct map or fallback, try heuristics

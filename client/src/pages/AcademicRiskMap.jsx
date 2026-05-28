@@ -12,6 +12,7 @@ import {
   ShieldAlert,
   Sparkles,
   User,
+  Info,
 } from 'lucide-react';
 import dagre from 'dagre';
 import { api, requestWithRestartRetry } from '../lib/api';
@@ -250,6 +251,9 @@ const AcademicRiskMap = () => {
 
     setNodes(orderedFlowNodes);
     setEdges(flowEdges);
+    
+    // Auto-select the first node if nothing is selected or if selected node is not in current chain
+    // Exception: For full graph, we might not want to select anything initially, but it's fine.
     setSelectedNodeId((current) =>
       selectedChain.nodes.some((node) => node.id === current)
         ? current
@@ -296,7 +300,12 @@ const AcademicRiskMap = () => {
       );
 
       setStudentOverview(response.data.student || null);
-      setRiskChains(response.data.riskChains || []);
+      
+      const chains = response.data.riskChains || [];
+      if (response.data.fullGraph) {
+        chains.unshift(response.data.fullGraph);
+      }
+      setRiskChains(chains);
     } catch (error) {
       const message =
         error?.response?.data?.error ||
@@ -466,9 +475,9 @@ const AcademicRiskMap = () => {
                     <div className="flex items-start justify-between gap-2">
                       <div className="text-xs font-semibold text-white leading-tight">{chain.title}</div>
                       <div className={`shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold ${
-                        chain.riskLevel === 'HIGH' ? 'bg-rose-500/15 text-rose-200' : 'bg-amber-500/15 text-amber-100'
+                        chain.riskLevel === 'HIGH' ? 'bg-rose-500/15 text-rose-200' : chain.riskLevel === 'MEDIUM' ? 'bg-amber-500/15 text-amber-100' : 'bg-cyan-500/15 text-cyan-200'
                       }`}>
-                        {chain.riskLevel === 'HIGH' ? 'Rủi ro cao' : chain.riskLevel === 'MEDIUM' ? 'Rủi ro trung bình' : 'Ổn định'}
+                        {chain.riskLevel === 'HIGH' ? 'Rủi ro cao' : chain.riskLevel === 'MEDIUM' ? 'Rủi ro trung bình' : 'Thông tin'}
                       </div>
                     </div>
                     <div className="mt-2 flex items-center justify-between text-[10px] uppercase tracking-[0.1em] text-slate-500">
@@ -499,7 +508,9 @@ const AcademicRiskMap = () => {
                 <div className="rounded-[16px] border border-cyan-400/20 bg-[linear-gradient(180deg,rgba(6,182,212,0.12),rgba(15,23,42,0.08))] p-3">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-cyan-100/70">Chuỗi rủi ro đã chọn</div>
                   <div className="mt-1 text-sm font-semibold text-white leading-tight">{selectedChain.title}</div>
-                  <div className="mt-1 text-xs text-slate-300">{selectedChain.blockedPath}</div>
+                  <div className="mt-1 text-xs text-slate-300">
+                    {selectedChain.blockedPath === 'Toàn bộ chương trình' ? 'Toàn bộ chương trình' : selectedChain.blockedPath}
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -598,7 +609,7 @@ const AcademicRiskMap = () => {
                   reactFlowRef.current = instance;
                 }}
                 fitView
-                minZoom={0.5}
+                minZoom={0.1}
                 maxZoom={1.35}
                 className="bg-transparent"
                 proOptions={{ hideAttribution: true }}

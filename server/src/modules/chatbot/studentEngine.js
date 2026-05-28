@@ -58,6 +58,9 @@ async function executeStudentDecision({ intent, activeMssv, session }) {
     case 'STUDENT_GREETING_INTENT':
       return { type: 'STUDENT_GREETING' };
 
+    case 'SYLLABUS_INTENT':
+      return { type: 'SYLLABUS_INFO', student };
+
     case 'STUDENT_FALLBACK_INTENT':
     default:
       return { type: 'STUDENT_FALLBACK', activeMssv };

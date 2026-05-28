@@ -232,6 +232,12 @@ function buildTeacherResponse(decisionData) {
       return buildGreetingResponse();
     case 'SYSTEM_INFO':
       return buildSystemInfoResponse();
+    case 'SYLLABUS_INFO':
+      return {
+        text: `# 📚 Thông tin Syllabus (Đề cương môn học)\n\nĐề cương môn học (Syllabus) là tài liệu quan trọng mô tả chi tiết mục tiêu, nội dung giảng dạy, phương pháp đánh giá và tài liệu tham khảo của môn học.\n\n${decisionData.courseId ? `Bạn đang hỏi về môn **${decisionData.courseId}**. Bạn có thể tra cứu Syllabus chi tiết trên hệ thống LMS hoặc AP.` : 'Bạn cần hỏi thông tin Syllabus của môn nào cụ thể? (VD: Syllabus môn WEB206)'}`,
+        chartData: null,
+        actions: ['Tình hình lớp']
+      };
     case 'STUDENT_ANALYTICS':
       return buildStudentAnalyticsResponse(decisionData);
     case 'CLASS_ANALYTICS':

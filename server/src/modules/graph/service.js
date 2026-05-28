@@ -134,7 +134,14 @@ class GraphService {
       riskChains,
     });
 
-    return { student, riskChains };
+    const fullGraph = this.buildFullGraph({
+      curriculumData,
+      courseIndex,
+      scoreLookup,
+      dependencies,
+    });
+
+    return { student, riskChains, fullGraph };
   }
 
   async getDatabaseStudent(mssv) {
@@ -422,6 +429,62 @@ class GraphService {
     });
   }
 
+  buildFullGraph({ curriculumData, courseIndex, scoreLookup, dependencies }) {
+    const nodesMap = new Map();
+    const edges = [];
+
+    (curriculumData?.semesters || []).forEach((semesterEntry) => {
+      (semesterEntry.courses || []).forEach((course) => {
+        const node = this.buildNodeSnapshot(course, courseIndex, scoreLookup);
+        nodesMap.set(node.id, node);
+      });
+    });
+
+    dependencies.forEach((dependency) => {
+      const prereqNode = this.buildNodeSnapshot(
+        { code: dependency.prereqCode, name: dependency.prereqName },
+        courseIndex,
+        scoreLookup
+      );
+      const dependentNode = this.buildNodeSnapshot(
+        { code: dependency.dependentCode, name: dependency.dependentName },
+        courseIndex,
+        scoreLookup
+      );
+
+      if (!nodesMap.has(prereqNode.id)) nodesMap.set(prereqNode.id, prereqNode);
+      if (!nodesMap.has(dependentNode.id)) nodesMap.set(dependentNode.id, dependentNode);
+
+      let edgeType = this.getEdgeType(prereqNode.status);
+      if (!edgeType) {
+        edgeType = 'normal';
+      }
+
+      edges.push({
+        from: prereqNode.id,
+        to: dependentNode.id,
+        type: edgeType,
+      });
+    });
+
+    return {
+      id: 'FULL_GRAPH',
+      title: 'Toàn bộ Lộ trình học (34 môn)',
+      riskLevel: 'INFO',
+      summary: 'Tổng quan toàn bộ môn học trong chương trình đào tạo.',
+      affectedCount: Array.from(nodesMap.values()).length,
+      blockedPath: 'Toàn bộ chương trình',
+      nodes: Array.from(nodesMap.values()),
+      edges,
+      explanation: {
+        why: 'Đây là sơ đồ tổng quan toàn bộ lộ trình học 34 môn của sinh viên.',
+        impact: 'Cho phép nhìn thấy toàn cảnh các môn đã học, đang học và chưa học.',
+        recovery: 'Sinh viên nên duy trì tiến độ học tập theo đúng lộ trình này.',
+        interventions: ['Theo dõi tiến độ tổng thể'],
+      }
+    };
+  }
+
   collectRiskPaths({ rootId, currentId, adjacency, edgeLookup, pathNodeIds, chainPaths }) {
     const outgoing = adjacency.get(currentId) || [];
     if (outgoing.length === 0) {
@@ -547,19 +610,19 @@ class GraphService {
     }
 
     const statusLabel = rootNode.status === 'Warning'
-      ? 'a low prerequisite grade'
+      ? 'điểm số môn tiên quyết ở mức nguy cơ'
       : rootNode.status === 'Failed'
-        ? 'a failed prerequisite'
-        : 'an unfinished prerequisite';
+        ? 'trượt môn tiên quyết'
+        : 'chưa hoàn thành môn tiên quyết';
 
     return {
-      why: `${rootNode.id} is flagged because the student has ${statusLabel} in ${rootNode.name}.`,
-      impact: `${affectedCount} downstream course(s) are affected on this chain, ending at ${leafNode.name}.`,
-      recovery: `Stabilize ${rootNode.id} first, then re-sequence the learner through ${nodes.slice(1).map((node) => node.id).join(' -> ')}.`,
+      why: `Môn ${rootNode.id} bị cảnh báo do sinh viên ${statusLabel} ở môn ${rootNode.name}.`,
+      impact: `${affectedCount} môn học phía sau bị ảnh hưởng trực tiếp trên chuỗi này, dẫn đến nguy cơ kẹt môn ${leafNode.name}.`,
+      recovery: `Cần ưu tiên hoàn thành/cải thiện môn ${rootNode.id} trước, sau đó tiếp tục lộ trình qua ${nodes.slice(1).map((node) => node.id).join(' -> ')}.`,
       interventions: [
-        `Assign targeted mentoring for ${rootNode.id}.`,
-        `Review enrollment readiness before ${nodes[1]?.id || leafNode.id}.`,
-        `Re-check this chain after the next assessment cycle.`,
+        `Phân công Mentoring tập trung cho môn ${rootNode.id}.`,
+        `Đánh giá lại khả năng tiếp thu trước khi học ${nodes[1]?.id || leafNode.id}.`,
+        `Theo dõi sát sao chuỗi môn này ở kỳ tiếp theo.`,
       ],
     };
   }

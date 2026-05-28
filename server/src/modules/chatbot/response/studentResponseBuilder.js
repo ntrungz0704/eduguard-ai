@@ -166,6 +166,12 @@ function buildStudentResponse(decisionData) {
       return buildStudentMotivation(decisionData);
     case 'STUDENT_GPA_SIMULATION':
       return buildStudentGpaSimulation(decisionData);
+    case 'SYLLABUS_INFO':
+      return {
+        text: `# 📚 Thông tin Syllabus (Đề cương môn học)\n\nĐề cương môn học (Syllabus) rất quan trọng để bạn biết mình sẽ học gì và được đánh giá ra sao.\n\n${decisionData.courseId ? `Bạn đang hỏi về môn **${decisionData.courseId}**. Hãy tra cứu Syllabus trên AP để xem chi tiết nhé.` : 'Bạn cần hỏi thông tin Syllabus của môn nào cụ thể? (VD: Syllabus môn WEB206)'}`,
+        chartData: null,
+        actions: ['Tình hình học tập']
+      };
     case 'NEED_LOGIN':
       return { text: '⚠ Bạn cần đăng nhập tài khoản sinh viên để sử dụng chức năng này.' };
     case 'STUDENT_FALLBACK':

@@ -229,6 +229,11 @@ async function executeDecision({ intent, activeMssv, entities, session }) {
     case 'GENERAL_SYSTEM_INTENT':
       return { type: 'SYSTEM_INFO' };
 
+    case 'SYLLABUS_INTENT': {
+      const courseId = entities.courseId || session.lastSubject || null;
+      return { type: 'SYLLABUS_INFO', courseId, activeMssv };
+    }
+
     case 'FALLBACK_INTENT':
     default:
       return {
