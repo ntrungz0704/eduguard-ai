@@ -615,6 +615,16 @@ const AcademicRiskMap = () => {
                 proOptions={{ hideAttribution: true }}
               >
                 <Background color="#23324d" gap={28} />
+                <Panel position="bottom-right" className="bg-slate-900/90 p-3 rounded-xl border border-slate-700/60 shadow-xl text-xs text-slate-300">
+                  <div className="font-semibold text-white mb-2 uppercase tracking-wider text-[10px]">Chú thích (Legend)</div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-rose-500/20 border border-rose-500"></div> Chưa đạt / Thiếu môn</div>
+                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500"></div> Đang học / Nguy cơ</div>
+                    <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-sky-500/20 border border-sky-500"></div> Đã qua môn</div>
+                    <div className="flex items-center gap-2"><div className="w-4 border-t-2 border-rose-400 border-dashed"></div> Rủi ro lây lan (Dây chuyền)</div>
+                    <div className="flex items-center gap-2"><div className="w-4 border-t-2 border-amber-400"></div> Rủi ro phụ thuộc (Sẽ học)</div>
+                  </div>
+                </Panel>
                 <MiniMap
                   pannable
                   zoomable

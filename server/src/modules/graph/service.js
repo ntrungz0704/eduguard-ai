@@ -586,10 +586,12 @@ class GraphService {
 
   buildChainTitle(nodes) {
     if (nodes.length >= 2) {
-      return `${nodes[1].name} Pathway Risk`;
+      const root = nodes[0];
+      const leaf = nodes[nodes.length - 1];
+      return `Chuỗi Rủi ro: ${root.code} ➔ ${leaf.code}`;
     }
 
-    return `${nodes[0]?.name || 'Academic'} Risk`;
+    return `Rủi ro môn: ${nodes[0]?.name || 'N/A'}`;
   }
 
   buildChainSummary(rootNode, leafNode, affectedCount) {
