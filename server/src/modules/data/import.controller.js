@@ -1,7 +1,6 @@
 const xlsx = require('xlsx');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-const logger = require('../../utils/logger');
+const prisma = require('../../infrastructure/database/prisma');
+const logger = require('../../infrastructure/logger');
 const { performInference } = require('../prediction/services/inference.service');
 
 // Helper to calculate final score if quiz/asm/final provided
