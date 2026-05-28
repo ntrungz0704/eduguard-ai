@@ -2,16 +2,19 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import { MessageSquare, Send, Paperclip, User, Loader2, ArrowLeft } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Inbox() {
   const currentUser = useStore(state => state.currentUser);
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   const [conversations, setConversations] = useState([]);
-  const [activePartnerId, setActivePartnerId] = useState(null);
+  const [activePartnerId, setActivePartnerId] = useState(searchParams.get('mssv') || null);
   const [activePartnerName, setActivePartnerName] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const [filterTab, setFilterTab] = useState('all'); // 'all', 'urgent', 'resolved'
+  const [filterTab, setFilterTab] = useState(searchParams.get('category') || 'all'); // 'all', 'urgent', 'resolved'
   
   const [inputMsg, setInputMsg] = useState('');
   const [file, setFile] = useState(null);
@@ -22,6 +25,14 @@ export default function Inbox() {
   useEffect(() => {
     fetchConversations();
   }, [currentUser]);
+
+  useEffect(() => {
+    const mssv = searchParams.get('mssv');
+    const category = searchParams.get('category') || 'all';
+    
+    if (mssv !== activePartnerId) setActivePartnerId(mssv);
+    if (category !== filterTab) setFilterTab(category);
+  }, [searchParams]);
 
   useEffect(() => {
     if (activePartnerId) {
@@ -43,6 +54,24 @@ export default function Inbox() {
       console.error("Lỗi lấy danh sách tin nhắn", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePartnerSelect = (id) => {
+    setActivePartnerId(id);
+    if (id) {
+      setSearchParams({ category: filterTab, mssv: id });
+    } else {
+      setSearchParams({ category: filterTab });
+    }
+  };
+
+  const handleTabSelect = (tab) => {
+    setFilterTab(tab);
+    if (activePartnerId) {
+      setSearchParams({ category: tab, mssv: activePartnerId });
+    } else {
+      setSearchParams({ category: tab });
     }
   };
 
@@ -111,19 +140,19 @@ export default function Inbox() {
           </h2>
           <div className="flex bg-black/40 p-1 rounded-lg">
             <button 
-              onClick={() => setFilterTab('all')}
+              onClick={() => handleTabSelect('all')}
               className={`flex-1 text-[10px] font-bold py-1.5 rounded-md transition-all ${filterTab === 'all' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-slate-200'}`}
             >
               Tất cả
             </button>
             <button 
-              onClick={() => setFilterTab('urgent')}
+              onClick={() => handleTabSelect('urgent')}
               className={`flex-1 text-[10px] font-bold py-1.5 rounded-md transition-all ${filterTab === 'urgent' ? 'bg-rose-500/20 text-rose-400' : 'text-slate-400 hover:text-slate-200'}`}
             >
               Cần xử lý gấp
             </button>
             <button 
-              onClick={() => setFilterTab('resolved')}
+              onClick={() => handleTabSelect('resolved')}
               className={`flex-1 text-[10px] font-bold py-1.5 rounded-md transition-all ${filterTab === 'resolved' ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-slate-200'}`}
             >
               Đã theo dõi
@@ -145,7 +174,7 @@ export default function Inbox() {
             }).map(conv => (
               <div 
                 key={conv.partnerId}
-                onClick={() => setActivePartnerId(conv.partnerId)}
+                onClick={() => handlePartnerSelect(conv.partnerId)}
                 className={`p-4 border-b border-white/5 cursor-pointer transition-colors ${
                   activePartnerId === conv.partnerId ? 'bg-blue-500/10 border-l-4 border-l-blue-500' : 'hover:bg-white/5 border-l-4 border-l-transparent'
                 }`}
@@ -174,7 +203,7 @@ export default function Inbox() {
             <div className="p-4 border-b border-white/5 bg-slate-950 flex items-center gap-3">
               <button 
                 className="md:hidden p-2 bg-white/5 rounded-lg text-slate-400"
-                onClick={() => setActivePartnerId(null)}
+                onClick={() => handlePartnerSelect(null)}
               >
                 <ArrowLeft size={18} />
               </button>

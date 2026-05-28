@@ -163,7 +163,7 @@ export default function Interventions() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => navigate('/inbox')} className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-xl transition-colors tooltip-trigger" title="Mở hộp thư">
+                        <button onClick={() => navigate(`/inbox?category=urgent&mssv=${st.mssv}`)} className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-xl transition-colors tooltip-trigger" title="Mở hộp thư">
                           <MessageSquare size={16} />
                         </button>
                         <button onClick={() => handleUpdateStatus(st.id, 'RESOLVED')} disabled={updating} className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-lg">
