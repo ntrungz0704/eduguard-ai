@@ -68,27 +68,7 @@ services:
     networks:
       - app-network
 
-  # ── Neo4j Graph Database ───────────────────────────────────────────────────
-  neo4j:
-    image: neo4j:5.23.0
-    container_name: eduguard_neo4j
-    ports:
-      - "7474:7474" # HTTP
-      - "7687:7687" # Bolt
-    environment:
-      NEO4J_AUTH: neo4j/eduguard_neo4j_password
-    volumes:
-      - neo4j_data:/data
-    networks:
-      - app-network
-
-# ─────────────────────────────────────────────────────────────────────────────
-networks:
-  app-network:
-    driver: bridge
-
 volumes:
   postgres_data:
   redis_data:
-  neo4j_data:
 

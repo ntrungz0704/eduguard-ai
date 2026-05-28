@@ -57,6 +57,7 @@ const predictionRouter = require('./modules/prediction/routes');
 const authRouter = require('./modules/auth/routes');
 const studentsRouter = require('./modules/students/routes');
 const graphRouter = require('./modules/graph/routes');
+const dataImportRouter = require('./modules/data/import.routes');
 
 app.use('/api', apiLimiter, apiRouter);
 app.use('/api/comm', apiLimiter, commRouter);
@@ -64,6 +65,7 @@ app.use('/api/v1/prediction', apiLimiter, predictionRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/students', apiLimiter, studentsRouter);
 app.use('/api/v1/graph', apiLimiter, graphRouter);
+app.use('/api/v1/data', apiLimiter, dataImportRouter);
 
 // Fallback to legacy index.html
 app.get('*', (req, res) => {

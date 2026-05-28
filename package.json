@@ -25,7 +25,7 @@
     "prediction",
     "linear-regression"
   ],
-  "author": "EduGuard Team",
+  "author": "Nexus Intelligence",
   "license": "ISC",
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",

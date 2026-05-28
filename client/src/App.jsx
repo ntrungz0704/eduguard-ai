@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
-import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap } from 'lucide-react';
 import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -16,6 +16,7 @@ const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
 const Inbox = lazy(() => import('./pages/Inbox'));
 const Interventions = lazy(() => import('./pages/Interventions'));
 const AcademicRiskMap = lazy(() => import('./pages/AcademicRiskMap'));
+const DataImport = lazy(() => import('./pages/DataImport'));
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
     { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Learning Path Risk' },
+    { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'NLP Analytics Assistant' }
   ];
@@ -185,7 +187,7 @@ const Header = ({ setMobileMenuOpen }) => {
         >
           <Menu size={24} />
         </button>
-        <h2 className="font-semibold text-xl text-white hidden md:block">SmartGen {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
+        <h2 className="font-semibold text-xl text-white hidden md:block">EduGuard AI {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
       </div>
 
       {/* Global Premium Search Input in Navbar (Advisors only) */}
@@ -327,6 +329,7 @@ function App() {
                     <Route path="/predict" element={<Predict />} />
                     <Route path="/gpa" element={<GPA />} />
                     <Route path="/academic-risk-map" element={<AcademicRiskMap />} />
+                    <Route path="/import-data" element={<DataImport />} />
                     <Route path="/interventions" element={<Interventions />} />
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />

@@ -85,8 +85,8 @@ const RiskNode = ({ data }) => {
 
   return (
     <div
-      className={`w-64 rounded-2xl border p-4 backdrop-blur-sm transition-all ${tone.shell} ${
-        isSelected ? 'ring-2 ring-cyan-300/70' : ''
+      className={`w-64 rounded-2xl border p-4 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-xl ${tone.shell} ${
+        isSelected ? 'ring-2 ring-cyan-300/70 scale-[1.02]' : ''
       }`}
       onClick={() => data.onSelect(node.id)}
     >
@@ -583,15 +583,18 @@ const AcademicRiskMap = () => {
                 <p className="mt-2 max-w-md text-sm text-slate-400">{graphError}</p>
               </div>
             ) : isLoadingStudent ? (
-              <div className="flex h-full flex-col items-center justify-center text-slate-400">
+              <div className="flex h-full flex-col items-center justify-center text-slate-400 animate-in fade-in duration-500">
                 <Loader2 className="animate-spin text-cyan-300" size={52} />
                 <div className="mt-5 text-lg font-semibold text-white">Đang tải dữ liệu rủi ro</div>
                 <p className="mt-2 text-sm text-slate-500">Hệ thống đang truy xuất chuỗi môn học tiên quyết thực tế.</p>
               </div>
             ) : !selectedStudent ? (
-              <div className="flex h-full flex-col items-center justify-center px-8 text-center">
-                <BrainCircuit className="text-cyan-400/70" size={58} />
-                <div className="mt-5 text-xl font-semibold text-white">Vui lòng chọn một sinh viên</div>
+              <div className="flex h-full flex-col items-center justify-center px-8 text-center animate-in zoom-in fade-in duration-700">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-cyan-400/20 rounded-full animate-ping"></div>
+                  <BrainCircuit className="text-cyan-400/70 relative z-10" size={64} />
+                </div>
+                <div className="mt-6 text-2xl font-bold text-white">Vui lòng chọn một sinh viên</div>
                 <p className="mt-3 max-w-md text-sm text-slate-400">
                   Sơ đồ sẽ trống cho đến khi chọn một sinh viên. Điều này giúp tập trung phân tích và tránh quá tải thông tin.
                 </p>
@@ -605,9 +608,9 @@ const AcademicRiskMap = () => {
                 </p>
               </div>
             ) : !selectedChain ? (
-              <div className="flex h-full flex-col items-center justify-center px-8 text-center">
-                <Network className="text-cyan-400/70" size={58} />
-                <div className="mt-5 text-xl font-semibold text-white">Chọn một chuỗi rủi ro để phân tích</div>
+              <div className="flex h-full flex-col items-center justify-center px-8 text-center animate-in zoom-in fade-in duration-500">
+                <Network className="text-cyan-400/70 mb-4 animate-pulse" size={64} />
+                <div className="mt-2 text-2xl font-bold text-white">Chọn một chuỗi rủi ro để phân tích</div>
                 <p className="mt-3 max-w-md text-sm text-slate-400">
                   Xem danh sách các chuỗi rủi ro ở bên trái, sau đó mở một chuỗi. Sơ đồ sẽ chỉ hiển thị chuỗi đó và tự động canh chỉnh.
                 </p>

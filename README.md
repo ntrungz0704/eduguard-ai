@@ -3,7 +3,7 @@
 
   # EduGuard AI 🛡️
   
-  **Hệ thống Cảnh báo sớm & Hỗ trợ Quyết định Học vụ dựa trên Trí tuệ Nhân tạo**
+  **Explainable Academic Risk Intelligence System**
 
   [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
   [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -146,7 +146,7 @@ Dự án chú trọng đặc biệt đến vấn đề bảo vệ Dữ liệu Đ
 ---
 
 ## 🤝 Tác giả (Team)
-- **FPT Polytechnic - Đội thi Dự án AI**
+- **Nexus Intelligence**
 - Vị trí: Backend Engineering / Frontend Data-Viz / AI Prompting
 
-> *"Chuyển đổi sự can thiệp học vụ từ Bị Động sang Chủ Động bằng sức mạnh của Dữ liệu."*
+> *"Explain Risk. Support Students. Improve Outcomes."*
