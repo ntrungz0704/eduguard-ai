@@ -20,6 +20,22 @@ const CORE_SUBJECTS_FILTER = [
   "Dự án tốt nghiệp"
 ];
 
+// Helper to abbreviate subject names for table headers
+const getSubjectAbbrev = (name) => {
+  const map = {
+    "Nhập môn lập trình": "NMLT",
+    "Cơ sở dữ liệu": "CSDL",
+    "Lập trình Javascript nâng cao": "JS NC",
+    "NodeJS & Restful Web Service": "NODEJS",
+    "Lập trình Front-End Framework 1": "FE FW1",
+    "Lập trình Front-End Framework 2": "FE FW2",
+    "Dự án 1": "DA1",
+    "Dự án tốt nghiệp": "DATN"
+  };
+  if (map[name]) return map[name];
+  return name.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 5);
+};
+
 // Helper to style matrix cells beautifully based on coefficient values
 const getCellStyle = (r) => {
   if (r === 1.0) return { backgroundColor: 'rgba(59, 130, 246, 0.45)', color: '#93c5fd', border: '1px solid rgba(147, 197, 253, 0.25)' };
@@ -434,7 +450,7 @@ export default function Predict() {
                         .filter(sub => graphFilter === 'all' || CORE_SUBJECTS_FILTER.includes(sub))
                         .map(sub => (
                           <th key={sub} className="p-2 text-[9px] font-bold text-slate-400 uppercase tracking-wider text-center w-20 truncate max-w-[80px]" title={sub}>
-                            {sub.split(' ').pop()}
+                            {getSubjectAbbrev(sub)}
                           </th>
                         ))
                       }
