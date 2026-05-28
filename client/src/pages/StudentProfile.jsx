@@ -406,7 +406,7 @@ export default function StudentProfile() {
                           }`}>
                             {p.risk}
                           </span>
-                          <span className={`font-black ${isHigh ? 'text-rose-400' : 'text-blue-400'}`}>{p.predictedScore.toFixed(1)}</span>
+                          <span className={`font-black ${isHigh ? 'text-rose-400' : 'text-blue-400'}`}>{p.predictedScore.toFixed(1)}% Nguy cơ</span>
                         </div>
                       </div>
                       

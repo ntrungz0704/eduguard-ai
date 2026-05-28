@@ -17,6 +17,11 @@ export default function Interventions() {
   const [sendingMsg, setSendingMsg] = useState(false);
   const [updating, setUpdating] = useState(false);
 
+  // Pagination states
+  const [showAllAtRisk, setShowAllAtRisk] = useState(false);
+  const [showAllActive, setShowAllActive] = useState(false);
+  const [showAllResolved, setShowAllResolved] = useState(false);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -46,7 +51,7 @@ export default function Interventions() {
 
   const handleOpenRoadmap = (student) => {
     setSelectedStudent(student);
-    let msg = `Chào ${student.student.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course.name} sắp tới (Dự báo: ${student.predictedScore.toFixed(1)}đ).`;
+    let msg = `Chào ${student.student.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course.name} sắp tới (Nguy cơ rớt: ${student.predictedScore.toFixed(1)}%).`;
     msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
     setRoadmapMsg(msg);
     setShowRoadmapModal(true);
@@ -108,14 +113,14 @@ export default function Interventions() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {data.atRisk.map((st) => (
+                {(showAllAtRisk ? data.atRisk : data.atRisk.slice(0, 5)).map((st) => (
                   <tr key={`${st.mssv}-${st.courseId}`} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-200">{st.student.name}</div>
                       <div className="text-slate-500 text-xs">{st.mssv}</div>
                     </td>
                     <td className="px-6 py-4 text-slate-300 font-medium">{st.course.name}</td>
-                    <td className="px-6 py-4"><span className="text-rose-400 font-bold">{st.predictedScore.toFixed(1)}đ</span></td>
+                    <td className="px-6 py-4"><span className="text-rose-400 font-bold">{st.predictedScore.toFixed(1)}% Nguy cơ</span></td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => handleOpenRoadmap(st)} className="bg-rose-600 hover:bg-rose-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-lg">
                         Can thiệp ngay
@@ -127,6 +132,13 @@ export default function Interventions() {
             </table>
           )}
         </div>
+        {data.atRisk.length > 5 && (
+          <div className="p-4 border-t border-white/5 text-center">
+            <button onClick={() => setShowAllAtRisk(!showAllAtRisk)} className="text-sm font-semibold text-rose-400 hover:text-rose-300 transition-colors">
+              {showAllAtRisk ? 'Thu gọn danh sách' : `Xem thêm ${data.atRisk.length - 5} sinh viên...`}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Table 2: Active */}
@@ -150,7 +162,7 @@ export default function Interventions() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {data.active.map((st) => (
+                {(showAllActive ? data.active : data.active.slice(0, 5)).map((st) => (
                   <tr key={st.id} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-200">{st.student.name}</div>
@@ -177,6 +189,13 @@ export default function Interventions() {
             </table>
           )}
         </div>
+        {data.active.length > 5 && (
+          <div className="p-4 border-t border-white/5 text-center">
+            <button onClick={() => setShowAllActive(!showAllActive)} className="text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors">
+              {showAllActive ? 'Thu gọn danh sách' : `Xem thêm ${data.active.length - 5} sinh viên...`}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Table 3: Resolved */}
@@ -200,7 +219,7 @@ export default function Interventions() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {data.resolved.map((st) => (
+                {(showAllResolved ? data.resolved : data.resolved.slice(0, 5)).map((st) => (
                   <tr key={st.id} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-200">{st.student.name}</div>
@@ -219,6 +238,13 @@ export default function Interventions() {
             </table>
           )}
         </div>
+        {data.resolved.length > 5 && (
+          <div className="p-4 border-t border-white/5 text-center">
+            <button onClick={() => setShowAllResolved(!showAllResolved)} className="text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+              {showAllResolved ? 'Thu gọn danh sách' : `Xem thêm ${data.resolved.length - 5} sinh viên...`}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Roadmap Modal */}

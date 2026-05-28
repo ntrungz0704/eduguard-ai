@@ -63,6 +63,14 @@ const getNodeTone = (status) => {
     };
   }
 
+  if (status === 'Not Started' || status === 'Missing') {
+    return {
+      shell: 'border-slate-700/50 bg-slate-900/60 shadow-none opacity-80',
+      badge: 'bg-slate-800 text-slate-400',
+      icon: <BookOpen className="text-slate-500" size={16} />,
+    };
+  }
+
   return {
     shell: 'border-slate-600 bg-slate-900/90 shadow-[0_18px_50px_rgba(15,23,42,0.35)]',
     badge: 'bg-slate-700/60 text-slate-200',
@@ -98,7 +106,7 @@ const RiskNode = ({ data }) => {
           {node.status === 'Failed' ? 'Chưa đạt' : 
            node.status === 'Warning' ? 'Nguy cơ' : 
            node.status === 'Passed' ? 'Đã đạt' : 
-           node.status === 'Missing' ? 'Chưa học' : 'Bình thường'}
+           (node.status === 'Missing' || node.status === 'Not Started') ? 'Chưa học' : 'Bình thường'}
         </span>
         <span className="text-slate-400">
           Điểm: <span className="font-semibold text-white">{node.score ?? 'N/A'}</span>
