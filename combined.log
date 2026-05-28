@@ -3036,3 +3036,21 @@
 {"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-28 10:41:00"}
 {"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-28 10:41:00"}
 {"level":"info","message":"\nSIGINT received. Bắt đầu Graceful Shutdown...","service":"eduguard-ai-backend","timestamp":"2026-05-28 10:47:06"}
+{"level":"info","message":"✅ EduGuard AI Server running at http://localhost:3000","service":"eduguard-ai-backend","timestamp":"2026-05-28 10:47:13"}
+{"level":"info","message":"🧠 ML Predictor weights loaded successfully.","service":"eduguard-ai-backend","timestamp":"2026-05-28 10:47:13"}
+{"domain":"DSS","factorCount":0,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 0 | Level: LOW | Factors: 0","mssv":"PS00000","riskScore":0,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":5,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 93 | Level: CRITICAL | Factors: 5","mssv":"PS00000","riskScore":93,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 50 | Level: MEDIUM | Factors: 4","mssv":"PS00000","riskScore":50,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 87 | Level: CRITICAL | Factors: 4","mssv":"PS00000","riskScore":87,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":2,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 31 | Level: MEDIUM | Factors: 2","mssv":"PS00000","riskScore":31,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":0,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 0 | Level: LOW | Factors: 0","mssv":"PS00000","riskScore":0,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":5,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 83 | Level: CRITICAL | Factors: 5","mssv":"PS00000","riskScore":83,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 55 | Level: HIGH | Factors: 4","mssv":"PS00000","riskScore":55,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":0,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 0 | Level: LOW | Factors: 0","mssv":"PS00000","riskScore":0,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00000 | Score: 55 | Level: HIGH | Factors: 4","mssv":"PS00000","riskScore":55,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00001 | Score: 55 | Level: HIGH | Factors: 4","mssv":"PS00001","riskScore":55,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":0,"level":"info","message":"[DSS] MSSV: PS00002 | Score: 0 | Level: LOW | Factors: 0","mssv":"PS00002","riskScore":0,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":0,"level":"info","message":"[DSS] MSSV: PS00003 | Score: 0 | Level: LOW | Factors: 0","mssv":"PS00003","riskScore":0,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":3,"level":"info","message":"[DSS] MSSV: PS00001 | Score: 30 | Level: MEDIUM | Factors: 3","mssv":"PS00001","riskScore":30,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":3,"level":"info","message":"[DSS] MSSV: PS00002 | Score: 30 | Level: MEDIUM | Factors: 3","mssv":"PS00002","riskScore":30,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}
+{"domain":"DSS","factorCount":4,"level":"info","message":"[DSS] MSSV: PS00003 | Score: 42 | Level: MEDIUM | Factors: 4","mssv":"PS00003","riskScore":42,"service":"eduguard-ai-backend","timestamp":"2026-05-28 10:53:40"}

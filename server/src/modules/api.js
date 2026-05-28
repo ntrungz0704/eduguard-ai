@@ -18,7 +18,6 @@ const { NlpManager } = require('node-nlp');
 // Import RAG and AI Orchestration Services
 const { getStudentContext } = require('../ai/ragService');
 const { buildPrompt } = require('../ai/promptService');
-const { askGroq, askGemini } = require('../ai/aiService');
 const { predictRisk } = require('../ai/inference/riskPredictor');
 
 // Setup upload

@@ -16,7 +16,7 @@
     "start": "node server/server.js",
     "preview": "npm run preview --prefix client -- --port 5173",
     "kill": "node server/src/jobs/kill-ports.js",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --forceExit --detectOpenHandles",
     "ingest:graph": "node scripts/ingest_graph.js"
   },
   "keywords": [
@@ -28,7 +28,6 @@
   "author": "EduGuard Team",
   "license": "ISC",
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
     "@prisma/adapter-better-sqlite3": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@tensorflow/tfjs": "^4.22.0",
@@ -40,7 +39,6 @@
     "envalid": "^8.1.1",
     "express": "^4.19.2",
     "express-rate-limit": "^8.5.2",
-    "groq-sdk": "^1.2.0",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "lodash": "^4.18.1",
