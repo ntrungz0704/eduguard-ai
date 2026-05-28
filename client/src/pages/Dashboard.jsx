@@ -66,7 +66,7 @@ export default function Dashboard() {
     } else {
       msg += ` Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
     }
-    msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+    msg += `\n\n🎯 Lộ trình cải thiện (Hệ thống đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
     setRoadmapMsg(msg);
     setShowRoadmapModal(true);
   };
@@ -111,7 +111,7 @@ export default function Dashboard() {
         } else {
           msg += ` Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
         }
-        msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+        msg += `\n\n🎯 Lộ trình cải thiện (Hệ thống đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
 
         await api.post('/comm/messages', {
           senderId: currentUser.id,
@@ -176,26 +176,26 @@ export default function Dashboard() {
     ? Math.max(0, Math.round(((trainingData.totalStudents - currentRisk) / trainingData.totalStudents) * 100))
     : 0;
 
-  const trendData = [
-    { name: 'Tuần 1', risk: Math.max(0, currentRisk - 15) },
-    { name: 'Tuần 2', risk: Math.max(0, currentRisk - 8) },
-    { name: 'Tuần 3', risk: Math.max(0, currentRisk - 3) },
-    { name: 'Tuần 4', risk: currentRisk }
-  ];
-
-  const criticalCount = redAlerts ? redAlerts.filter(a => a.priorityLevel === 'CRITICAL').length : 0;
-  const warningCount = redAlerts ? redAlerts.filter(a => a.priorityLevel !== 'CRITICAL').length : 0;
-  
-  const timelineData = [
-    { week: 1, warnings: Math.max(0, Math.floor(warningCount * 0.1)), critical: Math.max(0, Math.floor(criticalCount * 0.1)) },
-    { week: 2, warnings: Math.max(0, Math.floor(warningCount * 0.2)), critical: Math.max(0, Math.floor(criticalCount * 0.1)) },
-    { week: 3, warnings: Math.max(0, Math.floor(warningCount * 0.4)), critical: Math.max(0, Math.floor(criticalCount * 0.2)) },
-    { week: 4, warnings: Math.max(0, Math.floor(warningCount * 0.5)), critical: Math.max(0, Math.floor(criticalCount * 0.3)) },
-    { week: 5, warnings: Math.max(0, Math.floor(warningCount * 0.7)), critical: Math.max(0, Math.floor(criticalCount * 0.5)) },
-    { week: 6, warnings: Math.max(0, Math.floor(warningCount * 0.8)), critical: Math.max(0, Math.floor(criticalCount * 0.6)) },
-    { week: 7, warnings: Math.max(0, Math.floor(warningCount * 0.9)), critical: Math.max(0, Math.floor(criticalCount * 0.8)) },
-    { week: 8, warnings: warningCount, critical: criticalCount }
-  ];
+  // Empty State logic for No Data
+  if (!trainingData || trainingData.totalStudents === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 animate-fade-in">
+        <div className="w-24 h-24 bg-slate-800/50 rounded-full flex items-center justify-center mb-6 border border-white/5">
+          <Database size={40} className="text-slate-500" />
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-3">Chưa có dữ liệu học tập</h2>
+        <p className="text-slate-400 max-w-md mx-auto mb-8">
+          Hệ thống hiện tại chưa có thông tin điểm số để phân tích. Vui lòng chuyển đến trang <b className="text-white">Dữ liệu & Phân tích</b> để import bảng điểm (Excel/CSV) và bắt đầu.
+        </p>
+        <button 
+          onClick={() => navigate('/predict')}
+          className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2"
+        >
+          <Target size={18} /> Đi tới trang Import Dữ liệu
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 animate-fade-in pb-10">
@@ -244,30 +244,12 @@ export default function Dashboard() {
 
       {/* TREND CHART & QUICK ALERTS */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 glass-card rounded-3xl border border-white/5 p-6 h-[300px] flex flex-col">
-          <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-            <TrendingUp size={20} className="text-indigo-400" /> Xu Hướng Cảnh Báo (4 Tuần Gần Nhất)
-          </h3>
-          <div className="flex-1 w-full min-h-[200px] mt-4">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorRisk" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                <XAxis dataKey="name" tick={{fill: '#94a3b8', fontSize: 12}} stroke="#334155" />
-                <YAxis tick={{fill: '#94a3b8', fontSize: 12}} stroke="#334155" />
-                <Tooltip 
-                  contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px'}}
-                  itemStyle={{color: '#fff'}}
-                />
-                <Area type="monotone" dataKey="risk" name="SV Rủi ro cao" stroke="#ef4444" strokeWidth={3} fillOpacity={1} fill="url(#colorRisk)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+        <div className="xl:col-span-2 glass-card rounded-3xl border border-white/5 p-8 flex flex-col items-center justify-center bg-slate-900/50 relative overflow-hidden">
+          <Database size={48} className="text-slate-600/50 mb-4" />
+          <h3 className="text-xl font-bold text-slate-300 mb-2">Chưa đủ dữ liệu lịch sử</h3>
+          <p className="text-slate-500 text-sm max-w-sm text-center">
+            Hệ thống cần thu thập dữ liệu học tập liên tục qua các tuần để xây dựng biểu đồ Xu hướng Cảnh báo chính xác.
+          </p>
         </div>
 
         <div className="glass-card rounded-3xl border border-rose-500/20 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
@@ -309,7 +291,7 @@ export default function Dashboard() {
               <thead className="bg-white/5 text-slate-400 text-xs uppercase tracking-wider">
                 <tr>
                   <th className="px-6 py-4 font-semibold">Sinh viên</th>
-                  <th className="px-6 py-4 font-semibold">Môn rủi ro (Dự báo)</th>
+                  <th className="px-6 py-4 font-semibold">Môn rủi ro (Ước lượng)</th>
                   <th className="px-6 py-4 font-semibold">Cảnh báo sớm</th>
                   <th className="px-6 py-4 font-semibold">Bằng chứng (Lỗ hổng)</th>
                   <th className="px-6 py-4 font-semibold text-right">Thao tác hỗ trợ</th>
@@ -371,7 +353,7 @@ export default function Dashboard() {
                         <button 
                           onClick={(e) => handleChat(alert, e)}
                           className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-xl transition-colors shadow-lg shadow-blue-500/20 tooltip-trigger"
-                          title="Tư vấn với AI"
+                          title="Hỗ trợ tư vấn NLP"
                         >
                           <MessageSquare size={16} />
                         </button>
@@ -519,9 +501,12 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Row 2: Timeline Escalation */}
+        {/* Row 2: Timeline Escalation Removed due to no real temporal data yet */}
         <div style={{ marginBottom: 20 }}>
-          <TimelineEscalation data={timelineData} />
+          <div className="bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center justify-center text-center">
+            <h4 className="text-slate-300 font-bold mb-2">Temporal Analytics (Phase 3)</h4>
+            <p className="text-slate-500 text-sm">Tính năng phân tích chuỗi thời gian sẽ được mở khóa khi có đủ dữ liệu lịch sử các tuần.</p>
+          </div>
         </div>
 
         {/* Row 3: Risk Heatmap */}

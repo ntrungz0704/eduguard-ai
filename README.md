@@ -23,11 +23,11 @@
 Hệ thống giải quyết bài toán cốt lõi của các cơ sở giáo dục đại học: **Sự can thiệp bị động**. Thay vì đợi sinh viên rớt môn hoặc bị cảnh cáo học vụ, EduGuard AI sử dụng phân tích dữ liệu lịch sử để dự báo rủi ro từ sớm, giải thích nguyên nhân (Explainable AI), và đề xuất hành động can thiệp ngay lập tức cho Cố vấn học tập (CVHT).
 
 ### 🚀 Tính năng cốt lõi (Core Features)
-- **Predictive Analytics:** Dự báo điểm số và tỷ lệ rủi ro rớt môn (Low, Medium, High, Critical).
-- **Explainable AI (XAI):** Không phải là "Hộp đen". Trí tuệ nhân tạo giải thích rõ lý do rủi ro (do vắng mặt, do hổng kiến thức môn tiên quyết).
-- **Rule-based Recommendations:** Tự động đề xuất các hành động can thiệp sư phạm (Gửi email, hẹn gặp 1-1, gọi phụ huynh).
-- **Hybrid NLP Assistant:** Chatbot truy vấn học vụ cục bộ (Zero-cost API) kết hợp LLM Fallback.
-- **Enterprise Dashboard:** Giao diện trực quan hóa dữ liệu (Heatmap, Trends, Analytics Cards) đẳng cấp nghiệp vụ.
+- **Predictive Analytics:** Ước lượng rủi ro học thuật dựa trên dữ liệu lịch sử môn học (Low, Medium, High, Critical).
+- **Explainable AI (XAI) / Rule-based System:** Không phải là "Hộp đen". Hệ thống giải thích minh bạch lý do dẫn đến rủi ro (do vắng mặt, do hổng kiến thức dây chuyền từ các môn tiên quyết).
+- **Intervention Recommendation:** Tự động đề xuất các hành động can thiệp sư phạm phù hợp cho Cố vấn học tập (CVHT).
+- **Dependency Graph Engine:** Thuật toán duyệt đồ thị (Graph Traversal) để phát hiện lỗ hổng kiến thức tích lũy theo thời gian thực (Local processing, 0ms latency).
+- **Enterprise Dashboard:** Giao diện trực quan hóa dữ liệu chuyên nghiệp, thiết kế chuẩn mực DSS (Decision Support System).
 
 ### Academic Risk Map UX
 - Student search and overview load first.

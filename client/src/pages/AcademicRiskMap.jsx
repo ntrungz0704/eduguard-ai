@@ -314,6 +314,13 @@ const AcademicRiskMap = () => {
         chains.unshift(response.data.fullGraph);
       }
       setRiskChains(chains);
+      
+      // Căn chỉnh khung nhìn tự động sau 100ms khi load đồ thị mới
+      setTimeout(() => {
+        if (reactFlowRef.current) {
+          reactFlowRef.current.fitView({ padding: 0.2, duration: 800 });
+        }
+      }, 100);
     } catch (error) {
       const message =
         error?.response?.data?.error ||
@@ -346,8 +353,7 @@ const AcademicRiskMap = () => {
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-3 text-3xl font-semibold text-white">
-            <Network className="text-cyan-400" size={30} />
-            Bản đồ rủi ro học tập
+            <Network size={20} className="text-indigo-400" /> Bản đồ rủi ro học tập
           </h1>
           <p className="mt-2 max-w-3xl text-sm text-slate-400">
             Hệ thống hỗ trợ ra quyết định học vụ. Chọn một sinh viên, xem tổng quan các rủi ro hiện tại và đi sâu vào từng chuỗi môn học.
@@ -505,7 +511,7 @@ const AcademicRiskMap = () => {
           <div>
             <div className="mb-3 flex items-center gap-2">
               <BrainCircuit className="text-cyan-300" size={16} />
-              <h2 className="text-sm font-semibold text-white uppercase tracking-widest">Phân tích từ AI</h2>
+              <h2 className="text-sm font-semibold text-white uppercase tracking-widest">Hệ thống phân tích</h2>
             </div>
             {!selectedChain ? (
               <div className="rounded-2xl border border-dashed border-slate-700/80 bg-slate-900/60 p-4 text-xs text-slate-500">
@@ -563,8 +569,7 @@ const AcademicRiskMap = () => {
             </div>
             {selectedChain && (
               <div className="flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1.5 text-xs text-cyan-100">
-                <GitBranch size={14} />
-                {selectedChain.blockedPath}
+                <BrainCircuit size={18} /> {selectedChain.blockedPath}
               </div>
             )}
           </div>

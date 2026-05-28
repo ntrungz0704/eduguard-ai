@@ -242,10 +242,10 @@ export default function StudentProfile() {
       {/* Back navigation */}
       <div className="flex items-center justify-between">
         <button onClick={() => navigate('/predict')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-white/5 transition-all">
-          <ArrowLeft size={18} /> Quay lại danh sách dự đoán
+          <ArrowLeft size={18} /> Quay lại danh sách
         </button>
         <span className="px-3.5 py-1.5 text-xs font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full flex items-center gap-1.5 animate-pulse">
-          <Brain size={14}/> Trợ lý AI đang phân tích
+          <Brain size={14}/> Hệ thống đang phân tích
         </span>
       </div>
 
@@ -389,7 +389,7 @@ export default function StudentProfile() {
             <div className="glass-card p-6 rounded-3xl border border-blue-500/20 bg-gradient-to-b from-blue-950/20 to-slate-900/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <Brain className="text-blue-400" size={20} /> Phân Tích AI (XAI)
+                <Brain className="text-blue-400" size={20} /> Hệ thống Giải thích (XAI)
               </h3>
               <div className="space-y-4">
                 {student.predictions.map((p, i) => {
@@ -406,7 +406,7 @@ export default function StudentProfile() {
                           }`}>
                             {p.risk}
                           </span>
-                          <span className={`font-black ${isHigh ? 'text-rose-400' : 'text-blue-400'}`}>{p.predictedScore.toFixed(1)}% Nguy cơ</span>
+                          <span className={`font-black ${isHigh ? 'text-rose-400' : 'text-blue-400'}`}>{p.predictedScore.toFixed(1)}% Rủi ro</span>
                         </div>
                       </div>
                       
@@ -438,7 +438,7 @@ export default function StudentProfile() {
             <div className="glass-card p-6 rounded-3xl border border-amber-500/20 bg-gradient-to-b from-amber-950/20 to-slate-900/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2 relative z-10">
-                <HeartHandshake className="text-amber-400" size={20} /> AI Đề Xuất Can Thiệp
+                <HeartHandshake className="text-amber-400" size={20} /> Hệ thống Đề Xuất Can Thiệp
               </h3>
               
               <div className="space-y-3 relative z-10">

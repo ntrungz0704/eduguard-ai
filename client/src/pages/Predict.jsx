@@ -142,7 +142,7 @@ export default function Predict() {
   const subjects = predictableSubjects.length > 0 ? predictableSubjects : (trainingData?.stats?.map(s => typeof s === 'string' ? s : s.subject) || []);
 
   const handlePredict = async () => {
-    if (!subject) return alert('Vui lòng chọn môn cần dự đoán!');
+    if (!subject) return alert('Vui lòng chọn môn cần phân tích!');
     setLoading(true);
     try {
       const activeStudents = uploadedStudentsData.length > 0 ? uploadedStudentsData : pendingStudents;
@@ -216,12 +216,13 @@ export default function Predict() {
       }
 
       let statusMsg = `📊 Phân tích thành công! Phát hiện ${studentsCount} sinh viên từ ${files.length} file (Dạng ${type === 'transcript' ? 'Bảng điểm cá nhân' : 'Bảng điểm lớp'}).`;
-      if (errorsCount > 0) {
-        statusMsg += ` ⚠️ Có ${errorsCount} dòng lỗi bị bỏ qua.`;
-        console.warn('Chi tiết lỗi upload:', errorsDetails);
-      }
       
-      setUploadStatus(statusMsg);
+      if (errorsCount > 0) {
+        console.warn('Chi tiết lỗi upload:', errorsDetails);
+        setUploadStatus(`⚠️ Import thành công nhưng có lỗi dữ liệu bị loại bỏ:\n${errorsDetails.join('\n')}`);
+      } else {
+        setUploadStatus(statusMsg);
+      }
       setResult(null); // Clear previous results
     } catch (err) {
       setUploadStatus(`❌ Lỗi: ${err.response?.data?.error || err.message}`);
@@ -370,7 +371,7 @@ export default function Predict() {
               </div>
             </div>
             <button onClick={handlePredict} disabled={loading} className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold p-4 rounded-2xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center justify-center gap-2 disabled:opacity-50">
-              {loading ? <span className="animate-pulse">Đang nạp trọng số Neural...</span> : <><Brain size={20} /> Kích hoạt Dự đoán</>}
+              {loading ? <span className="animate-pulse">Đang phân tích dữ liệu...</span> : <><Brain size={20} /> Phân tích Rủi ro</>}
             </button>
           </div>
         </div>
@@ -803,7 +804,7 @@ export default function Predict() {
                       </div>
                       
                       {singleStudent.isPredicted ? (
-                        <span className="text-[9px] bg-purple-500/25 border border-purple-500/35 text-purple-300 px-2 py-0.5 rounded-md font-black tracking-wide uppercase">AI DỰ ĐOÁN</span>
+                        <span className="text-[9px] bg-purple-500/25 border border-purple-500/35 text-purple-300 px-2 py-0.5 rounded-md font-black tracking-wide uppercase">Ước Lượng</span>
                       ) : (
                         <span className="text-[9px] bg-blue-500/25 border border-blue-500/35 text-blue-300 px-2 py-0.5 rounded-md font-black tracking-wide uppercase">THỰC TẾ</span>
                       )}
@@ -915,7 +916,7 @@ export default function Predict() {
               <div>
                 <h4 className="text-xl font-bold text-white">
                   {showOnlyUploaded ? (
-                    '🎯 Kết quả Dự đoán danh sách nạp'
+                    '🎯 Kết quả Phân tích danh sách nạp'
                   ) : (
                     '🎯 Danh sách phân tích mức độ cảnh báo'
                   )}
@@ -966,7 +967,7 @@ export default function Predict() {
                     <tr className="text-slate-400 text-xs uppercase tracking-wider border-b border-white/10">
                       <th className="p-4 font-semibold">MSSV</th>
                       <th className="p-4 font-semibold">Họ và tên</th>
-                      <th className="p-4 font-semibold">Điểm số (Thực tế/Dự đoán)</th>
+                      <th className="p-4 font-semibold">Điểm số (Thực tế/Ước lượng)</th>
                       <th className="p-4 font-semibold">Mức Cảnh báo</th>
                       <th className="p-4 font-semibold">Giải thích XAI (Reasons)</th>
                       <th className="p-4 font-semibold text-center">Can thiệp sư phạm</th>
@@ -1000,7 +1001,7 @@ export default function Predict() {
                                 {typeof p.predicted === 'number' ? p.predicted.toFixed(1) : p.predicted}đ
                               </span>
                               {p.isPredicted ? (
-                                <span className="text-[9px] bg-purple-500/15 border border-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded-md font-extrabold w-max tracking-wide uppercase">AI Dự đoán</span>
+                                <span className="text-[9px] bg-purple-500/15 border border-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded-md font-extrabold w-max tracking-wide uppercase">Ước lượng</span>
                               ) : (
                                 <span className="text-[9px] bg-blue-500/15 border border-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded-md font-extrabold w-max tracking-wide uppercase">Thực tế</span>
                               )}
