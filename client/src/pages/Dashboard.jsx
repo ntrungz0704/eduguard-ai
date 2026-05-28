@@ -22,6 +22,8 @@ export default function Dashboard() {
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [roadmapMsg, setRoadmapMsg] = useState('');
   const [sendingMsg, setSendingMsg] = useState(false);
+  const [showAllAlerts, setShowAllAlerts] = useState(false);
+  const [sendingBulk, setSendingBulk] = useState(false);
 
   useEffect(() => {
     const fetchRedAlerts = async () => {
@@ -85,6 +87,54 @@ export default function Dashboard() {
       alert('Lỗi gửi tin nhắn: ' + e.message);
     } finally {
       setSendingMsg(false);
+    }
+  };
+
+  const handleSendBulkRoadmap = async () => {
+    if (!redAlerts || redAlerts.length === 0) return;
+    const unintervened = redAlerts.filter(a => !a.intervened);
+    if (unintervened.length === 0) {
+      alert('Tất cả sinh viên trong danh sách đều đã được can thiệp!');
+      return;
+    }
+    
+    if (!window.confirm(`Bạn có chắc chắn muốn gửi lộ trình tự động cho ${unintervened.length} sinh viên chưa được can thiệp?`)) return;
+
+    setSendingBulk(true);
+    let successCount = 0;
+
+    try {
+      for (const alert of unintervened) {
+        let msg = `Chào ${alert.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${alert.targetCourse} sắp tới (Nguy cơ rớt: ${alert.predictedScore.toFixed(1)}%).`;
+        if (alert.weakPrereqs.length > 0) {
+          msg += ` Nguyên nhân chính do em bị hổng kiến thức từ các môn: ${alert.weakPrereqs.map(w => `${w.courseId} (${w.score}đ)`).join(', ')}.`;
+        } else {
+          msg += ` Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
+        }
+        msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+
+        await api.post('/comm/messages', {
+          senderId: currentUser.id,
+          receiverId: alert.mssv,
+          content: msg
+        });
+        
+        await api.post(`/students/${alert.mssv}/flag`, { courseId: alert.targetCourse, action: 'Cảnh báo hàng loạt từ Dashboard', status: 'ACTIVE' });
+        successCount++;
+      }
+      
+      setRedAlerts(prev => prev.map(a => 
+        unintervened.find(u => u.mssv === a.mssv && u.targetCourse === a.targetCourse) 
+          ? { ...a, intervened: true } 
+          : a
+      ));
+      setKpi(prev => ({ ...prev, totalInterventions: prev.totalInterventions + successCount }));
+      
+      alert(`Đã gửi lộ trình và đánh dấu can thiệp cho ${successCount} sinh viên thành công!`);
+    } catch (e) {
+      alert('Lỗi khi gửi hàng loạt: ' + e.message);
+    } finally {
+      setSendingBulk(false);
     }
   };
 
@@ -236,10 +286,18 @@ export default function Dashboard() {
       {/* CẢNH BÁO ĐỎ - RED ALERTS */}
       <div className="glass-card rounded-3xl border border-rose-500/20 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-        <div className="p-6 border-b border-white/5 flex items-center gap-3">
+        <div className="p-6 border-b border-white/5 flex items-center gap-3 flex-wrap">
           <ShieldAlert size={24} className="text-rose-500" />
           <h3 className="text-xl font-bold text-white">Cảnh Báo Đỏ - Cần Can Thiệp Khẩn Cấp</h3>
-          <span className="ml-auto bg-rose-500/20 text-rose-400 text-xs px-3 py-1 rounded-full font-bold">Top rủi ro cao</span>
+          <span className="bg-rose-500/20 text-rose-400 text-xs px-3 py-1 rounded-full font-bold">Top rủi ro cao</span>
+          <button 
+            onClick={handleSendBulkRoadmap}
+            disabled={sendingBulk || !redAlerts || redAlerts.length === 0}
+            className="ml-auto bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 py-2 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 text-sm font-bold disabled:opacity-50"
+          >
+            {sendingBulk ? <Activity size={16} className="animate-spin" /> : <Send size={16} />}
+            {sendingBulk ? 'Đang gửi...' : 'Gửi toàn bộ Lộ trình'}
+          </button>
         </div>
         <div className="overflow-x-auto">
           {!redAlerts ? (
@@ -258,7 +316,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {redAlerts.map((alert, idx) => (
+                {(showAllAlerts ? redAlerts : redAlerts.slice(0, 5)).map((alert, idx) => (
                   <tr key={`${alert.mssv}-${alert.targetCourse}-${idx}`} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-200">{alert.name}</div>
@@ -268,7 +326,7 @@ export default function Dashboard() {
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-slate-300">{alert.targetCourse}</span>
                         <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-400">
-                          {alert.predictedScore.toFixed(1)}đ
+                          {alert.predictedScore.toFixed(1)}% Nguy cơ
                         </span>
                       </div>
                     </td>
@@ -338,6 +396,16 @@ export default function Dashboard() {
             </table>
           )}
         </div>
+        {redAlerts && redAlerts.length > 5 && (
+          <div className="p-4 border-t border-white/5 text-center">
+            <button 
+              onClick={() => setShowAllAlerts(!showAllAlerts)}
+              className="text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+            >
+              {showAllAlerts ? 'Thu gọn danh sách' : `Xem thêm ${redAlerts.length - 5} sinh viên cảnh báo...`}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
