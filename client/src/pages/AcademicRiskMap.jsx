@@ -22,6 +22,7 @@ import {
   Handle,
   MarkerType,
   MiniMap,
+  Panel,
   Position,
   ReactFlow,
   useEdgesState,
