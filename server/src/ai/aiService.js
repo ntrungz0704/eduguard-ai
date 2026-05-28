@@ -3,8 +3,8 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { prisma } = require('../../src/infrastructure/database/prisma');
 
 // Initialize API clients
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "dummy" });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "dummy");
 
 // Groq tools declaration for native function calling (Step 2)
 const groqTools = [{
