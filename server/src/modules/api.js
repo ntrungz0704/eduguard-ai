@@ -9,7 +9,7 @@ const { prisma } = require('../infrastructure/database/prisma');
 
 // Import modular services
 const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../utils/dataService');
-const { getNeo4jDriver } = require('../config/neo4j');
+
 const { spawn } = require('child_process');
 const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../ai/regression');
 const { validateModel } = require('../ai/validation');

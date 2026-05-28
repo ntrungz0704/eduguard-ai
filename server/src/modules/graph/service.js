@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { getNeo4jDriver } = require('../../config/neo4j');
+
 const { prisma } = require('../../infrastructure/database/prisma');
 const _ = require('lodash');
 const cache = require('../../shared/cache');
@@ -16,70 +16,64 @@ const DEFAULT_CHAIN_EXPLANATION = {
 
 class GraphService {
   async getDependencies() {
-    const driver = getNeo4jDriver();
-    const session = driver.session();
+    const curriculumData = this.loadCurriculumData();
+    const courseIndex = this.buildCourseIndex(curriculumData);
+    const { ACADEMIC_PREREQUISITES } = require('../../ai/regression');
 
-    try {
-      const result = await session.run(`
-        MATCH (c:Course)
-        OPTIONAL MATCH (p:Course)-[:PREREQUISITE_FOR]->(c)
-        RETURN c, collect(p) as prerequisites
-      `);
+    const nodes = [];
+    const edges = [];
 
-      const nodes = [];
-      const edges = [];
+    // Add nodes from curriculum
+    courseIndex.forEach((course) => {
+      nodes.push({
+        id: course.code,
+        label: course.name,
+        title: `${course.code}: ${course.name} (Credits: ${course.credits})`,
+        group: 'course',
+        difficulty: 3, 
+        workload: 3,
+      });
+    });
 
-      result.records.forEach((record) => {
-        const course = record.get('c').properties;
-        nodes.push({
-          id: course.code,
-          label: course.name,
-          title: `${course.code}: ${course.name} (Credits: ${course.credits})`,
-          group: 'course',
-          difficulty: course.difficulty,
-          workload: course.workload,
-        });
-
-        record.get('prerequisites').forEach((prereq) => {
-          if (prereq && prereq.properties) {
-            edges.push({
-              from: prereq.properties.code,
-              to: course.code,
-              label: 'PREREQUISITE_FOR',
-            });
-          }
+    // Add edges
+    Object.entries(ACADEMIC_PREREQUISITES).forEach(([dependent, prereqs]) => {
+      prereqs.forEach(prereq => {
+        edges.push({
+          from: prereq,
+          to: dependent,
+          label: 'PREREQUISITE_FOR',
         });
       });
+    });
 
-      return { nodes, edges };
-    } finally {
-      await session.close();
-    }
+    return { nodes, edges };
   }
 
   async getRiskAnalysis() {
-    const driver = getNeo4jDriver();
-    const session = driver.session();
+    const { ACADEMIC_PREREQUISITES } = require('../../ai/regression');
+    const curriculumData = this.loadCurriculumData();
+    const courseIndex = this.buildCourseIndex(curriculumData);
+    const prereqCounts = {};
+    
+    Object.entries(ACADEMIC_PREREQUISITES).forEach(([dependent, prereqs]) => {
+      prereqs.forEach(prereq => {
+        prereqCounts[prereq] = (prereqCounts[prereq] || 0) + 1;
+      });
+    });
 
-    try {
-      const result = await session.run(`
-        MATCH (p:Course)-[:PREREQUISITE_FOR]->(c:Course)
-        WITH p, count(c) as dependentCount
-        WHERE dependentCount > 1
-        RETURN p, dependentCount
-        ORDER BY dependentCount DESC
-      `);
+    const bottlenecks = Object.entries(prereqCounts)
+      .filter(([courseCode, count]) => count > 1)
+      .map(([courseCode, count]) => {
+        const courseInfo = courseIndex.get(courseCode);
+        return {
+          courseCode,
+          courseName: courseInfo ? courseInfo.name : courseCode,
+          dependentCount: count,
+        };
+      })
+      .sort((a, b) => b.dependentCount - a.dependentCount);
 
-      const bottlenecks = result.records.map((record) => ({
-        courseCode: record.get('p').properties.code,
-        courseName: record.get('p').properties.name,
-        dependentCount: record.get('dependentCount').toInt(),
-      }));
-
-      return { bottlenecks };
-    } finally {
-      await session.close();
-    }
+    return { bottlenecks };
   }
 
   async getStudentRiskChain(mssv) {
@@ -160,39 +154,19 @@ class GraphService {
   }
 
   async getDependencyRows() {
-    try {
-      const driver = getNeo4jDriver();
-      const session = driver.session();
-      try {
-        const result = await session.run(`
-          MATCH (c1:Course)-[:PREREQUISITE_FOR]->(c2:Course)
-          RETURN c1.code AS prereqCode, c1.name AS prereqName, c2.code AS dependentCode, c2.name AS dependentName
-        `);
-        return result.records.map((record) => ({
-          prereqCode: record.get('prereqCode'),
-          prereqName: record.get('prereqName'),
-          dependentCode: record.get('dependentCode'),
-          dependentName: record.get('dependentName'),
-        }));
-      } finally {
-        await session.close();
-      }
-    } catch (err) {
-      console.warn('[GraphService] Neo4j offline. Falling back to local prerequisites.');
-      const { ACADEMIC_PREREQUISITES } = require('../../ai/regression');
-      const fallbackRows = [];
-      Object.entries(ACADEMIC_PREREQUISITES).forEach(([dependent, prereqs]) => {
-        prereqs.forEach(prereq => {
-          fallbackRows.push({
-            prereqCode: prereq,
-            prereqName: prereq,
-            dependentCode: dependent,
-            dependentName: dependent
-          });
+    const { ACADEMIC_PREREQUISITES } = require('../../ai/regression');
+    const fallbackRows = [];
+    Object.entries(ACADEMIC_PREREQUISITES).forEach(([dependent, prereqs]) => {
+      prereqs.forEach(prereq => {
+        fallbackRows.push({
+          prereqCode: prereq,
+          prereqName: prereq,
+          dependentCode: dependent,
+          dependentName: dependent
         });
       });
-      return fallbackRows;
-    }
+    });
+    return fallbackRows;
   }
 
   getTrainingData() {
