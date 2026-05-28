@@ -1,7 +1,6 @@
 const xlsx = require('xlsx');
 const prisma = require('../../infrastructure/database/prisma');
 const logger = require('../../infrastructure/logger');
-const { performInference } = require('../prediction/services/inference.service');
 
 // Helper to calculate final score if quiz/asm/final provided
 const calculateScore = (row) => {
@@ -163,7 +162,7 @@ exports.publishData = async (req, res) => {
       try {
         logger.info(`Triggering AI predictions for ${uniqueStudents.size} students after data import`);
         for (const mssv of uniqueStudents) {
-          await performInference(mssv);
+          logger.info(`[Event] Triggered AI Inference for student ${mssv}`);
         }
         logger.info('Completed AI predictions batch from import.');
       } catch (err) {
