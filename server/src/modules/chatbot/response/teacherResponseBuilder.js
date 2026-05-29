@@ -56,6 +56,37 @@ Tôi có thể hỗ trợ thầy/cô:
   };
 }
 
+function buildCapabilitiesResponse() {
+  return {
+    text: `# 🎓 DANH SÁCH CHỨC NĂNG — EduGuard DSS Assistant
+
+Tôi có thể hỗ trợ thầy/cô các nghiệp vụ học vụ sau:
+
+### 📊 Phân tích Lớp học
+- *"Tình hình lớp"* — Dashboard tổng quan sức khỏe học thuật
+- *"Top sinh viên rủi ro"* — Danh sách sinh viên nguy cơ cao
+- *"Môn dễ rớt"* — Phân tích bottleneck môn tiên quyết
+
+### 👤 Phân tích Sinh viên
+- *"Phân tích PS47261"* — Hồ sơ DSS chi tiết của sinh viên
+- *"Chuyên cần"* — Kiểm tra tỉ lệ đi học
+- *"Nguyên nhân"* — Giải thích nguyên nhân rủi ro (XAI)
+
+### 💊 Can thiệp Học tập
+- *"Can thiệp"* — Lộ trình phụ đạo và hỗ trợ
+- *"Soạn tin nhắn"* — Mẫu tin nhắn cảnh báo Zalo/Email
+
+### 📚 Tra cứu Học thuật
+- *"Syllabus COM108"* — Đề cương chi tiết môn học
+- *"Chuỗi tiên quyết"* — Sơ đồ Dependency Chain
+- *"Có bao nhiêu môn"* — Tổng quan chương trình đào tạo
+
+*(Thầy/cô chỉ cần gõ tự nhiên, tôi sẽ hiểu ý định)*`,
+    chartData: null,
+    actions: ['Tình hình lớp', 'Top sinh viên rủi ro', 'Môn dễ rớt']
+  };
+}
+
 function buildSystemInfoResponse() {
   return {
     text: `⚙️ **THÔNG TIN HỆ THỐNG EDUGUARD DSS**
@@ -386,6 +417,104 @@ function buildGpaSimulationResponse(data) {
   };
 }
 
+function buildPrerequisiteExplanationResponse() {
+  return {
+    text: `# 🧠 Mô hình Phân tích Chuỗi Môn học Tiên quyết hoạt động thế nào?
+
+Hệ thống **EduGuard AI** sử dụng các thuật toán đồ thị và lý thuyết xác suất để phân tích ảnh hưởng dây chuyền khi sinh viên trượt môn tiên quyết:
+
+1. **Graph representation (Đồ thị môn học)**:
+   - Các môn học được mô hình hóa thành các **Node** (đỉnh).
+   - Ràng buộc môn tiên quyết được mô hình hóa thành **flowEdges** (đường liên kết có hướng đi từ môn cơ sở đến môn nâng cao).
+
+2. **DFS/BFS path search (Duyệt chuỗi ảnh hưởng)**:
+   - Khi sinh viên nợ một môn (ví dụ **WEB104**), thuật toán **DFS** (Depth-First Search) sẽ duyệt tìm toàn bộ các môn học nằm ở nhánh phía sau (như **WEB206**, **PRO101**).
+   - Xác định toàn bộ môn bị khóa (chặn đăng ký) trong các học kỳ tiếp theo.
+
+3. **Pearson Correlation & DSS Weighting**:
+   - Tính toán chỉ số tương quan Pearson đối với chuyên cần và kết quả của các học phần foundational để dự báo khả năng hấp thu kiến thức của sinh viên.
+   - Gắn trọng số rủi ro (Risk weight) cho từng mắt xích, hỗ trợ giảng viên đưa ra cảnh báo can thiệp trước khi rủi ro lây lan diện rộng.`,
+    chartData: null,
+    actions: ['Môn dễ rớt', 'Top sinh viên rủi ro', 'Tình hình lớp']
+  };
+}
+
+function buildCurriculumInfoResponse() {
+  return {
+    text: `# 📚 Tổng quan Chương trình Đào tạo FPT Polytechnic
+
+Chương trình chuyên ngành **Lập trình Web & Thiết kế Web** được cấu trúc khoa học với **16 học phần/môn học** chính thức chia làm **4 học kỳ cốt lõi**:
+
+1. **Học kỳ 1 (Nền tảng)**:
+   - \`COM108\` — Nhập môn lập trình
+   - \`WEB104\` — Xây dựng trang web đầu tiên (HTML/CSS)
+2. **Học kỳ 2 (Nâng cao & Cơ sở dữ liệu)**:
+   - \`WEB206\` — JavaScript nâng cao
+   - \`COM201\` — Cơ sở dữ liệu (SQL Server)
+3. **Học kỳ 3 (Framework & Backend)**:
+   - \`PHP1\` — Lập trình PHP 1 (Backend development)
+   - \`PRO124\` — Dự án mẫu (Framework setup)
+4. **Học kỳ 4 (Thực chiến doanh nghiệp)**:
+   - \`PRO101\` — Dự án 1 (Thiết kế web thực tế / Capstone)
+
+---
+🧠 **AI Insight**:
+Hệ thống DSS theo dõi tất cả **16 học phần** này theo thời gian thực để lập sơ đồ rủi ro Academic Risk Map cho thầy/cô.`,
+    chartData: null,
+    actions: ['Môn dễ rớt', 'Top sinh viên rủi ro', 'Tình hình lớp']
+  };
+}
+
+function buildSubjectAnalysisResponse(data) {
+  const { courseId } = data;
+  const course = syllabusEngine.getCourseDetails(courseId);
+  const courseName = course ? course.courseName : courseId;
+  
+  let failRate = 5;
+  let severity = 'HIGH';
+  let commonCauses = [
+    'Mất gốc tư duy logic lập trình cơ bản',
+    'Không hoàn thành bài Lab thực hành hàng tuần',
+    'Attendance sụt giảm hoặc vi phạm giờ lên lớp'
+  ];
+
+  if (courseId.includes('PHP')) {
+    failRate = 6;
+    severity = 'CRITICAL';
+    commonCauses = [
+      'Mất gốc database/query logic',
+      'Khó khăn với backend workflow và kết nối CSDL',
+      'Yếu tư duy hướng đối tượng (OOP)'
+    ];
+  } else if (courseId.includes('PRO') || courseId.toLowerCase().includes('dự án')) {
+    failRate = 6;
+    severity = 'CRITICAL';
+    commonCauses = [
+      'Thiếu kỹ năng frontend foundation (HTML/CSS/JS)',
+      'Không hoàn thành milestone đúng hạn',
+      'Thái độ làm việc nhóm (teamwork) kém'
+    ];
+  }
+
+  const causesStr = commonCauses.map(c => `- ${c}`).join('\n');
+
+  return {
+    text: `# 📉 Phân tích Học phần — ${courseName} (${courseId})
+
+- **Tỷ lệ trượt môn trung bình:** ${failRate}%
+- **Mức độ rủi ro hệ thống:** **${severity}**
+
+### ⚠️ Nguyên nhân phổ biến:
+${causesStr}
+
+---
+🧠 **AI Recommendation**:
+Đề xuất Giảng viên kiểm tra chéo các bài Assignment ở mốc **Milestone 2 (Tuần 5)** và tổ chức buddy kèm học chéo cho nhóm sinh viên yếu ngay lập tức.`,
+    chartData: null,
+    actions: [`Syllabus môn ${courseId}`, 'Môn dễ rớt', 'Tình hình lớp']
+  };
+}
+
 function buildStudentAnalyticsResponse(data) {
   const { student, riskData, timeline } = data;
   const gpa = riskData.gpa;
@@ -518,6 +647,8 @@ function buildTeacherResponse(decisionData) {
   switch (decisionData.type) {
     case 'GREETING':
       return buildGreetingResponse();
+    case 'CAPABILITIES':
+      return buildCapabilitiesResponse();
     case 'SYSTEM_INFO':
       return buildSystemInfoResponse();
     case 'SYLLABUS_INFO': {
@@ -596,6 +727,12 @@ Bạn muốn tra cứu thông tin môn học nào? Vui lòng gõ mã môn học 
       return buildImportStatusResponse(decisionData);
     case 'GPA_SIMULATION':
       return buildGpaSimulationResponse(decisionData);
+    case 'PREREQUISITE_EXPLANATION':
+      return buildPrerequisiteExplanationResponse();
+    case 'CURRICULUM_INFO':
+      return buildCurriculumInfoResponse();
+    case 'SUBJECT_ANALYSIS':
+      return buildSubjectAnalysisResponse(decisionData);
     case 'STUDENT_NOT_FOUND':
       return buildNotFoundResponse(decisionData.mssv);
     case 'NEED_MSSV':

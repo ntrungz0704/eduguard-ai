@@ -6,7 +6,7 @@ const { routeIntent } = require('./intentRouter');
 const { resolveContext } = require('./contextResolver');
 const { validateRole } = require('./roleValidator');
 const { extractAllEntities } = require('./entityExtractor');
-const { getSession } = require('./sessionMemory');
+const { getSession, addConversationTurn } = require('./sessionMemory');
 const { executeDecision } = require('./aiDecisionEngine');
 const { executeStudentDecision } = require('./studentEngine');
 const { buildTeacherResponse } = require('./response/teacherResponseBuilder');
@@ -151,6 +151,9 @@ async function orchestrateChatbot(req, sessionId) {
   const duration = Date.now() - startTime;
   appLogger.request('POST', '/api/chatbot', 200, duration, req.traceId);
   appLogger.info(`[NLP_ORCHESTRATOR] Pipeline complete in ${duration}ms | Intent: ${intent}`);
+
+  // Track conversation history
+  addConversationTurn(session, message, intent, session.activeStudent);
 
   return {
     reply: text,

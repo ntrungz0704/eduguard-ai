@@ -1317,28 +1317,23 @@ router.post('/chat', async (req, res) => {
     // Ngưỡng an toàn tối thiểu cho môi trường production (0.70)
     const PRODUCTION_CONFIDENCE_THRESHOLD = 0.70;
     
-    // Nếu nlp dự đoán ra intent nhưng score < 0.70, chuyển hướng phản hồi ngay lập tức
+    // Smart guard: If NLP score is low, check if entity extraction can resolve.
+    // Don't short-circuit when MSSV or course ID is detectable in the message.
     if (nlpIntent !== 'None' && nlpScore < PRODUCTION_CONFIDENCE_THRESHOLD) {
-      console.warn(`[NLP_GUARD] Chặn Intent "${nlpIntent}" trong môi trường Production do độ tin cậy thấp (${nlpScore.toFixed(2)} < ${PRODUCTION_CONFIDENCE_THRESHOLD})`);
-      return res.json({
-        reply: `Tôi chưa xác định rõ yêu cầu học vụ hiện tại (Độ tin cậy của mô hình: ${(nlpScore * 100).toFixed(0)}%).
-
-Để hệ thống EduGuard AI phân tích chính xác nhất, thầy/cô có muốn:
-• **Phân tích sinh viên**: *"Phân tích sinh viên PS47261"* hoặc *"Đánh giá em đầu tiên"*
-• **Xem chuyên cần**: *"Chuyên cần của sinh viên"*
-• **Phân tích môn bottleneck**: *"Môn nào dễ rớt"*
-• **Xem risk chain**: *"Rủi ro học thuật"*`,
-        chartData: null,
-        actions: [
-          "Thống kê toàn lớp",
-          "Top sinh viên rủi ro",
-          "Môn dễ rớt"
-        ],
-        intent: 'FALLBACK_INTENT',
-        activeMssv: null,
-        sessionId: resolvedSessionId,
-        riskData: null
-      });
+      const { extractMssv, extractCourseId } = require('../../src/modules/chatbot/entityExtractor');
+      const hasMssv = extractMssv(message);
+      const hasCourse = extractCourseId(message);
+      
+      if (!hasMssv && !hasCourse) {
+        // No entities detected either — show smart suggestion fallback
+        console.warn(`[NLP_GUARD] Blocked intent "${nlpIntent}" (score: ${nlpScore.toFixed(2)} < ${PRODUCTION_CONFIDENCE_THRESHOLD})`);
+        
+        // Still let the orchestrator handle it for keyword heuristic routing
+        req.body.nlpIntent = 'None';
+        req.body.nlpScore = 0;
+        // Fall through to orchestrator instead of returning early
+      }
+      // If entities found, let orchestrator handle with full pipeline
     }
 
     // Delegate to the NLP Orchestrator pipeline

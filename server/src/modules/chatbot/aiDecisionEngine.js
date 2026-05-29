@@ -240,6 +240,9 @@ async function executeDecision({ intent, activeMssv, entities, session }) {
     case 'GREETING_INTENT':
       return { type: 'GREETING' };
 
+    case 'CAPABILITIES_INTENT':
+      return { type: 'CAPABILITIES' };
+
     case 'GENERAL_SYSTEM_INTENT':
       return { type: 'SYSTEM_INFO' };
 
@@ -277,6 +280,17 @@ async function executeDecision({ intent, activeMssv, entities, session }) {
         studentData = await fetchStudent(mssv);
       }
       return { type: 'GPA_SIMULATION', student: studentData, activeMssv };
+    }
+
+    case 'PREREQUISITE_EXPLANATION_INTENT':
+      return { type: 'PREREQUISITE_EXPLANATION' };
+
+    case 'CURRICULUM_INFO_INTENT':
+      return { type: 'CURRICULUM_INFO' };
+
+    case 'SUBJECT_ANALYSIS_INTENT': {
+      const courseId = entities.courseId || session.lastSubject || 'PRO101';
+      return { type: 'SUBJECT_ANALYSIS', courseId };
     }
 
     case 'FALLBACK_INTENT':
