@@ -11,6 +11,7 @@ export default function AIChat() {
   const activeStudent = useStore(state => state.activeStudent);
   const setActiveStudent = useStore(state => state.setActiveStudent);
   const currentUser = useStore(state => state.currentUser);
+  const theme = useStore(state => state.theme);
   
   // Collapse state for Sidebar (persisted in localStorage to keep user preference)
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -490,7 +491,7 @@ export default function AIChat() {
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index));
       }
-      parts.push(<strong key={match.index} className="text-white font-extrabold">{match[1]}</strong>);
+      parts.push(<strong key={match.index} className="text-slate-900 dark:text-white font-extrabold">{match[1]}</strong>);
       lastIndex = boldRegex.lastIndex;
     }
     
@@ -524,12 +525,12 @@ export default function AIChat() {
     const flushTable = (key) => {
       if (currentTable) {
         elements.push(
-          <div key={key} className="overflow-x-auto my-4 rounded-2xl border border-white/10 bg-slate-950/40 shadow-xl max-w-full">
+          <div key={key} className="overflow-x-auto my-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-950/40 shadow-xl max-w-full">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-white/5 border-b border-white/10">
+                <tr className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                   {currentTable.headers.map((h, idx) => (
-                    <th key={idx} className="p-3 font-extrabold text-white uppercase tracking-wider">{parseInlineStyles(h)}</th>
+                    <th key={idx} className="p-3 font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">{parseInlineStyles(h)}</th>
                   ))}
                 </tr>
               </thead>
@@ -537,7 +538,7 @@ export default function AIChat() {
                 {currentTable.rows.map((row, rIdx) => (
                   <tr key={rIdx} className="hover:bg-white/5 transition-colors">
                     {row.map((cell, cIdx) => (
-                      <td key={cIdx} className="p-3 text-slate-300 font-medium">{parseInlineStyles(cell)}</td>
+                      <td key={cIdx} className="p-3 text-slate-700 dark:text-slate-300 font-medium">{parseInlineStyles(cell)}</td>
                     ))}
                   </tr>
                 ))}
@@ -585,7 +586,7 @@ export default function AIChat() {
           currentList = [];
         }
         currentList.push(
-          <li key={`li-${i}`} className="text-slate-300 leading-relaxed text-sm font-medium">
+          <li key={`li-${i}`} className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm font-medium">
             {parsedContent}
           </li>
         );
@@ -598,7 +599,7 @@ export default function AIChat() {
       if (line.startsWith('### ')) {
         const text = line.replace('### ', '');
         elements.push(
-          <h4 key={`h4-${i}`} className="text-lg font-bold text-white mt-4 mb-2">
+          <h4 key={`h4-${i}`} className="text-lg font-bold text-slate-900 dark:text-white mt-4 mb-2">
             {parseInlineStyles(text)}
           </h4>
         );
@@ -607,7 +608,7 @@ export default function AIChat() {
       if (line.startsWith('## ')) {
         const text = line.replace('## ', '');
         elements.push(
-          <h3 key={`h3-${i}`} className="text-xl font-bold text-white mt-5 mb-3 border-b border-white/10 pb-2">
+          <h3 key={`h3-${i}`} className="text-xl font-bold text-slate-900 dark:text-white mt-5 mb-3 border-b border-slate-200 dark:border-white/10 pb-2">
             {parseInlineStyles(text)}
           </h3>
         );
@@ -616,7 +617,7 @@ export default function AIChat() {
       if (line.startsWith('# ')) {
         const text = line.replace('# ', '');
         elements.push(
-          <h2 key={`h2-${i}`} className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 mt-6 mb-4">
+          <h2 key={`h2-${i}`} className="text-2xl font-black text-transparent bg-clip-text bg-white dark:bg-gradient-to-r dark:from-blue-400 dark:to-emerald-400 mt-6 mb-4">
             {parseInlineStyles(text)}
           </h2>
         );
@@ -630,7 +631,7 @@ export default function AIChat() {
       
       const parsedContent = parseInlineStyles(line);
       elements.push(
-        <p key={`p-${i}`} className="mb-3 text-slate-300 leading-relaxed text-sm font-medium">
+        <p key={`p-${i}`} className="mb-3 text-slate-700 dark:text-slate-300 leading-relaxed text-sm font-medium">
           {parsedContent}
         </p>
       );
@@ -701,7 +702,7 @@ export default function AIChat() {
         <div key={session.id} className="px-3 py-1.5" onClick={(e) => e.stopPropagation()}>
           <form 
             onSubmit={(e) => { e.preventDefault(); saveRename(session.id); }} 
-            className="flex items-center gap-1.5 bg-black/40 px-2.5 py-1.5 rounded-xl border border-blue-500/30"
+            className="flex items-center gap-1.5 bg-slate-200 dark:bg-black/40 px-2.5 py-1.5 rounded-xl border border-blue-200 dark:border-blue-500/30"
           >
             <input 
               type="text" 
@@ -724,12 +725,12 @@ export default function AIChat() {
         onClick={() => setCurrentSessionId(session.id)}
         className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl border transition-all text-xs cursor-pointer group ${
           isActive 
-            ? 'border-blue-500/25 bg-blue-500/10 text-blue-300 font-bold shadow-[0_0_15px_rgba(59,130,246,0.06)]' 
-            : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5 font-semibold'
+            ? 'border-blue-200 bg-blue-100 text-[#1E40AF] dark:border-blue-500/25 dark:bg-blue-500/10 dark:text-blue-300 font-bold shadow-sm' 
+            : 'border-transparent text-slate-700 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-50 dark:hover:bg-white/5 font-semibold'
         }`}
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <MessageSquare size={13} className={isActive ? "text-blue-400 flex-shrink-0 animate-pulse" : "text-slate-500 flex-shrink-0"} />
+          <MessageSquare size={13} className={isActive ? "text-[#1E40AF] dark:text-blue-400 flex-shrink-0 animate-pulse" : "text-slate-500 flex-shrink-0"} />
           <span className="truncate pr-1">{session.title}</span>
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
@@ -754,7 +755,7 @@ export default function AIChat() {
 
   return (
     <div 
-      className="w-full h-[calc(100vh-9.5rem)] flex glass-card rounded-[32px] border border-white/10 overflow-hidden relative shadow-2xl animate-fade-in bg-slate-900/40"
+      className="w-full h-[calc(100vh-9.5rem)] flex bg-white dark:bg-[#0B1120] rounded-[32px] border border-slate-200 dark:border-white/10 overflow-hidden relative shadow-sm"
       style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
     >
       {/* Dynamic Background glows */}
@@ -763,18 +764,18 @@ export default function AIChat() {
 
       {/* 1. Left Sidebar - Collapsible Session History */}
       <div 
-        className={`h-full border-r border-white/10 flex flex-col bg-slate-950/40 backdrop-blur-2xl transition-all duration-300 relative z-30 overflow-hidden ${
+        className={`h-full border-r border-slate-200 dark:border-white/10 flex flex-col bg-white dark:bg-slate-950/40 backdrop-blur-2xl transition-all duration-300 relative z-30 overflow-hidden ${
           sidebarOpen ? 'w-[260px] opacity-100' : 'w-0 opacity-0 pointer-events-none border-r-0'
         }`}
       >
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-white/5 flex items-center justify-between bg-slate-950/20">
-          <h4 className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+        <div className="p-4 border-b border-slate-200 dark:border-white/5 flex items-center justify-between bg-slate-50 dark:bg-slate-950/20">
+          <h4 className="text-[11px] font-black uppercase tracking-wider text-[#0F172A] dark:text-slate-400 flex items-center gap-1.5">
             Lịch sử trò chuyện
           </h4>
           <button
             onClick={handleCreateSession}
-            className="p-1.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-400/40 rounded-lg text-blue-300 transition-all cursor-pointer shadow-sm"
+            className="p-1.5 bg-blue-50 text-[#1D4ED8] hover:bg-blue-100 border border-blue-200 dark:bg-blue-500/10 dark:hover:bg-blue-500/20 dark:border-blue-500/20 dark:hover:border-blue-400/40 rounded-lg dark:text-blue-300 transition-all cursor-pointer shadow-sm"
             title="Tạo hội thoại mới"
           >
             <Plus size={13} />
@@ -782,7 +783,7 @@ export default function AIChat() {
         </div>
 
         {/* Scrollable Session List */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 custom-scrollbar bg-slate-950/10">
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 custom-scrollbar bg-white dark:bg-slate-950/10">
           {/* Today Group */}
           {groupedSessions.today.length > 0 && (
             <div>
@@ -823,25 +824,25 @@ export default function AIChat() {
       <div className="flex-1 flex flex-col min-w-0 h-full relative z-10">
         
         {/* Header Workspace Area */}
-        <div className="px-8 py-5 border-b border-white/5 flex items-center justify-between bg-slate-950/20 relative z-20">
+        <div className="px-8 py-5 border-b border-slate-200 dark:border-white/5 flex items-center justify-between bg-white dark:bg-slate-950/20 relative z-20 shadow-sm">
           <div className="flex items-center gap-3">
             {/* Sidebar toggle button */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 text-slate-400 hover:text-white transition-all cursor-pointer mr-1"
+              className="p-2 bg-white hover:bg-slate-100 dark:bg-white/5 dark:hover:bg-white/10 rounded-xl border border-slate-200 dark:border-white/5 text-slate-700 dark:text-slate-400 hover:text-slate-950 transition-all cursor-pointer mr-1 shadow-sm"
               title={sidebarOpen ? "Ẩn thanh lịch sử" : "Hiện thanh lịch sử"}
             >
               {sidebarOpen ? <PanelLeftClose size={16} /> : <PanelLeft size={16} />}
             </button>
 
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-purple-600 flex items-center justify-center text-white shadow-lg border border-white/10 shadow-blue-500/20">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 dark:bg-gradient-to-tr dark:from-blue-500 dark:to-purple-600 flex items-center justify-center dark:text-white shadow-sm border border-slate-200 dark:border-white/10">
               <Bot size={20} />
             </div>
             <div>
-              <h3 className="font-extrabold text-white text-sm flex items-center gap-1.5">
-                {currentUser?.role === 'STUDENT' ? 'Academic NLP Assistant' : 'Hệ thống Phân tích Học vụ (DSS)'} <Sparkles size={14} className="text-amber-400 animate-pulse" />
+              <h3 className="font-black text-[#0F172A] dark:text-white text-sm flex items-center gap-1.5">
+                {currentUser?.role === 'STUDENT' ? 'Academic NLP Assistant' : 'Hệ thống Phân tích Học vụ (DSS)'} <Sparkles size={14} className="text-amber-500 animate-pulse" />
               </h3>
-              <p className="text-[10px] text-slate-400 font-medium">
+              <p className="text-[10px] text-slate-700 dark:text-slate-400 font-bold">
                 {currentUser?.role === 'STUDENT'
                   ? 'Học bạ cá nhân và Báo cáo Analytics'
                   : sessionActiveStudent 
@@ -856,20 +857,20 @@ export default function AIChat() {
             {/* Direct header "Hội thoại mới" button for instant UX access */}
             <button
               onClick={handleCreateSession}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-400/40 rounded-full text-[11px] text-blue-300 font-bold transition-all cursor-pointer shadow-sm group"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#1D4ED8] dark:bg-blue-500/10 dark:hover:bg-blue-500/20 dark:border-blue-500/20 dark:hover:border-blue-400/40 rounded-full text-[11px] font-black transition-all cursor-pointer shadow-sm group"
               title="Bắt đầu cuộc hội thoại mới"
             >
-              <Plus size={11} className="text-blue-400 group-hover:rotate-90 transition-transform duration-300" />
+              <Plus size={11} className="text-[#1D4ED8] dark:text-blue-400 group-hover:rotate-90 transition-transform duration-300" />
               <span>Hội thoại mới</span>
             </button>
 
             {currentUser?.role === 'STUDENT' ? (
               /* Static capsule for students - non-clickable, no X button */
               <div 
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-full text-[11px] text-purple-300 font-bold shadow-sm"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-100 border border-purple-300 rounded-full text-[11px] text-purple-700 font-black shadow-sm"
                 title="Học bạ cá nhân của bạn"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
                 <span>🔗 Học bạ cá nhân: {sessionActiveStudent?.name || currentUser?.name || 'Cá nhân'}</span>
               </div>
             ) : sessionActiveStudent ? (
@@ -877,12 +878,12 @@ export default function AIChat() {
                 {/* Linked student capsule */}
                 <div 
                   onClick={() => setShowInlineSearch(!showInlineSearch)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-500/10 border border-purple-500/20 hover:border-purple-400/40 rounded-full text-[11px] text-purple-300 font-bold hover:bg-purple-500/15 transition-all cursor-pointer shadow-sm group"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-purple-100 border border-purple-300 rounded-full text-[11px] text-purple-700 font-black hover:bg-purple-200 transition-all cursor-pointer shadow-sm group"
                   title="Thay đổi liên kết học bạ"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-ping"></span>
                   <span>🔗 {sessionActiveStudent.name}</span>
-                  <ChevronDown size={11} className="text-purple-400 group-hover:translate-y-0.5 transition-transform" />
+                  <ChevronDown size={11} className="text-purple-600 group-hover:translate-y-0.5 transition-transform" />
                 </div>
 
                 {/* Clear student button */}
@@ -893,7 +894,7 @@ export default function AIChat() {
                     setShowInlineSearch(false);
                     showToast('🔓 Đã hủy liên kết học bạ sinh viên!', 'info');
                   }}
-                  className="p-1.5 bg-rose-500/10 border border-rose-500/20 hover:border-rose-400/40 rounded-full text-rose-400 hover:bg-rose-500/20 transition-all cursor-pointer"
+                  className="p-1.5 bg-rose-50 border border-rose-200 hover:bg-rose-100 rounded-full text-rose-600 transition-all cursor-pointer"
                   title="Hủy liên kết học sinh"
                 >
                   <X size={12} />
@@ -903,9 +904,9 @@ export default function AIChat() {
               /* Link Student Action Trigger */
               <div
                 onClick={() => setShowInlineSearch(!showInlineSearch)}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white/5 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/20 rounded-full text-[11px] text-slate-300 hover:text-blue-300 font-bold transition-all cursor-pointer shadow-sm group"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-50 hover:bg-blue-50 border border-slate-300 hover:border-blue-300 rounded-full text-[11px] text-slate-700 hover:text-[#1D4ED8] font-black transition-all cursor-pointer shadow-sm group"
               >
-                <Search size={11} className="text-slate-400 group-hover:text-blue-400" />
+                <Search size={11} className="text-slate-600 group-hover:text-[#1D4ED8]" />
                 <span>Liên kết học bạ học sinh</span>
                 <ChevronDown size={11} className="text-slate-500 group-hover:translate-y-0.5 transition-transform" />
               </div>
@@ -913,32 +914,32 @@ export default function AIChat() {
 
             {/* Floating Student Search popover dropdown overlay */}
             {showInlineSearch && currentUser?.role !== 'STUDENT' && (
-              <div className="absolute top-full right-0 mt-2.5 w-80 bg-slate-950/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-30 p-3 flex flex-col gap-2">
+              <div className="absolute top-full right-0 mt-2.5 w-80 bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 rounded-2xl shadow-xl z-30 p-3 flex flex-col gap-2">
                 <div className="relative">
                   <input
                     type="text"
                     value={studentSearchQuery}
                     onChange={(e) => setStudentSearchQuery(e.target.value)}
                     placeholder="Nhập MSSV hoặc tên sinh viên..."
-                    className="w-full bg-black/40 border border-white/10 hover:border-white/20 focus:border-blue-500/50 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none transition-all"
+                    className="w-full bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-slate-300 focus:border-blue-500 rounded-xl pl-9 pr-8 py-2 text-xs text-[#0F172A] dark:text-slate-100 placeholder-slate-500 outline-none transition-all"
                     autoFocus
                   />
                   <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                   {searchingStudents && (
-                    <Loader2 size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400 animate-spin" />
+                    <Loader2 size={12} className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-500 animate-spin" />
                   )}
                 </div>
 
                 {searchResults.length > 0 ? (
-                  <div className="max-h-48 overflow-y-auto divide-y divide-white/5 mt-1 custom-scrollbar">
+                  <div className="max-h-48 overflow-y-auto divide-y divide-slate-100 dark:divide-white/5 mt-1 custom-scrollbar">
                     {searchResults.map((st) => (
                       <button
                         key={st.id}
                         onClick={() => handleSelectStudent(st)}
-                        className="w-full flex items-center justify-between p-2.5 hover:bg-white/5 rounded-lg text-left transition-all text-xs text-slate-200"
+                        className="w-full flex items-center justify-between p-2.5 hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg text-left transition-all text-xs text-[#0F172A] dark:text-slate-200"
                       >
                         <div className="min-w-0">
-                          <p className="font-bold text-slate-100 truncate">{st.name}</p>
+                          <p className="font-extrabold text-[#0F172A] dark:text-slate-100 truncate">{st.name}</p>
                           <p className="text-[10px] text-slate-500 mt-0.5">{st.id} • {st.classCode || 'WD18301'}</p>
                         </div>
                         <ArrowRight size={11} className="text-slate-500" />
@@ -946,24 +947,24 @@ export default function AIChat() {
                     ))}
                   </div>
                 ) : studentSearchQuery.trim() ? (
-                  <p className="text-[10px] text-slate-500 text-center py-3">Không tìm thấy sinh viên</p>
+                  <p className="text-[10px] text-slate-500 text-center py-3 font-semibold">Không tìm thấy sinh viên</p>
                 ) : (
-                  <p className="text-[10px] text-slate-500 text-center py-3">Nhập MSSV hoặc tên để tìm kiếm...</p>
+                  <p className="text-[10px] text-slate-500 text-center py-3 font-semibold">Nhập MSSV hoặc tên để tìm kiếm...</p>
                 )}
               </div>
             )}
 
             {/* Connected state dot */}
-            <div className="h-6 w-px bg-white/5 hidden md:block"></div>
+            <div className="h-6 w-px bg-slate-200 dark:bg-white/5 hidden md:block"></div>
             <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="text-[9px] text-green-400 font-extrabold uppercase tracking-wider">Hệ thống sẵn sàng</span>
+              <span className="text-[9px] text-green-600 dark:text-green-400 font-extrabold uppercase tracking-wider">Hệ thống sẵn sàng</span>
             </div>
           </div>
         </div>
 
         {/* Messages thread history area - Full width */}
-        <div className="flex-1 min-h-0 overflow-y-auto px-8 py-6 custom-scrollbar relative z-10 bg-slate-950/10">
+        <div className="flex-1 min-h-0 overflow-y-auto px-8 py-6 custom-scrollbar relative z-10 bg-white dark:bg-slate-950/10">
           <div className="max-w-6xl mx-auto w-full space-y-6">
             {messages.map((msg, i) => (
               <div
@@ -971,10 +972,10 @@ export default function AIChat() {
                 className={`flex gap-4 max-w-[92%] ${msg.sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
               >
                 {/* Avatar Icon */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white border flex-shrink-0 ${
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-slate-900 dark:text-white border flex-shrink-0 ${
                   msg.sender === 'user'
-                    ? 'bg-gradient-to-tr from-blue-600 to-indigo-600 border-blue-500/20 shadow-md'
-                    : 'bg-gradient-to-tr from-purple-600 to-indigo-600 border-purple-500/20 shadow-md'
+                    ? 'bg-blue-50 border-blue-200 text-blue-600 dark:bg-gradient-to-tr dark:from-blue-600 dark:to-indigo-600 dark:border-blue-500/20 shadow-sm'
+                    : 'bg-purple-50 border-purple-200 text-purple-600 dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 dark:border-purple-500/20 shadow-sm'
                 }`}>
                   {msg.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
                 </div>
@@ -983,15 +984,15 @@ export default function AIChat() {
                   <div
                     className={
                       msg.sender === 'user'
-                        ? 'p-4 rounded-3xl rounded-tr-none text-sm shadow-md border bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500/25 ml-auto w-fit max-w-[85%]'
-                        : 'p-0 bg-transparent border-none shadow-none text-slate-200 max-w-none text-sm'
+                        ? 'p-4 rounded-3xl rounded-tr-none text-sm shadow-md bg-[#1D4ED8] dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 text-white ml-auto w-fit max-w-[85%]'
+                        : 'p-0 bg-transparent border-none shadow-none text-slate-800 dark:text-slate-200 max-w-none text-sm'
                     }
                   >
                     {msg.sender === 'ai' ? (
-                      <div className="prose prose-invert prose-sm max-w-none relative group pb-2">
+                      <div className={`prose ${theme === 'dark' ? 'prose-invert' : 'prose-slate'} prose-sm max-w-none relative group pb-2`}>
                         {formatText(msg.text)}
                         {msg.chartData && typeof msg.chartData === 'object' && ['gpa', 'risk', 'attendance', 'risk_distribution', 'bottleneck'].includes(msg.chartData.type) && (
-                          <div className="mt-4 mb-2 bg-slate-950/40 p-4 rounded-xl border border-white/10 w-[500px] max-w-full overflow-x-auto">
+                          <div className="mt-4 mb-2 bg-slate-950/40 p-4 rounded-xl border border-slate-200 dark:border-white/10 w-[500px] max-w-full overflow-x-auto">
                             {msg.chartData.type === 'gpa' && Array.isArray(msg.chartData.data) && <GPATrendChart data={msg.chartData.data} />}
                             {(msg.chartData.type === 'risk' || msg.chartData.type === 'risk_distribution') && Array.isArray(msg.chartData.data) && <RiskBreakdownChart data={msg.chartData.data} />}
                             {msg.chartData.type === 'attendance' && Array.isArray(msg.chartData.data) && <AttendanceChart data={msg.chartData.data} />}
@@ -999,9 +1000,9 @@ export default function AIChat() {
                           </div>
                         )}
                         {Array.isArray(msg.actions) && msg.actions.length > 0 && (
-                          <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-white/5">
+                          <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-slate-200 dark:border-white/5">
                             {msg.actions.map((actionText, idx) => (
-                              <button key={idx} onClick={() => { setInput(actionText); handleSend(actionText); }} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-400 hover:text-blue-300 transition-all">
+                              <button key={idx} onClick={() => { setInput(actionText); handleSend(actionText); }} className="px-2 py-1 bg-white/5 hover:bg-white/10 border border-slate-200 dark:border-white/10 hover:border-blue-500/30 text-[10px] font-bold rounded text-slate-600 dark:text-slate-400 hover:text-blue-300 transition-all">
                                 {actionText}
                               </button>
                             ))}
@@ -1011,7 +1012,7 @@ export default function AIChat() {
                           {sessionActiveStudent && currentUser?.role !== 'STUDENT' && (
                             <button 
                               onClick={() => handleSendToStudent(msg.text)}
-                              className="px-2 py-1 bg-purple-600/80 hover:bg-purple-500 text-white rounded-md border border-purple-500/50 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
+                              className="px-2 py-1 bg-purple-600/80 hover:bg-purple-500 text-slate-900 dark:text-white rounded-md border border-purple-200 dark:border-purple-500/50 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
                               title="Gửi trực tiếp vào Hộp thư Sinh viên"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
@@ -1020,7 +1021,7 @@ export default function AIChat() {
                           )}
                           <button 
                             onClick={() => { navigator.clipboard.writeText(msg.text); showToast('📋 Đã sao chép nội dung vào Clipboard!'); }}
-                            className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-md border border-white/10 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
+                            className="px-2 py-1 bg-slate-50 dark:bg-slate-800 hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-md border border-slate-200 dark:border-white/10 shadow-lg text-[10px] font-bold flex items-center gap-1.5"
                             title="Sao chép nhanh lộ trình/tin nhắn"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -1045,15 +1046,15 @@ export default function AIChat() {
 
             {loading && (
               <div className="flex gap-4 max-w-[92%] mr-auto animate-pulse">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white border border-purple-500/20 shadow-md flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-white dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white border border-purple-200 dark:border-purple-500/20 shadow-md flex-shrink-0">
                   <Bot size={14} />
                 </div>
                 <div className="space-y-1 flex-1">
-                  <div className="p-0 bg-transparent border-none shadow-none text-slate-400 text-sm flex items-center gap-2">
+                  <div className="p-0 bg-transparent border-none shadow-none text-slate-600 dark:text-slate-400 text-sm flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
                     <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
                     <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce delay-300"></span>
-                    <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">🧠 EduGuard AI đang phân tích dữ liệu học tập...</span>
+                    <span className="font-medium bg-clip-text text-transparent bg-white dark:bg-gradient-to-r dark:from-blue-400 dark:to-purple-400">🧠 EduGuard AI đang phân tích dữ liệu học tập...</span>
                   </div>
                 </div>
               </div>
@@ -1063,7 +1064,7 @@ export default function AIChat() {
         </div>
 
         {/* Bottom Area: Action shortcuts row + Rounded Input Capsule Container */}
-        <div className="px-8 py-5 border-t border-white/5 relative z-10 bg-slate-950/20 flex flex-col gap-2">
+        <div className="px-8 py-5 border-t border-slate-200 dark:border-white/5 relative z-10 bg-[#F8FAFC] dark:bg-slate-950/20 flex flex-col gap-2">
           <div className="max-w-6xl mx-auto w-full">
             {/* Scrollable Action Pills Row */}
             <div className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-none max-w-full">
@@ -1072,7 +1073,7 @@ export default function AIChat() {
                   key={idx}
                   disabled={loading}
                   onClick={() => handleSend(pill.text)}
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white/5 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/20 rounded-full text-[10px] font-bold text-slate-300 hover:text-blue-300 transition-all cursor-pointer whitespace-nowrap"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-slate-100 border border-slate-300 dark:bg-white/5 dark:border-white/10 dark:hover:bg-blue-500/10 rounded-full text-[10px] font-black text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-all cursor-pointer whitespace-nowrap shadow-sm"
                 >
                   {pill.icon}
                   <span>{pill.label}</span>
@@ -1086,7 +1087,7 @@ export default function AIChat() {
                 e.preventDefault();
                 handleSend();
               }}
-              className="w-full bg-[#141923] border border-white/10 focus-within:border-purple-500/50 rounded-[28px] p-4 flex flex-col gap-2.5 transition-all relative shadow-2xl"
+              className="w-full bg-white dark:bg-[#141923] border border-slate-300 dark:border-white/10 focus-within:border-purple-500 rounded-[28px] p-4 flex flex-col gap-2.5 transition-all relative shadow-sm"
             >
               {/* Top row: Expanded Text Area */}
               <div className="flex items-start gap-1">
@@ -1107,12 +1108,12 @@ export default function AIChat() {
                         ? `Hỏi hệ thống về học lực, điểm số rủi ro của ${sessionActiveStudent.name}...`
                         : "Nhập câu hỏi học thuật, thống kê học sinh yếu toàn khoa..."
                   }
-                  className="flex-1 bg-transparent border-none outline-none text-slate-100 text-sm py-1.5 px-2 resize-none placeholder-slate-500 min-h-[38px] custom-scrollbar focus:ring-0"
+                  className="flex-1 bg-transparent border-none outline-none text-[#0F172A] dark:text-slate-100 text-sm py-1.5 px-2 resize-none placeholder-slate-500 min-h-[38px] custom-scrollbar focus:ring-0"
                 />
               </div>
               
               {/* Capsule Divider */}
-              <div className="border-t border-white/5 w-full my-0.5"></div>
+              <div className="border-t border-slate-200 dark:border-white/5 w-full my-0.5"></div>
 
               {/* Bottom Row: Tool strip (Dropdown, Actions, Send) */}
               <div className="flex items-center justify-between pt-1">
@@ -1120,7 +1121,7 @@ export default function AIChat() {
                   {/* Plus Attachment Button */}
                   <button
                     type="button"
-                    className="p-2 hover:bg-white/5 text-slate-400 hover:text-slate-200 rounded-full transition-colors flex-shrink-0 cursor-pointer"
+                    className="p-2 hover:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-200 rounded-full transition-colors flex-shrink-0 cursor-pointer"
                     title="Đính kèm tệp học tập"
                     onClick={() => alert("Hệ thống tải tệp đính kèm học thuật đã sẵn sàng!")}
                   >
@@ -1140,8 +1141,8 @@ export default function AIChat() {
                     onClick={() => updateActiveSession({ proMode: !proMode })}
                     className={`p-2 rounded-full transition-all cursor-pointer ${
                       proMode 
-                        ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' 
-                        : 'hover:bg-white/5 text-slate-400 hover:text-white'
+                        ? 'bg-amber-500/10 text-amber-400 border border-amber-200 dark:border-amber-500/20' 
+                        : 'hover:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-white'
                     }`}
                     title={proMode ? "Đang bật chế độ Cố vấn Chuyên sâu" : "Bật chế độ Cố vấn Chuyên sâu"}
                   >
@@ -1153,7 +1154,7 @@ export default function AIChat() {
                     type="button"
                     onClick={handleBookmark}
                     className={`p-2 rounded-full hover:bg-white/5 transition-all cursor-pointer ${
-                      bookmarked ? 'text-purple-400 bg-purple-500/10 border border-purple-500/20' : 'text-slate-400 hover:text-white'
+                      bookmarked ? 'text-purple-400 bg-purple-500/10 border border-purple-200 dark:border-purple-500/20' : 'text-slate-600 dark:text-slate-400 hover:text-white'
                     }`}
                     title="Lưu trữ cuộc đối thoại này"
                   >
@@ -1164,7 +1165,7 @@ export default function AIChat() {
                   <button
                     type="button"
                     onClick={handleExport}
-                    className="p-2 rounded-full hover:bg-white/5 text-slate-400 hover:text-white transition-all cursor-pointer"
+                    className="p-2 rounded-full hover:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-white transition-all cursor-pointer"
                     title="Xuất báo cáo kết quả (.txt)"
                   >
                     <Share size={14} />
@@ -1175,7 +1176,7 @@ export default function AIChat() {
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800/40 text-white disabled:text-slate-600 flex items-center justify-center transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] disabled:shadow-none hover:scale-105 cursor-pointer flex-shrink-0"
+                  className="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800/40 text-slate-900 dark:text-white disabled:text-slate-600 flex items-center justify-center transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] disabled:shadow-none hover:scale-105 cursor-pointer flex-shrink-0"
                 >
                   <ArrowUp size={16} strokeWidth={2.5} />
                 </button>
@@ -1183,7 +1184,7 @@ export default function AIChat() {
             </form>
 
             {/* Sub-label warning footer */}
-            <span className="text-[10px] text-slate-500 font-semibold text-center block mt-3.5">
+            <span className="text-[10px] text-[#0F172A] dark:text-slate-500 font-extrabold text-center block mt-3.5">
               EduGuard Offline Machine Learning Pipeline. Dữ liệu học thuật được bảo mật 100% tại máy chủ cục bộ (Không phụ thuộc Cloud API).
             </span>
           </div>
@@ -1192,7 +1193,7 @@ export default function AIChat() {
 
       {/* Premium Glassmorphic Toast Notification */}
       {toast.show && (
-        <div className="absolute bottom-24 right-8 z-50 flex items-center gap-2.5 px-5 py-3.5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-white/10 shadow-2xl text-xs font-bold text-slate-100 max-w-sm transition-all duration-300 transform translate-y-0 scale-100 shadow-blue-500/5 animate-fade-in">
+        <div className="absolute bottom-24 right-8 z-50 flex items-center gap-2.5 px-5 py-3.5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-2xl text-xs font-bold text-slate-100 max-w-sm transition-all duration-300 transform translate-y-0 scale-100 shadow-sm dark:shadow-blue-500/5 animate-fade-in">
           <div className={`w-2.5 h-2.5 rounded-full ${toast.type === 'success' ? 'bg-green-400 animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]' : 'bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.5)]'}`}></div>
           <span>{toast.message}</span>
         </div>

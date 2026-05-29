@@ -1,0 +1,22 @@
+{
+  "WEB104": {
+    "requires": ["COM108"],
+    "recommended": ["WEB101"]
+  },
+  "WEB201": {
+    "requires": ["WEB101", "COM108"],
+    "recommended": ["WEB104", "COM201"]
+  },
+  "WEB301": {
+    "requires": ["WEB201"],
+    "recommended": ["COM201"]
+  },
+  "WEB302": {
+    "requires": ["WEB101"],
+    "recommended": []
+  },
+  "PRO101": {
+    "requires": ["WEB104", "WEB201", "COM201"],
+    "recommended": []
+  }
+}

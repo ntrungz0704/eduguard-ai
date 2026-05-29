@@ -4,6 +4,7 @@ import { useStore } from './store';
 import { api } from './lib/api';
 import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap } from 'lucide-react';
 import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
+import ThemeToggle from './components/ThemeToggle';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Predict = lazy(() => import('./pages/Predict'));
@@ -51,15 +52,15 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
-      <aside className={`w-64 glass-panel border-r border-white/5 h-screen fixed top-0 left-0 flex flex-col z-40 transition-transform duration-300 md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="h-20 flex items-center px-6 border-b border-white/10 relative">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mr-3 shadow-lg shadow-blue-500/20">
-            <BrainCircuit className="text-white" size={22} />
+      <aside className={`w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-white/5 h-screen fixed top-0 left-0 flex flex-col z-40 transition-transform duration-300 md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} shadow-sm`}>
+        <div className="h-20 flex items-center px-6 border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-900/50 relative">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 flex items-center justify-center mr-3 shadow-sm dark:shadow-blue-500/20 border border-blue-200 dark:border-transparent">
+            <BrainCircuit className="text-[#1E40AF] dark:text-white" size={22} />
           </div>
-          <h1 className="font-bold text-2xl tracking-tight">Edu<span className="text-blue-500">Guard</span></h1>
+          <h1 className="font-extrabold text-2xl tracking-tight text-[#0F172A] dark:text-white">Edu<span className="text-[#1D4ED8]">Guard</span></h1>
           
           <button 
-            className="md:hidden absolute right-4 text-slate-400 hover:text-white"
+            className="md:hidden absolute right-4 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             onClick={() => setMobileMenuOpen(false)}
           >
             <X size={24} />
@@ -67,7 +68,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
         </div>
       
       <div className="p-6">
-        <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-4">Phân tích Học vụ</div>
+        <div className="text-xs uppercase tracking-wider text-[#0F172A] dark:text-slate-400 font-extrabold mb-4">Phân tích Học vụ</div>
         <nav className="space-y-2">
           {navItems.map(item => {
             const isActive = location.pathname === item.path;
@@ -75,34 +76,34 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden group
+                className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-300 relative overflow-hidden group border
                   ${isActive 
-                    ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
-                    : 'text-slate-400 hover:bg-white/5 hover:text-slate-200 border border-transparent'
+                    ? 'bg-blue-50 border-blue-200 text-[#1E40AF] dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20 shadow-sm dark:shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
+                    : 'bg-transparent border-transparent text-slate-700 dark:text-slate-400 hover:bg-slate-50 hover:text-slate-950 dark:hover:bg-white/5 dark:hover:text-slate-200'
                   }`}
               >
-                {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)] rounded-r-md"></div>}
-                <div className={`${isActive ? 'text-blue-400' : 'text-slate-500 group-hover:text-slate-300'} transition-colors`}>
+                {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#1D4ED8] shadow-[0_0_10px_rgba(29,78,216,0.8)] rounded-r-md"></div>}
+                <div className={`${isActive ? 'text-[#1E40AF] dark:text-blue-400' : 'text-slate-500 group-hover:text-slate-800 dark:text-slate-300'} transition-colors`}>
                   {item.icon}
                 </div>
-                <span className="font-medium text-sm">{item.label}</span>
+                <span className={`text-sm ${isActive ? 'font-bold' : 'font-semibold'}`}>{item.label}</span>
               </Link>
             );
           })}
         </nav>
       </div>
       
-      <div className="mt-auto p-6 border-t border-white/5">
-        <div className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border border-white/5 rounded-xl p-4 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-2 opacity-20"><Sparkles size={40} /></div>
-          <h4 className="text-sm font-bold text-white mb-1">AI Engine Active</h4>
-          <p className="text-xs text-slate-400">Powered by Academic Dependency Engine</p>
+      <div className="mt-auto p-6 border-t border-slate-200 dark:border-white/5">
+        <div className="bg-slate-50 dark:bg-gradient-to-r dark:from-blue-900/40 dark:to-purple-900/40 border border-slate-200 dark:border-white/5 rounded-xl p-4 relative overflow-hidden shadow-inner">
+          <div className="absolute top-0 right-0 p-2 opacity-20 text-blue-600 dark:text-blue-500"><Sparkles size={40} /></div>
+          <h4 className="text-sm font-black text-[#0F172A] dark:text-white mb-1">AI Engine Active</h4>
+          <p className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">Powered by Academic Dependency Engine</p>
           <div className="mt-3 flex items-center gap-2">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
             </span>
-            <span className="text-xs text-green-400 font-medium">Hệ thống ổn định</span>
+            <span className="text-xs text-green-700 dark:text-green-400 font-bold">Hệ thống ổn định</span>
           </div>
         </div>
       </div>
@@ -178,16 +179,16 @@ const Header = ({ setMobileMenuOpen }) => {
   };
 
   return (
-    <header className="h-20 glass-panel border-b border-white/5 flex items-center justify-between px-4 md:px-10 sticky top-0 z-20">
+    <header className="h-20 glass-panel border-b border-slate-200 dark:border-white/5 flex items-center justify-between px-4 md:px-10 sticky top-0 z-20">
       {/* Title & Brand */}
       <div className="flex items-center gap-4">
         <button 
-          className="md:hidden text-slate-300 hover:text-white p-2"
+          className="md:hidden text-slate-700 dark:text-slate-300 hover:text-white p-2"
           onClick={() => setMobileMenuOpen(true)}
         >
           <Menu size={24} />
         </button>
-        <h2 className="font-semibold text-xl text-white hidden md:block">EduGuard AI {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
+        <h2 className="font-semibold text-xl text-slate-900 dark:text-white hidden md:block">EduGuard AI {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
       </div>
 
       {/* Global Premium Search Input in Navbar (Advisors only) */}
@@ -202,43 +203,43 @@ const Header = ({ setMobileMenuOpen }) => {
               setShowDropdown(true);
             }}
             placeholder="Tìm kiếm MSSV hoặc tên sinh viên..."
-            className="w-full bg-white/5 focus:bg-white/10 border border-white/10 hover:border-white/20 focus:border-blue-500/50 rounded-2xl pl-10 pr-10 py-2 text-sm text-slate-100 placeholder-slate-400 outline-none transition-all"
+            className="w-full bg-slate-100 dark:bg-white/5 focus:bg-slate-200 dark:focus:bg-white/10 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 focus:border-blue-500/50 rounded-2xl pl-10 pr-10 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 outline-none transition-all"
           />
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" />
           {loading && (
-            <Loader2 size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-blue-400 animate-spin" />
+            <Loader2 size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-blue-500 dark:text-blue-400 animate-spin" />
           )}
         </div>
 
         {/* Floating Dropdown Results */}
         {showDropdown && searchQuery.trim() && (
-          <div className="absolute top-full left-0 right-0 mt-2 glass-panel border border-white/10 rounded-2xl shadow-2xl z-30 max-h-80 overflow-y-auto overflow-hidden">
+          <div className="absolute top-full left-0 right-0 mt-2 glass-panel border border-slate-200 dark:border-white/10 rounded-2xl shadow-lg z-30 max-h-80 overflow-y-auto overflow-hidden">
             {results.length > 0 ? (
-              <div className="divide-y divide-white/5">
+              <div className="divide-y divide-slate-100 dark:divide-white/5">
                 {results.map((st) => (
                   <button
                     key={st.id}
                     onClick={() => handleSelect(st)}
-                    className="w-full flex items-center justify-between p-3.5 text-left hover:bg-white/5 transition-all text-slate-200 group"
+                    className="w-full flex items-center justify-between p-3.5 text-left hover:bg-slate-50 dark:hover:bg-white/5 transition-all text-slate-800 dark:text-slate-200 group"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                      <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all">
                         <User size={14} />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-100 group-hover:text-blue-400 transition-colors">{st.name}</p>
-                        <p className="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
+                        <p className="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{st.name}</p>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
                           <Hash size={10} /> {st.id} • Lớp {st.class || 'WD18301'}
                         </p>
                       </div>
                     </div>
-                    <ChevronRight size={14} className="text-slate-500 group-hover:text-blue-400 transition-all transform group-hover:translate-x-1" />
+                    <ChevronRight size={14} className="text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all transform group-hover:translate-x-1" />
                   </button>
                 ))}
               </div>
             ) : (
               <div className="p-4 text-center">
-                <p className="text-xs text-slate-400 font-medium">Không tìm thấy sinh viên nào</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Không tìm thấy sinh viên nào</p>
               </div>
             )}
           </div>
@@ -247,11 +248,12 @@ const Header = ({ setMobileMenuOpen }) => {
       )}
 
       <div className="flex items-center space-x-6 ml-auto">
-        <div className="text-right hidden md:block">
-          <p className="text-sm font-semibold text-white">{currentUser?.name || 'Guest'}</p>
-          <p className="text-xs text-slate-400">{currentUser?.role === 'STUDENT' ? `MSSV: ${currentUser.id}` : 'Admin Dashboard'}</p>
+        <ThemeToggle />
+        <div className="text-right hidden sm:block">
+          <p className="text-sm font-medium text-slate-900 dark:text-white leading-none">{currentUser?.name}</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{currentUser?.role === 'STUDENT' ? 'Student Dashboard' : 'Admin Dashboard'}</p>
         </div>
-        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.4)] border-2 border-white/10 ring-2 ring-black">
+        <div className="w-10 h-10 rounded-full bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-purple-600 flex items-center justify-center text-slate-900 dark:text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.4)] border-2 border-slate-200 dark:border-white/10 ring-2 ring-black">
           {currentUser?.role === 'STUDENT' ? <GraduationCap size={18} /> : 'GV'}
         </div>
         <button onClick={() => setCurrentUser(null)} className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors">
@@ -278,7 +280,7 @@ function App() {
           <div className="h-screen w-full flex items-center justify-center bg-[#0b1120]">
             <div className="flex flex-col items-center space-y-4">
               <Loader2 size={32} className="text-blue-500 animate-spin" />
-              <p className="text-slate-400 font-medium">Đang tải...</p>
+              <p className="text-slate-600 dark:text-slate-400 font-medium">Đang tải...</p>
             </div>
           </div>
         }>
@@ -310,7 +312,7 @@ function App() {
               <div className="h-full w-full flex items-center justify-center">
                 <div className="flex flex-col items-center space-y-4">
                   <Loader2 size={32} className="text-blue-500 animate-spin" />
-                  <p className="text-slate-400 font-medium animate-pulse">Đang nạp phân hệ...</p>
+                  <p className="text-slate-600 dark:text-slate-400 font-medium animate-pulse">Đang nạp phân hệ...</p>
                 </div>
               </div>
             }>

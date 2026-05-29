@@ -1,0 +1,50 @@
+[
+  {
+    "courseCode": "COM108",
+    "courseName": "Nhập môn lập trình",
+    "topics": ["Ngôn ngữ C", "Cấu trúc rẽ nhánh", "Vòng lặp", "Mảng và Con trỏ", "Hàm"],
+    "learningOutcomes": ["Hiểu tư duy lập trình", "Sử dụng biến và kiểu dữ liệu", "Giải thuật cơ bản"],
+    "difficulty": "medium",
+    "recommendedStudyHours": 40
+  },
+  {
+    "courseCode": "WEB101",
+    "courseName": "Xây dựng Website",
+    "topics": ["HTML", "CSS", "Responsive Design", "Flexbox/Grid", "JavaScript cơ bản"],
+    "learningOutcomes": ["Thiết kế giao diện responsive", "Xây dựng layout chuẩn web", "Thao tác DOM cơ bản"],
+    "difficulty": "medium",
+    "recommendedStudyHours": 40
+  },
+  {
+    "courseCode": "WEB104",
+    "courseName": "Lập trình cơ sở với JavaScript",
+    "topics": ["JavaScript Variables", "DOM Manipulation", "Events", "Promises", "ES6+"],
+    "learningOutcomes": ["Lập trình tương tác frontend", "Xử lý bất đồng bộ"],
+    "difficulty": "hard",
+    "recommendedStudyHours": 50
+  },
+  {
+    "courseCode": "WEB201",
+    "courseName": "Lập trình PHP 1",
+    "topics": ["PHP Basics", "Forms", "Sessions", "MySQL Connection"],
+    "learningOutcomes": ["Lập trình server-side cơ bản", "Quản lý state người dùng", "Kết nối CSDL"],
+    "difficulty": "hard",
+    "recommendedStudyHours": 50
+  },
+  {
+    "courseCode": "WEB301",
+    "courseName": "Lập trình PHP 2",
+    "topics": ["OOP in PHP", "MVC Pattern", "API Integration", "Security"],
+    "learningOutcomes": ["Lập trình hướng đối tượng PHP", "Áp dụng mô hình MVC"],
+    "difficulty": "hard",
+    "recommendedStudyHours": 60
+  },
+  {
+    "courseCode": "COM201",
+    "courseName": "Cơ sở dữ liệu",
+    "topics": ["SQL Queries", "ERD", "Joins", "Normalization", "Indexes"],
+    "learningOutcomes": ["Thiết kế cơ sở dữ liệu quan hệ", "Viết truy vấn SQL phức tạp"],
+    "difficulty": "medium",
+    "recommendedStudyHours": 45
+  }
+]

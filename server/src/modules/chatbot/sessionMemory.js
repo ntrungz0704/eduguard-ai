@@ -16,8 +16,11 @@ function getSession(sessionId, userRole = 'TEACHER') {
   if (!chatSessions[sessionId]) {
     chatSessions[sessionId] = {
       activeStudent: null,
+      activeCourse: null,
+      activeClass: null,
       role: userRole,
       lastIntent: 'None',
+      lastRiskAnalysis: null,
       lastSubject: null,
       lastRiskLevel: null,
       lastTopStudents: [],

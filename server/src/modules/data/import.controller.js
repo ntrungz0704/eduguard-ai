@@ -77,11 +77,23 @@ exports.previewData = async (req, res) => {
       });
     });
 
+    const validRowsCount = previewData.filter(r => r.isValid).length;
+    const invalidRowsCount = previewData.filter(r => !r.isValid).length;
+
+    global.latestImportStatus = {
+      totalRows: data.length,
+      validRows: validRowsCount,
+      invalidRows: invalidRowsCount,
+      hasErrors,
+      timestamp: Date.now(),
+      status: 'PREVIEWED'
+    };
+
     res.json({
       success: true,
       totalRows: data.length,
-      validRows: previewData.filter(r => r.isValid).length,
-      invalidRows: previewData.filter(r => !r.isValid).length,
+      validRows: validRowsCount,
+      invalidRows: invalidRowsCount,
       hasErrors,
       data: previewData
     });
@@ -169,6 +181,19 @@ exports.publishData = async (req, res) => {
         logger.error('Error in background AI prediction batch:', err);
       }
     }, 1000); // 1 second delay to return response quickly
+
+    if (global.latestImportStatus) {
+      global.latestImportStatus.status = 'PUBLISHED';
+    } else {
+      global.latestImportStatus = {
+        totalRows: validData.length,
+        validRows: validData.length,
+        invalidRows: 0,
+        hasErrors: false,
+        timestamp: Date.now(),
+        status: 'PUBLISHED'
+      };
+    }
 
     res.json({
       success: true,

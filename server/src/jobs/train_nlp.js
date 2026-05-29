@@ -8,103 +8,161 @@ const manager = new NlpManager({ languages: ['vi', 'en'], forceNER: true });
 // Đường dẫn lưu file mô hình
 const modelPath = path.join(__dirname, '..', 'ai', 'models', 'nlp', 'chatbot_model.nlp');
 
-// 1. Dạy AI hiểu các ý định (Intents)
+// 1. DẠY AI CHO CHẾ ĐỘ GIẢNG VIÊN (TEACHER MODE)
 // ==========================================
 
-// Intent: Hỏi về học lực / điểm số (Academic)
-manager.addDocument('vi', 'Hãy phân tích chi tiết kết quả học lực hiện tại của sinh viên này', 'query.academic_performance');
-manager.addDocument('vi', 'Sinh viên này học lực thế nào', 'query.academic_performance');
-manager.addDocument('vi', 'Đánh giá điểm số của em này', 'query.academic_performance');
-manager.addDocument('vi', 'Xem kết quả học tập', 'query.academic_performance');
-manager.addDocument('vi', 'Sinh viên này có giỏi không', 'query.academic_performance');
-manager.addDocument('vi', 'xem điểm', 'query.academic_performance');
-manager.addDocument('vi', 'gpa hiện tại', 'query.academic_performance');
-manager.addDocument('vi', 'học lực ra sao', 'query.academic_performance');
-manager.addDocument('vi', 'điểm yếu môn nào', 'query.academic_performance');
+// --- Intent 1: GREETING & WELCOME ---
+const greetings = [
+  'hi', 'hello', 'alo', 'chào', 'chào bot', 'xin chào', 'hello eduguard', 'ê bot', 'bot ơi',
+  'chào bạn', 'xin chào eduguard', 'hi eduguard', 'lô bot', 'chào buổi sáng', 'chào trợ lý',
+  'hello trợ lý học vụ', 'chào dss', 'dss ơi', 'chào robot', 'chào eduguard ai'
+];
+greetings.forEach(text => manager.addDocument('vi', text, 'greeting'));
 
-// Intent: Hỏi về lộ trình / can thiệp (Recommendation)
-manager.addDocument('vi', 'Hãy lập lộ trình can thiệp học tập và kế hoạch ôn tập', 'query.learning_path');
-manager.addDocument('vi', 'Làm sao để sinh viên này cải thiện điểm số', 'query.learning_path');
-manager.addDocument('vi', 'Gợi ý giải pháp phụ đạo', 'query.learning_path');
-manager.addDocument('vi', 'Lộ trình giúp em này qua môn', 'query.learning_path');
-manager.addDocument('vi', 'Có lời khuyên nào cho sinh viên này không', 'query.learning_path');
-manager.addDocument('vi', 'gợi ý cải thiện', 'query.learning_path');
-manager.addDocument('vi', 'lộ trình học', 'query.learning_path');
-manager.addDocument('vi', 'cần học gì', 'query.learning_path');
-manager.addDocument('vi', 'cách cứu sinh viên này', 'query.learning_path');
+// --- Intent 2: CLASS ANALYTICS ---
+const classAnalytics = [
+  'tình hình lớp học', 'phân tích lớp', 'thống kê lớp', 'overview lớp', 'dashboard lớp',
+  'phân tích toàn bộ sinh viên', 'tình hình lớp', 'tình hình toàn lớp', 'tình hình chung của lớp',
+  'sức khỏe học thuật của lớp', 'thống kê toàn lớp học', 'phân tích toàn lớp', 'overview lớp học',
+  'cho tôi xem dashboard lớp', 'thống kê tình trạng lớp học', 'class analytics', 'tổng quan lớp học',
+  'tình hình chung lớp này thế nào', 'cho xem thống kê lớp', 'lớp học thế nào rồi'
+];
+classAnalytics.forEach(text => manager.addDocument('vi', text, 'query.class_analytics'));
 
-// Intent: Hỏi về rủi ro / cảnh báo / Alert
-manager.addDocument('vi', 'Môn nào có nguy cơ trượt học kỳ mới', 'query.risk_warning');
-manager.addDocument('vi', 'Sinh viên này dễ tạch môn nào', 'query.risk_warning');
-manager.addDocument('vi', 'Cảnh báo rủi ro học thuật', 'query.risk_warning');
-manager.addDocument('vi', 'Danh sách môn nguy hiểm', 'query.risk_warning');
-manager.addDocument('vi', 'Sinh viên này có nguy cơ rớt môn không', 'query.risk_warning');
-manager.addDocument('vi', 'ai cần can thiệp gấp', 'query.risk_warning');
-manager.addDocument('vi', 'sinh viên đỏ', 'query.risk_warning');
-manager.addDocument('vi', 'critical students', 'query.risk_warning');
-manager.addDocument('vi', 'đứa nào cứu gấp', 'query.risk_warning');
+// --- Intent 3: HIGH RISK STUDENTS ---
+const highRisk = [
+  'top sinh viên nguy cơ', 'ai dễ rớt nhất', 'sv nào nguy hiểm', 'top risk', 'sinh viên đỏ',
+  'danh sách sinh viên nguy cơ', 'top sinh viên rủi ro', 'ai sắp rớt', 'đứa nào rủi ro nhất',
+  'mấy đứa nguy hiểm nhất', 'đứa nào học tệ nhất', 'sinh viên đỏ nhất', 'danh sách cần cứu gấp',
+  'ai nguy cơ cao nhất', 'critical students', 'top sinh viên yếu', 'đứa nào cứu gấp',
+  'thằng học yếu nhất', 'đứa học yếu nhất', 'ai học yếu nhất', 'cứu gấp', 'ai dễ tạch nhất',
+  'sinh viên nguy hiểm', 'sv đỏ nhất', 'top học lực yếu', 'danh sách đỏ', 'báo động đỏ sinh viên'
+];
+highRisk.forEach(text => manager.addDocument('vi', text, 'query.high_risk_students'));
 
-// Intent: Hỏi về hệ thống, cấu trúc, công thức (Không cần MSSV)
-manager.addDocument('vi', 'bạn có thể làm gì', 'query.system_info');
-manager.addDocument('vi', 'giới thiệu về hệ thống', 'query.system_info');
-manager.addDocument('vi', 'kiến trúc hệ thống là gì', 'query.system_info');
-manager.addDocument('vi', 'công thức pearson', 'query.system_info');
-manager.addDocument('vi', 'chi tiết công thức', 'query.system_info');
-manager.addDocument('vi', 'hệ thống hoạt động thế nào', 'query.system_info');
-manager.addDocument('vi', 'Tổng quan chương trình đào tạo FPT có tổng cộng bao nhiêu môn học?', 'query.system_info');
-manager.addDocument('vi', 'Mô hình phân tích chuỗi môn học tiên quyết hoạt động như thế nào?', 'query.system_info');
-manager.addDocument('vi', 'help', 'query.system_info');
-manager.addDocument('vi', 'giúp đỡ', 'query.system_info');
+// --- Intent 4: STUDENT ANALYSIS ---
+const studentAnalysis = [
+  'phân tích sinh viên đầu tiên', 'đánh giá em đó', 'xem học lực nó', 'sv này sao',
+  'đứa đầu tiên học sao', 'phân tích sinh viên này', 'đánh giá sinh viên này', 'đánh giá em này',
+  'nó học lực ra sao', 'sv đó học hành thế nào', 'đánh giá em đầu tiên', 'phân tích đứa đầu tiên',
+  'phân tích chi tiết kết quả học lực hiện tại của sinh viên này', 'sinh viên này học lực thế nào',
+  'đánh giá điểm số của em này', 'xem kết quả học tập', 'sinh viên này có giỏi không', 'gpa hiện tại của nó',
+  'học lực em này ra sao', 'điểm số em đó thế nào', 'học lực của sinh viên đầu tiên', 'phân tích đứa thứ hai',
+  'sinh viên thứ hai thế nào', 'đánh giá đứa cuối cùng', 'cuối cùng học lực sao'
+];
+studentAnalysis.forEach(text => manager.addDocument('vi', text, 'query.student_analysis'));
 
-// Intent: Thống kê tổng quan lớp học / Top rủi ro
-manager.addDocument('vi', 'thống kê hệ thống', 'query.statistics');
-manager.addDocument('vi', 'Thống kê danh sách sinh viên học lực yếu có nguy cơ cao?', 'query.statistics');
-manager.addDocument('vi', 'thống kê danh sách sinh viên học lực yếu', 'query.statistics');
-manager.addDocument('vi', 'danh sách sinh viên nguy cơ', 'query.statistics');
-manager.addDocument('vi', 'môn nào dễ tạch nhất hệ thống', 'query.statistics');
-manager.addDocument('vi', 'tỉ lệ rớt môn', 'query.statistics');
-manager.addDocument('vi', 'có bao nhiêu sinh viên', 'query.statistics');
-manager.addDocument('vi', 'cho tôi biết top 5 sv học yếu', 'query.statistics');
-manager.addDocument('vi', 'top 5 sv', 'query.statistics');
-manager.addDocument('vi', 'top 10 sv', 'query.statistics');
-manager.addDocument('vi', 'tình hình lớp học như thế nào', 'query.statistics');
-manager.addDocument('vi', 'cho tôi biết sv nào có nguy cơ', 'query.statistics');
-manager.addDocument('vi', 'ai sắp rớt', 'query.statistics');
-manager.addDocument('vi', 'mấy đứa nguy hiểm nhất', 'query.statistics');
-manager.addDocument('vi', 'top sinh viên yếu', 'query.statistics');
-manager.addDocument('vi', 'đứa nào học tệ nhất', 'query.statistics');
-manager.addDocument('vi', 'sinh viên đỏ nhất', 'query.statistics');
-manager.addDocument('vi', 'danh sách cần cứu gấp', 'query.statistics');
-manager.addDocument('vi', 'phân tích toàn lớp', 'query.statistics');
+// --- Intent 5: ATTENDANCE ANALYSIS ---
+const attendance = [
+  'xem chuyên cần', 'attendance', 'nới nghỉ học nhiều không', 'vắng bao nhiêu buổi',
+  'nó nghỉ học nhiều không', 'chuyên cần của nó thế nào', 'tình hình đi học của em đó',
+  'vắng chuyên cần', 'điểm danh của nó', 'nó đi học đủ không', 'chuyên cần em này ra sao',
+  'sinh viên vắng nhiều không', 'tỉ lệ đi học', 'đi học đầy đủ không', 'vắng bao nhiêu buổi học',
+  'attendance của nó thế nào', 'chuyên cần của em đó', 'nó nghỉ học mấy buổi rồi', 'chuyên cần lớp'
+];
+attendance.forEach(text => manager.addDocument('vi', text, 'query.attendance'));
 
-// Intent: Bottleneck Subject
-manager.addDocument('vi', 'Môn nào dễ trượt nhất hệ thống?', 'query.bottleneck');
-manager.addDocument('vi', 'môn nào dễ trượt nhất', 'query.bottleneck');
-manager.addDocument('vi', 'môn nào kéo gpa cả lớp', 'query.bottleneck');
-manager.addDocument('vi', 'môn tiên quyết nào gây fail dây chuyền nhiều nhất', 'query.bottleneck');
-manager.addDocument('vi', 'môn khó nhất', 'query.bottleneck');
-manager.addDocument('vi', 'môn fail nhiều', 'query.bottleneck');
-manager.addDocument('vi', 'môn tiên quyết nguy hiểm', 'query.bottleneck');
-manager.addDocument('vi', 'môn dễ rớt', 'query.bottleneck');
-manager.addDocument('vi', 'môn dễ fail', 'query.bottleneck');
-manager.addDocument('vi', 'môn bottleneck', 'query.bottleneck');
-manager.addDocument('vi', 'môn nào dễ trượt', 'query.bottleneck');
+// --- Intent 6: INTERVENTION PLAN ---
+const intervention = [
+  'lộ trình can thiệp', 'cứu sinh viên này', 'gửi cảnh báo', 'nên làm gì', 'phụ đạo sao',
+  'lộ trình can thiệp học tập và kế hoạch ôn tập', 'làm sao để sinh viên này cải thiện điểm số',
+  'gợi ý giải pháp phụ đạo', 'lộ trình giúp em này qua môn', 'có lời khuyên nào cho sinh viên này không',
+  'gợi ý cải thiện', 'lộ trình học', 'cần học gì', 'cách cứu sinh viên này', 'đề xuất can thiệp',
+  'lộ trình cứu sinh viên', 'can thiệp cho nó', 'cứu đứa này', 'đề xuất phụ đạo cho nó',
+  'kế hoạch cứu sinh viên đỏ', 'cải thiện kết quả học tập thế nào'
+];
+intervention.forEach(text => manager.addDocument('vi', text, 'query.intervention'));
 
-// Intent: Trend
-manager.addDocument('vi', 'xu hướng lớp học', 'query.trend');
-manager.addDocument('vi', 'tình hình tuần này', 'query.trend');
-manager.addDocument('vi', 'gpa đang tăng hay giảm', 'query.trend');
+// --- Intent 7: MESSAGE GENERATION ---
+const genMessage = [
+  'soạn tin nhắn', 'viết tin zalo', 'gửi cảnh báo nhẹ nhàng', 'soạn tin nhắn cảnh báo',
+  'viết tin nhắn nhắc nhở', 'soạn email cảnh báo', 'soạn thư gửi sinh viên', 'soạn tin nhắn zalo cứu sinh viên',
+  'viết tin nhắn can thiệp', 'soạn tin can thiệp', 'mẫu tin nhắn gửi nó', 'soạn tin gửi em này',
+  'viết mail phụ đạo', 'soạn thư cảnh báo chuyên cần', 'mẫu tin nhắn zalo', 'soạn tin nhắn nhắc vắng'
+];
+genMessage.forEach(text => manager.addDocument('vi', text, 'query.generate_message'));
 
-// Intent: Follow-up / Context
-manager.addDocument('vi', 'đứa đầu tiên thì sao', 'query.followup');
-manager.addDocument('vi', 'môn đó là môn gì', 'query.followup');
-manager.addDocument('vi', 'vì sao', 'query.followup');
-manager.addDocument('vi', 'chi tiết hơn', 'query.followup');
-manager.addDocument('vi', 'tiếp tục', 'query.followup');
-manager.addDocument('vi', 'giải thích thêm đi', 'query.followup');
+// --- Intent 8: BOTTLENECK SUBJECTS ---
+const bottleneck = [
+  'môn dễ rớt', 'môn bottleneck', 'môn nào fail nhiều', 'môn nguy hiểm nhất',
+  'môn nào dễ trượt nhất hệ thống?', 'môn nào dễ trượt nhất', 'môn nào kéo gpa cả lớp',
+  'môn tiên quyết nào gây fail dây chuyền nhiều nhất', 'môn khó nhất', 'môn fail nhiều',
+  'môn tiên quyết nguy hiểm', 'môn dễ fail', 'môn bottleneck', 'môn nào dễ trượt',
+  'môn nhiều người fail', 'môn khó qua', 'môn tạch nhiều nhất', 'môn nào tạch nhiều nhất',
+  'nút thắt cổ chai môn học', 'môn tạch nhiều', 'môn rớt nhiều', 'môn khó', 'tỉ lệ rớt môn',
+  'môn dễ tạch nhất hệ thống', 'môn học nguy hiểm', 'môn học rớt nhiều nhất', 'nút thắt cổ chai'
+];
+bottleneck.forEach(text => manager.addDocument('vi', text, 'query.bottleneck'));
 
-// ==========================================
-// 1.5. Dạy AI hiểu các ý định của Sinh viên (STUDENT AI)
+// --- Intent 9: SYLLABUS & CURRICULUM ---
+const syllabus = [
+  'syllabus web206', 'môn tiên quyết là gì', 'ltw học gì', 'fpt có bao nhiêu môn',
+  'đề cương môn học', 'nội dung môn học này là gì', 'đề cương chi tiết môn này',
+  'cho xem đề cương môn', 'môn này học những gì', 'syllabus môn', 'nội dung môn',
+  'chương trình đào tạo gồm những môn gì', 'syllabus com108', 'syllabus web104',
+  'môn tiên quyết của môn này là gì', 'tiên quyết của môn', 'com108 học gì',
+  'tiên quyết của web206', 'syllabus pro101', 'đề cương môn lập trình java'
+];
+syllabus.forEach(text => manager.addDocument('vi', text, 'query.syllabus'));
+
+// --- Intent 10: PREREQUISITE GRAPH CHAIN ---
+const prereqChain = [
+  'chuỗi môn học', 'môn chặn', 'dependency chain', 'nợ môn nào kéo theo gì',
+  'chuỗi môn tiên quyết', 'sơ đồ tiên quyết', 'bản đồ chuỗi môn học', 'chuỗi môn học ảnh hưởng',
+  'dependency graph môn học', 'chuỗi tiên quyết', 'nợ môn này ảnh hưởng môn nào',
+  'môn chặn dây chuyền', 'chuỗi môn học kéo theo', 'môn nào chặn môn nào'
+];
+prereqChain.forEach(text => manager.addDocument('vi', text, 'query.prerequisite_chain'));
+
+// --- Intent 11: RISK EXPLAINABILITY (XAI) ---
+const riskExplain = [
+  'vì sao risk cao', 'giải thích risk', 'tại sao nó đỏ', 'tại sao sinh viên này rủi ro',
+  'giải thích nguyên nhân rủi ro', 'vì sao nguy cơ cao', 'tại sao risk score 92',
+  'nguyên nhân cốt lõi của rủi ro', 'giải thích tại sao nó rủi ro', 'tại sao nó bị đỏ',
+  'lý do rủi ro là gì', 'giải thích chỉ số risk', 'tại sao điểm rủi ro cao',
+  'nguyên nhân rủi ro dây chuyền', 'giải thích vì sao nó sắp rớt', 'vì sao nó đỏ'
+];
+riskExplain.forEach(text => manager.addDocument('vi', text, 'query.xai'));
+
+// --- Intent 12: OUT OF SCOPE DETECTION ---
+const outOfScope = [
+  'hôm nay thời tiết sao', 'mở youtube đi', 'bạn ăn cơm chưa', 'thời tiết tuần này',
+  'hướng dẫn nấu ăn', 'dịch hộ tôi đoạn này', 'giá vàng hôm nay', 'tình hình covid',
+  'tin tức hôm nay', 'mở nhạc trẻ', 'mua đồ ở đâu', 'hát một bài đi', 'kể chuyện hài đi'
+];
+outOfScope.forEach(text => manager.addDocument('vi', text, 'query.out_of_scope'));
+
+// --- Intent 13: EXCEL IMPORT STATUS ---
+const importStatus = [
+  'file import lỗi gì', 'bao nhiêu dòng fail', 'trạng thái import', 'kết quả import file',
+  'lịch sử import', 'import excel thành công bao nhiêu', 'dòng nào bị lỗi import',
+  'lỗi file import excel', 'kết quả nạp dữ liệu', 'import dữ liệu thế nào rồi',
+  'file vừa tải lên lỗi gì không', 'import excel status'
+];
+importStatus.forEach(text => manager.addDocument('vi', text, 'query.import_status'));
+
+// --- Intent 14: GPA SIMULATION ---
+const gpaSimulation = [
+  'nếu final 8 thì sao', 'cần bao nhiêu điểm để qua', 'nếu tôi được 8 final thì gpa bao nhiêu',
+  'tính thử điểm gpa', 'mục tiêu điểm số', 'nếu thi được 9 điểm final', 'nếu điểm asm được 8',
+  'cần bao nhiêu final để qua môn', 'nếu final được 5', 'nếu điểm cuối kỳ được 10',
+  'gpa dự báo nếu final 7'
+];
+gpaSimulation.forEach(text => manager.addDocument('vi', text, 'query.gpa_simulation'));
+
+// --- Intent 15: GENERAL SYSTEM INFO ---
+const systemInfo = [
+  'bạn có thể làm gì', 'giới thiệu về hệ thống', 'kiến trúc hệ thống là gì',
+  'công thức pearson', 'chi tiết công thức', 'hệ thống hoạt động thế nào',
+  'tổng quan chương trình đào tạo FPT có tổng cộng bao nhiêu môn học?',
+  'Mô hình phân tích chuỗi môn học tiên quyết hoạt động như thế nào?',
+  'help', 'giúp đỡ', 'FPT có bao nhiêu môn', 'chương trình đào tạo',
+  'explainable ai', 'kiến trúc DSS'
+];
+systemInfo.forEach(text => manager.addDocument('vi', text, 'query.system_info'));
+
+
+// 2. DẠY AI CHO CHẾ ĐỘ SINH VIÊN (STUDENT MODE)
 // ==========================================
 
 // STUDENT_OVERVIEW_INTENT
@@ -145,28 +203,15 @@ manager.addDocument('vi', 'tôi có tiến bộ không', 'student.progress');
 manager.addDocument('vi', 'so với tuần trước thì sao', 'student.progress');
 manager.addDocument('vi', 'thống kê tuần này', 'student.progress');
 
-// 2. Dạy AI trả lời tĩnh (Answers)
-// ==========================================
-manager.addAnswer('vi', 'greeting', 'Chào bạn! Tôi là EduGuard AI, tôi có thể giúp gì cho bạn?');
-manager.addDocument('vi', 'Xin chào', 'greeting');
-manager.addDocument('vi', 'Hi', 'greeting');
-manager.addDocument('vi', 'Hello', 'greeting');
-manager.addDocument('vi', 'Lô', 'greeting');
-manager.addDocument('vi', 'Chào', 'greeting');
-
-// Intent: Syllabus / Course Content
-manager.addDocument('vi', 'Nội dung môn học này là gì', 'query.syllabus');
-manager.addDocument('vi', 'Đề cương chi tiết môn này', 'query.syllabus');
-manager.addDocument('vi', 'Cho xem đề cương môn', 'query.syllabus');
-manager.addDocument('vi', 'Môn này học những gì', 'query.syllabus');
-manager.addDocument('vi', 'Syllabus môn', 'query.syllabus');
-manager.addDocument('vi', 'nội dung môn', 'query.syllabus');
-
 // STUDENT_SYLLABUS_INTENT
 manager.addDocument('vi', 'môn này tôi sẽ học gì', 'student.syllabus');
 manager.addDocument('vi', 'nội dung khóa học', 'student.syllabus');
 manager.addDocument('vi', 'đề cương của môn', 'student.syllabus');
 
+
+// ==========================================
+// 3. Huấn luyện (Training Execution)
+// ==========================================
 (async () => {
   console.log("🚀 Đang tiến hành huấn luyện (Training) Mô hình NLP...");
   await manager.train();

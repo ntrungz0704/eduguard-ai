@@ -98,17 +98,17 @@ const DataImport = () => {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
             <DatabaseZap className="text-blue-400" /> Nhập liệu điểm (Bulk Import)
           </h1>
-          <p className="text-slate-400 mt-1">Upload file Excel để cập nhật điểm hàng loạt cho sinh viên.</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">Upload file Excel để cập nhật điểm hàng loạt cho sinh viên.</p>
         </div>
       </div>
 
       {/* STEP 1: Upload */}
       {!previewData && !loading && (
         <div 
-          className={`glass-panel p-12 border-2 border-dashed rounded-3xl flex flex-col items-center justify-center transition-all ${dragActive ? 'border-blue-500 bg-blue-500/5' : 'border-white/10 hover:border-white/20'}`}
+          className={`glass-panel p-12 border-2 border-dashed rounded-3xl flex flex-col items-center justify-center transition-all ${dragActive ? 'border-blue-500 bg-blue-500/5' : 'border-slate-200 dark:border-white/10 hover:border-white/20'}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
@@ -117,12 +117,12 @@ const DataImport = () => {
           <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
             <UploadCloud size={40} className="text-blue-400" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">Kéo thả file Excel vào đây</h3>
-          <p className="text-slate-400 text-sm mb-6 text-center max-w-md">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Kéo thả file Excel vào đây</h3>
+          <p className="text-slate-700 dark:text-slate-400 text-sm mb-6 text-center max-w-md font-semibold">
             Hỗ trợ định dạng .xlsx, .xls. Cấu trúc file cần có các cột: <br/>
-            <code className="text-blue-300 bg-blue-900/30 px-2 py-0.5 rounded mx-1 mt-2 inline-block">mssv</code> 
-            <code className="text-blue-300 bg-blue-900/30 px-2 py-0.5 rounded mx-1 mt-2 inline-block">course</code>
-            <code className="text-blue-300 bg-blue-900/30 px-2 py-0.5 rounded mx-1 mt-2 inline-block">final</code> (hoặc quiz, asm, final)
+            <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">mssv</code> 
+            <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">course</code>
+            <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">final</code> (hoặc quiz, asm, final)
           </p>
           
           <input
@@ -134,7 +134,7 @@ const DataImport = () => {
           />
           <button 
             onClick={() => fileInputRef.current?.click()}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-500/20"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white font-medium rounded-xl transition-colors shadow-lg shadow-sm dark:shadow-blue-500/20"
           >
             Chọn file từ máy tính
           </button>
@@ -145,27 +145,27 @@ const DataImport = () => {
       {loading && (
         <div className="glass-panel p-12 rounded-3xl flex flex-col items-center justify-center min-h-[300px]">
           <Loader2 size={48} className="text-blue-500 animate-spin mb-4" />
-          <h3 className="text-lg font-bold text-white">Đang xử lý dữ liệu...</h3>
-          <p className="text-slate-400">Hệ thống đang parse và validate file Excel của bạn.</p>
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Đang xử lý dữ liệu...</h3>
+          <p className="text-slate-600 dark:text-slate-400">Hệ thống đang parse và validate file Excel của bạn.</p>
         </div>
       )}
 
       {/* STEP 2: Preview & Validate */}
       {previewData && publishStatus !== 'success' && (
         <div className="space-y-6">
-          <div className="glass-panel p-6 rounded-3xl grid grid-cols-1 md:grid-cols-4 gap-4 border border-white/5">
+          <div className="glass-panel p-6 rounded-3xl grid grid-cols-1 md:grid-cols-4 gap-4 border border-slate-200 dark:border-white/5">
             <div className="bg-white/5 p-4 rounded-2xl flex items-center gap-4">
               <FileSpreadsheet className="text-blue-400" size={32} />
               <div>
-                <p className="text-sm text-slate-400">File</p>
-                <p className="font-bold text-white truncate max-w-[150px]">{file?.name}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">File</p>
+                <p className="font-bold text-slate-900 dark:text-white truncate max-w-[150px]">{file?.name}</p>
               </div>
             </div>
             <div className="bg-white/5 p-4 rounded-2xl flex items-center gap-4">
-              <DatabaseZap className="text-white" size={32} />
+              <DatabaseZap className="text-slate-900 dark:text-white" size={32} />
               <div>
-                <p className="text-sm text-slate-400">Tổng số dòng</p>
-                <p className="font-bold text-white text-xl">{previewData.totalRows}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Tổng số dòng</p>
+                <p className="font-bold text-slate-900 dark:text-white text-xl">{previewData.totalRows}</p>
               </div>
             </div>
             <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-2xl flex items-center gap-4">
@@ -178,15 +178,15 @@ const DataImport = () => {
             <div className={`p-4 rounded-2xl flex items-center gap-4 ${previewData.invalidRows > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-white/5'}`}>
               <AlertCircle className={previewData.invalidRows > 0 ? "text-red-400" : "text-slate-500"} size={32} />
               <div>
-                <p className={`text-sm ${previewData.invalidRows > 0 ? 'text-red-400' : 'text-slate-400'}`}>Lỗi Validation</p>
-                <p className={`font-bold text-xl ${previewData.invalidRows > 0 ? 'text-red-400' : 'text-white'}`}>{previewData.invalidRows}</p>
+                <p className={`text-sm ${previewData.invalidRows > 0 ? 'text-red-400' : 'text-slate-600 dark:text-slate-400'}`}>Lỗi Validation</p>
+                <p className={`font-bold text-xl ${previewData.invalidRows > 0 ? 'text-red-400' : 'text-slate-900 dark:text-white'}`}>{previewData.invalidRows}</p>
               </div>
             </div>
           </div>
 
-          <div className="glass-panel rounded-3xl overflow-hidden border border-white/10 flex flex-col h-[500px]">
-            <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
-              <h3 className="font-bold text-white">Data Preview (Draft)</h3>
+          <div className="glass-panel rounded-3xl overflow-hidden border border-slate-200 dark:border-white/10 flex flex-col h-[500px]">
+            <div className="p-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between bg-white/5">
+              <h3 className="font-bold text-slate-900 dark:text-white">Data Preview (Draft)</h3>
               {previewData.hasErrors && (
                 <span className="text-sm text-red-400 bg-red-500/10 px-3 py-1 rounded-full font-medium flex items-center gap-2">
                   <AlertCircle size={14} /> Có lỗi validation. Chỉ các dòng hợp lệ mới được import.
@@ -195,28 +195,28 @@ const DataImport = () => {
             </div>
             <div className="overflow-auto flex-1 p-0">
               <table className="w-full text-left border-collapse text-sm">
-                <thead className="bg-black/40 sticky top-0 backdrop-blur-md z-10">
+                <thead className="bg-slate-200 dark:bg-black/40 sticky top-0 backdrop-blur-md z-10">
                   <tr>
-                    <th className="p-4 text-slate-400 font-medium border-b border-white/5">Row</th>
-                    <th className="p-4 text-slate-400 font-medium border-b border-white/5">MSSV</th>
-                    <th className="p-4 text-slate-400 font-medium border-b border-white/5">Môn học</th>
-                    <th className="p-4 text-slate-400 font-medium border-b border-white/5">Điểm tổng kết</th>
-                    <th className="p-4 text-slate-400 font-medium border-b border-white/5">Học kỳ</th>
-                    <th className="p-4 text-slate-400 font-medium border-b border-white/5">Trạng thái</th>
+                    <th className="p-4 text-slate-600 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-white/5">Row</th>
+                    <th className="p-4 text-slate-600 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-white/5">MSSV</th>
+                    <th className="p-4 text-slate-600 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-white/5">Môn học</th>
+                    <th className="p-4 text-slate-600 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-white/5">Điểm tổng kết</th>
+                    <th className="p-4 text-slate-600 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-white/5">Học kỳ</th>
+                    <th className="p-4 text-slate-600 dark:text-slate-400 font-medium border-b border-slate-200 dark:border-white/5">Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {previewData.data.map((row, idx) => (
                     <tr key={idx} className={`hover:bg-white/5 transition-colors ${!row.isValid ? 'bg-red-500/5' : ''}`}>
                       <td className="p-4 text-slate-500">{row._row}</td>
-                      <td className="p-4 font-medium text-slate-200">{row.mssv}</td>
-                      <td className="p-4 text-slate-300">{row.course}</td>
-                      <td className="p-4 text-slate-200">
+                      <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{row.mssv}</td>
+                      <td className="p-4 text-slate-700 dark:text-slate-300">{row.course}</td>
+                      <td className="p-4 text-slate-800 dark:text-slate-200">
                         {row.score !== null ? (
                           <span className={row.score < 5 ? 'text-red-400 font-bold' : 'text-green-400 font-bold'}>{row.score}</span>
                         ) : '-'}
                       </td>
-                      <td className="p-4 text-slate-400">{row.semester}</td>
+                      <td className="p-4 text-slate-600 dark:text-slate-400">{row.semester}</td>
                       <td className="p-4">
                         {row.isValid ? (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-green-500/10 text-green-400 text-xs font-medium">
@@ -242,7 +242,7 @@ const DataImport = () => {
           <div className="flex justify-end gap-4 mt-6">
             <button 
               onClick={resetFlow}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-xl transition-colors"
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-slate-900 dark:text-white font-medium rounded-xl transition-colors"
               disabled={publishStatus === 'loading'}
             >
               Hủy / Upload lại
@@ -250,7 +250,7 @@ const DataImport = () => {
             <button 
               onClick={handlePublish}
               disabled={previewData.validRows === 0 || publishStatus === 'loading'}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-purple-600 hover:dark:from-blue-500 hover:dark:to-purple-500 text-slate-900 dark:text-white font-bold rounded-xl transition-all shadow-lg shadow-sm dark:shadow-blue-500/25 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {publishStatus === 'loading' ? (
                 <><Loader2 size={18} className="animate-spin" /> Đang import...</>
@@ -269,22 +269,22 @@ const DataImport = () => {
             <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping"></div>
             <CheckCircle2 size={48} className="text-green-400 relative z-10" />
           </div>
-          <h2 className="text-3xl font-bold text-white mb-3">Import Thành Công!</h2>
-          <p className="text-slate-400 text-lg mb-2">Đã lưu {previewData?.validRows} bản ghi vào hệ thống.</p>
-          <p className="text-blue-400 text-sm bg-blue-500/10 px-4 py-2 rounded-lg inline-flex items-center gap-2 mb-8 border border-blue-500/20">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Import Thành Công!</h2>
+          <p className="text-slate-600 dark:text-slate-400 text-lg mb-2">Đã lưu {previewData?.validRows} bản ghi vào hệ thống.</p>
+          <p className="text-blue-400 text-sm bg-blue-500/10 px-4 py-2 rounded-lg inline-flex items-center gap-2 mb-8 border border-blue-200 dark:border-blue-500/20">
             <Loader2 size={14} className="animate-spin" /> AI đang phân tích dữ liệu và cập nhật Risk Map...
           </p>
           
           <div className="flex gap-4">
             <button 
               onClick={resetFlow}
-              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-medium rounded-xl transition-colors"
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 text-slate-900 dark:text-white font-medium rounded-xl transition-colors"
             >
               Import Thêm
             </button>
             <button 
               onClick={() => navigate('/')}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-500/20"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white font-medium rounded-xl transition-colors shadow-lg shadow-sm dark:shadow-blue-500/20"
             >
               Về Trang Chủ
             </button>

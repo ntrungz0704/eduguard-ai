@@ -6,8 +6,12 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 const traceIdMiddleware = require('./middlewares/tracing');
 const errorHandler = require('./middlewares/errors');
+const syllabusLoader = require('./modules/data/syllabusLoader');
 
 const app = express();
+
+// Initialize Syllabus Data
+syllabusLoader.init();
 
 // Apply Rate Limiting
 const apiLimiter = rateLimit({

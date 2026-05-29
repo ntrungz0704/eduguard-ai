@@ -201,7 +201,21 @@ async function executeDecision({ intent, activeMssv, entities, session }) {
 
     case 'CLASS_ANALYTICS_INTENT': {
       const res = await handleClassAnalytics();
+      res.type = 'CLASS_ANALYTICS';
       res.topN = entities.topN;
+      return res;
+    }
+
+    case 'HIGH_RISK_STUDENTS_INTENT': {
+      const res = await handleClassAnalytics();
+      res.type = 'HIGH_RISK_STUDENTS';
+      res.topN = entities.topN;
+      return res;
+    }
+
+    case 'BOTTLENECK_SUBJECTS_INTENT': {
+      const res = await handleClassAnalytics();
+      res.type = 'BOTTLENECK_SUBJECTS';
       return res;
     }
 
@@ -232,6 +246,37 @@ async function executeDecision({ intent, activeMssv, entities, session }) {
     case 'SYLLABUS_INTENT': {
       const courseId = entities.courseId || session.lastSubject || null;
       return { type: 'SYLLABUS_INFO', courseId, activeMssv };
+    }
+
+    case 'GENERATE_MESSAGE_INTENT': {
+      const mssv = activeMssv || entities.mssv;
+      let studentData = null;
+      if (mssv) {
+        studentData = await fetchStudent(mssv);
+      }
+      return { type: 'GENERATE_MESSAGE', student: studentData, activeMssv };
+    }
+
+    case 'PREREQUISITE_CHAIN_INTENT': {
+      const courseId = entities.courseId || session.lastSubject || 'PRO101';
+      return { type: 'PREREQUISITE_CHAIN', courseId, activeMssv };
+    }
+
+    case 'OUT_OF_SCOPE_INTENT':
+      return { type: 'OUT_OF_SCOPE' };
+
+    case 'IMPORT_STATUS_INTENT': {
+      const status = global.latestImportStatus || null;
+      return { type: 'IMPORT_STATUS', status };
+    }
+
+    case 'GPA_SIMULATION_INTENT': {
+      const mssv = activeMssv || entities.mssv;
+      let studentData = null;
+      if (mssv) {
+        studentData = await fetchStudent(mssv);
+      }
+      return { type: 'GPA_SIMULATION', student: studentData, activeMssv };
     }
 
     case 'FALLBACK_INTENT':

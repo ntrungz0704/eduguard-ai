@@ -152,7 +152,7 @@ export default function StudentProfile() {
 
   if (loading) return (
     <div className="space-y-6 animate-pulse p-8">
-      <div className="glass-card p-6 rounded-3xl h-48 bg-white/5 border border-white/5 flex flex-col gap-4">
+      <div className="glass-card p-6 rounded-3xl h-48 bg-white/5 border border-slate-200 dark:border-white/5 flex flex-col gap-4">
         <div className="flex gap-6 items-center">
           <div className="w-24 h-24 rounded-full bg-white/10"></div>
           <div className="space-y-3 flex-1">
@@ -166,15 +166,15 @@ export default function StudentProfile() {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="glass-card h-[400px] rounded-3xl bg-white/5 border border-white/5"></div>
-        <div className="glass-card h-[400px] lg:col-span-2 rounded-3xl bg-white/5 border border-white/5"></div>
+        <div className="glass-card h-[400px] rounded-3xl bg-white/5 border border-slate-200 dark:border-white/5"></div>
+        <div className="glass-card h-[400px] lg:col-span-2 rounded-3xl bg-white/5 border border-slate-200 dark:border-white/5"></div>
       </div>
     </div>
   );
 
   if (error) {
     return (
-      <div className="glass-card p-8 rounded-3xl border border-rose-500/20 bg-rose-500/5 text-rose-300 max-w-2xl mx-auto mt-12">
+      <div className="glass-card p-8 rounded-3xl border border-rose-200 dark:border-rose-500/20 bg-rose-500/5 text-rose-300 max-w-2xl mx-auto mt-12">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <AlertTriangle className="text-rose-500" /> Lỗi Hồ Sơ
         </h3>
@@ -241,30 +241,30 @@ export default function StudentProfile() {
     <div className="space-y-8 animate-fade-in pb-16">
       {/* Back navigation */}
       <div className="flex items-center justify-between">
-        <button onClick={() => navigate('/predict')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-white/5 transition-all">
+        <button onClick={() => navigate('/predict')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all">
           <ArrowLeft size={18} /> Quay lại danh sách
         </button>
-        <span className="px-3.5 py-1.5 text-xs font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full flex items-center gap-1.5 animate-pulse">
+        <span className="px-3.5 py-1.5 text-xs font-black bg-blue-500/10 text-blue-400 border border-blue-200 dark:border-blue-500/20 rounded-full flex items-center gap-1.5 animate-pulse">
           <Brain size={14}/> Hệ thống đang phân tích
         </span>
       </div>
 
       {/* Main Student Header Card */}
-      <div className="glass-card p-8 rounded-3xl relative overflow-hidden bg-gradient-to-r from-slate-900/60 to-slate-800/60 border border-white/10">
+      <div className="glass-card p-8 rounded-3xl relative overflow-hidden bg-white dark:bg-gradient-to-r dark:from-slate-900/60 dark:to-slate-800/60 border border-slate-200 dark:border-white/10">
         <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4"></div>
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="flex items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-2xl shadow-xl shadow-blue-500/20 border border-white/10">
+            <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gradient-to-tr dark:from-blue-500 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white font-bold text-2xl shadow-xl shadow-sm dark:shadow-blue-500/20 border border-slate-200 dark:border-white/10">
               {student.name ? student.name.split(' ').pop().substring(0, 2).toUpperCase() : 'SV'}
             </div>
             <div>
-              <h2 className="text-3xl font-black text-white tracking-tight">{student.name}</h2>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-slate-400 mt-1.5 font-medium">
-                <span>MSSV: <strong className="text-slate-200">{student.mssv}</strong></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-700 hidden sm:inline-block"></span>
-                <span>Lớp: <strong className="text-slate-200">{student.classCode || 'WD18301'}</strong></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-700 hidden sm:inline-block"></span>
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{student.name}</h2>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-slate-600 dark:text-slate-400 mt-1.5 font-medium">
+                <span>MSSV: <strong className="text-slate-800 dark:text-slate-200">{student.mssv}</strong></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
+                <span>Lớp: <strong className="text-slate-800 dark:text-slate-200">{student.classCode || 'WD18301'}</strong></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
                 <span>Chuyên ngành: <strong className="text-blue-400">Thiết kế & Lập trình Web</strong></span>
               </div>
             </div>
@@ -272,20 +272,20 @@ export default function StudentProfile() {
           
           {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center min-w-[100px]">
-              <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">GPA Hệ 10</span>
+            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">GPA Hệ 10</span>
               <span className="text-2xl font-black text-emerald-400 text-glow-green">{fptStats.gpa10}</span>
             </div>
-            <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center min-w-[100px]">
-              <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">GPA Hệ 4</span>
+            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">GPA Hệ 4</span>
               <span className="text-2xl font-black text-blue-400 text-glow-blue">{fptStats.gpa4}</span>
             </div>
-            <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center min-w-[100px]">
-              <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Tích Lũy Tín Chỉ</span>
+            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Tích Lũy Tín Chỉ</span>
               <span className="text-2xl font-black text-purple-400">{fptStats.totalEarnedCredits} tín</span>
             </div>
-            <div className="bg-black/20 p-4 rounded-2xl border border-white/5 text-center min-w-[100px]">
-              <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Môn Trượt</span>
+            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Môn Trượt</span>
               <span className="text-2xl font-black text-rose-500">{failedScores.length}</span>
             </div>
           </div>
@@ -298,8 +298,8 @@ export default function StudentProfile() {
           
           {/* Chart Section */}
           {chartData.length > 0 && (
-            <div className="glass-card p-6 rounded-3xl border border-white/5">
-              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+            <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                 <TrendingUp size={20} className="text-blue-400" /> Biểu đồ Tiến độ Điểm số Môn học
               </h3>
               <div className="h-64 w-full">
@@ -324,14 +324,14 @@ export default function StudentProfile() {
           )}
 
           {/* Academic Transcripts */}
-          <div className="glass-card p-6 rounded-3xl border border-white/5">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
               <BookOpen size={20} className="text-purple-400"/> Lịch sử Điểm số Học thuật Chi Tiết
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="text-slate-400 text-xs uppercase tracking-wider border-b border-white/10">
+                  <tr className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-white/10">
                     <th className="p-4 font-semibold">Mã môn</th>
                     <th className="p-4 font-semibold">Tên Môn học</th>
                     <th className="p-4 font-semibold">Tín chỉ</th>
@@ -344,33 +344,33 @@ export default function StudentProfile() {
                 </thead>
                 <tbody className="text-sm">
                   {scoreEntries.map((score, i) => (
-                    <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="p-4 font-bold text-slate-300">{score.courseId}</td>
-                      <td className="p-4 text-white font-medium">{score.course?.name || score.courseId}</td>
-                      <td className="p-4 text-slate-400">{getCourseCredits(score.courseId)} TC</td>
+                    <tr key={i} className="border-b border-slate-200 dark:border-white/5 hover:bg-white/5 transition-colors">
+                      <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{score.courseId}</td>
+                      <td className="p-4 text-slate-900 dark:text-white font-medium">{score.course?.name || score.courseId}</td>
+                      <td className="p-4 text-slate-600 dark:text-slate-400">{getCourseCredits(score.courseId)} TC</td>
                       <td className="p-4 text-slate-500">{score.semester || 'Summer 2025'}</td>
                       <td className="p-4">
                         <span className={`text-base font-black ${score.value >= 8 ? 'text-emerald-400' : score.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
                           {score.value !== null ? score.value.toFixed(1) : '—'}
                         </span>
                       </td>
-                      <td className="p-4 text-slate-300 font-bold">
+                      <td className="p-4 text-slate-700 dark:text-slate-300 font-bold">
                         {score.value !== null ? get40Scale(score.value).toFixed(2) : '—'}
                       </td>
                       <td className="p-4">
                         {score.value !== null ? (
-                          <span className="bg-white/5 border border-white/10 rounded px-2 py-0.5 inline-block text-xs font-black text-white">
+                          <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block text-xs font-black text-slate-900 dark:text-white">
                             {getLetterGrade(score.value)}
                           </span>
                         ) : '—'}
                       </td>
                       <td className="p-4">
                         {score.status === 'PASSED' ? (
-                          <span className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><CheckCircle2 size={12}/> Qua môn</span>
+                          <span className="bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><CheckCircle2 size={12}/> Qua môn</span>
                         ) : score.status === 'FAILED' ? (
-                          <span className="bg-rose-500/10 border border-rose-500/20 text-rose-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><XCircle size={12}/> Rớt môn</span>
+                          <span className="bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><XCircle size={12}/> Rớt môn</span>
                         ) : (
-                          <span className="bg-amber-500/10 border border-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><Clock size={12}/> Đang học</span>
+                          <span className="bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><Clock size={12}/> Đang học</span>
                         )}
                       </td>
                     </tr>
@@ -386,23 +386,23 @@ export default function StudentProfile() {
           
           {/* AI Forecast / XAI Panel */}
           {student.predictions && student.predictions.length > 0 && (
-            <div className="glass-card p-6 rounded-3xl border border-blue-500/20 bg-gradient-to-b from-blue-950/20 to-slate-900/40 relative overflow-hidden">
+            <div className="glass-card p-6 rounded-3xl border border-blue-200 dark:border-blue-500/20 bg-white dark:bg-gradient-to-b dark:from-blue-950/20 dark:to-slate-900/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
-              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                 <Brain className="text-blue-400" size={20} /> Hệ thống Giải thích (XAI)
               </h3>
               <div className="space-y-4">
                 {student.predictions.map((p, i) => {
                   const isHigh = p.risk === 'HIGH';
                   return (
-                    <div key={i} className={`p-4 rounded-xl border bg-black/40 ${isHigh ? 'border-rose-500/30' : 'border-white/10'}`}>
+                    <div key={i} className={`p-4 rounded-xl border bg-slate-200 dark:bg-black/40 ${isHigh ? 'border-rose-200 dark:border-rose-500/30' : 'border-slate-200 dark:border-white/10'}`}>
                       <div className="flex justify-between items-center mb-2">
-                        <span className="font-bold text-slate-200">{p.courseId}</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200">{p.courseId}</span>
                         <div className="flex items-center gap-2">
                            <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
-                            p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-500/30 text-rose-400' :
-                            p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-500/30 text-amber-400' :
-                            'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                            p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-200 dark:border-rose-500/30 text-rose-400' :
+                            p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-200 dark:border-amber-500/30 text-amber-400' :
+                            'bg-emerald-500/20 border-emerald-200 dark:border-emerald-500/30 text-emerald-400'
                           }`}>
                             {p.risk}
                           </span>
@@ -412,16 +412,16 @@ export default function StudentProfile() {
                       
                       {p.confidence && (
                         <div className="mb-2">
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-800/50 border-slate-700 text-blue-300">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-blue-300">
                             ĐỘ TIN CẬY: {(p.confidence * 100).toFixed(0)}%
                           </span>
                         </div>
                       )}
 
                       {p.explanation && (
-                        <div className="mt-2 pt-2 border-t border-white/5 space-y-1">
+                        <div className="mt-2 pt-2 border-t border-slate-200 dark:border-white/5 space-y-1">
                           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Giải thích nguyên nhân:</span>
-                          <p className="text-xs text-slate-300 leading-relaxed">
+                          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                             {p.explanation}
                           </p>
                         </div>
@@ -435,9 +435,9 @@ export default function StudentProfile() {
 
           {/* Rule-based Recommendation Layer */}
           {student.predictions && student.predictions.some(p => p.risk === 'CRITICAL' || p.risk === 'HIGH') && (
-            <div className="glass-card p-6 rounded-3xl border border-amber-500/20 bg-gradient-to-b from-amber-950/20 to-slate-900/40 relative overflow-hidden">
+            <div className="glass-card p-6 rounded-3xl border border-amber-200 dark:border-amber-500/20 bg-white dark:bg-gradient-to-b dark:from-amber-950/20 dark:to-slate-900/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
-              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2 relative z-10">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2 relative z-10">
                 <HeartHandshake className="text-amber-400" size={20} /> Hệ thống Đề Xuất Can Thiệp
               </h3>
               
@@ -461,13 +461,13 @@ export default function StudentProfile() {
                   }
 
                   return (
-                    <div key={i} className="p-4 bg-black/40 rounded-xl border border-white/5 hover:border-amber-500/30 transition-colors">
+                    <div key={i} className="p-4 bg-slate-200 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/5 hover:border-amber-500/30 transition-colors">
                       <div className="text-xs font-bold text-amber-400 mb-2 uppercase tracking-wider">
                         Đối với môn {p.courseId} ({p.risk})
                       </div>
                       <ul className="space-y-2">
                         {recommendations.map((rec, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
+                          <li key={idx} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
                             <span className="text-amber-500 mt-0.5">•</span>
                             <span>{rec}</span>
                           </li>
@@ -479,7 +479,7 @@ export default function StudentProfile() {
                           setSelectedCourse(p.courseId);
                           setInterventionNote(recommendations.join('\n'));
                         }}
-                        className="mt-3 px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-bold rounded-lg transition-colors border border-amber-500/20"
+                        className="mt-3 px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-bold rounded-lg transition-colors border border-amber-200 dark:border-amber-500/20"
                       >
                         Áp dụng đề xuất này
                       </button>
@@ -491,25 +491,25 @@ export default function StudentProfile() {
           )}
 
           {/* Action: Send Warning / Intervention Flag */}
-          <div className="glass-card p-6 rounded-3xl border border-rose-500/20 bg-gradient-to-b from-rose-950/20 to-slate-900/40 relative overflow-hidden">
+          <div className="glass-card p-6 rounded-3xl border border-rose-200 dark:border-rose-500/20 bg-white dark:bg-gradient-to-b dark:from-rose-950/20 dark:to-slate-900/40 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl"></div>
-            <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
               <ShieldAlert className="text-rose-400" size={20} /> Can Thiệp Học Vụ Chủ Động
             </h3>
-            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
               Phát hiện môn học nguy cơ trượt cao? Đánh dấu can thiệp sư phạm để gửi cảnh báo trực tiếp tới Cố vấn học tập (CVHT).
             </p>
             
             <form onSubmit={handleFlagIntervention} className="space-y-4 relative z-10">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">Chọn môn học cần can thiệp</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Chọn môn học cần can thiệp</label>
                 <select 
                   value={selectedCourse}
                   onChange={e => setSelectedCourse(e.target.value)}
-                  className="w-full p-3.5 bg-black/40 border border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-white text-sm transition-colors"
+                  className="w-full p-3.5 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-slate-900 dark:text-white text-sm transition-colors"
                 >
                   {scoreEntries.map(s => (
-                    <option key={s.courseId} value={s.courseId} className="bg-slate-900">
+                    <option key={s.courseId} value={s.courseId} className="bg-white dark:bg-slate-900">
                       {s.courseId} — {s.course?.name || s.courseId}
                     </option>
                   ))}
@@ -517,18 +517,18 @@ export default function StudentProfile() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">Ghi chú hành động sư phạm</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Ghi chú hành động sư phạm</label>
                 <textarea 
                   value={interventionNote}
                   onChange={e => setInterventionNote(e.target.value)}
                   placeholder="Ghi chú can thiệp (ví dụ: Kèm 1-1, gọi nhắc nhở nộp ASS1 gấp, đề xuất lớp bổ trợ...)"
                   rows={4}
-                  className="w-full p-3.5 bg-black/40 border border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-white text-sm transition-colors placeholder-slate-600 resize-none"
+                  className="w-full p-3.5 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-slate-900 dark:text-white text-sm transition-colors placeholder-slate-600 resize-none"
                 />
               </div>
 
               {successMsg && (
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold">
+                <div className="p-3 bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold">
                   {successMsg}
                 </div>
               )}
@@ -536,7 +536,7 @@ export default function StudentProfile() {
               <button 
                 type="submit" 
                 disabled={submittingFlag || !selectedCourse}
-                className="w-full bg-gradient-to-r from-rose-600 to-orange-600 hover:from-rose-500 hover:to-orange-500 text-white font-bold p-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:scale-[1.02] flex items-center justify-center gap-2"
+                className="w-full bg-white dark:bg-gradient-to-r dark:from-rose-600 dark:to-orange-600 hover:dark:from-rose-500 hover:dark:to-orange-500 text-slate-900 dark:text-white font-bold p-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.2)] hover:scale-[1.02] flex items-center justify-center gap-2"
               >
                 {submittingFlag ? 'Đang gửi thông báo...' : <><HeartHandshake size={16}/> Đưa vào diện Chú ý</>}
               </button>
@@ -544,9 +544,9 @@ export default function StudentProfile() {
           </div>
 
           {/* Intervention Logs History */}
-          <div className="glass-card p-6 rounded-3xl border border-white/5">
-            <h3 className="text-base font-bold text-white mb-4 flex items-center gap-2">
-              <Clock size={16} className="text-slate-400"/> Nhật ký Can Thiệp ({student.interventions?.length || 0})
+          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <Clock size={16} className="text-slate-600 dark:text-slate-400"/> Nhật ký Can Thiệp ({student.interventions?.length || 0})
             </h3>
             
             <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
@@ -554,15 +554,15 @@ export default function StudentProfile() {
                 <p className="text-xs text-slate-500 text-center py-6">Chưa có lịch sử can thiệp cho sinh viên này.</p>
               ) : (
                 student.interventions.map((int, i) => (
-                  <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+                  <div key={i} className="bg-white/5 p-4 rounded-xl border border-slate-200 dark:border-white/5 hover:border-white/10 transition-colors">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-xs font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-md">{int.courseId}</span>
                       <span className="text-[10px] text-slate-500 font-semibold">{new Date(int.createdAt).toLocaleDateString()}</span>
                     </div>
-                    <p className="text-xs text-slate-300 leading-relaxed mb-3">"{int.action || int.note}"</p>
+                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mb-3">"{int.action || int.note}"</p>
                     <div className="flex justify-between items-center text-[10px] text-slate-500">
-                      <span>Người can thiệp: <strong className="text-slate-400">{int.advisor?.name || 'Cố vấn học vụ'}</strong></span>
-                      <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md uppercase font-bold text-[8px]">{int.status}</span>
+                      <span>Người can thiệp: <strong className="text-slate-600 dark:text-slate-400">{int.advisor?.name || 'Cố vấn học vụ'}</strong></span>
+                      <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-200 dark:border-amber-500/20 rounded-md uppercase font-bold text-[8px]">{int.status}</span>
                     </div>
                   </div>
                 ))

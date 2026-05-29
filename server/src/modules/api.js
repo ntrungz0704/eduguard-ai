@@ -1314,6 +1314,33 @@ router.post('/chat', async (req, res) => {
     req.body.nlpScore = nlpScore;
     req.body.nlpClassifications = nlpClassifications;
 
+    // Ngưỡng an toàn tối thiểu cho môi trường production (0.70)
+    const PRODUCTION_CONFIDENCE_THRESHOLD = 0.70;
+    
+    // Nếu nlp dự đoán ra intent nhưng score < 0.70, chuyển hướng phản hồi ngay lập tức
+    if (nlpIntent !== 'None' && nlpScore < PRODUCTION_CONFIDENCE_THRESHOLD) {
+      console.warn(`[NLP_GUARD] Chặn Intent "${nlpIntent}" trong môi trường Production do độ tin cậy thấp (${nlpScore.toFixed(2)} < ${PRODUCTION_CONFIDENCE_THRESHOLD})`);
+      return res.json({
+        reply: `Tôi chưa xác định rõ yêu cầu học vụ hiện tại (Độ tin cậy của mô hình: ${(nlpScore * 100).toFixed(0)}%).
+
+Để hệ thống EduGuard AI phân tích chính xác nhất, thầy/cô có muốn:
+• **Phân tích sinh viên**: *"Phân tích sinh viên PS47261"* hoặc *"Đánh giá em đầu tiên"*
+• **Xem chuyên cần**: *"Chuyên cần của sinh viên"*
+• **Phân tích môn bottleneck**: *"Môn nào dễ rớt"*
+• **Xem risk chain**: *"Rủi ro học thuật"*`,
+        chartData: null,
+        actions: [
+          "Thống kê toàn lớp",
+          "Top sinh viên rủi ro",
+          "Môn dễ rớt"
+        ],
+        intent: 'FALLBACK_INTENT',
+        activeMssv: null,
+        sessionId: resolvedSessionId,
+        riskData: null
+      });
+    }
+
     // Delegate to the NLP Orchestrator pipeline
     const result = await orchestrateChatbot(req, resolvedSessionId);
 

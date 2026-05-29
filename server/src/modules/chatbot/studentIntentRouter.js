@@ -25,7 +25,15 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
     intent = 'STUDENT_GPA_SIMULATION_INTENT';
   } else if (nlpIntent === 'student.progress') {
     intent = 'STUDENT_PROGRESS_INTENT';
-  } 
+  } else if (nlpIntent === 'syllabus.course.info') {
+    intent = 'STUDENT_SYLLABUS_INFO_INTENT';
+  } else if (nlpIntent === 'syllabus.prerequisite') {
+    intent = 'STUDENT_SYLLABUS_PREREQ_INTENT';
+  } else if (nlpIntent === 'intervention.reason') {
+    intent = 'STUDENT_INTERVENTION_REASON_INTENT';
+  } else if (nlpIntent === 'student.roadmap') {
+    intent = 'STUDENT_ROADMAP_INTENT';
+  }
 
   // Heuristics fallback if NLP failed
   if (intent === 'STUDENT_FALLBACK_INTENT') {
@@ -37,6 +45,12 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
       intent = 'STUDENT_RECOMMENDATION_INTENT';
     } else if (msgLower.includes('stress') || msgLower.includes('ngu') || msgLower.includes('cứu')) {
       intent = 'STUDENT_MOTIVATION_INTENT';
+    } else if (msgLower.includes('môn học') || msgLower.includes('đề cương') || msgLower.includes('học cái gì')) {
+      intent = 'STUDENT_SYLLABUS_INFO_INTENT';
+    } else if (msgLower.includes('môn tiên quyết') || msgLower.includes('học môn gì trước')) {
+      intent = 'STUDENT_SYLLABUS_PREREQ_INTENT';
+    } else if (msgLower.includes('tại sao') && (msgLower.includes('cảnh báo') || msgLower.includes('rủi ro'))) {
+      intent = 'STUDENT_INTERVENTION_REASON_INTENT';
     }
   }
 

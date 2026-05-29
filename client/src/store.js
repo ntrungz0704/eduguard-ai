@@ -2,11 +2,23 @@ import { create } from 'zustand';
 import { api, requestWithRestartRetry } from './lib/api';
 
 export const useStore = create((set) => ({
+  theme: localStorage.getItem('eduguard-theme') || 'dark',
   trainingData: null,
   isLoading: false,
   error: null,
   activeStudent: null,
   currentUser: JSON.parse(localStorage.getItem('eduguard_user')) || null, // Stores { id, name, role, classCode }
+  
+  toggleTheme: () => set((state) => {
+    const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('eduguard-theme', newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    return { theme: newTheme };
+  }),
   
   setCurrentUser: (user) => {
     if (user) {

@@ -12,6 +12,7 @@ import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
+import { courseNameToCode } from '../courseMap';
 
 const getCourseCredits = (courseNameOrId) => {
   const name = String(courseNameOrId || '').trim();
@@ -600,27 +601,27 @@ export default function StudentSearch() {
     <div className="space-y-6 animate-fade-in pb-10">
       
       {/* Top Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900/40 via-purple-900/40 to-slate-900/40 border border-white/10 p-8 shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gradient-to-r dark:from-blue-900/40 dark:via-purple-900/40 dark:to-slate-900/40 border border-slate-200 dark:border-white/10 p-8 shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <GraduationCap size={150} />
         </div>
         <div className="relative z-10 max-w-2xl">
-          <span className="bg-blue-500/10 text-blue-300 border border-blue-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">EduGuard Personal Query Hub</span>
-          <h2 className="text-3xl font-black text-white mt-3 mb-2">Trợ Lý Học Vụ Cá Nhân Hóa</h2>
-          <p className="text-slate-300 text-sm leading-relaxed">
+          <span className="bg-blue-500/10 text-blue-300 border border-blue-200 dark:border-blue-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">EduGuard Personal Query Hub</span>
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white mt-3 mb-2">Trợ Lý Học Vụ Cá Nhân Hóa</h2>
+          <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
             Tra cứu học bạ tức thì và kích hoạt AI tư vấn lộ trình học tập, phát hiện lỗ hổng môn tiên quyết đến từng sinh viên.
           </p>
         </div>
       </div>
 
       {/* Proactive Notification Banner */}
-      <div className="glass-card p-4 rounded-3xl border border-rose-500/20 bg-rose-950/10 flex items-center justify-between gap-4 animate-pulse">
+      <div className="glass-card p-4 rounded-3xl border border-rose-200 dark:border-rose-500/20 bg-rose-950/10 flex items-center justify-between gap-4 animate-pulse">
         <div className="flex items-center gap-3">
-          <div className="bg-rose-500/20 p-2.5 rounded-2xl text-rose-400 border border-rose-500/30">
+          <div className="bg-rose-500/20 p-2.5 rounded-2xl text-rose-400 border border-rose-200 dark:border-rose-500/30">
             <AlertTriangle size={20} />
           </div>
           <div>
-            <h5 className="text-sm font-bold text-white">⚠️ Quét định kỳ EduGuard AI</h5>
+            <h5 className="text-sm font-bold text-slate-900 dark:text-white">⚠️ Quét định kỳ EduGuard AI</h5>
             <p className="text-xs text-rose-300/80">Phát hiện sinh viên <strong>Hoàng Nhật Minh (PS23116)</strong> rơi vào nhóm nguy cơ trượt môn Thiết kế UI/UX.</p>
           </div>
         </div>
@@ -636,7 +637,7 @@ export default function StudentSearch() {
               setLoading(false);
             }
           }}
-          className="text-xs bg-rose-600 hover:bg-rose-500 text-white font-bold px-3.5 py-1.5 rounded-xl border border-rose-500/30 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-lg shadow-rose-900/30"
+          className="text-xs bg-rose-600 hover:bg-rose-500 text-slate-900 dark:text-white font-bold px-3.5 py-1.5 rounded-xl border border-rose-200 dark:border-rose-500/30 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-lg shadow-rose-900/30"
         >
           Can thiệp ngay
         </button>
@@ -751,7 +752,7 @@ export default function StudentSearch() {
                     <div className="xl:col-span-8 space-y-6">
                       
                       {/* Horizontal tab header */}
-                      <div className="flex border-b border-white/5 gap-2 overflow-x-auto pb-1 scrollbar-none">
+                      <div className="flex border-b border-slate-200 dark:border-white/5 gap-2 overflow-x-auto pb-1 scrollbar-none">
                         {[
                           { id: 'gpa', label: '📊 Phân tích & Học bạ' },
                           { id: 'roadmap', label: '🎯 Lộ trình & Thử thách' },
@@ -764,7 +765,7 @@ export default function StudentSearch() {
                             className={`px-4 py-2.5 rounded-t-2xl font-bold text-xs transition-all border-b-2 flex-shrink-0 ${
                               activeTab === t.id
                                 ? 'text-blue-400 border-blue-500 bg-white/5'
-                                : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-white/5'
+                                : 'text-slate-600 dark:text-slate-400 border-transparent hover:text-slate-200 hover:bg-white/5'
                             }`}
                           >
                             {t.label}
@@ -777,46 +778,46 @@ export default function StudentSearch() {
                         <div className="space-y-6 animate-fade-in">
                           
                           {/* Personal Info Summary */}
-                          <div className="glass-card p-6 rounded-3xl relative overflow-hidden border border-white/10">
+                          <div className="glass-card p-6 rounded-3xl relative overflow-hidden border border-slate-200 dark:border-white/10">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
                             
                             <div className="flex items-start gap-4">
-                              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg">
+                              <div className="w-14 h-14 rounded-2xl bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white font-black text-xl shadow-lg">
                                 {selectedStudent.name.charAt(0)}
                               </div>
                               <div className="space-y-1">
-                                <h3 className="text-2xl font-black text-white">{selectedStudent.name}</h3>
-                                <p className="text-slate-400 text-sm flex items-center gap-2">
-                                  <Hash size={14} className="text-blue-400" /> <span className="font-mono text-white font-bold">{selectedStudent.mssv}</span>
-                                  • <span className="text-slate-300">{selectedStudent.classCode || 'WD18301'}</span>
+                                <h3 className="text-2xl font-black text-slate-900 dark:text-white">{selectedStudent.name}</h3>
+                                <p className="text-slate-600 dark:text-slate-400 text-sm flex items-center gap-2">
+                                  <Hash size={14} className="text-blue-400" /> <span className="font-mono text-slate-900 dark:text-white font-bold">{selectedStudent.mssv}</span>
+                                  • <span className="text-slate-700 dark:text-slate-300">{selectedStudent.classCode || 'WD18301'}</span>
                                 </p>
                               </div>
                             </div>
                             
                             {/* Academic Meta quick stats */}
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-6 border-t border-white/5 text-center">
-                              <div className="bg-black/20 p-3 rounded-2xl border border-white/5">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-6 border-t border-slate-200 dark:border-white/5 text-center">
+                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
                                 <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">Tiến Độ Học</p>
-                                <p className="text-white font-bold text-base">
+                                <p className="text-slate-900 dark:text-white font-bold text-base">
                                   {fptStats.totalScoresCount} môn
                                 </p>
                               </div>
-                              <div className="bg-black/20 p-3 rounded-2xl border border-white/5">
+                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
                                 <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">GPA (Hệ 10)</p>
-                                <p className="text-white font-bold text-base text-emerald-400">
-                                  {fptStats.gpa10} <span className="text-[10px] text-slate-400 font-normal">/ 10</span>
+                                <p className="text-slate-900 dark:text-white font-bold text-base text-emerald-400">
+                                  {fptStats.gpa10} <span className="text-[10px] text-slate-600 dark:text-slate-400 font-normal">/ 10</span>
                                 </p>
                               </div>
-                              <div className="bg-black/20 p-3 rounded-2xl border border-white/5">
+                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
                                 <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">GPA (Hệ 4)</p>
-                                <p className="text-white font-bold text-base text-blue-400">
-                                  {fptStats.gpa4} <span className="text-[10px] text-slate-400 font-normal">/ 4</span>
+                                <p className="text-slate-900 dark:text-white font-bold text-base text-blue-400">
+                                  {fptStats.gpa4} <span className="text-[10px] text-slate-600 dark:text-slate-400 font-normal">/ 4</span>
                                 </p>
                               </div>
-                              <div className="bg-black/20 p-3 rounded-2xl border border-white/5">
+                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
                                 <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">Tín Chỉ Tích Lũy</p>
-                                <p className="text-white font-bold text-base text-purple-400">
-                                  {fptStats.totalEarnedCredits} <span className="text-[10px] text-slate-400 font-normal">tín</span>
+                                <p className="text-slate-900 dark:text-white font-bold text-base text-purple-400">
+                                  {fptStats.totalEarnedCredits} <span className="text-[10px] text-slate-600 dark:text-slate-400 font-normal">tín</span>
                                 </p>
                               </div>
                             </div>
@@ -826,8 +827,8 @@ export default function StudentSearch() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             
                             {/* Line Chart: GPA semester trends */}
-                            <div className="glass-card p-5 rounded-3xl border border-white/10 flex flex-col h-[280px]">
-                              <h5 className="text-xs font-bold text-slate-300 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                            <div className="glass-card p-5 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col h-[280px]">
+                              <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider flex items-center gap-1.5">
                                 <TrendingUp size={14} className="text-blue-400" /> Xu hướng GPA qua các học kỳ
                               </h5>
                               <div className="flex-1 w-full min-h-0">
@@ -848,8 +849,8 @@ export default function StudentSearch() {
                             </div>
 
                             {/* Radar Chart: Skill areas comprehensive evaluation */}
-                            <div className="glass-card p-5 rounded-3xl border border-white/10 flex flex-col h-[280px]">
-                              <h5 className="text-xs font-bold text-slate-300 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                            <div className="glass-card p-5 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col h-[280px]">
+                              <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider flex items-center gap-1.5">
                                 <Award size={14} className="text-purple-400" /> Đánh giá Năng lực Toàn diện
                               </h5>
                               <div className="flex-1 w-full min-h-0 flex items-center justify-center">
@@ -868,9 +869,9 @@ export default function StudentSearch() {
                           </div>
 
                           {/* Score Sheets (Existing Table Panel) */}
-                          <div className="glass-card p-6 rounded-3xl border border-white/10 space-y-6">
+                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-6">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                              <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                                 <BookOpen size={18} className="text-purple-400" /> Bảng điểm & Cảnh báo nguy cơ
                               </h4>
                               
@@ -881,13 +882,13 @@ export default function StudentSearch() {
                                   <select
                                     value={selectedSemesterFilter}
                                     onChange={(e) => setSelectedSemesterFilter(e.target.value)}
-                                    className="appearance-none pl-4 pr-10 py-2 text-xs font-semibold bg-black/40 border border-white/10 hover:border-white/20 rounded-2xl text-slate-200 outline-none cursor-pointer focus:ring-1 focus:ring-purple-500/50 transition-all"
+                                    className="appearance-none pl-4 pr-10 py-2 text-xs font-semibold bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 rounded-2xl text-slate-800 dark:text-slate-200 outline-none cursor-pointer focus:ring-1 focus:ring-blue-500/50 transition-all"
                                   >
                                     {['Tất cả các học kỳ', ...Array.from(new Set(selectedStudent.scores?.map(s => s.semester).filter(Boolean) || []))].map((sem) => (
-                                      <option key={sem} value={sem} className="bg-slate-900 text-slate-100">{sem}</option>
+                                      <option key={sem} value={sem} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">{sem}</option>
                                     ))}
                                   </select>
-                                  <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                  <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 dark:text-slate-400 pointer-events-none" />
                                 </div>
 
                                 {/* Status Select */}
@@ -895,19 +896,19 @@ export default function StudentSearch() {
                                   <select
                                     value={selectedStatusFilter}
                                     onChange={(e) => setSelectedStatusFilter(e.target.value)}
-                                    className="appearance-none pl-4 pr-10 py-2 text-xs font-semibold bg-black/40 border border-white/10 hover:border-white/20 rounded-2xl text-slate-200 outline-none cursor-pointer focus:ring-1 focus:ring-purple-500/50 transition-all"
+                                    className="appearance-none pl-4 pr-10 py-2 text-xs font-semibold bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 rounded-2xl text-slate-800 dark:text-slate-200 outline-none cursor-pointer focus:ring-1 focus:ring-purple-500/50 transition-all"
                                   >
                                     {['Tất cả trạng thái', 'Cần cải thiện (D+, D, F)', 'Đạt loại Khá/Giỏi (B trở lên)'].map((stat) => (
-                                      <option key={stat} value={stat} className="bg-slate-900 text-slate-100">{stat}</option>
+                                      <option key={stat} value={stat} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">{stat}</option>
                                     ))}
                                   </select>
-                                  <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                  <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-600 dark:text-slate-400 pointer-events-none" />
                                 </div>
                               </div>
                             </div>
                             
                             {/* Table Representation */}
-                            <div className="overflow-x-auto max-h-[500px] overflow-y-auto rounded-2xl border border-white/5 bg-black/20">
+                            <div className="overflow-x-auto max-h-[500px] overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-black/20">
                               {(() => {
                                 const filteredScores = (selectedStudent.scores || []).filter(sc => {
                                   // Semester filter
@@ -929,15 +930,15 @@ export default function StudentSearch() {
                                 if (filteredScores.length === 0) {
                                   return (
                                     <div className="p-8 text-center">
-                                      <p className="text-slate-400 text-sm">Chưa có kết quả điểm số nào khớp với bộ lọc.</p>
+                                      <p className="text-slate-600 dark:text-slate-400 text-sm">Chưa có kết quả điểm số nào khớp với bộ lọc.</p>
                                     </div>
                                   );
                                 }
 
                                 return (
                                   <table className="w-full text-left border-collapse min-w-[700px]">
-                                    <thead className="sticky top-0 z-10 bg-[#141923] border-b border-white/10">
-                                      <tr className="text-slate-400 text-[10px] font-extrabold uppercase tracking-wider">
+                                    <thead className="sticky top-0 z-10 bg-slate-200 dark:bg-[#141923] border-b border-slate-300 dark:border-white/10">
+                                      <tr className="text-slate-600 dark:text-slate-400 text-[10px] font-extrabold uppercase tracking-wider">
                                         <th className="px-4 py-3.5">Mã Môn</th>
                                         <th className="px-4 py-3.5">Tên Môn Học</th>
                                         <th className="px-4 py-3.5 text-center">Số Tín Chỉ</th>
@@ -967,21 +968,21 @@ export default function StudentSearch() {
 
                                         const getStatusBadge = (v) => {
                                           if (v === null || v === undefined) {
-                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">Đang học</span>;
+                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-200 dark:border-blue-500/30">Đang học</span>;
                                           }
                                           if (v < 5.0) {
-                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">Cần học cải thiện</span>;
+                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-200 dark:border-rose-500/30">Cần học cải thiện</span>;
                                           }
                                           if (v < 6.5) {
                                             return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gray-500/20 text-gray-300 border border-gray-500/30">Trung bình - Đạt</span>;
                                           }
                                           if (v < 8.0) {
                                             if (v >= 7.5) {
-                                              return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Khá tốt</span>;
+                                              return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">Khá tốt</span>;
                                             }
-                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Đạt tốt</span>;
+                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-200 dark:border-cyan-500/30">Đạt tốt</span>;
                                           }
-                                          return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Xuất sắc/Giỏi</span>;
+                                          return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">Xuất sắc/Giỏi</span>;
                                         };
 
                                         return (
@@ -990,21 +991,21 @@ export default function StudentSearch() {
                                             className="hover:bg-white/5 transition-colors duration-150 group/row"
                                           >
                                             {/* Mã Môn */}
-                                            <td className="px-4 py-3 font-mono font-bold text-xs text-slate-100">{sc.courseId}</td>
+                                            <td className="px-4 py-3 font-mono font-bold text-xs text-slate-900 dark:text-slate-100">{courseNameToCode[sc.course?.name || sc.courseId] || sc.courseId}</td>
                                             
                                             {/* Tên Môn Học */}
-                                            <td className="px-4 py-3 text-xs text-slate-300 max-w-[200px] truncate" title={sc.course?.name || sc.courseId}>
+                                            <td className="px-4 py-3 text-xs text-slate-700 dark:text-slate-300 max-w-[200px] truncate" title={sc.course?.name || sc.courseId}>
                                               {sc.course?.name || sc.courseId}
                                             </td>
                                             
                                             {/* Số Tín Chỉ */}
-                                            <td className="px-4 py-3 text-xs text-slate-400 text-center">{sc.course?.credits || 3}</td>
+                                            <td className="px-4 py-3 text-xs text-slate-600 dark:text-slate-400 text-center">{sc.course?.credits || 3}</td>
                                             
                                             {/* Điểm Quá Trình */}
-                                            <td className="px-4 py-3 font-mono text-xs text-slate-400 text-center">{details.process}</td>
+                                            <td className="px-4 py-3 font-mono text-xs text-slate-600 dark:text-slate-400 text-center">{details.process}</td>
                                             
                                             {/* Điểm Thi */}
-                                            <td className="px-4 py-3 font-mono text-xs text-slate-400 text-center">{details.exam}</td>
+                                            <td className="px-4 py-3 font-mono text-xs text-slate-600 dark:text-slate-400 text-center">{details.exam}</td>
                                             
                                             {/* Tổng Kết */}
                                             <td className="px-4 py-3 text-center">
@@ -1016,7 +1017,7 @@ export default function StudentSearch() {
                                             </td>
 
                                             {/* Hệ Chữ (4) */}
-                                            <td className="px-4 py-3 font-bold text-xs text-slate-300 text-center">
+                                            <td className="px-4 py-3 font-bold text-xs text-slate-700 dark:text-slate-300 text-center">
                                               {isStudying ? '—' : letterGrade}
                                             </td>
 
@@ -1041,14 +1042,14 @@ export default function StudentSearch() {
                                                 {(isStudying || isFailed) && !selectedStudent.interventions?.some(inV => inV.courseId === sc.courseId) && (
                                                   <button 
                                                     onClick={() => handleFlagIntervention(sc.courseId)}
-                                                    className="text-[9px] text-amber-400 hover:text-amber-300 font-bold bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5"
+                                                    className="text-[9px] text-amber-400 hover:text-amber-300 font-bold bg-amber-500/10 hover:bg-amber-500/20 border border-amber-200 dark:border-amber-500/20 px-2 py-0.5 rounded-lg transition-all flex items-center gap-0.5"
                                                     title="Gắn cờ can thiệp"
                                                   >
                                                     <Flag size={9}/> Can thiệp
                                                   </button>
                                                 )}
                                                 {(isStudying || isFailed) && selectedStudent.interventions?.some(inV => inV.courseId === sc.courseId) && (
-                                                  <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-lg flex items-center gap-0.5">
+                                                  <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 px-2 py-0.5 rounded-lg flex items-center gap-0.5">
                                                     <CheckCircle size={9}/> Đã nạp
                                                   </span>
                                                 )}
@@ -1072,8 +1073,8 @@ export default function StudentSearch() {
                         <div className="space-y-6 animate-fade-in">
                           
                           {/* Weakness Accordion */}
-                          <div className="glass-card p-6 rounded-3xl border border-white/10">
-                            <h4 className="text-sm font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2">
+                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10">
+                            <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wider flex items-center gap-2">
                               <AlertTriangle size={16} className="text-rose-400" /> Môn yếu & Nguyên nhân cốt lõi
                             </h4>
                             <div className="space-y-3">
@@ -1099,20 +1100,20 @@ export default function StudentSearch() {
                               ].map((item, idx) => {
                                 const isExpanded = expandedWeakSubject === idx;
                                 return (
-                                  <div key={idx} className="border border-white/5 rounded-2xl overflow-hidden bg-black/20">
+                                  <div key={idx} className="border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden bg-slate-100 dark:bg-black/20">
                                     <button
                                       type="button"
                                       onClick={() => setExpandedWeakSubject(isExpanded ? -1 : idx)}
-                                      className="w-full flex items-center justify-between p-4 font-bold text-xs text-slate-200 hover:bg-white/5 transition-all text-left"
+                                      className="w-full flex items-center justify-between p-4 font-bold text-xs text-slate-800 dark:text-slate-200 hover:bg-white/5 transition-all text-left"
                                     >
                                       <div>
                                         <p className="text-sm text-slate-100">{item.title}</p>
-                                        <p className="text-[10px] text-slate-400 font-normal mt-1">{item.focus}</p>
+                                        <p className="text-[10px] text-slate-600 dark:text-slate-400 font-normal mt-1">{item.focus}</p>
                                       </div>
-                                      {isExpanded ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+                                      {isExpanded ? <ChevronUp size={16} className="text-slate-600 dark:text-slate-400" /> : <ChevronDown size={16} className="text-slate-600 dark:text-slate-400" />}
                                     </button>
                                     {isExpanded && (
-                                      <div className="p-4 border-t border-white/5 bg-black/40 text-xs text-slate-300 space-y-2 leading-relaxed">
+                                      <div className="p-4 border-t border-slate-200 dark:border-white/5 bg-slate-200 dark:bg-black/40 text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
                                         {item.points.map((pt, pIdx) => (
                                           <div key={pIdx} className="flex items-start gap-2">
                                             <span className="text-rose-400 font-bold">•</span>
@@ -1128,20 +1129,20 @@ export default function StudentSearch() {
                           </div>
 
                           {/* 21-Day Challenge Checklist */}
-                          <div className="glass-card p-6 rounded-3xl border border-white/10">
+                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10">
                             <div className="flex justify-between items-center mb-4">
-                              <h4 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                                 <Award size={16} className="text-amber-400" /> Lời khuyên & Thử thách 21 ngày
                               </h4>
-                              <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
+                              <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
                                 {progressPercent}% hoàn thành
                               </span>
                             </div>
                             
                             {/* Progress Bar */}
-                            <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
+                            <div className="w-full bg-slate-50 dark:bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
                               <div 
-                                className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500"
+                                className="h-full bg-white dark:bg-gradient-to-r dark:from-emerald-600 dark:to-emerald-400 transition-all duration-500"
                                 style={{ width: `${progressPercent}%` }}
                               ></div>
                             </div>
@@ -1151,17 +1152,17 @@ export default function StudentSearch() {
                                 <div 
                                   key={ch.id} 
                                   onClick={() => handleToggleChallenge(ch.id)}
-                                  className="flex items-start gap-3 p-3 bg-black/20 hover:bg-black/35 border border-white/5 rounded-2xl cursor-pointer transition-all"
+                                  className="flex items-start gap-3 p-3 bg-slate-100 dark:bg-black/20 hover:bg-black/35 border border-slate-200 dark:border-white/5 rounded-2xl cursor-pointer transition-all"
                                 >
                                   <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all mt-0.5 ${
                                     ch.completed 
-                                      ? 'bg-emerald-600 border-emerald-500 text-white' 
-                                      : 'border-white/20 text-transparent'
+                                      ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
+                                      : 'border-slate-200 dark:border-white/20 text-transparent'
                                   }`}>
                                     <Check size={12} strokeWidth={3} />
                                   </div>
                                   <span className={`text-xs leading-relaxed transition-all ${
-                                    ch.completed ? 'text-slate-500 line-through' : 'text-slate-300 font-medium'
+                                    ch.completed ? 'text-slate-500 line-through' : 'text-slate-700 dark:text-slate-300 font-medium'
                                   }`}>
                                     {ch.text}
                                   </span>
@@ -1171,11 +1172,11 @@ export default function StudentSearch() {
                           </div>
 
                           {/* Visual Stepper Improvement roadmap */}
-                          <div className="glass-card p-6 rounded-3xl border border-white/10">
-                            <h4 className="text-sm font-bold text-white mb-6 uppercase tracking-wider flex items-center gap-2">
+                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10">
+                            <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-wider flex items-center gap-2">
                               <TrendingUp size={16} className="text-purple-400" /> Lộ Trình Cải Thiện GPA Học Tập
                             </h4>
-                            <div className="relative pl-6 space-y-8 border-l border-white/10 ml-3">
+                            <div className="relative pl-6 space-y-8 border-l border-slate-200 dark:border-white/10 ml-3">
                               {[
                                 {
                                   stage: "Giai đoạn 1: Khởi động & Vượt chướng ngại vật (Tháng 1-2)",
@@ -1196,10 +1197,10 @@ export default function StudentSearch() {
                                 <div key={idx} className="relative">
                                   <div className={`absolute -left-[35px] top-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
                                     step.status === 'completed' 
-                                      ? 'bg-emerald-600 border-emerald-500 text-white' 
+                                      ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
                                       : step.status === 'active'
-                                        ? 'bg-blue-600 border-blue-400 text-white animate-pulse'
-                                        : 'bg-slate-900 border-white/20'
+                                        ? 'bg-blue-600 border-blue-400 text-slate-900 dark:text-white animate-pulse'
+                                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-white/20'
                                   }`}>
                                     {(step.status === 'completed' || step.status === 'active') && <div className="w-1.5 h-1.5 bg-white rounded-full"></div>}
                                   </div>
@@ -1209,9 +1210,9 @@ export default function StudentSearch() {
                                         ? 'text-emerald-400' 
                                         : step.status === 'active'
                                           ? 'text-blue-400'
-                                          : 'text-slate-400'
+                                          : 'text-slate-600 dark:text-slate-400'
                                     }`}>{step.stage}</h5>
-                                    <p className="text-xs text-slate-300 leading-relaxed mt-1">{step.desc}</p>
+                                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">{step.desc}</p>
                                   </div>
                                 </div>
                               ))}
@@ -1226,28 +1227,28 @@ export default function StudentSearch() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
                           
                           {/* Expected GPA Calculator */}
-                          <div className="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between h-[500px]">
+                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col justify-between h-[500px]">
                             <div>
-                              <h4 className="text-sm font-bold text-white mb-1 uppercase tracking-wider flex items-center gap-2">
+                              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1 uppercase tracking-wider flex items-center gap-2">
                                 <BookOpen size={16} className="text-blue-400" /> Tính Toán GPA Dự Kiến
                               </h4>
-                              <p className="text-[10px] text-slate-400 mb-4">Lập kế hoạch điểm số để đạt được GPA mục tiêu mong muốn.</p>
+                              <p className="text-[10px] text-slate-600 dark:text-slate-400 mb-4">Lập kế hoạch điểm số để đạt được GPA mục tiêu mong muốn.</p>
 
                               {/* Course Rows */}
                               <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                                 {calcCourses.map((c, idx) => (
-                                  <div key={idx} className="flex gap-2 items-center bg-black/20 p-2 border border-white/5 rounded-xl">
+                                  <div key={idx} className="flex gap-2 items-center bg-slate-100 dark:bg-black/20 p-2 border border-slate-200 dark:border-white/5 rounded-xl">
                                     <input
                                       type="text"
                                       value={c.name}
                                       onChange={e => handleUpdateCalcCourse(idx, 'name', e.target.value)}
-                                      className="flex-1 min-w-0 bg-transparent text-xs text-slate-200 outline-none border-b border-transparent focus:border-white/20 px-1"
+                                      className="flex-1 min-w-0 bg-transparent text-xs text-slate-800 dark:text-slate-200 outline-none border-b border-transparent focus:border-white/20 px-1"
                                       placeholder="Tên môn học"
                                     />
                                     <select
                                       value={c.credits}
                                       onChange={e => handleUpdateCalcCourse(idx, 'credits', parseInt(e.target.value))}
-                                      className="bg-slate-900 border border-white/10 rounded-lg px-1.5 py-1 text-[11px] text-slate-300 outline-none"
+                                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg px-1.5 py-1 text-[11px] text-slate-700 dark:text-slate-300 outline-none"
                                     >
                                       {[1, 2, 3, 4, 5].map(cr => (
                                         <option key={cr} value={cr}>{cr} tín</option>
@@ -1256,7 +1257,7 @@ export default function StudentSearch() {
                                     <select
                                       value={c.grade}
                                       onChange={e => handleUpdateCalcCourse(idx, 'grade', e.target.value)}
-                                      className="bg-slate-900 border border-white/10 rounded-lg px-1.5 py-1 text-[11px] text-slate-300 font-bold outline-none"
+                                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg px-1.5 py-1 text-[11px] text-slate-700 dark:text-slate-300 font-bold outline-none"
                                     >
                                       {['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'].map(g => (
                                         <option key={g} value={g}>{g}</option>
@@ -1276,23 +1277,23 @@ export default function StudentSearch() {
                               <button
                                 type="button"
                                 onClick={handleAddCalcCourse}
-                                className="mt-3 text-[10px] text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-xl transition-all"
+                                className="mt-3 text-[10px] text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-2.5 py-1 rounded-xl transition-all"
                               >
                                 <Plus size={10} /> Thêm môn học
                               </button>
                             </div>
 
                             {/* Calculated expected GPA display */}
-                            <div className="bg-gradient-to-br from-blue-950/20 to-indigo-950/20 border border-blue-500/20 p-4 rounded-2xl flex items-center justify-between mt-4">
+                            <div className="bg-white dark:bg-gradient-to-br dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-500/20 p-4 rounded-2xl flex items-center justify-between mt-4">
                               <div>
-                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">GPA Dự Kiến Học Kỳ</span>
+                                <span className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider block">GPA Dự Kiến Học Kỳ</span>
                                 <span className="text-2xl font-black text-blue-400 mt-1 block">
-                                  {calculateCalcGpa()} <span className="text-xs text-slate-400 font-normal">/ 4.0</span>
+                                  {calculateCalcGpa()} <span className="text-xs text-slate-600 dark:text-slate-400 font-normal">/ 4.0</span>
                                 </span>
                               </div>
-                              <div className="bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-xl text-center">
+                              <div className="bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-3 py-1.5 rounded-xl text-center">
                                 <span className="text-[9px] text-blue-300 font-bold block">Xếp loại dự kiến</span>
-                                <span className="text-xs font-black text-white mt-0.5 block">
+                                <span className="text-xs font-black text-slate-900 dark:text-white mt-0.5 block">
                                   {(() => {
                                     const gpa = parseFloat(calculateCalcGpa());
                                     if (gpa >= 3.6) return 'Xuất sắc 🏆';
@@ -1307,18 +1308,18 @@ export default function StudentSearch() {
                           </div>
 
                           {/* Pomodoro Timer */}
-                          <div className="glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between h-[500px]">
+                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col justify-between h-[500px]">
                             <div>
-                              <h4 className="text-sm font-bold text-white mb-1 uppercase tracking-wider flex items-center gap-2">
+                              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1 uppercase tracking-wider flex items-center gap-2">
                                 <Clock size={16} className="text-purple-400" /> Pomodoro Timer
                               </h4>
-                              <p className="text-[10px] text-slate-400 mb-4">Phương pháp 25 phút tập trung cao độ, 5 phút nghỉ ngơi.</p>
+                              <p className="text-[10px] text-slate-600 dark:text-slate-400 mb-4">Phương pháp 25 phút tập trung cao độ, 5 phút nghỉ ngơi.</p>
                               
                               <div className="flex flex-col items-center justify-center my-6">
-                                <div className="relative w-44 h-44 rounded-full border-4 border-purple-500/20 flex items-center justify-center shadow-lg shadow-purple-950/40">
+                                <div className="relative w-44 h-44 rounded-full border-4 border-purple-200 dark:border-purple-500/20 flex items-center justify-center shadow-lg shadow-purple-950/40">
                                   <div className={`absolute inset-0 rounded-full border-4 border-purple-500 border-t-transparent ${timerActive ? 'animate-spin [animation-duration:10s]' : ''}`}></div>
                                   <div className="text-center z-10">
-                                    <span className="text-4xl font-black text-white font-mono tracking-wider block">
+                                    <span className="text-4xl font-black text-slate-900 dark:text-white font-mono tracking-wider block">
                                       {formatTimer(timerSeconds)}
                                     </span>
                                     <span className="text-[9px] text-purple-300 font-bold uppercase tracking-widest mt-1 block">
@@ -1336,8 +1337,8 @@ export default function StudentSearch() {
                                 onClick={() => setTimerActive(!timerActive)}
                                 className={`flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl text-xs font-bold transition-all border shadow-lg ${
                                   timerActive 
-                                    ? 'bg-rose-600 hover:bg-rose-500 border-rose-500 text-white shadow-rose-900/20' 
-                                    : 'bg-purple-600 hover:bg-purple-500 border-purple-500 text-white shadow-purple-900/20'
+                                    ? 'bg-rose-600 hover:bg-rose-500 border-rose-500 text-slate-900 dark:text-white shadow-rose-900/20' 
+                                    : 'bg-purple-600 hover:bg-purple-500 border-purple-500 text-slate-900 dark:text-white shadow-purple-900/20'
                                 }`}
                               >
                                 {timerActive ? <Pause size={14} /> : <Play size={14} />}
@@ -1349,7 +1350,7 @@ export default function StudentSearch() {
                                   setTimerActive(false);
                                   setTimerSeconds(1500);
                                 }}
-                                className="bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-bold p-3 rounded-2xl transition-all"
+                                className="bg-white/5 hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 font-bold p-3 rounded-2xl transition-all"
                                 title="Đặt lại bộ đếm"
                               >
                                 <RotateCcw size={14} />
@@ -1364,16 +1365,16 @@ export default function StudentSearch() {
 
                     {/* Persistent AI Chatbot Side Panel (Right) */}
                     <div className="xl:col-span-4">
-                <div className="glass-card h-[650px] flex flex-col rounded-3xl border border-white/10 overflow-hidden relative">
+                <div className="glass-card h-[650px] flex flex-col rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden relative">
                   
                   {/* Chatbot Header */}
-                  <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 p-4 border-b border-white/10 flex items-center gap-2">
-                    <div className="bg-blue-500/20 p-2 rounded-xl border border-blue-500/30">
+                  <div className="bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 p-4 border-b border-slate-200 dark:border-white/10 flex items-center gap-2">
+                    <div className="bg-blue-500/20 p-2 rounded-xl border border-blue-200 dark:border-blue-500/30">
                       <Sparkles size={16} className="text-blue-400 animate-pulse" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-sm">Cố vấn AI cá nhân hóa</h4>
-                      <p className="text-[10px] text-slate-400">Đang cố vấn cho sinh viên {selectedStudent.name}</p>
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm">Cố vấn AI cá nhân hóa</h4>
+                      <p className="text-[10px] text-slate-600 dark:text-slate-400">Đang cố vấn cho sinh viên {selectedStudent.name}</p>
                     </div>
                   </div>
 
@@ -1386,16 +1387,16 @@ export default function StudentSearch() {
                       >
                         <div className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed relative group/msg ${
                           chat.role === 'user' 
-                            ? 'bg-blue-600 text-white rounded-tr-none' 
-                            : 'bg-white/5 border border-white/10 text-slate-200 rounded-tl-none font-medium'
+                            ? 'bg-blue-600 text-slate-900 dark:text-white rounded-tr-none' 
+                            : 'bg-white/5 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 rounded-tl-none font-medium'
                         }`}>
                           <p className="whitespace-pre-line">{chat.text}</p>
                           {chat.role !== 'user' && (
-                            <div className="mt-2.5 pt-2 border-t border-white/5 flex justify-between items-center opacity-0 group-hover/msg:opacity-100 transition-opacity">
+                            <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-white/5 flex justify-between items-center opacity-0 group-hover/msg:opacity-100 transition-opacity">
                               <span className="text-[10px] text-slate-500 font-semibold">Cố vấn EduGuard AI</span>
                               <button
                                 onClick={() => handleExportPDF(chat.text)}
-                                className="text-[10px] bg-emerald-500/10 hover:bg-emerald-500/25 border border-emerald-500/20 hover:border-emerald-400/40 text-emerald-400 font-bold px-2 py-0.5 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
+                                className="text-[10px] bg-emerald-500/10 hover:bg-emerald-500/25 border border-emerald-200 dark:border-emerald-500/20 hover:border-emerald-400/40 text-emerald-400 font-bold px-2 py-0.5 rounded-lg transition-all flex items-center gap-1 cursor-pointer"
                                 title="Xuất lộ trình tư vấn này thành biên bản PDF ký kết"
                               >
                                 📄 Xuất Biên Bản PDF
@@ -1407,7 +1408,7 @@ export default function StudentSearch() {
                     ))}
                     {chatLoading && (
                       <div className="flex justify-start">
-                        <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-3 text-xs text-slate-400 flex items-center gap-2">
+                        <div className="bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl rounded-tl-none p-3 text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
                           <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce"></span>
                           <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce delay-75"></span>
                           <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce delay-150"></span>
@@ -1419,12 +1420,12 @@ export default function StudentSearch() {
                   </div>
 
                   {/* Floating Suggestion Pills */}
-                  <div className="px-3 py-2 bg-black/40 border-t border-white/5 flex flex-wrap gap-1.5 justify-center">
+                  <div className="px-3 py-2 bg-slate-200 dark:bg-black/40 border-t border-slate-200 dark:border-white/5 flex flex-wrap gap-1.5 justify-center">
                     <button
                       type="button"
                       disabled={chatLoading}
                       onClick={() => handleSendChat(null, "Hãy phân tích chi tiết kết quả học lực hiện tại của sinh viên này và chỉ rõ các môn tiên quyết bị hổng kiến thức")}
-                      className="text-[10px] bg-blue-500/10 hover:bg-blue-500/25 border border-blue-500/20 hover:border-blue-400/40 text-blue-300 font-bold px-2 py-1 rounded-lg transition-all"
+                      className="text-[10px] bg-blue-500/10 hover:bg-blue-500/25 border border-blue-200 dark:border-blue-500/20 hover:border-blue-400/40 text-blue-300 font-bold px-2 py-1 rounded-lg transition-all"
                     >
                       📊 Phân tích học lực
                     </button>
@@ -1432,7 +1433,7 @@ export default function StudentSearch() {
                       type="button"
                       disabled={chatLoading}
                       onClick={() => handleSendChat(null, "Hãy lập lộ trình can thiệp học tập và kế hoạch ôn tập phụ đạo chi tiết để giúp sinh viên này cải thiện điểm số")}
-                      className="text-[10px] bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/40 text-purple-300 font-bold px-2 py-1 rounded-lg transition-all"
+                      className="text-[10px] bg-purple-500/10 hover:bg-purple-500/25 border border-purple-200 dark:border-purple-500/20 hover:border-purple-400/40 text-purple-300 font-bold px-2 py-1 rounded-lg transition-all"
                     >
                       💡 Lộ trình phụ đạo
                     </button>
@@ -1440,25 +1441,25 @@ export default function StudentSearch() {
                       type="button"
                       disabled={chatLoading}
                       onClick={() => handleSendChat(null, "Hãy soạn hộ tôi một mẫu tin nhắn Zalo gửi sinh viên/phụ huynh để cảnh báo nhẹ nhàng, tinh tế và kèm theo link ôn tập môn học bị hổng kiến thức")}
-                      className="text-[10px] bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/20 hover:border-amber-400/40 text-amber-300 font-bold px-2 py-1 rounded-lg transition-all"
+                      className="text-[10px] bg-amber-500/10 hover:bg-amber-500/25 border border-amber-200 dark:border-amber-500/20 hover:border-amber-400/40 text-amber-300 font-bold px-2 py-1 rounded-lg transition-all"
                     >
                       💬 Soạn tin nhắn Zalo
                     </button>
                   </div>
 
                   {/* Chat Input */}
-                  <form onSubmit={handleSendChat} className="p-3 bg-black/30 border-t border-white/10 flex gap-2">
+                  <form onSubmit={handleSendChat} className="p-3 bg-slate-200 dark:bg-black/30 border-t border-slate-200 dark:border-white/10 flex gap-2">
                     <input 
                       type="text" 
                       placeholder={`Hỏi AI về kết quả của ${selectedStudent.name.split(' ').pop()}...`}
                       value={chatMessage}
                       onChange={e => setChatMessage(e.target.value)}
-                      className="flex-1 px-3.5 py-2.5 bg-black/20 border border-white/10 rounded-xl outline-none focus:border-blue-500/50 text-xs text-white placeholder-slate-500"
+                      className="flex-1 px-3.5 py-2.5 bg-slate-100 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-blue-500/50 text-xs text-slate-900 dark:text-white placeholder-slate-500"
                     />
                     <button 
                       type="submit" 
                       disabled={!chatMessage.trim() || chatLoading}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white p-2.5 rounded-xl disabled:opacity-50 transition-all flex items-center justify-center"
+                      className="bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 hover:dark:from-blue-500 hover:dark:to-indigo-500 text-slate-900 dark:text-white p-2.5 rounded-xl disabled:opacity-50 transition-all flex items-center justify-center"
                     >
                       <Send size={14} />
                     </button>
@@ -1473,17 +1474,17 @@ export default function StudentSearch() {
       </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-4 rounded-2xl border border-white/10">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-4 rounded-2xl border border-slate-200 dark:border-white/10">
                 <div>
-                  <h4 className="text-lg font-bold text-white">Danh sách Sinh viên</h4>
-                  <p className="text-xs text-slate-400">Chọn sinh viên để xem chi tiết học bạ và tư vấn AI.</p>
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Danh sách Sinh viên</h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Chọn sinh viên để xem chi tiết học bạ và tư vấn AI.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-slate-400 font-semibold">Sắp xếp theo:</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold">Sắp xếp theo:</span>
                   <select
                     value={sortType}
                     onChange={(e) => setSortType(e.target.value)}
-                    className="bg-slate-900 border border-white/20 rounded-xl px-3 py-2 text-sm text-slate-200 outline-none focus:border-blue-500/50"
+                    className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50"
                   >
                     <option value="name-asc">Tên (A-Z)</option>
                     <option value="name-desc">Tên (Z-A)</option>
@@ -1509,19 +1510,19 @@ export default function StudentSearch() {
                     <button
                       key={st.id}
                       onClick={() => handleSelectStudent(st)}
-                      className="glass-card p-5 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all text-left flex items-start justify-between group"
+                      className="glass-card p-5 rounded-2xl border border-slate-200 dark:border-white/5 hover:border-blue-500/30 transition-all text-left flex items-start justify-between group"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-700 to-slate-600 flex items-center justify-center text-white font-bold group-hover:from-blue-600 group-hover:to-indigo-600 transition-colors">
+                        <div className="w-10 h-10 rounded-xl bg-white dark:bg-gradient-to-tr dark:from-slate-700 dark:to-slate-600 flex items-center justify-center text-slate-900 dark:text-white font-bold group-hover:dark:from-blue-600 group-hover:dark:to-indigo-600 transition-colors">
                           {st.name.charAt(0)}
                         </div>
                         <div>
-                          <h5 className="font-bold text-slate-200 group-hover:text-blue-400 transition-colors">{st.name}</h5>
-                          <p className="text-xs text-slate-400 mt-1">{st.id} • Lớp {st.classCode || 'WD18301'}</p>
+                          <h5 className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-400 transition-colors">{st.name}</h5>
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{st.id} • Lớp {st.classCode || 'WD18301'}</p>
                         </div>
                       </div>
                       {riskCount > 0 && (
-                        <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] px-2 py-1 rounded-lg font-bold">
+                        <span className="bg-rose-500/20 text-rose-400 border border-rose-200 dark:border-rose-500/30 text-[10px] px-2 py-1 rounded-lg font-bold">
                           {riskCount} rủi ro
                         </span>
                       )}

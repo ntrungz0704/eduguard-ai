@@ -22,10 +22,10 @@ const scoreColor = (s) => {
 };
 
 const scoreBg = (s) => {
-  if (s >= 8) return 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
-  if (s >= 6.5) return 'bg-blue-500/10 border-blue-500/20 text-blue-400';
-  if (s >= 5) return 'bg-amber-500/10 border-amber-500/20 text-amber-400';
-  return 'bg-rose-500/10 border-rose-500/20 text-rose-400';
+  if (s >= 8) return 'bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-400';
+  if (s >= 6.5) return 'bg-blue-500/10 border-blue-200 dark:border-blue-500/20 text-blue-400';
+  if (s >= 5) return 'bg-amber-500/10 border-amber-200 dark:border-amber-500/20 text-amber-400';
+  return 'bg-rose-500/10 border-rose-200 dark:border-rose-500/20 text-rose-400';
 };
 
 const scoreLabel = (s) => {
@@ -37,7 +37,7 @@ const scoreLabel = (s) => {
 };
 
 const ScoreBar = ({ value, max = 10 }) => (
-  <div className="h-2 bg-slate-800 rounded-full overflow-hidden w-full relative">
+  <div className="h-2 bg-slate-50 dark:bg-slate-800 rounded-full overflow-hidden w-full relative">
     <div
       className="h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(59,130,246,0.3)]"
       style={{ width: `${(value / max) * 100}%`, backgroundColor: scoreColor(value) }}
@@ -50,14 +50,14 @@ const TabBtn = ({ active, onClick, icon, label, badge = null }) => (
     onClick={onClick}
     className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all relative ${
       active
-        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/20 border border-blue-500/30'
-        : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+        ? 'bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 text-slate-900 dark:text-white shadow-lg shadow-sm dark:shadow-blue-500/20 border border-blue-200 dark:border-blue-500/30'
+        : 'text-slate-600 dark:text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
     }`}
   >
     {icon}
     <span>{label}</span>
     {badge !== null && badge > 0 && (
-      <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full ring-2 ring-slate-950 animate-pulse">
+      <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-slate-900 dark:text-white text-[10px] font-black px-1.5 py-0.5 rounded-full ring-2 ring-slate-950 animate-pulse">
         {badge}
       </span>
     )}
@@ -240,16 +240,16 @@ function OverviewTab({ data, curriculumCourses }) {
 
       {/* GPA Summary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="glass-card p-6 rounded-2xl border border-white/10 flex flex-col justify-between relative overflow-hidden group">
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-between relative overflow-hidden group">
           <div className="absolute -top-10 -right-10 w-28 h-28 bg-blue-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">GPA Tích lũy thực tế</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-2">GPA Tích lũy thực tế</p>
           {gpa !== null ? (
             <div>
-              <div className="text-5xl font-black mt-2 mb-1 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent" style={{ color: scoreColor(gpa) }}>
+              <div className="text-5xl font-black mt-2 mb-1 bg-white dark:bg-gradient-to-r from-white dark:to-slate-300 bg-clip-text text-transparent" style={{ color: scoreColor(gpa) }}>
                 {gpa.toFixed(1)} <span className="text-xl text-slate-500">/10</span>
               </div>
-              <div className="text-sm font-semibold text-slate-300 mb-2">
-                Hệ 4: <span className="font-bold text-white">{gpa4.toFixed(2)}</span>
+              <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                Hệ 4: <span className="font-bold text-slate-900 dark:text-white">{gpa4.toFixed(2)}</span>
               </div>
               <span className={`text-xs font-black px-3 py-1 rounded-full border shadow-sm ${scoreBg(gpa)}`}>
                 {scoreLabel(gpa)}
@@ -260,20 +260,20 @@ function OverviewTab({ data, curriculumCourses }) {
           )}
         </div>
 
-        <div className="glass-card p-6 rounded-2xl border border-white/10 flex flex-col justify-between relative overflow-hidden group">
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-between relative overflow-hidden group">
           <div className="absolute -top-10 -right-10 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Tiến độ Hoàn thành</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Tiến độ Hoàn thành</p>
           <div>
-            <div className="text-4xl font-black text-white mt-3">{completed.length} môn</div>
+            <div className="text-4xl font-black text-slate-900 dark:text-white mt-3">{completed.length} môn</div>
             <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
               <span>Đã tích lũy: {totalEarnedCredits} tín chỉ</span>
             </p>
           </div>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl border border-white/10 flex flex-col justify-between relative overflow-hidden group">
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 flex flex-col justify-between relative overflow-hidden group">
           <div className="absolute -top-10 -right-10 w-28 h-28 bg-rose-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Dự báo Học kỳ hiện tại</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Dự báo Học kỳ hiện tại</p>
           <div>
             <div className="flex items-end gap-2 mt-3">
               <span className="text-4xl font-black text-rose-400">{atRisk.length} môn</span>
@@ -288,21 +288,21 @@ function OverviewTab({ data, curriculumCourses }) {
       </div>
 
       {/* Auto AI Analytics Summary */}
-      <div className="glass-card p-6 rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-950/20 to-indigo-950/10 relative overflow-hidden">
+      <div className="glass-card p-6 rounded-2xl border border-blue-200 dark:border-blue-500/20 bg-white dark:bg-gradient-to-br dark:from-blue-950/20 dark:to-indigo-950/10 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4 text-blue-500/20"><Sparkles size={60} /></div>
         <div className="flex items-center gap-2 mb-3">
           <Sparkles size={16} className="text-blue-400 animate-pulse" />
-          <h4 className="font-bold text-white text-sm">Hệ thống AI Phân tích Học vụ Cá nhân hóa</h4>
+          <h4 className="font-bold text-slate-900 dark:text-white text-sm">Hệ thống AI Phân tích Học vụ Cá nhân hóa</h4>
         </div>
-        <p className="text-slate-300 text-sm leading-relaxed">{aiFeedback}</p>
+        <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">{aiFeedback}</p>
       </div>
 
       {/* Performance Charts */}
       {chartData.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Fluctuation Line Chart */}
-          <div className="glass-card p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Dao động phong độ qua từng kỳ</h4>
+          <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden group">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-4">Dao động phong độ qua từng kỳ</h4>
             <div className="h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -321,8 +321,8 @@ function OverviewTab({ data, curriculumCourses }) {
           </div>
 
           {/* Ranking Area Chart */}
-          <div className="glass-card p-6 rounded-2xl border border-white/10 relative overflow-hidden group">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Tiến trình CPA (Tích lũy)</h4>
+          <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden group">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-4">Tiến trình CPA (Tích lũy)</h4>
             <div className="h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
@@ -349,14 +349,14 @@ function OverviewTab({ data, curriculumCourses }) {
       {/* Strengths & Weaknesses Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Strengths */}
-        <div className="glass-card p-6 rounded-2xl border border-emerald-500/20 bg-emerald-950/5 relative overflow-hidden group">
+        <div className="glass-card p-6 rounded-2xl border border-emerald-200 dark:border-emerald-500/20 bg-emerald-950/5 relative overflow-hidden group">
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl group-hover:scale-120 transition-transform" />
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 flex items-center justify-center shadow-lg shadow-emerald-500/5">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 flex items-center justify-center shadow-lg shadow-sm dark:shadow-emerald-500/5">
               <TrendingUp size={18} className="text-emerald-400" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm">Điểm mạnh tự động</h3>
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Điểm mạnh tự động</h3>
               <p className="text-[11px] text-slate-500">Môn học có phong độ xuất sắc nhất</p>
             </div>
           </div>
@@ -367,8 +367,8 @@ function OverviewTab({ data, curriculumCourses }) {
               {strengths.map((c, i) => (
                 <div key={i} className="hover:bg-white/3 p-2 rounded-lg transition-colors">
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-xs font-semibold text-slate-200 truncate max-w-[80%]">{c.courseId}</span>
-                    <span className="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">{c.value.toFixed(1)}</span>
+                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[80%]">{c.courseId}</span>
+                    <span className="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20">{c.value.toFixed(1)}</span>
                   </div>
                   <ScoreBar value={c.value} />
                 </div>
@@ -378,14 +378,14 @@ function OverviewTab({ data, curriculumCourses }) {
         </div>
 
         {/* Weaknesses */}
-        <div className="glass-card p-6 rounded-2xl border border-rose-500/20 bg-rose-950/5 relative overflow-hidden group">
+        <div className="glass-card p-6 rounded-2xl border border-rose-200 dark:border-rose-500/20 bg-rose-950/5 relative overflow-hidden group">
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl group-hover:scale-120 transition-transform" />
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-rose-500/20 flex items-center justify-center shadow-lg shadow-rose-500/5">
+            <div className="w-9 h-9 rounded-xl bg-rose-500/20 flex items-center justify-center shadow-lg shadow-sm dark:shadow-rose-500/5">
               <TrendingDown size={18} className="text-rose-400" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm">Cần cải thiện học thuật</h3>
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Cần cải thiện học thuật</h3>
               <p className="text-[11px] text-slate-500">Môn học cần cải thiện hoặc đang có rủi ro</p>
             </div>
           </div>
@@ -396,8 +396,8 @@ function OverviewTab({ data, curriculumCourses }) {
               {weaknesses.map((c, i) => (
                 <div key={i} className="hover:bg-white/3 p-2 rounded-lg transition-colors">
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-xs font-semibold text-slate-200 truncate max-w-[80%]">{c.courseId}</span>
-                    <span className="text-xs font-black text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">{c.value.toFixed(1)}</span>
+                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[80%]">{c.courseId}</span>
+                    <span className="text-xs font-black text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-200 dark:border-rose-500/20">{c.value.toFixed(1)}</span>
                   </div>
                   <ScoreBar value={c.value} />
                 </div>
@@ -409,13 +409,13 @@ function OverviewTab({ data, curriculumCourses }) {
 
       {/* AI Forecast for current semester */}
       {predictions.length > 0 && (
-        <div className="glass-card p-6 rounded-2xl border border-white/10 relative overflow-hidden">
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center shadow-lg shadow-blue-500/5">
+            <div className="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center shadow-lg shadow-sm dark:shadow-blue-500/5">
               <BarChart3 size={18} className="text-blue-400" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm">Dự báo Học kỳ hiện tại (AI Dự toán)</h3>
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Dự báo Học kỳ hiện tại (AI Dự toán)</h3>
               <p className="text-[11px] text-slate-500">AI giải thích chi tiết dựa trên liên kết học phần</p>
             </div>
           </div>
@@ -426,25 +426,25 @@ function OverviewTab({ data, curriculumCourses }) {
               const isMed = s >= 5 && s < 6.5;
               return (
                 <div key={i} className={`p-4 rounded-xl border transition-all ${
-                  isLow ? 'bg-rose-500/5 border-rose-500/20 hover:bg-rose-500/10' :
-                  isMed ? 'bg-amber-500/5 border-amber-500/20 hover:bg-amber-500/10' :
-                  'bg-emerald-500/5 border-emerald-500/10 hover:bg-emerald-500/10'
+                  isLow ? 'bg-rose-500/5 border-rose-200 dark:border-rose-500/20 hover:bg-rose-500/10' :
+                  isMed ? 'bg-amber-500/5 border-amber-200 dark:border-amber-500/20 hover:bg-amber-500/10' :
+                  'bg-emerald-500/5 border-emerald-200 dark:border-emerald-500/10 hover:bg-emerald-500/10'
                 }`}>
                   <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
                     <div className="flex items-center gap-2.5">
                       <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: scoreColor(s) }} />
-                      <span className="text-sm font-bold text-slate-200 truncate">{p.courseId}</span>
+                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{p.courseId}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       {p.confidence && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-800/50 border-slate-700 text-blue-300">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-blue-300">
                           ĐỘ TIN CẬY: {(p.confidence * 100).toFixed(0)}%
                         </span>
                       )}
                       <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
-                        p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-500/30 text-rose-400' :
-                        p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-500/30 text-amber-400' :
-                        'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                        p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-200 dark:border-rose-500/30 text-rose-400' :
+                        p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-200 dark:border-amber-500/30 text-amber-400' :
+                        'bg-emerald-500/20 border-emerald-200 dark:border-emerald-500/30 text-emerald-400'
                       }`}>
                         RỦI RO {p.risk === 'HIGH' ? 'CAO' : p.risk === 'MEDIUM' ? 'TRUNG BÌNH' : 'THẤP'}
                       </span>
@@ -453,16 +453,16 @@ function OverviewTab({ data, curriculumCourses }) {
                   </div>
 
                   {/* Explainable AI details (XAI) */}
-                  <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-2">
+                  <div className="mt-2.5 pt-2.5 border-t border-slate-200 dark:border-white/5 space-y-2">
                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Giải thích XAI (Explainable AI):</p>
                     
                     {p.explanation && (
-                      <div className="p-2 rounded-lg bg-black/20 border border-white/5 text-xs text-slate-300">
+                      <div className="p-2 rounded-lg bg-slate-100 dark:bg-black/20 border border-slate-200 dark:border-white/5 text-xs text-slate-700 dark:text-slate-300">
                         {p.explanation}
                       </div>
                     )}
-                  {p.reasons && p.reasons.length > 0 ? (
-                    <div className="mt-2.5 pt-2.5 border-t border-white/5 space-y-1.5">
+                  {p.reasons && Array.isArray(p.reasons) && p.reasons.length > 0 ? (
+                    <div className="mt-2.5 pt-2.5 border-t border-slate-200 dark:border-white/5 space-y-1.5">
                       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Giải thích nguyên nhân từ AI:</p>
                       {p.reasons.map((r, rIdx) => {
                         const isNegative = r.impact === 'negative';
@@ -473,15 +473,15 @@ function OverviewTab({ data, curriculumCourses }) {
                             ) : (
                               <TrendingUp size={12} className="text-emerald-400 mt-0.5 shrink-0" />
                             )}
-                            <span className="text-slate-400">
-                              {isNegative ? 'Lỗ hổng từ môn:' : 'Điểm tựa từ môn:'} <span className="text-slate-200 font-medium">{r.subject}</span> ({r.score}đ) • {isNegative ? 'Làm giảm' : 'Tăng điểm'} dự báo
+                            <span className="text-slate-600 dark:text-slate-400">
+                              {isNegative ? 'Lỗ hổng từ môn:' : 'Điểm tựa từ môn:'} <span className="text-slate-800 dark:text-slate-200 font-medium">{r.subject}</span> ({r.score}đ) • {isNegative ? 'Làm giảm' : 'Tăng điểm'} dự báo
                             </span>
                           </div>
                         );
                       })}
                     </div>
                   ) : (
-                    <div className="mt-1 pt-1.5 border-t border-white/5 text-[11px] text-slate-500 italic">
+                    <div className="mt-1 pt-1.5 border-t border-slate-200 dark:border-white/5 text-[11px] text-slate-500 italic">
                       Dự báo dựa trên xu hướng học lực chung.
                     </div>
                   )}
@@ -519,10 +519,10 @@ function GradesTab({ curriculumCourses }) {
       {/* Filter pills */}
       <div className="flex gap-2 flex-wrap">
         {[
-          { id: 'all', label: 'Tất cả môn học', count: curriculumCourses.length, color: 'border-white/10 text-slate-400' },
-          { id: 'completed', label: '✅ Đã hoàn thành', count: completed.length, color: 'border-emerald-500/20 text-emerald-400 bg-emerald-500/5' },
-          { id: 'studying', label: '📊 Đang học (Dự báo)', count: studying.length, color: 'border-blue-500/20 text-blue-400 bg-blue-500/5' },
-          { id: 'notStarted', label: '💤 Chưa học', count: notStarted.length, color: 'border-slate-700/50 text-slate-500 bg-slate-900/10' },
+          { id: 'all', label: 'Tất cả môn học', count: curriculumCourses.length, color: 'border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400' },
+          { id: 'completed', label: '✅ Đã hoàn thành', count: completed.length, color: 'border-emerald-200 dark:border-emerald-500/20 text-emerald-400 bg-emerald-500/5' },
+          { id: 'studying', label: '📊 Đang học (Dự báo)', count: studying.length, color: 'border-blue-200 dark:border-blue-500/20 text-blue-400 bg-blue-500/5' },
+          { id: 'notStarted', label: '💤 Chưa học', count: notStarted.length, color: 'border-slate-700/50 text-slate-500 bg-white dark:bg-slate-900/10' },
         ].map(f => (
           <button
             key={f.id}
@@ -539,8 +539,8 @@ function GradesTab({ curriculumCourses }) {
       </div>
 
       {/* Curriculum table list */}
-      <div className="glass-card rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
-        <div className="grid grid-cols-12 px-6 py-4 border-b border-white/5 text-[11px] text-slate-500 font-bold uppercase tracking-wider bg-slate-950/20">
+      <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl">
+        <div className="grid grid-cols-12 px-6 py-4 border-b border-slate-200 dark:border-white/5 text-[11px] text-slate-500 font-bold uppercase tracking-wider bg-slate-950/20">
           <span className="col-span-3">Môn học</span>
           <span className="col-span-2 text-center">Học kỳ</span>
           <span className="col-span-1 text-center">Tín chỉ</span>
@@ -563,16 +563,16 @@ function GradesTab({ curriculumCourses }) {
                   {c.status === 'PASSED' && <CheckCircle size={15} className="text-emerald-500 shrink-0" />}
                   {c.status === 'FAILED' && <AlertCircle size={15} className="text-rose-500 shrink-0" />}
                   {c.status === 'STUDYING' && <Clock size={15} className="text-blue-400 shrink-0 animate-pulse" />}
-                  {c.status === 'NOT_STARTED' && <div className="w-3.5 h-3.5 rounded-full border border-slate-700 bg-slate-800 shrink-0" />}
+                  {c.status === 'NOT_STARTED' && <div className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 shrink-0" />}
                   
-                  <span className="text-sm font-semibold text-slate-200 truncate">{c.courseId}</span>
+                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{c.courseId}</span>
                 </div>
                 
-                <div className="col-span-2 text-center text-xs font-semibold text-slate-400">
+                <div className="col-span-2 text-center text-xs font-semibold text-slate-600 dark:text-slate-400">
                   {c.semester || '—'}
                 </div>
 
-                <div className="col-span-1 text-center text-xs font-bold text-slate-400">
+                <div className="col-span-1 text-center text-xs font-bold text-slate-600 dark:text-slate-400">
                   {c.credits}
                 </div>
 
@@ -583,7 +583,7 @@ function GradesTab({ curriculumCourses }) {
                         {c.value.toFixed(1)}
                       </span>
                       {c.isPredicted && (
-                        <span className="text-[8px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-1 py-0.2 rounded uppercase shrink-0">AI</span>
+                        <span className="text-[8px] font-bold text-blue-400 bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-1 py-0.2 rounded uppercase shrink-0">AI</span>
                       )}
                     </>
                   ) : (
@@ -591,13 +591,13 @@ function GradesTab({ curriculumCourses }) {
                   )}
                 </div>
 
-                <div className="col-span-1 text-center text-xs font-bold text-slate-300">
+                <div className="col-span-1 text-center text-xs font-bold text-slate-700 dark:text-slate-300">
                   {c.value !== null ? get40Scale(c.value).toFixed(2) : '—'}
                 </div>
 
-                <div className="col-span-1 text-center text-xs font-black text-white">
+                <div className="col-span-1 text-center text-xs font-black text-slate-900 dark:text-white">
                   {c.value !== null ? (
-                    <span className="bg-white/5 border border-white/10 rounded px-2 py-0.5 inline-block min-w-[32px] text-center">
+                    <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block min-w-[32px] text-center">
                       {getLetterGrade(c.value)}
                     </span>
                   ) : '—'}
@@ -605,10 +605,10 @@ function GradesTab({ curriculumCourses }) {
 
                 <div className="col-span-2 flex justify-center">
                   <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border uppercase ${
-                    c.status === 'PASSED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
-                    c.status === 'FAILED' ? 'bg-rose-500/10 border-rose-500/20 text-rose-400' :
-                    c.status === 'STUDYING' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-                    'bg-slate-800 border-slate-700 text-slate-500'
+                    c.status === 'PASSED' ? 'bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-400' :
+                    c.status === 'FAILED' ? 'bg-rose-500/10 border-rose-200 dark:border-rose-500/20 text-rose-400' :
+                    c.status === 'STUDYING' ? 'bg-blue-500/10 border-blue-200 dark:border-blue-500/20 text-blue-400' :
+                    'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500'
                   }`}>
                     {c.status === 'PASSED' ? 'Đã đỗ' :
                      c.status === 'FAILED' ? 'Học lại' :
@@ -622,20 +622,20 @@ function GradesTab({ curriculumCourses }) {
       </div>
 
       {/* Table Footer & Statistics Block */}
-      <div className="glass-card rounded-2xl border border-white/10 p-6 space-y-6 shadow-xl bg-slate-950/10">
-        <div className="text-xs text-slate-400 space-y-2">
-          <p>Hiển thị <span className="font-bold text-white">{filteredCourses.length}</span> môn học</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 bg-white/3 p-4 rounded-xl border border-white/5">
+      <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-6 shadow-xl bg-slate-950/10">
+        <div className="text-xs text-slate-600 dark:text-slate-400 space-y-2">
+          <p>Hiển thị <span className="font-bold text-slate-900 dark:text-white">{filteredCourses.length}</span> môn học</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 bg-white/3 p-4 rounded-xl border border-slate-200 dark:border-white/5">
             <div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 10)</div>
+              <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 10)</div>
               <div className="text-2xl font-black text-emerald-400 mt-1">{stats.gpa10.toFixed(1)}</div>
             </div>
             <div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 4)</div>
+              <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 4)</div>
               <div className="text-2xl font-black text-blue-400 mt-1">{stats.gpa4.toFixed(2)}</div>
             </div>
             <div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Tín chỉ tích lũy (Đạt / Tổng)</div>
+              <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Tín chỉ tích lũy (Đạt / Tổng)</div>
               <div className="text-2xl font-black text-amber-400 mt-1">{stats.totalEarnedCredits} / 100 <span className="text-xs text-slate-500 font-normal">tín</span></div>
             </div>
           </div>
@@ -644,24 +644,24 @@ function GradesTab({ curriculumCourses }) {
           </p>
         </div>
 
-        <hr className="border-white/5" />
+        <hr className="border-slate-200 dark:border-white/5" />
 
         <div>
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Thống kê môn học</h4>
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-3">Thống kê môn học</h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-slate-900/40 border border-white/5 rounded-xl p-3 text-center">
-              <div className="text-lg font-black text-slate-400">{curriculumCourses.filter(c => c.status === 'NOT_STARTED').length}</div>
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-xl p-3 text-center">
+              <div className="text-lg font-black text-slate-600 dark:text-slate-400">{curriculumCourses.filter(c => c.status === 'NOT_STARTED').length}</div>
               <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1">Chưa học</div>
             </div>
-            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-3 text-center">
+            <div className="bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/10 rounded-xl p-3 text-center">
               <div className="text-lg font-black text-emerald-400">{curriculumCourses.filter(c => c.status === 'PASSED').length}</div>
               <div className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider mt-1">Đã môn đạt</div>
             </div>
-            <div className="bg-rose-500/5 border border-rose-500/10 rounded-xl p-3 text-center">
+            <div className="bg-rose-500/5 border border-rose-200 dark:border-rose-500/10 rounded-xl p-3 text-center">
               <div className="text-lg font-black text-rose-400">{curriculumCourses.filter(c => c.status === 'FAILED').length}</div>
               <div className="text-[10px] text-rose-500 font-bold uppercase tracking-wider mt-1">Môn học lại</div>
             </div>
-            <div className="bg-blue-500/5 border border-blue-500/10 rounded-xl p-3 text-center">
+            <div className="bg-blue-500/5 border border-blue-200 dark:border-blue-500/10 rounded-xl p-3 text-center">
               <div className="text-lg font-black text-blue-400">{curriculumCourses.filter(c => c.status === 'STUDYING').length}</div>
               <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-1">Đang học</div>
             </div>
@@ -697,13 +697,13 @@ function RoadmapTab({ curriculumCourses }) {
 
   return (
     <div className="space-y-6">
-      <div className="glass-card p-6 rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-950/20 to-indigo-950/10 flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/10">
+      <div className="glass-card p-6 rounded-2xl border border-blue-200 dark:border-blue-500/20 bg-white dark:bg-gradient-to-br dark:from-blue-950/20 dark:to-indigo-950/10 flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0 shadow-lg shadow-sm dark:shadow-blue-500/10">
           <Map size={20} className="text-blue-400" />
         </div>
         <div>
-          <h3 className="font-bold text-white">Lộ trình học tập & Cải thiện học thuật</h3>
-          <p className="text-slate-400 text-xs mt-1 leading-relaxed">
+          <h3 className="font-bold text-slate-900 dark:text-white">Lộ trình học tập & Cải thiện học thuật</h3>
+          <p className="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">
             Xem toàn bộ hành trình 6 học kỳ tại trường. Điểm số hoàn thành và dự báo AI sẽ chỉ ra lộ trình kiến thức của bạn.
           </p>
         </div>
@@ -728,9 +728,9 @@ function RoadmapTab({ curriculumCourses }) {
             <div key={sIdx} className="relative pl-12 group transition-all duration-300">
               {/* Semester Indicator Node */}
               <div className={`absolute left-2.5 top-1.5 -translate-x-1/2 w-5 h-5 rounded-full flex items-center justify-center transition-all ${
-                semStatus === 'COMPLETED' ? 'bg-emerald-500 ring-4 ring-emerald-500/20 text-white' :
-                semStatus === 'STUDYING' ? 'bg-blue-500 ring-4 ring-blue-500/20 text-white animate-pulse' :
-                'bg-slate-800 border-2 border-slate-700 ring-2 ring-slate-950'
+                semStatus === 'COMPLETED' ? 'bg-emerald-500 ring-4 ring-emerald-500/20 text-slate-900 dark:text-white' :
+                semStatus === 'STUDYING' ? 'bg-blue-500 ring-4 ring-blue-500/20 text-slate-900 dark:text-white animate-pulse' :
+                'bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 ring-2 ring-slate-950'
               }`}>
                 {semStatus === 'COMPLETED' && <Check size={10} className="stroke-[4]" />}
                 {semStatus === 'STUDYING' && <Activity size={10} />}
@@ -738,12 +738,12 @@ function RoadmapTab({ curriculumCourses }) {
 
               {/* Header */}
               <div className="flex flex-wrap items-center gap-3 mb-3">
-                <h4 className="font-bold text-white text-base">{sem.name}</h4>
+                <h4 className="font-bold text-slate-900 dark:text-white text-base">{sem.name}</h4>
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{semCredits} tín chỉ</span>
                 <span className={`text-[10px] font-black px-2 py-0.5 rounded border ${
-                  semStatus === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
-                  semStatus === 'STUDYING' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
-                  'bg-slate-800/50 border-slate-700 text-slate-500'
+                  semStatus === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-400' :
+                  semStatus === 'STUDYING' ? 'bg-blue-500/10 border-blue-200 dark:border-blue-500/20 text-blue-400' :
+                  'bg-slate-50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-slate-500'
                 }`}>
                   {semStatus === 'COMPLETED' ? 'Đã hoàn thành' :
                    semStatus === 'STUDYING' ? 'Đang học' : 'Dự kiến'}
@@ -756,14 +756,14 @@ function RoadmapTab({ curriculumCourses }) {
                   <div 
                     key={cIdx} 
                     className={`glass-card p-4 rounded-xl border transition-all hover:-translate-y-0.5 ${
-                      c.status === 'PASSED' ? 'border-emerald-500/15 bg-emerald-500/2' :
-                      c.status === 'FAILED' ? 'border-rose-500/15 bg-rose-500/2' :
-                      c.status === 'STUDYING' ? 'border-blue-500/30 bg-blue-500/5' :
-                      'border-white/5 bg-slate-900/20 opacity-60'
+                      c.status === 'PASSED' ? 'border-emerald-200 dark:border-emerald-500/15 bg-emerald-500/2' :
+                      c.status === 'FAILED' ? 'border-rose-200 dark:border-rose-500/15 bg-rose-500/2' :
+                      c.status === 'STUDYING' ? 'border-blue-200 dark:border-blue-500/30 bg-blue-500/5' :
+                      'border-slate-200 dark:border-white/5 bg-white dark:bg-slate-900/20 opacity-60'
                     }`}
                   >
                     <div className="flex justify-between items-start gap-2 mb-2">
-                      <span className="text-xs font-bold text-slate-200 line-clamp-1 flex-1">{c.courseId}</span>
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200 line-clamp-1 flex-1">{c.courseId}</span>
                       <span className="text-[9px] text-slate-500 shrink-0 font-bold">{c.credits} tín</span>
                     </div>
 
@@ -773,7 +773,7 @@ function RoadmapTab({ curriculumCourses }) {
                           <span className="text-xs font-black" style={{ color: scoreColor(c.value) }}>
                             {c.value.toFixed(1)}
                           </span>
-                          {c.isPredicted && <span className="text-[8px] bg-blue-500/20 border border-blue-500/30 text-blue-400 font-bold px-1 rounded">AI</span>}
+                          {c.isPredicted && <span className="text-[8px] bg-blue-500/20 border border-blue-200 dark:border-blue-500/30 text-blue-400 font-bold px-1 rounded">AI</span>}
                         </div>
                       ) : (
                         <span className="text-[10px] text-slate-600 font-medium">Chưa bắt đầu</span>
@@ -948,7 +948,7 @@ function ChatTab({ currentUser, activeStudentData }) {
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index));
       }
-      parts.push(<strong key={match.index} className="text-white font-extrabold">{match[1]}</strong>);
+      parts.push(<strong key={match.index} className="text-slate-900 dark:text-white font-extrabold">{match[1]}</strong>);
       lastIndex = boldRegex.lastIndex;
     }
     
@@ -981,12 +981,12 @@ function ChatTab({ currentUser, activeStudentData }) {
     const flushTable = (key) => {
       if (currentTable) {
         elements.push(
-          <div key={key} className="overflow-x-auto my-4 rounded-2xl border border-white/10 bg-slate-950/40 shadow-xl max-w-full">
+          <div key={key} className="overflow-x-auto my-4 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-950/40 shadow-xl max-w-full">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-white/5 border-b border-white/10">
+                <tr className="bg-white/5 border-b border-slate-200 dark:border-white/10">
                   {currentTable.headers.map((h, idx) => (
-                    <th key={idx} className="p-3 font-extrabold text-white uppercase tracking-wider">{parseInlineStyles(h)}</th>
+                    <th key={idx} className="p-3 font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">{parseInlineStyles(h)}</th>
                   ))}
                 </tr>
               </thead>
@@ -994,7 +994,7 @@ function ChatTab({ currentUser, activeStudentData }) {
                 {currentTable.rows.map((row, rIdx) => (
                   <tr key={rIdx} className="hover:bg-white/5 transition-colors">
                     {row.map((cell, cIdx) => (
-                      <td key={cIdx} className="p-3 text-slate-300 font-medium">{parseInlineStyles(cell)}</td>
+                      <td key={cIdx} className="p-3 text-slate-700 dark:text-slate-300 font-medium">{parseInlineStyles(cell)}</td>
                     ))}
                   </tr>
                 ))}
@@ -1042,7 +1042,7 @@ function ChatTab({ currentUser, activeStudentData }) {
           currentList = [];
         }
         currentList.push(
-          <li key={`li-${i}`} className="text-slate-300 leading-relaxed text-xs font-medium">
+          <li key={`li-${i}`} className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs font-medium">
             {parsedContent}
           </li>
         );
@@ -1058,7 +1058,7 @@ function ChatTab({ currentUser, activeStudentData }) {
       
       const parsedContent = parseInlineStyles(line);
       elements.push(
-        <p key={`p-${i}`} className="mb-3 text-slate-300 leading-relaxed text-xs font-medium">
+        <p key={`p-${i}`} className="mb-3 text-slate-700 dark:text-slate-300 leading-relaxed text-xs font-medium">
           {parsedContent}
         </p>
       );
@@ -1072,17 +1072,17 @@ function ChatTab({ currentUser, activeStudentData }) {
 
   return (
     <div 
-      className="glass-card rounded-[24px] border border-white/10 overflow-hidden flex flex-col h-[650px] shadow-2xl animate-fade-in w-full"
+      className="glass-card rounded-[24px] border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col h-[650px] shadow-2xl animate-fade-in w-full"
       style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
     >
       {/* Selector Header */}
-      <div className="flex border-b border-white/5 bg-slate-900/60 p-1.5 shrink-0">
+      <div className="flex border-b border-slate-200 dark:border-white/5 bg-white dark:bg-slate-900/60 p-1.5 shrink-0">
         <button
           onClick={() => setChatMode('ai')}
           className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
             chatMode === 'ai'
-              ? 'bg-blue-600 text-white shadow shadow-blue-500/20'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
+              ? 'bg-blue-600 text-slate-900 dark:text-white shadow shadow-sm dark:shadow-blue-500/20'
+              : 'text-slate-600 dark:text-slate-400 hover:text-white hover:bg-white/5'
           }`}
         >
           <Sparkles size={14} />
@@ -1092,8 +1092,8 @@ function ChatTab({ currentUser, activeStudentData }) {
           onClick={() => setChatMode('advisor')}
           className={`flex-1 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
             chatMode === 'advisor'
-              ? 'bg-purple-600 text-white shadow shadow-purple-500/20'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
+              ? 'bg-purple-600 text-slate-900 dark:text-white shadow shadow-sm dark:shadow-purple-500/20'
+              : 'text-slate-600 dark:text-slate-400 hover:text-white hover:bg-white/5'
           }`}
         >
           <User size={14} />
@@ -1104,7 +1104,7 @@ function ChatTab({ currentUser, activeStudentData }) {
       {/* Mode 1: AI Chat Assistant */}
       {chatMode === 'ai' && (
         <div className="flex-1 flex flex-col bg-slate-950/60 min-h-0">
-          <div className="p-3 border-b border-white/5 bg-slate-950/50 flex items-center gap-2 text-xs text-blue-400 font-semibold uppercase tracking-wider shrink-0">
+          <div className="p-3 border-b border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-950/50 flex items-center gap-2 text-xs text-blue-400 font-semibold uppercase tracking-wider shrink-0">
             <Sparkles size={12} className="animate-spin" /> Trò chuyện học tập cùng Gia sư AI cá nhân của bạn
           </div>
           
@@ -1112,10 +1112,10 @@ function ChatTab({ currentUser, activeStudentData }) {
             {aiMessages.map((msg, i) => (
               <div key={i} className={`flex gap-3.5 max-w-[92%] ${msg.sender === 'user' ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}>
                 {/* Avatar Icon */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white border flex-shrink-0 ${
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-slate-900 dark:text-white border flex-shrink-0 ${
                   msg.sender === 'user'
-                    ? 'bg-gradient-to-tr from-blue-600 to-indigo-600 border-blue-500/20 shadow-md'
-                    : 'bg-gradient-to-tr from-purple-600 to-indigo-600 border-purple-500/20 shadow-md'
+                    ? 'bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-indigo-600 border-blue-200 dark:border-blue-500/20 shadow-md'
+                    : 'bg-white dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 border-purple-200 dark:border-purple-500/20 shadow-md'
                 }`}>
                   {msg.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
                 </div>
@@ -1123,8 +1123,8 @@ function ChatTab({ currentUser, activeStudentData }) {
                 <div className="space-y-1 max-w-[90%] flex-1">
                   <div className={
                     msg.sender === 'user'
-                      ? 'p-3 px-4 rounded-3xl rounded-tr-none text-xs shadow-md border bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500/25 ml-auto w-fit max-w-[85%] font-medium'
-                      : 'p-0 bg-transparent border-none shadow-none text-slate-200 max-w-none text-xs leading-relaxed'
+                      ? 'p-3 px-4 rounded-3xl rounded-tr-none text-xs shadow-md border bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 text-slate-900 dark:text-white border-blue-200 dark:border-blue-500/25 ml-auto w-fit max-w-[85%] font-medium'
+                      : 'p-0 bg-transparent border-none shadow-none text-slate-800 dark:text-slate-200 max-w-none text-xs leading-relaxed'
                   }>
                     {msg.sender === 'ai' ? (
                       <div className="prose prose-invert prose-xs max-w-none">
@@ -1146,11 +1146,11 @@ function ChatTab({ currentUser, activeStudentData }) {
             ))}
             {aiLoading && (
               <div className="flex gap-3.5 max-w-[92%] mr-auto animate-pulse">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white border border-purple-500/20 shadow-md flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-white dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white border border-purple-200 dark:border-purple-500/20 shadow-md flex-shrink-0">
                   <Bot size={14} />
                 </div>
                 <div className="space-y-1 flex-1">
-                  <div className="p-0 bg-transparent border-none shadow-none text-slate-400 text-xs flex items-center gap-2">
+                  <div className="p-0 bg-transparent border-none shadow-none text-slate-600 dark:text-slate-400 text-xs flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce delay-300"></span>
@@ -1162,18 +1162,18 @@ function ChatTab({ currentUser, activeStudentData }) {
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={handleSendAi} className="p-3 border-t border-white/5 bg-slate-950 shrink-0 flex gap-2">
+          <form onSubmit={handleSendAi} className="p-3 border-t border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-950 shrink-0 flex gap-2">
             <input
               type="text"
               value={aiInput}
               onChange={e => setAiInput(e.target.value)}
               placeholder="Hỏi về điểm số môn PHP, cách tăng GPA, hay môn chưa học..."
-              className="flex-1 bg-black/40 border border-white/10 hover:border-white/20 focus:border-blue-500/50 rounded-xl px-4 text-xs text-white outline-none transition-all outline-none py-3"
+              className="flex-1 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-blue-500/50 rounded-xl px-4 text-xs text-slate-900 dark:text-white outline-none transition-all outline-none py-3"
             />
             <button
               type="submit"
               disabled={aiLoading || !aiInput.trim()}
-              className="p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-colors shadow shadow-blue-500/20 disabled:opacity-50"
+              className="p-3 bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white rounded-xl transition-colors shadow shadow-sm dark:shadow-blue-500/20 disabled:opacity-50"
             >
               <Send size={15} />
             </button>
@@ -1186,8 +1186,8 @@ function ChatTab({ currentUser, activeStudentData }) {
         <div className="flex-1 flex min-h-0">
           
           {/* Advisor Selector Sidebar */}
-          <div className="w-56 border-r border-white/5 flex flex-col bg-slate-900/30 shrink-0 min-h-0">
-            <div className="p-3 border-b border-white/5 text-[10px] font-bold text-slate-500 uppercase shrink-0">Danh sách Cố vấn</div>
+          <div className="w-56 border-r border-slate-200 dark:border-white/5 flex flex-col bg-white dark:bg-slate-900/30 shrink-0 min-h-0">
+            <div className="p-3 border-b border-slate-200 dark:border-white/5 text-[10px] font-bold text-slate-500 uppercase shrink-0">Danh sách Cố vấn</div>
             <div className="flex-1 overflow-y-auto min-h-0 custom-scrollbar">
               {availableAdvisors.length === 0 ? (
                 <div className="p-4 text-center text-slate-600 text-xs italic">Không tìm thấy cố vấn.</div>
@@ -1196,11 +1196,11 @@ function ChatTab({ currentUser, activeStudentData }) {
                   <button
                     key={adv.id}
                     onClick={() => handleSelectAdvisor(adv)}
-                    className={`w-full p-3 text-left border-b border-white/5 flex flex-col transition-colors ${
+                    className={`w-full p-3 text-left border-b border-slate-200 dark:border-white/5 flex flex-col transition-colors ${
                       selectedAdvisorId === adv.id ? 'bg-purple-500/10 border-l-2 border-l-purple-500' : 'hover:bg-white/3 border-l-2 border-l-transparent'
                     }`}
                   >
-                    <span className="text-xs font-bold text-slate-200 truncate">{adv.name}</span>
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{adv.name}</span>
                     <span className="text-[9px] text-slate-500 truncate mt-0.5">{adv.email}</span>
                   </button>
                 ))
@@ -1210,13 +1210,13 @@ function ChatTab({ currentUser, activeStudentData }) {
 
           {/* Messaging Chat Pane */}
           <div className="flex-1 flex flex-col bg-slate-950/60 min-h-0">
-            <div className="p-3 border-b border-white/5 bg-slate-950/50 flex items-center justify-between text-xs text-purple-400 font-bold uppercase tracking-wider shrink-0">
+            <div className="p-3 border-b border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-950/50 flex items-center justify-between text-xs text-purple-400 font-bold uppercase tracking-wider shrink-0">
               <span>Đang kết nối: {selectedAdvisorName}</span>
-              <span className="text-[9px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-black shrink-0">ONLINE</span>
+              <span className="text-[9px] bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-black shrink-0">ONLINE</span>
             </div>
 
             {loadingConv ? (
-              <div className="flex-1 flex items-center justify-center text-slate-400 text-xs shrink-0">
+              <div className="flex-1 flex items-center justify-center text-slate-600 dark:text-slate-400 text-xs shrink-0">
                 <Loader2 size={16} className="animate-spin mr-2" /> Đang tải lịch sử tin nhắn...
               </div>
             ) : (
@@ -1232,10 +1232,10 @@ function ChatTab({ currentUser, activeStudentData }) {
                     return (
                       <div key={i} className={`flex gap-3.5 max-w-[92%] ${isMe ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}>
                         {/* Avatar Icon */}
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white border flex-shrink-0 ${
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-slate-900 dark:text-white border flex-shrink-0 ${
                           isMe
-                            ? 'bg-gradient-to-tr from-purple-600 to-indigo-600 border-purple-500/20 shadow-md'
-                            : 'bg-gradient-to-tr from-blue-600 to-indigo-600 border-blue-500/20 shadow-md'
+                            ? 'bg-white dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 border-purple-200 dark:border-purple-500/20 shadow-md'
+                            : 'bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-indigo-600 border-blue-200 dark:border-blue-500/20 shadow-md'
                         }`}>
                           {isMe ? <User size={14} /> : <GraduationCap size={14} />}
                         </div>
@@ -1243,8 +1243,8 @@ function ChatTab({ currentUser, activeStudentData }) {
                         <div className="space-y-1 max-w-[90%] flex-1">
                           <div className={
                             isMe
-                              ? 'p-3 px-4 rounded-3xl rounded-tr-none text-xs shadow-md border bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-500/25 ml-auto w-fit max-w-[85%] font-medium'
-                              : 'p-0 bg-transparent border-none shadow-none text-slate-200 max-w-none text-xs leading-relaxed whitespace-pre-wrap'
+                              ? 'p-3 px-4 rounded-3xl rounded-tr-none text-xs shadow-md border bg-white dark:bg-gradient-to-r dark:from-purple-600 dark:to-indigo-600 text-slate-900 dark:text-white border-purple-200 dark:border-purple-500/25 ml-auto w-fit max-w-[85%] font-medium'
+                              : 'p-0 bg-transparent border-none shadow-none text-slate-800 dark:text-slate-200 max-w-none text-xs leading-relaxed whitespace-pre-wrap'
                           }>
                             <p className="leading-relaxed">{msg.content}</p>
                           </div>
@@ -1264,18 +1264,18 @@ function ChatTab({ currentUser, activeStudentData }) {
               </div>
             )}
 
-            <form onSubmit={handleSendAdvisor} className="p-3 border-t border-white/5 bg-slate-950 shrink-0 flex gap-2">
+            <form onSubmit={handleSendAdvisor} className="p-3 border-t border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-950 shrink-0 flex gap-2">
               <input
                 type="text"
                 value={advisorInput}
                 onChange={e => setAdvisorInput(e.target.value)}
                 placeholder={`Nhập nội dung cần hỗ trợ học vụ để gửi tới ${selectedAdvisorName}...`}
-                className="flex-1 bg-black/40 border border-white/10 hover:border-white/20 focus:border-purple-500/50 rounded-xl px-4 text-xs text-white outline-none transition-all outline-none py-3"
+                className="flex-1 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-purple-500/50 rounded-xl px-4 text-xs text-slate-900 dark:text-white outline-none transition-all outline-none py-3"
               />
               <button
                 type="submit"
                 disabled={advisorSending || !advisorInput.trim() || !selectedAdvisorId}
-                className="p-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors shadow shadow-purple-500/20 disabled:opacity-50"
+                className="p-3 bg-purple-600 hover:bg-purple-500 text-slate-900 dark:text-white rounded-xl transition-colors shadow shadow-sm dark:shadow-purple-500/20 disabled:opacity-50"
               >
                 {advisorSending ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
               </button>
@@ -1326,8 +1326,8 @@ export default function StudentDashboard() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
-        <p className="text-slate-400 text-sm font-bold animate-pulse">Hệ thống đang đồng bộ dữ liệu học vụ...</p>
+        <div className="w-12 h-12 border-4 border-blue-200 dark:border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+        <p className="text-slate-600 dark:text-slate-400 text-sm font-bold animate-pulse">Hệ thống đang đồng bộ dữ liệu học vụ...</p>
       </div>
     );
   }
@@ -1434,44 +1434,44 @@ export default function StudentDashboard() {
     <div className="w-full space-y-6 pb-12 animate-fade-in">
 
       {/* ── Visual Profile Hero Header ── */}
-      <div className="glass-card rounded-3xl border border-white/10 overflow-hidden relative shadow-2xl">
-        <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-600 via-indigo-600 to-pink-500" />
+      <div className="glass-card rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden relative shadow-2xl">
+        <div className="h-2 bg-white dark:bg-gradient-to-r dark:from-blue-500 dark:via-purple-600 dark:via-indigo-600 dark:to-pink-500" />
         <div className="p-8 flex flex-col md:flex-row items-center gap-6 relative">
           <div className="absolute top-0 right-0 p-8 text-white/5 pointer-events-none"><GraduationCap size={150} /></div>
 
           {/* Avatar with luxury border */}
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-3xl font-black shrink-0 shadow-xl shadow-blue-500/20 border-2 border-white/15">
+          <div className="w-20 h-20 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-blue-500 dark:via-indigo-600 dark:to-purple-600 flex items-center justify-center text-slate-900 dark:text-white text-3xl font-black shrink-0 shadow-xl shadow-sm dark:shadow-blue-500/20 border-2 border-slate-200 dark:border-white/15">
             {(data?.name || currentUser.name || 'S')[0].toUpperCase()}
           </div>
 
           {/* Student detail text */}
           <div className="flex-1 text-center md:text-left min-w-0">
             <div className="flex items-center justify-center md:justify-start gap-2.5">
-              <h2 className="text-2xl font-black text-white tracking-tight">{data?.name || currentUser.name}</h2>
-              <span className="text-[10px] font-black text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full uppercase">Sinh viên</span>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{data?.name || currentUser.name}</h2>
+              <span className="text-[10px] font-black text-blue-400 bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-2 py-0.5 rounded-full uppercase">Sinh viên</span>
             </div>
-            <p className="text-xs text-slate-400 mt-1.5 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1">
-              <span>MSSV: <span className="text-slate-200 font-bold">{currentUser.id}</span></span>
-              <span>Lớp: <span className="text-slate-200 font-bold">{data?.classCode || 'WD18301'}</span></span>
-              <span>Hệ đào tạo: <span className="text-slate-200 font-bold">Cao đẳng (FPT Poly)</span></span>
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1.5 flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1">
+              <span>MSSV: <span className="text-slate-800 dark:text-slate-200 font-bold">{currentUser.id}</span></span>
+              <span>Lớp: <span className="text-slate-800 dark:text-slate-200 font-bold">{data?.classCode || 'WD18301'}</span></span>
+              <span>Hệ đào tạo: <span className="text-slate-800 dark:text-slate-200 font-bold">Cao đẳng (FPT Poly)</span></span>
             </p>
           </div>
 
           {/* GPA Luxury circle */}
           {gpa !== null && (
-            <div className="shrink-0 text-center bg-slate-900/60 border border-white/5 p-4 rounded-2xl w-44 shadow-inner">
+            <div className="shrink-0 text-center bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 p-4 rounded-2xl w-44 shadow-inner">
               <div className="flex justify-around items-center">
                 <div>
                   <div className="text-2xl font-black" style={{ color: scoreColor(gpa) }}>{gpa.toFixed(1)}</div>
                   <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Hệ 10</div>
                 </div>
-                <div className="h-6 w-px bg-slate-800" />
+                <div className="h-6 w-px bg-slate-50 dark:bg-slate-800" />
                 <div>
-                  <div className="text-2xl font-black text-white">{gpa4.toFixed(2)}</div>
+                  <div className="text-2xl font-black text-slate-900 dark:text-white">{gpa4.toFixed(2)}</div>
                   <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Hệ 4</div>
                 </div>
               </div>
-              <div className="text-[9px] text-slate-400 mt-2 font-bold uppercase tracking-wider">
+              <div className="text-[9px] text-slate-600 dark:text-slate-400 mt-2 font-bold uppercase tracking-wider">
                 Tín chỉ: <span className="text-amber-400">{totalEarnedCredits} TC</span>
               </div>
               <div className={`text-[9px] font-black px-2 py-0.5 rounded-full border uppercase mt-2 inline-block ${scoreBg(gpa)}`}>
@@ -1483,7 +1483,7 @@ export default function StudentDashboard() {
       </div>
 
       {/* ── Sleek Premium Navigation Tabs ── */}
-      <div className="glass-card rounded-2xl border border-white/10 p-2 shadow-lg">
+      <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-2 shadow-lg">
         <div className="flex gap-2 overflow-x-auto scrollbar-none">
           {tabs.map(t => (
             <TabBtn

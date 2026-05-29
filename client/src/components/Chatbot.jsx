@@ -105,7 +105,7 @@ export default function Chatbot() {
         if (match.index > lastIndex) {
           parts.push(line.substring(lastIndex, match.index));
         }
-        parts.push(<strong key={match.index} className="text-white font-bold">{match[1]}</strong>);
+        parts.push(<strong key={match.index} className="text-slate-900 dark:text-white font-bold">{match[1]}</strong>);
         lastIndex = boldRegex.lastIndex;
       }
       
@@ -117,13 +117,13 @@ export default function Chatbot() {
 
       if (line.trim().startsWith('•') || line.trim().startsWith('-')) {
         return (
-          <li key={i} className="ml-4 list-disc pl-1 mb-1 text-slate-300">
+          <li key={i} className="ml-4 list-disc pl-1 mb-1 text-slate-700 dark:text-slate-300">
             {line.trim().startsWith('•') ? line.replace('•', '').trim() : line.replace('-', '').trim()}
           </li>
         );
       }
       
-      return <p key={i} className="mb-2 text-slate-300 leading-relaxed">{content}</p>;
+      return <p key={i} className="mb-2 text-slate-700 dark:text-slate-300 leading-relaxed">{content}</p>;
     });
   };
 
@@ -132,7 +132,7 @@ export default function Chatbot() {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white flex items-center justify-center shadow-[0_0_25px_rgba(59,130,246,0.5)] hover:shadow-[0_0_35px_rgba(59,130,246,0.7)] transition-all duration-300 hover:scale-110 z-50 group border border-white/10"
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-purple-600 hover:dark:from-blue-500 hover:dark:to-purple-500 text-slate-900 dark:text-white flex items-center justify-center shadow-[0_0_25px_rgba(59,130,246,0.5)] hover:shadow-[0_0_35px_rgba(59,130,246,0.7)] transition-all duration-300 hover:scale-110 z-50 group border border-slate-200 dark:border-white/10"
       >
         <span className="absolute -top-1 -right-1 flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -143,7 +143,7 @@ export default function Chatbot() {
 
       {/* Chat Drawer Widget */}
       <div
-        className={`fixed bottom-24 right-6 w-[420px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-10rem)] glass-panel rounded-3xl border border-white/10 flex flex-col shadow-2xl z-50 overflow-hidden transition-all duration-500 transform ${
+        className={`fixed bottom-24 right-6 w-[420px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-10rem)] glass-panel rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col shadow-2xl z-50 overflow-hidden transition-all duration-500 transform ${
           isOpen ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95 pointer-events-none'
         }`}
       >
@@ -152,13 +152,13 @@ export default function Chatbot() {
         <div className="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         {/* Chat Header */}
-        <div className="p-5 border-b border-white/10 flex items-center justify-between relative z-10 bg-slate-900/40">
+        <div className="p-5 border-b border-slate-200 dark:border-white/10 flex items-center justify-between relative z-10 bg-white dark:bg-slate-900/40">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 border border-white/10">
+            <div className="w-10 h-10 rounded-xl bg-white dark:bg-gradient-to-tr dark:from-blue-500 dark:to-purple-600 flex items-center justify-center text-slate-900 dark:text-white shadow-lg shadow-sm dark:shadow-blue-500/20 border border-slate-200 dark:border-white/10">
               <Bot size={20} />
             </div>
             <div>
-              <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
+              <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1.5">
                 Trợ lý EduGuard AI <Sparkles size={14} className="text-amber-400 animate-pulse" />
               </h4>
               <div className="flex items-center gap-1.5">
@@ -169,7 +169,7 @@ export default function Chatbot() {
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-white/5 rounded-xl text-slate-400 hover:text-white transition-colors"
+            className="p-2 hover:bg-white/5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-white transition-colors"
           >
             <X size={18} />
           </button>
@@ -187,8 +187,8 @@ export default function Chatbot() {
               <div
                 className={`p-4 rounded-2xl text-sm border ${
                   msg.sender === 'user'
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500/30 rounded-tr-none shadow-[0_0_15px_rgba(59,130,246,0.15)]'
-                    : 'bg-white/5 text-slate-200 border-white/5 rounded-tl-none shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]'
+                    ? 'bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 text-slate-900 dark:text-white border-blue-200 dark:border-blue-500/30 rounded-tr-none shadow-[0_0_15px_rgba(59,130,246,0.15)]'
+                    : 'bg-white/5 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-white/5 rounded-tl-none shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]'
                 }`}
               >
                 {msg.sender === 'ai' ? formatText(msg.text) : <p className="leading-relaxed">{msg.text}</p>}
@@ -199,7 +199,7 @@ export default function Chatbot() {
 
           {loading && (
             <div className="flex flex-col items-start max-w-[85%] mr-auto animate-pulse">
-              <div className="p-4 rounded-2xl bg-white/5 text-slate-200 border border-white/5 rounded-tl-none flex items-center gap-1.5">
+              <div className="p-4 rounded-2xl bg-white/5 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/5 rounded-tl-none flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
                 <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
                 <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce delay-300"></span>
@@ -212,14 +212,14 @@ export default function Chatbot() {
 
         {/* Quick Prompts Container */}
         {messages.length === 1 && !loading && (
-          <div className="px-5 py-3 border-t border-white/5 bg-slate-950/20 relative z-10">
+          <div className="px-5 py-3 border-t border-slate-200 dark:border-white/5 bg-slate-950/20 relative z-10">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-2">Gợi ý nhanh cho giảng viên:</p>
             <div className="grid grid-cols-2 gap-2">
               {quickPrompts.map((qp, i) => (
                 <button
                   key={i}
                   onClick={() => handleSend(qp.text)}
-                  className="p-2.5 bg-white/5 hover:bg-blue-500/10 border border-white/5 hover:border-blue-500/20 rounded-xl text-left text-xs font-semibold text-slate-300 hover:text-blue-300 flex items-center gap-2 transition-all"
+                  className="p-2.5 bg-white/5 hover:bg-blue-500/10 border border-slate-200 dark:border-white/5 hover:border-blue-500/20 rounded-xl text-left text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-300 flex items-center gap-2 transition-all"
                 >
                   {qp.icon}
                   <span className="truncate">{qp.text}</span>
@@ -230,7 +230,7 @@ export default function Chatbot() {
         )}
 
         {/* Input Footer */}
-        <div className="p-4 border-t border-white/10 relative z-10 bg-slate-900/40">
+        <div className="p-4 border-t border-slate-200 dark:border-white/10 relative z-10 bg-white dark:bg-slate-900/40">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -244,12 +244,12 @@ export default function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Nhập câu hỏi về lớp học, điểm số..."
               disabled={loading}
-              className="flex-1 bg-black/25 border border-white/10 hover:border-white/20 focus:border-blue-500/50 outline-none text-white text-sm px-4 py-3 rounded-xl transition-all disabled:opacity-50"
+              className="flex-1 bg-black/25 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-blue-500/50 outline-none text-slate-900 dark:text-white text-sm px-4 py-3 rounded-xl transition-all disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="w-11 h-11 rounded-xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] disabled:opacity-50 disabled:shadow-none hover:scale-105"
+              className="w-11 h-11 rounded-xl bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white flex items-center justify-center transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] disabled:opacity-50 disabled:shadow-none hover:scale-105"
             >
               <Send size={16} />
             </button>

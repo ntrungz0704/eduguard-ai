@@ -3,7 +3,7 @@
 // Prevents AI hallucination by enforcing a minimum confidence score
 // ============================================================
 
-const CONFIDENCE_THRESHOLD = 0.65;
+const CONFIDENCE_THRESHOLD = 0.70;
 
 /**
  * Validates the NLP intent score.

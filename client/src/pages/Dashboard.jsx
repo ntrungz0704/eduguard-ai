@@ -140,7 +140,7 @@ export default function Dashboard() {
 
   if (!trainingData) return (
     <div className="space-y-8 animate-pulse pb-10">
-      <div className="glass-card p-8 rounded-3xl h-32 bg-white/5 border border-white/5 flex items-center justify-between">
+      <div className="glass-card p-8 rounded-3xl h-32 bg-white/5 border border-slate-200 dark:border-white/5 flex items-center justify-between">
         <div className="space-y-3">
           <div className="h-8 bg-white/10 rounded-lg w-64"></div>
           <div className="h-4 bg-white/5 rounded-lg w-96"></div>
@@ -150,16 +150,16 @@ export default function Dashboard() {
           <div className="h-16 bg-white/10 rounded-2xl w-32"></div>
         </div>
       </div>
-      <div className="glass-card rounded-3xl h-64 bg-white/5 border border-white/5"></div>
+      <div className="glass-card rounded-3xl h-64 bg-white/5 border border-slate-200 dark:border-white/5"></div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {[1, 2, 3, 4].map(i => <div key={i} className="glass-card h-28 rounded-2xl bg-white/5 border border-white/5"></div>)}
+        {[1, 2, 3, 4].map(i => <div key={i} className="glass-card h-28 rounded-2xl bg-white/5 border border-slate-200 dark:border-white/5"></div>)}
       </div>
     </div>
   );
 
   if (!trainingData.stats) return (
-    <div className="flex flex-col gap-4 h-64 items-center justify-center text-slate-400 bg-white/5 rounded-3xl border border-white/10">
-      <div className="w-8 h-8 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+    <div className="flex flex-col gap-4 h-64 items-center justify-center text-slate-600 dark:text-slate-400 bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10">
+      <div className="w-8 h-8 border-4 border-blue-200 dark:border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
       <p className="text-sm font-medium animate-pulse">Đang tải dữ liệu phân tích học vụ...</p>
     </div>
   );
@@ -180,16 +180,16 @@ export default function Dashboard() {
   if (!trainingData || trainingData.totalStudents === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 animate-fade-in">
-        <div className="w-24 h-24 bg-slate-800/50 rounded-full flex items-center justify-center mb-6 border border-white/5">
+        <div className="w-24 h-24 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center justify-center mb-6 border border-slate-200 dark:border-white/5">
           <Database size={40} className="text-slate-500" />
         </div>
-        <h2 className="text-2xl font-bold text-white mb-3">Chưa có dữ liệu học tập</h2>
-        <p className="text-slate-400 max-w-md mx-auto mb-8">
-          Hệ thống hiện tại chưa có thông tin điểm số để phân tích. Vui lòng chuyển đến trang <b className="text-white">Dữ liệu & Phân tích</b> để import bảng điểm (Excel/CSV) và bắt đầu.
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Chưa có dữ liệu học tập</h2>
+        <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto mb-8">
+          Hệ thống hiện tại chưa có thông tin điểm số để phân tích. Vui lòng chuyển đến trang <b className="text-slate-900 dark:text-white">Dữ liệu & Phân tích</b> để import bảng điểm (Excel/CSV) và bắt đầu.
         </p>
         <button 
           onClick={() => navigate('/predict')}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-indigo-500/20 transition-all flex items-center gap-2"
+          className="bg-indigo-600 hover:bg-indigo-500 text-slate-900 dark:text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-sm dark:shadow-indigo-500/20 transition-all flex items-center gap-2"
         >
           <Target size={18} /> Đi tới trang Import Dữ liệu
         </button>
@@ -202,41 +202,41 @@ export default function Dashboard() {
       <div className="glass-card p-8 rounded-3xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         <div className="relative z-10 mb-6 md:mb-0">
-          <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Trang chủ Giảng viên 👋</h2>
-          <p className="text-slate-400 max-w-2xl text-sm leading-relaxed">
+          <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2 tracking-tight">Trang chủ Giảng viên 👋</h2>
+          <p className="text-slate-600 dark:text-slate-400 max-w-2xl text-sm leading-relaxed">
             Nền tảng <b>EduGuard AI</b> giám sát tiến độ học tập thời gian thực, phát hiện sớm nguy cơ trượt học phần.
           </p>
         </div>
         
         {/* 3 Clear Insights KPI Widget */}
         <div className="relative z-10 flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
-          <div className="bg-rose-500/5 border border-rose-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-rose-500/10 transition-colors flex-shrink-0">
-            <div className="p-3 bg-rose-500/20 rounded-xl text-rose-400">
+          <div className="bg-rose-50 dark:bg-rose-500/5 border border-rose-200 dark:border-rose-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-rose-100 dark:hover:bg-rose-500/10 transition-colors flex-shrink-0">
+            <div className="p-3 bg-rose-100 dark:bg-rose-500/20 rounded-xl text-rose-600 dark:text-rose-400">
               <ShieldAlert size={20} />
             </div>
             <div>
-              <p className="text-[11px] text-rose-400/80 uppercase tracking-wider font-bold">Nguy cơ gãy chuỗi</p>
-              <h4 className="text-xl font-bold text-rose-400">{currentRisk} <span className="text-xs font-normal">sinh viên</span></h4>
+              <p className="text-[11px] text-rose-600/80 dark:text-rose-400/80 uppercase tracking-wider font-bold">Nguy cơ gãy chuỗi</p>
+              <h4 className="text-xl font-bold text-rose-600 dark:text-rose-400">{currentRisk} <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
           </div>
           
-          <div className="bg-amber-500/5 border border-amber-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-amber-500/10 transition-colors flex-shrink-0">
-            <div className="p-3 bg-amber-500/20 rounded-xl text-amber-400">
+          <div className="bg-amber-50 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-amber-100 dark:hover:bg-amber-500/10 transition-colors flex-shrink-0">
+            <div className="p-3 bg-amber-100 dark:bg-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400">
               <Users size={20} />
             </div>
             <div>
-              <p className="text-[11px] text-amber-400/80 uppercase tracking-wider font-bold">Chuyên cần dưới ngưỡng</p>
-              <h4 className="text-xl font-bold text-amber-400">0 <span className="text-xs font-normal">sinh viên</span></h4>
+              <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 uppercase tracking-wider font-bold">Chuyên cần dưới ngưỡng</p>
+              <h4 className="text-xl font-bold text-amber-600 dark:text-amber-400">0 <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
           </div>
 
-          <div className="bg-emerald-500/5 border border-emerald-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-emerald-500/10 transition-colors flex-shrink-0">
-            <div className="p-3 bg-emerald-500/20 rounded-xl text-emerald-400">
+          <div className="bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-emerald-100 dark:hover:bg-emerald-500/10 transition-colors flex-shrink-0">
+            <div className="p-3 bg-emerald-100 dark:bg-emerald-500/20 rounded-xl text-emerald-600 dark:text-emerald-400">
               <Target size={20} />
             </div>
             <div>
-              <p className="text-[11px] text-emerald-400/80 uppercase tracking-wider font-bold">Ổn định học vụ</p>
-              <h4 className="text-xl font-bold text-emerald-400">{safePercentage}% <span className="text-xs font-normal">tổng số SV</span></h4>
+              <p className="text-[11px] text-emerald-600/80 dark:text-emerald-400/80 uppercase tracking-wider font-bold">Ổn định học vụ</p>
+              <h4 className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{safePercentage}% <span className="text-xs font-normal">tổng số SV</span></h4>
             </div>
           </div>
         </div>
@@ -244,51 +244,51 @@ export default function Dashboard() {
 
       {/* TREND CHART & QUICK ALERTS */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 glass-card rounded-3xl border border-white/5 p-8 flex flex-col items-center justify-center bg-slate-900/50 relative overflow-hidden">
+        <div className="xl:col-span-2 glass-card rounded-3xl border border-slate-200 dark:border-white/5 p-8 flex flex-col items-center justify-center bg-white dark:bg-slate-900/50 relative overflow-hidden">
           <Database size={48} className="text-slate-600/50 mb-4" />
-          <h3 className="text-xl font-bold text-slate-300 mb-2">Chưa đủ dữ liệu lịch sử</h3>
+          <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">Chưa đủ dữ liệu lịch sử</h3>
           <p className="text-slate-500 text-sm max-w-sm text-center">
             Hệ thống cần thu thập dữ liệu học tập liên tục qua các tuần để xây dựng biểu đồ Xu hướng Cảnh báo chính xác.
           </p>
         </div>
 
-        <div className="glass-card rounded-3xl border border-rose-500/20 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-full h-full bg-rose-500/5 rounded-full blur-3xl"></div>
+        <div className="glass-card rounded-3xl border border-rose-200 dark:border-rose-500/20 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-full h-full bg-rose-50 dark:bg-rose-500/5 rounded-full blur-3xl"></div>
           <div className="relative z-10">
-            <div className="w-20 h-20 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-500/30">
-              <ShieldAlert size={36} className="text-rose-500" />
+            <div className="w-20 h-20 bg-rose-100 dark:bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-200 dark:border-rose-500/30">
+              <ShieldAlert size={36} className="text-rose-600 dark:text-rose-500" />
             </div>
-            <h3 className="text-5xl font-black text-white mb-2">{currentRisk}</h3>
-            <p className="text-rose-400 font-bold uppercase tracking-widest text-sm mb-4">Cảnh báo khẩn cấp</p>
-            <p className="text-slate-400 text-sm">Sinh viên có nguy cơ cấm thi hoặc rớt môn tiên quyết tuần này.</p>
+            <h3 className="text-5xl font-black text-slate-900 dark:text-white mb-2">{currentRisk}</h3>
+            <p className="text-rose-600 dark:text-rose-400 font-bold uppercase tracking-widest text-sm mb-4">Cảnh báo khẩn cấp</p>
+            <p className="text-slate-600 dark:text-slate-400 text-sm">Sinh viên có nguy cơ cấm thi hoặc rớt môn tiên quyết tuần này.</p>
           </div>
         </div>
       </div>
 
       {/* CẢNH BÁO ĐỎ - RED ALERTS */}
-      <div className="glass-card rounded-3xl border border-rose-500/20 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-        <div className="p-6 border-b border-white/5 flex items-center gap-3 flex-wrap">
-          <ShieldAlert size={24} className="text-rose-500" />
-          <h3 className="text-xl font-bold text-white">Cảnh Báo Đỏ - Cần Can Thiệp Khẩn Cấp</h3>
-          <span className="bg-rose-500/20 text-rose-400 text-xs px-3 py-1 rounded-full font-bold">Top rủi ro cao</span>
+      <div className="glass-card rounded-3xl border border-rose-200 dark:border-rose-500/20 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-rose-50 dark:bg-rose-500/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+        <div className="p-6 border-b border-slate-200 dark:border-white/5 flex items-center gap-3 flex-wrap relative z-10">
+          <ShieldAlert size={24} className="text-rose-600 dark:text-rose-500" />
+          <h3 className="text-xl font-bold text-slate-800 dark:text-white">Cảnh Báo Đỏ - Cần Can Thiệp Khẩn Cấp</h3>
+          <span className="bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-xs px-3 py-1 rounded-full font-bold">Top rủi ro cao</span>
           <button 
             onClick={handleSendBulkRoadmap}
             disabled={sendingBulk || !redAlerts || redAlerts.length === 0}
-            className="ml-auto bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 py-2 rounded-xl transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 text-sm font-bold disabled:opacity-50"
+            className="ml-auto bg-white dark:bg-gradient-to-r dark:from-indigo-600 dark:to-purple-600 hover:dark:from-indigo-500 hover:dark:to-purple-500 text-slate-900 dark:text-white px-4 py-2 rounded-xl transition-all shadow-sm border border-slate-200 dark:border-none dark:shadow-indigo-500/20 flex items-center gap-2 text-sm font-bold disabled:opacity-50"
           >
             {sendingBulk ? <Activity size={16} className="animate-spin" /> : <Send size={16} />}
             {sendingBulk ? 'Đang gửi...' : 'Gửi toàn bộ Lộ trình'}
           </button>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto relative z-10 bg-white dark:bg-transparent">
           {!redAlerts ? (
-             <div className="p-8 text-center text-slate-400">Đang quét dữ liệu...</div>
+             <div className="p-8 text-center text-slate-600 dark:text-slate-400">Đang quét dữ liệu...</div>
           ) : redAlerts.length === 0 ? (
-             <div className="p-8 text-center text-emerald-400 font-medium">Tuyệt vời! Không có sinh viên nào nằm trong vùng nguy hiểm cao.</div>
+             <div className="p-8 text-center text-emerald-600 dark:text-emerald-400 font-medium">Tuyệt vời! Không có sinh viên nào nằm trong vùng nguy hiểm cao.</div>
           ) : (
             <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="bg-white/5 text-slate-400 text-xs uppercase tracking-wider">
+              <thead className="bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-400 text-xs uppercase tracking-wider">
                 <tr>
                   <th className="px-6 py-4 font-semibold">Sinh viên</th>
                   <th className="px-6 py-4 font-semibold">Môn rủi ro (Ước lượng)</th>
@@ -297,43 +297,43 @@ export default function Dashboard() {
                   <th className="px-6 py-4 font-semibold text-right">Thao tác hỗ trợ</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-slate-100 dark:divide-white/5">
                 {(showAllAlerts ? redAlerts : redAlerts.slice(0, 5)).map((alert, idx) => (
-                  <tr key={`${alert.mssv}-${alert.targetCourse}-${idx}`} className="hover:bg-white/5 transition-colors group">
+                  <tr key={`${alert.mssv}-${alert.targetCourse}-${idx}`} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-slate-200">{alert.name}</div>
+                      <div className="font-bold text-slate-900 dark:text-slate-200">{alert.name}</div>
                       <div className="text-slate-500 text-xs">{alert.mssv} • {alert.classCode}</div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-slate-300">{alert.targetCourse}</span>
-                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-400">
+                        <span className="font-medium text-slate-800 dark:text-slate-300">{alert.targetCourse}</span>
+                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400">
                           {alert.predictedScore.toFixed(1)}% Nguy cơ
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       {alert.priorityLevel === 'CRITICAL' ? (
-                        <span className="px-2 py-1 rounded bg-rose-500/20 text-rose-400 text-xs font-black border border-rose-500/50 uppercase">
+                        <span className="px-2 py-1 rounded bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-black border border-rose-200 dark:border-rose-500/50 uppercase">
                           Cấp Cứu
                         </span>
                       ) : alert.priorityLevel === 'HIGH' ? (
-                        <span className="px-2 py-1 rounded bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/30 uppercase">
+                        <span className="px-2 py-1 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-bold border border-amber-200 dark:border-amber-500/30 uppercase">
                           Báo Động
                         </span>
                       ) : (
-                        <span className="px-2 py-1 rounded bg-blue-500/20 text-blue-400 text-xs font-semibold border border-blue-500/20 uppercase">
+                        <span className="px-2 py-1 rounded bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold border border-blue-200 dark:border-blue-500/20 uppercase">
                           Theo Dõi
                         </span>
                       )}
-                      {alert.isEarlyWarning && <span className="ml-2 text-[10px] text-amber-300 font-bold">Tuần 1-2</span>}
+                      {alert.isEarlyWarning && <span className="ml-2 text-[10px] text-amber-600 dark:text-amber-300 font-bold">Tuần 1-2</span>}
                     </td>
                     <td className="px-6 py-4">
                       {alert.weakPrereqs.length > 0 ? (
                         <div className="flex flex-col gap-1">
                           {alert.weakPrereqs.map(wp => (
-                            <div key={wp.courseId} className="text-xs text-rose-300">
-                              <span className="opacity-70">Gãy</span> {wp.courseId}: <span className="font-bold">{wp.score}đ</span>
+                            <div key={wp.courseId} className="text-xs text-rose-600 dark:text-rose-300">
+                              <span className="opacity-70 text-slate-600 dark:text-rose-300/70">Gãy</span> {wp.courseId}: <span className="font-bold">{wp.score}đ</span>
                             </div>
                           ))}
                         </div>
@@ -342,17 +342,17 @@ export default function Dashboard() {
                       )}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-80 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={(e) => handleOpenRoadmap(alert, e)}
-                          className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-xl transition-colors shadow-lg shadow-indigo-500/20 tooltip-trigger flex items-center gap-1 text-xs font-bold"
+                          className="bg-indigo-50 dark:bg-indigo-600 hover:bg-indigo-100 dark:hover:bg-indigo-500 text-indigo-600 dark:text-white p-2 rounded-xl transition-colors shadow-sm dark:shadow-indigo-500/20 tooltip-trigger flex items-center gap-1 text-xs font-bold border border-indigo-200 dark:border-none"
                           title="Gửi Lộ trình qua Hộp thư"
                         >
                           <Send size={14} /> Gửi Lộ trình
                         </button>
                         <button 
                           onClick={(e) => handleChat(alert, e)}
-                          className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-xl transition-colors shadow-lg shadow-blue-500/20 tooltip-trigger"
+                          className="bg-blue-50 dark:bg-blue-600 hover:bg-blue-100 dark:hover:bg-blue-500 text-blue-600 dark:text-white p-2 rounded-xl transition-colors shadow-sm dark:shadow-blue-500/20 tooltip-trigger border border-blue-200 dark:border-none"
                           title="Hỗ trợ tư vấn NLP"
                         >
                           <MessageSquare size={16} />
@@ -362,8 +362,8 @@ export default function Dashboard() {
                           disabled={alert.intervened}
                           className={`p-2 rounded-xl transition-colors flex items-center gap-1 ${
                             alert.intervened 
-                              ? 'bg-emerald-500/20 text-emerald-400 cursor-not-allowed border border-emerald-500/20' 
-                              : 'bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/5'
+                              ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 cursor-not-allowed border border-emerald-200 dark:border-emerald-500/20' 
+                              : 'bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/20 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5 shadow-sm'
                           }`}
                           title={alert.intervened ? 'Đã can thiệp' : 'Đánh dấu can thiệp'}
                         >
@@ -379,7 +379,7 @@ export default function Dashboard() {
           )}
         </div>
         {redAlerts && redAlerts.length > 5 && (
-          <div className="p-4 border-t border-white/5 text-center">
+          <div className="p-4 border-t border-slate-200 dark:border-white/5 text-center">
             <button 
               onClick={() => setShowAllAlerts(!showAllAlerts)}
               className="text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
@@ -392,27 +392,27 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: 'Tổng sinh viên (Train)', value: trainingData.totalStudents, icon: <Users size={24} className="text-blue-400" />, color: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20' },
-          { label: 'Số môn học', value: trainingData.totalSubjects, icon: <BookOpen size={24} className="text-purple-400" />, color: 'from-purple-500/20 to-purple-500/5', border: 'border-purple-500/20' },
-          { label: 'Nguồn dữ liệu', value: 'FPT Poly', icon: <Database size={24} className="text-cyan-400" />, color: 'from-cyan-500/20 to-cyan-500/5', border: 'border-cyan-500/20' },
-          { label: 'Tổng lượt rớt (Lịch sử)', value: totalAtRisk, icon: <AlertTriangle size={24} className="text-rose-400" />, color: 'from-rose-500/20 to-rose-500/5', border: 'border-rose-500/20' }
+          { label: 'Tổng sinh viên (Train)', value: trainingData.totalStudents, icon: <Users size={24} className="text-blue-600 dark:text-blue-400" />, color: 'bg-blue-50 dark:bg-gradient-to-br dark:from-blue-500/20 dark:to-blue-500/5', border: 'border-blue-200 dark:border-blue-500/20' },
+          { label: 'Số môn học', value: trainingData.totalSubjects, icon: <BookOpen size={24} className="text-purple-600 dark:text-purple-400" />, color: 'bg-purple-50 dark:bg-gradient-to-br dark:from-purple-500/20 dark:to-purple-500/5', border: 'border-purple-200 dark:border-purple-500/20' },
+          { label: 'Nguồn dữ liệu', value: 'FPT Poly', icon: <Database size={24} className="text-cyan-600 dark:text-cyan-400" />, color: 'bg-cyan-50 dark:bg-gradient-to-br dark:from-cyan-500/20 dark:to-cyan-500/5', border: 'border-cyan-200 dark:border-cyan-500/20' },
+          { label: 'Tổng lượt rớt (Lịch sử)', value: totalAtRisk, icon: <AlertTriangle size={24} className="text-rose-600 dark:text-rose-400" />, color: 'bg-rose-50 dark:bg-gradient-to-br dark:from-rose-500/20 dark:to-rose-500/5', border: 'border-rose-200 dark:border-rose-500/20' }
         ].map((stat, i) => (
-          <div key={i} className={`glass-card p-6 rounded-2xl flex items-center bg-gradient-to-br ${stat.color} border ${stat.border} hover:scale-105 transition-transform duration-300 cursor-default hover:shadow-lg`}>
-            <div className="mr-5 p-3 bg-white/5 rounded-xl border border-white/5">{stat.icon}</div>
+          <div key={i} className={`glass-card p-6 rounded-2xl flex items-center ${stat.color} border ${stat.border} hover:scale-105 transition-transform duration-300 cursor-default hover:shadow-md`}>
+            <div className="mr-5 p-3 bg-white dark:bg-white/5 shadow-sm dark:shadow-none rounded-xl border border-slate-200 dark:border-white/5">{stat.icon}</div>
             <div>
-              <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">{stat.label}</p>
-              <h3 className="text-2xl font-bold text-white tracking-tight">{stat.value}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">{stat.label}</p>
+              <h3 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{stat.value}</h3>
             </div>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 glass-card p-6 rounded-3xl border border-white/5 h-[500px] flex flex-col">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <TrendingUp size={20} className="text-blue-400" /> Top 10 Môn Có Nguy Cơ Tạch Cao Nhất
+        <div className="xl:col-span-2 glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 h-[500px] flex flex-col">
+          <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+            <TrendingUp size={20} className="text-blue-600 dark:text-blue-400" /> Top 10 Môn Có Nguy Cơ Tạch Cao Nhất
           </h3>
-          <p className="text-xs text-slate-400 mb-6 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 font-medium">
             *Biểu đồ hiển thị số sinh viên rớt đối chiếu với tổng số sinh viên đã học môn đó (Dựa trên toàn bộ kho dữ liệu).
           </p>
           <div className="flex-1 w-full min-h-[300px]">
@@ -425,16 +425,16 @@ export default function Dashboard() {
                   angle={-40} 
                   textAnchor="end" 
                   height={85} 
-                  stroke="#334155"
+                  stroke="#94a3b8"
                   tickFormatter={(val) => val.length > 15 ? val.substring(0, 15) + '...' : val}
                 />
-                <YAxis tick={{fill: '#94a3b8', fontSize: 11}} stroke="#334155" />
+                <YAxis tick={{fill: '#94a3b8', fontSize: 11}} stroke="#94a3b8" />
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}} 
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
                   itemStyle={{color: '#fff'}}
                 />
-                <Bar dataKey="scored" name="Tổng số SV đã học" fill="#334155" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="scored" name="Tổng số SV đã học" fill="#cbd5e1" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="atRisk" name="Số SV Dưới 5 (Rớt)" radius={[4, 4, 0, 0]}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={index < 3 ? '#ef4444' : index < 6 ? '#f59e0b' : '#3b82f6'} />
@@ -445,24 +445,24 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="glass-card p-6 rounded-3xl border border-white/5 overflow-hidden flex flex-col h-[500px]">
-          <h3 className="text-lg font-bold text-white mb-4">Chi tiết Môn học</h3>
+        <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden flex flex-col h-[500px]">
+          <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4">Chi tiết Môn học</h3>
           <div className="overflow-y-auto flex-1 pr-2 space-y-3 custom-scrollbar">
             {trainingData.stats.map(s => {
               const isNotEnough = s.scored < 5;
               return (
-                <div key={s.subject} className="bg-white/5 p-4 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
+                <div key={s.subject} className="bg-white dark:bg-white/5 p-4 rounded-xl border border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">
                   <div className="flex justify-between items-start mb-2 animate-fade-in">
-                    <h4 className="font-semibold text-sm text-slate-200 leading-tight">{s.subject}</h4>
-                    <span className={`text-xs font-bold px-2 py-0.5 rounded transition-colors ${isNotEnough ? 'bg-amber-500/20 text-amber-400' : s.atRisk > 5 ? 'bg-rose-500/20 text-rose-400' : 'bg-emerald-500/20 text-emerald-400'}`}>
+                    <h4 className="font-semibold text-sm text-slate-800 dark:text-slate-200 leading-tight">{s.subject}</h4>
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded transition-colors ${isNotEnough ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400' : s.atRisk > 5 ? 'bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400' : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'}`}>
                       {isNotEnough ? 'Thiếu dữ liệu' : `${s.atRisk} rớt`}
                     </span>
                   </div>
-                  <div className="flex justify-between text-xs text-slate-400">
-                    <span>Trung bình: <span className="text-white font-medium">{isNotEnough ? 'N/A' : s.avg}</span></span>
-                    <span>Đã chấm: <span className="text-white font-medium">{s.scored}/{s.total}</span></span>
+                  <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <span>Trung bình: <span className="text-slate-800 dark:text-white font-medium">{isNotEnough ? 'N/A' : s.avg}</span></span>
+                    <span>Đã chấm: <span className="text-slate-800 dark:text-white font-medium">{s.scored}/{s.total}</span></span>
                   </div>
-                  <div className="w-full bg-slate-800 rounded-full h-1.5 mt-3">
+                  <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 mt-3">
                     <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${(s.scored / s.total) * 100}%` }}></div>
                   </div>
                 </div>
@@ -473,17 +473,17 @@ export default function Dashboard() {
       </div>
 
       {/* ─── ENTERPRISE INTELLIGENCE ANALYTICS ─────────────────────────────── */}
-      <div style={{ marginTop: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-          <div style={{ padding: '6px 10px', background: 'rgba(99,102,241,0.15)', borderRadius: 10, border: '1px solid rgba(99,102,241,0.3)' }}>
-            <Layers size={18} style={{ color: '#818cf8' }} />
+      <div className="mt-2">
+        <div className="flex items-center gap-2 mb-5">
+          <div className="p-1.5 bg-indigo-100 dark:bg-indigo-500/15 rounded-lg border border-indigo-200 dark:border-indigo-500/30">
+            <Layers size={18} className="text-indigo-600 dark:text-indigo-400" />
           </div>
-          <h3 style={{ color: '#e2e8f0', fontSize: 18, fontWeight: 700, margin: 0 }}>Intelligence Analytics Dashboard</h3>
-          <span style={{ fontSize: 11, padding: '2px 10px', borderRadius: 20, background: 'rgba(99,102,241,0.15)', color: '#818cf8', border: '1px solid rgba(99,102,241,0.3)', fontWeight: 600 }}>Phase 3 — Enterprise</span>
+          <h3 className="text-slate-800 dark:text-slate-200 text-lg font-bold m-0">Intelligence Analytics Dashboard</h3>
+          <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30 font-semibold ml-2">Phase 3 — Enterprise</span>
         </div>
 
         {/* Row 1: Risk Distribution + Bottleneck */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
           <RiskDistribution
             data={redAlerts ? [
               { name: 'CRITICAL', value: redAlerts.filter(a => a.priorityLevel === 'CRITICAL').length },
@@ -502,9 +502,9 @@ export default function Dashboard() {
         </div>
 
         {/* Row 2: Timeline Escalation Removed due to no real temporal data yet */}
-        <div style={{ marginBottom: 20 }}>
-          <div className="bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center justify-center text-center">
-            <h4 className="text-slate-300 font-bold mb-2">Temporal Analytics (Phase 3)</h4>
+        <div className="mb-5">
+          <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 p-8 rounded-2xl flex flex-col items-center justify-center text-center">
+            <h4 className="text-slate-700 dark:text-slate-300 font-bold mb-2">Temporal Analytics (Phase 3)</h4>
             <p className="text-slate-500 text-sm">Tính năng phân tích chuỗi thời gian sẽ được mở khóa khi có đủ dữ liệu lịch sử các tuần.</p>
           </div>
         </div>
@@ -526,37 +526,37 @@ export default function Dashboard() {
       {/* Roadmap Modal */}
       {showRoadmapModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
             <button 
               onClick={() => setShowRoadmapModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-slate-600 dark:text-slate-400 hover:text-white transition-colors"
             >
               <X size={24} />
             </button>
-            <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
               <Send size={20} className="text-blue-400" /> Gửi Lộ trình qua Hộp thư
             </h3>
-            <p className="text-xs text-slate-400 mb-4">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
               Tin nhắn này sẽ được gửi trực tiếp đến hộp thư của sinh viên <b>{selectedAlert?.name} ({selectedAlert?.mssv})</b>.
             </p>
             
             <textarea
               value={roadmapMsg}
               onChange={(e) => setRoadmapMsg(e.target.value)}
-              className="w-full h-48 bg-black/40 border border-white/10 rounded-xl p-4 text-sm text-slate-200 outline-none focus:border-blue-500/50 mb-4 custom-scrollbar"
+              className="w-full h-48 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50 mb-4 custom-scrollbar"
             />
             
             <div className="flex justify-end gap-3">
               <button 
                 onClick={() => setShowRoadmapModal(false)}
-                className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:bg-white/5 transition-colors"
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white/5 transition-colors"
               >
                 Hủy bỏ
               </button>
               <button 
                 onClick={handleSendRoadmap}
                 disabled={sendingMsg}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 transition-all flex items-center gap-2 disabled:opacity-50"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white rounded-xl text-sm font-bold shadow-lg shadow-sm dark:shadow-blue-500/20 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 {sendingMsg ? 'Đang gửi...' : <><Send size={16} /> Gửi ngay</>}
               </button>

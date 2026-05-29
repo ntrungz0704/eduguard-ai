@@ -1,0 +1,63 @@
+{
+  "name": "Corpus Syllabus",
+  "locale": "vi",
+  "data": [
+    {
+      "intent": "syllabus.course.info",
+      "utterances": [
+        "Môn học này dạy những gì",
+        "Nội dung của môn học này là gì",
+        "Cho tôi xem đề cương môn học",
+        "Môn này học về cái gì",
+        "Môn này có những topic nào",
+        "Nội dung chi tiết của môn",
+        "Học xong môn này thì làm được gì",
+        "Chuẩn đầu ra của môn học là gì"
+      ],
+      "answers": [
+        "Tôi có thể xem thông tin syllabus cho bạn."
+      ]
+    },
+    {
+      "intent": "syllabus.prerequisite",
+      "utterances": [
+        "Để học môn này cần học môn nào trước",
+        "Môn này có điều kiện tiên quyết không",
+        "Môn nào là prerequisite của môn này",
+        "Học trước môn gì để học được môn này",
+        "Điều kiện để đăng ký môn này là gì",
+        "Có bắt buộc học môn khác trước khi học môn này không"
+      ],
+      "answers": [
+        "Tôi sẽ kiểm tra các môn học tiên quyết cho bạn."
+      ]
+    },
+    {
+      "intent": "intervention.reason",
+      "utterances": [
+        "Tại sao tôi lại bị cảnh báo",
+        "Tại sao tôi có nguy cơ rớt môn",
+        "Lý do tôi bị đưa vào danh sách rủi ro là gì",
+        "Tôi đang yếu phần nào",
+        "Môn này tôi thiếu kỹ năng gì",
+        "Vì sao tôi điểm thấp môn này"
+      ],
+      "answers": [
+        "Hãy để tôi phân tích nguyên nhân học vụ của bạn."
+      ]
+    },
+    {
+      "intent": "student.roadmap",
+      "utterances": [
+        "Kỳ sau tôi phải học những môn gì",
+        "Các môn học tiếp theo của tôi là gì",
+        "Kỳ tới tôi đăng ký môn nào",
+        "Lộ trình học kỳ sau",
+        "Tôi nên học môn gì tiếp"
+      ],
+      "answers": [
+        "Tôi sẽ xem lộ trình học của bạn kỳ tới."
+      ]
+    }
+  ]
+}

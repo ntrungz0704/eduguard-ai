@@ -12,33 +12,18 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
 
   if (chartData.length === 0) {
     return (
-      <div style={{
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 16,
-        padding: '20px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%'
-      }}>
-        <p style={{ color: '#475569', fontSize: 13 }}>Chưa có dữ liệu bottleneck</p>
+      <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-5 h-full flex items-center justify-center">
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Chưa có dữ liệu bottleneck</p>
       </div>
     );
   }
 
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.04)',
-      border: '1px solid rgba(255,255,255,0.1)',
-      borderRadius: 16,
-      padding: '20px 16px',
-      height: '100%'
-    }}>
-      <h3 style={{ color: '#e2e8f0', fontSize: 14, fontWeight: 700, marginBottom: 4, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+    <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-5 h-full">
+      <h3 className="text-slate-800 dark:text-slate-200 text-sm font-bold mb-1 tracking-wider uppercase">
         {title}
       </h3>
-      <p style={{ color: '#64748b', fontSize: 12, marginBottom: 16 }}>
+      <p className="text-slate-500 dark:text-slate-400 text-xs mb-4">
         Top {chartData.length} môn có tỷ lệ fail cao nhất
       </p>
 
@@ -48,10 +33,10 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
           layout="vertical"
           margin={{ top: 0, right: 40, left: 10, bottom: 0 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--tw-colors-slate-200)" strokeOpacity={0.2} horizontal={false} />
           <XAxis
             type="number"
-            tick={{ fill: '#64748b', fontSize: 11 }}
+            tick={{ fill: '#94a3b8', fontSize: 11 }}
             axisLine={false}
             tickLine={false}
           />
@@ -65,7 +50,7 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
           />
           <Tooltip
             contentStyle={{
-              background: '#1e293b',
+              background: '#0f172a',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: 8,
               color: '#e2e8f0'

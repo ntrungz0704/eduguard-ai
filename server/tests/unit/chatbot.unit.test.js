@@ -31,12 +31,20 @@ describe('intentRouter', () => {
     expect(routeIntent('tình hình lớp')).toBe('CLASS_ANALYTICS_INTENT');
   });
 
-  test('routes "sinh viên nguy cơ cao" to CLASS_ANALYTICS_INTENT', () => {
-    expect(routeIntent('sinh viên nguy cơ cao')).toBe('CLASS_ANALYTICS_INTENT');
+  test('routes "sinh viên nguy cơ cao" to HIGH_RISK_STUDENTS_INTENT', () => {
+    expect(routeIntent('sinh viên nguy cơ cao')).toBe('HIGH_RISK_STUDENTS_INTENT');
   });
 
-  test('routes "ai cần can thiệp" to CLASS_ANALYTICS_INTENT', () => {
-    expect(routeIntent('ai cần can thiệp')).toBe('CLASS_ANALYTICS_INTENT');
+  test('routes "ai cần can thiệp" to HIGH_RISK_STUDENTS_INTENT', () => {
+    expect(routeIntent('ai cần can thiệp')).toBe('HIGH_RISK_STUDENTS_INTENT');
+  });
+
+  test('routes "môn dễ rớt" to BOTTLENECK_SUBJECTS_INTENT', () => {
+    expect(routeIntent('môn dễ rớt')).toBe('BOTTLENECK_SUBJECTS_INTENT');
+  });
+
+  test('routes "môn bottleneck" to BOTTLENECK_SUBJECTS_INTENT', () => {
+    expect(routeIntent('môn bottleneck')).toBe('BOTTLENECK_SUBJECTS_INTENT');
   });
 
   test('routes MSSV message to STUDENT_ANALYTICS_INTENT', () => {
@@ -73,6 +81,15 @@ describe('intentRouter', () => {
 
   test('uses NLP intent for CLASS_ANALYTICS', () => {
     expect(routeIntent('some message', 'CLASS_ANALYTICS')).toBe('CLASS_ANALYTICS_INTENT');
+    expect(routeIntent('some message', 'query.class_analytics')).toBe('CLASS_ANALYTICS_INTENT');
+  });
+
+  test('uses NLP intent for HIGH_RISK_STUDENTS', () => {
+    expect(routeIntent('some message', 'query.high_risk_students')).toBe('HIGH_RISK_STUDENTS_INTENT');
+  });
+
+  test('uses NLP intent for BOTTLENECK_SUBJECTS', () => {
+    expect(routeIntent('some message', 'query.bottleneck_subjects')).toBe('BOTTLENECK_SUBJECTS_INTENT');
   });
 
   test('falls back to FALLBACK_INTENT for unknown message', () => {

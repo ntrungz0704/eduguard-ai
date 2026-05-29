@@ -138,12 +138,12 @@ export default function GPA() {
       <div className="glass-card p-8 rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
         <div className="relative z-10 flex items-center gap-4">
-          <div className="p-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl shadow-lg shadow-cyan-500/20">
-            <Compass size={32} className="text-white"/>
+          <div className="p-4 bg-white dark:bg-gradient-to-br dark:from-cyan-500 dark:to-blue-600 rounded-2xl shadow-lg shadow-sm dark:shadow-cyan-500/20">
+            <Compass size={32} className="text-slate-900 dark:text-white"/>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-white tracking-tight">AI Academic Intelligence</h2>
-            <p className="text-slate-400 mt-1">Hệ thống phân tích và mô phỏng GPA tiên tiến.</p>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">AI Academic Intelligence</h2>
+            <p className="text-slate-600 dark:text-slate-400 mt-1">Hệ thống phân tích và mô phỏng GPA tiên tiến.</p>
           </div>
         </div>
 
@@ -156,11 +156,11 @@ export default function GPA() {
               value={selectedStudentId} 
               onChange={e => setSelectedStudentId(e.target.value)} 
               onKeyDown={e => e.key === 'Enter' && fetchStudentData()}
-              className="w-full p-4 bg-black/40 border border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 text-white transition-all font-bold uppercase"
+              className="w-full p-4 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 text-slate-900 dark:text-white transition-all font-bold uppercase"
             />
             <button 
               onClick={fetchStudentData} 
-              className="bg-cyan-600 hover:bg-cyan-500 text-white p-4 rounded-2xl transition-colors shadow-lg shadow-cyan-500/20 font-bold whitespace-nowrap"
+              className="bg-cyan-600 hover:bg-cyan-500 text-slate-900 dark:text-white p-4 rounded-2xl transition-colors shadow-lg shadow-sm dark:shadow-cyan-500/20 font-bold whitespace-nowrap"
             >
               Phân tích
             </button>
@@ -169,18 +169,18 @@ export default function GPA() {
       </div>
 
       {!studentData && !loadingStudent && (
-        <div className="glass-card p-12 rounded-3xl border border-white/5 flex flex-col items-center justify-center text-center opacity-50">
+        <div className="glass-card p-12 rounded-3xl border border-slate-200 dark:border-white/5 flex flex-col items-center justify-center text-center opacity-50">
           <Activity size={64} className="text-slate-600 mb-4 animate-pulse" />
-          <h3 className="text-xl text-white font-semibold mb-2">Chưa chọn sinh viên</h3>
-          <p className="text-slate-400">Vui lòng chọn một sinh viên ở góc trên để hệ thống AI tiến hành phân tích Snapshot.</p>
+          <h3 className="text-xl text-slate-900 dark:text-white font-semibold mb-2">Chưa chọn sinh viên</h3>
+          <p className="text-slate-600 dark:text-slate-400">Vui lòng chọn một sinh viên ở góc trên để hệ thống AI tiến hành phân tích Snapshot.</p>
         </div>
       )}
 
       {loadingStudent && (
-        <div className="glass-card p-12 rounded-3xl border border-white/5 flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mb-4"></div>
+        <div className="glass-card p-12 rounded-3xl border border-slate-200 dark:border-white/5 flex flex-col items-center justify-center text-center">
+          <div className="w-16 h-16 border-4 border-cyan-200 dark:border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mb-4"></div>
           <h3 className="text-xl text-cyan-400 font-bold mb-2">🤖 AI Engine Analyzing...</h3>
-          <p className="text-slate-400">Đang cào dữ liệu học bạ và chạy mô hình học máy phân tích rủi ro...</p>
+          <p className="text-slate-600 dark:text-slate-400">Đang cào dữ liệu học bạ và chạy mô hình học máy phân tích rủi ro...</p>
         </div>
       )}
 
@@ -191,59 +191,59 @@ export default function GPA() {
           <div className="lg:col-span-5 space-y-6">
             
             {/* Snapshot Card */}
-            <div className="glass-card p-6 rounded-3xl border border-white/5 relative overflow-hidden">
+            <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 relative overflow-hidden">
               <div className="flex justify-between items-start mb-6">
                 <div className="flex gap-4 items-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white shadow-lg">
+                  <div className="w-16 h-16 rounded-full bg-white dark:bg-gradient-to-br dark:from-indigo-500 dark:to-purple-600 flex items-center justify-center text-2xl font-bold text-slate-900 dark:text-white shadow-lg">
                     {studentData.name.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">{studentData.name}</h3>
-                    <p className="text-slate-400">{studentData.mssv} • {studentData.classCode || 'WD18301'}</p>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">{studentData.name}</h3>
+                    <p className="text-slate-600 dark:text-slate-400">{studentData.mssv} • {studentData.classCode || 'WD18301'}</p>
                   </div>
                 </div>
-                <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${metrics.riskLevel === 'HIGH' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/50' : metrics.riskLevel === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/50' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/50'}`}>
+                <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${metrics.riskLevel === 'HIGH' ? 'bg-rose-500/20 text-rose-400 border border-rose-200 dark:border-rose-500/50' : metrics.riskLevel === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400 border border-amber-200 dark:border-amber-500/50' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/50'}`}>
                   {metrics.riskLevel === 'HIGH' ? '🔴 High Risk' : metrics.riskLevel === 'MEDIUM' ? '🟡 Medium Risk' : '🟢 Low Risk'}
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5 text-center">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">GPA</p>
-                  <p className="text-2xl font-bold text-white">{metrics.currentGPA}</p>
+                <div className="bg-slate-100 dark:bg-black/20 rounded-2xl p-4 border border-slate-200 dark:border-white/5 text-center">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">GPA</p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-white">{metrics.currentGPA}</p>
                 </div>
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5 text-center">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Tín chỉ</p>
-                  <p className="text-2xl font-bold text-white">{metrics.completedCredits}</p>
+                <div className="bg-slate-100 dark:bg-black/20 rounded-2xl p-4 border border-slate-200 dark:border-white/5 text-center">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Tín chỉ</p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-white">{metrics.completedCredits}</p>
                 </div>
-                <div className="bg-black/20 rounded-2xl p-4 border border-white/5 text-center">
-                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Chuyên cần</p>
+                <div className="bg-slate-100 dark:bg-black/20 rounded-2xl p-4 border border-slate-200 dark:border-white/5 text-center">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Chuyên cần</p>
                   <p className={`text-2xl font-bold ${metrics.attendance < 70 ? 'text-rose-400' : 'text-emerald-400'}`}>{metrics.attendance}%</p>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-4">
+                <div className="bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-2xl p-4">
                   <p className="text-xs text-rose-400 uppercase tracking-wider font-bold mb-2 flex items-center gap-2"><AlertCircle size={14}/> Môn học nguy hiểm</p>
                   <div className="flex flex-wrap gap-2">
                     {metrics.dangerCourses.length > 0 ? metrics.dangerCourses.map(c => (
-                      <span key={c} className="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg text-sm font-semibold border border-rose-500/30">{c}</span>
-                    )) : <span className="text-slate-400 text-sm">Không có môn học nguy hiểm</span>}
+                      <span key={c} className="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg text-sm font-semibold border border-rose-200 dark:border-rose-500/30">{c}</span>
+                    )) : <span className="text-slate-600 dark:text-slate-400 text-sm">Không có môn học nguy hiểm</span>}
                   </div>
                 </div>
 
-                <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-4 flex items-center gap-3">
+                <div className="bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 rounded-2xl p-4 flex items-center gap-3">
                   {metrics.trend === 'down' ? <TrendingDown className="text-rose-400" /> : <TrendingUp className="text-emerald-400" />}
                   <div>
                     <p className="text-xs text-indigo-400 uppercase tracking-wider font-bold mb-1">Xu hướng học lực</p>
-                    <p className="text-sm text-slate-300">{metrics.trend === 'down' ? 'Điểm có dấu hiệu giảm trong 2 kỳ liên tiếp' : 'Duy trì phong độ học tập khá ổn định'}</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">{metrics.trend === 'down' ? 'Điểm có dấu hiệu giảm trong 2 kỳ liên tiếp' : 'Duy trì phong độ học tập khá ổn định'}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* AI Insight Card */}
-            <div className="glass-card p-6 rounded-3xl border border-cyan-500/30 relative overflow-hidden bg-gradient-to-br from-cyan-900/20 to-blue-900/10 shadow-[0_0_30px_rgba(6,182,212,0.15)]">
+            <div className="glass-card p-6 rounded-3xl border border-cyan-200 dark:border-cyan-500/30 relative overflow-hidden bg-white dark:bg-gradient-to-br dark:from-cyan-900/20 dark:to-blue-900/10 shadow-[0_0_30px_rgba(6,182,212,0.15)]">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <Zap size={64} />
               </div>
@@ -251,16 +251,16 @@ export default function GPA() {
                 <Zap size={20} className="fill-cyan-400"/> AI Insight
               </h3>
               
-              <p className="text-slate-300 leading-relaxed mb-4 text-sm font-medium">
-                Sinh viên có xu hướng <span className="text-white font-bold">{metrics.trend === 'down' ? 'giảm phong độ học tập' : 'giữ vững thành tích'}</span> trong các học kỳ gần nhất.
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4 text-sm font-medium">
+                Sinh viên có xu hướng <span className="text-slate-900 dark:text-white font-bold">{metrics.trend === 'down' ? 'giảm phong độ học tập' : 'giữ vững thành tích'}</span> trong các học kỳ gần nhất.
               </p>
               
               <div className="space-y-2 mb-4">
-                <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Nguyên nhân / Đánh giá:</p>
-                <ul className="text-sm text-slate-300 space-y-2 ml-4 list-disc marker:text-cyan-500">
+                <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider">Nguyên nhân / Đánh giá:</p>
+                <ul className="text-sm text-slate-700 dark:text-slate-300 space-y-2 ml-4 list-disc marker:text-cyan-500">
                   {metrics.attendance < 70 && <li>Chỉ số Attendance quá thấp (<span className="text-rose-400 font-bold">{metrics.attendance}%</span>) dẫn đến nguy cơ cấm thi trực tiếp.</li>}
                   {metrics.dangerCourses.map(c => (
-                    <li key={c}><span className="text-white font-bold">{c}</span> chưa vững nền tảng, có nguy cơ kéo theo rủi ro học vụ dây chuyền.</li>
+                    <li key={c}><span className="text-slate-900 dark:text-white font-bold">{c}</span> chưa vững nền tảng, có nguy cơ kéo theo rủi ro học vụ dây chuyền.</li>
                   ))}
                   {metrics.dangerCourses.length === 0 && metrics.attendance >= 70 && (
                      <li>Thái độ học tập tốt, các môn cơ sở đều đạt kết quả an toàn. Hệ thống chưa phát hiện rủi ro lớn.</li>
@@ -275,14 +275,14 @@ export default function GPA() {
           {/* RIGHT PANEL: Simulation Result & Slider */}
           <div className="lg:col-span-7 space-y-6">
             
-            <div className="glass-card p-8 rounded-3xl border border-white/5 shadow-xl">
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <div className="glass-card p-8 rounded-3xl border border-slate-200 dark:border-white/5 shadow-xl">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                 <Target className="text-amber-400"/> Tùy chỉnh What-if
               </h3>
               
-              <div className="mb-8 bg-black/40 p-6 rounded-2xl border border-white/5">
+              <div className="mb-8 bg-slate-200 dark:bg-black/40 p-6 rounded-2xl border border-slate-200 dark:border-white/5">
                 <div className="flex justify-between items-center mb-4">
-                  <label className="text-sm uppercase tracking-wider font-bold text-slate-300">Mục tiêu GPA Tốt nghiệp</label>
+                  <label className="text-sm uppercase tracking-wider font-bold text-slate-700 dark:text-slate-300">Mục tiêu GPA Tốt nghiệp</label>
                   <span className="text-4xl font-black text-amber-400 text-glow-amber">{targetGPA.toFixed(1)}</span>
                 </div>
                 <div className="py-4">
@@ -293,7 +293,7 @@ export default function GPA() {
                     step="0.1" 
                     value={targetGPA} 
                     onChange={e => setTargetGPA(parseFloat(e.target.value))}
-                    className="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400 transition-all"
+                    className="w-full h-3 bg-slate-50 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400 transition-all"
                   />
                 </div>
                 <div className="flex justify-between text-xs text-slate-500 font-bold mt-1 px-1">
@@ -303,28 +303,28 @@ export default function GPA() {
               </div>
 
               <div className="group mb-2">
-                <label className="block text-xs uppercase tracking-wider font-semibold text-slate-400 mb-2">Số tín chỉ còn lại (Dự kiến đăng ký thêm)</label>
-                <input type="number" value={remainingCredits} onChange={e => setRemainingCredits(e.target.value)} className="w-full p-4 bg-black/40 border border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 focus:bg-cyan-500/5 text-white transition-all text-xl font-bold" />
+                <label className="block text-xs uppercase tracking-wider font-semibold text-slate-600 dark:text-slate-400 mb-2">Số tín chỉ còn lại (Dự kiến đăng ký thêm)</label>
+                <input type="number" value={remainingCredits} onChange={e => setRemainingCredits(e.target.value)} className="w-full p-4 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 focus:bg-cyan-500/5 text-slate-900 dark:text-white transition-all text-xl font-bold" />
               </div>
             </div>
 
             {/* AI Simulation Results */}
             {simulation && (
-              <div className="glass-card p-8 rounded-3xl border border-white/5 relative overflow-hidden shadow-2xl">
+              <div className="glass-card p-8 rounded-3xl border border-slate-200 dark:border-white/5 relative overflow-hidden shadow-2xl">
                 <div className={`absolute top-0 right-0 w-80 h-80 opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 ${simulation.isPossible ? (simulation.probability > 60 ? 'bg-emerald-500' : 'bg-amber-500') : 'bg-rose-500'}`}></div>
                 
-                <h3 className="text-xl font-bold text-white mb-6">📈 Kết quả Phân tích Simulation</h3>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">📈 Kết quả Phân tích Simulation</h3>
                 
                 <div className="grid grid-cols-2 gap-6 mb-8 relative z-10">
-                  <div className="bg-black/40 rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center relative overflow-hidden group hover:border-white/10 transition-all">
-                    <span className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-3">GPA Môn còn lại cần đạt</span>
-                    <span className={`text-5xl font-black ${!simulation.isPossible ? 'text-rose-500 text-glow-red' : 'text-white'}`}>
+                  <div className="bg-slate-200 dark:bg-black/40 rounded-2xl p-6 border border-slate-200 dark:border-white/5 flex flex-col justify-center items-center relative overflow-hidden group hover:border-white/10 transition-all">
+                    <span className="text-xs uppercase tracking-wider font-bold text-slate-600 dark:text-slate-400 mb-3">GPA Môn còn lại cần đạt</span>
+                    <span className={`text-5xl font-black ${!simulation.isPossible ? 'text-rose-500 text-glow-red' : 'text-slate-900 dark:text-white'}`}>
                       {simulation.isPossible ? simulation.requiredGPA : 'Vượt trần'}
                     </span>
                   </div>
 
-                  <div className="bg-black/40 rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center relative overflow-hidden group hover:border-white/10 transition-all">
-                    <span className="text-xs uppercase tracking-wider font-bold text-slate-400 mb-3">Xác suất khả thi (AI)</span>
+                  <div className="bg-slate-200 dark:bg-black/40 rounded-2xl p-6 border border-slate-200 dark:border-white/5 flex flex-col justify-center items-center relative overflow-hidden group hover:border-white/10 transition-all">
+                    <span className="text-xs uppercase tracking-wider font-bold text-slate-600 dark:text-slate-400 mb-3">Xác suất khả thi (AI)</span>
                     <div className="flex items-end gap-1">
                       <span className={`text-5xl font-black ${simulation.probability >= 70 ? 'text-emerald-400 text-glow-green' : (simulation.probability >= 30 ? 'text-amber-400 text-glow-amber' : 'text-rose-500 text-glow-red')}`}>
                         {simulation.probability}%
@@ -334,39 +334,39 @@ export default function GPA() {
                 </div>
 
                 <div className="space-y-4 relative z-10">
-                  <p className="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Recommendation Action:</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Recommendation Action:</p>
                   {simulation.probability >= 70 ? (
-                    <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-2xl flex items-start gap-4">
+                    <div className="bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 p-5 rounded-2xl flex items-start gap-4">
                       <CheckCircle2 className="text-emerald-400 shrink-0 mt-1" size={24}/>
                       <div>
                         <p className="text-emerald-400 font-bold mb-2 text-lg">Khả thi cao!</p>
                         <ul className="text-sm text-emerald-200/90 space-y-2 list-disc ml-4">
-                          <li>Chỉ cần duy trì trung bình các môn còn lại ≥ <b className="text-white">{simulation.requiredGPA}</b>.</li>
+                          <li>Chỉ cần duy trì trung bình các môn còn lại ≥ <b className="text-slate-900 dark:text-white">{simulation.requiredGPA}</b>.</li>
                           <li>Cố gắng không rớt thêm môn nào trong nhóm rủi ro cao.</li>
                           <li>Tiếp tục phát huy phong độ học tập và giữ điểm danh đầy đủ.</li>
                         </ul>
                       </div>
                     </div>
                   ) : simulation.probability >= 30 ? (
-                    <div className="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl flex items-start gap-4">
+                    <div className="bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 p-5 rounded-2xl flex items-start gap-4">
                       <AlertCircle className="text-amber-400 shrink-0 mt-1" size={24}/>
                       <div>
                         <p className="text-amber-400 font-bold mb-2 text-lg">Thử thách trung bình - khó</p>
                         <ul className="text-sm text-amber-200/90 space-y-2 list-disc ml-4">
-                          <li>Cần nỗ lực cực kỳ lớn, duy trì điểm trung bình các môn còn lại ≥ <b className="text-white">{simulation.requiredGPA}</b>.</li>
+                          <li>Cần nỗ lực cực kỳ lớn, duy trì điểm trung bình các môn còn lại ≥ <b className="text-slate-900 dark:text-white">{simulation.requiredGPA}</b>.</li>
                           <li>Cải thiện chuyên cần ngay lập tức để tránh rớt do điểm quá trình.</li>
-                          {metrics.dangerCourses.length > 0 && <li>Bắt buộc học kèm mentor các môn rủi ro cao: <b className="text-white">{metrics.dangerCourses.join(', ')}</b>.</li>}
+                          {metrics.dangerCourses.length > 0 && <li>Bắt buộc học kèm mentor các môn rủi ro cao: <b className="text-slate-900 dark:text-white">{metrics.dangerCourses.join(', ')}</b>.</li>}
                         </ul>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-rose-500/10 border border-rose-500/30 p-5 rounded-2xl flex items-start gap-4">
+                    <div className="bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 p-5 rounded-2xl flex items-start gap-4">
                       <AlertCircle className="text-rose-400 shrink-0 mt-1" size={24}/>
                       <div>
                         <p className="text-rose-400 font-bold mb-2 text-lg">Rất rủi ro / Bất khả thi</p>
                         <ul className="text-sm text-rose-200/90 space-y-2 list-disc ml-4">
                           {simulation.isPossible ? (
-                            <li>Yêu cầu điểm số trung bình quá cao (<b className="text-white">{simulation.requiredGPA}</b>), gần như điểm tuyệt đối. Rất khó đạt được nếu không có phương pháp học đột phá.</li>
+                            <li>Yêu cầu điểm số trung bình quá cao (<b className="text-slate-900 dark:text-white">{simulation.requiredGPA}</b>), gần như điểm tuyệt đối. Rất khó đạt được nếu không có phương pháp học đột phá.</li>
                           ) : (
                             <li>Điểm yêu cầu vượt quá 10.0. Toán học chứng minh bạn <b>không thể</b> đạt mốc {targetGPA} với số tín chỉ còn lại này.</li>
                           )}
