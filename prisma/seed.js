@@ -135,9 +135,9 @@ async function main() {
   console.log('🎭 Inserting Special Demo Cases...');
   const demoStudents = [
     {
-      mssv: 'DEMO001',
-      name: 'Nguyễn Văn A (Burnout)',
-      classCode: 'DEMO1',
+      mssv: 'PS21034',
+      name: 'Nguyễn Hoàng Nam (Burnout)',
+      classCode: 'WD18301',
       scores: {
         'Nhập môn lập trình': { value: 9.0, status: 'PASSED', attendance: 0.95 },
         'Xây dựng trang Web': { value: 8.5, status: 'PASSED', attendance: 0.90 },
@@ -146,9 +146,9 @@ async function main() {
       }
     },
     {
-      mssv: 'DEMO002',
-      name: 'Trần Thị B (Cần Cù Bù Thông Minh)',
-      classCode: 'DEMO1',
+      mssv: 'PS21502',
+      name: 'Trần Minh Thư (Cần Cù Bù Thông Minh)',
+      classCode: 'WD18301',
       scores: {
         'Nhập môn lập trình': { value: 5.5, status: 'PASSED', attendance: 1.0 },
         'Xây dựng trang Web': { value: 5.0, status: 'PASSED', attendance: 1.0 },
@@ -157,9 +157,9 @@ async function main() {
       }
     },
     {
-      mssv: 'DEMO003',
-      name: 'Lê Văn C (Hổng Kiến Thức Nền)',
-      classCode: 'DEMO1',
+      mssv: 'PS20788',
+      name: 'Lê Tuấn Kiệt (Hổng Kiến Thức Nền)',
+      classCode: 'WD18301',
       scores: {
         'Nhập môn lập trình': { value: 2.0, status: 'FAILED', attendance: 0.8 }, // Failed Core Prereq
         'Xây dựng trang Web': { value: 6.0, status: 'PASSED', attendance: 0.9 },
