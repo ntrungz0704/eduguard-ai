@@ -53,8 +53,20 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const xaiData = explainRisk(student);
-      return { type: 'EXPLANATION_XAI', student, xaiData };
+      const riskData = explainRisk(student);
+      const timeline = generateAcademicTimeline(student, riskData);
+      return { type: 'FOLLOWUP_ROOT_CAUSE', followupType: 'ROOT_CAUSE', student, riskData, timeline };
+    }
+
+    case 'ATTENDANCE_ANALYSIS_INTENT': {
+      const mssv = activeMssv || entities.mssv;
+      if (!mssv) return { type: 'NEED_ACTIVE_STUDENT' };
+      const student = await fetchStudentByMssv(mssv);
+      if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
+      
+      const riskData = explainRisk(student);
+      const timeline = generateAcademicTimeline(student, riskData);
+      return { type: 'FOLLOWUP_ATTENDANCE', followupType: 'ATTENDANCE', student, riskData, timeline };
     }
 
     // ----------------------------------------------------
@@ -125,9 +137,11 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const mssv = activeMssv || entities.mssv;
       if (!mssv) return { type: 'NEED_ACTIVE_STUDENT' };
       const student = await fetchStudentByMssv(mssv);
+      if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const recommendations = generateRecommendations(student);
-      return { type: 'RECOMMENDATION_REC', student, recommendations };
+      const riskData = explainRisk(student);
+      const timeline = generateAcademicTimeline(student, riskData);
+      return { type: 'FOLLOWUP_INTERVENTION', followupType: 'INTERVENTION', student, riskData, timeline };
     }
     
     default:

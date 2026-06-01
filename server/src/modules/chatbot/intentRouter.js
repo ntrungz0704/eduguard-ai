@@ -66,7 +66,10 @@ function keywordHeuristicRoute(msgLower, activeStudent) {
   if (msgLower.includes('dự báo') || msgLower.includes('tương lai')) return 'PREDICT_FUTURE_INTENT';
   if (msgLower.includes('nếu') || msgLower.includes('giả lập') || msgLower.includes('mô phỏng')) return 'SCENARIO_SIMULATION_INTENT';
   if (msgLower.includes('nguyên nhân') || msgLower.includes('vì sao')) return 'ROOT_CAUSE_XAI_INTENT';
-  if (msgLower.includes('can thiệp') || msgLower.includes('cứu')) return 'INTERVENTION_REC_INTENT';
+  if (msgLower.includes('can thiệp') || msgLower.includes('cứu') || msgLower.includes('lộ trình')) return 'INTERVENTION_REC_INTENT';
+  if (msgLower.includes('chuyên cần') || msgLower.includes('điểm danh') || msgLower.includes('vắng')) return 'ATTENDANCE_ANALYSIS_INTENT';
+  if (msgLower.includes('tình hình lớp') || msgLower.includes('tổng quan') || msgLower.includes('thống kê')) return 'CLASS_ANALYTICS_INTENT';
+  if (msgLower.includes('môn dễ rớt') || msgLower.includes('nút thắt')) return 'CLASS_ANALYTICS_INTENT'; // Fallback to class analytics if no specific intent
   
   return 'FALLBACK_INTENT';
 }
