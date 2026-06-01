@@ -81,13 +81,13 @@ Chúng tôi cung cấp môi trường Docker Compose hoàn chỉnh (PostgreSQL +
 
 1. **Clone Repository:**
    ```bash
-   git clone https://github.com/your-username/eduguard-ai.git
+   git clone https://github.com/ntrungz0704/eduguard-ai.git
    cd eduguard-ai
    ```
 
 2. **Cấu hình môi trường:**
    ```bash
-   cp server/.env.example server/.env
+   cp .env.example .env
    # Bạn có thể giữ nguyên cấu hình mặc định trong .env.example
    ```
 
@@ -107,7 +107,7 @@ Chúng tôi cung cấp môi trường Docker Compose hoàn chỉnh (PostgreSQL +
 
 Hệ thống giờ đây đang chạy tại:
 - **Client (UI):** `http://localhost:5173`
-- **Backend API:** `http://localhost:5000`
+- **Backend API:** `http://localhost:3000`
 
 ---
 
@@ -146,7 +146,8 @@ Dự án chú trọng đặc biệt đến vấn đề bảo vệ Dữ liệu Đ
 ---
 
 ## 🤝 Tác giả (Team)
-- **Nexus Intelligence**
+- **EduGuard-AI** (formerly Nexus Intelligence)
+- SmartGen AI Challenge 2026 — Vòng Bán kết
 - Vị trí: Backend Engineering / Frontend Data-Viz / AI Prompting
 
 > *"Explain Risk. Support Students. Improve Outcomes."*

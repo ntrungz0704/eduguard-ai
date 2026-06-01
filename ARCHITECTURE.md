@@ -2,8 +2,7 @@
 
 ## 1. The Strangler Fig Migration Pattern
 EduGuard AI was originally built as a monolith prototype with a "God File" (`routes/api.js`). To prepare for enterprise-level scaling, we implemented the Strangler Fig pattern.
-- **Legacy (`server/legacy/`)**: Contains old endpoints waiting to be migrated.
-- **New Core (`server/src/`)**: A Domain-Driven, strictly modular system.
+- **Core (`server/src/`)**: A Domain-Driven, strictly modular system.
 
 ## 2. Request Flow
 1. **API Gateway (`app.js`)**: Receives the request and attaches a `TraceID` via the tracing middleware.
