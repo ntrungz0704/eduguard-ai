@@ -111,3 +111,9 @@ body {
 .hover-glow:hover {
   animation: pulse-glow 2s infinite;
 }
+
+/* Fix Tailwind gradient over solid background bug in Dark Mode */
+.dark [class*='dark:bg-gradient-'] {
+  background-color: transparent !important;
+}
+
