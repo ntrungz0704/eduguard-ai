@@ -78,9 +78,9 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const timeframe = entities.timeframe || '4 tuần';
-      const forecast = forecastTrend(student, timeframe);
-      return { type: 'FORECAST_TREND', student, timeframe, forecast };
+      const riskData = explainRisk(student);
+      const timeline = generateAcademicTimeline(student, riskData);
+      return { type: 'FOLLOWUP_TIMELINE', followupType: 'TIMELINE', student, riskData, timeline };
     }
 
     case 'SCENARIO_SIMULATION_INTENT': {
@@ -109,7 +109,7 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       }
 
       const scenario = simulateScenario(student, mode, value, additionalValue);
-      return { type: 'SCENARIO_SIMULATION', student, mode, value, additionalValue, scenario };
+      return { type: 'GPA_SIMULATION', student, mode, value, additionalValue, scenario };
     }
 
     // ----------------------------------------------------
