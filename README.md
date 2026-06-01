@@ -145,9 +145,9 @@ Dự án chú trọng đặc biệt đến vấn đề bảo vệ Dữ liệu Đ
 
 ---
 
-## 🤝 Tác giả (Team)
+## 🤝 Tác giả (Team EduGuard-AI)
 - **EduGuard-AI** (formerly Nexus Intelligence)
-- SmartGen AI Challenge 2026 — Vòng Bán kết
+- SmartGen AI Challenge 2026
 - Vị trí: Backend Engineering / Frontend Data-Viz / AI Prompting
 
 > *"Explain Risk. Support Students. Improve Outcomes."*
