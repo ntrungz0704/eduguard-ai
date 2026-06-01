@@ -1,0 +1,75 @@
+const { prisma } = require('../infrastructure/database/prisma');
+
+/**
+ * Student Repository Layer
+ * Tách biệt mọi thao tác Database khỏi AI Engine.
+ */
+let _legacyCache = null;
+function getLegacyCache() {
+  if (!_legacyCache) {
+    try {
+      _legacyCache = require('../../shared/cache');
+    } catch (e) {
+      _legacyCache = { trainingData: { students: [] }, uploadedStudents: [] };
+    }
+  }
+  return _legacyCache;
+}
+
+function normalizeLegacyStudent(found) {
+  return {
+    mssv: found.id,
+    name: found.name || `Sinh viên ${found.id}`,
+    classCode: found.classCode || 'WD18301',
+    scores: Object.entries(found.scores || {}).map(([courseId, value]) => ({
+      courseId,
+      value: value !== null ? parseFloat(value) : null,
+      attendance: found.attendance?.[courseId] || null,
+      status: value === null ? 'STUDYING' : (parseFloat(value) >= 5 ? 'PASSED' : 'FAILED')
+    }))
+  };
+}
+
+async function fetchStudentByMssv(mssv) {
+  if (!mssv) return null;
+  const upperMssv = mssv.toUpperCase();
+
+  try {
+    const dbStudent = await prisma.student.findUnique({
+      where: { mssv: upperMssv },
+      include: { scores: true }
+    });
+    if (dbStudent) return dbStudent;
+  } catch (e) {
+    // Fallback if Prisma is not connected
+  }
+
+  const legacy = getLegacyCache();
+  const allStudents = [
+    ...(legacy.trainingData?.students || []),
+    ...(legacy.uploadedStudents || [])
+  ];
+  
+  const found = allStudents.find(s => (s.id || '').toUpperCase() === upperMssv);
+  if (!found) return null;
+
+  return normalizeLegacyStudent(found);
+}
+
+async function fetchAllStudents() {
+  let students = [];
+  try {
+    students = await prisma.student.findMany({ include: { scores: true } });
+  } catch (e) {}
+
+  if (students.length === 0) {
+    const legacy = getLegacyCache();
+    students = (legacy.trainingData?.students || []).map(normalizeLegacyStudent);
+  }
+  return students;
+}
+
+module.exports = {
+  fetchStudentByMssv,
+  fetchAllStudents
+};

@@ -1,310 +1,140 @@
-const { prisma } = require('../../infrastructure/database/prisma');
-const { calculateExplainableRisk, generateAcademicTimeline, computeClassAnalytics } = require('../../ai/dssEngine');
-const cacheManager = require('../../infrastructure/cache/cacheManager');
+const { fetchStudentByMssv, fetchAllStudents } = require('../../repositories/studentRepository');
+const { 
+  calculateBaseRisk,
+  explainRisk,
+  getPriorityList,
+  compareStudents,
+  forecastTrend,
+  simulateScenario,
+  generateRecommendations,
+  logAction,
+  generateAcademicTimeline, 
+  computeClassAnalytics
+} = require('../../ai/engines/index');
 const appLogger = require('../../infrastructure/logger');
-const eventBus = require('../../events/eventBus');
 
-// Reference to in-memory cache from legacy (training data)
-let _legacyCache = null;
-function getLegacyCache() {
-  if (!_legacyCache) {
-    try {
-      _legacyCache = require('../../../shared/cache');
-    } catch (e) {
-      _legacyCache = { trainingData: { students: [] }, uploadedStudents: [] };
-    }
-  }
-  return _legacyCache;
-}
-
-// ============================================================
-// EduGuard AI — AI Decision Engine
-// Orchestrates data fetching + DSS computation for each intent
-// ============================================================
-
-/**
- * Fetch a student from Prisma DB or legacy cache by MSSV
- * @param {string} mssv
- * @returns {object|null} Student with scores array
- */
-async function fetchStudent(mssv) {
-  if (!mssv) return null;
-
-  // Try Prisma first
-  try {
-    const dbStudent = await prisma.student.findUnique({
-      where: { mssv: mssv.toUpperCase() },
-      include: { scores: true }
-    });
-    if (dbStudent) return dbStudent;
-  } catch (e) {
-    appLogger.warn(`[DSS_ENGINE] Prisma fetch failed for ${mssv}: ${e.message}`);
-  }
-
-  // Fallback: legacy memory cache
-  const legacy = getLegacyCache();
-  const allStudents = [
-    ...(legacy.trainingData?.students || []),
-    ...(legacy.uploadedStudents || [])
-  ];
-
-  const found = allStudents.find(s =>
-    (s.id || '').toUpperCase() === mssv.toUpperCase()
-  );
-
-  if (!found) return null;
-
-  // Normalize legacy student format to match Prisma format
-  return {
-    mssv: found.id,
-    name: found.name || `Sinh viên ${found.id}`,
-    classCode: found.classCode || 'WD18301',
-    scores: Object.entries(found.scores || {}).map(([courseId, value]) => ({
-      courseId,
-      value: value !== null ? parseFloat(value) : null,
-      attendance: found.attendance?.[courseId] || null,
-      status: value === null ? 'STUDYING' : (parseFloat(value) >= 5 ? 'PASSED' : 'FAILED')
-    }))
-  };
-}
-
-/**
- * Fetch all students for class analytics
- * Merges Prisma DB + legacy cache
- */
-async function fetchAllStudents() {
-  let students = [];
-
-  try {
-    const dbStudents = await prisma.student.findMany({
-      include: { scores: true }
-    });
-    students = dbStudents;
-  } catch (e) {
-    appLogger.warn(`[DSS_ENGINE] Prisma findMany failed: ${e.message}`);
-  }
-
-  // If Prisma is empty, use legacy
-  if (students.length === 0) {
-    const legacy = getLegacyCache();
-    students = (legacy.trainingData?.students || []).map(s => ({
-      mssv: s.id,
-      name: s.name || `Sinh viên ${s.id}`,
-      classCode: s.classCode || 'WD18301',
-      scores: Object.entries(s.scores || {}).map(([courseId, value]) => ({
-        courseId,
-        value: value !== null ? parseFloat(value) : null,
-        attendance: null,
-        status: value === null ? 'STUDYING' : (parseFloat(value) >= 5 ? 'PASSED' : 'FAILED')
-      }))
-    }));
-  }
-
-  return students;
-}
-
-// ============================================================
-// Intent Handlers — each returns a structured data object
-// ============================================================
-
-async function handleStudentAnalytics(activeMssv) {
-  const student = await fetchStudent(activeMssv);
-  if (!student) {
-    return { type: 'STUDENT_NOT_FOUND', mssv: activeMssv };
-  }
-
-  const riskData = calculateExplainableRisk(student);
-  const timeline = generateAcademicTimeline(student, riskData);
-
-  // Emit events based on findings
-  if (riskData.avgAttendance < 60) {
-    eventBus.emitAttendanceWarning(activeMssv, riskData.avgAttendance);
-  }
-  if (riskData.failedCourses.length > 0) {
-    eventBus.emitPrerequisiteBreak(activeMssv, riskData.failedCourses);
-  }
-  if (riskData.riskScore >= 76) {
-    eventBus.emitRiskEscalated(activeMssv, riskData.riskScore, riskData.level);
-  }
-
-  return {
-    type: 'STUDENT_ANALYTICS',
-    student,
-    riskData,
-    timeline
-  };
-}
-
-async function handleClassAnalytics() {
-  const key = cacheManager.KEYS.CLASS_ANALYTICS;
-  return await cacheManager.getOrCompute(key, async () => {
-    const students = await fetchAllStudents();
-    const analytics = computeClassAnalytics(students);
-    return { type: 'CLASS_ANALYTICS', analytics };
-  }, cacheManager.TTL.CLASS_ANALYTICS);
-}
-
-async function handleRiskRanking() {
-  const key = cacheManager.KEYS.RISK_RANKING;
-  return await cacheManager.getOrCompute(key, async () => {
-    const students = await fetchAllStudents();
-    const analytics = computeClassAnalytics(students);
-    return {
-      type: 'RISK_RANKING',
-      topAtRisk: analytics.topAtRisk,
-      distribution: analytics.distribution,
-      bottleneck: analytics.bottleneckSubjects
-    };
-  }, cacheManager.TTL.RISK_RANKING);
-}
-
-async function handleFollowupIntent(followupType, activeMssv) {
-  const student = await fetchStudent(activeMssv);
-  if (!student) {
-    return { type: 'STUDENT_NOT_FOUND', mssv: activeMssv };
-  }
-
-  const riskData = calculateExplainableRisk(student);
-  const timeline = generateAcademicTimeline(student, riskData);
-
-  return {
-    type: `FOLLOWUP_${followupType}`,
-    followupType,
-    student,
-    riskData,
-    timeline
-  };
-}
-
-// ============================================================
-// Main Decision Engine Entry Point
-// ============================================================
-
-/**
- * Execute AI decision based on intent and context.
- * @param {object} params
- * @param {string} params.intent - Routed intent string
- * @param {string|null} params.activeMssv - Current active student MSSV
- * @param {object} params.entities - Extracted entities
- * @param {object} params.session - Current session object
- * @returns {Promise<object>} Structured decision data
- */
-async function executeDecision({ intent, activeMssv, entities, session }) {
-  appLogger.info(`[AI_DECISION] Executing intent: ${intent} | MSSV: ${activeMssv || 'none'}`);
+// ════════════════════════════════════════════
+// CORE DECISION ROUTER (ORCHESTRATOR)
+// ════════════════════════════════════════════
+async function executeDecision({ intent, activeMssv, entities, session, user = 'System' }) {
+  appLogger.info(`[DSS_DECISION] Executing intent: ${intent} | MSSV Context: ${activeMssv || 'none'}`);
+  
+  // Audit log every incoming request
+  logAction({ user, action: intent, target: activeMssv || 'Global', context: entities });
 
   switch (intent) {
+    // ----------------------------------------------------
+    // LEVEL 1: ANALYTICS
+    // ----------------------------------------------------
     case 'STUDENT_ANALYTICS_INTENT': {
       const mssv = activeMssv || entities.mssv;
       if (!mssv) return { type: 'NEED_MSSV' };
-      return await handleStudentAnalytics(mssv);
+      const student = await fetchStudentByMssv(mssv);
+      if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
+      
+      const riskData = explainRisk(student);
+      const timeline = generateAcademicTimeline(student, riskData);
+      return { type: 'STUDENT_ANALYTICS', student, riskData, timeline };
     }
 
-    case 'CLASS_ANALYTICS_INTENT': {
-      const res = await handleClassAnalytics();
-      res.type = 'CLASS_ANALYTICS';
-      res.topN = entities.topN;
-      return res;
+    case 'CLASS_ANALYTICS_INTENT':
+    case 'RISK_SCAN_INTENT': {
+      const students = await fetchAllStudents();
+      const analytics = computeClassAnalytics(students);
+      return { type: 'CLASS_ANALYTICS', analytics };
     }
 
-    case 'HIGH_RISK_STUDENTS_INTENT': {
-      const res = await handleClassAnalytics();
-      res.type = 'HIGH_RISK_STUDENTS';
-      res.topN = entities.topN;
-      return res;
-    }
-
-    case 'BOTTLENECK_SUBJECTS_INTENT': {
-      const res = await handleClassAnalytics();
-      res.type = 'BOTTLENECK_SUBJECTS';
-      return res;
-    }
-
-    case 'RISK_RANKING_INTENT': {
-      const res = await handleRiskRanking();
-      res.topN = entities.topN;
-      return res;
-    }
-
-    case 'FOLLOWUP_ROOT_CAUSE_INTENT':
-    case 'FOLLOWUP_ATTENDANCE_INTENT':
-    case 'FOLLOWUP_INTERVENTION_INTENT':
-    case 'FOLLOWUP_TIMELINE_INTENT':
-    case 'FOLLOWUP_STRENGTH_INTENT':
-    case 'FOLLOWUP_GPA_DETAIL_INTENT': {
+    // ----------------------------------------------------
+    // LEVEL 2: EXPLANATION (XAI)
+    // ----------------------------------------------------
+    case 'ROOT_CAUSE_XAI_INTENT': {
       const mssv = activeMssv || entities.mssv;
       if (!mssv) return { type: 'NEED_ACTIVE_STUDENT' };
-      const followupType = intent.replace('FOLLOWUP_', '').replace('_INTENT', '');
-      return await handleFollowupIntent(followupType, mssv);
+      const student = await fetchStudentByMssv(mssv);
+      if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
+      
+      const xaiData = explainRisk(student);
+      return { type: 'EXPLANATION_XAI', student, xaiData };
     }
 
-    case 'GREETING_INTENT':
-      return { type: 'GREETING' };
-
-    case 'CAPABILITIES_INTENT':
-      return { type: 'CAPABILITIES' };
-
-    case 'GENERAL_SYSTEM_INTENT':
-      return { type: 'SYSTEM_INFO' };
-
-    case 'SYLLABUS_INTENT': {
-      const courseId = entities.courseId || session.lastSubject || null;
-      return { type: 'SYLLABUS_INFO', courseId, activeMssv };
-    }
-
-    case 'GENERATE_MESSAGE_INTENT': {
+    // ----------------------------------------------------
+    // LEVEL 3: PREDICTION (WHAT-IF)
+    // ----------------------------------------------------
+    case 'PREDICT_FUTURE_INTENT': {
       const mssv = activeMssv || entities.mssv;
-      let studentData = null;
-      if (mssv) {
-        studentData = await fetchStudent(mssv);
-      }
-      return { type: 'GENERATE_MESSAGE', student: studentData, activeMssv };
+      if (!mssv) return { type: 'NEED_ACTIVE_STUDENT' };
+      const student = await fetchStudentByMssv(mssv);
+      if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
+      
+      const timeframe = entities.timeframe || '4 tuần';
+      const forecast = forecastTrend(student, timeframe);
+      return { type: 'FORECAST_TREND', student, timeframe, forecast };
     }
 
-    case 'PREREQUISITE_CHAIN_INTENT': {
-      const courseId = entities.courseId || session.lastSubject || 'PRO101';
-      return { type: 'PREREQUISITE_CHAIN', courseId, activeMssv };
-    }
-
-    case 'OUT_OF_SCOPE_INTENT':
-      return { type: 'OUT_OF_SCOPE' };
-
-    case 'IMPORT_STATUS_INTENT': {
-      const status = global.latestImportStatus || null;
-      return { type: 'IMPORT_STATUS', status };
-    }
-
-    case 'GPA_SIMULATION_INTENT': {
+    case 'SCENARIO_SIMULATION_INTENT': {
       const mssv = activeMssv || entities.mssv;
-      let studentData = null;
-      if (mssv) {
-        studentData = await fetchStudent(mssv);
+      if (!mssv) return { type: 'NEED_ACTIVE_STUDENT' };
+      const student = await fetchStudentByMssv(mssv);
+      if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
+      
+      let mode = 'SCORE';
+      let value = 8.0;
+      let additionalValue = null;
+
+      // Detect Recovery Scenario (both attendance and score provided)
+      if (entities.attendance_range && entities.score) {
+        mode = 'RECOVERY_SCENARIO';
+        value = parseInt(entities.attendance_range);
+        additionalValue = parseFloat(entities.score);
+      } else if (entities.attendance_range) {
+        mode = 'ATTENDANCE';
+        value = parseInt(entities.attendance_range);
+      } else if (entities.subject) {
+        mode = 'FAIL_SUBJECT';
+        value = entities.subject;
+      } else if (entities.score) {
+        value = parseFloat(entities.score);
       }
-      return { type: 'GPA_SIMULATION', student: studentData, activeMssv };
+
+      const scenario = simulateScenario(student, mode, value, additionalValue);
+      return { type: 'SCENARIO_SIMULATION', student, mode, value, additionalValue, scenario };
     }
 
-    case 'PREREQUISITE_EXPLANATION_INTENT':
-      return { type: 'PREREQUISITE_EXPLANATION' };
-
-    case 'CURRICULUM_INFO_INTENT':
-      return { type: 'CURRICULUM_INFO' };
-
-    case 'SUBJECT_ANALYSIS_INTENT': {
-      const courseId = entities.courseId || session.lastSubject || 'PRO101';
-      return { type: 'SUBJECT_ANALYSIS', courseId };
+    // ----------------------------------------------------
+    // LEVEL 4 & 5: DECISION & ACTION
+    // ----------------------------------------------------
+    case 'PRIORITY_ENGINE_INTENT': {
+      const students = await fetchAllStudents();
+      const priorityList = getPriorityList(students, entities.topN || 5);
+      return { type: 'PRIORITY_RANKING', priorityList };
     }
 
-    case 'FALLBACK_INTENT':
+    case 'COMPARE_STUDENTS_INTENT': {
+      const mssvs = Array.isArray(entities.mssv) ? entities.mssv : [activeMssv, entities.mssv].filter(Boolean);
+      if (mssvs.length < 2) return { type: 'NEED_TWO_MSSV', found: mssvs };
+      
+      const s1 = await fetchStudentByMssv(mssvs[0]);
+      const s2 = await fetchStudentByMssv(mssvs[1]);
+      if (!s1 || !s2) return { type: 'STUDENT_NOT_FOUND', query: mssvs.join(',') };
+      
+      const comparison = compareStudents(s1, s2);
+      return { type: 'COMPARE_STUDENTS', comparison };
+    }
+
+    case 'INTERVENTION_REC_INTENT': {
+      const mssv = activeMssv || entities.mssv;
+      if (!mssv) return { type: 'NEED_ACTIVE_STUDENT' };
+      const student = await fetchStudentByMssv(mssv);
+      
+      const recommendations = generateRecommendations(student);
+      return { type: 'RECOMMENDATION_REC', student, recommendations };
+    }
+    
     default:
-      return {
-        type: 'FALLBACK',
-        hasActiveStudent: !!activeMssv,
-        activeMssv
-      };
+      return { type: 'FALLBACK', hasActiveStudent: !!activeMssv, activeMssv };
   }
 }
 
 module.exports = {
-  executeDecision,
-  fetchStudent,
-  fetchAllStudents
+  executeDecision
 };

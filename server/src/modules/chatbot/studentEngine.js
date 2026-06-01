@@ -3,8 +3,8 @@
 // Copilot engine specifically for students (Motivation, GPA, Planning)
 // ============================================================
 
-const { fetchStudent } = require('./aiDecisionEngine');
-const { calculateExplainableRisk } = require('../../ai/dssEngine');
+const { fetchStudentByMssv } = require('../../repositories/studentRepository');
+const { explainRisk } = require('../../ai/engines/index');
 const syllabusEngine = require('./syllabusEngine');
 const interventionEngine = require('./interventionEngine');
 
@@ -13,12 +13,12 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
     return { type: 'NEED_LOGIN' };
   }
 
-  const student = await fetchStudent(activeMssv);
+  const student = await fetchStudentByMssv(activeMssv);
   if (!student) {
     return { type: 'STUDENT_NOT_FOUND', mssv: activeMssv };
   }
 
-  const riskData = calculateExplainableRisk(student);
+  const riskData = explainRisk(student);
   
   // Resolve courseCode from entities (e.g. %WEB101%) or session history
   let courseCode = null;

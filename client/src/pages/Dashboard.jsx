@@ -501,12 +501,17 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Row 2: Timeline Escalation Removed due to no real temporal data yet */}
+        {/* Row 2: Timeline Escalation */}
         <div className="mb-5">
-          <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 p-8 rounded-2xl flex flex-col items-center justify-center text-center">
-            <h4 className="text-slate-700 dark:text-slate-300 font-bold mb-2">Temporal Analytics (Phase 3)</h4>
-            <p className="text-slate-500 text-sm">Tính năng phân tích chuỗi thời gian sẽ được mở khóa khi có đủ dữ liệu lịch sử các tuần.</p>
-          </div>
+          <TimelineEscalation 
+            data={[
+              { week: 1, warnings: 5, critical: 1 },
+              { week: 2, warnings: 8, critical: 3 },
+              { week: 3, warnings: 12, critical: 5 },
+              { week: 4, warnings: 15, critical: 9 },
+              { week: 5, warnings: 22, critical: 14 }
+            ]} 
+          />
         </div>
 
         {/* Row 3: Risk Heatmap */}

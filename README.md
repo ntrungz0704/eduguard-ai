@@ -69,6 +69,16 @@ This endpoint no longer returns a single full-curriculum graph payload for the U
 
 ---
 
+## 🗺️ Lộ trình Phát triển (Enterprise Roadmap)
+
+- **Phase 1: Prototype DSS (Hiện tại)** - Xây dựng lõi Decision Support System (Risk, XAI, Forecast, Priority, Scenario, Recommendation).
+- **Phase 2: LMS Integration** - Tích hợp API trực tiếp với hệ thống Canvas/Moodle của trường để lấy dữ liệu Realtime.
+- **Phase 3: Realtime Analytics** - Streaming data processing, cập nhật cảnh báo tức thời khi có điểm thi mới.
+- **Phase 4: Trend Forecasting Model** - Ứng dụng Machine Learning để tinh chỉnh trọng số rủi ro tự động dựa trên lịch sử dữ liệu lớn.
+- **Phase 5: Multi-channel Notification** - Tự động gửi tin nhắn Zalo/Email cho Cố vấn học tập và Phụ huynh khi có ca Critical.
+
+---
+
 ## ⚡ Cài đặt & Khởi chạy (1-Click Docker Install)
 
 Chúng tôi cung cấp môi trường Docker Compose hoàn chỉnh (PostgreSQL + Redis + Node Backend) để đảm bảo trải nghiệm cài đặt mượt mà nhất.
