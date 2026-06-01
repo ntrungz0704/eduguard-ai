@@ -101,7 +101,7 @@ Chúng tôi cung cấp môi trường Docker Compose hoàn chỉnh (PostgreSQL +
    Mở một terminal mới:
    ```bash
    cd client
-   npm install
+   npm install --legacy-peer-deps
    npm run dev
    ```
 
