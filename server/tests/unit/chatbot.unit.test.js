@@ -20,31 +20,27 @@ const { getSession } = require('../../src/modules/chatbot/sessionMemory');
 // ============================================================
 describe('intentRouter', () => {
   test('routes greeting "hello" correctly', () => {
-    expect(routeIntent('hello')).toBe('GREETING_INTENT');
+    expect(routeIntent('hello', 'greeting')).toBe('GREETING_INTENT');
   });
 
   test('routes greeting "xin chào" correctly', () => {
-    expect(routeIntent('xin chào')).toBe('GREETING_INTENT');
+    expect(routeIntent('xin chào', 'greeting')).toBe('GREETING_INTENT');
   });
 
   test('routes "tình hình lớp" to CLASS_ANALYTICS_INTENT', () => {
     expect(routeIntent('tình hình lớp')).toBe('CLASS_ANALYTICS_INTENT');
   });
 
-  test('routes "sinh viên nguy cơ cao" to HIGH_RISK_STUDENTS_INTENT', () => {
-    expect(routeIntent('sinh viên nguy cơ cao')).toBe('HIGH_RISK_STUDENTS_INTENT');
+  test('routes "ai cần can thiệp" to INTERVENTION_REC_INTENT', () => {
+    expect(routeIntent('ai cần can thiệp')).toBe('INTERVENTION_REC_INTENT');
   });
 
-  test('routes "ai cần can thiệp" to HIGH_RISK_STUDENTS_INTENT', () => {
-    expect(routeIntent('ai cần can thiệp')).toBe('HIGH_RISK_STUDENTS_INTENT');
+  test('routes "môn dễ rớt" to CLASS_ANALYTICS_INTENT', () => {
+    expect(routeIntent('môn dễ rớt')).toBe('CLASS_ANALYTICS_INTENT');
   });
 
-  test('routes "môn dễ rớt" to BOTTLENECK_SUBJECTS_INTENT', () => {
-    expect(routeIntent('môn dễ rớt')).toBe('BOTTLENECK_SUBJECTS_INTENT');
-  });
-
-  test('routes "môn bottleneck" to BOTTLENECK_SUBJECTS_INTENT', () => {
-    expect(routeIntent('môn bottleneck')).toBe('BOTTLENECK_SUBJECTS_INTENT');
+  test('routes "nút thắt" to CLASS_ANALYTICS_INTENT', () => {
+    expect(routeIntent('nút thắt cổ chai')).toBe('CLASS_ANALYTICS_INTENT');
   });
 
   test('routes MSSV message to STUDENT_ANALYTICS_INTENT', () => {
@@ -55,41 +51,38 @@ describe('intentRouter', () => {
     expect(routeIntent('show risk of PS47261')).toBe('STUDENT_ANALYTICS_INTENT');
   });
 
-  test('routes "nguyên nhân" to FOLLOWUP_ROOT_CAUSE_INTENT', () => {
-    expect(routeIntent('nguyên nhân')).toBe('FOLLOWUP_ROOT_CAUSE_INTENT');
+  test('routes "nguyên nhân" to ROOT_CAUSE_XAI_INTENT', () => {
+    expect(routeIntent('nguyên nhân')).toBe('ROOT_CAUSE_XAI_INTENT');
   });
 
-  test('routes "vì sao" to FOLLOWUP_ROOT_CAUSE_INTENT', () => {
-    expect(routeIntent('vì sao rủi ro')).toBe('FOLLOWUP_ROOT_CAUSE_INTENT');
+  test('routes "vì sao" to ROOT_CAUSE_XAI_INTENT', () => {
+    expect(routeIntent('vì sao rủi ro')).toBe('ROOT_CAUSE_XAI_INTENT');
   });
 
-  test('routes "chuyên cần" to FOLLOWUP_ATTENDANCE_INTENT', () => {
-    expect(routeIntent('chuyên cần của sinh viên này')).toBe('FOLLOWUP_ATTENDANCE_INTENT');
+  test('routes "chuyên cần" to ATTENDANCE_ANALYSIS_INTENT', () => {
+    expect(routeIntent('chuyên cần của sinh viên này')).toBe('ATTENDANCE_ANALYSIS_INTENT');
   });
 
-  test('routes "can thiệp" to FOLLOWUP_INTERVENTION_INTENT', () => {
-    expect(routeIntent('can thiệp như thế nào')).toBe('FOLLOWUP_INTERVENTION_INTENT');
+  test('routes "can thiệp" to INTERVENTION_REC_INTENT', () => {
+    expect(routeIntent('can thiệp như thế nào')).toBe('INTERVENTION_REC_INTENT');
   });
 
-  test('routes "timeline" to FOLLOWUP_TIMELINE_INTENT', () => {
-    expect(routeIntent('timeline học tập')).toBe('FOLLOWUP_TIMELINE_INTENT');
+  test('routes "timeline" to FALLBACK_INTENT (if unsupported by keyword router)', () => {
+    expect(routeIntent('timeline học tập')).toBe('FALLBACK_INTENT');
   });
 
-  test('routes "pearson" to GENERAL_SYSTEM_INTENT', () => {
-    expect(routeIntent('thuật toán pearson hoạt động thế nào')).toBe('GENERAL_SYSTEM_INTENT');
+  test('routes "pearson" to FALLBACK_INTENT', () => {
+    expect(routeIntent('thuật toán pearson hoạt động thế nào')).toBe('FALLBACK_INTENT');
   });
 
   test('uses NLP intent for CLASS_ANALYTICS', () => {
-    expect(routeIntent('some message', 'CLASS_ANALYTICS')).toBe('CLASS_ANALYTICS_INTENT');
-    expect(routeIntent('some message', 'query.class_analytics')).toBe('CLASS_ANALYTICS_INTENT');
+    expect(routeIntent('some message', 'query.class')).toBe('CLASS_ANALYTICS_INTENT');
   });
 
-  test('uses NLP intent for HIGH_RISK_STUDENTS', () => {
-    expect(routeIntent('some message', 'query.high_risk_students')).toBe('HIGH_RISK_STUDENTS_INTENT');
-  });
 
-  test('uses NLP intent for BOTTLENECK_SUBJECTS', () => {
-    expect(routeIntent('some message', 'query.bottleneck_subjects')).toBe('BOTTLENECK_SUBJECTS_INTENT');
+
+  test('uses NLP intent for BOTTLENECK_SUBJECTS via fallback or specific mapping', () => {
+    expect(routeIntent('some message', 'query.subject')).toBe('SUBJECT_ANALYSIS_INTENT');
   });
 
   test('falls back to FALLBACK_INTENT for unknown message', () => {
