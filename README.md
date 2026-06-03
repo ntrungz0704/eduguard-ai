@@ -87,7 +87,7 @@ Chúng tôi cung cấp môi trường Docker Compose hoàn chỉnh (PostgreSQL +
 - [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
 - Node.js >= 18 (Nếu chạy local không dùng Docker)
 
-### Cài đặt nhanh bằng Docker (Khuyên dùng)
+### Cài đặt nhanh (Local Environment)
 
 1. **Clone Repository:**
    ```bash
@@ -95,25 +95,29 @@ Chúng tôi cung cấp môi trường Docker Compose hoàn chỉnh (PostgreSQL +
    cd eduguard-ai
    ```
 
-2. **Cấu hình môi trường:**
+2. **Cài đặt các gói phụ thuộc (Dependencies):**
    ```bash
-   cp .env.example .env
-   # Bạn có thể giữ nguyên cấu hình mặc định trong .env.example
-   ```
-
-3. **Khởi chạy hệ thống (1-Click):**
-   ```bash
-   docker-compose up -d
-   ```
-   *Lệnh này sẽ tự động tải image PostgreSQL, Redis, build backend image, và khởi chạy toàn bộ services.*
-
-4. **Khởi chạy Frontend (Giao diện):**
-   Mở một terminal mới:
-   ```bash
+   # Cài đặt thư viện cho Backend (Root)
+   npm install
+   
+   # Cài đặt thư viện cho Frontend (Client)
    cd client
    npm install --legacy-peer-deps
-   npm run dev
+   cd ..
    ```
+
+3. **Cấu hình môi trường:**
+   Hệ thống đã thiết lập sẵn SQLite và cấu hình mặc định nên bạn không cần phải thao tác `.env` thủ công.
+
+4. **Huấn luyện AI và Khởi chạy toàn bộ hệ thống (1-Click):**
+   ```bash
+   npm run boot:full
+   ```
+   *Lệnh này sẽ tự động: Train mô hình dự báo điểm (TFJS) -> Train mô hình NLP (Chatbot) -> Build Frontend -> Khởi động Backend & Frontend.*
+
+> **Lưu ý:** Trong quá trình khởi động, bạn có thể thấy thông báo:
+> - `http proxy error: /api/... ECONNREFUSED` (Do giao diện khởi động nhanh hơn server vài giây, điều này là bình thường, nó sẽ tự kết nối lại).
+> - `Hi, looks like you are running TensorFlow.js in Node.js...` (Đây là cảnh báo mặc định của TFJS khi không dùng `tfjs-node`, có thể bỏ qua).
 
 Hệ thống giờ đây đang chạy tại:
 - **Client (UI):** `http://localhost:5173`

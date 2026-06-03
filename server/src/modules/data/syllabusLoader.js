@@ -3,8 +3,8 @@ const path = require('path');
 
 class SyllabusLoader {
   constructor() {
-    this.syllabusPath = path.join(__dirname, '../../../../data/syllabus.json');
-    this.prereqPath = path.join(__dirname, '../../../../data/prerequisite_map.json');
+    this.syllabusPath = path.join(__dirname, '../../../data/syllabus.json');
+    this.prereqPath = path.join(__dirname, '../../../data/prerequisite_map.json');
   }
 
   init() {

@@ -1,3 +1,4 @@
+process.env.TF_CPP_MIN_LOG_LEVEL = '3';
 const tf = require("@tensorflow/tfjs");
 const fs = require("fs");
 const path = require("path");
