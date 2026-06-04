@@ -58,6 +58,13 @@ npm run boot:full
 > 👉 **Truy cập `http://localhost:5173`** sau khi lệnh cuối cùng chạy xong.
 > *(Lưu ý: Lần đầu tiên chạy, bạn cần vào mục **Dự đoán & Cảnh báo** -> Chọn môn học -> Nhấn **Phân tích Rủi ro** để AI chạy thực tế, sau đó Dashboard mới có dữ liệu cảnh báo).*
 
+**Lần chạy tiếp theo (Mở lại dự án):**
+Bạn chỉ cần mở Terminal và gõ lệnh sau (hệ thống sẽ dùng lại AI đã train mà không cần khởi tạo lại từ đầu, rất nhanh):
+```bash
+npm run boot
+```
+
+
 ---
 
 ## 🔐 2. Demo Credentials
