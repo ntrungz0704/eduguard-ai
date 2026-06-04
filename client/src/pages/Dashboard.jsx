@@ -353,7 +353,15 @@ export default function Dashboard() {
                         <button 
                           onClick={(e) => handleChat(alert, e)}
                           className="bg-blue-50 dark:bg-blue-600 hover:bg-blue-100 dark:hover:bg-blue-500 text-blue-600 dark:text-white p-2 rounded-xl transition-colors shadow-sm dark:shadow-blue-500/20 tooltip-trigger border border-blue-200 dark:border-none"
-                          title="Hỗ trợ tư vấn NLP"
+                          title={(() => {
+                            try {
+                              const arr = JSON.parse(alert.reasons);
+                              if (Array.isArray(arr)) {
+                                return "Lý do AI dự báo:\n" + arr.map(r => `- ${r.explanation}`).join('\n');
+                              }
+                            } catch(e) {}
+                            return "Hỗ trợ tư vấn NLP";
+                          })()}
                         >
                           <MessageSquare size={16} />
                         </button>
