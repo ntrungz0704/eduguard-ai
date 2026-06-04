@@ -23,21 +23,28 @@
 
 ## 🚀 1. Quick Start
 
-**Option 1: Docker (Khuyên dùng cho Ban Giám Khảo)**
+**Cách 1: Khởi chạy nhanh bằng Docker (Khuyên dùng tuyệt đối cho Ban Giám Khảo)**
+Đây là cách an toàn và chuẩn xác nhất để chạy hệ thống AI mà không lo bị lỗi môi trường. Bạn chỉ cần cài đặt Docker Desktop.
+- 📥 **Tải Docker Desktop tại đây:** [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+
+Sau khi cài đặt xong Docker Desktop, mở Terminal/CMD và chạy:
 ```bash
 git clone https://github.com/ntrungz0704/eduguard-ai.git
 cd eduguard-ai
 docker-compose up -d --build
 ```
-*(Truy cập `http://localhost:5173` sau khi chạy xong)*
+*(Truy cập `http://localhost:5173` sau khi chạy xong. Mọi dữ liệu mẫu và AI sẽ được tự động khởi tạo chuẩn xác!)*
 
-**Option 2: Local Environment**
+**Cách 2: Chạy thủ công (Không khuyến khích - Dễ gặp lỗi môi trường)**
+Cách này yêu cầu máy tính của bạn phải có Node.js >= 18 và có thể gặp lỗi do thiếu thư viện Python/C++ Build Tools khi biên dịch các thư viện AI (như TensorFlow.js).
 ```bash
 git clone https://github.com/ntrungz0704/eduguard-ai.git
 cd eduguard-ai
 npm run setup      # Cài đặt & Tạo Data mẫu
 npm run boot:full  # Train AI & Khởi chạy hệ thống
 ```
+
+*(Lưu ý: Nếu sử dụng Cách 2, ban đầu Dashboard sẽ hiển thị 0 sinh viên nguy cơ. Bạn cần vào mục **Dự đoán & Cảnh báo** -> Chọn 1 môn học -> Nhấn **Phân tích Rủi ro** để AI chạy model thực tế và trả ra danh sách cảnh báo.)*
 
 ---
 
