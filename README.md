@@ -33,7 +33,7 @@ git clone https://github.com/ntrungz0704/eduguard-ai.git
 cd eduguard-ai
 docker-compose up -d --build
 ```
-*(Truy cập `http://localhost:5173` sau khi chạy xong. Mọi dữ liệu mẫu và AI sẽ được tự động khởi tạo chuẩn xác!)*
+*(Truy cập `http://localhost:3000` sau khi chạy xong. Mọi dữ liệu mẫu và AI sẽ được tự động khởi tạo chuẩn xác!)*
 
 **Cách 2: Chạy thủ công (Không khuyến khích - Dễ gặp lỗi môi trường)**
 Cách này yêu cầu máy tính của bạn phải có Node.js >= 18 và có thể gặp lỗi do thiếu thư viện Python/C++ Build Tools khi biên dịch các thư viện AI (như TensorFlow.js).
