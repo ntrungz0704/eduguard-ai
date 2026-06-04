@@ -66,7 +66,24 @@ export default function Dashboard() {
     } else {
       msg += ` Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
     }
-    msg += `\n\n🎯 Lộ trình cải thiện (Hệ thống đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+    let dynamicRoadmap = '';
+    if (alert.weakPrereqs && alert.weakPrereqs.length > 0) {
+      dynamicRoadmap += `1. Ôn tập khẩn cấp: Xem lại ngay toàn bộ slide/video của môn ${alert.weakPrereqs[0].courseId} vì đây là nền tảng cốt lõi.\n`;
+      dynamicRoadmap += `2. Bù đắp lỗ hổng: Làm lại các bài tập thực hành của môn tiên quyết trước khi bắt tay vào làm Assignment hiện tại.\n`;
+    } else {
+      dynamicRoadmap += `1. Tăng cường chú ý: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.\n`;
+      dynamicRoadmap += `2. Tránh sao nhãng: Lập kế hoạch phân bổ thời gian tập trung ôn luyện môn ${alert.targetCourse} đều đặn mỗi ngày.\n`;
+    }
+    
+    if (alert.priorityLevel === 'CRITICAL') {
+      dynamicRoadmap += `3. Khẩn cấp: Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn.`;
+    } else if (alert.priorityLevel === 'HIGH') {
+      dynamicRoadmap += `3. Chú ý: Tham gia các buổi tutorial/phụ đạo do trường tổ chức hoặc nhờ nhóm bạn hỗ trợ.`;
+    } else {
+      dynamicRoadmap += `3. Gợi ý: Trao đổi thêm với giảng viên trên lớp nếu có bất kỳ thắc mắc nào chưa hiểu rõ.`;
+    }
+
+    msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n${dynamicRoadmap}\n\nNếu cần hỗ trợ thêm, hãy phản hồi lại qua Hộp thư này. Chúc em học tốt!`;
     setRoadmapMsg(msg);
     setShowRoadmapModal(true);
   };
@@ -111,7 +128,24 @@ export default function Dashboard() {
         } else {
           msg += ` Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
         }
-        msg += `\n\n🎯 Lộ trình cải thiện (Hệ thống đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản của các bài tập/lab trước.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
+        let dynamicRoadmap = '';
+        if (alert.weakPrereqs && alert.weakPrereqs.length > 0) {
+          dynamicRoadmap += `1. Ôn tập khẩn cấp: Xem lại ngay toàn bộ slide/video của môn ${alert.weakPrereqs[0].courseId} vì đây là nền tảng cốt lõi.\n`;
+          dynamicRoadmap += `2. Bù đắp lỗ hổng: Làm lại các bài tập thực hành của môn tiên quyết trước khi bắt tay vào làm Assignment hiện tại.\n`;
+        } else {
+          dynamicRoadmap += `1. Tăng cường chú ý: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.\n`;
+          dynamicRoadmap += `2. Tránh sao nhãng: Lập kế hoạch phân bổ thời gian tập trung ôn luyện môn ${alert.targetCourse} đều đặn mỗi ngày.\n`;
+        }
+        
+        if (alert.priorityLevel === 'CRITICAL') {
+          dynamicRoadmap += `3. Khẩn cấp: Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn.`;
+        } else if (alert.priorityLevel === 'HIGH') {
+          dynamicRoadmap += `3. Chú ý: Tham gia các buổi tutorial/phụ đạo do trường tổ chức hoặc nhờ nhóm bạn hỗ trợ.`;
+        } else {
+          dynamicRoadmap += `3. Gợi ý: Trao đổi thêm với giảng viên trên lớp nếu có bất kỳ thắc mắc nào chưa hiểu rõ.`;
+        }
+
+        msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n${dynamicRoadmap}\n\nNếu cần hỗ trợ thêm, hãy phản hồi lại qua Hộp thư này. Chúc em học tốt!`;
 
         await api.post('/comm/messages', {
           senderId: currentUser.id,
