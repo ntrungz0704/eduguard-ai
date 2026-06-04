@@ -279,7 +279,7 @@ router.get('/red-alerts', async (req, res) => {
     // Calculate low attendance students
     let lowAttendanceCount = 0;
     try {
-      const lowAttRecords = await prisma.studentScore.findMany({
+      const lowAttRecords = await prisma.score.findMany({
         where: { attendance: { lt: 0.8 } },
         select: { mssv: true }
       });
