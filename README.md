@@ -40,7 +40,8 @@ Cách này yêu cầu máy tính của bạn phải có Node.js >= 18 và có th
 ```bash
 git clone https://github.com/ntrungz0704/eduguard-ai.git
 cd eduguard-ai
-npm run setup      # Cài đặt & Tạo Data mẫu
+npm install        # Cài đặt thư viện gốc cho server
+npm run setup      # Cài đặt client & Tạo Data mẫu
 npm run boot:full  # Train AI & Khởi chạy hệ thống
 ```
 
