@@ -4,7 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 // Initialize the Prisma 7 client with the SQLite Driver Adapter
-const adapter = new PrismaBetterSqlite3({ url: 'file:./dev.db' });
+require('dotenv').config();
+const url = process.env.DATABASE_URL || 'file:./prisma/dev.db';
+const adapter = new PrismaBetterSqlite3({ url });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
