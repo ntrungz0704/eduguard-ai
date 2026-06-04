@@ -1,4 +1,4 @@
-const { PrismaClient } = require('../generated/prisma/client');
+const { PrismaClient } = require('../server/generated/prisma');
 const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 const fs = require('fs');
 const path = require('path');
@@ -28,7 +28,18 @@ async function main() {
   await prisma.score.deleteMany({});
   await prisma.student.deleteMany({});
   await prisma.course.deleteMany({});
+  await prisma.user.deleteMany({});
   console.log('✅ Database cleaned.');
+
+  // 1.5. Seed Demo Users
+  console.log('👤 Seeding Demo Users...');
+  await prisma.user.createMany({
+    data: [
+      { email: 'admin@eduguard.ai', name: 'Admin EduGuard', role: 'ADMIN' },
+      { email: 'advisor@eduguard.ai', name: 'Advisor Demo', role: 'ADVISOR' }
+    ]
+  });
+  console.log('✅ Demo users seeded.');
   
   // 2. Extract and Seed all unique Courses
   console.log('📚 Scanning and Seeding Courses dynamically...');

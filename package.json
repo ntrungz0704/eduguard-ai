@@ -17,7 +17,9 @@
     "preview": "npm run preview --prefix client -- --port 5173",
     "kill": "node server/src/jobs/kill-ports.js",
     "test": "jest --passWithNoTests --forceExit --detectOpenHandles",
-    "ingest:graph": "node scripts/ingest_graph.js"
+    "ingest:graph": "node scripts/ingest_graph.js",
+    "db:init": "npx prisma db push && node prisma/seed.js",
+    "setup": "npm install && npm install --prefix client --legacy-peer-deps && npm run db:init"
   },
   "keywords": [
     "ai",

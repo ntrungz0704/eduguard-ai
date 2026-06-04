@@ -44,5 +44,5 @@ COPY server ./server
 # Expose API port
 EXPOSE 3000
 
-# Start server
-CMD ["node", "server/server.js"]
+# Start server (Initialize DB and Seed on startup for 1-click experience)
+CMD ["sh", "-c", "npx prisma db push && node prisma/seed.js && node server/server.js"]

@@ -62,7 +62,7 @@ const login = async ({ email, password }) => {
 
   // TODO Phase 2: Add bcrypt.compare(password, user.passwordHash) here
   // For now: demo login accepts any password for existing users
-  if (process.env.NODE_ENV === 'production' && password !== 'demo') {
+  if (process.env.NODE_ENV === 'production' && password !== '123456') {
     throw new AppError('Invalid email or password.', 401);
   }
 
