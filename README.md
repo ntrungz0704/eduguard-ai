@@ -71,13 +71,13 @@ npm run boot
 
 Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100+ học sinh, 1000+ bảng điểm). 
 
-**Admin**
-- **Email:** `admin@eduguard.ai`
-- **Password:** `123456`
+**Giảng viên / Admin (Cố vấn học tập)**
+- **Tên đăng nhập:** `admin` *(Hệ thống tự ghép đuôi @fpt.edu.vn)*
+- **Mật khẩu:** `admin123`
 
-**Advisor (Cố vấn học tập)**
-- **Email:** `advisor@eduguard.ai`
-- **Password:** `123456`
+**Sinh viên**
+- **Mã số sinh viên:** `PS47261` *(Hoặc nhập bất kỳ MSSV nào hợp lệ)*
+- **Mật khẩu:** `123456` *(Hỗ trợ nhập bất kỳ chuỗi nào từ 4 ký tự trở lên)*
 
 ---
 
