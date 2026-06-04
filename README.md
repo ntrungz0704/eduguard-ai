@@ -23,29 +23,39 @@
 
 ## 🚀 1. Quick Start
 
-**Cách 1: Khởi chạy nhanh bằng Docker (Khuyên dùng tuyệt đối cho Ban Giám Khảo)**
-Đây là cách an toàn và chuẩn xác nhất để chạy hệ thống AI mà không lo bị lỗi môi trường. Bạn chỉ cần cài đặt Docker Desktop.
-- 📥 **Tải Docker Desktop tại đây:** [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+**Cách 1: Khởi chạy bằng Docker (Khuyên dùng - Ổn định nhất)**
+Cách này tự động cài đặt tất cả môi trường (Node.js, CSDL, thư viện AI). Bạn chỉ cần cài sẵn [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-Sau khi cài đặt xong Docker Desktop, mở Terminal/CMD và chạy:
 ```bash
 git clone https://github.com/ntrungz0704/eduguard-ai.git
 cd eduguard-ai
 docker-compose up -d --build
 ```
-*(Truy cập `http://localhost:3000` sau khi chạy xong. Mọi dữ liệu mẫu và AI sẽ được tự động khởi tạo chuẩn xác!)*
 
-**Cách 2: Chạy thủ công (Không khuyến khích - Dễ gặp lỗi môi trường)**
-Cách này yêu cầu máy tính của bạn phải có Node.js >= 18 và có thể gặp lỗi do thiếu thư viện Python/C++ Build Tools khi biên dịch các thư viện AI (như TensorFlow.js).
+> 👉 **Truy cập `http://localhost:3000`** sau khi tiến trình hoàn tất. Hệ thống đã được nạp sẵn dữ liệu và AI!
+> *(Lệnh tắt hệ thống khi không dùng: `docker-compose down`)*
+
+---
+
+**Cách 2: Chạy thủ công (Dành cho Developer)**
+Yêu cầu máy tính có Node.js >= 18. Có thể yêu cầu cài thêm Python/C++ Build Tools để biên dịch TensorFlow.js.
+
 ```bash
 git clone https://github.com/ntrungz0704/eduguard-ai.git
 cd eduguard-ai
-npm install        # Cài đặt thư viện gốc cho server
-npm run setup      # Cài đặt client & Tạo Data mẫu
-npm run boot:full  # Train AI & Khởi chạy hệ thống
+
+# 1. Cài đặt thư viện máy chủ (Server)
+npm install
+
+# 2. Cài đặt thư viện giao diện (Client) & Khởi tạo CSDL mẫu
+npm run setup
+
+# 3. Huấn luyện AI & Khởi chạy hệ thống
+npm run boot:full
 ```
 
-*(Lưu ý: Nếu sử dụng Cách 2, ban đầu Dashboard sẽ hiển thị 0 sinh viên nguy cơ. Bạn cần vào mục **Dự đoán & Cảnh báo** -> Chọn 1 môn học -> Nhấn **Phân tích Rủi ro** để AI chạy model thực tế và trả ra danh sách cảnh báo.)*
+> 👉 **Truy cập `http://localhost:5173`** sau khi lệnh cuối cùng chạy xong.
+> *(Lưu ý: Lần đầu tiên chạy, bạn cần vào mục **Dự đoán & Cảnh báo** -> Chọn môn học -> Nhấn **Phân tích Rủi ro** để AI chạy thực tế, sau đó Dashboard mới có dữ liệu cảnh báo).*
 
 ---
 
