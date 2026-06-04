@@ -276,13 +276,26 @@ router.get('/red-alerts', async (req, res) => {
     const criticalCount = alerts.filter(a => a.priorityLevel === 'CRITICAL').length;
     const highCount = alerts.filter(a => a.priorityLevel === 'HIGH').length;
 
+    // Calculate low attendance students
+    let lowAttendanceCount = 0;
+    try {
+      const lowAttRecords = await prisma.studentScore.findMany({
+        where: { attendance: { lt: 0.8 } },
+        select: { mssv: true }
+      });
+      lowAttendanceCount = new Set(lowAttRecords.map(r => r.mssv)).size;
+    } catch (e) {
+      console.warn("Lỗi đếm chuyên cần:", e);
+    }
+
     res.json({
       alerts,
       kpi: {
         totalInterventions: totalInterventions,
         improvementRate: Math.min(100, Math.round(50 + totalInterventions * 2.5)),
         criticalCount,
-        highCount
+        highCount,
+        lowAttendanceCount
       }
     });
   } catch (err) {

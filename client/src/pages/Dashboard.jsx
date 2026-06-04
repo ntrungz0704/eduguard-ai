@@ -173,7 +173,7 @@ export default function Dashboard() {
 
   const currentRisk = redAlerts ? redAlerts.length : 0;
   const safePercentage = trainingData.totalStudents > 0 
-    ? Math.max(0, Math.round(((trainingData.totalStudents - currentRisk) / trainingData.totalStudents) * 100))
+    ? Number((((trainingData.totalStudents - currentRisk) / trainingData.totalStudents) * 100).toFixed(1))
     : 0;
 
   // Empty State logic for No Data
@@ -226,7 +226,7 @@ export default function Dashboard() {
             </div>
             <div>
               <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 uppercase tracking-wider font-bold">Chuyên cần dưới ngưỡng</p>
-              <h4 className="text-xl font-bold text-amber-600 dark:text-amber-400">0 <span className="text-xs font-normal">sinh viên</span></h4>
+              <h4 className="text-xl font-bold text-amber-600 dark:text-amber-400">{kpi.lowAttendanceCount || 0} <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
           </div>
 
