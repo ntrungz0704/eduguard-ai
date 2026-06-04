@@ -230,7 +230,7 @@ async function main() {
     },
     {
       mssv: 'PS20788',
-      courseId: 'Cấu trúc dữ liệu và giải thuật',
+      courseId: 'Dự án 1',
       predictedScore: 3.8,
       risk: 'HIGH',
       confidence: 0.92,
