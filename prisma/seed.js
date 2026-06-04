@@ -198,7 +198,65 @@ async function main() {
   }
   await prisma.score.createMany({ data: demoScores });
   console.log('✅ Special Demo Cases Seeded.');
-  
+
+  // 6. Seed Predictions for Demo Cases
+  console.log('🔮 Seeding Predictions for Demo Cases...');
+  const demoPredictions = [
+    {
+      mssv: 'PS21034',
+      courseId: 'Lập trình Front-End Framework 1',
+      predictedScore: 4.0,
+      risk: 'HIGH',
+      confidence: 0.85,
+      explanation: 'Sự sụt giảm phong độ đột ngột ở CSDL và PHP.',
+      reasons: [
+        { subject: 'Cơ sở dữ liệu', score: 3.5, r: 0.6, impact: 'negative', explanation: 'Điểm rất thấp ở môn tiên quyết' },
+        { subject: 'Lập trình PHP cơ bản', score: 4.0, r: 0.7, impact: 'negative', explanation: 'Điểm rất thấp ở môn tiên quyết' }
+      ]
+    },
+    {
+      mssv: 'PS21502',
+      courseId: 'Lập trình Front-End Framework 1',
+      predictedScore: 5.5,
+      risk: 'MEDIUM',
+      confidence: 0.80,
+      explanation: 'Cần cải thiện kiến thức nền tảng.',
+      reasons: [
+        { subject: 'Cơ sở dữ liệu', score: 4.5, r: 0.6, impact: 'negative', explanation: 'Điểm dưới trung bình' }
+      ]
+    },
+    {
+      mssv: 'PS20788',
+      courseId: 'Lập trình Front-End Framework 1',
+      predictedScore: 3.5,
+      risk: 'HIGH',
+      confidence: 0.90,
+      explanation: 'Hổng kiến thức nền tảng lập trình rất nặng.',
+      reasons: [
+        { subject: 'Nhập môn lập trình', score: 2.0, r: 0.8, impact: 'negative', explanation: 'Gãy môn tiên quyết quan trọng nhất' }
+      ]
+    }
+  ];
+
+  // Pick 47 random students from the dataset to make the dashboard look bustling (50 at risk total)
+  const additionalDemo = students.filter(s => s.id.startsWith('PS') && !['PS21034', 'PS21502', 'PS20788'].includes(s.id)).slice(0, 47);
+  for (const s of additionalDemo) {
+    demoPredictions.push({
+      mssv: s.id,
+      courseId: 'Lập trình Front-End Framework 2',
+      predictedScore: (Math.random() * 2 + 3).toFixed(1) * 1, // 3.0 -> 5.0
+      risk: 'HIGH',
+      confidence: 0.75 + Math.random() * 0.15,
+      explanation: 'Thuật toán dự báo nguy cơ cao dựa trên lịch sử điểm các môn tiên quyết.',
+      reasons: [ { subject: 'Lập trình Front-End Framework 1', score: 4.5, r: 0.75, impact: 'negative', explanation: 'Môn tiên quyết chưa đạt yêu cầu' } ]
+    });
+  }
+
+  await prisma.prediction.createMany({
+    data: demoPredictions
+  });
+  console.log('✅ 50 Predictions Seeded for Dashboard.');
+
   console.log('🎉 Seeding completed successfully!');
 }
 
