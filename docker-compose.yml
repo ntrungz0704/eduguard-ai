@@ -1,5 +1,3 @@
-version: '3.8'
-
 # ─────────────────────────────────────────────────────────────────────────────
 # EduGuard AI — Local Development Infrastructure
 # Run: docker-compose up -d
@@ -66,7 +64,9 @@ services:
     networks:
       - app-network
 
+networks:
+  app-network:
+
 volumes:
   postgres_data:
   redis_data:
-
