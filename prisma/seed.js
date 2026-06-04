@@ -199,6 +199,52 @@ async function main() {
     }
   }
   await prisma.score.createMany({ data: demoScores });
+  
+  // 6. Generate Predictions for Demo Cases
+  console.log('🔮 Generating AI Predictions for Demo Cases...');
+  const demoPredictions = [
+    {
+      mssv: 'PS21034',
+      courseId: 'Lập trình cơ sở với JavaScript',
+      predictedScore: 4.2,
+      risk: 'HIGH',
+      confidence: 0.88,
+      explanation: 'Sinh viên có nguy cơ rớt môn do điểm Cơ sở dữ liệu và PHP đột ngột giảm sâu.',
+      reasons: JSON.stringify([
+        { subject: "Cascading Risk (Rủi ro lan truyền)", score: null, r: 1.0, impact: "negative", explanation: "Hổng kiến thức nền tảng do rớt môn tiên quyết 'Lập trình PHP cơ bản' (4.0đ)." },
+        { subject: "Lập trình PHP cơ bản", score: 4.0, r: 1.0, impact: "negative", explanation: "⚠️ Lỗ hổng tiên quyết: Lập trình PHP cơ bản = 4.0đ" },
+        { subject: "Cơ sở dữ liệu", score: 3.5, r: 0.85, impact: "negative", explanation: "Cơ sở dữ liệu = 3.5 (r=0.85) → kéo xuống" }
+      ])
+    },
+    {
+      mssv: 'PS21502',
+      courseId: 'Lập trình PHP 1',
+      predictedScore: 6.0,
+      risk: 'MEDIUM',
+      confidence: 0.75,
+      explanation: 'Sinh viên học chăm chỉ (chuyên cần 100%) nhưng tiếp thu chậm, điểm nền yếu.',
+      reasons: JSON.stringify([
+        { subject: "Nhập môn lập trình", score: 5.5, r: 0.8, impact: "neutral", explanation: "Nhập môn lập trình = 5.5 (r=0.8) → trung bình" },
+        { subject: "Cơ sở dữ liệu", score: 4.5, r: 0.85, impact: "negative", explanation: "Cơ sở dữ liệu = 4.5 (r=0.85) → kéo xuống" }
+      ])
+    },
+    {
+      mssv: 'PS20788',
+      courseId: 'Cấu trúc dữ liệu và giải thuật',
+      predictedScore: 3.8,
+      risk: 'HIGH',
+      confidence: 0.92,
+      explanation: 'Sinh viên bị hổng kiến thức nền nghiêm trọng ngay từ đầu.',
+      reasons: JSON.stringify([
+        { subject: "Cascading Risk (Rủi ro lan truyền)", score: null, r: 1.0, impact: "negative", explanation: "Hổng kiến thức nền tảng do rớt môn tiên quyết 'Nhập môn lập trình' (2.0đ)." },
+        { subject: "Nhập môn lập trình", score: 2.0, r: 1.0, impact: "negative", explanation: "⚠️ Lỗ hổng tiên quyết: Nhập môn lập trình = 2.0đ" }
+      ])
+    }
+  ];
+
+  await prisma.prediction.createMany({ data: demoPredictions });
+  console.log('✅ AI Predictions seeded.');
+
   console.log('🎉 Seeding completed successfully!');
 }
 
