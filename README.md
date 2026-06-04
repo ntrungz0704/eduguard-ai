@@ -38,7 +38,8 @@ docker-compose up -d --build
 ---
 
 **Cách 2: Chạy thủ công (Dành cho Developer)**
-Yêu cầu máy tính có Node.js >= 18. Có thể yêu cầu cài thêm Python/C++ Build Tools để biên dịch TensorFlow.js.
+Đây là cách chạy trực tiếp trên máy tính. Bạn **BẮT BUỘC** phải cài đặt Node.js trước khi chạy:
+- 📥 **Tải Node.js (Bản LTS) tại đây:** [https://nodejs.org/](https://nodejs.org/)
 
 ```bash
 git clone https://github.com/ntrungz0704/eduguard-ai.git
