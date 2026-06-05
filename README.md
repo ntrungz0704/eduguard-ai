@@ -170,9 +170,9 @@ Hệ thống được thiết kế theo chuẩn Modular Monolith minh bạch, d�
 - Frontend Development & Data Visualization
 
 Tác giả:
-Nguyễn Phạm Thành Trung
-Nguyễn Minh Hiếu
-Mai Thị Vỹ An
+- Nguyễn Phạm Thành Trung
+- Nguyễn Minh Hiếu
+- Mai Thị Vỹ An
 <br>
 <div align="center">
   <i>"Explain Risk. Support Students. Improve Outcomes."</i>
