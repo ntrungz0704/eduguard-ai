@@ -166,10 +166,13 @@ Hệ thống được thiết kế theo chuẩn Modular Monolith minh bạch, d�
 ---
 
 ## 👥 11. Team EduGuard-AI
+- Backend Engineering & DSS Architecture
+- Frontend Development & Data Visualization
 
-- **Nguyễn Trung**: Backend Engineering & DSS Architecture
-- **Vũ**: Frontend Development & Data Visualization
-
+Tác giả:
+Nguyễn Phạm Thành Trung
+Nguyễn Minh Hiếu
+Mai Thị Vỹ An
 <br>
 <div align="center">
   <i>"Explain Risk. Support Students. Improve Outcomes."</i>
