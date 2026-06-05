@@ -21,7 +21,7 @@ async function ingestGraph() {
     await session.run('MATCH (n) DETACH DELETE n');
 
     // 2. Read all JSON files
-    const jsonDir = path.join(__dirname, '../data/processed-json');
+    const jsonDir = path.join(__dirname, '../server/data/processed-json');
     const files = fs.readdirSync(jsonDir).filter(f => f.endsWith('.json'));
 
     console.log(`Found ${files.length} syllabi. Ingesting...`);
@@ -49,8 +49,10 @@ async function ingestGraph() {
     }
 
     // 3. Apply explicit curriculum structure and dependencies
-    const curriculum = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/curriculum.json'), 'utf8'));
-    const dependencies = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/course_dependency.json'), 'utf8'));
+    const CURRICULUM_PATH = path.join(__dirname, '../server/data/curriculum.json');
+    const DEPENDENCY_PATH = path.join(__dirname, '../server/data/course_dependency.json');
+    const curriculum = JSON.parse(fs.readFileSync(CURRICULUM_PATH, 'utf8'));
+    const dependencies = JSON.parse(fs.readFileSync(DEPENDENCY_PATH, 'utf8'));
 
     // Update Courses with Semester info and Branches
     for (const sem of curriculum.semesters) {

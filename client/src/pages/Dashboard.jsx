@@ -122,7 +122,7 @@ export default function Dashboard() {
 
     try {
       for (const alert of unintervened) {
-        let msg = `Chào ${alert.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${alert.targetCourse} sắp tới (Nguy cơ rớt: ${alert.predictedScore.toFixed(1)}%).`;
+        let msg = `Chào ${alert.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${alert.targetCourse} sắp tới (Dự báo: ${alert.predictedScore.toFixed(1)} điểm).`;
         if (alert.weakPrereqs.length > 0) {
           msg += ` Nguyên nhân chính do em bị hổng kiến thức từ các môn: ${alert.weakPrereqs.map(w => `${w.courseId} (${w.score}đ)`).join(', ')}.`;
         } else {
@@ -342,7 +342,7 @@ export default function Dashboard() {
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-slate-800 dark:text-slate-300">{alert.targetCourse}</span>
                         <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400">
-                          {alert.predictedScore.toFixed(1)}% Nguy cơ
+                          {alert.predictedScore.toFixed(1)} điểm
                         </span>
                       </div>
                     </td>

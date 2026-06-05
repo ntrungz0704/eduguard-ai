@@ -170,17 +170,24 @@ exports.publishData = async (req, res) => {
     }
 
     // Trigger AI predictions for updated students in background
-    setTimeout(async () => {
+    setTimeout(() => {
       try {
-        logger.info(`Triggering AI predictions for ${uniqueStudents.size} students after data import`);
-        for (const mssv of uniqueStudents) {
-          logger.info(`[Event] Triggered AI Inference for student ${mssv}`);
-        }
-        logger.info('Completed AI predictions batch from import.');
+        logger.info(`Triggering AI predictions for ${uniqueStudents.size} students after data import via script...`);
+        const { exec } = require('child_process');
+        exec('node server/src/scripts/recalculate_predictions.js', { cwd: require('path').join(__dirname, '../../../..') }, (error, stdout, stderr) => {
+            if (error) {
+                logger.error(`Error executing recalculate script: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                logger.error(`stderr from recalculate script: ${stderr}`);
+            }
+            logger.info(`Completed AI predictions batch from import: ${stdout}`);
+        });
       } catch (err) {
-        logger.error('Error in background AI prediction batch:', err);
+        logger.error('Error starting background AI prediction batch:', err);
       }
-    }, 1000); // 1 second delay to return response quickly
+    }, 1000);
 
     if (global.latestImportStatus) {
       global.latestImportStatus.status = 'PUBLISHED';

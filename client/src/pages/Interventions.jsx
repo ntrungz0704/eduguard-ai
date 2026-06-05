@@ -57,7 +57,8 @@ export default function Interventions() {
 
   const handleOpenRoadmap = (student) => {
     setSelectedStudent(student);
-    let msg = `Chào ${student.student.name},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course.name} sắp tới (Nguy cơ rớt: ${student.predictedScore.toFixed(1)}%).`;
+    const riskLevelText = student.risk === 'HIGH' || student.risk === 'high' ? 'Cao' : student.risk === 'MEDIUM' || student.risk === 'medium' ? 'Vừa' : 'Thấp';
+    let msg = `Chào ${student.student?.name || student.mssv},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course?.name || student.courseId} sắp tới (Nguy cơ rớt: ${riskLevelText}, Dự báo: ${student.predictedScore.toFixed(1)} điểm).`;
     msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
     setRoadmapMsg(msg);
     setShowRoadmapModal(true);
@@ -100,7 +101,7 @@ export default function Interventions() {
     setBulkProgress(0);
     let count = 0;
     for (const st of data.atRisk) {
-      const personalizedMsg = bulkMsg.replace('{name}', st.student.name).replace('{course}', st.course.name);
+      const personalizedMsg = bulkMsg.replace('{name}', st.student?.name || st.mssv).replace('{course}', st.course?.name || st.courseId);
       try {
         await api.post('/comm/messages', {
           senderId: currentUser.id,
@@ -132,7 +133,22 @@ export default function Interventions() {
     <div className="space-y-8 animate-fade-in pb-10">
       <div>
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Quản lý Can thiệp Học vụ</h2>
-        <p className="text-slate-600 dark:text-slate-400 text-sm">Theo dõi và quản lý quá trình hỗ trợ sinh viên từ lúc có nguy cơ đến khi vượt khó thành công.</p>
+        <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">Theo dõi và quản lý quá trình hỗ trợ sinh viên từ lúc có nguy cơ đến khi vượt khó thành công.</p>
+        <div className="flex gap-4 items-center bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl p-3 inline-flex">
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Thang điểm dự báo (0-10):</span>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-rose-500"></span>
+            <span className="text-xs font-semibold text-rose-500 dark:text-rose-400">{"< 5.0"} (Nguy cơ Cao)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+            <span className="text-xs font-semibold text-orange-500 dark:text-orange-400">{"5.0 - 6.5"} (Nguy cơ Trung bình)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+            <span className="text-xs font-semibold text-emerald-500 dark:text-emerald-400">{"> 6.5"} (Nguy cơ Thấp)</span>
+          </div>
+        </div>
       </div>
 
       {/* Table 1: At Risk */}
@@ -164,11 +180,21 @@ export default function Interventions() {
                 {(showAllAtRisk ? data.atRisk : data.atRisk.slice(0, 5)).map((st) => (
                   <tr key={`${st.mssv}-${st.courseId}`} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-slate-800 dark:text-slate-200">{st.student.name}</div>
+                      <div className="font-bold text-slate-800 dark:text-slate-200">{st.student?.name || st.mssv}</div>
                       <div className="text-slate-500 text-xs">{st.mssv}</div>
                     </td>
-                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">{st.course.name}</td>
-                    <td className="px-6 py-4"><span className="text-rose-400 font-bold">{st.predictedScore.toFixed(1)}% Nguy cơ</span></td>
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">{st.course?.name || st.courseId}</td>
+                    <td className="px-6 py-4">
+                      <span className={`font-bold ${
+                        (st.risk === 'HIGH' || st.risk === 'high') ? 'text-rose-400' : 
+                        (st.risk === 'MEDIUM' || st.risk === 'medium') ? 'text-orange-400' : 'text-emerald-400'
+                      }`}>
+                        {st.predictedScore.toFixed(1)} điểm ({
+                          (st.risk === 'HIGH' || st.risk === 'high') ? 'Nguy cơ Cao' : 
+                          (st.risk === 'MEDIUM' || st.risk === 'medium') ? 'Nguy cơ Vừa' : 'Nguy cơ Thấp'
+                        })
+                      </span>
+                    </td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => handleOpenRoadmap(st)} className="bg-rose-600 hover:bg-rose-500 text-slate-900 dark:text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-lg">
                         Can thiệp ngay
@@ -213,10 +239,10 @@ export default function Interventions() {
                 {(showAllActive ? data.active : data.active.slice(0, 5)).map((st) => (
                   <tr key={st.id} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-slate-800 dark:text-slate-200">{st.student.name}</div>
+                      <div className="font-bold text-slate-800 dark:text-slate-200">{st.student?.name || st.mssv}</div>
                       <div className="text-slate-500 text-xs">{st.mssv}</div>
                     </td>
-                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">{st.course.name}</td>
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">{st.course?.name || st.courseId}</td>
                     <td className="px-6 py-4">
                       <div className="text-blue-400 text-xs max-w-xs truncate">{st.action}</div>
                       <div className="text-[10px] text-slate-500 mt-1">{new Date(st.createdAt).toLocaleDateString('vi-VN')}</div>
@@ -270,10 +296,10 @@ export default function Interventions() {
                 {(showAllResolved ? data.resolved : data.resolved.slice(0, 5)).map((st) => (
                   <tr key={st.id} className="hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
-                      <div className="font-bold text-slate-800 dark:text-slate-200">{st.student.name}</div>
+                      <div className="font-bold text-slate-800 dark:text-slate-200">{st.student?.name || st.mssv}</div>
                       <div className="text-slate-500 text-xs">{st.mssv}</div>
                     </td>
-                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">{st.course.name}</td>
+                    <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">{st.course?.name || st.courseId}</td>
                     <td className="px-6 py-4">
                       <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 px-2 py-1 rounded-lg text-xs font-bold">Thành công</span>
                     </td>

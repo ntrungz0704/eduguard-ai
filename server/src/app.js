@@ -36,8 +36,8 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(traceIdMiddleware);
 
-// Serve static dashboard assets from public
-app.use(express.static(path.join(__dirname, '..', '..', 'public')));
+// Serve static dashboard assets from client/dist
+app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
 
 // Health Check API
 app.get('/api/health', (req, res) => {
@@ -71,9 +71,9 @@ app.use('/api/v1/students', apiLimiter, studentsRouter);
 app.use('/api/v1/graph', apiLimiter, graphRouter);
 app.use('/api/v1/data', apiLimiter, dataImportRouter);
 
-// Fallback to legacy index.html
+// Fallback to React Router
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'client', 'dist', 'index.html'));
 });
 
 // Global Error Handler
