@@ -1038,7 +1038,7 @@ export default function AIChat() {
                   }`}>
                     <span>{msg.sender === 'user' ? (currentUser?.role === 'STUDENT' ? 'Sinh viên' : 'Giảng viên') : 'EduGuard AI'}</span>
                     <span>•</span>
-                    <span>{msg.sender === 'user' ? msg.time : `Last Analysis: ${msg.time}`}</span>
+                    <span>{msg.sender === 'user' ? msg.time : `Thời điểm phân tích: ${msg.time}`}</span>
                   </div>
                 </div>
               </div>

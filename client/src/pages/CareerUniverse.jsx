@@ -251,9 +251,9 @@ export default function CareerUniverse() {
           <div className="flex flex-wrap gap-3 mb-5">
             {[
               { icon: <Briefcase size={14} />, label: `${careers.length} Lộ trình chi tiết`, color: 'blue' },
-              { icon: <Target size={14} />, label: 'Skill Gap Analysis', color: 'emerald' },
+              { icon: <Target size={14} />, label: 'Phân tích lỗ hổng kỹ năng', color: 'emerald' },
               { icon: <TrendingUp size={14} />, label: 'Match Score cá nhân', color: 'purple' },
-              { icon: <Star size={14} />, label: '90-Day Plan & Portfolio Gen', color: 'amber' },
+              { icon: <Star size={14} />, label: 'Kế hoạch 90 ngày & Gợi ý dự án', color: 'amber' },
             ].map((stat, i) => (
               <span key={i} className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
                 <span className="text-blue-500">{stat.icon}</span>

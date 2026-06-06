@@ -32,17 +32,17 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
-    { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Learning Path Risk' },
+    { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Bản đồ Rủi ro Học tập' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
-    { path: '/chat', icon: <MessageSquare size={20} />, label: 'NLP Analytics Assistant' }
+    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý Phân tích NLP' }
   ];
 
   const studentNavItems = [
     { path: '/student-dashboard', icon: <LayoutDashboard size={20} />, label: 'Bảng điểm của tôi' },
-    { path: '/career-universe', icon: <Briefcase size={20} />, label: 'Career Universe' },
-    { path: '/career-board', icon: <KanbanSquare size={20} />, label: 'Roadmap Board' },
-    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Conversational Analytics' },
+    { path: '/career-universe', icon: <Briefcase size={20} />, label: 'Vũ trụ Nghề nghiệp' },
+    { path: '/career-board', icon: <KanbanSquare size={20} />, label: 'Bảng Lộ trình' },
+    { path: '/chat', icon: <MessageSquare size={20} />, label: 'Hỏi đáp Cố vấn AI' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Tin nhắn Cố vấn' }
   ];
 
@@ -193,7 +193,7 @@ const Header = ({ setMobileMenuOpen }) => {
         >
           <Menu size={24} />
         </button>
-        <h2 className="font-semibold text-xl text-slate-900 dark:text-white hidden md:block">EduGuard AI {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">STUDENT PORTAL</span>}</h2>
+        <h2 className="font-semibold text-xl text-slate-900 dark:text-white hidden md:block">EduGuard AI {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">CỔNG SINH VIÊN</span>}</h2>
       </div>
 
       {/* Global Premium Search Input in Navbar (Advisors only) */}
@@ -256,7 +256,7 @@ const Header = ({ setMobileMenuOpen }) => {
         <ThemeToggle />
         <div className="text-right hidden sm:block">
           <p className="text-sm font-medium text-slate-900 dark:text-white leading-none">{currentUser?.name}</p>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{currentUser?.role === 'STUDENT' ? 'Student Dashboard' : 'Admin Dashboard'}</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{currentUser?.role === 'STUDENT' ? 'Trang cá nhân Sinh viên' : 'Trang quản trị Cố vấn'}</p>
         </div>
         <div className="w-10 h-10 rounded-full bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-purple-600 flex items-center justify-center text-slate-900 dark:text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.4)] border-2 border-slate-200 dark:border-white/10 ring-2 ring-black">
           {currentUser?.role === 'STUDENT' ? <GraduationCap size={18} /> : 'GV'}

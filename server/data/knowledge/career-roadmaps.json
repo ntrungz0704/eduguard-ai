@@ -32,13 +32,13 @@
       "npm/yarn/pnpm"
     ],
     "softSkills": [
-      "Attention to detail",
-      "Communication",
-      "Creativity"
+      "Tỉ mỉ, chú ý chi tiết",
+      "Giao tiếp",
+      "Sáng tạo"
     ],
     "portfolios": [
       {
-        "name": "Personal Portfolio",
+        "name": "Trang cá nhân (Portfolio)",
         "learnToApply": [
           "HTML",
           "CSS",
@@ -46,7 +46,7 @@
         ]
       },
       {
-        "name": "Landing Page",
+        "name": "Trang giới thiệu (Landing Page)",
         "learnToApply": [
           "HTML",
           "CSS",
@@ -54,14 +54,14 @@
         ]
       },
       {
-        "name": "E-Commerce UI",
+        "name": "Giao diện Thương mại điện tử",
         "learnToApply": [
           "React",
           "CSS Frameworks (Tailwind)"
         ]
       },
       {
-        "name": "Dashboard Admin",
+        "name": "Trang quản trị (Dashboard Admin)",
         "learnToApply": [
           "React",
           "State Management",
@@ -105,12 +105,12 @@
       "Storybook"
     ],
     "softSkills": [
-      "Attention to detail",
-      "Problem Solving"
+      "Tỉ mỉ, chú ý chi tiết",
+      "Giải quyết vấn đề"
     ],
     "portfolios": [
       {
-        "name": "Dashboard Console",
+        "name": "Trang quản lý (Dashboard Console)",
         "learnToApply": [
           "React",
           "State & Props",
@@ -118,7 +118,7 @@
         ]
       },
       {
-        "name": "Social Media UI",
+        "name": "Giao diện Mạng xã hội",
         "learnToApply": [
           "React",
           "React Hooks",
@@ -126,7 +126,7 @@
         ]
       },
       {
-        "name": "E-Commerce Frontend",
+        "name": "Frontend Thương mại điện tử",
         "learnToApply": [
           "React",
           "Redux Toolkit",
@@ -170,12 +170,12 @@
       "npm/pnpm"
     ],
     "softSkills": [
-      "Analytical Thinking",
-      "Continuous Learning"
+      "Tư duy phân tích",
+      "Không ngừng học hỏi"
     ],
     "portfolios": [
       {
-        "name": "Blog CMS",
+        "name": "Hệ thống Blog & Quản lý nội dung",
         "learnToApply": [
           "Next.js",
           "SSR/SSG",
@@ -183,7 +183,7 @@
         ]
       },
       {
-        "name": "SaaS Dashboard App",
+        "name": "Ứng dụng Dashboard SaaS",
         "learnToApply": [
           "Next.js",
           "TypeScript",
@@ -191,7 +191,7 @@
         ]
       },
       {
-        "name": "Company Website",
+        "name": "Trang web Doanh nghiệp",
         "learnToApply": [
           "Next.js",
           "Styling",
@@ -234,13 +234,13 @@
       "VS Code"
     ],
     "softSkills": [
-      "Problem Solving",
-      "Logical Thinking",
-      "Teamwork"
+      "Giải quyết vấn đề",
+      "Tư duy logic",
+      "Làm việc nhóm"
     ],
     "portfolios": [
       {
-        "name": "Student Management API",
+        "name": "API Quản lý Sinh viên",
         "learnToApply": [
           "Express.js",
           "PostgreSQL",
@@ -248,7 +248,7 @@
         ]
       },
       {
-        "name": "Authentication Service",
+        "name": "Dịch vụ Xác thực (Auth Service)",
         "learnToApply": [
           "Node.js",
           "Redis",
@@ -256,7 +256,7 @@
         ]
       },
       {
-        "name": "E-Commerce API Service",
+        "name": "Dịch vụ API Thương mại điện tử",
         "learnToApply": [
           "Docker",
           "Microservices",
@@ -295,12 +295,12 @@
       "npm/pnpm/yarn"
     ],
     "softSkills": [
-      "Problem Solving",
-      "Teamwork"
+      "Giải quyết vấn đề",
+      "Làm việc nhóm"
     ],
     "portfolios": [
       {
-        "name": "RESTful Web API",
+        "name": "Web API chuẩn RESTful",
         "learnToApply": [
           "Node.js",
           "Express.js",
@@ -308,7 +308,7 @@
         ]
       },
       {
-        "name": "Event-driven Task Runner",
+        "name": "Trình chạy tác vụ hướng sự kiện",
         "learnToApply": [
           "Node.js",
           "Asynchronous programming",
@@ -354,13 +354,13 @@
       "Chrome DevTools"
     ],
     "softSkills": [
-      "Time Management",
-      "Adaptability",
-      "Problem Solving"
+      "Quản lý thời gian",
+      "Khả năng thích nghi",
+      "Giải quyết vấn đề"
     ],
     "portfolios": [
       {
-        "name": "Fullstack E-Commerce",
+        "name": "Ứng dụng Thương mại điện tử Fullstack",
         "learnToApply": [
           "React",
           "Node.js",
@@ -368,7 +368,7 @@
         ]
       },
       {
-        "name": "Booking System",
+        "name": "Hệ thống Đặt lịch / Đặt chỗ",
         "learnToApply": [
           "React",
           "Express.js",
@@ -376,7 +376,7 @@
         ]
       },
       {
-        "name": "CRM Dashboard App",
+        "name": "Ứng dụng Dashboard CRM",
         "learnToApply": [
           "Next.js",
           "TypeScript",
@@ -416,12 +416,12 @@
       "Postman"
     ],
     "softSkills": [
-      "Analytical Thinking",
-      "Problem Solving"
+      "Tư duy phân tích",
+      "Giải quyết vấn đề"
     ],
     "portfolios": [
       {
-        "name": "High-concurrency API",
+        "name": "API xử lý đồng thời cao",
         "learnToApply": [
           "Java/C++/Python",
           "OOP",
@@ -429,7 +429,7 @@
         ]
       },
       {
-        "name": "Design Pattern Demo",
+        "name": "Dự án mẫu Design Pattern",
         "learnToApply": [
           "Design Patterns",
           "Algorithms & Data Structures"
@@ -468,12 +468,12 @@
       "Git"
     ],
     "softSkills": [
-      "Empathy",
-      "Creativity"
+      "Sự thấu cảm",
+      "Sáng tạo"
     ],
     "portfolios": [
       {
-        "name": "Design System Package",
+        "name": "Gói hệ thống thiết kế (Design System)",
         "learnToApply": [
           "Tailwind CSS",
           "Storybook",
@@ -481,7 +481,7 @@
         ]
       },
       {
-        "name": "Interactive Web Design",
+        "name": "Thiết kế Web tương tác cao",
         "learnToApply": [
           "CSS Layouts (Flexbox/Grid)",
           "CSS Animations (Framer Motion/GSAP)"
@@ -522,19 +522,19 @@
       "Figma"
     ],
     "softSkills": [
-      "Continuous Learning",
-      "Teamwork"
+      "Không ngừng học hỏi",
+      "Làm việc nhóm"
     ],
     "portfolios": [
       {
-        "name": "E-Commerce Mobile App",
+        "name": "Ứng dụng di động Thương mại điện tử",
         "learnToApply": [
           "Flutter Framework",
           "State Management (Provider/Riverpod)"
         ]
       },
       {
-        "name": "Booking Mobile App",
+        "name": "Ứng dụng di động Đặt lịch",
         "learnToApply": [
           "Flutter Framework",
           "Firebase",
@@ -577,12 +577,12 @@
       "Git"
     ],
     "softSkills": [
-      "Problem Solving",
-      "Adaptability"
+      "Giải quyết vấn đề",
+      "Khả năng thích nghi"
     ],
     "portfolios": [
       {
-        "name": "Chat Mobile App",
+        "name": "Ứng dụng di động Nhắn tin (Chat)",
         "learnToApply": [
           "React Native",
           "Firebase",
@@ -590,7 +590,7 @@
         ]
       },
       {
-        "name": "Delivery Tracking App",
+        "name": "Ứng dụng Theo dõi giao hàng",
         "learnToApply": [
           "React Native",
           "REST API",
@@ -628,12 +628,12 @@
       "VS Code"
     ],
     "softSkills": [
-      "Attention to detail",
-      "Logical Thinking"
+      "Tỉ mỉ, chú ý chi tiết",
+      "Tư duy logic"
     ],
     "portfolios": [
       {
-        "name": "Automated Testing Project",
+        "name": "Dự án Kiểm thử tự động",
         "learnToApply": [
           "Cypress",
           "Playwright",
@@ -641,7 +641,7 @@
         ]
       },
       {
-        "name": "API Testing Suite",
+        "name": "Bộ kiểm thử API (Testing Suite)",
         "learnToApply": [
           "Postman",
           "Performance/Load Testing (JMeter)"
@@ -677,19 +677,19 @@
       "Git"
     ],
     "softSkills": [
-      "Systematic Thinking",
-      "Under-pressure working"
+      "Tư duy hệ thống",
+      "Làm việc dưới áp lực"
     ],
     "portfolios": [
       {
-        "name": "CI/CD Auto-pipeline",
+        "name": "Luồng CI/CD tự động",
         "learnToApply": [
           "CI/CD Pipelines",
           "Docker"
         ]
       },
       {
-        "name": "Dockerized Application Cluster",
+        "name": "Cụm ứng dụng Docker hóa",
         "learnToApply": [
           "Docker",
           "Monitoring (Grafana/Prometheus)"
@@ -724,11 +724,11 @@
       "Git"
     ],
     "softSkills": [
-      "Analytical Thinking"
+      "Tư duy phân tích"
     ],
     "portfolios": [
       {
-        "name": "Cloud Deployment Architecture",
+        "name": "Kiến trúc triển khai đám mây",
         "learnToApply": [
           "AWS",
           "Terraform",
@@ -764,19 +764,19 @@
       "Chrome DevTools"
     ],
     "softSkills": [
-      "Innovation",
-      "Adaptability"
+      "Đổi mới sáng tạo",
+      "Khả năng thích nghi"
     ],
     "portfolios": [
       {
-        "name": "AI Advisor Bot",
+        "name": "Bot cố vấn AI thông minh",
         "learnToApply": [
           "OpenAI/Gemini APIs",
           "AI Chat UI"
         ]
       },
       {
-        "name": "Smart Dashboard Interface",
+        "name": "Giao diện Dashboard thông minh",
         "learnToApply": [
           "React",
           "API Integration"
@@ -813,12 +813,12 @@
       "Pinecone Console"
     ],
     "softSkills": [
-      "Problem Solving",
-      "Architecture Design"
+      "Giải quyết vấn đề",
+      "Thiết kế kiến trúc hệ thống"
     ],
     "portfolios": [
       {
-        "name": "AI Powered SaaS Application",
+        "name": "Ứng dụng SaaS tích hợp AI",
         "learnToApply": [
           "LangChain / LlamaIndex",
           "Vector Database",
@@ -826,7 +826,7 @@
         ]
       },
       {
-        "name": "Enterprise Chatbot Service",
+        "name": "Dịch vụ Chatbot doanh nghiệp",
         "learnToApply": [
           "Node.js",
           "AI APIs",
@@ -861,19 +861,19 @@
       "Git"
     ],
     "softSkills": [
-      "Creativity",
-      "Analytical Thinking"
+      "Sáng tạo",
+      "Tư duy phân tích"
     ],
     "portfolios": [
       {
-        "name": "RAG Agent Prompts",
+        "name": "Thiết kế Prompt cho RAG Agent",
         "learnToApply": [
           "Prompt Engineering",
           "OpenAI/Gemini APIs"
         ]
       },
       {
-        "name": "Multi-Agent System Configuration",
+        "name": "Cấu hình hệ thống Multi-Agent",
         "learnToApply": [
           "Agentic Workflows",
           "Vector Database"
@@ -912,20 +912,20 @@
       "Git"
     ],
     "softSkills": [
-      "Leadership",
-      "Analytical Thinking",
-      "Communication"
+      "Lãnh đạo",
+      "Tư duy phân tích",
+      "Giao tiếp"
     ],
     "portfolios": [
       {
-        "name": "Distributed Service Architecture Blueprint",
+        "name": "Bản thiết kế Kiến trúc dịch vụ phân tán",
         "learnToApply": [
           "System Architecture",
           "Microservices"
         ]
       },
       {
-        "name": "Monolith to Microservices migration plan",
+        "name": "Kế hoạch chuyển đổi Monolith sang Microservices",
         "learnToApply": [
           "System Design",
           "Cloud Architecture"
@@ -962,13 +962,13 @@
       "Git"
     ],
     "softSkills": [
-      "Presentation",
-      "Negotiation",
-      "Business Acumen"
+      "Thuyết trình",
+      "Đàm phán",
+      "Nhạy bén kinh doanh"
     ],
     "portfolios": [
       {
-        "name": "Cloud Architecture Proposal",
+        "name": "Đề xuất kiến trúc đám mây",
         "learnToApply": [
           "Cloud Architecture (AWS/Azure)",
           "System Integration"

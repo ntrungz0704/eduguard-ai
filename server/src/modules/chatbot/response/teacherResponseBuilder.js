@@ -144,36 +144,36 @@ function buildClassAnalyticsResponse(data) {
   const maxRisk = analytics.topAtRisk[0]?.riskScore || 0;
   const confidence = formatConfidence(maxRisk);
 
-  const text = `# 📊 Class Analytics Dashboard
+  const text = `# 📊 Bảng Phân tích Lớp học (Class Analytics)
 
 ## Tổng sinh viên
 **${analytics.total || 'N/A'}**
 
-🟢 LOW: ${analytics.lows || 0}
-🟡 MEDIUM: ${analytics.mediums || 0}
-🟠 HIGH: ${analytics.highs || 0}
-🔴 CRITICAL: ${analytics.criticals || 0}
+🟢 LOW (An toàn): ${analytics.lows || 0}
+🟡 MEDIUM (Trung bình): ${analytics.mediums || 0}
+🟠 HIGH (Nguy cơ cao): ${analytics.highs || 0}
+🔴 CRITICAL (Nguy cấp): ${analytics.criticals || 0}
 
 ---
 
-# 🚨 TOP ${limit} HIGH-RISK STUDENTS
+# 🚨 TOP ${limit} SINH VIÊN CÓ NGUY CƠ CAO
 
 ${topRiskList || '✅ Không có sinh viên nguy cơ cao.'}
 
 ---
 
-# 📉 Bottleneck Subjects
+# 📉 Môn học Nút thắt cổ chai (Bottleneck Subjects)
 
 ${bottleneckStr || '✅ Không có môn học đáng lo ngại.'}
 
 ---
 
-# 🧠 AI Insight
+# 🧠 Nhận định AI (AI Insight)
 ${generateDynamicClassInsight(analytics)}
 
-⚠ **Confidence:** ${confidence}
+⚠ **Độ tin cậy (Confidence):** ${confidence}
 
-# 🎯 Recommended Actions
+# 🎯 Hành động Đề xuất (Recommended Actions)
 - Liên hệ ngay với nhóm CRITICAL trong tuần này
 - Đề xuất mở lớp phụ đạo cho môn ${analytics.bottleneckSubjects[0]?.courseId || 'Bottleneck'}
 - Theo dõi chuyên cần hàng tuần
@@ -238,13 +238,13 @@ ${reasonsList}`;
   const topSubjectDetails = topSubject ? syllabusEngine.getCourseDetails(topSubject.courseId) : null;
   const topSubjectName = topSubjectDetails ? topSubjectDetails.courseName : (topSubject ? topSubject.courseId : 'PRO101');
 
-  const text = `# 📉 Bottleneck Subjects Analysis
+  const text = `# 📉 Phân tích Môn Bottleneck (Nút thắt cổ chai)
 
 ${bottleneckStr || '✅ Không ghi nhận môn học nào có tỷ lệ rớt môn cao.'}
 
 ---
 
-# 🧠 AI Insight:
+# 🧠 Nhận định AI:
 ${topSubject ? `Môn **${topSubjectName} (${topSubject.courseId})** hiện là nút thắt cổ chai lớn nhất trong chương trình đào tạo do tính chất phức tạp, phụ thuộc vào nhiều kỹ năng nền tảng và đòi hỏi sự phối hợp nhóm (teamwork) cao.` : 'Chương trình đào tạo hiện tại hoạt động rất ổn định, không phát hiện nút thắt cổ chai rủi ro lớn.'}
 
 # 🎯 Đề xuất Can thiệp Học vụ:
@@ -279,13 +279,13 @@ function buildHighRiskStudentsResponse(data) {
     })
     .join('\n\n');
 
-  const text = `# 🚨 TOP ${limit} HIGH-RISK STUDENTS (DANH SÁCH SINH VIÊN RỦI RO CAO)
+  const text = `# 🚨 TOP ${limit} SINH VIÊN CÓ NGUY CƠ CAO (DANH SÁCH SINH VIÊN RỦI RO CAO)
 
 ${topRiskList || '✅ Thật tuyệt vời! Không ghi nhận sinh viên nào có mức rủi ro cao ở học kỳ này.'}
 
 ---
 
-# 🧠 AI Insight:
+# 🧠 Nhận định AI:
 Số lượng sinh viên thuộc nhóm **CRITICAL** chiếm tỷ lệ khoảng ${analytics.total ? Math.round((analytics.criticals / analytics.total) * 100) : 0}% của lớp. Hầu hết các em đều gặp vấn đề nghiêm trọng về **Chuyên cần** kết hợp với **Đứt gãy chuỗi môn tiên quyết** (đặc biệt là môn nền tảng).
 
 # 🎯 Đề xuất Can thiệp khẩn cấp:
@@ -364,7 +364,7 @@ Mã học phần phân tích: **${courseId}**
 ${chainStr}
 
 ---
-🧠 **AI Insight**:
+🧠 **Nhận định AI**:
 Sinh viên nếu **nợ học phần ở gốc chuỗi** (ví dụ WEB104 hoặc COM108) sẽ bị **chặn đăng ký học các môn tiếp theo** trong sơ đồ trên, tạo ra hiệu ứng domino rớt dây chuyền và kéo dài thời gian ra trường.`;
 
   return {
@@ -385,16 +385,16 @@ function buildOutOfScopeResponse() {
 function buildImportStatusResponse(data) {
   const { status } = data;
   
-  let text = `# 📥 Import Result\n\n`;
+  let text = `# 📥 Kết quả Nhập Dữ liệu\n\n`;
   if (status) {
     const isSuccess = status.status === 'PUBLISHED';
     text += `${isSuccess ? '✅ **Đã nạp và xuất bản dữ liệu thành công!**' : '⚠ **Đang ở trạng thái Preview:**'}\n
 - **Tổng số dòng:** ${status.totalRows} dòng
-- **Thành công (Valid):** ✅ ${status.validRows} rows success
-- **Lỗi (Invalid):** ⚠ ${status.invalidRows} rows invalid
+- **Thành công (Hợp lệ):** ✅ ${status.validRows} dòng thành công
+- **Lỗi (Không hợp lệ):** ⚠ ${status.invalidRows} dòng lỗi
 - **Thời gian:** ${new Date(status.timestamp).toLocaleTimeString()}`;
   } else {
-    text += `✅ **582 rows success**\n⚠ **12 rows invalid**\n\n*(Thông tin trên là kết quả của đợt nạp dữ liệu học kỳ SP26 gần nhất)*`;
+    text += `✅ **582 dòng thành công**\n⚠ **12 dòng lỗi**\n\n*(Thông tin trên là kết quả của đợt nạp dữ liệu học kỳ SP26 gần nhất)*`;
   }
   
   return {
@@ -460,7 +460,7 @@ Chương trình chuyên ngành **Lập trình Web & Thiết kế Web** được 
    - \`PRO101\` — Dự án 1 (Thiết kế web thực tế / Capstone)
 
 ---
-🧠 **AI Insight**:
+🧠 **Nhận định AI**:
 Hệ thống DSS theo dõi tất cả **16 học phần** này theo thời gian thực để lập sơ đồ rủi ro Academic Risk Map cho thầy/cô.`,
     chartData: null,
     actions: ['Môn dễ rớt', 'Top sinh viên rủi ro', 'Tình hình lớp']
@@ -537,14 +537,14 @@ ${formatReasons(riskData.reasons)}
 
 ---
 
-# 🧠 AI Insight
+# 🧠 Nhận định AI
 ${generateDynamicStudentInsight(student, riskData)}
 
 ⚠ **Confidence:** ${confidence}
 
 ---
 
-# ⏳ Academic Timeline
+# ⏳ Dòng thời gian Học vụ (Academic Timeline)
 ${formatTimeline(timeline)}
 `;
 
@@ -581,7 +581,7 @@ function buildFollowupResponse(data) {
 ${formatReasons(riskData.reasons)}
 
 ---
-🧠 **AI Insight**: ${dynamicInsight}
+🧠 **Nhận định AI**: ${dynamicInsight}
 ⚠ **Confidence**: ${confidence}
 ${chartStr}`,
         chartData: chartStr,
@@ -777,7 +777,7 @@ ${courseList}
 
 ---
 
-### 🧩 Skill Gap Analysis (Core Skills)
+### 🧩 Phân tích Khoảng cách Kỹ năng (Skill Gap Analysis)
 Phân tích khoảng cách kỹ năng CỐT LÕI giữa giáo trình và doanh nghiệp:
 
 **Đã có:**
@@ -791,12 +791,12 @@ ${missingCoursesList}
 
 ---
 
-### 🚀 Portfolio Recommendation
+### 🚀 Đề xuất Dự án (Portfolio Recommendation)
 Các dự án sinh viên cần thực hiện:
 ${portfolios}
 
 ---
-🧠 **AI Insight**:
+🧠 **Nhận định AI**:
 Vị trí này đang có **Nhu cầu tuyển dụng: ${marketInsights.marketDemand}**. Hệ thống AI Career Coach đề xuất Giảng viên hướng dẫn sinh viên bổ sung các kỹ năng còn thiếu để tăng tỉ lệ đậu thực tập.`,
         chartData: null,
         actions: ['Tình hình lớp', 'Top sinh viên rủi ro']
@@ -823,7 +823,7 @@ Hệ quả dây chuyền nếu sinh viên nợ học phần **${courseId}**:
 ${impactedList}
 
 ---
-🧠 **AI Insight**:
+🧠 **Nhận định AI**:
 Đây là những học phần bị khóa điều kiện tiên quyết nếu sinh viên chưa hoàn thành **${courseId}**. Giảng viên cần đặc biệt lưu ý hỗ trợ các nhóm sinh viên nợ môn này.`,
         chartData: null,
         actions: ['Môn dễ rớt', 'Top sinh viên rủi ro']

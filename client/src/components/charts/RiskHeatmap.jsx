@@ -20,7 +20,7 @@ const RISK_BG = {
  * Shows top N students (rows) × weeks (columns)
  * Color intensity = risk level at that week
  */
-const RiskHeatmap = React.memo(({ students = [], title = 'Risk Heatmap — Top Sinh viên × Tuần' }) => {
+const RiskHeatmap = React.memo(({ students = [], title = 'Bản đồ Nhiệt Rủi ro — Top Sinh viên × Tuần' }) => {
   const navigate = useNavigate();
   const weeks = [1, 2, 3, 4, 5, 6, 7, 8];
   const displayStudents = students.slice(0, 8);
@@ -70,10 +70,17 @@ const RiskHeatmap = React.memo(({ students = [], title = 'Risk Heatmap — Top S
               else if (week < escalationWeek) level = 'LOW';
               else level = student.level || 'LOW';
 
+              const labels = {
+                CRITICAL: 'Nguy cấp',
+                HIGH: 'Nguy cơ cao',
+                MEDIUM: 'Nguy cơ vừa',
+                LOW: 'An toàn'
+              };
+
               return (
                 <div
                   key={week}
-                  title={`${student.name || student.mssv} | Tuần ${week}\nRisk Level: ${level}\nGPA Hiện tại: ${student.gpa || 'N/A'}\nChuyên cần: ${student.attendance || 'N/A'}%\nMôn đã fail: ${student.failedSubjects || 0}`}
+                  title={`${student.name || student.mssv} | Tuần ${week}\nMức rủi ro: ${labels[level]}\nGPA Hiện tại: ${student.gpa || 'N/A'}\nChuyên cần: ${student.attendance || 'N/A'}%\nMôn chưa đạt: ${student.failedSubjects || 0}`}
                   onClick={() => navigate(`/student/${student.mssv}`)}
                   className="h-[22px] rounded-sm cursor-pointer transition-transform hover:scale-110 hover:z-10 shadow-sm"
                   style={{
@@ -89,12 +96,20 @@ const RiskHeatmap = React.memo(({ students = [], title = 'Risk Heatmap — Top S
 
       <div className="flex items-center gap-4 mt-6 flex-wrap justify-center sm:justify-start">
         <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-2">Cấp độ rủi ro:</span>
-        {Object.entries(RISK_COLORS).map(([lvl, color]) => (
-          <div key={lvl} className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-sm shadow-sm" style={{ background: RISK_BG[lvl], border: `1px solid ${color}55` }} />
-            <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium">{lvl}</span>
-          </div>
-        ))}
+        {Object.entries(RISK_COLORS).map(([lvl, color]) => {
+          const labels = {
+            CRITICAL: 'Nguy cấp',
+            HIGH: 'Nguy cơ cao',
+            MEDIUM: 'Nguy cơ vừa',
+            LOW: 'An toàn'
+          };
+          return (
+            <div key={lvl} className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-sm shadow-sm" style={{ background: RISK_BG[lvl], border: `1px solid ${color}55` }} />
+              <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium">{labels[lvl] || lvl}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

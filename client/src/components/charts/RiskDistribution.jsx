@@ -69,25 +69,49 @@ const RiskDistribution = React.memo(({ data, title = 'Phân phối Rủi ro' }) 
               borderRadius: 8,
               color: '#e2e8f0'
             }}
-            formatter={(value, name) => [`${value} SV`, name]}
+            formatter={(value, name) => {
+              const labels = {
+                CRITICAL: 'Nguy cấp',
+                HIGH: 'Nguy cơ cao',
+                MEDIUM: 'Nguy cơ vừa',
+                LOW: 'An toàn'
+              };
+              return [`${value} SV`, labels[name] || name];
+            }}
           />
           <Legend
-            formatter={(value) => (
-              <span className="text-slate-600 dark:text-slate-400 text-xs">{value}</span>
-            )}
+            formatter={(value) => {
+              const labels = {
+                CRITICAL: 'Nguy cấp',
+                HIGH: 'Nguy cơ cao',
+                MEDIUM: 'Nguy cơ vừa',
+                LOW: 'An toàn'
+              };
+              return (
+                <span className="text-slate-600 dark:text-slate-400 text-xs">{labels[value] || value}</span>
+              );
+            }}
           />
         </PieChart>
       </ResponsiveContainer>
 
       {/* Summary Badges */}
       <div className="grid grid-cols-2 gap-2 mt-2">
-        {chartData.map(item => (
-          <div key={item.name} className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-white/5 rounded-lg border border-slate-200 dark:border-transparent" style={{ borderColor: `var(--tw-border-opacity) === 1 ? 'transparent' : '${COLORS[item.name]}33'` }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[item.name], flexShrink: 0 }} />
-            <span className="text-slate-600 dark:text-slate-400 text-xs">{item.name}</span>
-            <span style={{ color: COLORS[item.name] }} className="text-[13px] font-bold ml-auto">{item.value}</span>
-          </div>
-        ))}
+        {chartData.map(item => {
+          const labels = {
+            CRITICAL: 'Nguy cấp',
+            HIGH: 'Nguy cơ cao',
+            MEDIUM: 'Nguy cơ vừa',
+            LOW: 'An toàn'
+          };
+          return (
+            <div key={item.name} className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-white/5 rounded-lg border border-slate-200 dark:border-transparent">
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[item.name], flexShrink: 0 }} />
+              <span className="text-slate-600 dark:text-slate-400 text-xs">{labels[item.name] || item.name}</span>
+              <span style={{ color: COLORS[item.name] }} className="text-[13px] font-bold ml-auto">{item.value}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

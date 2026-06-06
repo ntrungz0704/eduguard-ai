@@ -47,13 +47,13 @@ function buildStudentCareerPath(data) {
 
   if (mode === 'GUEST') {
     return {
-      text: `# 🎯 Career Overview: ${careerAnalysis.careerGoal}
+      text: `# 🎯 Tổng quan Nghề nghiệp: ${careerAnalysis.careerGoal}
 
 ${description}
 
 ---
 
-### 💼 Kỹ năng doanh nghiệp cần (Required Skills)
+### 💼 Kỹ năng doanh nghiệp cần (Kỹ năng yêu cầu)
 Dưới đây là những công nghệ phổ biến nhất thị trường yêu cầu:
 
 **Core Skills (Cốt lõi):**
@@ -67,7 +67,7 @@ ${careerAnalysis.industryRequirements.advanced.map(s => `- ${s}`).join('\n')}
 
 ---
 
-### 📁 Portfolio Generator
+### 📁 Gợi ý Dự án (Portfolio)
 Để gây ấn tượng với nhà tuyển dụng, bạn nên làm các dự án sau:
 ${portfolios}
 
@@ -118,11 +118,11 @@ ${portfolios}
   if (careerAnalysis.mode === 'STUDENT') {
     const projectedReadiness = careerAnalysis.projectedReadiness;
     let targetLabel = 'Sẵn sàng thực tập';
-    if (projectedReadiness >= 80) targetLabel = 'Job Ready';
-    else if (projectedReadiness >= 61) targetLabel = 'Internship Ready';
-    else if (projectedReadiness >= 41) targetLabel = 'Beginner Intern';
-    else if (projectedReadiness >= 21) targetLabel = 'Foundation';
-    else targetLabel = 'Explorer';
+    if (projectedReadiness >= 80) targetLabel = 'Sẵn sàng đi làm (Job Ready)';
+    else if (projectedReadiness >= 61) targetLabel = 'Sẵn sàng thực tập (Internship Ready)';
+    else if (projectedReadiness >= 41) targetLabel = 'Thực tập sinh cơ bản (Beginner Intern)';
+    else if (projectedReadiness >= 21) targetLabel = 'Nền tảng (Foundation)';
+    else targetLabel = 'Khám phá (Explorer)';
 
     let cumulativePoints = careerAnalysis.readinessScore;
     const forecastsMarkdown = careerAnalysis.forecasts.map(f => {
@@ -134,16 +134,16 @@ ${portfolios}
 
 💡 Điểm của bạn đến từ đâu?
 
-Academic:
+Học tập (Academic):
 ${Math.round((careerAnalysis.scores.academic / 100) * 30)}/30
 
-Industry Skills:
+Kỹ năng chuyên môn (Industry Skills):
 ${Math.round((careerAnalysis.scores.industry / 100) * 40)}/40
 
-Portfolio:
+Dự án (Portfolio):
 ${Math.round((careerAnalysis.scores.portfolio / 100) * 20)}/20
 
-Behavior:
+Thái độ/Hành vi (Behavior):
 ${Math.round((careerAnalysis.scores.behavior / 100) * 10)}/10
 
 ━━━━━━━━━━━━━━

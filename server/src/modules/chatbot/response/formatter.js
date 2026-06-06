@@ -10,16 +10,16 @@
  * @returns {string} High/Medium/Low
  */
 function formatConfidence(riskScore) {
-  if (typeof riskScore !== 'number') return 'Medium (Probability: N/A)';
+  if (typeof riskScore !== 'number') return 'Trung bình (Xác suất: N/A)';
   
   // Normalize risk score to probability (0.0 to 1.0)
   const prob = riskScore / 100;
   
-  let confidence = 'Low';
-  if (prob >= 0.85) confidence = 'High';
-  else if (prob >= 0.65) confidence = 'Medium';
+  let confidence = 'Thấp';
+  if (prob >= 0.85) confidence = 'Cao';
+  else if (prob >= 0.65) confidence = 'Trung bình';
   
-  return `${confidence} (Probability: ${(prob * 100).toFixed(1)}%)`;
+  return `${confidence} (Xác suất: ${(prob * 100).toFixed(1)}%)`;
 }
 
 /**
@@ -29,17 +29,17 @@ function formatRiskBadge(level, score = null) {
   let badge = '';
   switch (level) {
     case 'CRITICAL':
-      badge = '🔴 CRITICAL';
+      badge = '🔴 NGUY CƠ CỰC KỲ CAO';
       break;
     case 'HIGH':
-      badge = '🟠 HIGH RISK';
+      badge = '🟠 RỦI RO CAO';
       break;
     case 'MEDIUM':
-      badge = '🟡 MEDIUM RISK';
+      badge = '🟡 RỦI RO TRUNG BÌNH';
       break;
     case 'LOW':
     default:
-      badge = '🟢 LOW RISK';
+      badge = '🟢 RỦI RO THẤP';
       break;
   }
   return score !== null ? `${badge} (${score}/100)` : badge;

@@ -255,7 +255,7 @@ const DataImport = () => {
               {publishStatus === 'loading' ? (
                 <><Loader2 size={18} className="animate-spin" /> Đang import...</>
               ) : (
-                <><DatabaseZap size={18} /> Publish {previewData.validRows} Records</>
+                <><DatabaseZap size={18} /> Công bố {previewData.validRows} bản ghi</>
               )}
             </button>
           </div>

@@ -147,7 +147,7 @@ export default function CareerRoadmapBoard() {
               type: s.type,
               status,
               impact: getSkillImpact(s.name),
-              duration: s.type === 'core' ? '4-6 days' : '7-10 days',
+              duration: s.type === 'core' ? '4-6 ngày' : '7-10 ngày',
               started_at: status === 'IN_PROGRESS' ? new Date().toISOString().split('T')[0] : null,
               completed_at: status === 'DONE' ? new Date().toISOString().split('T')[0] : null,
               updated_at: new Date().toISOString().split('T')[0],
@@ -324,7 +324,7 @@ export default function CareerRoadmapBoard() {
 
   // Reset Board Tasks
   const handleResetBoard = () => {
-    if (window.confirm("Are you sure you want to reset this roadmap board to sync with your academic courses?")) {
+    if (window.confirm("Bạn có chắc chắn muốn thiết lập lại bảng lộ trình này để đồng bộ với các môn học ở trường không?")) {
       localStorage.removeItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`);
       // Trigger reload by resetting state
       setSelectedCareerId('');
@@ -369,14 +369,14 @@ export default function CareerRoadmapBoard() {
     const activeMissing = tasks.filter(t => t.status !== 'DONE')
                                .sort((a,b) => b.impact - a.impact);
     const forecasts = activeMissing.slice(0, 2).map(t => ({
-      action: `Complete learning ${t.title}`,
+      action: `Hoàn thành học ${t.title}`,
       points: Math.round((t.impact / (totalWeight || 1)) * 100 * 0.4)
     }));
     
     // Add portfolio gain forecast if portfolio is not full
     if (portfolioScore < 100) {
       forecasts.push({
-        action: "Upload GitHub evidence for 1 task",
+        action: "Nộp minh chứng GitHub cho 1 kỹ năng",
         points: 7 // +7 points to readiness
       });
     }
@@ -412,7 +412,7 @@ export default function CareerRoadmapBoard() {
     if (inProgress.length > 0) {
       alerts.push({
         type: 'warning',
-        message: `You have been learning ${inProgress[0].title} for 8 days. Average completion time is 4-6 days. Are you facing difficulties with any labs? Ask the Chatbot or message your instructor!`
+        message: `Bạn đã học ${inProgress[0].title} được 8 ngày. Thời gian hoàn thành trung bình là 4-6 ngày. Bạn có gặp khó khăn với bài thực hành nào không? Hãy hỏi Chatbot hoặc nhắn tin cho giảng viên hướng dẫn!`
       });
     }
     
@@ -421,14 +421,14 @@ export default function CareerRoadmapBoard() {
       const top = todoList[0];
       alerts.push({
         type: 'priority',
-        message: `LEARN NOW: Start learning ${top.title} (+${top.impact} Pt). This is a high-impact core skill that will boost your Match Score.`
+        message: `HỌC NGAY: Hãy bắt đầu học ${top.title} (+${top.impact} điểm). Đây là kỹ năng cốt lõi quan trọng giúp tăng nhanh Điểm Phù hợp của bạn.`
       });
       
       if (todoList.length > 1) {
         const secondary = todoList[1];
         alerts.push({
           type: 'info',
-          message: `LEARN LATER: Consider preparing to learn ${secondary.title} (+${secondary.impact} Pt) after completing ${top.title}.`
+          message: `HỌC SAU: Xem xét chuẩn bị học kỹ năng ${secondary.title} (+${secondary.impact} điểm) sau khi bạn hoàn thành ${top.title}.`
         });
       }
     }
@@ -443,9 +443,9 @@ export default function CareerRoadmapBoard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <KanbanSquare size={20} className="text-blue-500" />
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Learning & Operations</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Học tập & Vận hành</span>
           </div>
-          <h1 className="text-2xl font-black text-slate-900 dark:text-white">Career Roadmap Board</h1>
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white">Bảng Lộ trình Học tập</h1>
         </div>
 
         {/* Career Selection & Sync */}
@@ -465,7 +465,7 @@ export default function CareerRoadmapBoard() {
             className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer transition-colors"
           >
             <RefreshCw size={13} />
-            Sync from School
+            Đồng bộ từ trường học
           </button>
         </div>
       </div>
@@ -474,7 +474,7 @@ export default function CareerRoadmapBoard() {
         <div className="h-96 w-full flex items-center justify-center">
           <div className="flex flex-col items-center space-y-4">
             <Loader2 size={32} className="text-blue-500 animate-spin" />
-            <p className="text-slate-400 font-medium">Syncing academic data...</p>
+            <p className="text-slate-400 font-medium">Đang đồng bộ dữ liệu học tập...</p>
           </div>
         </div>
       ) : (
@@ -485,26 +485,26 @@ export default function CareerRoadmapBoard() {
             {/* Target Career & Progress */}
             <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-3 flex flex-col justify-between">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Career Target</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Mục tiêu nghề nghiệp</p>
                 <h3 className="text-base font-black text-slate-900 dark:text-white truncate mt-1">
                   {careers.find(c => c.id === selectedCareerId)?.careerName || 'N/A'}
                 </h3>
               </div>
               <div className="space-y-1">
                 <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                  <span>Roadmap Progress</span>
+                  <span>Tiến độ Lộ trình</span>
                   <span>{computedMetrics.progressPercent}%</span>
                 </div>
                 <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500" style={{ width: `${computedMetrics.progressPercent}%` }} />
                 </div>
-                <p className="text-[9px] text-slate-400 font-semibold mt-1">Completed: {computedMetrics.doneTasksCount}/{computedMetrics.totalTasksCount} skills</p>
+                <p className="text-[9px] text-slate-400 font-semibold mt-1">Đã hoàn thành: {computedMetrics.doneTasksCount}/{computedMetrics.totalTasksCount} kỹ năng</p>
               </div>
             </div>
 
             {/* Readiness score */}
             <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-2 text-center flex flex-col items-center justify-center">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Current Readiness</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Độ sẵn sàng hiện tại</p>
               <div className="text-4xl font-black text-blue-600 dark:text-blue-400">{computedMetrics.readinessScore}<span className="text-xs text-slate-500 font-normal">/100</span></div>
               <span className="text-[10px] font-extrabold px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 uppercase">
                 {getReadinessConfig(computedMetrics.readinessScore).label}
@@ -514,7 +514,7 @@ export default function CareerRoadmapBoard() {
             {/* Projected score Forecast */}
             <div className="glass-card rounded-2xl border border-emerald-200 dark:border-emerald-500/20 p-5 bg-emerald-500/5 space-y-2 flex flex-col justify-between">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><Sparkles size={11} /> Score Increase Forecast</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1"><Sparkles size={11} /> Dự báo tăng điểm sẵn sàng</p>
                 <div className="space-y-1.5 mt-2">
                   {computedMetrics.forecasts.length > 0 ? (
                     computedMetrics.forecasts.map((f, i) => (
@@ -524,12 +524,12 @@ export default function CareerRoadmapBoard() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-[10px] text-slate-500 italic">All targets completed!</p>
+                    <p className="text-[10px] text-slate-500 italic">Tất cả mục tiêu đã hoàn thành!</p>
                   )}
                 </div>
               </div>
               <div className="border-t border-emerald-500/10 pt-2 flex items-center justify-between text-xs font-black text-emerald-600 dark:text-emerald-400">
-                <span>Highest Projection:</span>
+                <span>Dự phóng cao nhất:</span>
                 <span>{Math.min(100, computedMetrics.readinessScore + computedMetrics.forecasts.reduce((sum, f) => sum + f.points, 0))}/100</span>
               </div>
             </div>
@@ -537,13 +537,13 @@ export default function CareerRoadmapBoard() {
             {/* Time Estimate */}
             <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-3 flex flex-col justify-between">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Estimated Time</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Thời gian dự kiến</p>
                 <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">
                   {analysis?.estimatedMonthsText || 'N/A'}
                 </div>
               </div>
               <p className="text-[9px] text-slate-400 font-semibold leading-relaxed">
-                Calculated based on remaining skills on the roadmap board and self-study time of 1-2h/day.
+                Được tính toán dựa trên số lượng kỹ năng còn lại trên bảng lộ trình và thời gian tự học trung bình 1-2h/ngày.
               </p>
             </div>
 
@@ -554,7 +554,7 @@ export default function CareerRoadmapBoard() {
             <div className="glass-card rounded-2xl border border-blue-200 dark:border-blue-500/20 p-5 bg-gradient-to-r from-blue-500/5 to-indigo-500/5 space-y-3">
               <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
                 <Sparkles size={16} />
-                <h3 className="font-extrabold text-sm">AI Coach Insights</h3>
+                <h3 className="font-extrabold text-sm">Nhận xét từ AI Coach</h3>
               </div>
               <div className="space-y-2">
                 {aiCoachAlerts.map((alert, i) => (
@@ -603,18 +603,18 @@ export default function CareerRoadmapBoard() {
                       <span className="text-[9px] font-black uppercase text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 shrink-0">+{task.impact} Pt</span>
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-slate-400">
-                      <span>Estimate: {task.duration}</span>
+                      <span>Dự kiến: {task.duration}</span>
                       <button 
                         onClick={() => moveTask(task, 'IN_PROGRESS')}
                         className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       >
-                        Start Learning <Play size={10} />
+                        Bắt đầu học <Play size={10} />
                       </button>
                     </div>
                   </div>
                 ))}
                 {columns.TODO.length === 0 && (
-                  <p className="text-xs text-slate-500 italic text-center py-8">No tasks left to learn!</p>
+                  <p className="text-xs text-slate-500 italic text-center py-8">Không còn kỹ năng nào cần học!</p>
                 )}
               </div>
             </div>
@@ -651,8 +651,8 @@ export default function CareerRoadmapBoard() {
                     </div>
                     {task.started_at && (
                       <div className="flex flex-col gap-0.5 text-[9px] text-slate-400 font-bold">
-                        <p className="flex items-center gap-1"><Calendar size={10} /> Start Date: {task.started_at}</p>
-                        <p className="flex items-center gap-1">⏱️ Learning: {getDaysOfLearning(task)} {getDaysOfLearning(task) === 1 ? 'day' : 'days'}</p>
+                        <p className="flex items-center gap-1"><Calendar size={10} /> Ngày bắt đầu: {task.started_at}</p>
+                        <p className="flex items-center gap-1">⏱️ Thời gian học: {getDaysOfLearning(task)} ngày</p>
                       </div>
                     )}
                     <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-white/5">
@@ -660,20 +660,20 @@ export default function CareerRoadmapBoard() {
                         onClick={() => moveTask(task, 'TODO')}
                         className="text-[10px] font-bold text-slate-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
-                        <ChevronLeft size={10} /> Cancel
+                        <ChevronLeft size={10} /> Hủy
                       </button>
                       <button 
                         onClick={() => moveTask(task, 'DONE')}
                         className="text-[10px] font-black text-emerald-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
-                        Done <CheckCircle size={10} />
+                        Xong <CheckCircle size={10} />
                       </button>
                     </div>
                   </div>
                 ))}
                 {columns.IN_PROGRESS.length === 0 && (
                   <div className="border border-dashed border-slate-300 dark:border-white/10 rounded-xl p-8 text-center text-slate-500 italic text-xs">
-                    Drag & drop cards here or click "Start Learning"
+                    Kéo thả thẻ vào đây hoặc nhấn "Bắt đầu học"
                   </div>
                 )}
               </div>
@@ -716,39 +716,39 @@ export default function CareerRoadmapBoard() {
                         task.evidenceStatus === 'PENDING' ? 'bg-amber-500/10 border-amber-200 text-amber-600 dark:text-amber-400 animate-pulse' :
                         'bg-slate-100 border-slate-200 text-slate-500'
                       }`}>
-                        {task.evidenceStatus === 'VERIFIED' ? 'Verified' :
-                         task.evidenceStatus === 'REJECTED' ? 'Rejected' :
-                         task.evidenceStatus === 'PENDING' ? 'Pending' :
-                         'Completed'}
+                        {task.evidenceStatus === 'VERIFIED' ? 'Đã xác thực' :
+                         task.evidenceStatus === 'REJECTED' ? 'Bị từ chối' :
+                         task.evidenceStatus === 'PENDING' ? 'Đang chờ duyệt' :
+                         'Đã hoàn thành'}
                       </span>
                     </div>
 
                     <div className="space-y-1 text-[9px] text-slate-400 font-bold">
                       {task.completed_at && (
                         <div className="flex flex-col gap-0.5">
-                          <p className="flex items-center gap-1"><Calendar size={10} /> Completed: {task.completed_at}</p>
-                          {task.started_at && <p className="flex items-center gap-1">⏱️ Took: {getDaysOfLearning(task)} {getDaysOfLearning(task) === 1 ? 'day' : 'days'}</p>}
+                          <p className="flex items-center gap-1"><Calendar size={10} /> Hoàn thành: {task.completed_at}</p>
+                          {task.started_at && <p className="flex items-center gap-1">⏱️ Thời gian học: {getDaysOfLearning(task)} ngày</p>}
                         </div>
                       )}
                       {task.github ? (
                         <div className="flex flex-col gap-1 mt-1.5 pt-1.5 border-t border-slate-100 dark:border-white/5 space-y-1">
-                          <div className="text-[9px] uppercase tracking-wider text-slate-500">Learning Evidence:</div>
+                          <div className="text-[9px] uppercase tracking-wider text-slate-500">Minh chứng học tập:</div>
                           <a href={task.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
-                            <GithubIcon size={10} /> GitHub Repository <ArrowUpRight size={8} />
+                            <GithubIcon size={10} /> Kho lưu trữ GitHub <ArrowUpRight size={8} />
                           </a>
                           {task.demo && (
                             <a href={task.demo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
-                              <Link2 size={10} /> Live Demo <ArrowUpRight size={8} />
+                              <Link2 size={10} /> Bản demo chạy trực tiếp <ArrowUpRight size={8} />
                             </a>
                           )}
                           {task.screenshot && (
                             <a href={task.screenshot} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
-                              <Link2 size={10} /> Screenshot <ArrowUpRight size={8} />
+                              <Link2 size={10} /> Ảnh chụp màn hình <ArrowUpRight size={8} />
                             </a>
                           )}
 
                           {task.evidenceStatus === 'VERIFIED' && (
-                            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold text-emerald-500 mt-1"><Award size={8} /> Portfolio Score Added (+{Math.round(task.impact * 0.3)} Pts)</span>
+                            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold text-emerald-500 mt-1"><Award size={8} /> Đã cộng điểm dự án cá nhân (+{Math.round(task.impact * 0.3)} điểm)</span>
                           )}
 
                           {task.evidenceStatus === 'PENDING' && (
@@ -757,13 +757,13 @@ export default function CareerRoadmapBoard() {
                                 onClick={() => simulateEvidenceReview(task.id, 'VERIFIED')}
                                 className="flex-1 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[8px] font-black rounded cursor-pointer text-center"
                               >
-                                Approve
+                                Duyệt
                               </button>
                               <button
                                 onClick={() => simulateEvidenceReview(task.id, 'REJECTED')}
                                 className="flex-1 py-0.5 bg-rose-600 hover:bg-rose-700 text-white text-[8px] font-black rounded cursor-pointer text-center"
                               >
-                                Reject
+                                Từ chối
                               </button>
                             </div>
                           )}
@@ -774,7 +774,7 @@ export default function CareerRoadmapBoard() {
                             onClick={() => moveTask(task, 'DONE')}
                             className="inline-flex items-center gap-1 text-[9px] font-extrabold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                           >
-                            <PlusCircle size={10} /> Add GitHub Evidence
+                            <PlusCircle size={10} /> Thêm minh chứng GitHub
                           </button>
                         </div>
                       )}
@@ -782,7 +782,7 @@ export default function CareerRoadmapBoard() {
                   </div>
                 ))}
                 {columns.DONE.length === 0 && (
-                  <p className="text-xs text-slate-500 italic text-center py-8">No completed tasks yet</p>
+                  <p className="text-xs text-slate-500 italic text-center py-8">Chưa có kỹ năng nào hoàn thành</p>
                 )}
               </div>
             </div>
@@ -797,14 +797,14 @@ export default function CareerRoadmapBoard() {
           <div className="glass-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4 animate-scaleUp">
             <div>
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Award size={18} className="text-emerald-500" /> Learning Evidence Submission
+                <Award size={18} className="text-emerald-500" /> Nộp minh chứng học tập
               </h3>
-              <p className="text-xs text-slate-500 mt-1">Provide evidence of practicing **{evidenceModalTask.title}** to boost your Portfolio score.</p>
+              <p className="text-xs text-slate-500 mt-1">Cung cấp minh chứng thực hành kỹ năng **{evidenceModalTask.title}** để tăng điểm dự án cá nhân.</p>
             </div>
 
             <form onSubmit={handleSubmitEvidence} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">GitHub Repository (Required)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Kho lưu trữ GitHub (Bắt buộc)</label>
                 <input
                   type="url"
                   required
@@ -816,7 +816,7 @@ export default function CareerRoadmapBoard() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Live Demo / YouTube URL (Optional)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Demo trực tiếp / Link YouTube (Không bắt buộc)</label>
                 <input
                   type="url"
                   placeholder="https://my-demo-app.vercel.app"
@@ -827,7 +827,7 @@ export default function CareerRoadmapBoard() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Screenshot URL (Optional)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Link ảnh chụp màn hình (Không bắt buộc)</label>
                 <input
                   type="url"
                   placeholder="https://imgur.com/my-screenshot.png"
@@ -843,20 +843,20 @@ export default function CareerRoadmapBoard() {
                   onClick={() => setEvidenceModalTask(null)}
                   className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer"
                 >
-                  Cancel
+                  Hủy
                 </button>
                 <button
                   type="button"
                   onClick={handleCompleteWithoutEvidence}
                   className="px-4 py-2.5 rounded-xl border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 hover:bg-blue-500/5 cursor-pointer"
                 >
-                  Complete without Evidence
+                  Hoàn thành không cần minh chứng
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
                 >
-                  Confirm & Complete
+                  Xác nhận & Hoàn thành
                 </button>
               </div>
             </form>
@@ -869,11 +869,11 @@ export default function CareerRoadmapBoard() {
 }
 
 const READINESS_LEVELS = [
-  { min: 0, max: 20, label: 'Explorer', color: '#64748b' },
-  { min: 21, max: 40, label: 'Foundation', color: '#f59e0b' },
-  { min: 41, max: 60, label: 'Beginner Intern', color: '#3b82f6' },
-  { min: 61, max: 80, label: 'Internship Ready', color: '#10b981' },
-  { min: 81, max: 100, label: 'Job Ready', color: '#8b5cf6' },
+  { min: 0, max: 20, label: 'Khám phá', color: '#64748b' },
+  { min: 21, max: 40, label: 'Nền tảng', color: '#f59e0b' },
+  { min: 41, max: 60, label: 'Thực tập sinh Sơ cấp', color: '#3b82f6' },
+  { min: 61, max: 80, label: 'Sẵn sàng Thực tập', color: '#10b981' },
+  { min: 81, max: 100, label: 'Sẵn sàng Đi làm', color: '#8b5cf6' },
 ];
 
 function getReadinessConfig(score) {

@@ -142,7 +142,7 @@ export default function GPA() {
             <Compass size={32} className="text-slate-900 dark:text-white"/>
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">AI Academic Intelligence</h2>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Trí tuệ Học thuật AI (Academic Intelligence)</h2>
             <p className="text-slate-600 dark:text-slate-400 mt-1">Hệ thống phân tích và mô phỏng GPA tiên tiến.</p>
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function GPA() {
       {loadingStudent && (
         <div className="glass-card p-12 rounded-3xl border border-slate-200 dark:border-white/5 flex flex-col items-center justify-center text-center">
           <div className="w-16 h-16 border-4 border-cyan-200 dark:border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mb-4"></div>
-          <h3 className="text-xl text-cyan-400 font-bold mb-2">🤖 AI Engine Analyzing...</h3>
+          <h3 className="text-xl text-cyan-400 font-bold mb-2">🤖 Công cụ AI đang Phân tích...</h3>
           <p className="text-slate-600 dark:text-slate-400">Đang cào dữ liệu học bạ và chạy mô hình học máy phân tích rủi ro...</p>
         </div>
       )}
@@ -203,7 +203,7 @@ export default function GPA() {
                   </div>
                 </div>
                 <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${metrics.riskLevel === 'HIGH' ? 'bg-rose-500/20 text-rose-400 border border-rose-200 dark:border-rose-500/50' : metrics.riskLevel === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400 border border-amber-200 dark:border-amber-500/50' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/50'}`}>
-                  {metrics.riskLevel === 'HIGH' ? '🔴 High Risk' : metrics.riskLevel === 'MEDIUM' ? '🟡 Medium Risk' : '🟢 Low Risk'}
+                  {metrics.riskLevel === 'HIGH' ? '🔴 Rủi ro cao' : metrics.riskLevel === 'MEDIUM' ? '🟡 Rủi ro trung bình' : '🟢 Rủi ro thấp'}
                 </div>
               </div>
 
@@ -313,7 +313,7 @@ export default function GPA() {
               <div className="glass-card p-8 rounded-3xl border border-slate-200 dark:border-white/5 relative overflow-hidden shadow-2xl">
                 <div className={`absolute top-0 right-0 w-80 h-80 opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 ${simulation.isPossible ? (simulation.probability > 60 ? 'bg-emerald-500' : 'bg-amber-500') : 'bg-rose-500'}`}></div>
                 
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">📈 Kết quả Phân tích Simulation</h3>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">📈 Kết quả Mô phỏng AI (Simulation)</h3>
                 
                 <div className="grid grid-cols-2 gap-6 mb-8 relative z-10">
                   <div className="bg-slate-200 dark:bg-black/40 rounded-2xl p-6 border border-slate-200 dark:border-white/5 flex flex-col justify-center items-center relative overflow-hidden group hover:border-white/10 transition-all">
@@ -334,7 +334,7 @@ export default function GPA() {
                 </div>
 
                 <div className="space-y-4 relative z-10">
-                  <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Recommendation Action:</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold tracking-wider mb-2">Hành động Khuyến nghị:</p>
                   {simulation.probability >= 70 ? (
                     <div className="bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 p-5 rounded-2xl flex items-start gap-4">
                       <CheckCircle2 className="text-emerald-400 shrink-0 mt-1" size={24}/>

@@ -17,18 +17,18 @@ const GithubIcon = (props) => (
 );
 
 const DEMAND_COLORS = {
-  'VERY HIGH': { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-500', label: 'Very High' },
-  'HIGH': { bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-500', label: 'High' },
-  'BOOMING': { bg: 'bg-rose-500/10', border: 'border-rose-500/20', text: 'text-rose-500', label: 'Booming 🔥' },
-  'MEDIUM': { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-500', label: 'Medium' },
+  'VERY HIGH': { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-500', label: 'Rất cao' },
+  'HIGH': { bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-500', label: 'Cao' },
+  'BOOMING': { bg: 'bg-rose-500/10', border: 'border-rose-500/20', text: 'text-rose-500', label: 'Bùng nổ 🔥' },
+  'MEDIUM': { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-500', label: 'Trung bình' },
 };
 
 const READINESS_LEVELS = [
-  { min: 0, max: 20, label: 'Explorer', color: '#64748b', bg: 'bg-slate-500' },
-  { min: 21, max: 40, label: 'Foundation', color: '#f59e0b', bg: 'bg-amber-500' },
-  { min: 41, max: 60, label: 'Beginner Intern', color: '#3b82f6', bg: 'bg-blue-500' },
-  { min: 61, max: 80, label: 'Internship Ready', color: '#10b981', bg: 'bg-emerald-500' },
-  { min: 81, max: 100, label: 'Job Ready', color: '#8b5cf6', bg: 'bg-purple-500' },
+  { min: 0, max: 20, label: 'Khám phá', color: '#64748b', bg: 'bg-slate-500' },
+  { min: 21, max: 40, label: 'Nền tảng', color: '#f59e0b', bg: 'bg-amber-500' },
+  { min: 41, max: 60, label: 'Thực tập sinh Sơ cấp', color: '#3b82f6', bg: 'bg-blue-500' },
+  { min: 61, max: 80, label: 'Sẵn sàng Thực tập', color: '#10b981', bg: 'bg-emerald-500' },
+  { min: 81, max: 100, label: 'Sẵn sàng Đi làm', color: '#8b5cf6', bg: 'bg-purple-500' },
 ];
 
 const SKILL_TIERS_FRONTEND = {
@@ -52,26 +52,26 @@ function getReadinessConfig(score) {
 
 function getSkillDescription(skillName) {
   const clean = skillName.toLowerCase().trim();
-  if (clean.includes("html")) return "HTML (HyperText Markup Language) is the standard markup language for creating web pages and web applications.";
-  if (clean.includes("css")) return "CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation and styling of web pages.";
-  if (clean.includes("javascript") || clean.includes("js basics")) return "JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification, enabling interactive web pages.";
-  if (clean.includes("typescript") || clean.includes("ts")) return "TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.";
-  if (clean.includes("react")) return "React is a free and open-source front-end JavaScript library for building user interfaces based on components.";
-  if (clean.includes("next.js") || clean.includes("nextjs")) return "Next.js is an open-source web development framework created by Vercel enabling React-based web applications with server-side rendering and static website generation.";
-  if (clean.includes("node.js") || clean.includes("nodejs")) return "Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside a web browser, commonly used for servers.";
-  if (clean.includes("express")) return "Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.";
-  if (clean.includes("postgresql") || clean.includes("postgres")) return "PostgreSQL is a powerful, open-source object-relational database system with a strong reputation for reliability, feature robustness, and performance.";
-  if (clean.includes("sql")) return "SQL (Structured Query Language) is a standardized programming language used to manage relational databases and perform various operations on the data in them.";
-  if (clean.includes("docker")) return "Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.";
-  if (clean.includes("git") || clean.includes("github")) return "Git is a distributed version control system that tracks changes in software source code, while GitHub is a cloud-based hosting service for Git repositories.";
-  if (clean.includes("rest api") || clean.includes("api")) return "REST APIs allow client-server communications using standard HTTP requests (GET, POST, PUT, DELETE) and JSON payloads.";
-  if (clean.includes("tailwind")) return "Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.";
-  if (clean.includes("redux") || clean.includes("state management")) return "State Management manages the state or data flow of complex applications using tools like Redux, Zustand, or Context API.";
-  if (clean.includes("testing") || clean.includes("jest")) return "Testing verifies that your code works as expected using Unit, Integration, and End-to-End tests (e.g., Jest, Cypress, RTL).";
-  if (clean.includes("prompt")) return "Prompt Engineering is the process of structuring text that can be interpreted and understood by a generative AI model.";
-  if (clean.includes("portfolio")) return "Create a real-world project demonstrating your skills to build a strong professional portfolio.";
-  if (clean.includes("internship")) return "Prepare CV and practice interview questions to land your first software engineering internship.";
-  return `An essential skill required in professional software engineering roles.`;
+  if (clean.includes("html")) return "HTML (HyperText Markup Language) là ngôn ngữ đánh dấu tiêu chuẩn để xây dựng cấu trúc và nội dung trang web.";
+  if (clean.includes("css")) return "CSS (Cascading Style Sheets) là ngôn ngữ định dạng kiểu dáng (stylesheet) dùng để mô tả giao diện hiển thị của trang web.";
+  if (clean.includes("javascript") || clean.includes("js basics")) return "JavaScript là ngôn ngữ lập trình kịch bản mạnh mẽ giúp tạo tính tương tác động cho trang web.";
+  if (clean.includes("typescript") || clean.includes("ts")) return "TypeScript là ngôn ngữ lập trình được định nghĩa kiểu kiểu tĩnh (strongly typed) xây dựng trên JavaScript để quản lý dự án lớn hiệu quả.";
+  if (clean.includes("react")) return "React là thư viện JavaScript mã nguồn mở chuyên dùng để xây dựng giao diện người dùng tương tác cao dựa trên component.";
+  if (clean.includes("next.js") || clean.includes("nextjs")) return "Next.js là framework web React hỗ trợ Server-Side Rendering (SSR) và tối ưu hóa SEO vượt trội.";
+  if (clean.includes("node.js") || clean.includes("nodejs")) return "Node.js là môi trường chạy (runtime environment) JavaScript phía máy chủ, giúp xây dựng các hệ thống backend hiệu năng cao.";
+  if (clean.includes("express")) return "Express.js là framework web tối giản và linh hoạt dành cho Node.js, cung cấp các tính năng mạnh mẽ để xây dựng API và định tuyến.";
+  if (clean.includes("postgresql") || clean.includes("postgres")) return "PostgreSQL là hệ quản trị cơ sở dữ liệu quan hệ đối tượng mã nguồn mở mạnh mẽ, có độ tin cậy và hiệu năng xử lý dữ liệu cao.";
+  if (clean.includes("sql")) return "SQL (Structured Query Language) là ngôn ngữ truy vấn có cấu trúc chuẩn để quản lý và thao tác dữ liệu trên các cơ sở dữ liệu quan hệ.";
+  if (clean.includes("docker")) return "Docker là nền tảng ảo hóa cấp độ hệ điều hành giúp đóng gói và chạy phần mềm ổn định trong các container cô lập.";
+  if (clean.includes("git") || clean.includes("github")) return "Git là hệ thống quản lý phiên bản phân tán (version control) giúp theo dõi các thay đổi mã nguồn, và GitHub là nền tảng lưu trữ mã nguồn trực tuyến.";
+  if (clean.includes("rest api") || clean.includes("api")) return "REST API là chuẩn thiết kế API giúp giao tiếp giữa client và server thông qua các giao thức HTTP chuẩn (GET, POST, PUT, DELETE).";
+  if (clean.includes("tailwind")) return "Tailwind CSS là framework CSS tiện ích (utility-first) giúp xây dựng giao diện nhanh chóng trực tiếp từ các class.";
+  if (clean.includes("redux") || clean.includes("state management")) return "State Management (Quản lý trạng thái) giúp quản lý và truyền dữ liệu xuyên suốt các thành phần giao diện của ứng dụng lớn (như Redux, Zustand).";
+  if (clean.includes("testing") || clean.includes("jest")) return "Testing (Kiểm thử) giúp kiểm tra tính đúng đắn của mã nguồn thông qua Unit Test, Integration Test và End-to-End Test.";
+  if (clean.includes("prompt")) return "Prompt Engineering là kỹ thuật thiết kế câu lệnh đầu vào tối ưu giúp khai thác tối đa hiệu quả từ các mô hình ngôn ngữ lớn (LLMs).";
+  if (clean.includes("portfolio")) return "Tạo một dự án thực tế để chứng minh năng lực chuyên môn và xây dựng hồ sơ xin việc (portfolio) ấn tượng.";
+  if (clean.includes("internship")) return "Chuẩn bị CV chuyên nghiệp và luyện tập các câu hỏi phỏng vấn để sẵn sàng ứng tuyển thực tập.";
+  return `Kỹ năng thiết yếu được yêu cầu trong các vai trò kỹ sư phần mềm chuyên nghiệp.`;
 }
 
 function getRoadmapSource(careerName) {
@@ -161,22 +161,22 @@ function getRecommendedResources(skillName) {
 
 function getSuggestedProjects(skillName) {
   const clean = skillName.toLowerCase();
-  if (clean.includes('html') || clean.includes('css')) return ['Personal Portfolio', 'Landing Page Website'];
-  if (clean.includes('javascript') || clean.includes('js basics')) return ['Interactive Calculator', 'Todo Application'];
-  if (clean.includes('react')) return ['Movie Search Dashboard', 'Shopping Cart App', 'Trello-like Kanban Board'];
-  if (clean.includes('next.js') || clean.includes('nextjs')) return ['SaaS Platform Landing Page', 'Incremental Blog System'];
-  if (clean.includes('node.js') || clean.includes('nodejs') || clean.includes('express')) return ['RESTful Task API', 'Realtime Chat Server'];
-  if (clean.includes('postgresql') || clean.includes('postgres') || clean.includes('sql') || clean.includes('database')) return ['E-Commerce Database Schema', 'Social Network DB design'];
-  if (clean.includes('docker')) return ['Multi-Container Web App Setup', 'Dockerized Node + Postgres API'];
-  if (clean.includes('git') || clean.includes('github')) return ['PR Collaboration Demo', 'GitHub Action CI pipeline'];
-  return ['Showcase Practice Project', 'Skill Demonstration App'];
+  if (clean.includes('html') || clean.includes('css')) return ['Hồ sơ cá nhân (Portfolio)', 'Trang web giới thiệu (Landing Page)'];
+  if (clean.includes('javascript') || clean.includes('js basics')) return ['Máy tính bỏ túi tương tác', 'Ứng dụng ghi chú công việc (Todo List)'];
+  if (clean.includes('react')) return ['Bảng tìm kiếm phim ảnh', 'Ứng dụng giỏ hàng trực tuyến', 'Bảng Kanban giống Trello'];
+  if (clean.includes('next.js') || clean.includes('nextjs')) return ['Trang giới thiệu nền tảng SaaS', 'Hệ thống Blog cập nhật liên tục'];
+  if (clean.includes('node.js') || clean.includes('nodejs') || clean.includes('express')) return ['API quản lý công việc chuẩn RESTful', 'Máy chủ nhắn tin thời gian thực'];
+  if (clean.includes('postgresql') || clean.includes('postgres') || clean.includes('sql') || clean.includes('database')) return ['Lược đồ cơ sở dữ liệu Thương mại điện tử', 'Thiết kế cơ sở dữ liệu Mạng xã hội'];
+  if (clean.includes('docker')) return ['Thiết lập ứng dụng web đa container', 'Đóng gói Docker ứng dụng Node + Postgres API'];
+  if (clean.includes('git') || clean.includes('github')) return ['PR Collaboration Demo', 'Hệ thống CI/CD bằng GitHub Action'];
+  return ['Dự án thực hành giới thiệu kỹ năng', 'Ứng dụng trình diễn kỹ năng'];
 }
 
 function getSkillImportance(skillName) {
   const impact = getSkillImpact(skillName);
-  if (impact >= 12) return 'Critical 🔥';
-  if (impact >= 10) return 'High';
-  return 'Medium';
+  if (impact >= 12) return 'Cực kỳ quan trọng 🔥';
+  if (impact >= 10) return 'Cao';
+  return 'Trung bình';
 }
 
 function hasSkill(career, skillName) {
@@ -194,34 +194,34 @@ function getVisualRoadmapLevels(career) {
   
   if (name.includes("frontend") || name.includes("react") || name.includes("next.js") || name.includes("ui engineer") || name.includes("ui-engineer")) {
     return [
-      { name: 'Level 1: Web & Internet Basics', skills: ['Internet', 'HTML', 'CSS', 'Responsive Design'].filter(s => hasSkill(career, s)), desc: 'Learn how the web works, HTML structure, and CSS styling' },
-      { name: 'Level 2: JavaScript & Version Control', skills: ['JavaScript', 'Git and GitHub', 'Git', 'GitHub'].filter(s => hasSkill(career, s)), desc: 'Master JavaScript and collaborate with version control systems' },
-      { name: 'Level 3: Package Managers & React', skills: ['Package Managers', 'Vite', 'React', 'CSS Frameworks (Tailwind)', 'Tailwind'].filter(s => hasSkill(career, s)), desc: 'Learn package registries, bundlers, and the React library' },
-      { name: 'Level 4: Advanced React, Next.js & TS', skills: ['State Management', 'TypeScript', 'Next.js', 'Redux Toolkit', 'Zustand', 'Context API'].filter(s => hasSkill(career, s)), desc: 'State management, static type safety, and server-side rendering frameworks' },
-      { name: 'Level 5: Testing, SEO & Performance', skills: ['Testing', 'Unit Testing (Jest/RTL)', 'SEO', 'Performance Optimization', 'Performance', 'Accessibility'].filter(s => hasSkill(career, s)), desc: 'Write test suites, audit page performance, and optimize web accessibility' },
-      { name: 'Level 6: Capstones & Recruitment', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Construct dynamic portfolio pieces and prepare for job applications' }
+      { name: 'Cấp độ 1: Kiến thức Cơ bản Web & Internet', skills: ['Internet', 'HTML', 'CSS', 'Responsive Design'].filter(s => hasSkill(career, s)), desc: 'Tìm hiểu cách hoạt động của web, cấu trúc HTML và thiết kế CSS' },
+      { name: 'Cấp độ 2: JavaScript & Quản lý phiên bản', skills: ['JavaScript', 'Git and GitHub', 'Git', 'GitHub'].filter(s => hasSkill(career, s)), desc: 'Thành thạo JavaScript và cộng tác mã nguồn bằng hệ thống quản lý phiên bản' },
+      { name: 'Cấp độ 3: Quản lý thư viện & React', skills: ['Package Managers', 'Vite', 'React', 'CSS Frameworks (Tailwind)', 'Tailwind'].filter(s => hasSkill(career, s)), desc: 'Học cách sử dụng trình quản lý thư viện, đóng gói mã nguồn và thư viện React' },
+      { name: 'Cấp độ 4: React nâng cao, Next.js & TS', skills: ['State Management', 'TypeScript', 'Next.js', 'Redux Toolkit', 'Zustand', 'Context API'].filter(s => hasSkill(career, s)), desc: 'Quản lý trạng thái ứng dụng, an toàn kiểu tĩnh và framework render phía máy chủ' },
+      { name: 'Cấp độ 5: Kiểm thử, SEO & Hiệu năng', skills: ['Testing', 'Unit Testing (Jest/RTL)', 'SEO', 'Performance Optimization', 'Performance', 'Accessibility'].filter(s => hasSkill(career, s)), desc: 'Viết bộ kiểm thử, đánh giá hiệu năng trang và tối ưu khả năng tiếp cận web' },
+      { name: 'Cấp độ 6: Đồ án & Tuyển dụng', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Xây dựng dự án cá nhân thực tế và chuẩn bị hồ sơ ứng tuyển' }
     ].filter(lvl => lvl.skills.length > 0);
   }
 
   if (name.includes("backend") || name.includes("node.js") || name.includes("nodejs")) {
     return [
-      { name: 'Level 1: Internet & Language Basics', skills: ['Internet', 'JavaScript', 'Node.js Basics', 'Node.js', 'Express'].filter(s => hasSkill(career, s)), desc: 'Understand backend runtimes and build simple request routers' },
-      { name: 'Level 2: Version Control & REST APIs', skills: ['Git and GitHub', 'REST API', 'API Design'].filter(s => hasSkill(career, s)), desc: 'Design RESTful routes and manage code versioning' },
-      { name: 'Level 3: Relational Databases & SQL', skills: ['SQL', 'PostgreSQL', 'Databases'].filter(s => hasSkill(career, s)), desc: 'Set up tables, relations, and write query optimization scripts' },
-      { name: 'Level 4: NoSQL Databases & Security', skills: ['Redis', 'MongoDB', 'Authentication & JWT', 'Security'].filter(s => hasSkill(career, s)), desc: 'Utilize caches, NoSQL stores, and implement security tokens' },
-      { name: 'Level 5: DevOps, Docker & Testing', skills: ['Docker', 'Testing', 'CI/CD', 'Performance Tuning'].filter(s => hasSkill(career, s)), desc: 'Containerize microservices and write endpoint test files' },
-      { name: 'Level 6: Deployment & Recruitment', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Deploy app live to the cloud and perform system mock interviews' }
+      { name: 'Cấp độ 1: Cơ bản Internet & Ngôn ngữ', skills: ['Internet', 'JavaScript', 'Node.js Basics', 'Node.js', 'Express'].filter(s => hasSkill(career, s)), desc: 'Hiểu môi trường thực thi backend và xây dựng định tuyến request đơn giản' },
+      { name: 'Cấp độ 2: Quản lý phiên bản & REST API', skills: ['Git and GitHub', 'REST API', 'API Design'].filter(s => hasSkill(career, s)), desc: 'Thiết kế các tuyến đường RESTful và quản lý phiên bản mã nguồn' },
+      { name: 'Cấp độ 3: Cơ sở dữ liệu Quan hệ & SQL', skills: ['SQL', 'PostgreSQL', 'Databases'].filter(s => hasSkill(career, s)), desc: 'Thiết lập bảng dữ liệu, quan hệ và viết các truy vấn tối ưu' },
+      { name: 'Cấp độ 4: CSDL NoSQL & Bảo mật', skills: ['Redis', 'MongoDB', 'Authentication & JWT', 'Security'].filter(s => hasSkill(career, s)), desc: 'Sử dụng bộ nhớ đệm, lưu trữ NoSQL và triển khai token bảo mật' },
+      { name: 'Cấp độ 5: DevOps, Docker & Kiểm thử', skills: ['Docker', 'Testing', 'CI/CD', 'Performance Tuning'].filter(s => hasSkill(career, s)), desc: 'Đóng gói ứng dụng dạng microservices và viết file kiểm thử endpoint' },
+      { name: 'Cấp độ 6: Triển khai & Tuyển dụng', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Triển khai ứng dụng lên đám mây và thực hành phỏng vấn hệ thống' }
     ].filter(lvl => lvl.skills.length > 0);
   }
 
   if (name.includes("fullstack") || name.includes("full stack") || name.includes("full-stack") || name.includes("software engineer")) {
     return [
-      { name: 'Level 1: Web Basics & Layouts', skills: ['HTML', 'CSS', 'Responsive Design', 'Internet'].filter(s => hasSkill(career, s)), desc: 'HTML foundations and basic style grids' },
-      { name: 'Level 2: Programming Logic & Git', skills: ['JavaScript', 'TypeScript', 'Git and GitHub'].filter(s => hasSkill(career, s)), desc: 'Version control and core programming patterns' },
-      { name: 'Level 3: Client Frameworks & APIs', skills: ['React', 'Next.js', 'REST API', 'Package Managers'].filter(s => hasSkill(career, s)), desc: 'Build front-end application architectures' },
-      { name: 'Level 4: Server Runtimes & Databases', skills: ['Node.js', 'Express', 'SQL', 'PostgreSQL'].filter(s => hasSkill(career, s)), desc: 'Build backend logic layers and save persistent data' },
-      { name: 'Level 5: Containers & CI/CD Pipelines', skills: ['Docker', 'Testing', 'Zustand', 'State Management'].filter(s => hasSkill(career, s)), desc: 'Deploy containerized web applications with test coverages' },
-      { name: 'Level 6: Milestones & Readiness', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Showcase verified software artifacts to hiring panels' }
+      { name: 'Cấp độ 1: Cơ bản về Web & Bố cục', skills: ['HTML', 'CSS', 'Responsive Design', 'Internet'].filter(s => hasSkill(career, s)), desc: 'Nền tảng HTML và bố cục giao diện CSS' },
+      { name: 'Cấp độ 2: Tư duy Lập trình & Git', skills: ['JavaScript', 'TypeScript', 'Git and GitHub'].filter(s => hasSkill(career, s)), desc: 'Hệ thống quản lý phiên bản và cấu trúc lập trình cốt lõi' },
+      { name: 'Cấp độ 3: Framework giao diện & API', skills: ['React', 'Next.js', 'REST API', 'Package Managers'].filter(s => hasSkill(career, s)), desc: 'Xây dựng kiến trúc ứng dụng phía giao diện (Front-end)' },
+      { name: 'Cấp độ 4: Môi trường phía Server & CSDL', skills: ['Node.js', 'Express', 'SQL', 'PostgreSQL'].filter(s => hasSkill(career, s)), desc: 'Xây dựng tầng xử lý logic backend và lưu trữ dữ liệu lâu dài' },
+      { name: 'Cấp độ 5: Container & Hệ thống CI/CD', skills: ['Docker', 'Testing', 'Zustand', 'State Management'].filter(s => hasSkill(career, s)), desc: 'Triển khai ứng dụng web đóng gói dạng container kèm độ phủ kiểm thử' },
+      { name: 'Cấp độ 6: Cột mốc & Sẵn sàng đi làm', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Trình diễn sản phẩm phần mềm đã xác thực với nhà tuyển dụng' }
     ].filter(lvl => lvl.skills.length > 0);
   }
 
@@ -233,11 +233,11 @@ function getVisualRoadmapLevels(career) {
   const lvl4 = adv.slice(Math.ceil(adv.length / 2));
 
   return [
-    { name: 'Level 1: Foundations', skills: lvl1, desc: 'Introductory requirements to get started' },
-    { name: 'Level 2: Code Practice & Logic', skills: lvl2, desc: 'Core implementation syntax and toolsets' },
-    { name: 'Level 3: Libraries & Patterns', skills: lvl3, desc: 'Intermediate patterns and specialized frameworks' },
-    { name: 'Level 4: Operations & Tuning', skills: lvl4, desc: 'Advanced topics, performance and deploy details' },
-    { name: 'Level 5: Milestones & Career Prep', skills: ['Portfolio Project', 'Internship Ready'], desc: 'Build projects and prepare for recruiter calls' }
+    { name: 'Cấp độ 1: Nền tảng', skills: lvl1, desc: 'Yêu cầu giới thiệu nhập môn để bắt đầu' },
+    { name: 'Cấp độ 2: Tư duy & Thực hành viết Code', skills: lvl2, desc: 'Cú pháp triển khai cốt lõi và bộ công cụ' },
+    { name: 'Cấp độ 3: Thư viện & Khuôn mẫu thiết kế', skills: lvl3, desc: 'Cấu trúc trung cấp và framework chuyên sâu' },
+    { name: 'Cấp độ 4: Vận hành & Tối ưu', skills: lvl4, desc: 'Chủ đề nâng cao, tối ưu hiệu năng và chi tiết triển khai' },
+    { name: 'Cấp độ 5: Cột mốc & Chuẩn bị xin việc', skills: ['Portfolio Project', 'Internship Ready'], desc: 'Xây dựng dự án và chuẩn bị trả lời nhà tuyển dụng' }
   ].filter(lvl => lvl.skills.length > 0);
 }
 
@@ -433,7 +433,7 @@ export default function CareerDetail() {
           type: s.type,
           status,
           impact: getSkillImpact(s.name),
-          duration: s.type === 'core' ? '4-6 days' : '7-10 days',
+          duration: s.type === 'core' ? '4-6 ngày' : '7-10 ngày',
           started_at: status === 'IN_PROGRESS' ? new Date().toISOString().split('T')[0] : null,
           completed_at: status === 'DONE' ? new Date().toISOString().split('T')[0] : null,
           updated_at: new Date().toISOString().split('T')[0],
@@ -802,51 +802,51 @@ export default function CareerDetail() {
 
     return [
       {
-        weeks: 'Weeks 1-2',
-        title: 'Foundational Basics',
+        weeks: 'Tuần 1-2',
+        title: 'Kiến thức Nền tảng',
         skills: core.slice(0, 2),
-        action: `Practice syntax and construct simple projects in: ${core.slice(0, 2).join(', ') || 'basics'}.`,
-        duration: '1-2 hours / day'
+        action: `Thực hành cú pháp và xây dựng dự án đơn giản với: ${core.slice(0, 2).join(', ') || 'cơ bản'}.`,
+        duration: '1-2 giờ / ngày'
       },
       {
-        weeks: 'Weeks 3-4',
-        title: 'Core Programming & Version Control',
+        weeks: 'Tuần 3-4',
+        title: 'Lập trình cốt lõi & Quản lý phiên bản',
         skills: core.slice(2, 4),
-        action: `Understand asynchronous flows, standard functions and state control in: ${core.slice(2, 4).join(', ') || 'programming logic'}.`,
-        duration: '2 hours / day'
+        action: `Hiểu luồng xử lý bất đồng bộ, các hàm chuẩn và quản lý trạng thái trong: ${core.slice(2, 4).join(', ') || 'logic lập trình'}.`,
+        duration: '2 giờ / ngày'
       },
       {
-        weeks: 'Weeks 5-6',
-        title: isFrontend ? 'Framework Setup & APIs' : 'Databases & REST APIs',
+        weeks: 'Tuần 5-6',
+        title: isFrontend ? 'Thiết lập Framework & API' : 'Cơ sở dữ liệu & REST API',
         skills: core.slice(4).concat(adv.slice(0, 1)),
         action: isFrontend 
-          ? `Learn npm package setups and construct reusable React UI modules.`
-          : `Design data models, write structured queries, and establish secure endpoints.`,
-        duration: '1.5-2 hours / day'
+          ? `Học thiết lập package npm và xây dựng các module UI React tái sử dụng được.`
+          : `Thiết kế mô hình dữ liệu, viết câu truy vấn có cấu trúc và thiết lập endpoint bảo mật.`,
+        duration: '1.5-2 giờ / ngày'
       },
       {
-        weeks: 'Weeks 7-8',
-        title: isFrontend ? 'Advanced Client Frameworks' : 'Framework Patterns & Optimization',
+        weeks: 'Tuần 7-8',
+        title: isFrontend ? 'Framework phía Client nâng cao' : 'Mô hình Framework & Tối ưu hóa',
         skills: adv.slice(1, 3),
-        action: `Implement advanced hooks, performance tracing, routing layouts, and testing suites.`,
-        duration: '2 hours / day'
+        action: `Triển khai hook nâng cao, theo dõi hiệu năng, bố cục định tuyến và bộ kiểm thử.`,
+        duration: '2 giờ / ngày'
       },
       {
-        weeks: 'Weeks 9-10',
-        title: 'Build Portfolio Project',
+        weeks: 'Tuần 9-10',
+        title: 'Xây dựng dự án Portfolio',
         skills: ['Portfolio Project'],
-        action: `Implement the recommended project: "${targetProject}". Commit code daily and push to GitHub.`,
-        duration: '3 hours / day'
+        action: `Triển khai dự án được đề xuất: "${targetProject}". Viết code mỗi ngày và push lên GitHub.`,
+        duration: '3 giờ / ngày'
       },
       {
-        weeks: 'Weeks 11-12',
-        title: isFrontend ? 'Testing, SEO & Accessibility' : 'Docker, Cloud Deploy & Interviews',
+        weeks: 'Tuần 11-12',
+        title: isFrontend ? 'Kiểm thử, SEO & Khả năng tiếp cận' : 'Docker, Triển khai đám mây & Phỏng vấn',
         skills: isFrontend 
           ? ['SEO', 'Testing', 'Accessibility', 'Resume practice']
           : adv.slice(3).concat(['Resume practice']),
         action: isFrontend
-          ? `Run SEO checks, implement accessibility rules, and practice frontend interviews.`
-          : `Containerize and deploy application demo. Fine-tune CV reflecting newly completed roadmap skills.`,
+          ? `Chạy kiểm tra SEO, triển khai các quy tắc tiếp cận web và thực hành phỏng vấn frontend.`
+          : `Đóng gói container và triển khai ứng dụng demo. Cập nhật CV với các kỹ năng lộ trình vừa hoàn thành.`,
         duration: '2 hours / day'
       }
     ].filter(w => w.skills.length > 0 || w.title.includes('Portfolio') || w.title.includes('Deploy') || w.title.includes('SEO'));
@@ -857,7 +857,7 @@ export default function CareerDetail() {
       <div className="h-full w-full flex items-center justify-center py-32">
         <div className="flex flex-col items-center space-y-4">
           <Loader2 size={32} className="text-blue-500 animate-spin" />
-          <p className="text-slate-600 dark:text-slate-400 font-medium animate-pulse">Syncing career roadmap data...</p>
+          <p className="text-slate-600 dark:text-slate-400 font-medium animate-pulse">Đang đồng bộ dữ liệu lộ trình nghề nghiệp...</p>
         </div>
       </div>
     );
@@ -866,8 +866,8 @@ export default function CareerDetail() {
   if (!career) {
     return (
       <div className="text-center py-32">
-        <p className="text-slate-500 font-bold">Career path not found</p>
-        <button onClick={() => navigate('/career-universe')} className="mt-4 text-blue-500 text-sm font-bold hover:underline">← Back to Career Universe</button>
+        <p className="text-slate-500 font-bold">Không tìm thấy lộ trình nghề nghiệp</p>
+        <button onClick={() => navigate('/career-universe')} className="mt-4 text-blue-500 text-sm font-bold hover:underline">← Quay lại Career Universe</button>
       </div>
     );
   }
@@ -881,7 +881,7 @@ export default function CareerDetail() {
         onClick={() => navigate('/career-universe')}
         className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors"
       >
-        <ArrowLeft size={16} /> Back to Career Universe
+        <ArrowLeft size={16} /> Quay lại Career Universe
       </button>
 
       {/* Redesigned Hero Card */}
@@ -891,20 +891,20 @@ export default function CareerDetail() {
           {/* Left Info */}
           <div className="flex-1 space-y-4">
             <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-500 bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">Detailed Path</span>
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-500 bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">Lộ trình chi tiết</span>
               <h1 className="text-3xl font-black text-slate-900 dark:text-white mt-2 mb-2 leading-tight">{career.careerName}</h1>
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">{career.description}</p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
               <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border ${demand.bg} ${demand.border} ${demand.text}`}>
-                <TrendingUp size={12} /> Market Demand: {demand.label}
+                <TrendingUp size={12} /> Nhu cầu thị trường: {demand.label}
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
-                💰 Salary: {career.salaryRange}
+                💰 Mức lương: {career.salaryRange}
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border bg-blue-500/5 border-blue-500/10 text-blue-600 dark:text-blue-400">
-                📚 Source: {getRoadmapSource(career.careerName).replace('https://', '')}
+                📚 Nguồn: {getRoadmapSource(career.careerName).replace('https://', '')}
               </span>
             </div>
             
@@ -920,28 +920,28 @@ export default function CareerDetail() {
               
               {/* Contribution Breakdown */}
               <div className="flex flex-col justify-center gap-1 border-l border-slate-200 dark:border-white/10 pl-5 text-[10px] font-bold text-slate-600 dark:text-slate-400 h-full shrink-0">
-                <span className="text-[8px] font-extrabold uppercase tracking-wider text-slate-400 mb-1 block">Score Contribution</span>
-                <div className="flex justify-between gap-4 w-32"><span>Academic:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.academicScore / 100) * 30)}/30</span></div>
-                <div className="flex justify-between gap-4 w-32"><span>Industry:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.industryScore / 100) * 40)}/40</span></div>
-                <div className="flex justify-between gap-4 w-32"><span>Portfolio:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.portfolioScore / 100) * 20)}/20</span></div>
-                <div className="flex justify-between gap-4 w-32"><span>Behavior:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.behaviorScore / 100) * 10)}/10</span></div>
+                <span className="text-[8px] font-extrabold uppercase tracking-wider text-slate-400 mb-1 block">Đóng góp điểm số</span>
+                <div className="flex justify-between gap-4 w-32"><span>Học tập:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.academicScore / 100) * 30)}/30</span></div>
+                <div className="flex justify-between gap-4 w-32"><span>Chuyên môn:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.industryScore / 100) * 40)}/40</span></div>
+                <div className="flex justify-between gap-4 w-32"><span>Dự án:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.portfolioScore / 100) * 20)}/20</span></div>
+                <div className="flex justify-between gap-4 w-32"><span>Thái độ:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.behaviorScore / 100) * 10)}/10</span></div>
               </div>
 
               <div className="space-y-2 w-full md:w-48 border-l border-slate-200 dark:border-white/10 pl-5 flex flex-col justify-between h-full">
                 <div>
                   <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                    <span>Roadmap Progress</span>
+                    <span>Tiến độ Lộ trình</span>
                     <span>{computedMetrics.progressPercent}%</span>
                   </div>
                   <div className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden mt-1.5">
                     <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500" style={{ width: `${computedMetrics.progressPercent}%` }} />
                   </div>
-                  <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-1.5">Completed: {computedMetrics.doneTasksCount}/{computedMetrics.totalTasksCount} skills</p>
+                  <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-1.5">Đã hoàn thành: {computedMetrics.doneTasksCount}/{computedMetrics.totalTasksCount} kỹ năng</p>
                 </div>
                 {getLearningStreak() > 0 && (
                   <div className="pt-2">
                     <span className="inline-flex items-center gap-1 text-[9px] font-extrabold text-amber-500 bg-amber-500/10 px-2 py-1 rounded-md border border-amber-500/20 w-fit animate-pulse">
-                      🔥 {getLearningStreak()} Day Learning Streak
+                      🔥 {getLearningStreak()} Ngày Học Liên Tục
                     </span>
                   </div>
                 )}
@@ -954,13 +954,13 @@ export default function CareerDetail() {
       {/* Tabs Navigation */}
       <div className="flex border-b border-slate-200 dark:border-white/10 overflow-x-auto gap-2 pb-px scrollbar-none">
         {[
-          { id: 'overview', label: 'Overview', icon: <Info size={14} /> },
-          { id: 'roadmap', label: 'Visual Roadmap', icon: <BookOpen size={14} /> },
-          { id: 'board', label: 'Learning Board', icon: <KanbanSquare size={14} />, badge: mode === 'STUDENT' },
-          { id: 'skills', label: 'Skill Gap', icon: <Target size={14} />, badge: mode === 'STUDENT' },
-          { id: 'portfolio', label: 'AI Portfolio', icon: <FolderGit2 size={14} /> },
-          { id: 'plan90', label: '90-Day Plan', icon: <Calendar size={14} />, badge: mode === 'STUDENT' },
-          { id: 'action', label: 'Action Plan', icon: <Award size={14} />, show: mode === 'STUDENT' }
+          { id: 'overview', label: 'Tổng quan', icon: <Info size={14} /> },
+          { id: 'roadmap', label: 'Bản đồ Lộ trình', icon: <BookOpen size={14} /> },
+          { id: 'board', label: 'Bảng học tập', icon: <KanbanSquare size={14} />, badge: mode === 'STUDENT' },
+          { id: 'skills', label: 'Lỗ hổng Kỹ năng', icon: <Target size={14} />, badge: mode === 'STUDENT' },
+          { id: 'portfolio', label: 'Dự án cá nhân (AI)', icon: <FolderGit2 size={14} /> },
+          { id: 'plan90', label: 'Kế hoạch 90 ngày', icon: <Calendar size={14} />, badge: mode === 'STUDENT' },
+          { id: 'action', label: 'Kế hoạch Hành động', icon: <Award size={14} />, show: mode === 'STUDENT' }
         ].map(tab => {
           if (tab.show === false) return null;
           const isActive = activeTab === tab.id;
@@ -996,26 +996,26 @@ export default function CareerDetail() {
             <div className="lg:col-span-2 space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Briefcase size={18} className="text-blue-500" /> Professional Roles & Operations
+                  <Briefcase size={18} className="text-blue-500" /> Vai trò & Công việc Thực tế
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  In this role, you will participate directly in drafting, building, and optimizing modern software infrastructure. You will work with engineers, product owners, and designers to transition requirements into stable, test-backed code deployed onto live production servers.
+                  Trong vai trò này, bạn sẽ tham gia trực tiếp vào việc thiết kế, xây dựng và tối ưu hóa hạ tầng phần mềm hiện đại. Bạn sẽ làm việc cùng với các kỹ sư, chủ sản phẩm (product owners) và nhà thiết kế để chuyển đổi các yêu cầu nghiệp vụ thành mã nguồn ổn định, được kiểm thử đầy đủ và triển khai trên các máy chủ môi trường production thực tế.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                   <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10">
-                    <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">Common Work Operations</h4>
+                    <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">Công việc thường nhật</h4>
                     <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 list-disc pl-4">
-                      <li>Write clean, scalable, and test-supported code.</li>
-                      <li>Participate in review pipelines and architecture audits.</li>
-                      <li>Debug errors and improve application latency.</li>
+                      <li>Viết mã nguồn sạch, dễ mở rộng và có viết test đầy đủ.</li>
+                      <li>Tham gia vào quy trình đánh giá mã nguồn (code review) và thiết kế kiến trúc.</li>
+                      <li>Khắc phục lỗi hệ thống và tối ưu hóa hiệu năng ứng dụng.</li>
                     </ul>
                   </div>
                   <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10">
-                    <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">Core Requirements</h4>
+                    <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">Yêu cầu cốt lõi</h4>
                     <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 list-disc pl-4">
-                      <li>Adapt quickly to evolving tools and specifications.</li>
-                      <li>Excellent problem-solving and peer communication.</li>
-                      <li>Proficient usage of Git version control and GitHub boards.</li>
+                      <li>Thích ứng nhanh chóng với các công cụ và tiêu chuẩn công nghệ mới.</li>
+                      <li>Kỹ năng giải quyết vấn đề và giao tiếp nhóm xuất sắc.</li>
+                      <li>Sử dụng thành thạo hệ thống quản lý phiên bản Git và các bảng quản lý GitHub.</li>
                     </ul>
                   </div>
                 </div>
@@ -1024,7 +1024,7 @@ export default function CareerDetail() {
               {career.futureTrend && (
                 <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 bg-gradient-to-r from-blue-500/5 to-indigo-500/5">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-3">
-                    <TrendingUp size={18} className="text-blue-500" /> Future Market Trends
+                    <TrendingUp size={18} className="text-blue-500" /> Xu hướng thị trường tương lai
                   </h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
                     {career.futureTrend}
@@ -1035,10 +1035,10 @@ export default function CareerDetail() {
 
             <div className="space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Technical Skills Summary</h3>
+                <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Tóm tắt Kỹ năng Kỹ thuật</h3>
                 <div className="space-y-3">
                   <div>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Core Skills ({career.coreSkills?.length})</span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Kỹ năng cốt lõi ({career.coreSkills?.length})</span>
                     <div className="flex flex-wrap gap-1.5">
                       {(career.coreSkills || []).map((s, i) => (
                         <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10">{s}</span>
@@ -1046,7 +1046,7 @@ export default function CareerDetail() {
                     </div>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Advanced Skills ({career.advancedSkills?.length})</span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Kỹ năng nâng cao ({career.advancedSkills?.length})</span>
                     <div className="flex flex-wrap gap-1.5">
                       {(career.advancedSkills || []).map((s, i) => (
                         <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-blue-500/5 px-2.5 py-1 rounded-lg border border-blue-500/10 text-blue-600 dark:text-blue-400">{s}</span>
@@ -1055,7 +1055,7 @@ export default function CareerDetail() {
                   </div>
                   {(career.tools || []).length > 0 && (
                     <div>
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Common Tools</span>
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Công cụ phổ biến</span>
                       <div className="flex flex-wrap gap-1.5">
                         {career.tools.map((t, i) => (
                           <span key={i} className="text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10">{t}</span>
@@ -1078,8 +1078,8 @@ export default function CareerDetail() {
               <div className="absolute top-0 right-0 p-4 text-slate-500/5 pointer-events-none"><BookOpen size={200} /></div>
               
               <div className="text-center mb-8">
-                <h3 className="text-lg font-black text-slate-900 dark:text-white">Timeline Roadmap</h3>
-                <p className="text-xs text-slate-500 mt-1">Click skill nodes to check mapped university courses, readiness weight, and submit learning evidence</p>
+                <h3 className="text-lg font-black text-slate-900 dark:text-white">Dòng thời gian Lộ trình</h3>
+                <p className="text-xs text-slate-500 mt-1">Nhấp vào các nút kỹ năng để xem môn học ánh xạ, điểm ảnh hưởng và nộp minh chứng học tập</p>
               </div>
 
               <div className="w-full flex flex-col items-center z-10 relative">
@@ -1136,7 +1136,7 @@ export default function CareerDetail() {
             <div className="space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Info size={16} className="text-blue-500" /> Detail Inspector
+                  <Info size={16} className="text-blue-500" /> Bộ kiểm tra chi tiết
                 </h3>
                 
                 {selectedSkill ? (
@@ -1145,16 +1145,16 @@ export default function CareerDetail() {
                       <h4 className="text-base font-black text-slate-900 dark:text-white">{selectedSkill.name}</h4>
                       <div className="flex flex-wrap gap-1.5 mt-1.5">
                         <span className="text-[9px] font-black uppercase text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 shrink-0">
-                          +{getSkillImpact(selectedSkill.name)} Pt Impact
+                          +{getSkillImpact(selectedSkill.name)} Điểm ảnh hưởng
                         </span>
                         {selectedSkill.task?.started_at && (
                           <span className="text-[9px] font-black uppercase text-slate-500 bg-slate-100 dark:bg-white/5 px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/10 shrink-0">
-                            ⏱️ {getDaysOfLearning(selectedSkill.task)} {getDaysOfLearning(selectedSkill.task) === 1 ? 'Day' : 'Days'} Active
+                            ⏱️ Đang học: {getDaysOfLearning(selectedSkill.task)} ngày
                           </span>
                         )}
                         {selectedSkill.task?.completed_at && (
                           <span className="text-[9px] font-black uppercase text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 shrink-0">
-                            ✓ Done in {getDaysOfLearning(selectedSkill.task)} {getDaysOfLearning(selectedSkill.task) === 1 ? 'Day' : 'Days'}
+                            ✓ Hoàn thành trong {getDaysOfLearning(selectedSkill.task)} ngày
                           </span>
                         )}
                       </div>
@@ -1167,7 +1167,7 @@ export default function CareerDetail() {
                     {/* Importance & Resources Info */}
                     <div className="space-y-3 pt-1">
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span>Roadmap Source:</span>
+                        <span>Nguồn lộ trình:</span>
                         <a 
                           href={getRoadmapSource(selectedSkill.name) === 'https://roadmap.sh' ? getRoadmapSource(career.careerName) : getRoadmapSource(selectedSkill.name)} 
                           target="_blank" 
@@ -1179,10 +1179,10 @@ export default function CareerDetail() {
                       </div>
 
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span>Importance Level:</span>
+                        <span>Mức độ quan trọng:</span>
                         <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${
-                          getSkillImportance(selectedSkill.name) === 'Critical 🔥' ? 'bg-red-500/10 text-red-500 border border-red-500/20' :
-                          getSkillImportance(selectedSkill.name) === 'High' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' :
+                          getSkillImportance(selectedSkill.name) === 'Cực kỳ quan trọng 🔥' ? 'bg-red-500/10 text-red-500 border border-red-500/20' :
+                          getSkillImportance(selectedSkill.name) === 'Cao' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' :
                           'bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10'
                         }`}>
                           {getSkillImportance(selectedSkill.name)}
@@ -1190,26 +1190,26 @@ export default function CareerDetail() {
                       </div>
 
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span>Readiness Impact:</span>
-                        <span className="text-emerald-600 dark:text-emerald-400 font-extrabold">+{getSkillImpact(selectedSkill.name)} Pts</span>
+                        <span>Điểm ảnh hưởng:</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-extrabold">+{getSkillImpact(selectedSkill.name)} điểm</span>
                       </div>
 
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span>Est. Learning Time:</span>
-                        <span className="text-slate-900 dark:text-white font-black">{selectedSkill.task?.duration || '4-6 days'}</span>
+                        <span>Thời gian học dự kiến:</span>
+                        <span className="text-slate-900 dark:text-white font-black">{selectedSkill.task?.duration || '4-6 ngày'}</span>
                       </div>
                     </div>
 
                     {/* Recommended Resources */}
                     {selectedSkill.resources && (
                       <div className="space-y-2">
-                        <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200">Recommended Resources:</h5>
+                        <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200">Tài liệu khuyên dùng:</h5>
                         <div className="grid grid-cols-2 gap-2">
                           <a href={selectedSkill.resources.docs} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors">
-                            <BookOpen size={12} /> Official Docs
+                            <BookOpen size={12} /> Tài liệu chính thức
                           </a>
                           <a href={selectedSkill.resources.video} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors">
-                            <Play size={12} /> Video Tutorial
+                            <Play size={12} /> Video hướng dẫn
                           </a>
                         </div>
                       </div>
@@ -1218,7 +1218,7 @@ export default function CareerDetail() {
                     {/* Suggested Projects */}
                     {selectedSkill.projects && selectedSkill.projects.length > 0 && (
                       <div className="space-y-1.5">
-                        <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200">Suggested Practice Projects:</h5>
+                        <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200">Dự án thực hành gợi ý:</h5>
                         <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1 list-disc pl-4 font-medium">
                           {selectedSkill.projects.map((proj, i) => (
                             <li key={i}>{proj}</li>
@@ -1230,14 +1230,14 @@ export default function CareerDetail() {
                     {/* Status Changer Actions */}
                     {mode === 'STUDENT' && selectedSkill.task && (
                       <div className="border-t border-b border-slate-100 dark:border-white/5 py-3 space-y-2">
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Change Status:</span>
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Thay đổi trạng thái:</span>
                         
                         {selectedSkill.task.status === 'TODO' && (
                           <button
                             onClick={() => moveTask(selectedSkill.task, 'IN_PROGRESS')}
                             className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl cursor-pointer"
                           >
-                            <Play size={12} /> Start Learning
+                            <Play size={12} /> Bắt đầu học
                           </button>
                         )}
 
@@ -1247,13 +1247,13 @@ export default function CareerDetail() {
                               onClick={() => moveTask(selectedSkill.task, 'TODO')}
                               className="flex-1 inline-flex items-center justify-center gap-1 px-4 py-2 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-white/5"
                             >
-                              Cancel
+                              Hủy
                             </button>
                             <button
                               onClick={() => moveTask(selectedSkill.task, 'DONE')}
                               className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl cursor-pointer"
                             >
-                              <CheckCircle size={12} /> Mark Done
+                              <CheckCircle size={12} /> Xong
                             </button>
                           </div>
                         )}
@@ -1273,23 +1273,23 @@ export default function CareerDetail() {
                                     'text-amber-500'
                                   }`}>
                                     <Award size={10} /> 
-                                    {selectedSkill.task.evidenceStatus === 'VERIFIED' ? 'Verified Evidence ✓' :
-                                     selectedSkill.task.evidenceStatus === 'REJECTED' ? 'Evidence Rejected ✗' :
-                                     'Pending Verification ⏳'}
+                                    {selectedSkill.task.evidenceStatus === 'VERIFIED' ? 'Minh chứng đã xác thực ✓' :
+                                     selectedSkill.task.evidenceStatus === 'REJECTED' ? 'Minh chứng bị từ chối ✗' :
+                                     'Đang chờ xác thực ⏳'}
                                   </span>
                                 </div>
                                 <div className="space-y-1">
                                   <a href={selectedSkill.task.github} target="_blank" rel="noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
-                                    <GithubIcon size={12} /> GitHub Repository <ArrowUpRight size={10} />
+                                    <GithubIcon size={12} /> Kho lưu trữ GitHub <ArrowUpRight size={10} />
                                   </a>
                                   {selectedSkill.task.demo && (
                                     <a href={selectedSkill.task.demo} target="_blank" rel="noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
-                                      <Link2 size={12} /> Live Demo <ArrowUpRight size={10} />
+                                      <Link2 size={12} /> Bản demo trực tiếp <ArrowUpRight size={10} />
                                     </a>
                                   )}
                                   {selectedSkill.task.screenshot && (
                                     <a href={selectedSkill.task.screenshot} target="_blank" rel="noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
-                                      <Link2 size={12} /> Screenshot URL <ArrowUpRight size={10} />
+                                      <Link2 size={12} /> Ảnh chụp màn hình <ArrowUpRight size={10} />
                                     </a>
                                   )}
                                 </div>
@@ -1301,13 +1301,13 @@ export default function CareerDetail() {
                                       onClick={() => simulateEvidenceReview(selectedSkill.task.id, 'VERIFIED')}
                                       className="flex-1 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[9px] font-black rounded-lg cursor-pointer text-center"
                                     >
-                                      Approve
+                                      Duyệt
                                     </button>
                                     <button
                                       onClick={() => simulateEvidenceReview(selectedSkill.task.id, 'REJECTED')}
                                       className="flex-1 py-1 bg-rose-600 hover:bg-rose-700 text-white text-[9px] font-black rounded-lg cursor-pointer text-center"
                                     >
-                                      Reject
+                                      Từ chối
                                     </button>
                                   </div>
                                 )}
@@ -1318,25 +1318,25 @@ export default function CareerDetail() {
                                       onClick={() => simulateEvidenceReview(selectedSkill.task.id, 'PENDING')}
                                       className="w-full py-1 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-[9px] font-bold rounded-lg cursor-pointer text-center"
                                     >
-                                      Resubmit for Review
+                                      Nộp lại để xét duyệt
                                     </button>
                                   </div>
                                 )}
                               </div>
                             ) : (
-                              <p className="text-[10px] text-slate-400 italic">No links submitted yet.</p>
+                              <p className="text-[10px] text-slate-400 italic">Chưa nộp liên kết minh chứng.</p>
                             )}
                             <button
                               onClick={() => moveTask(selectedSkill.task, 'DONE')}
                               className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-bold rounded-xl cursor-pointer hover:bg-blue-500/5"
                             >
-                              <PlusCircle size={12} /> Update GitHub Links
+                              <PlusCircle size={12} /> Cập nhật liên kết GitHub
                             </button>
                             <button
                               onClick={() => moveTask(selectedSkill.task, 'TODO')}
                               className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 border border-red-500/20 text-red-500 text-xs font-bold rounded-xl cursor-pointer hover:bg-red-500/5"
                             >
-                              Revert to TO DO
+                              Chuyển lại về TO DO
                             </button>
                           </div>
                         )}
@@ -1345,7 +1345,7 @@ export default function CareerDetail() {
 
                     {/* Academic Course Mapping */}
                     <div>
-                      <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">School Course Mapping:</h5>
+                      <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">Ánh xạ môn học ở trường:</h5>
                       {selectedSkill.courses.length > 0 ? (
                         <div className="space-y-2">
                           {selectedSkill.courses.map((c, i) => (
@@ -1359,13 +1359,13 @@ export default function CareerDetail() {
                                 c.status === 'FAILED' ? 'bg-rose-500/10 border-rose-500/20 text-rose-500 animate-pulse' :
                                 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500'
                               }`}>
-                                {c.status === 'PASSED' ? 'Passed' : c.status === 'FAILED' ? 'Failed' : 'Not Started'}
+                                {c.status === 'PASSED' ? 'Đã đạt' : c.status === 'FAILED' ? 'Chưa đạt' : 'Chưa bắt đầu'}
                               </span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <p className="text-[10px] text-slate-500 italic">This skill is not taught directly in the school curriculum - self-study is highly recommended.</p>
+                        <p className="text-[10px] text-slate-500 italic">Kỹ năng này không được dạy trực tiếp trong chương trình học - bạn nên tự học thêm.</p>
                       )}
                     </div>
                   </div>
@@ -1374,16 +1374,16 @@ export default function CareerDetail() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-indigo-600 dark:text-cyan-400">
                       <Sparkles size={16} />
-                      <h4 className="text-xs font-black uppercase tracking-wider">AI Coach Overview</h4>
+                      <h4 className="text-xs font-black uppercase tracking-wider">Tổng quan từ AI Coach</h4>
                     </div>
                     
                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-2.5 shadow-sm">
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span>Readiness level:</span>
+                        <span>Cấp độ sẵn sàng:</span>
                         <span className="text-blue-500 font-extrabold uppercase">{getReadinessConfig(computedMetrics.readinessScore).label}</span>
                       </div>
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span>Estimated Study Time:</span>
+                        <span>Thời gian học dự kiến:</span>
                         <span className="text-slate-900 dark:text-white font-black">{analysis?.estimatedMonthsText || 'N/A'}</span>
                       </div>
                     </div>
@@ -1391,15 +1391,15 @@ export default function CareerDetail() {
                     {/* FAILED courses warnings */}
                     {failedCourses.length > 0 && (
                       <div className="p-4 rounded-xl bg-rose-500/5 border border-rose-500/20 space-y-2 animate-pulse">
-                        <span className="text-[10px] font-black text-rose-500 uppercase tracking-widest block">⚠️ Academic Debt Warning</span>
+                        <span className="text-[10px] font-black text-rose-500 uppercase tracking-widest block">⚠️ Cảnh báo nợ môn học</span>
                         <p className="text-[11px] text-slate-600 dark:text-slate-300 font-semibold leading-relaxed">
-                          You have failed the following courses related to this career path. Re-take them immediately to restore your match score:
+                          Bạn chưa đạt các môn học sau liên quan đến lộ trình này. Hãy đăng ký học lại ngay để cải thiện điểm số phù hợp:
                         </p>
                         <div className="space-y-1">
                           {failedCourses.map((c, i) => (
                             <div key={i} className="text-xs font-black text-rose-500 flex justify-between">
                               <span>• {c.courseId} - {c.courseName}</span>
-                              <span>Failed 🔴</span>
+                              <span>Chưa đạt 🔴</span>
                             </div>
                           ))}
                         </div>
@@ -1408,26 +1408,26 @@ export default function CareerDetail() {
 
                     {/* AI Forecast panel */}
                     <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20 space-y-3">
-                      <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">🔮 AI Learning Forecast</span>
+                      <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">🔮 Dự báo học tập từ AI</span>
                       <div className="space-y-2">
                         {computedMetrics.forecasts.length > 0 ? (
                           computedMetrics.forecasts.map((f, i) => (
                             <div key={i} className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
                               <span className="truncate pr-2">• {f.action}</span>
-                              <span className="text-emerald-600 dark:text-emerald-400 font-black">+{f.points} Pt</span>
+                              <span className="text-emerald-600 dark:text-emerald-400 font-black">+{f.points} điểm</span>
                             </div>
                           ))
                         ) : (
-                          <p className="text-xs text-slate-500 italic">All milestones completed!</p>
+                          <p className="text-xs text-slate-500 italic">Tất cả mục tiêu đã hoàn thành!</p>
                         )}
                       </div>
                       <div className="border-t border-emerald-500/10 pt-2 flex justify-between items-center text-xs font-black text-emerald-600 dark:text-emerald-400">
-                        <span>Projected Readiness:</span>
+                        <span>Điểm sẵn sàng dự kiến:</span>
                         <span>{Math.min(100, computedMetrics.readinessScore + computedMetrics.forecasts.reduce((sum, f) => sum + f.points, 0))}/100</span>
                       </div>
                     </div>
                     
-                    <p className="text-[10px] text-slate-400 font-bold italic text-center">Click a skill node to view detailed course mapping and actions.</p>
+                    <p className="text-[10px] text-slate-400 font-bold italic text-center">Nhấp vào nút kỹ năng để xem ánh xạ môn học và hành động chi tiết.</p>
                   </div>
                 )}
               </div>
@@ -1470,18 +1470,18 @@ export default function CareerDetail() {
                       <span className="text-[9px] font-black uppercase text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 shrink-0">+{task.impact} Pt</span>
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-slate-400">
-                      <span>Estimate: {task.duration}</span>
+                      <span>Dự kiến: {task.duration}</span>
                       <button 
                         onClick={() => moveTask(task, 'IN_PROGRESS')}
                         className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       >
-                        Start Learning <Play size={10} />
+                        Bắt đầu học <Play size={10} />
                       </button>
                     </div>
                   </div>
                 ))}
                 {columns.TODO.length === 0 && (
-                  <p className="text-xs text-slate-500 italic text-center py-8">No tasks left to learn!</p>
+                  <p className="text-xs text-slate-500 italic text-center py-8">Không còn kỹ năng nào cần học!</p>
                 )}
               </div>
             </div>
@@ -1518,8 +1518,8 @@ export default function CareerDetail() {
                     </div>
                     {task.started_at && (
                       <div className="flex flex-col gap-0.5 text-[9px] text-slate-400 font-bold">
-                        <p className="flex items-center gap-1"><Calendar size={10} /> Start Date: {task.started_at}</p>
-                        <p className="flex items-center gap-1">⏱️ Learning: {getDaysOfLearning(task)} {getDaysOfLearning(task) === 1 ? 'day' : 'days'}</p>
+                        <p className="flex items-center gap-1"><Calendar size={10} /> Ngày bắt đầu: {task.started_at}</p>
+                        <p className="flex items-center gap-1">⏱️ Thời gian học: {getDaysOfLearning(task)} ngày</p>
                       </div>
                     )}
                     <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-white/5">
@@ -1527,20 +1527,20 @@ export default function CareerDetail() {
                         onClick={() => moveTask(task, 'TODO')}
                         className="text-[10px] font-bold text-slate-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
-                        <ChevronLeft size={10} /> Cancel
+                        <ChevronLeft size={10} /> Hủy
                       </button>
                       <button 
                         onClick={() => moveTask(task, 'DONE')}
                         className="text-[10px] font-black text-emerald-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
-                        Done <CheckCircle size={10} />
+                        Xong <CheckCircle size={10} />
                       </button>
                     </div>
                   </div>
                 ))}
                 {columns.IN_PROGRESS.length === 0 && (
                   <div className="border border-dashed border-slate-300 dark:border-white/10 rounded-xl p-8 text-center text-slate-500 italic text-xs">
-                    Drag & drop cards here or click "Start Learning"
+                    Kéo thả thẻ vào đây hoặc nhấn "Bắt đầu học"
                   </div>
                 )}
               </div>
@@ -1583,39 +1583,39 @@ export default function CareerDetail() {
                         task.evidenceStatus === 'PENDING' ? 'bg-amber-500/10 border-amber-200 text-amber-600 dark:text-amber-400 animate-pulse' :
                         'bg-slate-100 border-slate-200 text-slate-500'
                       }`}>
-                        {task.evidenceStatus === 'VERIFIED' ? 'Verified' :
-                         task.evidenceStatus === 'REJECTED' ? 'Rejected' :
-                         task.evidenceStatus === 'PENDING' ? 'Pending' :
-                         'Completed'}
+                        {task.evidenceStatus === 'VERIFIED' ? 'Đã xác thực' :
+                         task.evidenceStatus === 'REJECTED' ? 'Bị từ chối' :
+                         task.evidenceStatus === 'PENDING' ? 'Đang chờ duyệt' :
+                         'Đã hoàn thành'}
                       </span>
                     </div>
 
                     <div className="space-y-1 text-[9px] text-slate-400 font-bold">
                       {task.completed_at && (
                         <div className="flex flex-col gap-0.5">
-                          <p className="flex items-center gap-1"><Calendar size={10} /> Completed: {task.completed_at}</p>
-                          {task.started_at && <p className="flex items-center gap-1">⏱️ Took: {getDaysOfLearning(task)} {getDaysOfLearning(task) === 1 ? 'day' : 'days'}</p>}
+                          <p className="flex items-center gap-1"><Calendar size={10} /> Hoàn thành: {task.completed_at}</p>
+                          {task.started_at && <p className="flex items-center gap-1">⏱️ Thời gian học: {getDaysOfLearning(task)} ngày</p>}
                         </div>
                       )}
                       {task.github ? (
                         <div className="flex flex-col gap-1 mt-1.5 pt-1.5 border-t border-slate-100 dark:border-white/5 space-y-1">
-                          <div className="text-[9px] uppercase tracking-wider text-slate-500">Learning Evidence:</div>
+                          <div className="text-[9px] uppercase tracking-wider text-slate-500">Minh chứng học tập:</div>
                           <a href={task.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
-                            <GithubIcon size={10} /> GitHub Repository <ArrowUpRight size={8} />
+                            <GithubIcon size={10} /> Kho lưu trữ GitHub <ArrowUpRight size={8} />
                           </a>
                           {task.demo && (
                             <a href={task.demo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
-                              <Link2 size={10} /> Live Demo <ArrowUpRight size={8} />
+                              <Link2 size={10} /> Bản demo trực tiếp <ArrowUpRight size={8} />
                             </a>
                           )}
                           {task.screenshot && (
                             <a href={task.screenshot} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
-                              <Link2 size={10} /> Screenshot <ArrowUpRight size={8} />
+                              <Link2 size={10} /> Ảnh chụp màn hình <ArrowUpRight size={8} />
                             </a>
                           )}
 
                           {task.evidenceStatus === 'VERIFIED' && (
-                            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold text-emerald-500 mt-1"><Award size={8} /> Portfolio Score Added (+{Math.round(task.impact * 0.3)} Pts)</span>
+                            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold text-emerald-500 mt-1"><Award size={8} /> Đã cộng điểm dự án cá nhân (+{Math.round(task.impact * 0.3)} điểm)</span>
                           )}
 
                           {task.evidenceStatus === 'PENDING' && (
@@ -1624,13 +1624,13 @@ export default function CareerDetail() {
                                 onClick={() => simulateEvidenceReview(task.id, 'VERIFIED')}
                                 className="flex-1 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[8px] font-black rounded cursor-pointer text-center"
                               >
-                                Approve
+                                Duyệt
                               </button>
                               <button
                                 onClick={() => simulateEvidenceReview(task.id, 'REJECTED')}
                                 className="flex-1 py-0.5 bg-rose-600 hover:bg-rose-700 text-white text-[8px] font-black rounded cursor-pointer text-center"
                               >
-                                Reject
+                                Từ chối
                               </button>
                             </div>
                           )}
@@ -1641,7 +1641,7 @@ export default function CareerDetail() {
                             onClick={() => moveTask(task, 'DONE')}
                             className="inline-flex items-center gap-1 text-[9px] font-extrabold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                           >
-                            <PlusCircle size={10} /> Add GitHub Evidence
+                            <PlusCircle size={10} /> Thêm minh chứng GitHub
                           </button>
                         </div>
                       )}
@@ -1649,7 +1649,7 @@ export default function CareerDetail() {
                   </div>
                 ))}
                 {columns.DONE.length === 0 && (
-                  <p className="text-xs text-slate-500 italic text-center py-8">No completed tasks yet</p>
+                  <p className="text-xs text-slate-500 italic text-center py-8">Chưa có kỹ năng nào hoàn thành</p>
                 )}
               </div>
             </div>
@@ -1665,25 +1665,25 @@ export default function CareerDetail() {
                 {/* Have Skills */}
                 <div className="glass-card rounded-2xl border border-emerald-200 dark:border-emerald-500/20 p-6 bg-emerald-500/5">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                    <CheckCircle size={18} className="text-emerald-500" /> Acquired Skills ({ (analysis?.skillGap?.core?.have?.length || 0) + (analysis?.skillGap?.advanced?.have?.length || 0) })
+                    <CheckCircle size={18} className="text-emerald-500" /> Kỹ năng đã có ({ (analysis?.skillGap?.core?.have?.length || 0) + (analysis?.skillGap?.advanced?.have?.length || 0) })
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">Core Skills</p>
+                      <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">Kỹ năng Cốt lõi</p>
                       <div className="flex flex-wrap gap-2">
                         {(analysis?.skillGap?.core?.have || []).map((s, i) => (
                           <span key={i} className="text-xs font-bold bg-white dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/30 px-3 py-1.5 rounded-lg text-emerald-700 dark:text-emerald-400">{s}</span>
                         ))}
-                        {(analysis?.skillGap?.core?.have || []).length === 0 && <span className="text-xs text-slate-500 italic">No core skills acquired yet</span>}
+                        {(analysis?.skillGap?.core?.have || []).length === 0 && <span className="text-xs text-slate-500 italic">Chưa có kỹ năng cốt lõi nào</span>}
                       </div>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">Advanced Skills</p>
+                      <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">Kỹ năng Nâng cao</p>
                       <div className="flex flex-wrap gap-2">
                         {(analysis?.skillGap?.advanced?.have || []).map((s, i) => (
                           <span key={i} className="text-xs font-bold bg-white dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-500/30 px-3 py-1.5 rounded-lg text-emerald-700 dark:text-emerald-400">{s}</span>
                         ))}
-                        {(analysis?.skillGap?.advanced?.have || []).length === 0 && <span className="text-xs text-slate-500 italic">No advanced skills acquired yet</span>}
+                        {(analysis?.skillGap?.advanced?.have || []).length === 0 && <span className="text-xs text-slate-500 italic">Chưa có kỹ năng nâng cao nào</span>}
                       </div>
                     </div>
                   </div>
@@ -1692,25 +1692,25 @@ export default function CareerDetail() {
                 {/* Missing Skills */}
                 <div className="glass-card rounded-2xl border border-rose-200 dark:border-rose-500/20 p-6 bg-rose-500/5">
                   <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                    <XCircle size={18} className="text-rose-500" /> Missing Skills ({ (analysis?.skillGap?.core?.missing?.length || 0) + (analysis?.skillGap?.advanced?.missing?.length || 0) })
+                    <XCircle size={18} className="text-rose-500" /> Kỹ năng còn thiếu ({ (analysis?.skillGap?.core?.missing?.length || 0) + (analysis?.skillGap?.advanced?.missing?.length || 0) })
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <p className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-2">Missing Core Skills</p>
+                      <p className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-2">Kỹ năng Cốt lõi còn thiếu</p>
                       <div className="flex flex-wrap gap-2">
                         {(analysis?.skillGap?.core?.missing || []).map((s, i) => (
                           <span key={i} className="text-xs font-bold bg-white dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/30 px-3 py-1.5 rounded-lg text-rose-700 dark:text-rose-400">{s}</span>
                         ))}
-                        {(analysis?.skillGap?.core?.missing || []).length === 0 && <span className="text-xs text-slate-500 italic">No missing core skills!</span>}
+                        {(analysis?.skillGap?.core?.missing || []).length === 0 && <span className="text-xs text-slate-500 italic">Không thiếu kỹ năng cốt lõi nào!</span>}
                       </div>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-2">Missing Advanced Skills</p>
+                      <p className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-2">Kỹ năng Nâng cao còn thiếu</p>
                       <div className="flex flex-wrap gap-2">
                         {(analysis?.skillGap?.advanced?.missing || []).map((s, i) => (
                           <span key={i} className="text-xs font-bold bg-white dark:bg-rose-950/20 border border-rose-200 dark:border-rose-500/30 px-3 py-1.5 rounded-lg text-rose-700 dark:text-rose-400">{s}</span>
                         ))}
-                        {(analysis?.skillGap?.advanced?.missing || []).length === 0 && <span className="text-xs text-slate-500 italic">No missing advanced skills!</span>}
+                        {(analysis?.skillGap?.advanced?.missing || []).length === 0 && <span className="text-xs text-slate-500 italic">Không thiếu kỹ năng nâng cao nào!</span>}
                       </div>
                     </div>
                   </div>
@@ -1719,8 +1719,8 @@ export default function CareerDetail() {
             ) : (
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-12 text-center">
                 <Brain size={32} className="mx-auto text-blue-500 mb-3 animate-pulse" />
-                <h4 className="font-bold text-slate-900 dark:text-white mb-2">Features for Enrolled Students Only</h4>
-                <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">Please log in with an FPT student account to view personalized skill gap audits.</p>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-2">Tính năng chỉ dành cho sinh viên</h4>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">Vui lòng đăng nhập bằng tài khoản sinh viên FPT để xem phân tích lỗ hổng kỹ năng cá nhân.</p>
               </div>
             )}
           </div>
@@ -1732,7 +1732,7 @@ export default function CareerDetail() {
             <div className="lg:col-span-2 space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <FolderGit2 size={18} className="text-blue-500" /> Recommended Projects for {career.careerName}
+                  <FolderGit2 size={18} className="text-blue-500" /> Các dự án khuyên dùng cho {career.careerName}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {(career.portfolios || []).map((p, i) => (
@@ -1753,9 +1753,9 @@ export default function CareerDetail() {
                 <div className="glass-card rounded-2xl border border-blue-200 dark:border-blue-500/20 p-6 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 space-y-4">
                   <div>
                     <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                      <Sparkles size={18} className="text-blue-500" /> AI Portfolio Generator
+                      <Sparkles size={18} className="text-blue-500" /> Trình tạo dự án cá nhân bằng AI
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1">Our AI analyzes your missing roadmap skills and devises a tailored project idea that maximizes your portfolio readiness.</p>
+                    <p className="text-xs text-slate-500 mt-1">AI của chúng tôi phân tích các kỹ năng còn thiếu trên lộ trình của bạn để đề xuất ý tưởng dự án tối ưu hóa điểm số sẵn sàng.</p>
                   </div>
 
                   <button
@@ -1766,12 +1766,12 @@ export default function CareerDetail() {
                     {generating ? (
                       <>
                         <Loader2 size={14} className="animate-spin" />
-                        Generating portfolio specs...
+                        Đang tạo cấu trúc dự án...
                       </>
                     ) : (
                       <>
                         <Sparkles size={14} />
-                        Generate Tailored Project Spec
+                        Tạo ý tưởng dự án cá nhân
                       </>
                     )}
                   </button>
@@ -1784,12 +1784,12 @@ export default function CareerDetail() {
                           <p className="text-xs text-slate-500 mt-1">{generatedProject.description}</p>
                         </div>
                         <span className="text-xs font-black px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-500 whitespace-nowrap">
-                          +{generatedProject.boost}% Readiness
+                          +{generatedProject.boost}% Điểm sẵn sàng
                         </span>
                       </div>
 
                       <div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Stack details:</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Chi tiết công nghệ:</span>
                         <div className="flex flex-wrap gap-1.5">
                           {generatedProject.techStack.map((tech, i) => (
                             <span key={i} className="text-xs font-extrabold px-2 py-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg text-slate-700 dark:text-slate-300">{tech}</span>
@@ -1798,7 +1798,7 @@ export default function CareerDetail() {
                       </div>
 
                       <div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Main Features to build:</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Các tính năng chính cần xây dựng:</span>
                         <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 pl-4 list-disc">
                           {generatedProject.features.map((feature, i) => (
                             <li key={i}>{feature}</li>
@@ -1813,18 +1813,18 @@ export default function CareerDetail() {
 
             <div className="space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Why build a portfolio?</h3>
+                <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Tại sao cần xây dựng Portfolio?</h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Tech recruiters value actual, verified code outputs far more than grade cards. A repository demonstrates:
+                  Các nhà tuyển dụng công nghệ đánh giá cao sản phẩm mã nguồn thực tế và đã xác thực hơn bảng điểm thuyết trình. Một repo GitHub chứng minh:
                 </p>
                 <div className="space-y-2.5 text-xs text-slate-600 dark:text-slate-400">
                   <div className="flex items-start gap-2">
                     <CheckCircle size={14} className="text-emerald-500 shrink-0 mt-0.5" />
-                    <span>Real understanding of backend/frontend setups.</span>
+                    <span>Hiểu biết thực tế về việc thiết lập backend/frontend.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle size={14} className="text-emerald-500 shrink-0 mt-0.5" />
-                    <span>Experience with Git workflows, code hygiene, and project readme files.</span>
+                    <span>Kinh nghiệm làm việc với Git, cấu trúc mã sạch đẹp và mô tả dự án rõ ràng.</span>
                   </div>
                 </div>
               </div>
@@ -1837,9 +1837,9 @@ export default function CareerDetail() {
           <div className="space-y-6 animate-fadeIn">
             <div>
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Calendar size={18} className="text-blue-500" /> Personalized 90-Day Learning Plan
+                <Calendar size={18} className="text-blue-500" /> Kế hoạch học tập 90 ngày cá nhân hóa
               </h3>
-              <p className="text-xs text-slate-500 mt-1">A week-by-week blueprint structured dynamically to cover your remaining roadmap tasks.</p>
+              <p className="text-xs text-slate-500 mt-1">Lộ trình theo từng tuần được xây dựng động để bao quát các kỹ năng còn thiếu của bạn.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1857,7 +1857,7 @@ export default function CareerDetail() {
 
                   {p.skills.length > 0 && (
                     <div>
-                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Focus:</span>
+                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Trọng tâm:</span>
                       <div className="flex flex-wrap gap-1">
                         {p.skills.map((s, si) => (
                           <span key={si} className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">{s}</span>
@@ -1878,9 +1878,9 @@ export default function CareerDetail() {
             <div className="lg:col-span-2 glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-5">
               <div>
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Rocket size={18} className="text-blue-500" /> Quick-Win Action Items
+                  <Rocket size={18} className="text-blue-500" /> Hành động ưu tiên đạt điểm nhanh
                 </h3>
-                <p className="text-xs text-slate-500 mt-1">Implement these top actions to boost your match scores and readiness levels.</p>
+                <p className="text-xs text-slate-500 mt-1">Thực hiện các hành động hàng đầu sau đây để nhanh chóng nâng cao mức độ sẵn sàng.</p>
               </div>
 
               <div className="space-y-3">
@@ -1889,12 +1889,12 @@ export default function CareerDetail() {
                     <div className="flex items-center gap-3">
                       <span className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 text-xs font-black">{i + 1}</span>
                       <div>
-                        <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">Acquire skill {s.skill}</span>
-                        <span className="text-[10px] text-slate-500 block">Missing core roadmap requirement</span>
+                        <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">Học kỹ năng {s.skill}</span>
+                        <span className="text-[10px] text-slate-500 block">Yêu cầu cốt lõi còn thiếu trên lộ trình</span>
                       </div>
                     </div>
                     <span className="text-xs font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-500/20 whitespace-nowrap">
-                      +{s.gainedReadiness || 10} Pts
+                      +{s.gainedReadiness || 10} điểm
                     </span>
                   </div>
                 ))}
@@ -1903,12 +1903,12 @@ export default function CareerDetail() {
                   <div className="flex items-center gap-3">
                     <span className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-500 text-xs font-black">4</span>
                     <div>
-                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">Submit GitHub Project Evidence</span>
-                      <span className="text-[10px] text-slate-500 block">Practicing skills in real codebases</span>
+                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">Nộp minh chứng dự án GitHub</span>
+                      <span className="text-[10px] text-slate-500 block">Thực hành kỹ năng trên dự án thực tế</span>
                     </div>
                   </div>
                   <span className="text-xs font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-500/20 whitespace-nowrap">
-                    +7 Pts
+                    +7 điểm
                   </span>
                 </div>
 
@@ -1916,12 +1916,12 @@ export default function CareerDetail() {
                   <div className="flex items-center gap-3">
                     <span className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-500 text-xs font-black">5</span>
                     <div>
-                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">Boost Attendance & Participation</span>
-                      <span className="text-[10px] text-slate-500 block">Raises Behavior Index</span>
+                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200 block">Nâng cao chuyên cần & sự tham gia</span>
+                      <span className="text-[10px] text-slate-500 block">Cải thiện chỉ số thái độ</span>
                     </div>
                   </div>
                   <span className="text-xs font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-200 dark:border-emerald-500/20 whitespace-nowrap">
-                    +3 Pts
+                    +3 điểm
                   </span>
                 </div>
               </div>
@@ -1930,13 +1930,13 @@ export default function CareerDetail() {
             {/* Score breakdown & Forecast */}
             <div className="space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
-                <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Readiness Score Breakdown</h3>
+                <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Chi tiết điểm số sẵn sàng</h3>
                 <div className="space-y-3">
                   {[
-                    { label: 'Academic (School Courses)', val: Math.round((computedMetrics.academicScore / 100) * 30), max: 30, desc: 'Calculated from completed prerequisite courses.' },
-                    { label: 'Industry Skills (Roadmap)', val: Math.round((computedMetrics.industryScore / 100) * 40), max: 40, desc: 'Calculated from completed roadmap capabilities.' },
-                    { label: 'Portfolio (Project Evidence)', val: Math.round((computedMetrics.portfolioScore / 100) * 20), max: 20, desc: 'Calculated from uploaded GitHub repositories.' },
-                    { label: 'Behavior (Participation)', val: Math.round((computedMetrics.behaviorScore / 100) * 10), max: 10, desc: 'Calculated from class attendance logs.' },
+                    { label: 'Học tập (Môn học ở trường)', val: Math.round((computedMetrics.academicScore / 100) * 30), max: 30, desc: 'Được tính từ các môn học tiên quyết đã hoàn thành.' },
+                    { label: 'Kỹ năng thực tế (Lộ trình)', val: Math.round((computedMetrics.industryScore / 100) * 40), max: 40, desc: 'Được tính từ các kỹ năng hoàn thành trên lộ trình.' },
+                    { label: 'Dự án cá nhân (Minh chứng)', val: Math.round((computedMetrics.portfolioScore / 100) * 20), max: 20, desc: 'Được tính từ các kho lưu trữ GitHub được nộp và duyệt.' },
+                    { label: 'Thái độ chuyên cần (Tham gia lớp)', val: Math.round((computedMetrics.behaviorScore / 100) * 10), max: 10, desc: 'Được tính từ điểm danh chuyên cần của bạn.' },
                   ].map((item, idx) => (
                     <div key={idx} className="space-y-1 pb-2 border-b border-slate-100 dark:border-white/5 last:border-0 last:pb-0">
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
@@ -1951,11 +1951,11 @@ export default function CareerDetail() {
 
               {computedMetrics.forecasts.length > 0 && (
                 <div className="glass-card rounded-2xl border border-emerald-200 dark:border-emerald-500/20 p-6 bg-emerald-500/5 text-center space-y-2">
-                  <h3 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Projected Readiness Forecast</h3>
+                  <h3 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Dự báo điểm sẵn sàng tương lai</h3>
                   <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400">
                     {Math.min(100, computedMetrics.readinessScore + computedMetrics.forecasts.reduce((sum, f) => sum + f.points, 0))}/100
                   </div>
-                  <p className="text-[11px] text-slate-500">Completing the next goals on your timeline will increase your level to:</p>
+                  <p className="text-[11px] text-slate-500">Hoàn thành các mục tiêu tiếp theo trên dòng thời gian sẽ giúp bạn đạt cấp độ:</p>
                   <span className="inline-block px-3 py-1 bg-emerald-500 text-white font-extrabold text-xs rounded-lg">
                     {getReadinessConfig(Math.min(100, computedMetrics.readinessScore + computedMetrics.forecasts.reduce((sum, f) => sum + f.points, 0))).label}
                   </span>
@@ -1973,14 +1973,14 @@ export default function CareerDetail() {
           <div className="glass-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4 animate-scaleUp">
             <div>
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Award size={18} className="text-emerald-500" /> Learning Evidence Submission
+                <Award size={18} className="text-emerald-500" /> Nộp minh chứng học tập
               </h3>
-              <p className="text-xs text-slate-500 mt-1">Provide evidence of practicing **{evidenceModalTask.title}** to boost your Portfolio score.</p>
+              <p className="text-xs text-slate-500 mt-1">Cung cấp minh chứng thực hành kỹ năng **{evidenceModalTask.title}** để tăng điểm dự án cá nhân.</p>
             </div>
 
             <form onSubmit={handleSubmitEvidence} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">GitHub Repository (Required)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Kho lưu trữ GitHub (Bắt buộc)</label>
                 <input
                   type="url"
                   required
@@ -1992,7 +1992,7 @@ export default function CareerDetail() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Live Demo / YouTube URL (Optional)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Demo trực tiếp / Link YouTube (Không bắt buộc)</label>
                 <input
                   type="url"
                   placeholder="https://my-demo-app.vercel.app"
@@ -2003,7 +2003,7 @@ export default function CareerDetail() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Screenshot URL (Optional)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Link ảnh chụp màn hình (Không bắt buộc)</label>
                 <input
                   type="url"
                   placeholder="https://imgur.com/my-screenshot.png"
@@ -2019,20 +2019,20 @@ export default function CareerDetail() {
                   onClick={() => setEvidenceModalTask(null)}
                   className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer"
                 >
-                  Cancel
+                  Hủy
                 </button>
                 <button
                   type="button"
                   onClick={handleCompleteWithoutEvidence}
                   className="px-4 py-2.5 rounded-xl border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 hover:bg-blue-500/5 cursor-pointer"
                 >
-                  Complete without Evidence
+                  Hoàn thành không cần minh chứng
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
                 >
-                  Confirm & Complete
+                  Xác nhận & Hoàn thành
                 </button>
               </div>
             </form>
