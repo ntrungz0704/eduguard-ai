@@ -67,12 +67,12 @@ describe('intentRouter', () => {
     expect(routeIntent('can thiệp như thế nào')).toBe('INTERVENTION_REC_INTENT');
   });
 
-  test('routes "timeline" to FALLBACK_INTENT (if unsupported by keyword router)', () => {
-    expect(routeIntent('timeline học tập')).toBe('FALLBACK_INTENT');
+  test('routes "timeline" to PREDICT_FUTURE_INTENT', () => {
+    expect(routeIntent('timeline học tập')).toBe('PREDICT_FUTURE_INTENT');
   });
 
-  test('routes "pearson" to FALLBACK_INTENT', () => {
-    expect(routeIntent('thuật toán pearson hoạt động thế nào')).toBe('FALLBACK_INTENT');
+  test('routes "pearson" to EXPLAIN_MODEL_INTENT', () => {
+    expect(routeIntent('thuật toán pearson hoạt động thế nào')).toBe('EXPLAIN_MODEL_INTENT');
   });
 
   test('uses NLP intent for CLASS_ANALYTICS', () => {

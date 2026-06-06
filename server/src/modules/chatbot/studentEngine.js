@@ -8,9 +8,47 @@ const advisorService = require('../../modules/advisor/service');
 const syllabusEngine = require('./syllabusEngine');
 const interventionEngine = require('./interventionEngine');
 const careerEngine = require('../../modules/advisor/career-engine');
+const { explainRisk, generateAcademicTimeline } = require('../../ai/engines/index');
+const knowledgeCache = require('../../modules/knowledge/cache');
+
+function getGraphDataForCourse(courseId) {
+  const coursesDb = knowledgeCache.get('courses') || [];
+  const riskChains = knowledgeCache.get('riskChains') || {};
+  
+  const code = String(courseId || '').toUpperCase().trim();
+  const chain = riskChains[code] || { impacts: [] };
+  const impacted = chain.impacts || [];
+  
+  // Calculate blocked credits
+  let blockedCredits = 0;
+  impacted.forEach(cCode => {
+    const course = coursesDb.find(c => c.courseCode === cCode);
+    if (course) {
+      blockedCredits += course.credits || 3;
+    } else {
+      blockedCredits += 3;
+    }
+  });
+  
+  // Generate nodes & edges
+  const nodes = [{ id: code, label: code, type: 'source' }];
+  const edges = [];
+  
+  impacted.forEach(cCode => {
+    nodes.push({ id: cCode, label: cCode, type: 'target' });
+    edges.push({ source: code, target: cCode });
+  });
+  
+  return {
+    impacted,
+    blockedCredits,
+    nodes,
+    edges
+  };
+}
 
 async function executeStudentDecision({ intent, activeMssv, entities, session }) {
-  const nonLoginIntents = ['STUDENT_CAREER_PATH_INTENT', 'STUDENT_RISK_CHAIN_INTENT', 'STUDENT_GREETING_INTENT', 'STUDENT_BEST_CAREER_INTENT'];
+  const nonLoginIntents = ['STUDENT_CAREER_PATH_INTENT', 'STUDENT_RISK_CHAIN_INTENT', 'STUDENT_GREETING_INTENT', 'STUDENT_BEST_CAREER_INTENT', 'EXPLAIN_MODEL_INTENT'];
   if (!activeMssv && !nonLoginIntents.includes(intent)) {
     return { type: 'NEED_LOGIN' };
   }
@@ -22,21 +60,39 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
     student = { 
       mssv: 'SE182001', 
       name: 'Nguyễn Văn A',
-      scores: {
-        'COM108': 8.5,
-        'WEB1013': 9.0,
-        'WEB1043': 7.0, // Passed some frontend stuff
-        'COM2012': 4.0, // Failed DB
-        'PRO1014': 6.0
-      }
+      scores: [
+        { courseId: 'COM108', value: 8.5, status: 'PASSED', attendance: 100 },
+        { courseId: 'WEB1013', value: 9.0, status: 'PASSED', attendance: 100 },
+        { courseId: 'WEB1043', value: 7.0, status: 'PASSED', attendance: 100 },
+        { courseId: 'COM2012', value: 4.0, status: 'FAILED', attendance: 55 },
+        { courseId: 'PRO1014', value: 6.0, status: 'PASSED', attendance: 90 }
+      ]
     };
   } else if (activeMssv && !student) {
     return { type: 'STUDENT_NOT_FOUND', mssv: activeMssv };
   }
 
   let riskData = null;
-  if (activeMssv) {
-    riskData = await advisorService.analyzeStudent(activeMssv, "Backend Developer");
+  let timeline = null;
+  if (student) {
+    const explained = explainRisk(student);
+    const criticalFailures = (explained.failedCourses || []).map(c => c.courseId || c);
+    const reasons = (explained.explanations || []).map(e => `${e.factor}: ${e.detail}`);
+    
+    const rawAnalysis = await advisorService.analyzeStudent(student.mssv || activeMssv, "Backend Developer");
+    
+    riskData = {
+      ...rawAnalysis,
+      riskLevel: explained.level || rawAnalysis.riskLevel || 'LOW',
+      criticalFailures: criticalFailures,
+      reasons: reasons.length > 0 ? reasons : ['Không có yếu tố rủi ro đáng kể.']
+    };
+    
+    const timelineArray = generateAcademicTimeline(student, explained);
+    timeline = {
+      events: timelineArray,
+      forecastText: timelineArray.map(t => `- Tuần ${t.week}: ${t.event || t.type}`).join('\n') || 'Tiến độ học tập ổn định.'
+    };
   }
   
   // Resolve courseCode from entities (e.g. %WEB101%) or session history
@@ -54,21 +110,24 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
       return {
         type: 'STUDENT_OVERVIEW',
         student,
-        riskData
+        riskData,
+        timeline
       };
 
     case 'STUDENT_RISK_INTENT':
       return {
         type: 'STUDENT_RISK',
         student,
-        riskData
+        riskData,
+        timeline
       };
 
     case 'STUDENT_RECOMMENDATION_INTENT':
       return {
         type: 'STUDENT_RECOMMENDATION',
         student,
-        riskData
+        riskData,
+        timeline
       };
 
     case 'STUDENT_MOTIVATION_INTENT':
@@ -106,7 +165,7 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
       return { type: 'STUDENT_SYLLABUS_PREREQ', text: "Bạn muốn xem điều kiện tiên quyết của môn nào? Vui lòng cung cấp mã môn.", student };
       
     case 'STUDENT_INTERVENTION_REASON_INTENT':
-      if (!courseCode && riskData.failedCourses && riskData.failedCourses.length > 0) {
+      if (!courseCode && riskData && riskData.failedCourses && riskData.failedCourses.length > 0) {
         courseCode = riskData.failedCourses[0].courseId;
       }
       if (courseCode) {
@@ -167,8 +226,20 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
 
     case 'STUDENT_RISK_CHAIN_INTENT': {
       const targetCourseId = courseCode || 'COM108';
-      return { type: 'STUDENT_RISK_CHAIN', courseId: targetCourseId };
+      const graphData = getGraphDataForCourse(targetCourseId);
+      return { type: 'STUDENT_RISK_CHAIN', courseId: targetCourseId, graphData };
     }
+
+    case 'STUDENT_TIMELINE_INTENT':
+      return {
+        type: 'STUDENT_TIMELINE',
+        student,
+        riskData,
+        timeline
+      };
+
+    case 'EXPLAIN_MODEL_INTENT':
+      return { type: 'EXPLAIN_MODEL' };
 
     case 'STUDENT_FALLBACK_INTENT':
     default:

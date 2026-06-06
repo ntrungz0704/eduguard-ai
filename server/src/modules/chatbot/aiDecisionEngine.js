@@ -171,6 +171,9 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const courseId = entities.courseId || (entities.allCourseIds && entities.allCourseIds.length > 0 ? entities.allCourseIds[0] : 'COM108');
       return { type: 'RISK_CHAIN', courseId };
     }
+
+    case 'EXPLAIN_MODEL_INTENT':
+      return { type: 'EXPLAIN_MODEL' };
     
     default:
       return { type: 'FALLBACK', hasActiveStudent: !!activeMssv, activeMssv };

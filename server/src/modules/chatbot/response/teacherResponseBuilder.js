@@ -643,10 +643,36 @@ ${chartStr}`,
   }
 }
 
+function buildExplainModelResponse() {
+  return {
+    text: `# 🧠 Mô hình Dự báo Học tập HK-Pearson V2.1
+
+Hệ thống EduGuard sử dụng thuật toán **HK-Pearson V2.1** cải tiến để dự báo rủi ro học tập của sinh viên. Dưới đây là chi tiết nguyên lý hoạt động của mô hình:
+
+### 1. Phân tích Tương quan Pearson
+- **Nguyên lý**: Thuật toán đo lường mức độ tương quan tuyến tính giữa điểm số các môn cơ sở/tiền quyết (ví dụ: điểm toán, lập trình cơ bản) với các môn chuyên ngành tiếp theo.
+- **Hệ số tương quan (r)**: Dao động từ \`-1\` đến \`1\`. Giá trị gần \`1\` thể hiện sự tương quan thuận mạnh mẽ (ví dụ: học tốt môn Database sẽ có xu hướng học tốt môn Java Web).
+
+### 2. Bộ lọc Outlier IQR (Interquartile Range)
+- **Mục đích**: Loại bỏ các điểm số dị biệt (outliers) làm sai lệch mô hình (ví dụ: sinh viên bỏ học đột ngột hoặc các trường hợp đặc biệt khác).
+- **Cách hoạt động**: Xác định phân vị \`Q1\` (25%) và \`Q3\` (75%). Tính \`IQR = Q3 - Q1\`. Mọi điểm nằm ngoài khoảng \`[Q1 - 1.5 * IQR, Q3 + 1.5 * IQR]\` sẽ bị loại bỏ để đảm bảo dữ liệu huấn luyện sạch và chính xác.
+
+### 3. Hiệu chuẩn Thống kê (Statistical Calibration)
+- **Điều chỉnh**: Điểm số dự báo được hiệu chuẩn dựa trên trọng số chuyên cần (Attendance), điểm Lab/Thực hành, và xu hướng học tập gần đây.
+- **Độ tin cậy**: Hệ thống liên tục cập nhật và hiệu chuẩn lại các tham số tương quan mỗi khi có dữ liệu điểm mới từ LMS để tăng độ chính xác dự báo thực tế.
+
+💡 *Bạn có thể mô phỏng điểm số bằng tính năng 'What-If GPA Simulation' để xem dự báo rủi ro thay đổi thế nào dưới các kịch bản học tập khác nhau!*`,
+    chartData: null,
+    actions: ['Mô phỏng điểm GPA', 'Tình hình lớp']
+  };
+}
+
 function buildTeacherResponse(decisionData) {
   if (!decisionData) return buildFallbackResponse(null);
 
   switch (decisionData.type) {
+    case 'EXPLAIN_MODEL':
+      return buildExplainModelResponse();
     case 'GREETING':
       return buildGreetingResponse();
     case 'CAPABILITIES':

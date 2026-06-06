@@ -36,6 +36,7 @@ function routeIntent(msg, nlpIntent = 'None', activeStudent = null, entities = [
     // LEVEL 6: KNOWLEDGE
     'career.path': 'CAREER_PATH_INTENT',
     'knowledge.risk_chain': 'RISK_CHAIN_INTENT',
+    'query.explain_model': 'EXPLAIN_MODEL_INTENT',
 
     // UTILS
     'greeting': 'GREETING_INTENT',
@@ -67,13 +68,14 @@ function routeIntent(msg, nlpIntent = 'None', activeStudent = null, entities = [
 function keywordHeuristicRoute(msgLower, activeStudent) {
   if (msgLower.includes('so sánh')) return 'COMPARE_STUDENTS_INTENT';
   if (msgLower.includes('khẩn cấp') || msgLower.includes('ai cần cứu')) return 'PRIORITY_ENGINE_INTENT';
-  if (msgLower.includes('dự báo') || msgLower.includes('tương lai')) return 'PREDICT_FUTURE_INTENT';
+  if (msgLower.includes('dự báo') || msgLower.includes('tương lai') || msgLower.includes('timeline') || msgLower.includes('lộ trình học tập')) return 'PREDICT_FUTURE_INTENT';
   if (msgLower.includes('nếu') || msgLower.includes('giả lập') || msgLower.includes('mô phỏng')) return 'SCENARIO_SIMULATION_INTENT';
   if (msgLower.includes('nguyên nhân') || msgLower.includes('vì sao')) return 'ROOT_CAUSE_XAI_INTENT';
   if (msgLower.includes('can thiệp') || msgLower.includes('cứu') || msgLower.includes('lộ trình')) return 'INTERVENTION_REC_INTENT';
   if (msgLower.includes('chuyên cần') || msgLower.includes('điểm danh') || msgLower.includes('vắng')) return 'ATTENDANCE_ANALYSIS_INTENT';
   if (msgLower.includes('muốn theo') || msgLower.includes('backend') || msgLower.includes('frontend')) return 'CAREER_PATH_INTENT';
   if (msgLower.includes('ảnh hưởng môn nào')) return 'RISK_CHAIN_INTENT';
+  if (msgLower.includes('thuật toán') || msgLower.includes('pearson') || msgLower.includes('hoạt động thế nào') || msgLower.includes('ols') || msgLower.includes('iqr') || msgLower.includes('hệ thống hoạt động')) return 'EXPLAIN_MODEL_INTENT';
   if (msgLower.includes('tình hình lớp') || msgLower.includes('tổng quan') || msgLower.includes('thống kê')) return 'CLASS_ANALYTICS_INTENT';
   if (msgLower.includes('môn dễ rớt') || msgLower.includes('nút thắt')) return 'CLASS_ANALYTICS_INTENT'; // Fallback to class analytics if no specific intent
   

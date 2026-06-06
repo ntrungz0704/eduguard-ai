@@ -6,7 +6,7 @@
 const chatSessions = {};
 
 // Clean up expired sessions (older than 30 mins) every 5 minutes
-setInterval(() => {
+const cleanupInterval = setInterval(() => {
   const now = Date.now();
   const timeoutMs = 30 * 60 * 1000;
   for (const [sid, session] of Object.entries(chatSessions)) {
@@ -16,6 +16,10 @@ setInterval(() => {
     }
   }
 }, 5 * 60 * 1000);
+
+if (cleanupInterval && typeof cleanupInterval.unref === 'function') {
+  cleanupInterval.unref();
+}
 
 function getSession(sessionId, userRole = 'TEACHER') {
   if (!chatSessions[sessionId]) {

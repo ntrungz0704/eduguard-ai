@@ -29,6 +29,10 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
     intent = 'STUDENT_GPA_SIMULATION_INTENT';
   } else if (nlpIntent === 'student.progress') {
     intent = 'STUDENT_PROGRESS_INTENT';
+  } else if (nlpIntent === 'student.timeline') {
+    intent = 'STUDENT_TIMELINE_INTENT';
+  } else if (nlpIntent === 'query.explain_model') {
+    intent = 'EXPLAIN_MODEL_INTENT';
   } else if (nlpIntent === 'syllabus.course.info') {
     intent = 'STUDENT_SYLLABUS_INFO_INTENT';
   } else if (nlpIntent === 'syllabus.prerequisite') {
@@ -49,6 +53,10 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
       intent = 'STUDENT_INTERNSHIP_PLAN_INTENT';
     } else if (msgLower.includes('kế hoạch 90 ngày') || msgLower.includes('tạo kế hoạch') || msgLower.includes('90-day plan') || msgLower.includes('12 tuần')) {
       intent = 'STUDENT_90_DAY_PLAN_INTENT';
+    } else if (msgLower.includes('timeline') || msgLower.includes('lộ trình học tập') || msgLower.includes('khung thời gian') || msgLower.includes('academic timeline')) {
+      intent = 'STUDENT_TIMELINE_INTENT';
+    } else if (msgLower.includes('thuật toán') || msgLower.includes('pearson') || msgLower.includes('hoạt động thế nào') || msgLower.includes('ols') || msgLower.includes('iqr') || msgLower.includes('hệ thống hoạt động')) {
+      intent = 'EXPLAIN_MODEL_INTENT';
     } else if (msgLower.includes('tình hình') || msgLower.includes('gpa') || msgLower.includes('phân tích')) {
       intent = 'STUDENT_OVERVIEW_INTENT';
     } else if (msgLower.includes('rớt') || msgLower.includes('nguy hiểm') || msgLower.includes('tạch')) {
