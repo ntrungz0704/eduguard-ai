@@ -78,8 +78,9 @@ export default function CareerRoadmapBoard() {
         setCareers(list);
         if (list.length > 0) {
           // Default to Backend Developer or first item
-          const defaultCareer = list.find(c => c.careerName.toLowerCase().includes('backend')) || list[0];
+          const defaultCareer = list.find(c => c.careerName.toLowerCase().includes('frontend')) || list[0];
           setSelectedCareerId(defaultCareer.id);
+          navigate(`/career-universe/${defaultCareer.id}?tab=board`, { replace: true });
         }
       } catch (err) {
         console.error('Failed to load careers:', err);
@@ -88,7 +89,7 @@ export default function CareerRoadmapBoard() {
       }
     };
     fetchCareers();
-  }, []);
+  }, [navigate]);
 
   // 2. Fetch analysis when career changes
   useEffect(() => {
@@ -110,7 +111,7 @@ export default function CareerRoadmapBoard() {
         const loadTasks = async () => {
           let loadedTasks = null;
           try {
-            const res = await api.get(`/learning/board/${studentId}/${selectedCareerId}`);
+            const res = await api.get(`/v1/learning/board/${studentId}/${selectedCareerId}`);
             if (res.data && res.data.length > 0) {
               loadedTasks = res.data;
             }
@@ -175,7 +176,7 @@ export default function CareerRoadmapBoard() {
             
             setTasks(initialTasks);
             try {
-              await api.put(`/learning/board/${studentId}/${selectedCareerId}`, { tasks: initialTasks });
+              await api.put(`/v1/learning/board/${studentId}/${selectedCareerId}`, { tasks: initialTasks });
             } catch (e) {
               console.warn("Không thể lưu tasks lên DB, lưu tạm vào localStorage");
               localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`, JSON.stringify(initialTasks));
@@ -196,7 +197,7 @@ export default function CareerRoadmapBoard() {
   const saveTasks = async (updatedTasks) => {
     setTasks(updatedTasks);
     try {
-      await api.put(`/learning/board/${studentId}/${selectedCareerId}`, { tasks: updatedTasks });
+      await api.put(`/v1/learning/board/${studentId}/${selectedCareerId}`, { tasks: updatedTasks });
     } catch (e) {
       console.warn("Lỗi khi lưu tasks lên DB, lưu tạm vào localStorage:", e);
       localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`, JSON.stringify(updatedTasks));
@@ -245,7 +246,7 @@ export default function CareerRoadmapBoard() {
     // Auto Verify via GitHub API if a github link is provided
     if (githubUrl) {
       try {
-        const res = await api.post('/github/verify', { githubUrl });
+        const res = await api.post('/v1/github/verify', { githubUrl });
         if (res.data && res.data.success) {
           isVerified = true;
           evidenceStatus = 'VERIFIED';

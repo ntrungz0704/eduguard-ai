@@ -94,9 +94,9 @@ exports.updateLearningBoard = async (req, res) => {
       points: t.points || 0
     }));
 
-    await prisma.learningTask.createMany({
-      data: newTasks
-    });
+    await prisma.$transaction(
+      newTasks.map(t => prisma.learningTask.create({ data: t }))
+    );
     
     res.json({ success: true, message: 'Learning board updated successfully in database' });
   } catch (error) {

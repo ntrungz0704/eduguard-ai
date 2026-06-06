@@ -1,13 +1,18 @@
-const { PrismaClient } = require('../server/generated/prisma');
-const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 const fs = require('fs');
 const path = require('path');
 
-// Initialize the Prisma 7 client with the SQLite Driver Adapter
-require('dotenv').config();
-const url = process.env.DATABASE_URL || 'file:./prisma/dev.db';
-const adapter = new PrismaBetterSqlite3({ url });
-const prisma = new PrismaClient({ adapter });
+// Dynamically resolve the absolute path to dev.db to ensure SQLite resolves consistently 
+const dbPath = path.resolve(__dirname, 'dev.db');
+process.env.DATABASE_URL = `file:${dbPath}`;
+
+const { PrismaClient } = require('../server/generated/prisma');
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: `file:${dbPath}`
+    }
+  }
+});
 
 async function main() {
   console.log('🌱 Start seeding historical training data...');
@@ -27,20 +32,22 @@ async function main() {
   
   // 1. Clean existing records first
   console.log('🧹 Cleaning up database tables...');
+  await prisma.learningTask.deleteMany({});
+  await prisma.learningBoard.deleteMany({});
+  await prisma.prediction.deleteMany({});
+  await prisma.intervention.deleteMany({});
   await prisma.score.deleteMany({});
   await prisma.student.deleteMany({});
   await prisma.course.deleteMany({});
   await prisma.user.deleteMany({});
   console.log('✅ Database cleaned.');
 
-  // 1.5. Seed Demo Users
+  // 1.5. Seed Demo Users (SQLite doesn't support createMany, use transaction with create)
   console.log('👤 Seeding Demo Users...');
-  await prisma.user.createMany({
-    data: [
-      { email: 'admin@eduguard.ai', name: 'Admin EduGuard', role: 'ADMIN' },
-      { email: 'advisor@eduguard.ai', name: 'Advisor Demo', role: 'ADVISOR' }
-    ]
-  });
+  await prisma.$transaction([
+    prisma.user.create({ data: { email: 'admin@eduguard.ai', name: 'Admin EduGuard', role: 'ADMIN' } }),
+    prisma.user.create({ data: { email: 'advisor@eduguard.ai', name: 'Advisor Demo', role: 'ADVISOR' } })
+  ]);
   console.log('✅ Demo users seeded.');
   
   // 2. Extract and Seed all unique Courses
@@ -89,9 +96,10 @@ async function main() {
     return 3;
   }
 
-  const coursePromises = Array.from(courseIds).map((id) => {
+  // Use upsert for courses sequentially (works on SQLite, avoids Prisma Rust Engine panic)
+  for (const id of courseIds) {
     const credits = getCourseCredits(id);
-    return prisma.course.upsert({
+    await prisma.course.upsert({
       where: { id },
       update: { credits },
       create: {
@@ -101,11 +109,10 @@ async function main() {
         prerequisites: '',
       },
     });
-  });
-  await Promise.all(coursePromises);
+  }
   console.log(`✅ ${courseIds.size} unique courses seeded successfully.`);
   
-  // 3. Bulk Seed Students
+  // 3. Batch Seed Students using $transaction (SQLite compatible)
   console.log('👥 Batching student profiles...');
   const studentData = students.map((s) => ({
     mssv: s.id,
@@ -113,13 +120,18 @@ async function main() {
     classCode: 'WD18301',
   }));
   
-  console.log(`🚀 Inserting ${studentData.length} students in a single transaction...`);
-  await prisma.student.createMany({
-    data: studentData,
-  });
+  console.log(`🚀 Inserting ${studentData.length} students...`);
+  // Batch in chunks of 100 to avoid SQLite limits
+  const BATCH_SIZE = 100;
+  for (let i = 0; i < studentData.length; i += BATCH_SIZE) {
+    const batch = studentData.slice(i, i + BATCH_SIZE);
+    await prisma.$transaction(
+      batch.map(s => prisma.student.create({ data: s }))
+    );
+  }
   console.log('✅ Student profiles seeded.');
   
-  // 4. Bulk Seed Scores
+  // 4. Batch Seed Scores
   console.log('✍️ Batching student score history...');
   const scoreCreates = [];
   for (const s of students) {
@@ -138,10 +150,13 @@ async function main() {
     }
   }
   
-  console.log(`🚀 Inserting ${scoreCreates.length} score records in a single transaction...`);
-  await prisma.score.createMany({
-    data: scoreCreates,
-  });
+  console.log(`🚀 Inserting ${scoreCreates.length} score records...`);
+  for (let i = 0; i < scoreCreates.length; i += BATCH_SIZE) {
+    const batch = scoreCreates.slice(i, i + BATCH_SIZE);
+    await prisma.$transaction(
+      batch.map(s => prisma.score.create({ data: s }))
+    );
+  }
   console.log('✅ Grade history seeded.');
 
   // 5. Insert Special Demo Cases (For Demo / UI)
@@ -154,7 +169,7 @@ async function main() {
       scores: {
         'Nhập môn lập trình': { value: 9.0, status: 'PASSED', attendance: 0.95 },
         'Xây dựng trang Web': { value: 8.5, status: 'PASSED', attendance: 0.90 },
-        'Cơ sở dữ liệu': { value: 3.5, status: 'FAILED', attendance: 0.40 }, // Sudden drop
+        'Cơ sở dữ liệu': { value: 3.5, status: 'FAILED', attendance: 0.40 },
         'Lập trình PHP cơ bản': { value: 4.0, status: 'FAILED', attendance: 0.45 }
       }
     },
@@ -174,16 +189,16 @@ async function main() {
       name: 'Lê Tuấn Kiệt (Hổng Kiến Thức Nền)',
       classCode: 'WD18301',
       scores: {
-        'Nhập môn lập trình': { value: 2.0, status: 'FAILED', attendance: 0.8 }, // Failed Core Prereq
+        'Nhập môn lập trình': { value: 2.0, status: 'FAILED', attendance: 0.8 },
         'Xây dựng trang Web': { value: 6.0, status: 'PASSED', attendance: 0.9 },
         'Cơ sở dữ liệu': { value: null, status: 'STUDYING', attendance: 0.85 }
       }
     }
   ];
 
-  await prisma.student.createMany({
-    data: demoStudents.map(s => ({ mssv: s.mssv, name: s.name, classCode: s.classCode }))
-  });
+  await prisma.$transaction(
+    demoStudents.map(s => prisma.student.create({ data: { mssv: s.mssv, name: s.name, classCode: s.classCode } }))
+  );
 
   const demoScores = [];
   for (const s of demoStudents) {
@@ -198,7 +213,9 @@ async function main() {
       });
     }
   }
-  await prisma.score.createMany({ data: demoScores });
+  await prisma.$transaction(
+    demoScores.map(s => prisma.score.create({ data: s }))
+  );
   
   // 6. Generate Predictions for Demo Cases
   console.log('🔮 Generating AI Predictions for Demo Cases...');
@@ -242,7 +259,9 @@ async function main() {
     }
   ];
 
-  await prisma.prediction.createMany({ data: demoPredictions });
+  await prisma.$transaction(
+    demoPredictions.map(p => prisma.prediction.create({ data: p }))
+  );
   console.log('✅ AI Predictions seeded.');
 
   console.log('🎉 Seeding completed successfully!');

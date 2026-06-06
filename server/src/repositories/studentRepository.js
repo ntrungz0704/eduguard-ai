@@ -32,6 +32,129 @@ function normalizeLegacyStudent(found) {
   };
 }
 
+function enrichStudentData(student) {
+  if (!student) return null;
+  
+  // 1. Build courseStatus
+  const courseStatus = {};
+  let totalAttendance = 0;
+  let attendanceCount = 0;
+  
+  if (Array.isArray(student.scores)) {
+    student.scores.forEach(s => {
+      courseStatus[s.courseId] = s.status;
+      if (s.attendance !== null && s.attendance !== undefined) {
+        let att = parseFloat(s.attendance);
+        if (att <= 1.0) att = att * 100;
+        totalAttendance += att;
+        attendanceCount++;
+      }
+    });
+  } else if (student.courseStatus) {
+    Object.assign(courseStatus, student.courseStatus);
+  }
+  
+  // 2. Load mock JSON file if exists
+  const mockPath = path.join(__dirname, '..', '..', 'data', 'mock-lms', 'students', `${student.mssv.toUpperCase()}.json`);
+  let mockData = {};
+  if (fs.existsSync(mockPath)) {
+    try {
+      mockData = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
+    } catch (e) {
+      console.error('Error reading mock student file:', e);
+    }
+  }
+  
+  // 3. Build skills dynamically if not in mock data
+  const skills = mockData.skills || student.skills || {};
+  if (Object.keys(skills).length === 0) {
+    // Generate skills from passed courses using the knowledge cache
+    try {
+      const knowledgeCache = require('../modules/knowledge/cache');
+      const coursesDb = knowledgeCache.get('courses') || [];
+      
+      if (Array.isArray(student.scores)) {
+        student.scores.forEach(s => {
+          if (s.status === 'PASSED') {
+            const courseInfo = coursesDb.find(c => c.courseCode === s.courseId || c.courseName === s.courseId);
+            if (courseInfo) {
+              const val = s.value || 7.0;
+              const skillScore = Math.round(val * 10);
+              
+              if (Array.isArray(courseInfo.skills)) {
+                courseInfo.skills.forEach(skill => {
+                  skills[skill] = Math.max(skills[skill] || 0, skillScore);
+                });
+              }
+              if (Array.isArray(courseInfo.technologies)) {
+                courseInfo.technologies.forEach(tech => {
+                  skills[tech] = Math.max(skills[tech] || 0, skillScore);
+                });
+              }
+            }
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Error populating dynamic skills:', e);
+    }
+  }
+  
+  // 4. Build projects dynamically if not in mock data
+  const projects = mockData.projects || student.projects || [];
+  if (projects.length === 0) {
+    const skillKeys = Object.keys(skills);
+    if (skillKeys.length > 0) {
+      const techForProject1 = skillKeys.slice(0, 3);
+      const techForProject2 = skillKeys.slice(3, 5);
+      
+      if (techForProject1.length > 0) {
+        projects.push({
+          name: `${techForProject1.join(' & ')} Application`,
+          technologies: techForProject1,
+          portfolioEvidence: {
+            githubUrl: `https://github.com/student-${student.mssv.toLowerCase()}/project-1`,
+            demoUrl: `https://demo-${student.mssv.toLowerCase()}.dev`,
+            verified: false
+          }
+        });
+      }
+      if (techForProject2.length > 0) {
+        projects.push({
+          name: `${techForProject2.join(' & ')} Project`,
+          technologies: techForProject2,
+          portfolioEvidence: {
+            githubUrl: `https://github.com/student-${student.mssv.toLowerCase()}/project-2`,
+            demoUrl: `https://project-2-${student.mssv.toLowerCase()}.dev`,
+            verified: false
+          }
+        });
+      }
+    }
+  }
+  
+  // 5. Build behavior dynamically if not in mock data
+  const behavior = mockData.behavior || student.behavior || {
+    dataSource: "SIMULATED",
+    confidence: 0.8,
+    attendance: attendanceCount > 0 ? Math.round(totalAttendance / attendanceCount) : 85,
+    quizAverage: 7.5,
+    labCompletion: 90,
+    lateAssignments: 0
+  };
+  
+  return {
+    mssv: student.mssv,
+    name: student.name || mockData.name || `Sinh viên ${student.mssv}`,
+    classCode: student.classCode || mockData.classCode || 'WD18301',
+    courseStatus,
+    skills,
+    projects,
+    behavior,
+    scores: student.scores
+  };
+}
+
 async function fetchStudentByMssv(mssv) {
   if (!mssv) return null;
   const upperMssv = mssv.toUpperCase();
@@ -41,7 +164,9 @@ async function fetchStudentByMssv(mssv) {
       where: { mssv: upperMssv },
       include: { scores: true }
     });
-    if (dbStudent) return dbStudent;
+    if (dbStudent) {
+      return enrichStudentData(dbStudent);
+    }
   } catch (e) {
     // Fallback if Prisma is not connected
   }
@@ -50,21 +175,14 @@ async function fetchStudentByMssv(mssv) {
   if (fs.existsSync(mockPath)) {
     try {
       const data = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
-      return {
+      return enrichStudentData({
         mssv: data.mssv || upperMssv,
         name: data.name || `Sinh viên ${upperMssv}`,
-        courseStatus: data.courseStatus || (data.scores ? Object.fromEntries(Object.entries(data.scores).map(([k,v]) => [k, v >= 5 ? 'PASSED' : 'FAILED'])) : {}),
+        courseStatus: data.courseStatus || {},
         skills: data.skills || {},
         projects: data.projects || [],
-        behavior: data.behavior || {
-          dataSource: "MOCK",
-          confidence: 0.5,
-          attendance: data.attendance || 0,
-          quizAverage: data.quizAverage || 0,
-          labCompletion: data.labCompletion || 0,
-          lateAssignments: data.lateAssignments || 0
-        }
-      };
+        behavior: data.behavior
+      });
     } catch (e) {
       console.error('Error reading mock student', e);
     }
@@ -79,20 +197,23 @@ async function fetchStudentByMssv(mssv) {
   const found = allStudents.find(s => (s.id || '').toUpperCase() === upperMssv);
   if (!found) return null;
 
-  return normalizeLegacyStudent(found);
+  return enrichStudentData(normalizeLegacyStudent(found));
 }
 
 async function fetchAllStudents() {
   let students = [];
   try {
-    students = await prisma.student.findMany({ include: { scores: true } });
+    const dbStudents = await prisma.student.findMany({ include: { scores: true } });
+    if (dbStudents && dbStudents.length > 0) {
+      return dbStudents.map(enrichStudentData);
+    }
   } catch (e) {}
 
   if (students.length === 0) {
     const legacy = getLegacyCache();
     students = (legacy.trainingData?.students || []).map(normalizeLegacyStudent);
   }
-  return students;
+  return students.map(enrichStudentData);
 }
 
 module.exports = {

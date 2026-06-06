@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { useStore } from '../store';
 import {
@@ -276,12 +276,14 @@ function ReadinessGauge({ score, level }) {
 export default function CareerDetail() {
   const { careerId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const currentUser = useStore(state => state.currentUser);
 
   const [career, setCareer] = useState(null);
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const requestedTab = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState(['overview', 'roadmap', 'board', 'skills', 'portfolio', 'plan90', 'action'].includes(requestedTab) ? requestedTab : 'overview');
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [generatedProject, setGeneratedProject] = useState(null);
   const [generating, setGenerating] = useState(false);
@@ -391,16 +393,32 @@ export default function CareerDetail() {
     fetchData();
   }, [careerId, currentUser]);
 
-  // 2. Initialize or load tasks from localStorage
+  // 2. Initialize or load tasks from backend, with localStorage as offline fallback
   useEffect(() => {
     if (!analysis || !careerId || !career) return;
-    
-    const storageKey = `eduguard_roadmap_tasks_${studentId}_${careerId}`;
-    const storedTasks = localStorage.getItem(storageKey);
-    
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
-    } else {
+
+    const loadTasks = async () => {
+      const storageKey = `eduguard_roadmap_tasks_${studentId}_${careerId}`;
+      let loadedTasks = null;
+
+      try {
+        const boardRes = await api.get(`/v1/learning/board/${studentId}/${careerId}`);
+        if (Array.isArray(boardRes.data) && boardRes.data.length > 0) {
+          loadedTasks = boardRes.data;
+        }
+      } catch (e) {
+        console.warn('Không thể tải bảng học tập từ backend, thử dữ liệu tạm:', e);
+        const storedTasks = localStorage.getItem(storageKey);
+        if (storedTasks) {
+          loadedTasks = JSON.parse(storedTasks);
+        }
+      }
+
+      if (loadedTasks) {
+        setTasks(loadedTasks);
+        return;
+      }
+
       const allCore = career.coreSkills || [];
       const allAdv = career.advancedSkills || [];
       const allSkills = [
@@ -447,13 +465,24 @@ export default function CareerDetail() {
       
       setTasks(initialTasks);
       localStorage.setItem(storageKey, JSON.stringify(initialTasks));
-    }
+      try {
+        await api.put(`/v1/learning/board/${studentId}/${careerId}`, { tasks: initialTasks });
+      } catch (e) {
+        console.warn('Không thể khởi tạo bảng học tập trên backend, giữ bản tạm:', e);
+      }
+    };
+
+    loadTasks();
   }, [analysis, careerId, career, studentId]);
 
-  // Save tasks state to localStorage
-  const saveTasks = (updatedTasks) => {
+  const saveTasks = async (updatedTasks) => {
     setTasks(updatedTasks);
     localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${careerId}`, JSON.stringify(updatedTasks));
+    try {
+      await api.put(`/v1/learning/board/${studentId}/${careerId}`, { tasks: updatedTasks });
+    } catch (e) {
+      console.warn('Không thể lưu bảng học tập lên backend, đã giữ bản tạm:', e);
+    }
   };
 
   // Move task to a new status
@@ -491,9 +520,29 @@ export default function CareerDetail() {
   };
 
   // Submit Evidence
-  const handleSubmitEvidence = (e) => {
+  const handleSubmitEvidence = async (e) => {
     e.preventDefault();
     if (!evidenceModalTask) return;
+
+    let isVerified = false;
+    let evidenceStatus = githubUrl ? 'PENDING' : 'NONE';
+    let extraPoints = 0;
+
+    if (githubUrl) {
+      try {
+        const res = await api.post('/v1/github/verify', { githubUrl });
+        if (res.data?.success) {
+          isVerified = true;
+          evidenceStatus = 'VERIFIED';
+          extraPoints = res.data.data?.pointsAwarded || 0;
+          const languages = res.data.data?.languages?.join(', ') || 'không xác định';
+          alert(`Xác thực GitHub thành công! Bạn nhận được ${extraPoints} điểm kinh nghiệm.\n\nCông nghệ phát hiện: ${languages}`);
+        }
+      } catch (err) {
+        console.warn('Lỗi xác thực GitHub:', err);
+        alert('Không thể xác thực tự động. Link GitHub sẽ được giữ để giảng viên duyệt tay.');
+      }
+    }
     
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
@@ -507,14 +556,15 @@ export default function CareerDetail() {
           github: githubUrl || null,
           demo: demoUrl || null,
           screenshot: screenshotUrl || null,
-          evidenceStatus: githubUrl ? 'PENDING' : 'NONE',
-          verified: false // only verified after simulation approval
+          evidenceStatus,
+          verified: isVerified,
+          points: extraPoints
         };
       }
       return t;
     });
     
-    saveTasks(updated);
+    await saveTasks(updated);
     if (selectedSkill && selectedSkill.name === evidenceModalTask.title) {
       setSelectedSkill(getSkillDetail(evidenceModalTask.title, updated));
     }
@@ -522,7 +572,7 @@ export default function CareerDetail() {
   };
 
   // Complete Without Evidence
-  const handleCompleteWithoutEvidence = () => {
+  const handleCompleteWithoutEvidence = async () => {
     if (!evidenceModalTask) return;
     
     const updated = tasks.map(t => {
@@ -544,7 +594,7 @@ export default function CareerDetail() {
       return t;
     });
     
-    saveTasks(updated);
+    await saveTasks(updated);
     if (selectedSkill && selectedSkill.name === evidenceModalTask.title) {
       setSelectedSkill(getSkillDetail(evidenceModalTask.title, updated));
     }
@@ -552,7 +602,7 @@ export default function CareerDetail() {
   };
 
   // Simulate Teacher/Admin Verification Review
-  const simulateEvidenceReview = (taskId, reviewStatus) => {
+  const simulateEvidenceReview = async (taskId, reviewStatus) => {
     const updated = tasks.map(t => {
       if (t.id === taskId) {
         return {
@@ -564,7 +614,7 @@ export default function CareerDetail() {
       }
       return t;
     });
-    saveTasks(updated);
+    await saveTasks(updated);
     if (selectedSkill && selectedSkill.task?.id === taskId) {
       setSelectedSkill(getSkillDetail(selectedSkill.name, updated));
     }

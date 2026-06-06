@@ -7,7 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -71,7 +72,7 @@ model Prediction {
   risk           String   // HIGH, MEDIUM, LOW
   confidence     Float    @default(0.0) // E.g., 0.85 (85%)
   explanation    String?  // Textual reason explaining the risk for XAI
-  reasons        Json     // Stores structured XAI reasons array as JSON (maps to TEXT in SQLite)
+  reasons        String   // Stores structured XAI reasons array as JSON (maps to TEXT in SQLite)
   createdAt      DateTime @default(now())
 
   student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
@@ -150,7 +151,7 @@ model LearningTask {
   title          String
   type           String
   status         String        @default("TODO")
-  impact         String
+  impact         Int
   duration       String
   startedAt      DateTime?
   completedAt    DateTime?
