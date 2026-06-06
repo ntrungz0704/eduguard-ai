@@ -1,6 +1,24 @@
 const knowledgeCache = require('../knowledge/cache');
 const { analyzeBehavior } = require('./behavior-engine');
 
+const getStudentCourseStatus = (student, courseCode, courseName) => {
+  if (!student || !student.courseStatus) return undefined;
+  
+  if (student.courseStatus[courseCode] !== undefined) return student.courseStatus[courseCode];
+  if (student.courseStatus[courseName] !== undefined) return student.courseStatus[courseName];
+  
+  const cleanCode = courseCode.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const cleanName = courseName.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+  for (const [key, val] of Object.entries(student.courseStatus)) {
+    const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (cleanKey === cleanCode || cleanKey === cleanName) {
+      return val;
+    }
+  }
+  return undefined;
+};
+
 const SKILL_TIERS = {
   // Critical (+20)
   "node.js": 20, "react": 20, "postgresql": 20, "sql": 20, "javascript": 20,
@@ -90,11 +108,12 @@ exports.analyzeCareer = (student, careerGoal) => {
     let status = 'NOT_STARTED';
     
     if (mode === 'STUDENT') {
-      if (student.courseStatus && student.courseStatus[courseId] !== undefined) {
-        if (student.courseStatus[courseId] === 'PASSED') {
+      const resolvedStatus = getStudentCourseStatus(student, courseId, data.courseName);
+      if (resolvedStatus !== undefined) {
+        if (resolvedStatus === 'PASSED') {
           status = 'PASSED';
           passedAcademicWeight += data.weight;
-        } else if (student.courseStatus[courseId] === 'FAILED') {
+        } else if (resolvedStatus === 'FAILED') {
           status = 'FAILED';
         } else {
           status = 'IN_PROGRESS';
@@ -129,6 +148,9 @@ exports.analyzeCareer = (student, careerGoal) => {
         }
       }
     });
+    if (student.skills) {
+      Object.keys(student.skills).forEach(s => studentAcquiredSkills.add(s));
+    }
   }
 
   const acquiredList = Array.from(studentAcquiredSkills);
@@ -347,6 +369,10 @@ exports.suggestBestCareers = (student) => {
     }
   });
 
+  if (student.skills) {
+    Object.keys(student.skills).forEach(s => studentAcquiredSkills.add(s));
+  }
+
   const acquiredList = Array.from(studentAcquiredSkills);
 
   for (const [careerGoal, industryData] of Object.entries(careerRoadmaps)) {
@@ -366,17 +392,18 @@ exports.suggestBestCareers = (student) => {
         const maxOverlapWeight = Math.max(...overlaps.map(s => getSkillWeight(s)));
         if (maxOverlapWeight >= 20) courseWeight = 3;
         else if (maxOverlapWeight >= 10) courseWeight = 2;
-        relevantCoursesMap.set(course.courseCode, courseWeight);
+        relevantCoursesMap.set(course.courseCode, { weight: courseWeight, name: course.courseName });
       }
     });
 
     let maxAcademicWeight = 0;
     let passedAcademicWeight = 0;
 
-    for (const [courseId, weight] of relevantCoursesMap.entries()) {
-      maxAcademicWeight += weight;
-      if (student.courseStatus && student.courseStatus[courseId] === 'PASSED') {
-        passedAcademicWeight += weight;
+    for (const [courseId, data] of relevantCoursesMap.entries()) {
+      maxAcademicWeight += data.weight;
+      const resolvedStatus = getStudentCourseStatus(student, courseId, data.name);
+      if (resolvedStatus === 'PASSED') {
+        passedAcademicWeight += data.weight;
       }
     }
 

@@ -115,9 +115,15 @@ const nlpManager = new NlpManager({ languages: ['vi', 'en'] });
 const chatbotModelPath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'nlp', 'chatbot_model.nlp');
 let nlpModelLoaded = false;
 if (fs.existsSync(chatbotModelPath)) {
-  nlpManager.load(chatbotModelPath);
-  nlpModelLoaded = true;
-  console.log("🤖 Local NLP Chatbot Model loaded successfully!");
+  setImmediate(() => {
+    try {
+      nlpManager.load(chatbotModelPath);
+      nlpModelLoaded = true;
+      console.log("🤖 Local NLP Chatbot Model loaded successfully!");
+    } catch (err) {
+      console.error("❌ Failed to load NLP Chatbot Model:", err);
+    }
+  });
 }
 
 // In-memory store for uploaded student data (Mock database fallback for GET requests)

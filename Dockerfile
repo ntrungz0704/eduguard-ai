@@ -22,8 +22,7 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy Prisma config and schema first
-COPY prisma.config.ts ./
+# Copy Prisma schema first
 COPY prisma ./prisma
 
 # Copy package files

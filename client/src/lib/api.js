@@ -98,7 +98,7 @@ const isBackendRestartError = (error) => {
  */
 export const requestWithRestartRetry = async (
   requestFactory,
-  { retries = 3, delayMs = 500 } = {}
+  { retries = 15, delayMs = 1000 } = {}
 ) => {
   let lastError;
 

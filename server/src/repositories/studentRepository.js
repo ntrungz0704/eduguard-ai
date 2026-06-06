@@ -76,7 +76,12 @@ function enrichStudentData(student) {
       if (Array.isArray(student.scores)) {
         student.scores.forEach(s => {
           if (s.status === 'PASSED') {
-            const courseInfo = coursesDb.find(c => c.courseCode === s.courseId || c.courseName === s.courseId);
+            const courseInfo = coursesDb.find(c => {
+              const cleanCode = c.courseCode.toLowerCase().replace(/[^a-z0-9]/g, '');
+              const cleanName = c.courseName.toLowerCase().replace(/[^a-z0-9]/g, '');
+              const cleanScoreId = s.courseId.toLowerCase().replace(/[^a-z0-9]/g, '');
+              return cleanCode === cleanScoreId || cleanName === cleanScoreId;
+            });
             if (courseInfo) {
               const val = s.value || 7.0;
               const skillScore = Math.round(val * 10);

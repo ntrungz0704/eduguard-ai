@@ -39,7 +39,7 @@ export default function Dashboard() {
     
     const fetchRoadmapProgress = async () => {
       try {
-        const res = await api.get('/advisor/class-roadmap-progress');
+        const res = await requestWithRestartRetry(() => api.get('/advisor/class-roadmap-progress'));
         if (res.data && res.data.success) {
           setRoadmapProgress(res.data.data);
         }

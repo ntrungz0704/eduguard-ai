@@ -82,7 +82,7 @@ Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100
 ---
 
 ## 🎥 3. Demo Video
-**YouTube:** (https://www.youtube.com/watch?v=_xWiC-XDT6U)
+**YouTube:** [EduGuard AI Demo & Pitch Video](https://www.youtube.com/watch?v=_xWiC-XDT6U)
 
 ---
 
