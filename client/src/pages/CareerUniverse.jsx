@@ -9,82 +9,64 @@ import {
 } from 'lucide-react';
 
 const ECOSYSTEM = {
-  'Frontend': {
-    title: 'Frontend Development 🎨',
-    desc: 'Thiết kế giao diện, tối ưu tương tác & trải nghiệm người dùng',
-    careers: ['Frontend Developer', 'React Developer', 'Next.js Developer', 'UI Engineer'],
+  'Web Development': {
+    title: 'Web Development 🌐',
+    desc: 'Lập trình toàn diện từ giao diện người dùng (Frontend) đến logic máy chủ và cơ sở dữ liệu (Backend)',
+    careers: ['Frontend Developer', 'React Developer', 'Next.js Developer', 'Backend Developer', 'Node.js Developer', 'Full Stack Developer', 'Software Engineer', 'UI Engineer'],
     gradient: 'from-blue-500/10 to-cyan-500/10',
     border: 'border-blue-500/20',
     text: 'text-blue-500',
     icon: <Code2 size={16} />
   },
-  'Backend': {
-    title: 'Backend Development ⚙️',
-    desc: 'Xử lý logic máy chủ, cơ sở dữ liệu, API & hiệu năng hệ thống',
-    careers: ['Backend Developer'],
-    gradient: 'from-purple-500/10 to-indigo-500/10',
-    border: 'border-purple-500/20',
-    text: 'text-purple-500',
-    icon: <Layers size={16} />
-  },
-  'Fullstack': {
-    title: 'Full Stack & Software 🌐',
-    desc: 'Lập trình toàn diện từ client đến server, cấu trúc hệ thống',
-    careers: ['Fullstack Developer', 'Software Engineer'],
-    gradient: 'from-emerald-500/10 to-teal-500/10',
-    border: 'border-emerald-500/20',
-    text: 'text-emerald-500',
-    icon: <Globe size={16} />
-  },
-  'Mobile': {
+  'Mobile Development': {
     title: 'Mobile Development 📱',
-    desc: 'Phát triển ứng dụng di động đa nền tảng và native',
-    careers: ['Mobile Developer', 'React Native Developer', 'Flutter Developer'],
+    desc: 'Phát triển ứng dụng di động đa nền tảng và native hiệu năng cao',
+    careers: ['Flutter Developer', 'React Native Developer'],
     gradient: 'from-pink-500/10 to-rose-500/10',
     border: 'border-pink-500/20',
     text: 'text-pink-500',
     icon: <Smartphone size={16} />
   },
-  'DevOps': {
-    title: 'DevOps & Cloud Infrastructure ☁️',
-    desc: 'Vận hành, tự động hóa CI/CD & quản trị đám mây',
-    careers: ['DevOps Junior Engineer', 'Cloud Engineer'],
-    gradient: 'from-sky-500/10 to-indigo-500/10',
-    border: 'border-sky-500/20',
-    text: 'text-sky-500',
-    icon: <Cloud size={16} />
-  },
-  'Testing': {
-    title: 'Quality Assurance 🧪',
-    desc: 'Kiểm thử chất lượng phần mềm, tự động hóa script test',
+  'QA & Testing': {
+    title: 'QA & Testing 🧪',
+    desc: 'Kiểm thử chất lượng phần mềm, đảm bảo độ tin cậy và tự động hóa quy trình test',
     careers: ['QA Automation Engineer'],
     gradient: 'from-amber-500/10 to-orange-500/10',
     border: 'border-amber-500/20',
     text: 'text-amber-500',
     icon: <TestTube2 size={16} />
   },
-  'AI': {
-    title: 'AI & Emerging Technology 🤖',
-    desc: 'Tích hợp mô hình ngôn ngữ lớn, RAG & Agentic workflows',
-    careers: ['AI Frontend Engineer', 'AI Fullstack Engineer'],
+  'Cloud & DevOps': {
+    title: 'Cloud & DevOps ☁️',
+    desc: 'Thiết kế, triển khai hạ tầng đám mây và tự động hóa quy trình phát hành phần mềm (CI/CD)',
+    careers: ['DevOps Engineer', 'Cloud Engineer'],
+    gradient: 'from-sky-500/10 to-indigo-500/10',
+    border: 'border-sky-500/20',
+    text: 'text-sky-500',
+    icon: <Cloud size={16} />
+  },
+  'AI & Emerging': {
+    title: 'AI & Emerging Tech 🤖',
+    desc: 'Tích hợp mô hình ngôn ngữ lớn (LLMs), RAG, Prompt Engineering và AI Agents',
+    careers: ['AI Frontend Engineer', 'AI Fullstack Engineer', 'Prompt Engineer'],
     gradient: 'from-violet-500/10 to-fuchsia-500/10',
     border: 'border-violet-500/20',
     text: 'text-violet-500',
     icon: <Bot size={16} />
   },
-  'CMS': {
-    title: 'CMS Customization 📦',
-    desc: 'Xây dựng website nhanh chóng dựa trên nền tảng WordPress',
-    careers: ['WordPress Developer'],
-    gradient: 'from-orange-500/10 to-red-500/10',
-    border: 'border-orange-500/20',
-    text: 'text-orange-500',
-    icon: <Globe size={16} />
+  'Architecture': {
+    title: 'Software Architecture 🏛️',
+    desc: 'Thiết kế kiến trúc hệ thống lớn, tối ưu hóa khả năng mở rộng, chịu tải và bảo mật',
+    careers: ['Software Architect'],
+    gradient: 'from-purple-500/10 to-indigo-500/10',
+    border: 'border-purple-500/20',
+    text: 'text-purple-500',
+    icon: <Layers size={16} />
   },
-  'Other': {
+  'Support': {
     title: 'Solutions & Support 🛠️',
-    desc: 'Kỹ sư giải pháp doanh nghiệp và hỗ trợ kỹ thuật khách hàng',
-    careers: ['Solutions Engineer', 'Technical Support Engineer'],
+    desc: 'Cầu nối kỹ thuật doanh nghiệp, tư vấn giải pháp hạ tầng và tích hợp hệ thống',
+    careers: ['Solutions Engineer'],
     gradient: 'from-slate-500/10 to-zinc-500/10',
     border: 'border-slate-500/20',
     text: 'text-slate-500',

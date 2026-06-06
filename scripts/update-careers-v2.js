@@ -1,4 +1,10 @@
-{
+const fs = require('fs');
+const path = require('path');
+
+const roadmapPath = path.join(__dirname, '..', 'server', 'data', 'knowledge', 'career-roadmaps.json');
+const pathPath = path.join(__dirname, '..', 'server', 'data', 'knowledge', 'career-paths.json');
+
+const fullRoadmaps = {
   "Frontend Developer": {
     "careerName": "Frontend Developer",
     "description": "Kỹ sư chuyên phát triển giao diện và trải nghiệm người dùng trên các nền tảng web, biến thiết kế thành các ứng dụng web tương tác.",
@@ -39,34 +45,19 @@
     "portfolios": [
       {
         "name": "Personal Portfolio",
-        "learnToApply": [
-          "HTML",
-          "CSS",
-          "Responsive Design"
-        ]
+        "learnToApply": ["HTML", "CSS", "Responsive Design"]
       },
       {
         "name": "Landing Page",
-        "learnToApply": [
-          "HTML",
-          "CSS",
-          "JavaScript"
-        ]
+        "learnToApply": ["HTML", "CSS", "JavaScript"]
       },
       {
         "name": "E-Commerce UI",
-        "learnToApply": [
-          "React",
-          "CSS Frameworks (Tailwind)"
-        ]
+        "learnToApply": ["React", "CSS Frameworks (Tailwind)"]
       },
       {
         "name": "Dashboard Admin",
-        "learnToApply": [
-          "React",
-          "State Management",
-          "Vite"
-        ]
+        "learnToApply": ["React", "State Management", "Vite"]
       }
     ]
   },
@@ -111,27 +102,15 @@
     "portfolios": [
       {
         "name": "Dashboard Console",
-        "learnToApply": [
-          "React",
-          "State & Props",
-          "Vite"
-        ]
+        "learnToApply": ["React", "State & Props", "Vite"]
       },
       {
         "name": "Social Media UI",
-        "learnToApply": [
-          "React",
-          "React Hooks",
-          "Context API"
-        ]
+        "learnToApply": ["React", "React Hooks", "Context API"]
       },
       {
         "name": "E-Commerce Frontend",
-        "learnToApply": [
-          "React",
-          "Redux Toolkit",
-          "Zustand"
-        ]
+        "learnToApply": ["React", "Redux Toolkit", "Zustand"]
       }
     ]
   },
@@ -176,27 +155,15 @@
     "portfolios": [
       {
         "name": "Blog CMS",
-        "learnToApply": [
-          "Next.js",
-          "SSR/SSG",
-          "SEO"
-        ]
+        "learnToApply": ["Next.js", "SSR/SSG", "SEO"]
       },
       {
         "name": "SaaS Dashboard App",
-        "learnToApply": [
-          "Next.js",
-          "TypeScript",
-          "NextAuth"
-        ]
+        "learnToApply": ["Next.js", "TypeScript", "NextAuth"]
       },
       {
         "name": "Company Website",
-        "learnToApply": [
-          "Next.js",
-          "Styling",
-          "Image/Font Optimization"
-        ]
+        "learnToApply": ["Next.js", "Styling", "Image/Font Optimization"]
       }
     ]
   },
@@ -241,27 +208,15 @@
     "portfolios": [
       {
         "name": "Student Management API",
-        "learnToApply": [
-          "Express.js",
-          "PostgreSQL",
-          "Web Security (JWT/OAuth)"
-        ]
+        "learnToApply": ["Express.js", "PostgreSQL", "Web Security (JWT/OAuth)"]
       },
       {
         "name": "Authentication Service",
-        "learnToApply": [
-          "Node.js",
-          "Redis",
-          "Web Security (JWT/OAuth)"
-        ]
+        "learnToApply": ["Node.js", "Redis", "Web Security (JWT/OAuth)"]
       },
       {
         "name": "E-Commerce API Service",
-        "learnToApply": [
-          "Docker",
-          "Microservices",
-          "API Design"
-        ]
+        "learnToApply": ["Docker", "Microservices", "API Design"]
       }
     ]
   },
@@ -301,19 +256,11 @@
     "portfolios": [
       {
         "name": "RESTful Web API",
-        "learnToApply": [
-          "Node.js",
-          "Express.js",
-          "Web Security (JWT/OAuth)"
-        ]
+        "learnToApply": ["Node.js", "Express.js", "Web Security (JWT/OAuth)"]
       },
       {
         "name": "Event-driven Task Runner",
-        "learnToApply": [
-          "Node.js",
-          "Asynchronous programming",
-          "Git"
-        ]
+        "learnToApply": ["Node.js", "Asynchronous programming", "Git"]
       }
     ]
   },
@@ -361,27 +308,15 @@
     "portfolios": [
       {
         "name": "Fullstack E-Commerce",
-        "learnToApply": [
-          "React",
-          "Node.js",
-          "PostgreSQL"
-        ]
+        "learnToApply": ["React", "Node.js", "PostgreSQL"]
       },
       {
         "name": "Booking System",
-        "learnToApply": [
-          "React",
-          "Express.js",
-          "Redis"
-        ]
+        "learnToApply": ["React", "Express.js", "Redis"]
       },
       {
         "name": "CRM Dashboard App",
-        "learnToApply": [
-          "Next.js",
-          "TypeScript",
-          "PostgreSQL"
-        ]
+        "learnToApply": ["Next.js", "TypeScript", "PostgreSQL"]
       }
     ]
   },
@@ -422,18 +357,11 @@
     "portfolios": [
       {
         "name": "High-concurrency API",
-        "learnToApply": [
-          "Java/C++/Python",
-          "OOP",
-          "Database Systems"
-        ]
+        "learnToApply": ["Java/C++/Python", "OOP", "Database Systems"]
       },
       {
         "name": "Design Pattern Demo",
-        "learnToApply": [
-          "Design Patterns",
-          "Algorithms & Data Structures"
-        ]
+        "learnToApply": ["Design Patterns", "Algorithms & Data Structures"]
       }
     ]
   },
@@ -474,18 +402,11 @@
     "portfolios": [
       {
         "name": "Design System Package",
-        "learnToApply": [
-          "Tailwind CSS",
-          "Storybook",
-          "Design Systems"
-        ]
+        "learnToApply": ["Tailwind CSS", "Storybook", "Design Systems"]
       },
       {
         "name": "Interactive Web Design",
-        "learnToApply": [
-          "CSS Layouts (Flexbox/Grid)",
-          "CSS Animations (Framer Motion/GSAP)"
-        ]
+        "learnToApply": ["CSS Layouts (Flexbox/Grid)", "CSS Animations (Framer Motion/GSAP)"]
       }
     ]
   },
@@ -528,18 +449,11 @@
     "portfolios": [
       {
         "name": "E-Commerce Mobile App",
-        "learnToApply": [
-          "Flutter Framework",
-          "State Management (Provider/Riverpod)"
-        ]
+        "learnToApply": ["Flutter Framework", "State Management (Provider/Riverpod)"]
       },
       {
         "name": "Booking Mobile App",
-        "learnToApply": [
-          "Flutter Framework",
-          "Firebase",
-          "SQLite (Offline Storage)"
-        ]
+        "learnToApply": ["Flutter Framework", "Firebase", "SQLite (Offline Storage)"]
       }
     ]
   },
@@ -583,19 +497,11 @@
     "portfolios": [
       {
         "name": "Chat Mobile App",
-        "learnToApply": [
-          "React Native",
-          "Firebase",
-          "State Management"
-        ]
+        "learnToApply": ["React Native", "Firebase", "State Management"]
       },
       {
         "name": "Delivery Tracking App",
-        "learnToApply": [
-          "React Native",
-          "REST API",
-          "Navigation"
-        ]
+        "learnToApply": ["React Native", "REST API", "Navigation"]
       }
     ]
   },
@@ -634,18 +540,11 @@
     "portfolios": [
       {
         "name": "Automated Testing Project",
-        "learnToApply": [
-          "Cypress",
-          "Playwright",
-          "CI/CD Integration"
-        ]
+        "learnToApply": ["Cypress", "Playwright", "CI/CD Integration"]
       },
       {
         "name": "API Testing Suite",
-        "learnToApply": [
-          "Postman",
-          "Performance/Load Testing (JMeter)"
-        ]
+        "learnToApply": ["Postman", "Performance/Load Testing (JMeter)"]
       }
     ]
   },
@@ -683,17 +582,11 @@
     "portfolios": [
       {
         "name": "CI/CD Auto-pipeline",
-        "learnToApply": [
-          "CI/CD Pipelines",
-          "Docker"
-        ]
+        "learnToApply": ["CI/CD Pipelines", "Docker"]
       },
       {
         "name": "Dockerized Application Cluster",
-        "learnToApply": [
-          "Docker",
-          "Monitoring (Grafana/Prometheus)"
-        ]
+        "learnToApply": ["Docker", "Monitoring (Grafana/Prometheus)"]
       }
     ]
   },
@@ -729,11 +622,7 @@
     "portfolios": [
       {
         "name": "Cloud Deployment Architecture",
-        "learnToApply": [
-          "AWS",
-          "Terraform",
-          "Cloud Security"
-        ]
+        "learnToApply": ["AWS", "Terraform", "Cloud Security"]
       }
     ]
   },
@@ -770,17 +659,11 @@
     "portfolios": [
       {
         "name": "AI Advisor Bot",
-        "learnToApply": [
-          "OpenAI/Gemini APIs",
-          "AI Chat UI"
-        ]
+        "learnToApply": ["OpenAI/Gemini APIs", "AI Chat UI"]
       },
       {
         "name": "Smart Dashboard Interface",
-        "learnToApply": [
-          "React",
-          "API Integration"
-        ]
+        "learnToApply": ["React", "API Integration"]
       }
     ]
   },
@@ -819,19 +702,11 @@
     "portfolios": [
       {
         "name": "AI Powered SaaS Application",
-        "learnToApply": [
-          "LangChain / LlamaIndex",
-          "Vector Database",
-          "React"
-        ]
+        "learnToApply": ["LangChain / LlamaIndex", "Vector Database", "React"]
       },
       {
         "name": "Enterprise Chatbot Service",
-        "learnToApply": [
-          "Node.js",
-          "AI APIs",
-          "PostgreSQL"
-        ]
+        "learnToApply": ["Node.js", "AI APIs", "PostgreSQL"]
       }
     ]
   },
@@ -867,17 +742,11 @@
     "portfolios": [
       {
         "name": "RAG Agent Prompts",
-        "learnToApply": [
-          "Prompt Engineering",
-          "OpenAI/Gemini APIs"
-        ]
+        "learnToApply": ["Prompt Engineering", "OpenAI/Gemini APIs"]
       },
       {
         "name": "Multi-Agent System Configuration",
-        "learnToApply": [
-          "Agentic Workflows",
-          "Vector Database"
-        ]
+        "learnToApply": ["Agentic Workflows", "Vector Database"]
       }
     ]
   },
@@ -919,17 +788,11 @@
     "portfolios": [
       {
         "name": "Distributed Service Architecture Blueprint",
-        "learnToApply": [
-          "System Architecture",
-          "Microservices"
-        ]
+        "learnToApply": ["System Architecture", "Microservices"]
       },
       {
         "name": "Monolith to Microservices migration plan",
-        "learnToApply": [
-          "System Design",
-          "Cloud Architecture"
-        ]
+        "learnToApply": ["System Design", "Cloud Architecture"]
       }
     ]
   },
@@ -969,11 +832,89 @@
     "portfolios": [
       {
         "name": "Cloud Architecture Proposal",
-        "learnToApply": [
-          "Cloud Architecture (AWS/Azure)",
-          "System Integration"
-        ]
+        "learnToApply": ["Cloud Architecture (AWS/Azure)", "System Integration"]
       }
     ]
   }
-}
+};
+
+const careerPaths = {
+  "Frontend Developer": {
+    "courses": ["COM108", "COM2012", "PRO1014", "WEB1013", "WEB1043", "WEB2063", "WEB3023", "WEB501"],
+    "weights": { "WEB1043": 3, "WEB2063": 3, "WEB3023": 3, "COM2012": 1, "COM108": 1 }
+  },
+  "React Developer": {
+    "courses": ["WEB1043", "WEB2063", "WEB2081", "WEB2091", "WEB501", "WEB502"],
+    "weights": { "WEB2081": 3, "WEB2091": 3, "WEB2063": 3 }
+  },
+  "Next.js Developer": {
+    "courses": ["WEB1043", "WEB2063", "WEB2081", "WEB2091", "WEB501", "WEB502", "WEB503"],
+    "weights": { "WEB2081": 3, "WEB2091": 3, "WEB503": 2 }
+  },
+  "Backend Developer": {
+    "courses": ["COM108", "COM2012", "PRO1014", "WEB108", "WEB2014", "WEB503", "WEB1043"],
+    "weights": { "COM2012": 3, "WEB503": 3, "WEB108": 2, "WEB1043": 1, "PRO1014": 1 }
+  },
+  "Node.js Developer": {
+    "courses": ["COM108", "COM2012", "PRO1014", "WEB1043", "WEB503"],
+    "weights": { "COM2012": 3, "WEB503": 3, "PRO1014": 1 }
+  },
+  "Full Stack Developer": {
+    "courses": ["COM2012", "WEB1043", "WEB2063", "WEB503", "PRO2201", "WEB2081", "WEB3023"],
+    "weights": { "COM2012": 3, "WEB503": 3, "WEB2063": 2, "WEB2081": 2, "PRO2201": 3 }
+  },
+  "Software Engineer": {
+    "courses": ["COM108", "COM2012", "PRO1014", "WEB503", "PRO2201"],
+    "weights": { "COM108": 3, "COM2012": 3 }
+  },
+  "UI Engineer": {
+    "courses": ["WEB1013", "WEB1043", "WEB3023", "VIE104", "WEB2063"],
+    "weights": { "WEB3023": 3, "WEB1013": 2, "WEB1043": 2 }
+  },
+  "Flutter Developer": {
+    "courses": ["COM108", "COM2012", "PRO1014", "PRO2201", "WEB1043"],
+    "weights": { "COM108": 3, "COM2012": 2 }
+  },
+  "React Native Developer": {
+    "courses": ["WEB1043", "WEB2063", "WEB2081", "PRO2201", "WEB501", "WEB502"],
+    "weights": { "WEB2081": 3, "WEB2063": 3, "PRO2201": 2 }
+  },
+  "QA Automation Engineer": {
+    "courses": ["COM108", "COM2012", "WEB1043", "WEB2063", "WEB503"],
+    "weights": { "WEB1043": 3, "COM2012": 2 }
+  },
+  "DevOps Engineer": {
+    "courses": ["COM108", "COM2012", "WEB503", "WEB108", "PRO2201"],
+    "weights": { "COM2012": 3, "WEB503": 2 }
+  },
+  "Cloud Engineer": {
+    "courses": ["COM108", "COM2012", "WEB503", "WEB2014"],
+    "weights": { "COM2012": 3, "WEB503": 3 }
+  },
+  "AI Frontend Engineer": {
+    "courses": ["WEB1043", "WEB2063", "WEB2081", "WEB501", "WEB502", "WEB503"],
+    "weights": { "WEB2081": 3, "WEB503": 2 }
+  },
+  "AI Fullstack Engineer": {
+    "courses": ["COM2012", "WEB2063", "WEB2081", "WEB503", "PRO2201"],
+    "weights": { "WEB503": 3, "COM2012": 3, "WEB2081": 2 }
+  },
+  "Prompt Engineer": {
+    "courses": ["COM108", "COM2012", "WEB1043", "WEB503"],
+    "weights": { "COM2012": 2, "WEB503": 3 }
+  },
+  "Software Architect": {
+    "courses": ["COM108", "COM2012", "PRO1014", "WEB503", "PRO2201"],
+    "weights": { "COM2012": 3, "WEB503": 3 }
+  },
+  "Solutions Engineer": {
+    "courses": ["COM108", "COM2012", "WEB503", "PRO2201"],
+    "weights": { "COM2012": 2, "WEB503": 3 }
+  }
+};
+
+fs.writeFileSync(roadmapPath, JSON.stringify(fullRoadmaps, null, 2), 'utf-8');
+console.log('✅ Overwritten career-roadmaps.json successfully.');
+
+fs.writeFileSync(pathPath, JSON.stringify(careerPaths, null, 2), 'utf-8');
+console.log('✅ Overwritten career-paths.json successfully.');

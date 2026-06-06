@@ -11,20 +11,20 @@ const CATEGORY_MAP = {
   'React Developer': 'Web Development',
   'Next.js Developer': 'Web Development',
   'Backend Developer': 'Web Development',
-  'Fullstack Developer': 'Web Development',
+  'Node.js Developer': 'Web Development',
+  'Full Stack Developer': 'Web Development',
   'Software Engineer': 'Web Development',
   'UI Engineer': 'Web Development',
-  'Mobile Developer': 'Mobile',
-  'Flutter Developer': 'Mobile',
-  'React Native Developer': 'Mobile',
+  'Flutter Developer': 'Mobile Development',
+  'React Native Developer': 'Mobile Development',
   'QA Automation Engineer': 'QA & Testing',
-  'DevOps Junior Engineer': 'DevOps & Cloud',
-  'Cloud Engineer': 'DevOps & Cloud',
-  'WordPress Developer': 'CMS',
-  'AI Frontend Engineer': 'AI & Emerging Tech',
-  'AI Fullstack Engineer': 'AI & Emerging Tech',
-  'Technical Support Engineer': 'Other',
-  'Solutions Engineer': 'Other'
+  'DevOps Engineer': 'Cloud & DevOps',
+  'Cloud Engineer': 'Cloud & DevOps',
+  'AI Frontend Engineer': 'AI & Emerging',
+  'AI Fullstack Engineer': 'AI & Emerging',
+  'Prompt Engineer': 'AI & Emerging',
+  'Software Architect': 'Architecture',
+  'Solutions Engineer': 'Support'
 };
 
 exports.getCourse = (code) => {

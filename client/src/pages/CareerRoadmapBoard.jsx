@@ -30,6 +30,15 @@ function getSkillImpact(skillName) {
   return 8; // Default impact score
 }
 
+function getDaysOfLearning(task) {
+  if (!task || !task.started_at) return 0;
+  const start = new Date(task.started_at);
+  const end = task.completed_at ? new Date(task.completed_at) : new Date();
+  const diffTime = Math.max(0, end - start);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays || 1;
+}
+
 export default function CareerRoadmapBoard() {
   const navigate = useNavigate();
   const currentUser = useStore(state => state.currentUser);
@@ -47,6 +56,7 @@ export default function CareerRoadmapBoard() {
   const [evidenceModalTask, setEvidenceModalTask] = useState(null);
   const [githubUrl, setGithubUrl] = useState('');
   const [demoUrl, setDemoUrl] = useState('');
+  const [screenshotUrl, setScreenshotUrl] = useState('');
   
   // Drag and drop state
   const [dragOverCol, setDragOverCol] = useState(null);
@@ -106,7 +116,12 @@ export default function CareerRoadmapBoard() {
           // Map skills from backend analysis to tasks
           const allCore = data.industryRequirements?.core || [];
           const allAdv = data.industryRequirements?.advanced || [];
-          const allSkills = [...allCore.map(s => ({ name: s, type: 'core' })), ...allAdv.map(s => ({ name: s, type: 'advanced' }))];
+          const allSkills = [
+            ...allCore.map(s => ({ name: s, type: 'core' })), 
+            ...allAdv.map(s => ({ name: s, type: 'advanced' })),
+            { name: 'Portfolio Project', type: 'advanced' },
+            { name: 'Internship Ready', type: 'advanced' }
+          ];
           
           const initialTasks = allSkills.map((s, idx) => {
             const clean = s.name.toLowerCase();
@@ -135,8 +150,11 @@ export default function CareerRoadmapBoard() {
               duration: s.type === 'core' ? '4-6 days' : '7-10 days',
               started_at: status === 'IN_PROGRESS' ? new Date().toISOString().split('T')[0] : null,
               completed_at: status === 'DONE' ? new Date().toISOString().split('T')[0] : null,
+              updated_at: new Date().toISOString().split('T')[0],
               github: null,
               demo: null,
+              screenshot: null,
+              evidenceStatus: status === 'DONE' ? 'VERIFIED' : 'NONE',
               verified: status === 'DONE'
             };
           });
@@ -169,13 +187,17 @@ export default function CareerRoadmapBoard() {
     } else {
       const updated = tasks.map(t => {
         if (t.id === task.id) {
+          recordLearningEvent(t.title, t.status, newStatus);
           return {
             ...t,
             status: newStatus,
-            started_at: newStatus === 'IN_PROGRESS' ? new Date().toISOString().split('T')[0] : t.started_at,
+            started_at: newStatus === 'IN_PROGRESS' ? (t.started_at || new Date().toISOString().split('T')[0]) : null,
             completed_at: null,
+            updated_at: new Date().toISOString().split('T')[0],
             github: null,
             demo: null,
+            screenshot: null,
+            evidenceStatus: 'NONE',
             verified: false
           };
         }
@@ -192,13 +214,18 @@ export default function CareerRoadmapBoard() {
     
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
+        recordLearningEvent(t.title, t.status, 'DONE');
         return {
           ...t,
           status: 'DONE',
           completed_at: new Date().toISOString().split('T')[0],
+          started_at: t.started_at || new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          updated_at: new Date().toISOString().split('T')[0],
           github: githubUrl || null,
           demo: demoUrl || null,
-          verified: !!githubUrl
+          screenshot: screenshotUrl || null,
+          evidenceStatus: githubUrl ? 'PENDING' : 'NONE',
+          verified: false
         };
       }
       return t;
@@ -214,12 +241,17 @@ export default function CareerRoadmapBoard() {
     
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
+        recordLearningEvent(t.title, t.status, 'DONE');
         return {
           ...t,
           status: 'DONE',
           completed_at: t.completed_at || new Date().toISOString().split('T')[0],
+          started_at: t.started_at || new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          updated_at: new Date().toISOString().split('T')[0],
           github: null,
           demo: null,
+          screenshot: null,
+          evidenceStatus: 'NONE',
           verified: false
         };
       }
@@ -228,6 +260,39 @@ export default function CareerRoadmapBoard() {
     
     saveTasks(updated);
     setEvidenceModalTask(null);
+  };
+
+  // Helper to record learning events in LocalStorage
+  const recordLearningEvent = (skillName, fromStatus, toStatus) => {
+    const eventsKey = `eduguard_learning_events_${studentId}`;
+    const stored = localStorage.getItem(eventsKey);
+    const events = stored ? JSON.parse(stored) : [];
+    const newEvent = {
+      id: `event_${Date.now()}`,
+      careerId: selectedCareerId,
+      skill: skillName,
+      from: fromStatus,
+      to: toStatus,
+      timestamp: new Date().toISOString()
+    };
+    const updated = [newEvent, ...events];
+    localStorage.setItem(eventsKey, JSON.stringify(updated));
+  };
+
+  // Simulate Teacher/Admin Verification Review
+  const simulateEvidenceReview = (taskId, reviewStatus) => {
+    const updated = tasks.map(t => {
+      if (t.id === taskId) {
+        return {
+          ...t,
+          evidenceStatus: reviewStatus,
+          verified: reviewStatus === 'VERIFIED',
+          updated_at: new Date().toISOString().split('T')[0]
+        };
+      }
+      return t;
+    });
+    saveTasks(updated);
   };
 
   // Drag & Drop Handlers
@@ -287,7 +352,7 @@ export default function CareerRoadmapBoard() {
     const industryScore = totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0;
     
     // Portfolio: based on tasks with Github evidence
-    const verifiedTasksCount = doneTasks.filter(t => t.verified && t.github).length;
+    const verifiedTasksCount = doneTasks.filter(t => t.evidenceStatus === 'VERIFIED').length;
     const portfolioScore = Math.min(100, verifiedTasksCount * 33);
     
     // Behavior: remains unchanged from backend
@@ -585,7 +650,10 @@ export default function CareerRoadmapBoard() {
                       <span className="text-[9px] font-black uppercase text-blue-500 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20 shrink-0">+{task.impact} Pt</span>
                     </div>
                     {task.started_at && (
-                      <p className="text-[9px] text-slate-400 font-bold flex items-center gap-1"><Calendar size={10} /> Start Date: {task.started_at}</p>
+                      <div className="flex flex-col gap-0.5 text-[9px] text-slate-400 font-bold">
+                        <p className="flex items-center gap-1"><Calendar size={10} /> Start Date: {task.started_at}</p>
+                        <p className="flex items-center gap-1">⏱️ Learning: {getDaysOfLearning(task)} {getDaysOfLearning(task) === 1 ? 'day' : 'days'}</p>
+                      </div>
                     )}
                     <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-white/5">
                       <button 
@@ -642,13 +710,28 @@ export default function CareerRoadmapBoard() {
                         <CheckCircle size={12} className="text-emerald-500 shrink-0" />
                         {task.title}
                       </h4>
-                      <span className="text-[9px] font-black uppercase text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-200 shrink-0">Completed</span>
+                      <span className={`text-[9px] font-black uppercase px-1.5 py-0.5 rounded border shrink-0 ${
+                        task.evidenceStatus === 'VERIFIED' ? 'bg-emerald-500/10 border-emerald-200 text-emerald-600 dark:text-emerald-400' :
+                        task.evidenceStatus === 'REJECTED' ? 'bg-rose-500/10 border-rose-200 text-rose-600 dark:text-rose-400' :
+                        task.evidenceStatus === 'PENDING' ? 'bg-amber-500/10 border-amber-200 text-amber-600 dark:text-amber-400 animate-pulse' :
+                        'bg-slate-100 border-slate-200 text-slate-500'
+                      }`}>
+                        {task.evidenceStatus === 'VERIFIED' ? 'Verified' :
+                         task.evidenceStatus === 'REJECTED' ? 'Rejected' :
+                         task.evidenceStatus === 'PENDING' ? 'Pending' :
+                         'Completed'}
+                      </span>
                     </div>
 
                     <div className="space-y-1 text-[9px] text-slate-400 font-bold">
-                      {task.completed_at && <p className="flex items-center gap-1"><Calendar size={10} /> Earned on: {task.completed_at}</p>}
+                      {task.completed_at && (
+                        <div className="flex flex-col gap-0.5">
+                          <p className="flex items-center gap-1"><Calendar size={10} /> Completed: {task.completed_at}</p>
+                          {task.started_at && <p className="flex items-center gap-1">⏱️ Took: {getDaysOfLearning(task)} {getDaysOfLearning(task) === 1 ? 'day' : 'days'}</p>}
+                        </div>
+                      )}
                       {task.github ? (
-                        <div className="flex flex-col gap-1 mt-1.5 pt-1.5 border-t border-slate-100 dark:border-white/5">
+                        <div className="flex flex-col gap-1 mt-1.5 pt-1.5 border-t border-slate-100 dark:border-white/5 space-y-1">
                           <div className="text-[9px] uppercase tracking-wider text-slate-500">Learning Evidence:</div>
                           <a href={task.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
                             <GithubIcon size={10} /> GitHub Repository <ArrowUpRight size={8} />
@@ -658,7 +741,32 @@ export default function CareerRoadmapBoard() {
                               <Link2 size={10} /> Live Demo <ArrowUpRight size={8} />
                             </a>
                           )}
-                          <span className="inline-flex items-center gap-1 text-[8px] font-extrabold text-emerald-500 mt-1"><Award size={8} /> Portfolio +3 Pts Verified</span>
+                          {task.screenshot && (
+                            <a href={task.screenshot} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[10px] text-blue-600 dark:text-blue-400 hover:underline">
+                              <Link2 size={10} /> Screenshot <ArrowUpRight size={8} />
+                            </a>
+                          )}
+
+                          {task.evidenceStatus === 'VERIFIED' && (
+                            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold text-emerald-500 mt-1"><Award size={8} /> Portfolio Score Added (+{Math.round(task.impact * 0.3)} Pts)</span>
+                          )}
+
+                          {task.evidenceStatus === 'PENDING' && (
+                            <div className="flex gap-1 pt-1.5">
+                              <button
+                                onClick={() => simulateEvidenceReview(task.id, 'VERIFIED')}
+                                className="flex-1 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white text-[8px] font-black rounded cursor-pointer text-center"
+                              >
+                                Approve
+                              </button>
+                              <button
+                                onClick={() => simulateEvidenceReview(task.id, 'REJECTED')}
+                                className="flex-1 py-0.5 bg-rose-600 hover:bg-rose-700 text-white text-[8px] font-black rounded cursor-pointer text-center"
+                              >
+                                Reject
+                              </button>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <div className="mt-2 pt-2 border-t border-slate-100 dark:border-white/5">
@@ -714,6 +822,17 @@ export default function CareerRoadmapBoard() {
                   placeholder="https://my-demo-app.vercel.app"
                   value={demoUrl}
                   onChange={(e) => setDemoUrl(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-slate-100 outline-none focus:border-blue-500/50"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Screenshot URL (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://imgur.com/my-screenshot.png"
+                  value={screenshotUrl}
+                  onChange={(e) => setScreenshotUrl(e.target.value)}
                   className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-slate-100 outline-none focus:border-blue-500/50"
                 />
               </div>
