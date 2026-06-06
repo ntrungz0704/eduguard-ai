@@ -14,6 +14,7 @@ export default function Dashboard() {
   const { trainingData, setActiveStudent } = useStore();
   const [redAlerts, setRedAlerts] = useState(null);
   const [kpi, setKpi] = useState({ totalInterventions: 0, improvementRate: 0 });
+  const [roadmapProgress, setRoadmapProgress] = useState(null);
   const navigate = useNavigate();
   const currentUser = useStore(state => state.currentUser);
 
@@ -35,7 +36,20 @@ export default function Dashboard() {
         console.error(e);
       }
     };
+    
+    const fetchRoadmapProgress = async () => {
+      try {
+        const res = await api.get('/advisor/class-roadmap-progress');
+        if (res.data && res.data.success) {
+          setRoadmapProgress(res.data.data);
+        }
+      } catch (e) {
+        console.error("Lỗi tải tiến độ lộ trình:", e);
+      }
+    };
+    
     fetchRedAlerts();
+    fetchRoadmapProgress();
   }, []);
 
   const handleIntervene = async (mssv, courseId, e) => {
@@ -568,6 +582,101 @@ export default function Dashboard() {
             failedSubjects: a.failedCourses?.length || 0
           })) : []}
         />
+        
+        {/* Row 4: Class Roadmap Progress (Learning Board Analytics) */}
+        <div className="mt-8">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="p-1.5 bg-blue-100 dark:bg-blue-500/15 rounded-lg border border-blue-200 dark:border-blue-500/30">
+              <CheckCircle2 size={18} className="text-blue-600 dark:text-blue-400" />
+            </div>
+            <h3 className="text-slate-800 dark:text-slate-200 text-lg font-bold m-0">Career Roadmap Progress (Toàn Lớp)</h3>
+          </div>
+          
+          {!roadmapProgress ? (
+             <div className="p-8 text-center text-slate-600 dark:text-slate-400 glass-card rounded-3xl border border-slate-200 dark:border-white/5">Đang tải dữ liệu tiến độ lộ trình...</div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+              <div className="lg:col-span-1 glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5">
+                <h4 className="font-bold text-slate-800 dark:text-white mb-4">Phân bổ ngành nghề</h4>
+                <div className="h-48 w-full flex items-center justify-center">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieIcon /> {/* Placeholder for PieChart to avoid importing it all */}
+                    <BarChart data={roadmapProgress.careerDistribution} layout="vertical" margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                      <XAxis type="number" hide />
+                      <YAxis dataKey="name" type="category" width={100} tick={{fontSize: 10, fill: '#94a3b8'}} axisLine={false} tickLine={false} />
+                      <Tooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}} />
+                      <Bar dataKey="value" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={20} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mt-4 pt-4 border-t border-slate-200 dark:border-white/5 flex justify-between text-sm">
+                  <span className="text-slate-500">Tổng sinh viên theo học:</span>
+                  <span className="font-bold text-slate-800 dark:text-white">{roadmapProgress.totalActiveStudents} SV</span>
+                </div>
+              </div>
+              
+              <div className="lg:col-span-2 glass-card rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden flex flex-col">
+                <div className="p-5 border-b border-slate-200 dark:border-white/5">
+                  <h4 className="font-bold text-slate-800 dark:text-white">Bảng Xếp Hạng Kỹ Năng Thực Tế (Portfolio Points)</h4>
+                </div>
+                <div className="flex-1 overflow-auto custom-scrollbar p-0">
+                  <table className="w-full text-left text-sm whitespace-nowrap">
+                    <thead className="bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-400 text-xs tracking-wider">
+                      <tr>
+                        <th className="px-5 py-3 font-semibold">Sinh viên</th>
+                        <th className="px-5 py-3 font-semibold">Ngành mục tiêu</th>
+                        <th className="px-5 py-3 font-semibold text-center">Tiến độ (%)</th>
+                        <th className="px-5 py-3 font-semibold text-center">Đã xác thực</th>
+                        <th className="px-5 py-3 font-semibold text-right text-emerald-600 dark:text-emerald-400">Điểm Portfolio</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-white/5">
+                      {roadmapProgress.topPerformers.map((student, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                          <td className="px-5 py-3">
+                            <div className="flex items-center gap-2">
+                              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${idx < 3 ? 'bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'}`}>
+                                {idx + 1}
+                              </span>
+                              <div>
+                                <div className="font-bold text-slate-900 dark:text-slate-200">{student.name}</div>
+                                <div className="text-slate-500 text-[10px]">{student.mssv}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-5 py-3 text-xs text-slate-600 dark:text-slate-300">
+                            {student.careerId.replace(/-/g, ' ')}
+                          </td>
+                          <td className="px-5 py-3 text-center">
+                            <div className="flex items-center justify-center gap-2">
+                              <div className="w-16 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div className="bg-blue-500 h-full" style={{width: `${student.progressPercent}%`}}></div>
+                              </div>
+                              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{student.progressPercent}%</span>
+                            </div>
+                          </td>
+                          <td className="px-5 py-3 text-center text-xs font-medium text-slate-700 dark:text-slate-300">
+                            {student.verifiedTasks} / {student.doneTasks}
+                          </td>
+                          <td className="px-5 py-3 text-right">
+                            <span className="px-2 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-lg font-black">
+                              {student.points} pts
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                      {roadmapProgress.topPerformers.length === 0 && (
+                        <tr>
+                          <td colSpan="5" className="px-5 py-8 text-center text-slate-500">Chưa có sinh viên nào học lộ trình nghề nghiệp.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Roadmap Modal */}

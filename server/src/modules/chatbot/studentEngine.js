@@ -186,27 +186,12 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
     case 'STUDENT_CAREER_REASON_INTENT':
     case 'STUDENT_INTERNSHIP_PLAN_INTENT':
     case 'STUDENT_90_DAY_PLAN_INTENT': {
-      let careerGoal = (entities && entities.careerGoal) ? entities.careerGoal : 'Backend Developer';
-      // Normalize common names
-      const lower = careerGoal.toLowerCase();
-      if (lower.includes('backend') || lower.includes('back-end')) careerGoal = 'Backend Developer';
-      else if (lower.includes('frontend') || lower.includes('front-end')) careerGoal = 'Frontend Developer';
-      else if (lower.includes('fullstack')) careerGoal = 'Fullstack Developer';
-      else if (lower.includes('flutter') || lower.includes('dart')) careerGoal = 'Flutter Developer';
-      else if (lower.includes('react native') || lower.includes('mobile')) careerGoal = 'React Native Developer';
-      else if (lower.includes('qa') || lower.includes('tester') || lower.includes('manual')) careerGoal = 'QA Manual';
-      else if (lower.includes('automation')) careerGoal = 'QA Automation';
-      else if (lower.includes('devops')) careerGoal = 'DevOps Engineer';
-      else if (lower.includes('cloud')) careerGoal = 'Cloud Engineer';
-      else if (lower.includes('data analyst')) careerGoal = 'Data Analyst';
-      else if (lower.includes('data engineer')) careerGoal = 'Data Engineer';
-      else if (lower.includes('ai') || lower.includes('machine learning')) careerGoal = 'AI Engineer';
-      else if (lower.includes('prompt')) careerGoal = 'Prompt Engineer';
-      else if (lower.includes('security')) careerGoal = 'Web Security Engineer';
-      else if (lower.includes('ux') || lower.includes('ui') || lower.includes('design')) careerGoal = 'UI/UX Designer';
-      else if (lower.includes('product owner') || lower.includes('po')) careerGoal = 'Product Owner';
-      else if (lower.includes('project manager') || lower.includes('pm')) careerGoal = 'Project Manager';
-      else if (lower.includes('wordpress') || lower.includes('cms')) careerGoal = 'WordPress Developer';
+      // Use entityExtractor for robust career goal detection across all 18 paths
+      const extractedGoal = entities && entities.careerGoal;
+      let careerGoal = extractedGoal || (session && session.lastCareerGoal) || 'Backend Developer';
+      
+      // Store for follow-up questions
+      if (session) session.lastCareerGoal = careerGoal;
 
       const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
       const bestCareers = careerEngine.suggestBestCareers(student);
@@ -217,6 +202,24 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
       else if (intent === 'STUDENT_90_DAY_PLAN_INTENT') type = 'STUDENT_90_DAY_PLAN';
 
       return { type, careerGoal, careerAnalysis, bestCareers };
+    }
+
+    case 'STUDENT_SKILL_GAP_INTENT': {
+      const extractedGoal = entities && entities.careerGoal;
+      let careerGoal = extractedGoal || (session && session.lastCareerGoal) || 'Backend Developer';
+      if (session) session.lastCareerGoal = careerGoal;
+      
+      const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
+      return { type: 'STUDENT_SKILL_GAP', careerGoal, careerAnalysis, student };
+    }
+
+    case 'STUDENT_PORTFOLIO_INTENT': {
+      const extractedGoal = entities && entities.careerGoal;
+      let careerGoal = extractedGoal || (session && session.lastCareerGoal) || 'Backend Developer';
+      if (session) session.lastCareerGoal = careerGoal;
+      
+      const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
+      return { type: 'STUDENT_PORTFOLIO', careerGoal, careerAnalysis, student };
     }
 
     case 'STUDENT_BEST_CAREER_INTENT': {

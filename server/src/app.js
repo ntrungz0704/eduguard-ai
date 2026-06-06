@@ -65,6 +65,8 @@ const graphRouter = require('./modules/graph/routes');
 const dataImportRouter = require('./modules/data/import.routes');
 const knowledgeRouter = require('./modules/knowledge/routes');
 const advisorRoutes = require('./modules/advisor/routes');
+const learningRouter = require('./modules/learning/routes');
+const githubRouter = require('./modules/github/routes');
 
 app.use('/api', apiLimiter, apiRouter);
 app.use('/api/comm', apiLimiter, commRouter);
@@ -75,6 +77,8 @@ app.use('/api/v1/graph', apiLimiter, graphRouter);
 app.use('/api/v1/data', apiLimiter, dataImportRouter);
 app.use('/api/v1/knowledge', apiLimiter, knowledgeRouter);
 app.use('/api/v1/advisor', apiLimiter, advisorRoutes);
+app.use('/api/v1/learning', apiLimiter, learningRouter);
+app.use('/api/v1/github', apiLimiter, githubRouter);
 
 // Fallback to React Router
 app.get('*', (req, res) => {

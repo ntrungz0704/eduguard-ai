@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model User {
@@ -29,6 +29,7 @@ model Student {
   scores        Score[]
   predictions   Prediction[]
   interventions Intervention[]
+  learningBoards LearningBoard[]
 }
 
 model Course {
@@ -126,4 +127,43 @@ model Attachment {
   message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
   
   @@index([messageId])
+}
+
+model LearningBoard {
+  id        String   @id @default(uuid())
+  studentId String
+  careerId  String
+  tasks     LearningTask[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student   Student  @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+
+  @@unique([studentId, careerId])
+  @@index([studentId])
+}
+
+model LearningTask {
+  id             String        @id @default(uuid())
+  boardId        String
+  taskId         String        // ID in UI e.g., 'frontend_developer_task_1'
+  title          String
+  type           String
+  status         String        @default("TODO")
+  impact         String
+  duration       String
+  startedAt      DateTime?
+  completedAt    DateTime?
+  github         String?
+  demo           String?
+  screenshot     String?
+  evidenceStatus String        @default("NONE") // NONE, PENDING, VERIFIED
+  verified       Boolean       @default(false)
+  points         Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  board          LearningBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  @@index([boardId])
 }

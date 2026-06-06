@@ -43,37 +43,93 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
     intent = 'STUDENT_ROADMAP_INTENT';
   }
 
+  // Career keywords for all 18 paths (used in heuristic detection below)
+  const careerKeywords = [
+    'frontend', 'front-end', 'backend', 'back-end', 'fullstack', 'full-stack', 'full stack',
+    'react native', 'react developer', 'next.js', 'nextjs', 'node.js', 'nodejs',
+    'flutter', 'dart', 'devops', 'dev ops', 'cloud', 'qa automation', 'qa auto',
+    'prompt engineer', 'software engineer', 'software architect', 'solutions engineer',
+    'ui engineer', 'ai fullstack', 'ai frontend', 'ai full',
+    'kỹ sư phần mềm', 'kiến trúc sư', 'kỹ sư giải pháp'
+  ];
+  const hasCareerKeyword = careerKeywords.some(kw => msgLower.includes(kw));
+
   // Heuristics fallback if NLP failed
   if (intent === 'STUDENT_FALLBACK_INTENT') {
-    if (msgLower.includes('nên theo ngành gì') || msgLower.includes('hợp với nghề gì') || msgLower.includes('nghề nào phù hợp') || msgLower.includes('gợi ý nghề')) {
+    // Skill Gap intent
+    if (msgLower.includes('skill gap') || msgLower.includes('lỗ hổng') || msgLower.includes('kỹ năng còn thiếu') ||
+        msgLower.includes('em thiếu gì') || msgLower.includes('thiếu kỹ năng') || msgLower.includes('kiến thức thiếu') ||
+        msgLower.includes('cần học thêm gì') || msgLower.includes('kỹ năng nào cần') || msgLower.includes('gap') ||
+        (msgLower.includes('thiếu') && hasCareerKeyword)) {
+      intent = 'STUDENT_SKILL_GAP_INTENT';
+    }
+    // Portfolio intent
+    else if (msgLower.includes('portfolio') || msgLower.includes('dự án cá nhân') || msgLower.includes('project cần làm') ||
+             msgLower.includes('nên làm dự án gì') || msgLower.includes('gợi ý dự án') || msgLower.includes('gợi ý project') ||
+             msgLower.includes('làm dự án') || msgLower.includes('xây dựng portfolio') || msgLower.includes('tạo portfolio')) {
+      intent = 'STUDENT_PORTFOLIO_INTENT';
+    }
+    // Best career suggestion
+    else if (msgLower.includes('nên theo ngành gì') || msgLower.includes('hợp với nghề gì') || msgLower.includes('nghề nào phù hợp') || 
+             msgLower.includes('gợi ý nghề') || msgLower.includes('phù hợp nghề nào') || msgLower.includes('ngành nào tốt') ||
+             msgLower.includes('nghề gì hay') || msgLower.includes('hướng đi nào')) {
       intent = 'STUDENT_BEST_CAREER_INTENT';
-    } else if (msgLower.includes('tại sao') && (msgLower.includes('hợp') || msgLower.includes('thích hợp') || msgLower.includes('phù hợp') || msgLower.includes('lại match'))) {
+    }
+    // Career reason
+    else if (msgLower.includes('tại sao') && (msgLower.includes('hợp') || msgLower.includes('thích hợp') || msgLower.includes('phù hợp') || msgLower.includes('lại match'))) {
       intent = 'STUDENT_CAREER_REASON_INTENT';
-    } else if ((msgLower.includes('làm sao') || msgLower.includes('cách nào')) && msgLower.includes('thực tập')) {
+    }
+    // Internship plan
+    else if ((msgLower.includes('làm sao') || msgLower.includes('cách nào')) && msgLower.includes('thực tập')) {
       intent = 'STUDENT_INTERNSHIP_PLAN_INTENT';
-    } else if (msgLower.includes('kế hoạch 90 ngày') || msgLower.includes('tạo kế hoạch') || msgLower.includes('90-day plan') || msgLower.includes('12 tuần')) {
+    }
+    // 90-day plan
+    else if (msgLower.includes('kế hoạch 90 ngày') || msgLower.includes('tạo kế hoạch') || msgLower.includes('90-day plan') || 
+             msgLower.includes('12 tuần') || msgLower.includes('lên kế hoạch') || msgLower.includes('plan 90') ||
+             msgLower.includes('kế hoạch học')) {
       intent = 'STUDENT_90_DAY_PLAN_INTENT';
-    } else if (msgLower.includes('timeline') || msgLower.includes('lộ trình học tập') || msgLower.includes('khung thời gian') || msgLower.includes('academic timeline')) {
+    }
+    // Timeline
+    else if (msgLower.includes('timeline') || msgLower.includes('lộ trình học tập') || msgLower.includes('khung thời gian') || msgLower.includes('academic timeline')) {
       intent = 'STUDENT_TIMELINE_INTENT';
-    } else if (msgLower.includes('thuật toán') || msgLower.includes('pearson') || msgLower.includes('hoạt động thế nào') || msgLower.includes('ols') || msgLower.includes('iqr') || msgLower.includes('hệ thống hoạt động')) {
+    }
+    // Explain model
+    else if (msgLower.includes('thuật toán') || msgLower.includes('pearson') || msgLower.includes('hoạt động thế nào') || msgLower.includes('ols') || msgLower.includes('iqr') || msgLower.includes('hệ thống hoạt động')) {
       intent = 'EXPLAIN_MODEL_INTENT';
-    } else if (msgLower.includes('tình hình') || msgLower.includes('gpa') || msgLower.includes('phân tích')) {
+    }
+    // Overview
+    else if (msgLower.includes('tình hình') || msgLower.includes('gpa') || msgLower.includes('phân tích') || msgLower.includes('điểm số')) {
       intent = 'STUDENT_OVERVIEW_INTENT';
-    } else if (msgLower.includes('rớt') || msgLower.includes('nguy hiểm') || msgLower.includes('tạch')) {
+    }
+    // Risk
+    else if (msgLower.includes('rớt') || msgLower.includes('nguy hiểm') || msgLower.includes('tạch') || msgLower.includes('rủi ro')) {
       intent = 'STUDENT_RISK_INTENT';
-    } else if (msgLower.includes('muốn theo') || msgLower.includes('backend') || msgLower.includes('frontend') || msgLower.includes('lộ trình')) {
+    }
+    // Career path (broad — any career keyword + intent words)
+    else if (hasCareerKeyword || msgLower.includes('muốn theo') || msgLower.includes('lộ trình') || msgLower.includes('roadmap')) {
       intent = 'STUDENT_CAREER_PATH_INTENT';
-    } else if (msgLower.includes('ảnh hưởng môn nào') || msgLower.includes('kéo theo')) {
+    }
+    // Risk chain
+    else if (msgLower.includes('ảnh hưởng môn nào') || msgLower.includes('kéo theo')) {
       intent = 'STUDENT_RISK_CHAIN_INTENT';
-    } else if (msgLower.includes('cải thiện') || msgLower.includes('học gì')) {
+    }
+    // Recommendation
+    else if (msgLower.includes('cải thiện') || msgLower.includes('học gì')) {
       intent = 'STUDENT_RECOMMENDATION_INTENT';
-    } else if (msgLower.includes('stress') || msgLower.includes('ngu') || msgLower.includes('cứu')) {
+    }
+    // Motivation
+    else if (msgLower.includes('stress') || msgLower.includes('ngu') || msgLower.includes('cứu') || msgLower.includes('chán') || msgLower.includes('bỏ học')) {
       intent = 'STUDENT_MOTIVATION_INTENT';
-    } else if (msgLower.includes('môn học') || msgLower.includes('đề cương') || msgLower.includes('học cái gì')) {
+    }
+    // Syllabus
+    else if (msgLower.includes('môn học') || msgLower.includes('đề cương') || msgLower.includes('học cái gì')) {
       intent = 'STUDENT_SYLLABUS_INFO_INTENT';
-    } else if (msgLower.includes('môn tiên quyết') || msgLower.includes('học môn gì trước')) {
+    }
+    else if (msgLower.includes('môn tiên quyết') || msgLower.includes('học môn gì trước')) {
       intent = 'STUDENT_SYLLABUS_PREREQ_INTENT';
-    } else if (msgLower.includes('tại sao') && (msgLower.includes('cảnh báo') || msgLower.includes('rủi ro'))) {
+    }
+    // Intervention reason
+    else if (msgLower.includes('tại sao') && (msgLower.includes('cảnh báo') || msgLower.includes('rủi ro'))) {
       intent = 'STUDENT_INTERVENTION_REASON_INTENT';
     }
   }

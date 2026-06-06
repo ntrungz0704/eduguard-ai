@@ -295,19 +295,98 @@ ${graphData.impacted.map(i => `- ${i}`).join('\n')}
   };
 }
 
+function buildSkillGapResponse(decisionData) {
+  const { careerGoal, careerAnalysis } = decisionData;
+  if (!careerAnalysis || !careerAnalysis.skillGap) {
+    return {
+      text: `🤖 Mình chưa có dữ liệu Skill Gap cho nghề **${careerGoal}**. Hãy thử hỏi lộ trình trước nhé!`,
+      chartData: null,
+      actions: [`Lộ trình ${careerGoal}`]
+    };
+  }
+
+  const { core, advanced } = careerAnalysis.skillGap;
+  const haveList = [...core.have, ...advanced.have];
+  const missingList = [...core.missing, ...advanced.missing];
+  const totalRequired = haveList.length + missingList.length;
+  const coveragePercent = totalRequired > 0 ? Math.round((haveList.length / totalRequired) * 100) : 0;
+
+  const haveMarkdown = haveList.length > 0 
+    ? haveList.map(s => `✅ ${s}`).join('\n') 
+    : '_Chưa có kỹ năng nào_';
+  const missingMarkdown = missingList.length > 0 
+    ? missingList.map(s => `❌ ${s}`).join('\n') 
+    : '_Đã cover hết!_ 🎉';
+
+  const topActions = careerAnalysis.topMissingSkills.slice(0, 3).map((s, i) => {
+    return `${i + 1}. **${s.skill}** — Ưu tiên ${s.impactScore >= 20 ? 'CỰC CAO 🔴' : s.impactScore >= 10 ? 'CAO 🟡' : 'TRUNG BÌNH 🟢'}`;
+  }).join('\n');
+
+  return {
+    text: `# 🎯 Phân tích Lỗ hổng Kỹ năng: ${careerGoal}\n\n` +
+      `**Mức độ bao phủ: ${coveragePercent}%** (${haveList.length}/${totalRequired} kỹ năng)\n\n` +
+      `━━━━━━━━━━━━━━\n\n` +
+      `### ✅ Kỹ năng đã có (${haveList.length})\n${haveMarkdown}\n\n` +
+      `━━━━━━━━━━━━━━\n\n` +
+      `### ❌ Kỹ năng còn thiếu (${missingList.length})\n${missingMarkdown}\n\n` +
+      `━━━━━━━━━━━━━━\n\n` +
+      `### 🔥 Top ${Math.min(3, careerAnalysis.topMissingSkills.length)} kỹ năng cần học gấp\n${topActions || 'Không có'}\n\n` +
+      `━━━━━━━━━━━━━━\n\n` +
+      `⏳ **Thời gian ước tính**: ${careerAnalysis.estimatedMonthsText || 'N/A'}\n` +
+      `💡 *Hỏi thêm: "Gợi ý dự án" hoặc "Kế hoạch 90 ngày" để lên lộ trình cụ thể!*`,
+    chartData: null,
+    actions: [`Gợi ý dự án ${careerGoal}`, `Kế hoạch 90 ngày ${careerGoal}`, `Tại sao em hợp ${careerGoal}?`]
+  };
+}
+
+function buildPortfolioResponse(decisionData) {
+  const { careerGoal, careerAnalysis } = decisionData;
+  if (!careerAnalysis || !careerAnalysis.portfolios || careerAnalysis.portfolios.length === 0) {
+    return {
+      text: `🤖 Mình chưa có gợi ý dự án cho nghề **${careerGoal}**.`,
+      chartData: null,
+      actions: [`Lộ trình ${careerGoal}`]
+    };
+  }
+
+  const { core, advanced } = careerAnalysis.skillGap || { core: { have: [], missing: [] }, advanced: { have: [], missing: [] } };
+  const acquiredSkills = [...core.have, ...advanced.have].map(s => s.toLowerCase());
+
+  const portfolioMarkdown = careerAnalysis.portfolios.map((p, i) => {
+    const techStatus = (p.learnToApply || []).map(tech => {
+      const has = acquiredSkills.some(s => s.includes(tech.toLowerCase()) || tech.toLowerCase().includes(s));
+      return has ? `✅ ${tech}` : `❌ ${tech}`;
+    }).join(', ');
+    return `### ${i + 1}. ${p.name}\n**Công nghệ cần:** ${techStatus}`;
+  }).join('\n\n━━━━━━━━━━━━━━\n\n');
+
+  return {
+    text: `# 📁 Gợi ý Dự án Portfolio: ${careerGoal}\n\n` +
+      `Để nổi bật trong mắt nhà tuyển dụng cho vị trí **${careerGoal}**, bạn nên xây dựng các dự án sau:\n\n` +
+      `${portfolioMarkdown}\n\n` +
+      `━━━━━━━━━━━━━━\n\n` +
+      `💡 **Mẹo**: Push code lên GitHub mỗi ngày, viết README chi tiết, và deploy demo lên Vercel/Netlify để nhà tuyển dụng có thể xem trực tiếp!`,
+    chartData: null,
+    actions: [`Kỹ năng còn thiếu cho ${careerGoal}`, `Kế hoạch 90 ngày ${careerGoal}`]
+  };
+}
+
 function buildFallbackResponse() {
   return {
     text: `🤖 Mình là EduGuard AI - Trợ lý Cố vấn Học vụ Thông minh.
     
 Mình có thể giúp bạn:
-1. **Tìm hiểu thông tin môn học** (Ví dụ: COM108 là gì?)
-2. **Phân tích rủi ro học tập cá nhân** (Ví dụ: Tình hình học tập của em sao rồi?)
-3. **Mô phỏng điểm số** (Ví dụ: Nếu em rớt WEB101 thì sao?)
-4. **Tư vấn Lộ trình nghề nghiệp** (Ví dụ: Em muốn làm Backend Developer)
+1. **Tìm hiểu thông tin môn học** (VD: "COM108 là gì?")
+2. **Phân tích rủi ro học tập** (VD: "Tình hình học tập của em?")
+3. **Mô phỏng điểm số** (VD: "Nếu em rớt WEB101 thì sao?")
+4. **Tư vấn Lộ trình nghề nghiệp** (VD: "Em muốn làm Frontend Developer")
+5. **Phân tích lỗ hổng kỹ năng** (VD: "Em thiếu kỹ năng gì cho DevOps?")
+6. **Gợi ý dự án Portfolio** (VD: "Gợi ý dự án cho React Developer")
+7. **Kế hoạch 90 ngày** (VD: "Lên kế hoạch 90 ngày cho Flutter Developer")
 
 Bạn muốn mình giúp gì nào?`,
     chartData: null,
-    actions: ['Tình hình học tập của em?', 'Em muốn làm Backend Developer']
+    actions: ['Tình hình học tập của em?', 'Em muốn làm Backend Developer', 'Nghề nào phù hợp với em?']
   };
 }
 
@@ -494,6 +573,10 @@ function buildStudentResponse(decisionData) {
       return { text: decisionData.text, chartData: null, actions: null };
     case 'STUDENT_CAREER_PATH':
       return buildStudentCareerPath(decisionData);
+    case 'STUDENT_SKILL_GAP':
+      return buildSkillGapResponse(decisionData);
+    case 'STUDENT_PORTFOLIO':
+      return buildPortfolioResponse(decisionData);
     case 'STUDENT_BEST_CAREER':
       return buildBestCareersSuggestion(decisionData.bestCareers);
     case 'STUDENT_CAREER_REASON':
@@ -533,5 +616,7 @@ module.exports = {
   buildFallbackResponse,
   buildCareerReasonResponse,
   buildInternshipPlanResponse,
-  build90DayPlanResponse
+  build90DayPlanResponse,
+  buildSkillGapResponse,
+  buildPortfolioResponse
 };

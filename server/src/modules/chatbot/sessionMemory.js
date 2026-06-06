@@ -5,20 +5,23 @@
 
 const chatSessions = {};
 
-// Clean up expired sessions (older than 30 mins) every 5 minutes
-const cleanupInterval = setInterval(() => {
-  const now = Date.now();
-  const timeoutMs = 30 * 60 * 1000;
-  for (const [sid, session] of Object.entries(chatSessions)) {
-    if (now - session.updatedAt > timeoutMs) {
-      console.log(`[SESSION] Expired session auto-cleaned: ${sid}`);
-      delete chatSessions[sid];
+let cleanupInterval;
+if (process.env.NODE_ENV !== 'test') {
+  // Clean up expired sessions (older than 30 mins) every 5 minutes
+  cleanupInterval = setInterval(() => {
+    const now = Date.now();
+    const timeoutMs = 30 * 60 * 1000;
+    for (const [sid, session] of Object.entries(chatSessions)) {
+      if (now - session.updatedAt > timeoutMs) {
+        console.log(`[SESSION] Expired session auto-cleaned: ${sid}`);
+        delete chatSessions[sid];
+      }
     }
-  }
-}, 5 * 60 * 1000);
+  }, 5 * 60 * 1000);
 
-if (cleanupInterval && typeof cleanupInterval.unref === 'function') {
-  cleanupInterval.unref();
+  if (cleanupInterval && typeof cleanupInterval.unref === 'function') {
+    cleanupInterval.unref();
+  }
 }
 
 function getSession(sessionId, userRole = 'TEACHER') {

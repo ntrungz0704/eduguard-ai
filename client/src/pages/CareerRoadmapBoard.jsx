@@ -106,62 +106,83 @@ export default function CareerRoadmapBoard() {
         const data = res.data.data || null;
         setAnalysis(data);
         
-        // 3. Initialize or load tasks from localStorage
-        const storageKey = `eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`;
-        const storedTasks = localStorage.getItem(storageKey);
-        
-        if (storedTasks) {
-          setTasks(JSON.parse(storedTasks));
-        } else if (data) {
-          // Map skills from backend analysis to tasks
-          const allCore = data.industryRequirements?.core || [];
-          const allAdv = data.industryRequirements?.advanced || [];
-          const allSkills = [
-            ...allCore.map(s => ({ name: s, type: 'core' })), 
-            ...allAdv.map(s => ({ name: s, type: 'advanced' })),
-            { name: 'Portfolio Project', type: 'advanced' },
-            { name: 'Internship Ready', type: 'advanced' }
-          ];
-          
-          const initialTasks = allSkills.map((s, idx) => {
-            const clean = s.name.toLowerCase();
-            const haveCore = (data.skillGap?.core?.have || []).map(x => x.toLowerCase());
-            const haveAdv = (data.skillGap?.advanced?.have || []).map(x => x.toLowerCase());
-            
-            let status = 'TODO';
-            if (haveCore.includes(clean) || haveAdv.includes(clean)) {
-              status = 'DONE';
+        // 3. Initialize or load tasks from Backend API
+        const loadTasks = async () => {
+          let loadedTasks = null;
+          try {
+            const res = await api.get(`/learning/board/${studentId}/${selectedCareerId}`);
+            if (res.data && res.data.length > 0) {
+              loadedTasks = res.data;
             }
-            
-            // Check if course teaches it and is currently IN_PROGRESS
-            const isStudying = (data.academicProgress || []).some(
-              c => c.status === 'IN_PROGRESS' && c.skills.some(x => x.toLowerCase() === clean)
-            );
-            if (isStudying && status !== 'DONE') {
-              status = 'IN_PROGRESS';
+          } catch (e) {
+            console.warn("Không thể tải tasks từ DB (Có thể chưa bật DB):", e);
+            // Cố gắng khôi phục từ localStorage nếu DB lỗi
+            const storageKey = `eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`;
+            const storedTasks = localStorage.getItem(storageKey);
+            if (storedTasks) {
+              loadedTasks = JSON.parse(storedTasks);
             }
+          }
+
+          if (loadedTasks) {
+            setTasks(loadedTasks);
+          } else if (data) {
+            // Map skills from backend analysis to tasks
+            const allCore = data.industryRequirements?.core || [];
+            const allAdv = data.industryRequirements?.advanced || [];
+            const allSkills = [
+              ...allCore.map(s => ({ name: s, type: 'core' })), 
+              ...allAdv.map(s => ({ name: s, type: 'advanced' })),
+              { name: 'Portfolio Project', type: 'advanced' },
+              { name: 'Internship Ready', type: 'advanced' }
+            ];
             
-            return {
-              id: `${selectedCareerId}_task_${idx}`,
-              title: s.name,
-              type: s.type,
-              status,
-              impact: getSkillImpact(s.name),
-              duration: s.type === 'core' ? '4-6 ngày' : '7-10 ngày',
-              started_at: status === 'IN_PROGRESS' ? new Date().toISOString().split('T')[0] : null,
-              completed_at: status === 'DONE' ? new Date().toISOString().split('T')[0] : null,
-              updated_at: new Date().toISOString().split('T')[0],
-              github: null,
-              demo: null,
-              screenshot: null,
-              evidenceStatus: status === 'DONE' ? 'VERIFIED' : 'NONE',
-              verified: status === 'DONE'
-            };
-          });
-          
-          setTasks(initialTasks);
-          localStorage.setItem(storageKey, JSON.stringify(initialTasks));
-        }
+            const initialTasks = allSkills.map((s, idx) => {
+              const clean = s.name.toLowerCase();
+              const haveCore = (data.skillGap?.core?.have || []).map(x => x.toLowerCase());
+              const haveAdv = (data.skillGap?.advanced?.have || []).map(x => x.toLowerCase());
+              
+              let status = 'TODO';
+              if (haveCore.includes(clean) || haveAdv.includes(clean)) {
+                status = 'DONE';
+              }
+              
+              // Check if course teaches it and is currently IN_PROGRESS
+              const isStudying = (data.academicProgress || []).some(
+                c => c.status === 'IN_PROGRESS' && c.skills.some(x => x.toLowerCase() === clean)
+              );
+              if (isStudying && status !== 'DONE') {
+                status = 'IN_PROGRESS';
+              }
+              
+              return {
+                id: `${selectedCareerId}_task_${idx}`,
+                title: s.name,
+                type: s.type,
+                status,
+                impact: getSkillImpact(s.name),
+                duration: s.type === 'core' ? '4-6 ngày' : '7-10 ngày',
+                started_at: status === 'IN_PROGRESS' ? new Date().toISOString().split('T')[0] : null,
+                completed_at: status === 'DONE' ? new Date().toISOString().split('T')[0] : null,
+                updated_at: new Date().toISOString().split('T')[0],
+                github: null,
+                demo: null,
+                screenshot: null,
+                evidenceStatus: status === 'DONE' ? 'VERIFIED' : 'NONE',
+                verified: status === 'DONE'
+              };
+            });
+            
+            setTasks(initialTasks);
+            try {
+              await api.put(`/learning/board/${studentId}/${selectedCareerId}`, { tasks: initialTasks });
+            } catch (e) {
+              console.warn("Không thể lưu tasks lên DB, lưu tạm vào localStorage");
+              localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`, JSON.stringify(initialTasks));
+            }
+          }
+        };
+        loadTasks();
       } catch (err) {
         console.error('Failed to load analysis:', err);
       } finally {
@@ -171,10 +192,15 @@ export default function CareerRoadmapBoard() {
     fetchAnalysis();
   }, [selectedCareerId, studentId]);
 
-  // Save tasks state to localStorage
-  const saveTasks = (updatedTasks) => {
+  // Save tasks state to Backend API (fallback to localStorage if DB down)
+  const saveTasks = async (updatedTasks) => {
     setTasks(updatedTasks);
-    localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`, JSON.stringify(updatedTasks));
+    try {
+      await api.put(`/learning/board/${studentId}/${selectedCareerId}`, { tasks: updatedTasks });
+    } catch (e) {
+      console.warn("Lỗi khi lưu tasks lên DB, lưu tạm vào localStorage:", e);
+      localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`, JSON.stringify(updatedTasks));
+    }
   };
 
   // Move task to a new status
@@ -208,9 +234,29 @@ export default function CareerRoadmapBoard() {
   };
 
   // Submit Evidence
-  const handleSubmitEvidence = (e) => {
+  const handleSubmitEvidence = async (e) => {
     e.preventDefault();
     if (!evidenceModalTask) return;
+    
+    let isVerified = false;
+    let evidenceStatus = githubUrl ? 'PENDING' : 'NONE';
+    let extraPoints = 0;
+    
+    // Auto Verify via GitHub API if a github link is provided
+    if (githubUrl) {
+      try {
+        const res = await api.post('/github/verify', { githubUrl });
+        if (res.data && res.data.success) {
+          isVerified = true;
+          evidenceStatus = 'VERIFIED';
+          extraPoints = res.data.data.pointsAwarded || 0;
+          alert(`🎉 Xác thực GitHub thành công! Bạn nhận được ${extraPoints} điểm kinh nghiệm từ dự án này.\n\nCông nghệ phát hiện: ${res.data.data.languages.join(', ')}`);
+        }
+      } catch (err) {
+        console.warn('Lỗi xác thực GitHub:', err);
+        alert('Không thể xác thực tự động. Link GitHub của bạn sẽ được giảng viên duyệt tay.');
+      }
+    }
     
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
@@ -224,14 +270,15 @@ export default function CareerRoadmapBoard() {
           github: githubUrl || null,
           demo: demoUrl || null,
           screenshot: screenshotUrl || null,
-          evidenceStatus: githubUrl ? 'PENDING' : 'NONE',
-          verified: false
+          evidenceStatus,
+          verified: isVerified,
+          points: extraPoints
         };
       }
       return t;
     });
     
-    saveTasks(updated);
+    await saveTasks(updated);
     setEvidenceModalTask(null);
   };
 
@@ -854,9 +901,9 @@ export default function CareerRoadmapBoard() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer flex items-center gap-2"
                 >
-                  Xác nhận & Hoàn thành
+                  <Award size={14} /> Xác thực & Hoàn thành
                 </button>
               </div>
             </form>

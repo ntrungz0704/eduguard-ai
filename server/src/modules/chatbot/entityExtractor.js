@@ -127,7 +127,34 @@ function extractCourseId(message) {
 }
 
 /**
+ * Career keyword-to-careerName mapping for all 18 career paths.
+ * Order matters: more specific patterns must come before broader ones.
+ */
+const CAREER_KEYWORDS = [
+  // Specific compound names first
+  { keys: ['ai fullstack', 'ai full stack', 'ai full-stack'], career: 'AI Fullstack Engineer' },
+  { keys: ['ai frontend', 'ai front-end', 'ai front end'], career: 'AI Frontend Engineer' },
+  { keys: ['react native', 'reactnative'], career: 'React Native Developer' },
+  { keys: ['next.js', 'nextjs', 'next js'], career: 'Next.js Developer' },
+  { keys: ['node.js', 'nodejs', 'node js'], career: 'Node.js Developer' },
+  { keys: ['full stack', 'fullstack', 'full-stack'], career: 'Full Stack Developer' },
+  { keys: ['software architect', 'kiến trúc sư phần mềm', 'architect'], career: 'Software Architect' },
+  { keys: ['solutions engineer', 'kỹ sư giải pháp', 'solution engineer'], career: 'Solutions Engineer' },
+  { keys: ['software engineer', 'kỹ sư phần mềm', 'swe'], career: 'Software Engineer' },
+  { keys: ['qa automation', 'qa auto', 'tester automation', 'automation testing', 'kiểm thử tự động'], career: 'QA Automation Engineer' },
+  { keys: ['prompt engineer', 'kỹ sư prompt', 'prompt'], career: 'Prompt Engineer' },
+  { keys: ['cloud engineer', 'kỹ sư cloud', 'cloud'], career: 'Cloud Engineer' },
+  { keys: ['devops', 'dev ops', 'dev-ops'], career: 'DevOps Engineer' },
+  { keys: ['flutter', 'dart'], career: 'Flutter Developer' },
+  { keys: ['react developer', 'react dev', 'lập trình react'], career: 'React Developer' },
+  { keys: ['ui engineer', 'ui dev', 'kỹ sư ui'], career: 'UI Engineer' },
+  { keys: ['frontend', 'front-end', 'front end', 'lập trình giao diện', 'fe developer'], career: 'Frontend Developer' },
+  { keys: ['backend', 'back-end', 'back end', 'lập trình server', 'be developer'], career: 'Backend Developer' },
+];
+
+/**
  * Extract Career Goal from a message.
+ * Supports all 18 career paths in career-roadmaps.json.
  * @param {string} message
  * @returns {string|null}
  */
@@ -135,14 +162,10 @@ function extractCareerGoal(message) {
   if (!message) return null;
   const msgLower = message.toLowerCase().trim();
   
-  if (msgLower.includes('backend') || msgLower.includes('back-end') || msgLower.includes('back end')) {
-    return 'Backend Developer';
-  }
-  if (msgLower.includes('frontend') || msgLower.includes('front-end') || msgLower.includes('front end')) {
-    return 'Frontend Developer';
-  }
-  if (msgLower.includes('fullstack') || msgLower.includes('full-stack') || msgLower.includes('full stack')) {
-    return 'Fullstack Developer';
+  for (const entry of CAREER_KEYWORDS) {
+    if (entry.keys.some(k => msgLower.includes(k))) {
+      return entry.career;
+    }
   }
   
   return null;
