@@ -1,0 +1,46 @@
+{
+  "mssv": "SE182001",
+  "name": "Nguyễn Văn A",
+  "courseStatus": {
+    "COM108": "PASSED",
+    "WEB101": "PASSED",
+    "WEB1043": "PASSED",
+    "COM2012": "FAILED",
+    "PRO1014": "PASSED"
+  },
+  "skills": {
+    "JavaScript": 70,
+    "HTML": 80,
+    "CSS": 75,
+    "PHP": 50,
+    "SQL": 40
+  },
+  "projects": [
+    {
+      "name": "E-commerce API",
+      "technologies": ["Node.js", "Express", "PostgreSQL"],
+      "portfolioEvidence": {
+        "githubUrl": "https://github.com/nguyenvana/e-commerce-api",
+        "demoUrl": "https://api.nguyenvana.com",
+        "verified": false
+      }
+    },
+    {
+      "name": "Dockerized Portfolio",
+      "technologies": ["Docker", "HTML", "CSS"],
+      "portfolioEvidence": {
+        "githubUrl": "https://github.com/nguyenvana/portfolio",
+        "demoUrl": "https://nguyenvana.com",
+        "verified": false
+      }
+    }
+  ],
+  "behavior": {
+    "dataSource": "MOCK",
+    "confidence": 0.5,
+    "attendance": 55,
+    "quizAverage": 4.2,
+    "labCompletion": 50,
+    "lateAssignments": 3
+  }
+}

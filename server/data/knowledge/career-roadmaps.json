@@ -1,0 +1,959 @@
+{
+  "Frontend Developer": {
+    "careerName": "Frontend Developer",
+    "description": "Kỹ sư chuyên phát triển giao diện và trải nghiệm người dùng trên các nền tảng web, biến thiết kế thành các ứng dụng web tương tác.",
+    "salaryRange": "8-18 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Nhu cầu dịch chuyển sang Next.js/SSR và UI components AI-generated.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Responsive Design",
+      "Git and GitHub",
+      "REST API",
+      "Package Managers"
+    ],
+    "advancedSkills": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "State Management",
+      "CSS Frameworks (Tailwind)",
+      "Performance Optimization",
+      "SEO",
+      "Testing"
+    ],
+    "tools": [
+      "VS Code",
+      "Git",
+      "Figma",
+      "Vite",
+      "npm/yarn/pnpm"
+    ],
+    "softSkills": [
+      "Attention to detail",
+      "Communication",
+      "Creativity"
+    ],
+    "portfolios": [
+      {
+        "name": "Personal Portfolio",
+        "learnToApply": [
+          "HTML",
+          "CSS",
+          "Responsive Design"
+        ]
+      },
+      {
+        "name": "Landing Page",
+        "learnToApply": [
+          "HTML",
+          "CSS",
+          "JavaScript"
+        ]
+      },
+      {
+        "name": "E-Commerce UI",
+        "learnToApply": [
+          "React",
+          "CSS Frameworks (Tailwind)"
+        ]
+      },
+      {
+        "name": "Dashboard Admin",
+        "learnToApply": [
+          "React",
+          "State Management",
+          "Vite"
+        ]
+      }
+    ]
+  },
+  "React Developer": {
+    "careerName": "React Developer",
+    "description": "Kỹ sư chuyên sử dụng thư viện React để xây dựng giao diện phức tạp và tương tác cao.",
+    "salaryRange": "10-22 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "React 19, Server Components và tích hợp AI.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Component Design",
+      "State & Props",
+      "React Hooks",
+      "React Router",
+      "REST API"
+    ],
+    "advancedSkills": [
+      "TypeScript",
+      "Redux Toolkit",
+      "Zustand",
+      "Context API",
+      "Next.js",
+      "Unit Testing (Jest/RTL)",
+      "Performance Optimization"
+    ],
+    "tools": [
+      "VS Code",
+      "Git",
+      "Chrome DevTools",
+      "Vite",
+      "npm/pnpm",
+      "Storybook"
+    ],
+    "softSkills": [
+      "Attention to detail",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "Dashboard Console",
+        "learnToApply": [
+          "React",
+          "State & Props",
+          "Vite"
+        ]
+      },
+      {
+        "name": "Social Media UI",
+        "learnToApply": [
+          "React",
+          "React Hooks",
+          "Context API"
+        ]
+      },
+      {
+        "name": "E-Commerce Frontend",
+        "learnToApply": [
+          "React",
+          "Redux Toolkit",
+          "Zustand"
+        ]
+      }
+    ]
+  },
+  "Next.js Developer": {
+    "careerName": "Next.js Developer",
+    "description": "Kỹ sư React nâng cao chuyên sử dụng framework Next.js để tối ưu SEO và Server-side rendering.",
+    "salaryRange": "12-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Server Actions và Edge Computing.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Next.js",
+      "Routing (App Router)",
+      "Data Fetching",
+      "SSR/SSG",
+      "Styling"
+    ],
+    "advancedSkills": [
+      "TypeScript",
+      "API Routes",
+      "Caching",
+      "Image/Font Optimization",
+      "SEO",
+      "Middleware",
+      "Edge Runtime",
+      "NextAuth"
+    ],
+    "tools": [
+      "Vercel",
+      "VS Code",
+      "Git",
+      "Chrome DevTools",
+      "npm/pnpm"
+    ],
+    "softSkills": [
+      "Analytical Thinking",
+      "Continuous Learning"
+    ],
+    "portfolios": [
+      {
+        "name": "Blog CMS",
+        "learnToApply": [
+          "Next.js",
+          "SSR/SSG",
+          "SEO"
+        ]
+      },
+      {
+        "name": "SaaS Dashboard App",
+        "learnToApply": [
+          "Next.js",
+          "TypeScript",
+          "NextAuth"
+        ]
+      },
+      {
+        "name": "Company Website",
+        "learnToApply": [
+          "Next.js",
+          "Styling",
+          "Image/Font Optimization"
+        ]
+      }
+    ]
+  },
+  "Backend Developer": {
+    "careerName": "Backend Developer",
+    "description": "Kỹ sư chuyên phát triển các hệ thống máy chủ, cơ sở dữ liệu, API và xử lý logic nghiệp vụ.",
+    "salaryRange": "9-22 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "Microservices, Serverless và bảo mật dữ liệu đang là xu hướng chính.",
+    "coreSkills": [
+      "JavaScript",
+      "Node.js",
+      "Express.js",
+      "REST API",
+      "SQL",
+      "PostgreSQL",
+      "Linux CLI",
+      "Git"
+    ],
+    "advancedSkills": [
+      "Redis",
+      "Docker",
+      "Microservices",
+      "Message Queue",
+      "API Design",
+      "System Design",
+      "Database Design",
+      "Web Security (JWT/OAuth)"
+    ],
+    "tools": [
+      "Postman",
+      "Docker",
+      "Git",
+      "Linux Terminal",
+      "VS Code"
+    ],
+    "softSkills": [
+      "Problem Solving",
+      "Logical Thinking",
+      "Teamwork"
+    ],
+    "portfolios": [
+      {
+        "name": "Student Management API",
+        "learnToApply": [
+          "Express.js",
+          "PostgreSQL",
+          "Web Security (JWT/OAuth)"
+        ]
+      },
+      {
+        "name": "Authentication Service",
+        "learnToApply": [
+          "Node.js",
+          "Redis",
+          "Web Security (JWT/OAuth)"
+        ]
+      },
+      {
+        "name": "E-Commerce API Service",
+        "learnToApply": [
+          "Docker",
+          "Microservices",
+          "API Design"
+        ]
+      }
+    ]
+  },
+  "Fullstack Developer": {
+    "careerName": "Fullstack Developer",
+    "description": "Kỹ sư đa năng có khả năng xử lý cả Frontend lẫn Backend, có thể tự tin xây dựng toàn bộ ứng dụng từ đầu.",
+    "salaryRange": "12-30 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Chuyển dịch sang các framework fullstack mạnh mẽ như Next.js và Remix.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "SQL",
+      "REST API",
+      "Git"
+    ],
+    "advancedSkills": [
+      "TypeScript",
+      "Next.js",
+      "Redis",
+      "NoSQL (MongoDB)",
+      "Docker",
+      "CI/CD (GitHub Actions)",
+      "Cloud Deployment (AWS/Vercel)",
+      "System Design",
+      "API Security"
+    ],
+    "tools": [
+      "VS Code",
+      "Postman",
+      "Git",
+      "Docker Desktop",
+      "Chrome DevTools"
+    ],
+    "softSkills": [
+      "Time Management",
+      "Adaptability",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "Fullstack E-Commerce",
+        "learnToApply": [
+          "React",
+          "Node.js",
+          "PostgreSQL"
+        ]
+      },
+      {
+        "name": "Booking System",
+        "learnToApply": [
+          "React",
+          "Express.js",
+          "Redis"
+        ]
+      },
+      {
+        "name": "CRM Dashboard App",
+        "learnToApply": [
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL"
+        ]
+      }
+    ]
+  },
+  "Software Engineer": {
+    "careerName": "Software Engineer",
+    "description": "Kỹ sư phần mềm truyền thống, tập trung vào thuật toán và hệ thống.",
+    "salaryRange": "12-30 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Tích hợp AI trong coding.",
+    "coreSkills": [
+      "Computer Science Basics",
+      "Algorithms & Data Structures",
+      "Java/C++/Python",
+      "OOP",
+      "Database Systems",
+      "SQL",
+      "Git and GitHub"
+    ],
+    "advancedSkills": [
+      "System Design",
+      "Microservices",
+      "Design Patterns",
+      "API Design",
+      "Code Review",
+      "Testing",
+      "System Architecture"
+    ],
+    "tools": [
+      "Git",
+      "Linux Terminal",
+      "IDE",
+      "Postman"
+    ],
+    "softSkills": [
+      "Analytical Thinking",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "High-concurrency API",
+        "learnToApply": [
+          "Java/C++/Python",
+          "OOP",
+          "Database Systems"
+        ]
+      },
+      {
+        "name": "Design Pattern Demo",
+        "learnToApply": [
+          "Design Patterns",
+          "Algorithms & Data Structures"
+        ]
+      }
+    ]
+  },
+  "UI Engineer": {
+    "careerName": "UI Engineer",
+    "description": "Kỹ sư lai giữa Design và Code, chuyên xây dựng các thư viện Component và hệ thống thiết kế (Design Systems).",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "MEDIUM",
+    "futureTrend": "AI-driven Design Systems.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Responsive Design",
+      "Web Accessibility (a11y)",
+      "Semantic HTML",
+      "CSS Layouts (Flexbox/Grid)"
+    ],
+    "advancedSkills": [
+      "Design Systems",
+      "Component Libraries",
+      "Storybook",
+      "CSS Animations (Framer Motion/GSAP)",
+      "Figma to Code",
+      "Tailwind CSS"
+    ],
+    "tools": [
+      "Figma",
+      "Storybook",
+      "VS Code",
+      "Chrome DevTools",
+      "Git"
+    ],
+    "softSkills": [
+      "Empathy",
+      "Creativity"
+    ],
+    "portfolios": [
+      {
+        "name": "Design System Package",
+        "learnToApply": [
+          "Tailwind CSS",
+          "Storybook",
+          "Design Systems"
+        ]
+      },
+      {
+        "name": "Interactive Web Design",
+        "learnToApply": [
+          "CSS Layouts (Flexbox/Grid)",
+          "CSS Animations (Framer Motion/GSAP)"
+        ]
+      }
+    ]
+  },
+  "React Native Developer": {
+    "careerName": "React Native Developer",
+    "description": "Kỹ sư phát triển ứng dụng di động đa nền tảng (iOS, Android) sử dụng React Native.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Tích hợp sâu AI và module native.",
+    "coreSkills": [
+      "JavaScript",
+      "React",
+      "React Native",
+      "Flexbox Layouts",
+      "Navigation",
+      "State Management",
+      "REST API",
+      "Git"
+    ],
+    "advancedSkills": [
+      "TypeScript",
+      "Expo",
+      "Native Modules",
+      "Firebase",
+      "App Store/Play Store Deployment",
+      "Mobile Performance",
+      "Push Notifications"
+    ],
+    "tools": [
+      "VS Code",
+      "Xcode",
+      "Android Studio",
+      "Expo CLI",
+      "Flipper",
+      "Git"
+    ],
+    "softSkills": [
+      "Problem Solving",
+      "Adaptability"
+    ],
+    "portfolios": [
+      {
+        "name": "Chat Mobile App",
+        "learnToApply": [
+          "React Native",
+          "Firebase",
+          "State Management"
+        ]
+      },
+      {
+        "name": "Delivery Tracking App",
+        "learnToApply": [
+          "React Native",
+          "REST API",
+          "Navigation"
+        ]
+      }
+    ]
+  },
+  "Flutter Developer": {
+    "careerName": "Flutter Developer",
+    "description": "Kỹ sư sử dụng Flutter để tạo ứng dụng hiệu năng cao trên cả di động và web.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Desktop/Web apps using Flutter.",
+    "coreSkills": [
+      "Dart Programming",
+      "Flutter Framework",
+      "Widget Lifecycle",
+      "Layouts & Gestures",
+      "State Management (Provider/Riverpod)",
+      "API Integration",
+      "Git"
+    ],
+    "advancedSkills": [
+      "Firebase",
+      "SQLite (Offline Storage)",
+      "Bloc Pattern",
+      "Animations",
+      "Mobile Performance",
+      "Push Notifications",
+      "App Store/Play Store Deployment"
+    ],
+    "tools": [
+      "Android Studio",
+      "VS Code",
+      "Flutter CLI",
+      "Xcode",
+      "Git",
+      "Figma"
+    ],
+    "softSkills": [
+      "Continuous Learning",
+      "Teamwork"
+    ],
+    "portfolios": [
+      {
+        "name": "E-Commerce Mobile App",
+        "learnToApply": [
+          "Flutter Framework",
+          "State Management (Provider/Riverpod)"
+        ]
+      },
+      {
+        "name": "Booking Mobile App",
+        "learnToApply": [
+          "Flutter Framework",
+          "Firebase",
+          "SQLite (Offline Storage)"
+        ]
+      }
+    ]
+  },
+  "Mobile Developer": {
+    "careerName": "Mobile Developer",
+    "description": "Kỹ sư phần mềm di động tổng hợp, có thể làm Native hoặc Cross-platform.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Cross-platform và AI on-device.",
+    "coreSkills": [
+      "Mobile UI Basics",
+      "API Integration",
+      "JSON Parsing",
+      "State Management",
+      "SQLite",
+      "Git"
+    ],
+    "advancedSkills": [
+      "React Native",
+      "Flutter",
+      "Swift/SwiftUI",
+      "Kotlin/Android SDK",
+      "Offline Storage",
+      "Push Notifications",
+      "Mobile Security",
+      "App Profiling"
+    ],
+    "tools": [
+      "Android Studio",
+      "Xcode",
+      "VS Code",
+      "Git"
+    ],
+    "softSkills": [
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "Task Manager Mobile App",
+        "learnToApply": [
+          "SQLite",
+          "Push Notifications"
+        ]
+      }
+    ]
+  },
+  "WordPress Developer": {
+    "careerName": "WordPress Developer",
+    "description": "Lập trình viên chuyên xây dựng và tùy biến website dựa trên nền tảng WordPress CMS.",
+    "salaryRange": "8-18 triệu",
+    "marketDemand": "MEDIUM",
+    "futureTrend": "Tích hợp Headless WordPress với React/Next.js.",
+    "coreSkills": [
+      "PHP",
+      "WordPress Core",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Theme Customization",
+      "Git"
+    ],
+    "advancedSkills": [
+      "Custom Plugin Development",
+      "WooCommerce Integration",
+      "Headless WordPress (Rest API/GraphQL)",
+      "Site Optimization",
+      "Security configuration",
+      "SEO"
+    ],
+    "tools": [
+      "LocalWP",
+      "Git",
+      "VS Code",
+      "cPanel/DirectAdmin",
+      "phpMyAdmin"
+    ],
+    "softSkills": [
+      "Client Communication",
+      "Time Management"
+    ],
+    "portfolios": [
+      {
+        "name": "Custom WooCommerce Store",
+        "learnToApply": [
+          "WooCommerce Integration",
+          "Theme Customization"
+        ]
+      }
+    ]
+  },
+  "QA Automation Engineer": {
+    "careerName": "QA Automation Engineer",
+    "description": "Kỹ sư kiểm thử tự động, viết script thay vì test tay.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "AI-assisted test generation.",
+    "coreSkills": [
+      "Software Testing Basics",
+      "Test Cases & Bug Tracking",
+      "API Testing (Postman)",
+      "JavaScript/Python",
+      "Git"
+    ],
+    "advancedSkills": [
+      "Selenium",
+      "Cypress",
+      "Playwright",
+      "CI/CD Integration",
+      "Performance/Load Testing (JMeter)",
+      "SQL Basics"
+    ],
+    "tools": [
+      "Postman",
+      "Git",
+      "Jenkins/GitHub Actions",
+      "Chrome DevTools",
+      "VS Code"
+    ],
+    "softSkills": [
+      "Attention to detail",
+      "Logical Thinking"
+    ],
+    "portfolios": [
+      {
+        "name": "Automated Testing Project",
+        "learnToApply": [
+          "Cypress",
+          "Playwright",
+          "CI/CD Integration"
+        ]
+      },
+      {
+        "name": "API Testing Suite",
+        "learnToApply": [
+          "Postman",
+          "Performance/Load Testing (JMeter)"
+        ]
+      }
+    ]
+  },
+  "DevOps Junior Engineer": {
+    "careerName": "DevOps Junior Engineer",
+    "description": "Kỹ sư vận hành, tối ưu hóa quá trình phát triển phần mềm qua tự động hóa tích hợp và triển khai (CI/CD).",
+    "salaryRange": "15-30 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "DevSecOps và GitOps.",
+    "coreSkills": [
+      "Linux",
+      "Git and GitHub",
+      "Bash Scripting",
+      "Networking Basics"
+    ],
+    "advancedSkills": [
+      "Docker",
+      "Kubernetes",
+      "CI/CD Pipelines",
+      "Terraform",
+      "AWS",
+      "Monitoring (Grafana/Prometheus)"
+    ],
+    "tools": [
+      "Docker Desktop",
+      "Terraform CLI",
+      "AWS CLI",
+      "Linux Terminal",
+      "Git"
+    ],
+    "softSkills": [
+      "Systematic Thinking",
+      "Under-pressure working"
+    ],
+    "portfolios": [
+      {
+        "name": "CI/CD Auto-pipeline",
+        "learnToApply": [
+          "CI/CD Pipelines",
+          "Docker"
+        ]
+      },
+      {
+        "name": "Dockerized Application Cluster",
+        "learnToApply": [
+          "Docker",
+          "Monitoring (Grafana/Prometheus)"
+        ]
+      }
+    ]
+  },
+  "Cloud Engineer": {
+    "careerName": "Cloud Engineer",
+    "description": "Kỹ sư chuyên thiết kế, triển khai hạ tầng trên đám mây.",
+    "salaryRange": "18-40 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Multi-cloud architecture.",
+    "coreSkills": [
+      "Linux",
+      "Networking",
+      "Docker",
+      "Cloud Architecture Basics"
+    ],
+    "advancedSkills": [
+      "AWS",
+      "Azure",
+      "Terraform",
+      "Kubernetes",
+      "CI/CD",
+      "Cloud Security"
+    ],
+    "tools": [
+      "AWS Console/CLI",
+      "Linux Terminal",
+      "Terraform CLI",
+      "Git"
+    ],
+    "softSkills": [
+      "Analytical Thinking"
+    ],
+    "portfolios": [
+      {
+        "name": "Cloud Deployment Architecture",
+        "learnToApply": [
+          "AWS",
+          "Terraform",
+          "Cloud Security"
+        ]
+      }
+    ]
+  },
+  "AI Frontend Engineer": {
+    "careerName": "AI Frontend Engineer",
+    "description": "Kỹ sư Frontend chuyên tích hợp AI vào UI/UX.",
+    "salaryRange": "15-30 triệu",
+    "marketDemand": "BOOMING",
+    "futureTrend": "AI Agents UI.",
+    "coreSkills": [
+      "React",
+      "TypeScript",
+      "API Integration",
+      "Prompt Engineering",
+      "HTML/CSS"
+    ],
+    "advancedSkills": [
+      "OpenAI/Gemini APIs",
+      "Retrieval-Augmented Generation (RAG)",
+      "AI Chat UI",
+      "AI Agents"
+    ],
+    "tools": [
+      "VS Code",
+      "Vercel",
+      "npm/pnpm",
+      "Git",
+      "Chrome DevTools"
+    ],
+    "softSkills": [
+      "Innovation",
+      "Adaptability"
+    ],
+    "portfolios": [
+      {
+        "name": "AI Advisor Bot",
+        "learnToApply": [
+          "OpenAI/Gemini APIs",
+          "AI Chat UI"
+        ]
+      },
+      {
+        "name": "Smart Dashboard Interface",
+        "learnToApply": [
+          "React",
+          "API Integration"
+        ]
+      }
+    ]
+  },
+  "AI Fullstack Engineer": {
+    "careerName": "AI Fullstack Engineer",
+    "description": "Kỹ sư Fullstack chuyên phát triển các ứng dụng AI đầu cuối.",
+    "salaryRange": "20-40+ triệu",
+    "marketDemand": "BOOMING",
+    "futureTrend": "Agentic Workflows.",
+    "coreSkills": [
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "Python",
+      "Prompt Engineering"
+    ],
+    "advancedSkills": [
+      "AI APIs",
+      "Vector Database",
+      "Retrieval-Augmented Generation (RAG)",
+      "LangChain / LlamaIndex",
+      "AI Agents"
+    ],
+    "tools": [
+      "Jupyter Notebook",
+      "Docker",
+      "Postman",
+      "VS Code",
+      "Git",
+      "Pinecone Console"
+    ],
+    "softSkills": [
+      "Problem Solving",
+      "Architecture Design"
+    ],
+    "portfolios": [
+      {
+        "name": "AI Powered SaaS Application",
+        "learnToApply": [
+          "LangChain / LlamaIndex",
+          "Vector Database",
+          "React"
+        ]
+      },
+      {
+        "name": "Enterprise Chatbot Service",
+        "learnToApply": [
+          "Node.js",
+          "AI APIs",
+          "PostgreSQL"
+        ]
+      }
+    ]
+  },
+  "Technical Support Engineer": {
+    "careerName": "Technical Support Engineer",
+    "description": "Kỹ sư hỗ trợ kỹ thuật, giải quyết các sự cố cho khách hàng doanh nghiệp.",
+    "salaryRange": "8-20 triệu",
+    "marketDemand": "MEDIUM",
+    "futureTrend": "Sử dụng AI để tự động hóa hỗ trợ.",
+    "coreSkills": [
+      "Computer Networking",
+      "OS Basics (Windows/Linux)",
+      "Troubleshooting Methodology",
+      "SQL Basics",
+      "Git",
+      "Communication"
+    ],
+    "advancedSkills": [
+      "Scripting (Bash/Python)",
+      "Cloud Services Basics",
+      "System Administration",
+      "ITSM Tools (Jira)",
+      "Technical Documentation"
+    ],
+    "tools": [
+      "Linux Terminal",
+      "Jira Service Desk",
+      "Zendesk",
+      "Wireshark",
+      "Git"
+    ],
+    "softSkills": [
+      "Communication",
+      "Empathy",
+      "Patience"
+    ],
+    "portfolios": [
+      {
+        "name": "Enterprise Support Playbook",
+        "learnToApply": [
+          "Troubleshooting Methodology",
+          "Technical Documentation"
+        ]
+      }
+    ]
+  },
+  "Solutions Engineer": {
+    "careerName": "Solutions Engineer",
+    "description": "Kỹ sư giải pháp, làm cầu nối giữa kỹ thuật và kinh doanh.",
+    "salaryRange": "15-40 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Tư vấn AI Solutions.",
+    "coreSkills": [
+      "System Architecture",
+      "API Integration",
+      "Database Systems",
+      "Communication",
+      "Presentation",
+      "Technical Writing"
+    ],
+    "advancedSkills": [
+      "Cloud Architecture (AWS/Azure)",
+      "Pre-sales & Demos",
+      "Proof of Concept (PoC) Development",
+      "System Integration",
+      "Business Acumen"
+    ],
+    "tools": [
+      "AWS Console",
+      "Postman",
+      "draw.io / Miro",
+      "VS Code",
+      "Git"
+    ],
+    "softSkills": [
+      "Presentation",
+      "Negotiation",
+      "Business Acumen"
+    ],
+    "portfolios": [
+      {
+        "name": "Cloud Architecture Proposal",
+        "learnToApply": [
+          "Cloud Architecture (AWS/Azure)",
+          "System Integration"
+        ]
+      }
+    ]
+  }
+}

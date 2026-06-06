@@ -11,6 +11,7 @@ const {
   generateAcademicTimeline, 
   computeClassAnalytics
 } = require('../../ai/engines/index');
+const careerEngine = require('../../modules/advisor/career-engine');
 const appLogger = require('../../infrastructure/logger');
 
 // ════════════════════════════════════════════
@@ -142,6 +143,33 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const riskData = explainRisk(student);
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_INTERVENTION', followupType: 'INTERVENTION', student, riskData, timeline };
+    }
+    
+    // ----------------------------------------------------
+    // LEVEL 6: KNOWLEDGE GRAPH QUERIES
+    // ----------------------------------------------------
+    case 'CAREER_PATH_INTENT': {
+      let careerGoal = entities.careerGoal || 'Backend Developer';
+      
+      const lower = careerGoal.toLowerCase();
+      if (lower.includes('backend') || lower.includes('back-end')) careerGoal = 'Backend Developer';
+      else if (lower.includes('frontend') || lower.includes('front-end')) careerGoal = 'Frontend Developer';
+      else if (lower.includes('fullstack')) careerGoal = 'Fullstack Developer';
+
+      // Load student if available to compute match score correctly, else run in guest mode
+      const mssv = activeMssv || entities.mssv;
+      let student = null;
+      if (mssv) {
+        student = await fetchStudentByMssv(mssv);
+      }
+
+      const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
+      return { type: 'CAREER_PATH', careerGoal, careerAnalysis };
+    }
+
+    case 'RISK_CHAIN_INTENT': {
+      const courseId = entities.courseId || (entities.allCourseIds && entities.allCourseIds.length > 0 ? entities.allCourseIds[0] : 'COM108');
+      return { type: 'RISK_CHAIN', courseId };
     }
     
     default:

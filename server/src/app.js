@@ -10,8 +10,9 @@ const syllabusLoader = require('./modules/data/syllabusLoader');
 
 const app = express();
 
-// Initialize Syllabus Data
+// Initialize Data Caches
 syllabusLoader.init();
+require('./modules/knowledge/cache').init();
 
 // Apply Rate Limiting
 const apiLimiter = rateLimit({
@@ -62,6 +63,8 @@ const authRouter = require('./modules/auth/routes');
 const studentsRouter = require('./modules/students/routes');
 const graphRouter = require('./modules/graph/routes');
 const dataImportRouter = require('./modules/data/import.routes');
+const knowledgeRouter = require('./modules/knowledge/routes');
+const advisorRoutes = require('./modules/advisor/routes');
 
 app.use('/api', apiLimiter, apiRouter);
 app.use('/api/comm', apiLimiter, commRouter);
@@ -70,6 +73,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/students', apiLimiter, studentsRouter);
 app.use('/api/v1/graph', apiLimiter, graphRouter);
 app.use('/api/v1/data', apiLimiter, dataImportRouter);
+app.use('/api/v1/knowledge', apiLimiter, knowledgeRouter);
+app.use('/api/v1/advisor', apiLimiter, advisorRoutes);
 
 // Fallback to React Router
 app.get('*', (req, res) => {

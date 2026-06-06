@@ -4,21 +4,40 @@
 // ============================================================
 
 const { fetchStudentByMssv } = require('../../repositories/studentRepository');
-const { explainRisk } = require('../../ai/engines/index');
+const advisorService = require('../../modules/advisor/service');
 const syllabusEngine = require('./syllabusEngine');
 const interventionEngine = require('./interventionEngine');
+const careerEngine = require('../../modules/advisor/career-engine');
 
 async function executeStudentDecision({ intent, activeMssv, entities, session }) {
-  if (!activeMssv) {
+  const nonLoginIntents = ['STUDENT_CAREER_PATH_INTENT', 'STUDENT_RISK_CHAIN_INTENT', 'STUDENT_GREETING_INTENT', 'STUDENT_BEST_CAREER_INTENT'];
+  if (!activeMssv && !nonLoginIntents.includes(intent)) {
     return { type: 'NEED_LOGIN' };
   }
 
-  const student = await fetchStudentByMssv(activeMssv);
-  if (!student) {
+  let student = await fetchStudentByMssv(activeMssv);
+  
+  // Mock student for Demo 
+  if (activeMssv && !student && activeMssv === 'SE182001') {
+    student = { 
+      mssv: 'SE182001', 
+      name: 'Nguyễn Văn A',
+      scores: {
+        'COM108': 8.5,
+        'WEB1013': 9.0,
+        'WEB1043': 7.0, // Passed some frontend stuff
+        'COM2012': 4.0, // Failed DB
+        'PRO1014': 6.0
+      }
+    };
+  } else if (activeMssv && !student) {
     return { type: 'STUDENT_NOT_FOUND', mssv: activeMssv };
   }
 
-  const riskData = explainRisk(student);
+  let riskData = null;
+  if (activeMssv) {
+    riskData = await advisorService.analyzeStudent(activeMssv, "Backend Developer");
+  }
   
   // Resolve courseCode from entities (e.g. %WEB101%) or session history
   let courseCode = null;
@@ -103,6 +122,53 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
         student, 
         riskData 
       };
+
+    case 'STUDENT_CAREER_PATH_INTENT':
+    case 'STUDENT_CAREER_REASON_INTENT':
+    case 'STUDENT_INTERNSHIP_PLAN_INTENT':
+    case 'STUDENT_90_DAY_PLAN_INTENT': {
+      let careerGoal = (entities && entities.careerGoal) ? entities.careerGoal : 'Backend Developer';
+      // Normalize common names
+      const lower = careerGoal.toLowerCase();
+      if (lower.includes('backend') || lower.includes('back-end')) careerGoal = 'Backend Developer';
+      else if (lower.includes('frontend') || lower.includes('front-end')) careerGoal = 'Frontend Developer';
+      else if (lower.includes('fullstack')) careerGoal = 'Fullstack Developer';
+      else if (lower.includes('flutter') || lower.includes('dart')) careerGoal = 'Flutter Developer';
+      else if (lower.includes('react native') || lower.includes('mobile')) careerGoal = 'React Native Developer';
+      else if (lower.includes('qa') || lower.includes('tester') || lower.includes('manual')) careerGoal = 'QA Manual';
+      else if (lower.includes('automation')) careerGoal = 'QA Automation';
+      else if (lower.includes('devops')) careerGoal = 'DevOps Engineer';
+      else if (lower.includes('cloud')) careerGoal = 'Cloud Engineer';
+      else if (lower.includes('data analyst')) careerGoal = 'Data Analyst';
+      else if (lower.includes('data engineer')) careerGoal = 'Data Engineer';
+      else if (lower.includes('ai') || lower.includes('machine learning')) careerGoal = 'AI Engineer';
+      else if (lower.includes('prompt')) careerGoal = 'Prompt Engineer';
+      else if (lower.includes('security')) careerGoal = 'Web Security Engineer';
+      else if (lower.includes('ux') || lower.includes('ui') || lower.includes('design')) careerGoal = 'UI/UX Designer';
+      else if (lower.includes('product owner') || lower.includes('po')) careerGoal = 'Product Owner';
+      else if (lower.includes('project manager') || lower.includes('pm')) careerGoal = 'Project Manager';
+      else if (lower.includes('wordpress') || lower.includes('cms')) careerGoal = 'WordPress Developer';
+
+      const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
+      const bestCareers = careerEngine.suggestBestCareers(student);
+      
+      let type = 'STUDENT_CAREER_PATH';
+      if (intent === 'STUDENT_CAREER_REASON_INTENT') type = 'STUDENT_CAREER_REASON';
+      else if (intent === 'STUDENT_INTERNSHIP_PLAN_INTENT') type = 'STUDENT_INTERNSHIP_PLAN';
+      else if (intent === 'STUDENT_90_DAY_PLAN_INTENT') type = 'STUDENT_90_DAY_PLAN';
+
+      return { type, careerGoal, careerAnalysis, bestCareers };
+    }
+
+    case 'STUDENT_BEST_CAREER_INTENT': {
+      const bestCareers = careerEngine.suggestBestCareers(student);
+      return { type: 'STUDENT_BEST_CAREER', bestCareers };
+    }
+
+    case 'STUDENT_RISK_CHAIN_INTENT': {
+      const targetCourseId = courseCode || 'COM108';
+      return { type: 'STUDENT_RISK_CHAIN', courseId: targetCourseId };
+    }
 
     case 'STUDENT_FALLBACK_INTENT':
     default:

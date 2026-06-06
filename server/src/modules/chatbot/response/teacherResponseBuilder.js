@@ -2,6 +2,8 @@ const { formatRiskBadge, formatConfidence, formatReasons, formatTimeline, genera
 const { buildRiskDistributionChartData, buildBottleneckChartData, buildGpaChartData } = require('./chartBuilder');
 const { generateInterventionRoadmap } = require('../recommendationEngine');
 const syllabusEngine = require('../syllabusEngine');
+const knowledgeCache = require('../../knowledge/cache');
+const graphEngine = require('../../advisor/graph-engine');
 
 function generateDynamicStudentInsight(student, riskData) {
   const { avgAttendance, failedCourses, riskScore, level } = riskData;
@@ -733,6 +735,100 @@ Bạn muốn tra cứu thông tin môn học nào? Vui lòng gõ mã môn học 
       return buildCurriculumInfoResponse();
     case 'SUBJECT_ANALYSIS':
       return buildSubjectAnalysisResponse(decisionData);
+    case 'CAREER_PATH': {
+      const careerGoal = decisionData.careerGoal || 'Backend Developer';
+      const careerAnalysis = decisionData.careerAnalysis;
+
+      if (!careerAnalysis || !careerAnalysis.industryRequirements) {
+        return {
+          text: `🤖 Tôi chưa có dữ liệu lộ trình Industry cụ thể cho chức danh **${careerGoal}**.`,
+          chartData: null,
+          actions: ['Lộ trình Backend Developer']
+        };
+      }
+
+      const { matchScore, readinessScore, marketInsights } = careerAnalysis;
+      
+      const courseList = careerAnalysis.academicProgress.map(c => {
+        let icon = '🔴';
+        if (c.status === 'PASSED') icon = '✅';
+        else if (c.status === 'IN_PROGRESS') icon = '🟡';
+        return `${icon} ${c.courseName} (${c.courseId})`;
+      }).join('\n');
+
+      const missingCoursesList = careerAnalysis.missingCourses.map(c => `- ${c.courseName} (${c.courseId})`).join('\n') || '✅ Sinh viên đã hoàn thành hết các môn nền tảng!';
+
+      const haveCore = careerAnalysis.skillGap.core.have.map(s => `✅ ${s}`).join('\n') || 'Chưa có kỹ năng Core';
+      const missingCore = careerAnalysis.skillGap.core.missing.map(s => `❌ ${s}`).join('\n') || 'Đã cover đủ Core Skills';
+
+      const portfolios = careerAnalysis.portfolios.map((p, i) => `${i + 1}. ${p.name}`).join('\n');
+
+      return {
+        text: `# 🗺️ Lộ trình ${careerGoal} (Career Path)
+    
+**Mức độ phù hợp Curriculum:** ${matchScore}%
+**Điểm sẵn sàng thực tập (Internship Readiness):** ${readinessScore}/100
+
+---
+
+### 📚 Academic Progress
+Tiến độ các môn học bắt buộc trong chương trình:
+${courseList}
+
+---
+
+### 🧩 Skill Gap Analysis (Core Skills)
+Phân tích khoảng cách kỹ năng CỐT LÕI giữa giáo trình và doanh nghiệp:
+
+**Đã có:**
+${haveCore}
+
+**Còn thiếu (Cần tự học thêm):**
+${missingCore}
+
+**Các môn chưa học (trong Syllabus):**
+${missingCoursesList}
+
+---
+
+### 🚀 Portfolio Recommendation
+Các dự án sinh viên cần thực hiện:
+${portfolios}
+
+---
+🧠 **AI Insight**:
+Vị trí này đang có **Nhu cầu tuyển dụng: ${marketInsights.marketDemand}**. Hệ thống AI Career Coach đề xuất Giảng viên hướng dẫn sinh viên bổ sung các kỹ năng còn thiếu để tăng tỉ lệ đậu thực tập.`,
+        chartData: null,
+        actions: ['Tình hình lớp', 'Top sinh viên rủi ro']
+      };
+    }
+    case 'RISK_CHAIN': {
+      const courseId = decisionData.courseId || 'COM108';
+      const impacts = graphEngine.getImpactedCourses([courseId]);
+      
+      if (!impacts || impacts.length === 0 || impacts[0].impactedCourses.length === 0) {
+        return {
+          text: `✅ Môn **${courseId}** hiện không có tác động chặn học phần nào trong sơ đồ đồ thị.`,
+          chartData: null,
+          actions: ['Tình hình lớp']
+        };
+      }
+
+      const impactedList = impacts[0].impactedCourses.map(c => `- ${c}`).join('\n');
+      return {
+        text: `# 🚨 Phân tích Risk Chain: ${courseId}
+    
+Hệ quả dây chuyền nếu sinh viên nợ học phần **${courseId}**:
+
+${impactedList}
+
+---
+🧠 **AI Insight**:
+Đây là những học phần bị khóa điều kiện tiên quyết nếu sinh viên chưa hoàn thành **${courseId}**. Giảng viên cần đặc biệt lưu ý hỗ trợ các nhóm sinh viên nợ môn này.`,
+        chartData: null,
+        actions: ['Môn dễ rớt', 'Top sinh viên rủi ro']
+      };
+    }
     case 'STUDENT_NOT_FOUND':
       return buildNotFoundResponse(decisionData.mssv);
     case 'NEED_MSSV':

@@ -127,6 +127,28 @@ function extractCourseId(message) {
 }
 
 /**
+ * Extract Career Goal from a message.
+ * @param {string} message
+ * @returns {string|null}
+ */
+function extractCareerGoal(message) {
+  if (!message) return null;
+  const msgLower = message.toLowerCase().trim();
+  
+  if (msgLower.includes('backend') || msgLower.includes('back-end') || msgLower.includes('back end')) {
+    return 'Backend Developer';
+  }
+  if (msgLower.includes('frontend') || msgLower.includes('front-end') || msgLower.includes('front end')) {
+    return 'Frontend Developer';
+  }
+  if (msgLower.includes('fullstack') || msgLower.includes('full-stack') || msgLower.includes('full stack')) {
+    return 'Fullstack Developer';
+  }
+  
+  return null;
+}
+
+/**
  * Extract all Course IDs found in the message.
  * @param {string} message
  * @returns {string[]}
@@ -317,7 +339,8 @@ function extractAllEntities(message) {
     timeline: extractTimeline(message),
     followupType: detectFollowupType(message),
     topN: extractTopN(message),
-    listPosition: detectListPosition(message)
+    listPosition: detectListPosition(message),
+    careerGoal: extractCareerGoal(message)
   };
 }
 
@@ -331,6 +354,7 @@ module.exports = {
   detectFollowupType,
   extractTopN,
   detectListPosition,
+  extractCareerGoal,
   extractAllEntities,
   SUBJECT_ALIASES
 };

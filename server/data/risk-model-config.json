@@ -1,0 +1,17 @@
+{
+  "engineWeights": {
+    "knowledge": 0.6,
+    "behavior": 0.4
+  },
+  "knowledgeWeights": {
+    "impact": 0.4,
+    "career": 0.2,
+    "criticality": 0.4
+  },
+  "thresholds": {
+    "low": 0.3,
+    "medium": 0.6,
+    "high": 0.8,
+    "critical": 1.0
+  }
+}

@@ -1,0 +1,227 @@
+{
+  "nodes": [
+    {
+      "id": "COM1071",
+      "label": "Tin học"
+    },
+    {
+      "id": "COM108",
+      "label": "Nhập môn lập trình"
+    },
+    {
+      "id": "COM2012",
+      "label": "Cơ sở dữ liệu"
+    },
+    {
+      "id": "ENT1128",
+      "label": "Tiếng Anh 1.1"
+    },
+    {
+      "id": "ENT123",
+      "label": "Tiếng Anh 1.2"
+    },
+    {
+      "id": "ENT213",
+      "label": "Tiếng Anh 2.1"
+    },
+    {
+      "id": "ENT223",
+      "label": "Tiếng Anh 2.2"
+    },
+    {
+      "id": "ITI101",
+      "label": "Nhập môn công nghệ thông tin"
+    },
+    {
+      "id": "PDP102",
+      "label": "Kỹ năng học tập"
+    },
+    {
+      "id": "PDP103",
+      "label": "Kỹ năng phát triển bản thân"
+    },
+    {
+      "id": "PDP104",
+      "label": "Kỹ năng làm việc"
+    },
+    {
+      "id": "PRO1014",
+      "label": "Dự án 1 (TKTW)"
+    },
+    {
+      "id": "PRO116",
+      "label": "Thực tập tốt nghiệp (TKTW)"
+    },
+    {
+      "id": "PRO2201",
+      "label": "Dự án tốt nghiệp (TKTW-Single page Application)"
+    },
+    {
+      "id": "SYB3013",
+      "label": "Khởi sự doanh nghiệp"
+    },
+    {
+      "id": "VIE1026",
+      "label": "Pháp luật"
+    },
+    {
+      "id": "VIE103",
+      "label": "Giáo dục thể chất - Vovinam"
+    },
+    {
+      "id": "VIE104",
+      "label": "Giáo dục quốc phòng"
+    },
+    {
+      "id": "VIE108",
+      "label": "Giáo dục chính trị"
+    },
+    {
+      "id": "WEB1013",
+      "label": "Xây dựng trang Web"
+    },
+    {
+      "id": "WEB1023",
+      "label": "Quản trị website"
+    },
+    {
+      "id": "WEB1043",
+      "label": "Lập trình cơ sở với JavaScript"
+    },
+    {
+      "id": "WEB105",
+      "label": "Thiết kế UI/UX"
+    },
+    {
+      "id": "WEB108",
+      "label": "Lập trình PHP cơ bản"
+    },
+    {
+      "id": "WEB2014",
+      "label": "Lập trình PHP 1"
+    },
+    {
+      "id": "WEB2041",
+      "label": "Dự án mẫu (TKTW)"
+    },
+    {
+      "id": "WEB2055",
+      "label": "Marketing trên Internet"
+    },
+    {
+      "id": "WEB2063",
+      "label": "Lập trình Javascript nâng cao"
+    },
+    {
+      "id": "WEB2081",
+      "label": "Lập trình Front-End Framework 1"
+    },
+    {
+      "id": "WEB2091",
+      "label": "Lập trình Front-End Framework 2"
+    },
+    {
+      "id": "WEB3023",
+      "label": "Thiết kế Web với HTML5&CSS3"
+    },
+    {
+      "id": "WEB501",
+      "label": "Lập trình ECMAScript"
+    },
+    {
+      "id": "WEB502",
+      "label": "Lập trình TypeScript"
+    },
+    {
+      "id": "WEB503",
+      "label": "NodeJS & Restful Web Service"
+    }
+  ],
+  "edges": [
+    {
+      "source": "WEB108",
+      "target": "PRO1014",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB1043",
+      "target": "PRO1014",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB3023",
+      "target": "PRO1014",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "PRO1014",
+      "target": "PRO116",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "PRO116",
+      "target": "PRO2201",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB2091",
+      "target": "PRO2201",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB503",
+      "target": "PRO2201",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "COM108",
+      "target": "WEB1043",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB108",
+      "target": "WEB2014",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB1043",
+      "target": "WEB2063",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB2063",
+      "target": "WEB2081",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB207",
+      "target": "WEB2091",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB1013",
+      "target": "WEB3023",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB1043",
+      "target": "WEB501",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB1043",
+      "target": "WEB502",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "COM2012",
+      "target": "WEB503",
+      "relationship": "prerequisite"
+    },
+    {
+      "source": "WEB1043",
+      "target": "WEB503",
+      "relationship": "prerequisite"
+    }
+  ]
+}

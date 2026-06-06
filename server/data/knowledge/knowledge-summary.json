@@ -1,0 +1,12 @@
+{
+  "totalCourses": 34,
+  "totalSkills": 7,
+  "totalTechnologies": 10,
+  "mostCriticalCourses": [
+    "COM108",
+    "WEB1043",
+    "WEB1013",
+    "WEB108",
+    "WEB3023"
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "Frontend Developer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "PRO1014",
+      "WEB1013",
+      "WEB1043",
+      "WEB2063",
+      "WEB3023",
+      "WEB501"
+    ],
+    "weights": {
+      "WEB1043": 3,
+      "WEB2063": 3,
+      "WEB3023": 3,
+      "COM2012": 1,
+      "COM108": 1
+    }
+  },
+  "Backend Developer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "PRO1014",
+      "WEB108",
+      "WEB2014",
+      "WEB503",
+      "WEB1043"
+    ],
+    "weights": {
+      "COM2012": 3,
+      "WEB503": 3,
+      "WEB108": 2,
+      "WEB1043": 1,
+      "PRO1014": 1
+    }
+  },
+  "Fullstack Developer": {
+    "courses": [
+      "COM2012",
+      "WEB1043",
+      "WEB2063",
+      "WEB503",
+      "PRO2201",
+      "WEB2081",
+      "WEB3023"
+    ],
+    "weights": {
+      "COM2012": 3,
+      "WEB503": 3,
+      "WEB2063": 2,
+      "WEB2081": 2,
+      "PRO2201": 3
+    }
+  },
+  "React Developer": {
+    "courses": [
+      "WEB1043",
+      "WEB2063",
+      "WEB2081",
+      "WEB2091",
+      "WEB501",
+      "WEB502"
+    ],
+    "weights": {
+      "WEB2081": 3,
+      "WEB2091": 3,
+      "WEB2063": 3
+    }
+  },
+  "Next.js Developer": {
+    "courses": [
+      "WEB1043",
+      "WEB2063",
+      "WEB2081",
+      "WEB2091",
+      "WEB501",
+      "WEB502",
+      "WEB503"
+    ],
+    "weights": {
+      "WEB2081": 3,
+      "WEB2091": 3,
+      "WEB503": 2
+    }
+  },
+  "UI Engineer": {
+    "courses": [
+      "WEB1013",
+      "WEB1043",
+      "WEB3023",
+      "VIE104",
+      "WEB2063"
+    ],
+    "weights": {
+      "WEB3023": 3,
+      "WEB1013": 2,
+      "WEB1043": 2
+    }
+  },
+  "React Native Developer": {
+    "courses": [
+      "WEB1043",
+      "WEB2063",
+      "WEB2081",
+      "PRO2201",
+      "WEB501",
+      "WEB502"
+    ],
+    "weights": {
+      "WEB2081": 3,
+      "WEB2063": 3,
+      "PRO2201": 2
+    }
+  },
+  "Flutter Developer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "PRO1014",
+      "PRO2201",
+      "WEB1043"
+    ],
+    "weights": {
+      "COM108": 3,
+      "COM2012": 2
+    }
+  },
+  "Mobile Developer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "WEB1043",
+      "WEB2063",
+      "PRO2201"
+    ],
+    "weights": {
+      "COM108": 2,
+      "COM2012": 2
+    }
+  },
+  "WordPress Developer": {
+    "courses": [
+      "WEB1013",
+      "WEB108",
+      "WEB2014",
+      "COM2012",
+      "WEB3023"
+    ],
+    "weights": {
+      "WEB108": 3,
+      "WEB2014": 3,
+      "COM2012": 2
+    }
+  },
+  "QA Automation Engineer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "WEB1043",
+      "WEB2063",
+      "WEB503"
+    ],
+    "weights": {
+      "WEB1043": 3,
+      "COM2012": 2
+    }
+  },
+  "DevOps Junior Engineer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "WEB503",
+      "WEB108",
+      "PRO2201"
+    ],
+    "weights": {
+      "COM2012": 3,
+      "WEB503": 2
+    }
+  },
+  "Cloud Engineer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "WEB503",
+      "WEB2014"
+    ],
+    "weights": {
+      "COM2012": 3,
+      "WEB503": 3
+    }
+  },
+  "AI Frontend Engineer": {
+    "courses": [
+      "WEB1043",
+      "WEB2063",
+      "WEB2081",
+      "WEB501",
+      "WEB502",
+      "WEB503"
+    ],
+    "weights": {
+      "WEB2081": 3,
+      "WEB503": 2
+    }
+  },
+  "AI Fullstack Engineer": {
+    "courses": [
+      "COM2012",
+      "WEB2063",
+      "WEB2081",
+      "WEB503",
+      "PRO2201"
+    ],
+    "weights": {
+      "WEB503": 3,
+      "COM2012": 3,
+      "WEB2081": 2
+    }
+  },
+  "Software Engineer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "PRO1014",
+      "WEB503",
+      "PRO2201"
+    ],
+    "weights": {
+      "COM108": 3,
+      "COM2012": 3
+    }
+  },
+  "Technical Support Engineer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "WEB1013",
+      "WEB108"
+    ],
+    "weights": {
+      "COM108": 2,
+      "COM2012": 2
+    }
+  },
+  "Solutions Engineer": {
+    "courses": [
+      "COM108",
+      "COM2012",
+      "WEB503",
+      "PRO2201"
+    ],
+    "weights": {
+      "COM2012": 2,
+      "WEB503": 3
+    }
+  }
+}

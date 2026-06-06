@@ -33,6 +33,10 @@ function routeIntent(msg, nlpIntent = 'None', activeStudent = null, entities = [
     // LEVEL 5: ACTION
     'query.generate_message': 'GENERATE_MESSAGE_INTENT',
 
+    // LEVEL 6: KNOWLEDGE
+    'career.path': 'CAREER_PATH_INTENT',
+    'knowledge.risk_chain': 'RISK_CHAIN_INTENT',
+
     // UTILS
     'greeting': 'GREETING_INTENT',
     'query.out_of_scope': 'OUT_OF_SCOPE_INTENT'
@@ -68,6 +72,8 @@ function keywordHeuristicRoute(msgLower, activeStudent) {
   if (msgLower.includes('nguyên nhân') || msgLower.includes('vì sao')) return 'ROOT_CAUSE_XAI_INTENT';
   if (msgLower.includes('can thiệp') || msgLower.includes('cứu') || msgLower.includes('lộ trình')) return 'INTERVENTION_REC_INTENT';
   if (msgLower.includes('chuyên cần') || msgLower.includes('điểm danh') || msgLower.includes('vắng')) return 'ATTENDANCE_ANALYSIS_INTENT';
+  if (msgLower.includes('muốn theo') || msgLower.includes('backend') || msgLower.includes('frontend')) return 'CAREER_PATH_INTENT';
+  if (msgLower.includes('ảnh hưởng môn nào')) return 'RISK_CHAIN_INTENT';
   if (msgLower.includes('tình hình lớp') || msgLower.includes('tổng quan') || msgLower.includes('thống kê')) return 'CLASS_ANALYTICS_INTENT';
   if (msgLower.includes('môn dễ rớt') || msgLower.includes('nút thắt')) return 'CLASS_ANALYTICS_INTENT'; // Fallback to class analytics if no specific intent
   

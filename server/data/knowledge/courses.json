@@ -1,0 +1,609 @@
+[
+  {
+    "courseCode": "COM1071",
+    "courseName": "Tin học",
+    "credits": 3,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "COM108",
+    "courseName": "Nhập môn lập trình",
+    "credits": 3,
+    "skills": [
+      "Programming Logic"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 1,
+    "careerTags": [
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "COM2012",
+    "courseName": "Cơ sở dữ liệu",
+    "credits": 3,
+    "skills": [
+      "Programming Logic",
+      "Database Design",
+      "Frontend Development"
+    ],
+    "technologies": [
+      "MySQL",
+      "SQL"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.3,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "ENT1128",
+    "courseName": "Tiếng Anh 1.1",
+    "credits": 3,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "ENT123",
+    "courseName": "Tiếng Anh 1.2",
+    "credits": 2,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "ENT213",
+    "courseName": "Tiếng Anh 2.1",
+    "credits": 2,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "ENT223",
+    "courseName": "Tiếng Anh 2.2",
+    "credits": 2,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "ITI101",
+    "courseName": "Nhập môn công nghệ thông tin",
+    "credits": 3,
+    "skills": [
+      "Programming Logic"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "PDP102",
+    "courseName": "Kỹ năng học tập",
+    "credits": 2,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "PDP103",
+    "courseName": "Kỹ năng phát triển bản thân",
+    "credits": 2,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "PDP104",
+    "courseName": "Kỹ năng làm việc",
+    "credits": 2,
+    "skills": [
+      "Soft Skills"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "PRO1014",
+    "courseName": "Dự án 1 (TKTW)",
+    "credits": 3,
+    "skills": [
+      "Database Design",
+      "Frontend Development"
+    ],
+    "technologies": [
+      "MySQL",
+      "SQL"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.3,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "PRO116",
+    "courseName": "Thực tập tốt nghiệp (TKTW)",
+    "credits": 5,
+    "skills": [
+      "Programming Logic"
+    ],
+    "technologies": [],
+    "difficulty": "Hard",
+    "riskWeight": 0.2,
+    "careerTags": [
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "PRO2201",
+    "courseName": "Dự án tốt nghiệp (TKTW-Single page Application)",
+    "credits": 5,
+    "skills": [
+      "Database Design",
+      "Frontend Development",
+      "Soft Skills",
+      "System Architecture"
+    ],
+    "technologies": [
+      "MongoDB",
+      "MySQL",
+      "SQL"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "SYB3013",
+    "courseName": "Khởi sự doanh nghiệp",
+    "credits": 3,
+    "skills": [
+      "Programming Logic"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "VIE1026",
+    "courseName": "Pháp luật",
+    "credits": 2,
+    "skills": [
+      "Frontend Development"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Fullstack Developer"
+    ]
+  },
+  {
+    "courseCode": "VIE103",
+    "courseName": "Giáo dục thể chất - Vovinam",
+    "credits": 2,
+    "skills": [
+      "Programming Logic"
+    ],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "VIE104",
+    "courseName": "Giáo dục quốc phòng",
+    "credits": 4,
+    "skills": [
+      "Programming Logic"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "VIE108",
+    "courseName": "Giáo dục chính trị",
+    "credits": 5,
+    "skills": [],
+    "technologies": [],
+    "difficulty": "Easy",
+    "riskWeight": 0.1,
+    "careerTags": []
+  },
+  {
+    "courseCode": "WEB1013",
+    "courseName": "Xây dựng trang Web",
+    "credits": 3,
+    "skills": [
+      "Frontend Development"
+    ],
+    "technologies": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Java"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.5,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer"
+    ]
+  },
+  {
+    "courseCode": "WEB1023",
+    "courseName": "Quản trị website",
+    "credits": 3,
+    "skills": [],
+    "technologies": [
+      "BOM/DOM"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer"
+    ]
+  },
+  {
+    "courseCode": "WEB1043",
+    "courseName": "Lập trình cơ sở với JavaScript",
+    "credits": 3,
+    "skills": [
+      "Object-Oriented Programming",
+      "Backend Development"
+    ],
+    "technologies": [
+      "JavaScript",
+      "Java",
+      "BOM/DOM"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.9,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "WEB105",
+    "courseName": "Thiết kế UI/UX",
+    "credits": 3,
+    "skills": [
+      "Frontend Development"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Fullstack Developer"
+    ]
+  },
+  {
+    "courseCode": "WEB108",
+    "courseName": "Lập trình PHP cơ bản",
+    "credits": 3,
+    "skills": [
+      "Programming Logic",
+      "Database Design",
+      "Frontend Development"
+    ],
+    "technologies": [
+      "MySQL",
+      "SQL",
+      "HTML"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.5,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "WEB2014",
+    "courseName": "Lập trình PHP 1",
+    "credits": 3,
+    "skills": [
+      "Object-Oriented Programming",
+      "Database Design",
+      "Frontend Development",
+      "System Architecture"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "WEB2041",
+    "courseName": "Dự án mẫu (TKTW)",
+    "credits": 3,
+    "skills": [
+      "Frontend Development",
+      "System Architecture"
+    ],
+    "technologies": [
+      "HTML",
+      "CSS"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "WEB2055",
+    "courseName": "Marketing trên Internet",
+    "credits": 3,
+    "skills": [
+      "Frontend Development"
+    ],
+    "technologies": [],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Fullstack Developer"
+    ]
+  },
+  {
+    "courseCode": "WEB2063",
+    "courseName": "Lập trình Javascript nâng cao",
+    "credits": 3,
+    "skills": [
+      "Programming Logic",
+      "Object-Oriented Programming",
+      "Frontend Development",
+      "Backend Development"
+    ],
+    "technologies": [
+      "JavaScript",
+      "Java",
+      "BOM/DOM"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.2,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "WEB2081",
+    "courseName": "Lập trình Front-End Framework 1",
+    "credits": 3,
+    "skills": [
+      "Backend Development",
+      "Soft Skills"
+    ],
+    "technologies": [
+      "React"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "WEB2091",
+    "courseName": "Lập trình Front-End Framework 2",
+    "credits": 3,
+    "skills": [
+      "Programming Logic",
+      "Backend Development",
+      "Soft Skills"
+    ],
+    "technologies": [
+      "JavaScript",
+      "React",
+      "CSS",
+      "BOM/DOM"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.2,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  },
+  {
+    "courseCode": "WEB3023",
+    "courseName": "Thiết kế Web với HTML5&CSS3",
+    "credits": 3,
+    "skills": [
+      "Programming Logic",
+      "Frontend Development",
+      "Backend Development"
+    ],
+    "technologies": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Java"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.4,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "WEB501",
+    "courseName": "Lập trình ECMAScript",
+    "credits": 3,
+    "skills": [
+      "Programming Logic",
+      "Backend Development"
+    ],
+    "technologies": [
+      "JavaScript",
+      "Java"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "WEB502",
+    "courseName": "Lập trình TypeScript",
+    "credits": 3,
+    "skills": [
+      "Object-Oriented Programming",
+      "Frontend Development"
+    ],
+    "technologies": [
+      "JavaScript",
+      "NodeJS",
+      "Java",
+      "BOM/DOM"
+    ],
+    "difficulty": "Medium",
+    "riskWeight": 0.1,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer"
+    ]
+  },
+  {
+    "courseCode": "WEB503",
+    "courseName": "NodeJS & Restful Web Service",
+    "credits": 3,
+    "skills": [
+      "Database Design",
+      "Frontend Development",
+      "Backend Development",
+      "System Architecture"
+    ],
+    "technologies": [
+      "JavaScript",
+      "NodeJS",
+      "MongoDB",
+      "MySQL",
+      "SQL"
+    ],
+    "difficulty": "Hard",
+    "riskWeight": 0.2,
+    "careerTags": [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Software Engineer",
+      "IT Business Analyst"
+    ]
+  }
+]

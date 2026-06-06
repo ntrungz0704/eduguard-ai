@@ -1,0 +1,151 @@
+{
+  "COM1071": {
+    "impacts": []
+  },
+  "COM108": {
+    "impacts": [
+      "WEB1043",
+      "PRO1014",
+      "WEB2063",
+      "WEB501",
+      "WEB502",
+      "WEB503",
+      "PRO116",
+      "WEB2081",
+      "PRO2201"
+    ]
+  },
+  "COM2012": {
+    "impacts": [
+      "WEB503",
+      "PRO2201"
+    ]
+  },
+  "ENT1128": {
+    "impacts": []
+  },
+  "ENT123": {
+    "impacts": []
+  },
+  "ENT213": {
+    "impacts": []
+  },
+  "ENT223": {
+    "impacts": []
+  },
+  "ITI101": {
+    "impacts": []
+  },
+  "PDP102": {
+    "impacts": []
+  },
+  "PDP103": {
+    "impacts": []
+  },
+  "PDP104": {
+    "impacts": []
+  },
+  "PRO1014": {
+    "impacts": [
+      "PRO116",
+      "PRO2201"
+    ]
+  },
+  "PRO116": {
+    "impacts": [
+      "PRO2201"
+    ]
+  },
+  "PRO2201": {
+    "impacts": []
+  },
+  "SYB3013": {
+    "impacts": []
+  },
+  "VIE1026": {
+    "impacts": []
+  },
+  "VIE103": {
+    "impacts": []
+  },
+  "VIE104": {
+    "impacts": []
+  },
+  "VIE108": {
+    "impacts": []
+  },
+  "WEB1013": {
+    "impacts": [
+      "WEB3023",
+      "PRO1014",
+      "PRO116",
+      "PRO2201"
+    ]
+  },
+  "WEB1023": {
+    "impacts": []
+  },
+  "WEB1043": {
+    "impacts": [
+      "PRO1014",
+      "WEB2063",
+      "WEB501",
+      "WEB502",
+      "WEB503",
+      "PRO116",
+      "WEB2081",
+      "PRO2201"
+    ]
+  },
+  "WEB105": {
+    "impacts": []
+  },
+  "WEB108": {
+    "impacts": [
+      "PRO1014",
+      "WEB2014",
+      "PRO116",
+      "PRO2201"
+    ]
+  },
+  "WEB2014": {
+    "impacts": []
+  },
+  "WEB2041": {
+    "impacts": []
+  },
+  "WEB2055": {
+    "impacts": []
+  },
+  "WEB2063": {
+    "impacts": [
+      "WEB2081"
+    ]
+  },
+  "WEB2081": {
+    "impacts": []
+  },
+  "WEB2091": {
+    "impacts": [
+      "PRO2201"
+    ]
+  },
+  "WEB3023": {
+    "impacts": [
+      "PRO1014",
+      "PRO116",
+      "PRO2201"
+    ]
+  },
+  "WEB501": {
+    "impacts": []
+  },
+  "WEB502": {
+    "impacts": []
+  },
+  "WEB503": {
+    "impacts": [
+      "PRO2201"
+    ]
+  }
+}

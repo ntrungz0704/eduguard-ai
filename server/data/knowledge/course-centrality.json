@@ -1,0 +1,172 @@
+{
+  "COM1071": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "COM108": {
+    "inDegree": 0,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "COM2012": {
+    "inDegree": 0,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "ENT1128": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "ENT123": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "ENT213": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "ENT223": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "ITI101": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "PDP102": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "PDP103": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "PDP104": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "PRO1014": {
+    "inDegree": 3,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "PRO116": {
+    "inDegree": 1,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "PRO2201": {
+    "inDegree": 3,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "SYB3013": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "VIE1026": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "VIE103": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "VIE104": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "VIE108": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB1013": {
+    "inDegree": 0,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "WEB1023": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB1043": {
+    "inDegree": 1,
+    "outDegree": 5,
+    "centralityScore": 1
+  },
+  "WEB105": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB108": {
+    "inDegree": 0,
+    "outDegree": 2,
+    "centralityScore": 0.4
+  },
+  "WEB2014": {
+    "inDegree": 1,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB2041": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB2055": {
+    "inDegree": 0,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB2063": {
+    "inDegree": 1,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "WEB2081": {
+    "inDegree": 1,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB2091": {
+    "inDegree": 1,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "WEB3023": {
+    "inDegree": 1,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  },
+  "WEB501": {
+    "inDegree": 1,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB502": {
+    "inDegree": 1,
+    "outDegree": 0,
+    "centralityScore": 0
+  },
+  "WEB503": {
+    "inDegree": 2,
+    "outDegree": 1,
+    "centralityScore": 0.2
+  }
+}

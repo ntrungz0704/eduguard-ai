@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
-import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap, Briefcase, KanbanSquare } from 'lucide-react';
 import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
@@ -18,6 +18,9 @@ const Inbox = lazy(() => import('./pages/Inbox'));
 const Interventions = lazy(() => import('./pages/Interventions'));
 const AcademicRiskMap = lazy(() => import('./pages/AcademicRiskMap'));
 const DataImport = lazy(() => import('./pages/DataImport'));
+const CareerUniverse = lazy(() => import('./pages/CareerUniverse'));
+const CareerDetail = lazy(() => import('./pages/CareerDetail'));
+const CareerRoadmapBoard = lazy(() => import('./pages/CareerRoadmapBoard'));
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -37,6 +40,8 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
 
   const studentNavItems = [
     { path: '/student-dashboard', icon: <LayoutDashboard size={20} />, label: 'Bảng điểm của tôi' },
+    { path: '/career-universe', icon: <Briefcase size={20} />, label: 'Career Universe' },
+    { path: '/career-board', icon: <KanbanSquare size={20} />, label: 'Roadmap Board' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Conversational Analytics' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Tin nhắn Cố vấn' }
   ];
@@ -320,6 +325,9 @@ function App() {
                 {currentUser.role === 'STUDENT' ? (
                   <>
                     <Route path="/student-dashboard" element={<StudentDashboard />} />
+                    <Route path="/career-universe" element={<CareerUniverse />} />
+                    <Route path="/career-universe/:careerId" element={<CareerDetail />} />
+                    <Route path="/career-board" element={<CareerRoadmapBoard />} />
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />
                     <Route path="*" element={<StudentDashboard />} />

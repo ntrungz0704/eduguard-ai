@@ -63,9 +63,10 @@ const queryStudent = [
   'tóm tắt tình hình sinh viên %student_id%', 'đánh giá sinh viên %student_id%', 'học lực của %student_id% thế nào',
   'em %student_id% có ổn không', 'đánh giá nhanh sinh viên này', 'xem hồ sơ %student_id%',
   'sinh viên %student_id% nguy hiểm không', 'gpa hiện tại của %student_id%', 'tình hình của sinh viên %student_id%',
-  'thống kê kết quả %student_id%', 'có nguy cơ rớt môn không', 'tỷ lệ tốt nghiệp thế nào'
+  'thống kê kết quả %student_id%', 'có nguy cơ rớt môn không', 'tỷ lệ tốt nghiệp thế nào',
+  'phân tích sinh viên %student_id%', 'tình hình học tập của em sao rồi'
 ];
-queryStudent.forEach(text => manager.addDocument('vi', text, 'query.student'));
+queryStudent.forEach(text => manager.addDocument('vi', text, 'student.analysis'));
 
 // 2. query.class
 const queryClass = [
@@ -128,14 +129,28 @@ const prerequisite = [
 ];
 prerequisite.forEach(text => manager.addDocument('vi', text, 'query.prerequisite'));
 
-// 8. query.impact
+// 8. query.impact (Risk Chain)
 const impact = [
   'nếu rớt %subject% thì ảnh hưởng gì', 'nếu nợ %subject% thì sao', 'nếu %student_id% nghỉ học thêm 3 buổi',
   'tác động của việc rớt %subject%', 'ảnh hưởng đến tiến độ tốt nghiệp thế nào',
   'nếu %student_id% rớt môn này thì hậu quả là gì', 'rớt môn %subject% có kéo theo rớt môn khác không',
-  'hậu quả của việc nợ %subject%', 'ảnh hưởng dây chuyền nếu trượt %subject%'
+  'hậu quả của việc nợ %subject%', 'ảnh hưởng dây chuyền nếu trượt %subject%',
+  '%subject% ảnh hưởng môn nào', '%subject% ảnh hưởng gì'
 ];
-impact.forEach(text => manager.addDocument('vi', text, 'query.impact'));
+impact.forEach(text => manager.addDocument('vi', text, 'knowledge.risk_chain'));
+
+// ============================================================
+// LEVEL 2.5 — CAREER (Nghề nghiệp)
+// ============================================================
+
+// 8.5. career.path
+const careerPath = [
+  'em muốn theo %careerGoal%', 'lộ trình %careerGoal%', 'nghề %careerGoal%', 
+  'career path %careerGoal%', 'hướng đi %careerGoal%', 'muốn làm %careerGoal%',
+  'em muốn theo backend developer', 'lộ trình frontend', 'muốn theo fullstack',
+  'muốn theo frontend', 'lộ trình backend developer', 'muốn làm lập trình viên'
+];
+careerPath.forEach(text => manager.addDocument('vi', text, 'career.path'));
 
 
 // ============================================================

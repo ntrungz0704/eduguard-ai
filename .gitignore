@@ -11,3 +11,4 @@ temp/
 coverage/
 
 *.log
+server/data/advisor-history.json

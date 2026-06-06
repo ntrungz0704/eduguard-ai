@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const { prisma } = require('../infrastructure/database/prisma');
 
 /**
@@ -42,6 +44,30 @@ async function fetchStudentByMssv(mssv) {
     if (dbStudent) return dbStudent;
   } catch (e) {
     // Fallback if Prisma is not connected
+  }
+
+  const mockPath = path.join(__dirname, '..', '..', 'data', 'mock-lms', 'students', `${upperMssv}.json`);
+  if (fs.existsSync(mockPath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
+      return {
+        mssv: data.mssv || upperMssv,
+        name: data.name || `Sinh viên ${upperMssv}`,
+        courseStatus: data.courseStatus || (data.scores ? Object.fromEntries(Object.entries(data.scores).map(([k,v]) => [k, v >= 5 ? 'PASSED' : 'FAILED'])) : {}),
+        skills: data.skills || {},
+        projects: data.projects || [],
+        behavior: data.behavior || {
+          dataSource: "MOCK",
+          confidence: 0.5,
+          attendance: data.attendance || 0,
+          quizAverage: data.quizAverage || 0,
+          labCompletion: data.labCompletion || 0,
+          lateAssignments: data.lateAssignments || 0
+        }
+      };
+    } catch (e) {
+      console.error('Error reading mock student', e);
+    }
   }
 
   const legacy = getLegacyCache();
