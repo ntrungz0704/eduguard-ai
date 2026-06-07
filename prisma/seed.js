@@ -264,6 +264,125 @@ async function main() {
   );
   console.log('✅ AI Predictions seeded.');
 
+  // 7. Seed Learning Boards and Tasks for Career Distribution Demo
+  console.log('📋 Seeding Learning Boards and Tasks for Career Distribution Dashboard...');
+  
+  const frontendCount = 35;
+  const backendCount = 20;
+  const aiCount = 15;
+  
+  const seededStudentIds = students.map(s => s.id);
+  
+  const frontendStudents = seededStudentIds.slice(0, frontendCount);
+  const backendStudents = seededStudentIds.slice(frontendCount, frontendCount + backendCount);
+  const aiStudents = seededStudentIds.slice(frontendCount + backendCount, frontendCount + backendCount + aiCount);
+  
+  const boardsToCreate = [];
+  const tasksToCreate = [];
+  
+  const createBoardWithTasks = (studentId, careerId, skillsList) => {
+    const boardId = `board_${studentId}_${careerId}`;
+    
+    boardsToCreate.push({
+      id: boardId,
+      studentId,
+      careerId
+    });
+    
+    skillsList.forEach((skill, idx) => {
+      let status = 'TODO';
+      let verified = false;
+      let evidenceStatus = 'NONE';
+      let points = 0;
+      let github = null;
+      let completedAt = null;
+      let startedAt = null;
+      
+      const rand = Math.random();
+      const progressFactor = idx / skillsList.length;
+      
+      if (progressFactor < 0.4) {
+        status = 'DONE';
+        completedAt = new Date(Date.now() - Math.floor(Math.random() * 15 + 2) * 24 * 60 * 60 * 1000);
+        startedAt = new Date(completedAt.getTime() - Math.floor(Math.random() * 5 + 2) * 24 * 60 * 60 * 1000);
+        
+        if (rand < 0.6) {
+          verified = true;
+          evidenceStatus = 'VERIFIED';
+          points = Math.random() < 0.5 ? 10 : 20;
+          github = `https://github.com/student-${studentId.toLowerCase()}/${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+        }
+      } else if (progressFactor < 0.6) {
+        if (rand < 0.4) {
+          status = 'DONE';
+          completedAt = new Date(Date.now() - Math.floor(Math.random() * 5 + 1) * 24 * 60 * 60 * 1000);
+          startedAt = new Date(completedAt.getTime() - Math.floor(Math.random() * 5 + 2) * 24 * 60 * 60 * 1000);
+          if (rand < 0.3) {
+            verified = true;
+            evidenceStatus = 'VERIFIED';
+            points = 10;
+            github = `https://github.com/student-${studentId.toLowerCase()}/${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+          }
+        } else if (rand < 0.8) {
+          status = 'IN_PROGRESS';
+          startedAt = new Date(Date.now() - Math.floor(Math.random() * 3 + 1) * 24 * 60 * 60 * 1000);
+        }
+      }
+      
+      tasksToCreate.push({
+        boardId,
+        taskId: `${careerId}_task_${idx}`,
+        title: skill,
+        type: idx < 6 ? 'core' : 'advanced',
+        status,
+        impact: idx < 6 ? 10 : 15,
+        duration: idx < 6 ? '4-6 ngày' : '7-10 ngày',
+        startedAt,
+        completedAt,
+        github,
+        evidenceStatus,
+        verified,
+        points
+      });
+    });
+  };
+  
+  const frontendSkills = [
+    'HTML', 'CSS', 'JavaScript', 'Responsive Design', 'Git and GitHub', 'REST API', 'Package Managers',
+    'React', 'Next.js', 'TypeScript', 'State Management', 'CSS Frameworks (Tailwind)', 'Portfolio Project', 'Internship Ready'
+  ];
+  
+  const backendSkills = [
+    'Internet', 'JavaScript', 'Node.js Basics', 'Node.js', 'Express', 'Git and GitHub', 'REST API',
+    'SQL', 'PostgreSQL', 'Databases', 'NoSQL', 'MongoDB', 'Redis', 'Portfolio Project', 'Internship Ready'
+  ];
+  
+  const aiSkills = [
+    'Prompt Engineering', 'Few-Shot Prompting', 'Chain-of-Thought', 'AI Basics',
+    'OpenAI API', 'Gemini API', 'RAG', 'Vector Databases', 'LangChain', 'AI Agents', 'Portfolio Project', 'Internship Ready'
+  ];
+  
+  frontendStudents.forEach(id => createBoardWithTasks(id, 'frontend-developer', frontendSkills));
+  backendStudents.forEach(id => createBoardWithTasks(id, 'backend-developer', backendSkills));
+  aiStudents.forEach(id => createBoardWithTasks(id, 'ai-engineer', aiSkills));
+  
+  console.log(`🚀 Inserting ${boardsToCreate.length} Learning Boards...`);
+  for (let i = 0; i < boardsToCreate.length; i += BATCH_SIZE) {
+    const batch = boardsToCreate.slice(i, i + BATCH_SIZE);
+    await prisma.$transaction(
+      batch.map(b => prisma.learningBoard.create({ data: b }))
+    );
+  }
+  
+  console.log(`🚀 Inserting ${tasksToCreate.length} Learning Tasks...`);
+  for (let i = 0; i < tasksToCreate.length; i += BATCH_SIZE) {
+    const batch = tasksToCreate.slice(i, i + BATCH_SIZE);
+    await prisma.$transaction(
+      batch.map(t => prisma.learningTask.create({ data: t }))
+    );
+  }
+  console.log('✅ Learning Boards and Tasks seeded.');
+
   console.log('🎉 Seeding completed successfully!');
 }
 

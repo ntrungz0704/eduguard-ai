@@ -86,9 +86,10 @@ exports.getAllCareers = async (mssv) => {
       }
     }
 
+    const isAiFullstack = key === 'AI Fullstack Engineer';
     return {
-      id: slugify(key),
-      careerName: data.careerName || key,
+      id: isAiFullstack ? 'ai-engineer' : slugify(key),
+      careerName: isAiFullstack ? 'AI Engineer' : (data.careerName || key),
       description: data.description || '',
       salaryRange: data.salaryRange || 'N/A',
       marketDemand: data.marketDemand || 'N/A',
@@ -108,7 +109,12 @@ exports.analyzeStudentCareer = async (goalSlug, mssv) => {
   const roadmaps = cache.get('careerRoadmaps');
   if (!roadmaps) throw new Error("Knowledge cache not loaded");
 
-  const careerKey = Object.keys(roadmaps).find(k => slugify(k) === goalSlug);
+  const careerKey = Object.keys(roadmaps).find(k => {
+    const slug = slugify(k);
+    if (slug === goalSlug) return true;
+    if (goalSlug === 'ai-engineer' && slug === 'ai-fullstack-engineer') return true;
+    return false;
+  });
   if (!careerKey) return null;
 
   const student = await fetchStudentByMssv(mssv);

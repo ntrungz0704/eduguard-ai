@@ -103,55 +103,55 @@ function getRecommendedResources(skillName) {
   if (clean.includes('html') || clean.includes('semantic html')) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
-      video: 'https://www.youtube.com/watch?v=p0bGwsROo90'
+      video: 'https://www.youtube.com/watch?v=p0bGhr-Uu5w'
     };
   }
   if (clean.includes('tailwind') || clean.includes('tailwindcss')) {
     return {
       docs: 'https://tailwindcss.com/docs',
-      video: 'https://www.youtube.com/watch?v=lCxcTsOHr5I'
+      video: 'https://www.youtube.com/watch?v=pQhiB5EsLYk'
     };
   }
   if (clean.includes('css') || clean.includes('styling') || clean.includes('flexbox') || clean.includes('grid') || clean.includes('responsive')) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
-      video: 'https://www.youtube.com/watch?v=yT1iLp3-QY0'
+      video: 'https://www.youtube.com/watch?v=1Rs2ND1ryYc'
     };
   }
   if (clean.includes('typescript') || clean.includes('ts')) {
     return {
       docs: 'https://www.typescriptlang.org/docs/',
-      video: 'https://www.youtube.com/watch?v=BwuLxPH8IDs'
+      video: 'https://www.youtube.com/watch?v=30LWjhZzg50'
     };
   }
   if (clean.includes('react native') || clean.includes('expo') || clean.includes('flipper')) {
     return {
       docs: 'https://reactnative.dev/docs/getting-started',
-      video: 'https://www.youtube.com/watch?v=gvkqT_Uoahw'
+      video: 'https://www.youtube.com/watch?v=k68j9xlbHHk'
     };
   }
   if (clean.includes('react') && !clean.includes('native')) {
     return {
       docs: 'https://react.dev/',
-      video: 'https://www.youtube.com/watch?v=bMQCvbCltB0'
+      video: 'https://www.youtube.com/watch?v=bMknfKXI0i8'
     };
   }
   if (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('ssr/ssg') || clean.includes('routing (app router)') || clean.includes('nextauth') || clean.includes('edge runtime')) {
     return {
       docs: 'https://nextjs.org/docs',
-      video: 'https://www.youtube.com/watch?v=uWZvXIeoDzZ'
+      video: 'https://www.youtube.com/watch?v=ZVnjOPwW4ZA'
     };
   }
   if (clean.includes('node.js') || clean.includes('nodejs') || clean.includes('node.js basics')) {
     return {
       docs: 'https://nodejs.org/en/docs',
-      video: 'https://www.youtube.com/watch?v=TlB_eWDSMt4'
+      video: 'https://www.youtube.com/watch?v=Oe421EPjeBE'
     };
   }
   if (clean.includes('express') || clean.includes('middleware')) {
     return {
       docs: 'https://expressjs.com/',
-      video: 'https://www.youtube.com/watch?v=SccSCuHh5Hc'
+      video: 'https://www.youtube.com/watch?v=Oe421EPjeBE'
     };
   }
   if (clean.includes('nestjs')) {
