@@ -139,7 +139,13 @@ function getRecommendedResources(skillName) {
   if (clean.includes('react native') || clean.includes('expo') || clean.includes('flipper') || clean.includes('native modules')) {
     return {
       docs: 'https://reactnative.dev/docs/getting-started',
-      video: 'https://www.youtube.com/watch?v=obH0Po_RdWk'
+      video: 'https://www.youtube.com/watch?v=WDunoPNBxKA'
+    };
+  }
+  if (clean.includes('react router')) {
+    return {
+      docs: 'https://reactrouter.com/en/main',
+      video: 'https://www.youtube.com/watch?v=nDGA3km5He4'
     };
   }
   if (clean.includes('react') && !clean.includes('native')) {
@@ -148,7 +154,13 @@ function getRecommendedResources(skillName) {
       video: 'https://www.youtube.com/watch?v=bMknfKXIFA8'
     };
   }
-  if (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('routing (app router)') || clean.includes('nextauth') || clean.includes('edge runtime') || clean.includes('ssr/ssg') || clean.includes('caching') || clean.includes('data fetching') || clean.includes('middleware') || clean.includes('image/font optimization') || clean.includes('api routes')) {
+  if (clean.includes('caching') && (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('ssr/ssg'))) {
+    return {
+      docs: 'https://nextjs.org/docs/app/building-your-application/caching',
+      video: 'https://www.freecodecamp.org/news'
+    };
+  }
+  if (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('routing (app router)') || clean.includes('nextauth') || clean.includes('edge runtime') || clean.includes('ssr/ssg') || clean.includes('data fetching') || clean.includes('middleware') || clean.includes('image/font optimization') || clean.includes('api routes')) {
     return {
       docs: 'https://nextjs.org/docs',
       video: 'https://www.youtube.com/watch?v=KjY94sAKLlw'
@@ -172,7 +184,13 @@ function getRecommendedResources(skillName) {
       video: 'https://www.youtube.com/watch?v=0M8AYU_hPas'
     };
   }
-  if (clean.includes('redux') || clean.includes('state management') || clean.includes('context api') || clean.includes('redux toolkit') || clean.includes('zustand') || clean.includes('state & props') || clean.includes('react hooks') || clean.includes('react router') || clean.includes('state management (provider/riverpod)')) {
+  if (clean.includes('zustand')) {
+    return {
+      docs: 'https://zustand.docs.pmnd.rs/getting-started/introduction',
+      video: 'https://www.youtube.com/watch?v=QztUD2g85jo'
+    };
+  }
+  if (clean.includes('redux') || clean.includes('state management') || clean.includes('context api') || clean.includes('redux toolkit') || clean.includes('state & props') || clean.includes('react hooks') || clean.includes('state management (provider/riverpod)')) {
     return {
       docs: 'https://redux-toolkit.js.org/',
       video: 'https://www.youtube.com/watch?v=bbkBuqC1rU4'
@@ -220,7 +238,13 @@ function getRecommendedResources(skillName) {
       video: 'https://www.youtube.com/watch?v=RGOj5yH7evk'
     };
   }
-  if (clean.includes('flutter') || clean.includes('bloc pattern') || clean.includes('riverpod') || clean.includes('provider') || clean.includes('lifecycle') || clean.includes('layouts & gestures') || clean.includes('widget lifecycle') || clean.includes('animations') || clean.includes('mobile performance') || clean.includes('push notifications') || clean.includes('app store/play store deployment')) {
+  if (clean.includes('riverpod') || clean.includes('provider') || clean.includes('bloc pattern') || clean.includes('state management (provider/riverpod)')) {
+    return {
+      docs: 'https://docs.flutter.dev/data-and-backend/state-mgmt/intro',
+      video: 'https://www.youtube.com/watch?v=vtGCteFYs4M'
+    };
+  }
+  if (clean.includes('flutter') || clean.includes('lifecycle') || clean.includes('layouts & gestures') || clean.includes('widget lifecycle') || clean.includes('animations') || clean.includes('mobile performance') || clean.includes('push notifications') || clean.includes('app store/play store deployment')) {
     return {
       docs: 'https://docs.flutter.dev/',
       video: 'https://www.youtube.com/watch?v=VPvVD8t02U8'
@@ -244,7 +268,13 @@ function getRecommendedResources(skillName) {
       video: 'https://www.youtube.com/watch?v=j7VZsCCnptM'
     };
   }
-  if (clean.includes('cypress') || clean.includes('playwright')) {
+  if (clean.includes('playwright')) {
+    return {
+      docs: 'https://playwright.dev/docs/intro',
+      video: 'https://www.youtube.com/playlist?list=PLWKjhJtqVAbk6q-Yg3G_aN314Q6mJkK8K'
+    };
+  }
+  if (clean.includes('cypress')) {
     return {
       docs: 'https://docs.cypress.io/',
       video: 'https://www.youtube.com/watch?v=7N63cMKosIE'
@@ -314,6 +344,24 @@ function getRecommendedResources(skillName) {
     return {
       docs: 'https://en.wikipedia.org/wiki/Object-oriented_programming',
       video: 'https://www.youtube.com/watch?v=Ej_Pcr4uC2Q'
+    };
+  }
+  if (clean.includes('event loop') || clean.includes('event loops')) {
+    return {
+      docs: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop',
+      video: 'https://www.youtube.com/watch?v=8aGhZQkoFbQ'
+    };
+  }
+  if (clean.includes('asynchronous') || clean.includes('async') || clean.includes('async javascript') || clean.includes('asynchronous programming')) {
+    return {
+      docs: 'https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous',
+      video: 'https://www.youtube.com/watch?v=OFpqvaJ3QYg'
+    };
+  }
+  if (clean.includes('message queue') || clean.includes('rabbitmq')) {
+    return {
+      docs: 'https://www.rabbitmq.com/tutorials/tutorial-one-javascript.html',
+      video: 'https://www.youtube.com/watch?v=nFxjaVmFj5E'
     };
   }
   if (clean.includes('linux') || clean.includes('terminal') || clean.includes('cli') || clean.includes('linux cli')) {
