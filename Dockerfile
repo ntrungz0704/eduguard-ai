@@ -51,7 +51,7 @@ COPY server ./server
 COPY --from=builder /app/server/data ./server/data
 
 # Copy trained NLP model
-COPY --from=builder /app/model.nlp ./model.nlp
+COPY --from=builder /app/server/src/ai/models/nlp/chatbot_model.nlp ./server/src/ai/models/nlp/chatbot_model.nlp
 
 # Expose API port
 EXPOSE 3000

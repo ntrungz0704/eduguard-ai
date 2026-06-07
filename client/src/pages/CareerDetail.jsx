@@ -862,7 +862,10 @@ export default function CareerDetail() {
         console.warn('Không thể tải bảng học tập từ backend, thử dữ liệu tạm:', e);
         const storedTasks = localStorage.getItem(storageKey);
         if (storedTasks) {
-          loadedTasks = JSON.parse(storedTasks);
+          const parsed = JSON.parse(storedTasks);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            loadedTasks = parsed;
+          }
         }
       }
 
@@ -899,7 +902,7 @@ export default function CareerDetail() {
         return task;
       };
 
-      if (loadedTasks) {
+      if (loadedTasks && loadedTasks.length > 0) {
         // Re-sync tất cả tasks đã lưu với skill gap hiện tại để đảm bảo đồng bộ
         const synced = loadedTasks.map(syncTaskWithSkillGap);
         setTasks(synced);

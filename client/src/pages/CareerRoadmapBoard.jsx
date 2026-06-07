@@ -121,11 +121,14 @@ export default function CareerRoadmapBoard() {
             const storageKey = `eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`;
             const storedTasks = localStorage.getItem(storageKey);
             if (storedTasks) {
-              loadedTasks = JSON.parse(storedTasks);
+              const parsed = JSON.parse(storedTasks);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                loadedTasks = parsed;
+              }
             }
           }
 
-          if (loadedTasks) {
+          if (loadedTasks && loadedTasks.length > 0) {
             setTasks(loadedTasks);
           } else if (data) {
             // Map skills from backend analysis to tasks
