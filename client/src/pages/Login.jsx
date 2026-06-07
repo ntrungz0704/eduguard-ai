@@ -56,7 +56,9 @@ export default function Login() {
         navigate('/student-dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
+      const errorData = err.response?.data?.error;
+      const errorMessage = typeof errorData === 'object' && errorData !== null ? errorData.message : errorData;
+      setError(errorMessage || err.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
     } finally {
       setLoading(false);
     }
