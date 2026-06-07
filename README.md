@@ -82,6 +82,8 @@ Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100
 ## 🎥 3. Demo Video
 **YouTube:** [EduGuard AI Demo & Pitch Video](https://www.youtube.com/watch?v=_xWiC-XDT6U)
 
+[![EduGuard AI Demo Video](screenshots/thumbnail.png)](https://www.youtube.com/watch?v=_xWiC-XDT6U)
+
 ---
 
 ## 📸 4. Screenshots
@@ -118,14 +120,14 @@ Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100
 
 ---
 
-## ❓ 5. Problem Statement
-Current academic management systems store data but do not provide intelligent insights.
+## ❓ 5. Bài toán đặt ra
+Các hệ thống quản lý học tập hiện tại chủ yếu chỉ lưu trữ dữ liệu mà thiếu đi các góc nhìn phân tích sâu sắc.
 
-**EduGuard AI helps:**
-- Predict student performance from historical data.
-- Analyze academic records and visualize dependency risks.
-- Provide AI-powered consultation for academic advisors.
-- Support data-driven decision making to prevent dropouts.
+**EduGuard AI giúp:**
+- Dự đoán kết quả học tập của sinh viên dựa trên dữ liệu lịch sử.
+- Phân tích hồ sơ học vụ và trực quan hóa các rủi ro môn học bị phụ thuộc.
+- Cung cấp trợ lý ảo AI hỗ trợ cho Cố vấn học tập.
+- Hỗ trợ ra quyết định dựa trên dữ liệu để ngăn ngừa tình trạng bỏ học ngang.
 
 ---
 
