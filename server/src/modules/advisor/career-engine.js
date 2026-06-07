@@ -373,7 +373,7 @@ exports.suggestBestCareers = (student) => {
   const careerRoadmaps = knowledgeCache.get('careerRoadmaps') || {};
   const coursesDb = knowledgeCache.get('courses') || [];
 
-  if (!student || !student.scores) return [];
+  if (!student) return [];
 
   const results = [];
   
@@ -383,8 +383,8 @@ exports.suggestBestCareers = (student) => {
   passedCourses.forEach(courseId => {
     const course = coursesDb.find(db => db.courseCode === courseId);
     if (course) {
-      course.skills.forEach(s => studentAcquiredSkills.add(s));
-      course.technologies.forEach(t => studentAcquiredSkills.add(t));
+      if (course.skills) course.skills.forEach(s => studentAcquiredSkills.add(s));
+      if (course.technologies) course.technologies.forEach(t => studentAcquiredSkills.add(t));
     }
   });
 
@@ -399,67 +399,30 @@ exports.suggestBestCareers = (student) => {
     const advancedSkills = industryData.advancedSkills || [];
     const requiredSkills = [...coreSkills, ...advancedSkills];
 
-    // Dynamic Course mapping
-    const relevantCoursesMap = new Map();
-    coursesDb.forEach(course => {
-      const courseSkills = [...course.skills, ...course.technologies].map(s => s.toLowerCase());
-      const overlaps = requiredSkills.filter(req => 
-        courseSkills.some(cs => cs.includes(req.toLowerCase()) || req.toLowerCase().includes(cs))
+    let matchCount = 0;
+    requiredSkills.forEach(reqSkill => {
+      // Check if student acquired this exact skill or a subset/superset
+      const hasSkill = acquiredList.some(acq => 
+        acq.toLowerCase() === reqSkill.toLowerCase() || 
+        acq.toLowerCase().includes(reqSkill.toLowerCase()) || 
+        reqSkill.toLowerCase().includes(acq.toLowerCase())
       );
-      if (overlaps.length > 0) {
-        let courseWeight = 1;
-        const maxOverlapWeight = Math.max(...overlaps.map(s => getSkillWeight(s)));
-        if (maxOverlapWeight >= 20) courseWeight = 3;
-        else if (maxOverlapWeight >= 10) courseWeight = 2;
-        relevantCoursesMap.set(course.courseCode, { weight: courseWeight, name: course.courseName });
-      }
+      if (hasSkill) matchCount++;
     });
 
-    let maxAcademicWeight = 0;
-    let passedAcademicWeight = 0;
-
-    for (const [courseId, data] of relevantCoursesMap.entries()) {
-      maxAcademicWeight += data.weight;
-      const resolvedStatus = getStudentCourseStatus(student, courseId, data.name);
-      if (resolvedStatus === 'PASSED') {
-        passedAcademicWeight += data.weight;
-      }
-    }
-
-    let maxIndustryWeight = 0;
-    let acquiredIndustryWeight = 0;
-    
-    const isAcquired = (skill) => {
-      const nSkill = normalizeSkill(skill);
-      return acquiredList.some(acquired => {
-        const nAcq = normalizeSkill(acquired);
-        return nAcq.includes(nSkill) || nSkill.includes(nAcq);
-      });
-    };
-
-    requiredSkills.forEach(skill => {
-      const w = getSkillWeight(skill);
-      maxIndustryWeight += w;
-      if (isAcquired(skill)) {
-        acquiredIndustryWeight += w;
-      }
-    });
-
-    const academicScore = maxAcademicWeight > 0 ? (passedAcademicWeight / maxAcademicWeight) * 100 : 0;
-    const industryScore = maxIndustryWeight > 0 ? (acquiredIndustryWeight / maxIndustryWeight) * 100 : 0;
-    
-    // We only use academic & industry to roughly guess matchScore and readinessScore for suggestions
-    const readinessScore = Math.round((academicScore * 0.5) + (industryScore * 0.5));
-    const matchScore = academicScore; // Academic match is progress
+    const score = requiredSkills.length > 0 ? (matchCount / requiredSkills.length) * 100 : 0;
     
     results.push({
-      careerName: industryData.careerName || careerGoal,
-      matchScore,
-      readinessScore
+      id: careerGoal === 'AI Fullstack Engineer' ? 'ai-engineer' : slugify(careerGoal),
+      careerName: careerGoal,
+      matchScore: Math.round(score),
+      readinessScore: Math.round(score), // using same score as readiness roughly
+      score: score,
+      matchCount: matchCount,
+      totalRequired: requiredSkills.length
     });
   }
 
-  results.sort((a, b) => b.readinessScore - a.readinessScore);
-  
-  return results;
+  results.sort((a, b) => b.score - a.score);
+  return results; // Return all recommendations so UI can map readiness scores
 };

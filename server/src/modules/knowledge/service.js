@@ -1,6 +1,6 @@
 const cache = require('./cache');
 const { fetchStudentByMssv } = require('../../repositories/studentRepository');
-const { analyzeCareer } = require('../advisor/career-engine');
+const { analyzeCareer, suggestBestCareers } = require('../advisor/career-engine');
 
 function slugify(str) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -121,4 +121,10 @@ exports.analyzeStudentCareer = async (goalSlug, mssv) => {
   if (!student) return null;
 
   return analyzeCareer(student, careerKey);
+};
+
+exports.suggestCareers = async (mssv) => {
+  const student = await fetchStudentByMssv(mssv);
+  // Pass to engine. If student is missing, engine will handle it or return empty.
+  return suggestBestCareers(student);
 };

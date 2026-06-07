@@ -128,8 +128,42 @@ export default function CareerRoadmapBoard() {
             }
           }
 
+          const syncTaskWithSkillGap = (task) => {
+            const clean = task.title.toLowerCase();
+            const haveCore = (data.skillGap?.core?.have || []).map(x => x.toLowerCase());
+            const haveAdv  = (data.skillGap?.advanced?.have || []).map(x => x.toLowerCase());
+
+            if (haveCore.includes(clean) || haveAdv.includes(clean)) {
+              return {
+                ...task,
+                status: 'DONE',
+                completed_at: task.completed_at || new Date().toISOString().split('T')[0],
+                evidenceStatus: task.evidenceStatus === 'NONE' ? 'VERIFIED' : task.evidenceStatus,
+                verified: true,
+              };
+            }
+
+            const isStudying = (data.academicProgress || []).some(
+              c => c.status === 'IN_PROGRESS' && c.skills.some(x => x.toLowerCase() === clean)
+            );
+            if (isStudying && task.status !== 'DONE') {
+              return {
+                ...task,
+                status: 'IN_PROGRESS',
+                started_at: task.started_at || new Date().toISOString().split('T')[0],
+              };
+            }
+            return task;
+          };
+
           if (loadedTasks && loadedTasks.length > 0) {
-            setTasks(loadedTasks);
+            const synced = loadedTasks.map(syncTaskWithSkillGap);
+            setTasks(synced);
+            try {
+              await api.put(`/v1/learning/board/${studentId}/${selectedCareerId}`, { tasks: synced });
+            } catch (e) {
+              localStorage.setItem(`eduguard_roadmap_tasks_${studentId}_${selectedCareerId}`, JSON.stringify(synced));
+            }
           } else if (data) {
             // Map skills from backend analysis to tasks
             const allCore = data.industryRequirements?.core || [];

@@ -46,3 +46,10 @@ exports.analyzeStudentCareer = async (req, res, next) => {
     res.json({ success: true, data });
   } catch (err) { next(err); }
 };
+
+exports.suggestCareers = async (req, res, next) => {
+  try {
+    const data = await service.suggestCareers(req.params.mssv);
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+};
