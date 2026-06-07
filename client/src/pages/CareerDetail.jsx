@@ -109,7 +109,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('html/css') || (clean.includes('html') && clean.includes('css'))) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
-      video: 'https://www.youtube.com/watch?v=a_iQb1lnAEQ'
+      video: 'https://www.youtube.com/watch?v=sizL1foCFHY'
     };
   }
   if (clean.includes('tailwind') || clean.includes('tailwindcss') || clean.includes('css frameworks (tailwind)')) {
@@ -151,7 +151,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('react') && !clean.includes('native')) {
     return {
       docs: 'https://react.dev/',
-      video: 'https://www.youtube.com/watch?v=bMknfKXIFA8'
+      video: 'https://www.youtube.com/watch?v=CgkZ7MvWUAA'
     };
   }
   if (clean.includes('caching') && (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('ssr/ssg'))) {
@@ -271,7 +271,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('playwright')) {
     return {
       docs: 'https://playwright.dev/docs/intro',
-      video: 'https://www.youtube.com/playlist?list=PLWKjhJtqVAbk6q-Yg3G_aN314Q6mJkK8K'
+      video: 'https://www.youtube.com/playlist?list=PL83cimSRP5ZmwhC6u255huRwSi9tlP-nc'
     };
   }
   if (clean.includes('cypress')) {
@@ -391,7 +391,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('python') || clean.includes('jupyter')) {
     return {
       docs: 'https://docs.python.org/3/',
-      video: 'https://www.youtube.com/watch?v=8DvywoWv6fI'
+      video: 'https://www.youtube.com/watch?v=uQrJ0TkZlc'
     };
   }
   if (clean.includes('testing') || clean.includes('test') || clean.includes('jest') || clean.includes('unit testing (jest/rtl)') || clean.includes('software testing basics') || clean.includes('test cases & bug tracking') || clean.includes('ci/cd integration') || clean.includes('performance/load testing (jmeter)')) {
