@@ -100,46 +100,58 @@ function getRoadmapSource(careerName) {
 function getRecommendedResources(skillName) {
   const clean = skillName.toLowerCase().trim();
   
-  if (clean.includes('html') || clean.includes('semantic html')) {
+  if (clean.includes('html') && !clean.includes('css')) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
-      video: 'https://www.youtube.com/watch?v=p0bGhr-Uu5w'
+      video: 'https://www.youtube.com/watch?v=916GWv2Qs08'
     };
   }
-  if (clean.includes('tailwind') || clean.includes('tailwindcss')) {
+  if (clean.includes('html/css') || (clean.includes('html') && clean.includes('css'))) {
+    return {
+      docs: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
+      video: 'https://www.youtube.com/watch?v=a_iQb1lnAEQ'
+    };
+  }
+  if (clean.includes('tailwind') || clean.includes('tailwindcss') || clean.includes('css frameworks (tailwind)')) {
     return {
       docs: 'https://tailwindcss.com/docs',
-      video: 'https://www.youtube.com/watch?v=pQhiB5EsLYk'
+      video: 'https://www.youtube.com/watch?v=lCxcTsOHrjo'
     };
   }
-  if (clean.includes('css') || clean.includes('styling') || clean.includes('flexbox') || clean.includes('grid') || clean.includes('responsive')) {
+  if (clean.includes('css layouts') || clean.includes('flexbox') || clean.includes('grid') || clean.includes('responsive design')) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
-      video: 'https://www.youtube.com/watch?v=1Rs2ND1ryYc'
+      video: 'https://www.youtube.com/watch?v=ieTHC78giGQ'
+    };
+  }
+  if (clean.includes('css') || clean.includes('styling')) {
+    return {
+      docs: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
+      video: 'https://www.youtube.com/watch?v=OXGznpKZ_sA'
     };
   }
   if (clean.includes('typescript') || clean.includes('ts')) {
     return {
       docs: 'https://www.typescriptlang.org/docs/',
-      video: 'https://www.youtube.com/watch?v=30LWjhZzg50'
+      video: 'https://www.youtube.com/watch?v=BwuLxPH8IDs'
     };
   }
-  if (clean.includes('react native') || clean.includes('expo') || clean.includes('flipper')) {
+  if (clean.includes('react native') || clean.includes('expo') || clean.includes('flipper') || clean.includes('native modules')) {
     return {
       docs: 'https://reactnative.dev/docs/getting-started',
-      video: 'https://www.youtube.com/watch?v=k68j9xlbHHk'
+      video: 'https://www.youtube.com/watch?v=obH0Po_RdWk'
     };
   }
   if (clean.includes('react') && !clean.includes('native')) {
     return {
       docs: 'https://react.dev/',
-      video: 'https://www.youtube.com/watch?v=bMknfKXI0i8'
+      video: 'https://www.youtube.com/watch?v=bMknfKXIFA8'
     };
   }
-  if (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('ssr/ssg') || clean.includes('routing (app router)') || clean.includes('nextauth') || clean.includes('edge runtime')) {
+  if (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('routing (app router)') || clean.includes('nextauth') || clean.includes('edge runtime') || clean.includes('ssr/ssg') || clean.includes('caching') || clean.includes('data fetching') || clean.includes('middleware') || clean.includes('image/font optimization') || clean.includes('api routes')) {
     return {
       docs: 'https://nextjs.org/docs',
-      video: 'https://www.youtube.com/watch?v=ZVnjOPwW4ZA'
+      video: 'https://www.youtube.com/watch?v=KjY94sAKLlw'
     };
   }
   if (clean.includes('node.js') || clean.includes('nodejs') || clean.includes('node.js basics')) {
@@ -157,52 +169,34 @@ function getRecommendedResources(skillName) {
   if (clean.includes('nestjs')) {
     return {
       docs: 'https://docs.nestjs.com/',
-      video: 'https://www.youtube.com/watch?v=2n3xS89A_y4'
+      video: 'https://www.youtube.com/watch?v=0M8AYU_hPas'
     };
   }
-  if (clean.includes('fastify')) {
-    return {
-      docs: 'https://fastify.dev/docs/latest/',
-      video: 'https://www.youtube.com/watch?v=cM35P16LwX8'
-    };
-  }
-  if (clean.includes('redux')) {
+  if (clean.includes('redux') || clean.includes('state management') || clean.includes('context api') || clean.includes('redux toolkit') || clean.includes('zustand') || clean.includes('state & props') || clean.includes('react hooks') || clean.includes('react router') || clean.includes('state management (provider/riverpod)')) {
     return {
       docs: 'https://redux-toolkit.js.org/',
-      video: 'https://www.youtube.com/watch?v=9zySeP5vH9Y'
-    };
-  }
-  if (clean.includes('zustand')) {
-    return {
-      docs: 'https://zustand.docs.pmnd.rs/getting-started/introduction',
-      video: 'https://www.youtube.com/watch?v=KzE_5WfC3gQ'
+      video: 'https://www.youtube.com/watch?v=bbkBuqC1rU4'
     };
   }
   if (clean.includes('postgresql') || clean.includes('postgres')) {
     return {
       docs: 'https://www.postgresql.org/docs/',
+      video: 'https://www.youtube.com/watch?v=85pG_pDkITY'
+    };
+  }
+  if (clean.includes('sql') || clean.includes('sql basics')) {
+    return {
+      docs: 'https://en.wikipedia.org/wiki/SQL',
       video: 'https://www.youtube.com/watch?v=HXV3zeQKqGY'
-    };
-  }
-  if (clean.includes('mysql')) {
-    return {
-      docs: 'https://dev.mysql.com/doc/',
-      video: 'https://www.youtube.com/watch?v=7S_tz1z_5bA'
-    };
-  }
-  if (clean.includes('sqlite')) {
-    return {
-      docs: 'https://www.sqlite.org/docs.html',
-      video: 'https://www.youtube.com/watch?v=byHcYRpForI'
     };
   }
   if (clean.includes('mongodb') || clean.includes('nosql')) {
     return {
       docs: 'https://www.mongodb.com/docs/',
-      video: 'https://www.youtube.com/watch?v=oSIv-E60NiU'
+      video: 'https://www.youtube.com/watch?v=-56x56UppqQ'
     };
   }
-  if (clean.includes('redis') || clean.includes('caching')) {
+  if (clean.includes('redis')) {
     return {
       docs: 'https://redis.io/docs/',
       video: 'https://www.youtube.com/watch?v=jgpVdJB2sKQ'
@@ -211,7 +205,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('docker')) {
     return {
       docs: 'https://docs.docker.com/',
-      video: 'https://www.youtube.com/watch?v=3c-iKanevgA'
+      video: 'https://www.youtube.com/watch?v=3c-iBn73dDE'
     };
   }
   if (clean.includes('kubernetes') || clean.includes('k8s')) {
@@ -220,232 +214,190 @@ function getRecommendedResources(skillName) {
       video: 'https://www.youtube.com/watch?v=X48VuDVv0do'
     };
   }
-  if (clean.includes('git') || clean.includes('github') || clean.includes('code review')) {
+  if (clean.includes('git') || clean.includes('github') || clean.includes('code review') || clean.includes('git and github')) {
     return {
       docs: 'https://git-scm.com/doc',
       video: 'https://www.youtube.com/watch?v=RGOj5yH7evk'
     };
   }
-  if (clean.includes('flutter') || clean.includes('bloc pattern') || clean.includes('riverpod') || clean.includes('provider') || clean.includes('lifecycle')) {
+  if (clean.includes('flutter') || clean.includes('bloc pattern') || clean.includes('riverpod') || clean.includes('provider') || clean.includes('lifecycle') || clean.includes('layouts & gestures') || clean.includes('widget lifecycle') || clean.includes('animations') || clean.includes('mobile performance') || clean.includes('push notifications') || clean.includes('app store/play store deployment')) {
     return {
       docs: 'https://docs.flutter.dev/',
       video: 'https://www.youtube.com/watch?v=VPvVD8t02U8'
     };
   }
-  if (clean.includes('dart')) {
+  if (clean.includes('dart') || clean.includes('dart programming')) {
     return {
       docs: 'https://dart.dev/guides',
-      video: 'https://www.youtube.com/watch?v=5xlVP0II8-k'
+      video: 'https://www.youtube.com/watch?v=Ej_Pcr4uC2Q'
     };
   }
   if (clean.includes('firebase')) {
     return {
       docs: 'https://firebase.google.com/docs',
-      video: 'https://www.youtube.com/watch?v=iosNuIdQoy8'
+      video: 'https://www.youtube.com/watch?v=9kRgVxULbag'
     };
   }
   if (clean.includes('selenium')) {
     return {
       docs: 'https://www.selenium.dev/documentation/',
-      video: 'https://www.youtube.com/watch?v=FRn5J31eAMw'
+      video: 'https://www.youtube.com/watch?v=j7VZsCCnptM'
     };
   }
-  if (clean.includes('cypress')) {
+  if (clean.includes('cypress') || clean.includes('playwright')) {
     return {
       docs: 'https://docs.cypress.io/',
-      video: 'https://www.youtube.com/watch?v=u8vMu7mII88'
-    };
-  }
-  if (clean.includes('playwright')) {
-    return {
-      docs: 'https://playwright.dev/docs/intro',
-      video: 'https://www.youtube.com/watch?v=jWJ3153_wSM'
+      video: 'https://www.youtube.com/watch?v=7N63cMKosIE'
     };
   }
   if (clean.includes('terraform')) {
     return {
       docs: 'https://developer.hashicorp.com/terraform/docs',
-      video: 'https://www.youtube.com/watch?v=SLB_c_ayRMo'
+      video: 'https://www.youtube.com/watch?v=7xngnjfIlK4'
     };
   }
-  if (clean.includes('aws') || clean.includes('cloud deployment')) {
+  if (clean.includes('aws') || clean.includes('cloud deployment') || clean.includes('cloud architecture') || clean.includes('cloud security') || clean.includes('cloud architecture basics') || clean.includes('cloud deployment (aws/vercel)')) {
     return {
       docs: 'https://docs.aws.amazon.com/',
-      video: 'https://www.youtube.com/watch?v=35oW1V_Z5tM'
+      video: 'https://www.youtube.com/watch?v=3hLmDS179YE'
     };
   }
-  if (clean.includes('azure')) {
-    return {
-      docs: 'https://learn.microsoft.com/en-us/azure/',
-      video: 'https://www.youtube.com/watch?v=NPEsD6n5aVM'
-    };
-  }
-  if (clean.includes('prometheus') || clean.includes('grafana') || clean.includes('monitoring')) {
-    return {
-      docs: 'https://prometheus.io/docs/introduction/overview/',
-      video: 'https://www.youtube.com/watch?v=9TKB74AglG8'
-    };
-  }
-  if (clean.includes('prompt') || clean.includes('few-shot') || clean.includes('chain-of-thought')) {
+  if (clean.includes('prompt') || clean.includes('few-shot') || clean.includes('chain-of-thought') || clean.includes('prompt engineering') || clean.includes('prompt evaluation') || clean.includes('few-shot prompting')) {
     return {
       docs: 'https://www.promptingguide.ai/',
-      video: 'https://www.youtube.com/watch?v=mBYu5NoWwEU'
+      video: 'https://www.youtube.com/watch?v=_ZvnD73m40o'
     };
   }
-  if (clean.includes('openai') || clean.includes('gemini') || clean.includes('ai api') || clean.includes('ai apis')) {
+  if (clean.includes('openai') || clean.includes('gemini') || clean.includes('ai api') || clean.includes('ai apis') || clean.includes('openai/gemini apis')) {
     return {
       docs: 'https://ai.google.dev/docs',
-      video: 'https://www.youtube.com/watch?v=1yv_MX_yqjI'
+      video: 'https://www.youtube.com/watch?v=LE-hnm_jRmk'
     };
   }
-  if (clean.includes('rag') || clean.includes('retrieval')) {
+  if (clean.includes('rag') || clean.includes('retrieval') || clean.includes('retrieval-augmented generation (rag)')) {
     return {
       docs: 'https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/',
-      video: 'https://www.youtube.com/watch?v=T-D1OfcDW1M'
+      video: 'https://www.youtube.com/watch?v=sVcwVQRHIc8'
     };
   }
-  if (clean.includes('langchain') || clean.includes('llamaindex')) {
+  if (clean.includes('langchain') || clean.includes('llamaindex') || clean.includes('langchain / llamaindex')) {
     return {
       docs: 'https://js.langchain.com/docs/get_started/introduction',
-      video: 'https://www.youtube.com/watch?v=2xxziIWcolA'
+      video: 'https://www.youtube.com/watch?v=lG7Uxts9SXs'
     };
   }
   if (clean.includes('vector db') || clean.includes('vector database') || clean.includes('pinecone')) {
     return {
       docs: 'https://www.pinecone.io/learn/vector-database/',
-      video: 'https://www.youtube.com/watch?v=klTvEwg3o14'
+      video: 'https://www.youtube.com/watch?v=dN0lsF2cvm4'
     };
   }
-  if (clean.includes('agent') || clean.includes('workflows')) {
+  if (clean.includes('agent') || clean.includes('workflows') || clean.includes('agentic workflows') || clean.includes('ai agents')) {
     return {
       docs: 'https://www.deeplearning.ai/the-batch/how-agents-work/',
       video: 'https://www.youtube.com/watch?v=F8NKVhkZZWI'
     };
   }
-  if (clean.includes('system design') || clean.includes('architecture') || clean.includes('distributed') || clean.includes('scalability') || clean.includes('tolerance') || clean.includes('availability')) {
+  if (clean.includes('system design') || clean.includes('architecture') || clean.includes('distributed') || clean.includes('scalability') || clean.includes('tolerance') || clean.includes('availability') || clean.includes('system architecture') || clean.includes('software architecture') || clean.includes('distributed systems') || clean.includes('fault tolerance') || clean.includes('high availability') || clean.includes('design systems') || clean.includes('system integration') || clean.includes('component libraries')) {
     return {
       docs: 'https://github.com/donnemartin/system-design-primer',
-      video: 'https://www.youtube.com/watch?v=m8I7eGMy5vE'
+      video: 'https://www.youtube.com/watch?v=m8Icp_Cid5o'
     };
   }
-  if (clean.includes('design pattern') || clean.includes('design patterns') || clean.includes('oop') || clean.includes('component design') || clean.includes('design systems') || clean.includes('algorithms')) {
+  if (clean.includes('design pattern') || clean.includes('design patterns')) {
     return {
       docs: 'https://refactoring.guru/design-patterns',
-      video: 'https://www.youtube.com/watch?v=tv-_1er1mWI'
+      video: 'https://www.youtube.com/watch?v=v9ejT8FO-7I'
     };
   }
-  if (clean.includes('linux') || clean.includes('bash') || clean.includes('terminal') || clean.includes('cli')) {
+  if (clean.includes('oop')) {
+    return {
+      docs: 'https://en.wikipedia.org/wiki/Object-oriented_programming',
+      video: 'https://www.youtube.com/watch?v=Ej_Pcr4uC2Q'
+    };
+  }
+  if (clean.includes('linux') || clean.includes('terminal') || clean.includes('cli') || clean.includes('linux cli')) {
     return {
       docs: 'https://www.linux.org/',
-      video: 'https://www.youtube.com/watch?v=wbpDKzKzZCc'
+      video: 'https://www.youtube.com/watch?v=VbEx7B_PTOE'
     };
   }
-  if (clean.includes('draw.io') || clean.includes('miro') || clean.includes('diagram')) {
+  if (clean.includes('bash') || clean.includes('bash scripting')) {
     return {
-      docs: 'https://www.drawio.com/doc/',
-      video: 'https://www.youtube.com/watch?v=b0HokI1T8X4'
+      docs: 'https://www.gnu.org/software/bash/',
+      video: 'https://www.youtube.com/watch?v=e7BufAVwDiM'
     };
   }
-  if (clean.includes('a11y') || clean.includes('accessibility')) {
+  if (clean.includes('a11y') || clean.includes('accessibility') || clean.includes('web accessibility') || clean.includes('web accessibility (a11y)')) {
     return {
       docs: 'https://www.w3.org/WAI/fundamentals/accessibility-intro/',
-      video: 'https://www.youtube.com/watch?v=cOmehxCGoSZ'
+      video: 'https://www.youtube.com/watch?v=20SHvU2PKsM'
     };
   }
   if (clean.includes('seo')) {
     return {
       docs: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
-      video: 'https://www.youtube.com/watch?v=D15S7Wd1YQ0'
+      video: 'https://www.youtube.com/watch?v=xsVTqzratPs'
     };
   }
   if (clean.includes('python') || clean.includes('jupyter')) {
     return {
       docs: 'https://docs.python.org/3/',
-      video: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc'
+      video: 'https://www.youtube.com/watch?v=8DvywoWv6fI'
     };
   }
-  if (clean.includes('java') && !clean.includes('javascript')) {
-    return {
-      docs: 'https://docs.oracle.com/en/java/',
-      video: 'https://www.youtube.com/watch?v=grEKMHGYyns'
-    };
-  }
-  if (clean.includes('testing') || clean.includes('test') || clean.includes('jest')) {
+  if (clean.includes('testing') || clean.includes('test') || clean.includes('jest') || clean.includes('unit testing (jest/rtl)') || clean.includes('software testing basics') || clean.includes('test cases & bug tracking') || clean.includes('ci/cd integration') || clean.includes('performance/load testing (jmeter)')) {
     return {
       docs: 'https://jestjs.io/docs/getting-started',
-      video: 'https://www.youtube.com/watch?v=IPiUDhNxs80'
+      video: 'https://www.youtube.com/watch?v=r9HdJ8P6GQI'
     };
   }
-  if (clean.includes('postman')) {
+  if (clean.includes('postman') || clean.includes('api testing (postman)')) {
     return {
       docs: 'https://learning.postman.com/docs/getting-started/introduction/',
       video: 'https://www.youtube.com/watch?v=VywxIQ2ZXw4'
     };
   }
-  if (clean.includes('figma')) {
+  if (clean.includes('figma') || clean.includes('figma to code')) {
     return {
       docs: 'https://help.figma.com/hc/en-us',
-      video: 'https://www.youtube.com/watch?v=FTFaQWZBqUM'
+      video: 'https://www.youtube.com/watch?v=FTFaQWZBqQ8'
     };
   }
-  if (clean.includes('android studio') || clean.includes('xcode') || clean.includes('deployment')) {
-    return {
-      docs: 'https://developer.android.com/studio/intro',
-      video: 'https://www.youtube.com/watch?v=EcnqJ5Lnw8Y'
-    };
-  }
-  if (clean.includes('networking')) {
+  if (clean.includes('networking') || clean.includes('networking basics')) {
     return {
       docs: 'https://www.cloudflare.com/learning/network-layer/what-is-a-protocol/',
-      video: 'https://www.youtube.com/watch?v=IPvYjXCsTg8'
+      video: 'https://www.youtube.com/watch?v=qiQR5rTSshw'
     };
   }
-  if (clean.includes('security') || clean.includes('jwt') || clean.includes('oauth') || clean.includes('authentication')) {
+  if (clean.includes('security') || clean.includes('jwt') || clean.includes('oauth') || clean.includes('authentication') || clean.includes('web security') || clean.includes('web security (jwt/oauth)') || clean.includes('api security')) {
     return {
       docs: 'https://auth0.com/docs/get-started',
-      video: 'https://www.youtube.com/watch?v=17XmJgM-j7E'
-    };
-  }
-  if (clean.includes('vite')) {
-    return {
-      docs: 'https://vite.dev/guide/',
-      video: 'https://www.youtube.com/watch?v=KCrXgy8YjQA'
-    };
-  }
-  if (clean.includes('animations') || clean.includes('framer motion') || clean.includes('gsap')) {
-    return {
-      docs: 'https://gsap.com/docs/v3/',
-      video: 'https://www.youtube.com/watch?v=hZNy7x8T3R4'
+      video: 'https://www.youtube.com/watch?v=3Kq1MIfTWCE'
     };
   }
   if (clean.includes('storybook')) {
     return {
       docs: 'https://storybook.js.org/docs',
-      video: 'https://www.youtube.com/watch?v=Fpq75W28YZc'
+      video: 'https://www.youtube.com/watch?v=x-x47qHq3nY'
     };
   }
-  if (clean.includes('npm') || clean.includes('pnpm') || clean.includes('yarn') || clean.includes('package managers')) {
+  if (clean.includes('npm') || clean.includes('package managers')) {
     return {
       docs: 'https://docs.npmjs.com/',
-      video: 'https://www.youtube.com/watch?v=jETZ_0_qQIQ'
+      video: 'https://www.youtube.com/watch?v=ENrzD9HAZK4'
     };
   }
-  if (clean.includes('vercel')) {
+  if (clean.includes('technical writing')) {
     return {
-      docs: 'https://vercel.com/docs',
-      video: 'https://www.youtube.com/watch?v=2n3xS89A_y4'
+      docs: 'https://developers.google.com/tech-writing',
+      video: 'https://www.youtube.com/watch?v=gIHB-7KcKDs'
     };
   }
-  if (clean.includes('writing') || clean.includes('presentation') || clean.includes('communication') || clean.includes('business') || clean.includes('acumen') || clean.includes('pre-sales') || clean.includes('poc')) {
+  if (clean.includes('microservices')) {
     return {
-      docs: 'https://www.skillsyouneed.com/ips/communication-skills.html',
-      video: 'https://www.youtube.com/watch?v=d_2a5kG6kBg'
-    };
-  }
-  if (clean.includes('javascript') || clean.includes('js basics')) {
-    return {
-      docs: 'https://javascript.info/',
-      video: 'https://www.youtube.com/watch?v=PkZNo7MFNFg'
+      docs: 'https://microservices.io/',
+      video: 'https://www.youtube.com/watch?v=nH4qjmP2KEE'
     };
   }
   
