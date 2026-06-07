@@ -104,6 +104,18 @@ Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100
 ### 6. AI Assistant (NLP Chatbot)
 ![AI Chatbot](screenshots/chatbot.png)
 
+### 7. Bảng Điểm & Thống Kê (Sinh Viên)
+![Bảng điểm sinh viên](screenshots/bang-diem-sv.png)
+
+### 8. Vũ Trụ Nghề Nghiệp (Sinh Viên)
+![Vũ trụ nghề nghiệp](screenshots/vu-tru-nghe-nghiep.png)
+
+### 9. Bảng Lộ Trình Học Tập (Sinh Viên)
+![Bảng lộ trình học tập](screenshots/bang-lo-trinh.png)
+
+### 10. Hỏi Đáp Cố Vấn AI (Sinh Viên)
+![Hỏi đáp Cố vấn AI](screenshots/hoi-dap-ai.png)
+
 ---
 
 ## ❓ 5. Problem Statement
