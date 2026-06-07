@@ -638,7 +638,7 @@ function getVisualRoadmapLevels(career) {
   if (!career) return [];
   const name = career.careerName.toLowerCase();
   
-  if (name.includes("frontend") || name.includes("react") || name.includes("next.js") || name.includes("ui engineer") || name.includes("ui-engineer")) {
+  if (name.trim() === "frontend developer") {
     return [
       { name: 'Cấp độ 1: Kiến thức Cơ bản Web & Internet', skills: ['Internet', 'HTML', 'CSS', 'Responsive Design'].filter(s => hasSkill(career, s)), desc: 'Tìm hiểu cách hoạt động của web, cấu trúc HTML và thiết kế CSS' },
       { name: 'Cấp độ 2: JavaScript & Quản lý phiên bản', skills: ['JavaScript', 'Git and GitHub', 'Git', 'GitHub'].filter(s => hasSkill(career, s)), desc: 'Thành thạo JavaScript và cộng tác mã nguồn bằng hệ thống quản lý phiên bản' },
@@ -649,7 +649,7 @@ function getVisualRoadmapLevels(career) {
     ].filter(lvl => lvl.skills.length > 0);
   }
 
-  if (name.includes("backend") || name.includes("node.js") || name.includes("nodejs")) {
+  if (name.trim() === "backend developer") {
     return [
       { name: 'Cấp độ 1: Cơ bản Internet & Ngôn ngữ', skills: ['Internet', 'JavaScript', 'Node.js Basics', 'Node.js', 'Express', 'Express.js'].filter(s => hasSkill(career, s)), desc: 'Hiểu môi trường thực thi backend và xây dựng định tuyến request đơn giản' },
       { name: 'Cấp độ 2: Quản lý phiên bản & REST API', skills: ['Git and GitHub', 'Git', 'REST API', 'API Design', 'Linux CLI'].filter(s => hasSkill(career, s)), desc: 'Thiết kế các tuyến đường RESTful và quản lý phiên bản mã nguồn' },
@@ -660,7 +660,7 @@ function getVisualRoadmapLevels(career) {
     ].filter(lvl => lvl.skills.length > 0);
   }
 
-  if (name.includes("fullstack") || name.includes("full stack") || name.includes("full-stack") || name.includes("software engineer")) {
+  if (name.trim() === "full stack developer") {
     return [
       { name: 'Cấp độ 1: Cơ bản về Web & Bố cục', skills: ['HTML', 'CSS', 'Responsive Design', 'Internet'].filter(s => hasSkill(career, s)), desc: 'Nền tảng HTML và bố cục giao diện CSS' },
       { name: 'Cấp độ 2: Tư duy Lập trình & Git', skills: ['JavaScript', 'TypeScript', 'Git and GitHub', 'Git'].filter(s => hasSkill(career, s)), desc: 'Hệ thống quản lý phiên bản và cấu trúc lập trình cốt lõi' },
