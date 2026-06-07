@@ -103,7 +103,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('html') || clean.includes('semantic html')) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
-      video: 'https://www.youtube.com/watch?v=mJgBOIoGihA'
+      video: 'https://www.youtube.com/watch?v=p0bGwsROo90'
     };
   }
   if (clean.includes('tailwind') || clean.includes('tailwindcss')) {
@@ -115,7 +115,7 @@ function getRecommendedResources(skillName) {
   if (clean.includes('css') || clean.includes('styling') || clean.includes('flexbox') || clean.includes('grid') || clean.includes('responsive')) {
     return {
       docs: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
-      video: 'https://www.youtube.com/watch?v=1PnVor36_40'
+      video: 'https://www.youtube.com/watch?v=yT1iLp3-QY0'
     };
   }
   if (clean.includes('typescript') || clean.includes('ts')) {
@@ -133,13 +133,13 @@ function getRecommendedResources(skillName) {
   if (clean.includes('react') && !clean.includes('native')) {
     return {
       docs: 'https://react.dev/',
-      video: 'https://www.youtube.com/watch?v=Ke90Tje7VS0'
+      video: 'https://www.youtube.com/watch?v=bMQCvbCltB0'
     };
   }
   if (clean.includes('next.js') || clean.includes('nextjs') || clean.includes('ssr/ssg') || clean.includes('routing (app router)') || clean.includes('nextauth') || clean.includes('edge runtime')) {
     return {
       docs: 'https://nextjs.org/docs',
-      video: 'https://www.youtube.com/watch?v=Sklc_fQBMCs'
+      video: 'https://www.youtube.com/watch?v=uWZvXIeoDzZ'
     };
   }
   if (clean.includes('node.js') || clean.includes('nodejs') || clean.includes('node.js basics')) {
