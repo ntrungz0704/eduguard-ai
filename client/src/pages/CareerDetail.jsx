@@ -642,7 +642,7 @@ function getVisualRoadmapLevels(career) {
     return [
       { name: 'Cấp độ 1: Kiến thức Cơ bản Web & Internet', skills: ['Internet', 'HTML', 'CSS', 'Responsive Design'].filter(s => hasSkill(career, s)), desc: 'Tìm hiểu cách hoạt động của web, cấu trúc HTML và thiết kế CSS' },
       { name: 'Cấp độ 2: JavaScript & Quản lý phiên bản', skills: ['JavaScript', 'Git and GitHub', 'Git', 'GitHub'].filter(s => hasSkill(career, s)), desc: 'Thành thạo JavaScript và cộng tác mã nguồn bằng hệ thống quản lý phiên bản' },
-      { name: 'Cấp độ 3: Quản lý thư viện & React', skills: ['Package Managers', 'Vite', 'React', 'CSS Frameworks (Tailwind)', 'Tailwind'].filter(s => hasSkill(career, s)), desc: 'Học cách sử dụng trình quản lý thư viện, đóng gói mã nguồn và thư viện React' },
+      { name: 'Cấp độ 3: Quản lý thư viện & React', skills: ['Package Managers', 'Vite', 'React', 'CSS Frameworks (Tailwind)', 'Tailwind', 'REST API'].filter(s => hasSkill(career, s)), desc: 'Học cách sử dụng trình quản lý thư viện, đóng gói mã nguồn và thư viện React' },
       { name: 'Cấp độ 4: React nâng cao, Next.js & TS', skills: ['State Management', 'TypeScript', 'Next.js', 'Redux Toolkit', 'Zustand', 'Context API'].filter(s => hasSkill(career, s)), desc: 'Quản lý trạng thái ứng dụng, an toàn kiểu tĩnh và framework render phía máy chủ' },
       { name: 'Cấp độ 5: Kiểm thử, SEO & Hiệu năng', skills: ['Testing', 'Unit Testing (Jest/RTL)', 'SEO', 'Performance Optimization', 'Performance', 'Accessibility'].filter(s => hasSkill(career, s)), desc: 'Viết bộ kiểm thử, đánh giá hiệu năng trang và tối ưu khả năng tiếp cận web' },
       { name: 'Cấp độ 6: Đồ án & Tuyển dụng', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Xây dựng dự án cá nhân thực tế và chuẩn bị hồ sơ ứng tuyển' }
@@ -651,11 +651,11 @@ function getVisualRoadmapLevels(career) {
 
   if (name.includes("backend") || name.includes("node.js") || name.includes("nodejs")) {
     return [
-      { name: 'Cấp độ 1: Cơ bản Internet & Ngôn ngữ', skills: ['Internet', 'JavaScript', 'Node.js Basics', 'Node.js', 'Express'].filter(s => hasSkill(career, s)), desc: 'Hiểu môi trường thực thi backend và xây dựng định tuyến request đơn giản' },
-      { name: 'Cấp độ 2: Quản lý phiên bản & REST API', skills: ['Git and GitHub', 'REST API', 'API Design'].filter(s => hasSkill(career, s)), desc: 'Thiết kế các tuyến đường RESTful và quản lý phiên bản mã nguồn' },
-      { name: 'Cấp độ 3: Cơ sở dữ liệu Quan hệ & SQL', skills: ['SQL', 'PostgreSQL', 'Databases'].filter(s => hasSkill(career, s)), desc: 'Thiết lập bảng dữ liệu, quan hệ và viết các truy vấn tối ưu' },
-      { name: 'Cấp độ 4: CSDL NoSQL & Bảo mật', skills: ['Redis', 'MongoDB', 'Authentication & JWT', 'Security'].filter(s => hasSkill(career, s)), desc: 'Sử dụng bộ nhớ đệm, lưu trữ NoSQL và triển khai token bảo mật' },
-      { name: 'Cấp độ 5: DevOps, Docker & Kiểm thử', skills: ['Docker', 'Testing', 'CI/CD', 'Performance Tuning'].filter(s => hasSkill(career, s)), desc: 'Đóng gói ứng dụng dạng microservices và viết file kiểm thử endpoint' },
+      { name: 'Cấp độ 1: Cơ bản Internet & Ngôn ngữ', skills: ['Internet', 'JavaScript', 'Node.js Basics', 'Node.js', 'Express', 'Express.js'].filter(s => hasSkill(career, s)), desc: 'Hiểu môi trường thực thi backend và xây dựng định tuyến request đơn giản' },
+      { name: 'Cấp độ 2: Quản lý phiên bản & REST API', skills: ['Git and GitHub', 'Git', 'REST API', 'API Design', 'Linux CLI'].filter(s => hasSkill(career, s)), desc: 'Thiết kế các tuyến đường RESTful và quản lý phiên bản mã nguồn' },
+      { name: 'Cấp độ 3: Cơ sở dữ liệu Quan hệ & SQL', skills: ['SQL', 'PostgreSQL', 'Database Design', 'Databases'].filter(s => hasSkill(career, s)), desc: 'Thiết lập bảng dữ liệu, quan hệ và viết các truy vấn tối ưu' },
+      { name: 'Cấp độ 4: CSDL NoSQL & Bảo mật', skills: ['Redis', 'MongoDB', 'Authentication & JWT', 'Security', 'Web Security (JWT/OAuth)', 'Authentication'].filter(s => hasSkill(career, s)), desc: 'Sử dụng bộ nhớ đệm, lưu trữ NoSQL và triển khai token bảo mật' },
+      { name: 'Cấp độ 5: DevOps, Docker, Microservices & Kiểm thử', skills: ['Docker', 'Microservices', 'Message Queue', 'System Design', 'Testing', 'CI/CD', 'Performance Tuning'].filter(s => hasSkill(career, s)), desc: 'Đóng gói ứng dụng dạng container/microservices và thiết kế kiến trúc phân tán' },
       { name: 'Cấp độ 6: Triển khai & Tuyển dụng', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Triển khai ứng dụng lên đám mây và thực hành phỏng vấn hệ thống' }
     ].filter(lvl => lvl.skills.length > 0);
   }
@@ -663,10 +663,10 @@ function getVisualRoadmapLevels(career) {
   if (name.includes("fullstack") || name.includes("full stack") || name.includes("full-stack") || name.includes("software engineer")) {
     return [
       { name: 'Cấp độ 1: Cơ bản về Web & Bố cục', skills: ['HTML', 'CSS', 'Responsive Design', 'Internet'].filter(s => hasSkill(career, s)), desc: 'Nền tảng HTML và bố cục giao diện CSS' },
-      { name: 'Cấp độ 2: Tư duy Lập trình & Git', skills: ['JavaScript', 'TypeScript', 'Git and GitHub'].filter(s => hasSkill(career, s)), desc: 'Hệ thống quản lý phiên bản và cấu trúc lập trình cốt lõi' },
+      { name: 'Cấp độ 2: Tư duy Lập trình & Git', skills: ['JavaScript', 'TypeScript', 'Git and GitHub', 'Git'].filter(s => hasSkill(career, s)), desc: 'Hệ thống quản lý phiên bản và cấu trúc lập trình cốt lõi' },
       { name: 'Cấp độ 3: Framework giao diện & API', skills: ['React', 'Next.js', 'REST API', 'Package Managers'].filter(s => hasSkill(career, s)), desc: 'Xây dựng kiến trúc ứng dụng phía giao diện (Front-end)' },
-      { name: 'Cấp độ 4: Môi trường phía Server & CSDL', skills: ['Node.js', 'Express', 'SQL', 'PostgreSQL'].filter(s => hasSkill(career, s)), desc: 'Xây dựng tầng xử lý logic backend và lưu trữ dữ liệu lâu dài' },
-      { name: 'Cấp độ 5: Container & Hệ thống CI/CD', skills: ['Docker', 'Testing', 'Zustand', 'State Management'].filter(s => hasSkill(career, s)), desc: 'Triển khai ứng dụng web đóng gói dạng container kèm độ phủ kiểm thử' },
+      { name: 'Cấp độ 4: Môi trường phía Server & CSDL', skills: ['Node.js', 'Express', 'Express.js', 'SQL', 'PostgreSQL', 'Redis', 'NoSQL (MongoDB)'].filter(s => hasSkill(career, s)), desc: 'Xây dựng tầng xử lý logic backend và lưu trữ dữ liệu lâu dài' },
+      { name: 'Cấp độ 5: Container, Thiết kế & Hệ thống CI/CD', skills: ['Docker', 'Testing', 'Zustand', 'State Management', 'CI/CD (GitHub Actions)', 'Cloud Deployment (AWS/Vercel)', 'System Design', 'API Security'].filter(s => hasSkill(career, s)), desc: 'Triển khai ứng dụng web đóng gói dạng container, bảo mật API và thiết kế hệ thống' },
       { name: 'Cấp độ 6: Cột mốc & Sẵn sàng đi làm', skills: ['Portfolio Project', 'Internship Ready'].filter(s => hasSkill(career, s) || ['Portfolio Project', 'Internship Ready'].includes(s)), desc: 'Trình diễn sản phẩm phần mềm đã xác thực với nhà tuyển dụng' }
     ].filter(lvl => lvl.skills.length > 0);
   }
