@@ -350,6 +350,25 @@ exports.analyzeCareer = (student, careerGoal) => {
   };
 };
 
+exports.analyzeStudentCareer = async (goalSlug, mssv) => {
+  const roadmaps = knowledgeCache.get('careerRoadmaps');
+  if (!roadmaps) throw new Error("Knowledge cache not loaded");
+
+  const careerKey = Object.keys(roadmaps).find(k => {
+    const slug = slugify(k);
+    if (slug === goalSlug) return true;
+    if (goalSlug === 'ai-engineer' && slug === 'ai-fullstack-engineer') return true;
+    return false;
+  });
+  if (!careerKey) return null;
+
+  const student = await fetchStudentByMssv(mssv);
+  
+  // If student is not found, analyzeCareer will treat it as GUEST mode
+  // and return a default analysis instead of crashing the UI.
+  return analyzeCareer(student, careerKey);
+};
+
 exports.suggestBestCareers = (student) => {
   const careerRoadmaps = knowledgeCache.get('careerRoadmaps') || {};
   const coursesDb = knowledgeCache.get('courses') || [];
