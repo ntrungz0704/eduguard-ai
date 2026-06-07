@@ -4,7 +4,7 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Install native build tools (needed for better-sqlite3, tensorflow)
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ openssl
 
 # Install root dependencies
 COPY package*.json ./
@@ -29,14 +29,14 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ openssl
 
 # Copy Prisma schema first (required before generate)
 COPY prisma ./prisma
 
 # Copy package files and install production deps
 COPY package*.json ./
-RUN npm install --production --legacy-peer-deps --ignore-scripts
+RUN npm install --production --legacy-peer-deps
 
 # Generate Prisma client
 RUN npx prisma generate

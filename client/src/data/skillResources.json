@@ -1,0 +1,678 @@
+{
+  "AI APIs": {
+    "video": { "title": "OpenAI API for Beginners – Build 5 AI Apps", "url": "https://www.youtube.com/watch?v=LE-hnm_jRmk", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://platform.openai.com/docs"
+  },
+  "AI Agents": {
+    "video": { "title": "AI Agents – Full Course", "url": "https://www.youtube.com/watch?v=F8NKVhkZZWI", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://platform.openai.com/docs/guides/agents"
+  },
+  "AI Chat UI": {
+    "video": { "title": "Build an AI Chatbot – React + OpenAI API", "url": "https://www.youtube.com/watch?v=LE-hnm_jRmk", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://sdk.vercel.ai/docs"
+  },
+  "API Design": {
+    "video": { "title": "REST API Design Best Practices – Full Course", "url": "https://www.youtube.com/watch?v=7nm1pYuKAhY", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://swagger.io/resources/articles/best-practices-in-api-design/"
+  },
+  "API Integration": {
+    "video": { "title": "APIs for Beginners – Full Course", "url": "https://www.youtube.com/watch?v=GZvSYJDk-us", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs"
+  },
+  "API Routes": {
+    "video": { "title": "Next.js Full Course – App Router + API Routes", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/routing/route-handlers"
+  },
+  "API Security": {
+    "video": { "title": "Web Security & Ethical Hacking – Full Course", "url": "https://www.youtube.com/watch?v=3Kq1MIfTWCE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://owasp.org/www-project-api-security/"
+  },
+  "API Testing (Postman)": {
+    "video": { "title": "Postman Beginner's Course – API Testing", "url": "https://www.youtube.com/watch?v=VywxIQ2ZXw4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://learning.postman.com/docs/getting-started/introduction/"
+  },
+  "AWS": {
+    "video": { "title": "AWS Certified Cloud Practitioner – CLF-C02 Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.aws.amazon.com/"
+  },
+  "AWS CLI": {
+    "video": { "title": "AWS Certified Cloud Practitioner – CLF-C02 Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.aws.amazon.com/cli/latest/userguide/"
+  },
+  "AWS Console": {
+    "video": { "title": "AWS Certified Cloud Practitioner – CLF-C02 Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.aws.amazon.com/awsconsolehelpdocs/"
+  },
+  "AWS Console/CLI": {
+    "video": { "title": "AWS Certified Cloud Practitioner – CLF-C02 Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.aws.amazon.com/"
+  },
+  "Agentic Workflows": {
+    "video": { "title": "AI Agents & Workflows – Full Course", "url": "https://www.youtube.com/watch?v=F8NKVhkZZWI", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://www.anthropic.com/research/building-effective-agents"
+  },
+  "Algorithms & Data Structures": {
+    "video": { "title": "Algorithms and Data Structures – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=8hly31xKli0", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.geeksforgeeks.org/data-structures/"
+  },
+  "Android Studio": {
+    "video": { "title": "Flutter Course for Beginners – 37-hour Full Course", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.android.com/studio/intro"
+  },
+  "Animations": {
+    "video": { "title": "CSS Animations Tutorial – Full Course", "url": "https://www.youtube.com/watch?v=ieTHC78giGQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/CSS/animation"
+  },
+  "App Store/Play Store Deployment": {
+    "video": { "title": "Flutter Course for Beginners – Includes App Deployment", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.flutter.dev/deployment/android"
+  },
+  "Asynchronous programming": {
+    "video": { "title": "Asynchronous JavaScript – Async/Await, Promises, Callbacks", "url": "https://www.youtube.com/watch?v=ZYb_ZU8LNxs", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous"
+  },
+  "Azure": {
+    "video": { "title": "Microsoft Azure Fundamentals – AZ-900 Full Course 2024", "url": "https://www.youtube.com/watch?v=NKEFWyqJ5XA", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://learn.microsoft.com/en-us/azure/"
+  },
+  "Bash Scripting": {
+    "video": { "title": "Bash Scripting Full Course – 3 Hours", "url": "https://www.youtube.com/watch?v=e7BufAVwDiM", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.gnu.org/software/bash/manual/"
+  },
+  "Bloc Pattern": {
+    "video": { "title": "Flutter BLoC Pattern Full Course for Beginners", "url": "https://www.youtube.com/watch?v=Ep6R7U9wa0U", "channel": "Reso Coder", "year": 2023 },
+    "docs": "https://bloclibrary.dev/getting-started/"
+  },
+  "Business Acumen": {
+    "video": { "title": "Business Analysis for Beginners – Full Course", "url": "https://www.youtube.com/watch?v=1bR5aGqeaRE", "channel": "Simplilearn", "year": 2023 },
+    "docs": "https://www.coursera.org/articles/business-acumen"
+  },
+  "CI/CD": {
+    "video": { "title": "GitHub Actions Tutorial – CI/CD Pipeline from Scratch", "url": "https://www.youtube.com/watch?v=R8_veQiYBjI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.github.com/en/actions"
+  },
+  "CI/CD (GitHub Actions)": {
+    "video": { "title": "GitHub Actions Tutorial – CI/CD Pipeline from Scratch", "url": "https://www.youtube.com/watch?v=R8_veQiYBjI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.github.com/en/actions"
+  },
+  "CI/CD Integration": {
+    "video": { "title": "GitHub Actions Tutorial – CI/CD Pipeline from Scratch", "url": "https://www.youtube.com/watch?v=R8_veQiYBjI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.github.com/en/actions"
+  },
+  "CI/CD Pipelines": {
+    "video": { "title": "DevOps CI/CD – GitHub Actions Full Tutorial", "url": "https://www.youtube.com/watch?v=scEDHsr3APg", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing"
+  },
+  "CSS": {
+    "video": { "title": "HTML & CSS Full Course for free 🌎", "url": "https://www.youtube.com/watch?v=HGTJBPNC-Gw", "channel": "BroCode", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+  },
+  "CSS Animations (Framer Motion/GSAP)": {
+    "video": { "title": "Framer Motion Tutorial for React – Full Crash Course", "url": "https://www.youtube.com/watch?v=znbCa4Rr054", "channel": "Traversy Media", "year": 2024 },
+    "docs": "https://www.framer.com/motion/"
+  },
+  "CSS Frameworks (Tailwind)": {
+    "video": { "title": "Tailwind CSS Full Course for Beginners", "url": "https://www.youtube.com/watch?v=lCxcTsOHrjo", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://tailwindcss.com/docs"
+  },
+  "CSS Layouts (Flexbox/Grid)": {
+    "video": { "title": "CSS Flexbox and Grid – Full Course", "url": "https://www.youtube.com/watch?v=ieTHC78giGQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+  },
+  "Caching": {
+    "video": { "title": "Learn Next.js 15 Caching & Rendering", "url": "https://www.youtube.com/watch?v=Lv9DfvEJRV0", "channel": "freeCodeCamp.org", "year": 2025 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/caching"
+  },
+  "Chain-of-Thought": {
+    "video": { "title": "Prompt Engineering Tutorial – ChatGPT & LLM Responses", "url": "https://www.youtube.com/watch?v=_ZvnD73m40o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.promptingguide.ai/techniques/cot"
+  },
+  "Chrome DevTools": {
+    "video": { "title": "Google Chrome Developer Tools Crash Course", "url": "https://www.youtube.com/watch?v=x4q86IjJFag", "channel": "Traversy Media", "year": 2023 },
+    "docs": "https://developer.chrome.com/docs/devtools/"
+  },
+  "Cloud Architecture": {
+    "video": { "title": "AWS Certified Cloud Practitioner – Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://aws.amazon.com/architecture/"
+  },
+  "Cloud Architecture (AWS/Azure)": {
+    "video": { "title": "AWS Certified Cloud Practitioner – Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://aws.amazon.com/architecture/"
+  },
+  "Cloud Architecture Basics": {
+    "video": { "title": "AWS Certified Cloud Practitioner – Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://aws.amazon.com/architecture/"
+  },
+  "Cloud Deployment (AWS/Vercel)": {
+    "video": { "title": "AWS Certified Cloud Practitioner – Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://vercel.com/docs/deployments/overview"
+  },
+  "Cloud Security": {
+    "video": { "title": "AWS Certified Cloud Practitioner – Full Course 2024", "url": "https://www.youtube.com/watch?v=NhDYbskXRgc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://aws.amazon.com/security/"
+  },
+  "Code Review": {
+    "video": { "title": "Clean Code – Writing Code for Humans", "url": "https://www.youtube.com/watch?v=7EmboKQH8lM", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://google.github.io/eng-practices/review/"
+  },
+  "Communication": {
+    "video": { "title": "Technical Writing & Communication – Full Guide", "url": "https://www.youtube.com/watch?v=gIHB-7KcKDs", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developers.google.com/tech-writing"
+  },
+  "Component Design": {
+    "video": { "title": "React Course – Beginner's Tutorial 2024", "url": "https://www.youtube.com/watch?v=bMknfKXIFA8", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://react.dev/learn/thinking-in-react"
+  },
+  "Component Libraries": {
+    "video": { "title": "Tailwind CSS Full Course for Beginners", "url": "https://www.youtube.com/watch?v=lCxcTsOHrjo", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://ui.shadcn.com/docs"
+  },
+  "Computer Science Basics": {
+    "video": { "title": "CS50x – Introduction to Computer Science (Harvard)", "url": "https://www.youtube.com/watch?v=8mAITcNt710", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://cs50.harvard.edu/x/"
+  },
+  "Context API": {
+    "video": { "title": "React Context API Tutorial – Full Guide", "url": "https://www.youtube.com/watch?v=5LrDIWkK_Bc", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://react.dev/reference/react/createContext"
+  },
+  "Cypress": {
+    "video": { "title": "Cypress End-to-End Testing – Getting Started", "url": "https://www.youtube.com/watch?v=7NTd4W79Azg", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.cypress.io/guides/overview/why-cypress"
+  },
+  "Dart Programming": {
+    "video": { "title": "Dart Programming Tutorial – Full Course", "url": "https://www.youtube.com/watch?v=Ej_Pcr4uC2Q", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://dart.dev/guides"
+  },
+  "Data Fetching": {
+    "video": { "title": "Next.js Full Course – App Router, Data Fetching, Auth", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/data-fetching"
+  },
+  "Database Design": {
+    "video": { "title": "Database Design Course – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ztHopE5Wnpc", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.postgresql.org/docs/current/ddl.html"
+  },
+  "Database Systems": {
+    "video": { "title": "Database Design Course – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ztHopE5Wnpc", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.postgresql.org/docs/"
+  },
+  "Design Patterns": {
+    "video": { "title": "Design Patterns in Object Oriented Programming – Full Course", "url": "https://www.youtube.com/watch?v=v9ejT8FO-7I", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://refactoring.guru/design-patterns"
+  },
+  "Design Systems": {
+    "video": { "title": "Build a Design System with CSS – Full Course", "url": "https://www.youtube.com/watch?v=lRaL-8qZ0mM", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://m3.material.io/"
+  },
+  "Distributed Systems": {
+    "video": { "title": "Distributed Systems – MIT 6.824 Lecture 1", "url": "https://www.youtube.com/watch?v=cQP8WApzIQQ", "channel": "MIT OpenCourseWare", "year": 2024 },
+    "docs": "https://martinfowler.com/articles/patterns-of-distributed-systems/"
+  },
+  "Docker": {
+    "video": { "title": "Docker Tutorial for Beginners – Full Course 3 Hours", "url": "https://www.youtube.com/watch?v=3c-iBn73dDE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.docker.com/get-started/"
+  },
+  "Docker Desktop": {
+    "video": { "title": "Docker Tutorial for Beginners – Full Course 3 Hours", "url": "https://www.youtube.com/watch?v=3c-iBn73dDE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.docker.com/desktop/"
+  },
+  "Edge Runtime": {
+    "video": { "title": "Next.js Full Course – App Router & Edge Runtime", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes"
+  },
+  "Event Loops": {
+    "video": { "title": "JavaScript Visualized – Event Loop, Web APIs, Task Queue", "url": "https://www.youtube.com/watch?v=eiC58R16hb8", "channel": "Lydia Hallie", "year": 2024 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop"
+  },
+  "Expo": {
+    "video": { "title": "React Native with Expo – Full Course 2024", "url": "https://www.youtube.com/watch?v=RdJhqaOIWn0", "channel": "machadop1407", "year": 2024 },
+    "docs": "https://docs.expo.dev/"
+  },
+  "Expo CLI": {
+    "video": { "title": "React Native with Expo – Full Course 2024", "url": "https://www.youtube.com/watch?v=RdJhqaOIWn0", "channel": "machadop1407", "year": 2024 },
+    "docs": "https://docs.expo.dev/more/expo-cli/"
+  },
+  "Express.js": {
+    "video": { "title": "Node.js and Express.js – Full Course", "url": "https://www.youtube.com/watch?v=Oe421EPjeBE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://expressjs.com/en/guide/routing.html"
+  },
+  "Fastify": {
+    "video": { "title": "NestJS Full Course for Beginners 2024", "url": "https://www.youtube.com/watch?v=sFnAHC9lLaw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://fastify.dev/docs/latest/"
+  },
+  "Fault Tolerance": {
+    "video": { "title": "System Design Course for Beginners", "url": "https://www.youtube.com/watch?v=m8Icp_Cid5o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://aws.amazon.com/builders-library/reliability-and-constant-work/"
+  },
+  "Few-shot prompting": {
+    "video": { "title": "Prompt Engineering Tutorial – ChatGPT & LLM Responses", "url": "https://www.youtube.com/watch?v=_ZvnD73m40o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.promptingguide.ai/techniques/fewshot"
+  },
+  "Figma": {
+    "video": { "title": "Figma Tutorial for Beginners – Full Course 2024", "url": "https://www.youtube.com/watch?v=FTFaQWZBqQ8", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://help.figma.com/hc/en-us/categories/360002051613"
+  },
+  "Figma to Code": {
+    "video": { "title": "Figma to HTML & CSS – Web Design Tutorial", "url": "https://www.youtube.com/watch?v=FTFaQWZBqQ8", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://www.figma.com/developers/api"
+  },
+  "Fine-Tuning basics": {
+    "video": { "title": "Fine-Tuning Large Language Models – Full Course", "url": "https://www.youtube.com/watch?v=lnA9DMvHtfI", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://platform.openai.com/docs/guides/fine-tuning"
+  },
+  "Firebase": {
+    "video": { "title": "Firebase Tutorial for Beginners – Build a Mobile App", "url": "https://www.youtube.com/watch?v=9kRgVxULbag", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://firebase.google.com/docs"
+  },
+  "Flexbox Layouts": {
+    "video": { "title": "CSS Flexbox Tutorial – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=tXIhdp5R7sc", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+  },
+  "Flipper": {
+    "video": { "title": "React Native Course for Beginners – Includes Debugging", "url": "https://www.youtube.com/watch?v=obH0Po_RdWk", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://fbflipper.com/docs/getting-started/"
+  },
+  "Flutter CLI": {
+    "video": { "title": "Flutter Course for Beginners – 37-hour Full Course", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.flutter.dev/reference/flutter-cli"
+  },
+  "Flutter Framework": {
+    "video": { "title": "Flutter Course for Beginners – 37-hour Full Course", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.flutter.dev/"
+  },
+  "Git": {
+    "video": { "title": "Git and GitHub for Beginners – Crash Course", "url": "https://www.youtube.com/watch?v=RGOj5yH7evk", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://git-scm.com/doc"
+  },
+  "Git and GitHub": {
+    "video": { "title": "Git and GitHub for Beginners – Crash Course", "url": "https://www.youtube.com/watch?v=RGOj5yH7evk", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://git-scm.com/doc"
+  },
+  "HTML": {
+    "video": { "title": "HTML & CSS Full Course for free 🌎", "url": "https://www.youtube.com/watch?v=HGTJBPNC-Gw", "channel": "BroCode", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/HTML"
+  },
+  "HTML/CSS": {
+    "video": { "title": "HTML & CSS Full Course for free 🌎", "url": "https://www.youtube.com/watch?v=HGTJBPNC-Gw", "channel": "BroCode", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Learn/HTML"
+  },
+  "High Availability": {
+    "video": { "title": "System Design Course for Beginners", "url": "https://www.youtube.com/watch?v=m8Icp_Cid5o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://aws.amazon.com/architecture/well-architected/"
+  },
+  "IDE": {
+    "video": { "title": "VS Code Tutorial – Become More Productive", "url": "https://www.youtube.com/watch?v=heXQnM99oAI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://code.visualstudio.com/docs"
+  },
+  "Image/Font Optimization": {
+    "video": { "title": "Next.js Full Course – Image & Font Optimization", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/optimizing/images"
+  },
+  "Java/C++/Python": {
+    "video": { "title": "Java Full Course for free ☕ (2025)", "url": "https://www.youtube.com/watch?v=xTtL8E4LzTQ", "channel": "BroCode", "year": 2025 },
+    "docs": "https://docs.oracle.com/en/java/"
+  },
+  "JavaScript": {
+    "video": { "title": "JavaScript Full Course for free 🌐 (2024)", "url": "https://www.youtube.com/watch?v=lfmg-EJ8gm4", "channel": "BroCode", "year": 2024 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+  },
+  "JavaScript/Python": {
+    "video": { "title": "JavaScript Full Course for free 🌐 (2024)", "url": "https://www.youtube.com/watch?v=lfmg-EJ8gm4", "channel": "BroCode", "year": 2024 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+  },
+  "Jenkins/GitHub Actions": {
+    "video": { "title": "GitHub Actions Tutorial – CI/CD Pipeline", "url": "https://www.youtube.com/watch?v=R8_veQiYBjI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.github.com/en/actions"
+  },
+  "Jupyter Notebook": {
+    "video": { "title": "Jupyter Notebook Tutorial – Full Beginner's Guide", "url": "https://www.youtube.com/watch?v=HW29067qVWk", "channel": "Corey Schafer", "year": 2023 },
+    "docs": "https://jupyter-notebook.readthedocs.io/en/stable/"
+  },
+  "Kubernetes": {
+    "video": { "title": "Kubernetes Tutorial for Beginners – Full Course 4 Hours", "url": "https://www.youtube.com/watch?v=X48VuDVv0do", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://kubernetes.io/docs/home/"
+  },
+  "LLM Foundations": {
+    "video": { "title": "Large Language Models from Scratch – Full Course", "url": "https://www.youtube.com/watch?v=lnA9DMvHtfI", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://huggingface.co/learn/nlp-course/chapter1/1"
+  },
+  "LangChain / LlamaIndex": {
+    "video": { "title": "LangChain Crash Course for Beginners – Build AI Apps", "url": "https://www.youtube.com/watch?v=lG7Uxts9SXs", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://python.langchain.com/docs/introduction/"
+  },
+  "Layouts & Gestures": {
+    "video": { "title": "Flutter Course for Beginners – Full 37-hour Course", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.flutter.dev/ui/layout"
+  },
+  "Linux": {
+    "video": { "title": "Linux for Hackers (and Everyone Else)", "url": "https://www.youtube.com/watch?v=VbEx7B_PTOE", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://www.linux.org/docs/"
+  },
+  "Linux CLI": {
+    "video": { "title": "The Linux Command Line – Full Course", "url": "https://www.youtube.com/watch?v=ZtqBQ68cfJc", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.gnu.org/software/bash/manual/html_node/index.html"
+  },
+  "Linux Terminal": {
+    "video": { "title": "The Linux Command Line – Full Course", "url": "https://www.youtube.com/watch?v=ZtqBQ68cfJc", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://ubuntu.com/tutorials/command-line-for-beginners"
+  },
+  "Message Queue": {
+    "video": { "title": "RabbitMQ Tutorial – Message Queues and Distributed Systems", "url": "https://www.youtube.com/watch?v=nFxjaVmFj5E", "channel": "Amigoscode", "year": 2023 },
+    "docs": "https://www.rabbitmq.com/documentation.html"
+  },
+  "Microservices": {
+    "video": { "title": "Microservices with Node.js and React – Full Course", "url": "https://www.youtube.com/watch?v=nH4qjmP2KEE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://microservices.io/patterns/index.html"
+  },
+  "Middleware": {
+    "video": { "title": "Next.js Full Course – Includes Middleware", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/routing/middleware"
+  },
+  "Mobile Performance": {
+    "video": { "title": "Flutter Course for Beginners – Performance Best Practices", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.flutter.dev/perf/best-practices"
+  },
+  "Monitoring (Grafana/Prometheus)": {
+    "video": { "title": "Grafana & Prometheus – Full Monitoring Course", "url": "https://www.youtube.com/watch?v=9TJx7QTrTyo", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://grafana.com/docs/grafana/latest/"
+  },
+  "Native Modules": {
+    "video": { "title": "React Native Course for Beginners – Native Modules", "url": "https://www.youtube.com/watch?v=obH0Po_RdWk", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://reactnative.dev/docs/native-modules-intro"
+  },
+  "Navigation": {
+    "video": { "title": "React Native Course for Beginners – Navigation", "url": "https://www.youtube.com/watch?v=obH0Po_RdWk", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://reactnavigation.org/docs/getting-started"
+  },
+  "NestJS": {
+    "video": { "title": "NestJS Full Course for Beginners 2024", "url": "https://www.youtube.com/watch?v=sFnAHC9lLaw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.nestjs.com/"
+  },
+  "Networking": {
+    "video": { "title": "Computer Networking Course – Network Engineering", "url": "https://www.youtube.com/watch?v=qiQR5rTSshw", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.cloudflare.com/learning/network-layer/what-is-the-network-layer/"
+  },
+  "Networking Basics": {
+    "video": { "title": "Computer Networking Course – Network Engineering", "url": "https://www.youtube.com/watch?v=qiQR5rTSshw", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.cloudflare.com/learning/network-layer/what-is-the-network-layer/"
+  },
+  "Next.js": {
+    "video": { "title": "Next.js Full Course for Beginners 2024", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs"
+  },
+  "NextAuth": {
+    "video": { "title": "Next.js Authentication – NextAuth.js Full Tutorial", "url": "https://www.youtube.com/watch?v=w2h54xz6Ndw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://authjs.dev/getting-started"
+  },
+  "NoSQL (MongoDB)": {
+    "video": { "title": "MongoDB Crash Course 2022", "url": "https://www.youtube.com/watch?v=-56x56UppqQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.mongodb.com/docs/"
+  },
+  "Node.js": {
+    "video": { "title": "Node.js and Express.js – Full Course", "url": "https://www.youtube.com/watch?v=Oe421EPjeBE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://nodejs.org/en/docs"
+  },
+  "OOP": {
+    "video": { "title": "Object Oriented Programming – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=Ej_Pcr4uC2Q", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_programming"
+  },
+  "OpenAI/Gemini APIs": {
+    "video": { "title": "OpenAI API for Beginners – Build 5 AI Apps", "url": "https://www.youtube.com/watch?v=LE-hnm_jRmk", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://platform.openai.com/docs"
+  },
+  "Package Managers": {
+    "video": { "title": "Node.js and npm – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ENrzD9FAZK4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.npmjs.com/"
+  },
+  "Performance Optimization": {
+    "video": { "title": "Web Performance – Full Optimization Guide", "url": "https://www.youtube.com/watch?v=reztLS3vomE", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://web.dev/performance/"
+  },
+  "Performance/Load Testing (JMeter)": {
+    "video": { "title": "JMeter Tutorial for Beginners – Load Testing", "url": "https://www.youtube.com/watch?v=cv7KqxaLZd8", "channel": "Guru99", "year": 2023 },
+    "docs": "https://jmeter.apache.org/usermanual/index.html"
+  },
+  "Pinecone Console": {
+    "video": { "title": "Pinecone Vector Database – Full Tutorial", "url": "https://www.youtube.com/watch?v=dN0lsF2cvm4", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.pinecone.io/docs/quickstart"
+  },
+  "Playground": {
+    "video": { "title": "OpenAI Playground Tutorial – Getting Started", "url": "https://www.youtube.com/watch?v=LE-hnm_jRmk", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://platform.openai.com/playground"
+  },
+  "Playwright": {
+    "video": { "title": "Software Testing with Playwright – Full Course", "url": "https://www.youtube.com/watch?v=PAQH4_eNRSs", "channel": "freeCodeCamp.org", "year": 2026 },
+    "docs": "https://playwright.dev/docs/intro"
+  },
+  "PostgreSQL": {
+    "video": { "title": "PostgreSQL Tutorial Full Course 2024", "url": "https://www.youtube.com/watch?v=85pG_pDkITY", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://www.postgresql.org/docs/current/"
+  },
+  "Postman": {
+    "video": { "title": "Postman Beginner's Course – API Testing", "url": "https://www.youtube.com/watch?v=VywxIQ2ZXw4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://learning.postman.com/docs/introduction/overview/"
+  },
+  "Pre-sales & Demos": {
+    "video": { "title": "Technical Communication – Writing & Presenting", "url": "https://www.youtube.com/watch?v=gIHB-7KcKDs", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developers.google.com/tech-writing/one"
+  },
+  "Presentation": {
+    "video": { "title": "Technical Writing & Presentation Skills", "url": "https://www.youtube.com/watch?v=gIHB-7KcKDs", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developers.google.com/tech-writing"
+  },
+  "Prompt Engineering": {
+    "video": { "title": "Prompt Engineering Tutorial – ChatGPT & LLM Responses", "url": "https://www.youtube.com/watch?v=_ZvnD73m40o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.promptingguide.ai/"
+  },
+  "Prompt Evaluation": {
+    "video": { "title": "Prompt Engineering Tutorial – ChatGPT & LLM Responses", "url": "https://www.youtube.com/watch?v=_ZvnD73m40o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.promptingguide.ai/techniques/ape"
+  },
+  "Proof of Concept (PoC) Development": {
+    "video": { "title": "System Design for Beginners – Full Course", "url": "https://www.youtube.com/watch?v=m8Icp_Cid5o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.atlassian.com/agile/project-management/proof-of-concept"
+  },
+  "Push Notifications": {
+    "video": { "title": "Flutter + Firebase – Push Notifications Tutorial", "url": "https://www.youtube.com/watch?v=9kRgVxULbag", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://firebase.google.com/docs/cloud-messaging"
+  },
+  "Python": {
+    "video": { "title": "Python Full Course for free 🐍 (2024)", "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0", "channel": "BroCode", "year": 2024 },
+    "docs": "https://docs.python.org/3/"
+  },
+  "REST API": {
+    "video": { "title": "APIs for Beginners – Full Course", "url": "https://www.youtube.com/watch?v=GZvSYJDk-us", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://restfulapi.net/"
+  },
+  "React": {
+    "video": { "title": "React Full Course for free ⚛️ (2024)", "url": "https://www.youtube.com/watch?v=CgkZ7MvWUAA", "channel": "BroCode", "year": 2024 },
+    "docs": "https://react.dev/learn"
+  },
+  "React Hooks": {
+    "video": { "title": "React Hooks Tutorial – Full Guide", "url": "https://www.youtube.com/watch?v=cF2lQ_gZeA8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://react.dev/reference/react/hooks"
+  },
+  "React Native": {
+    "video": { "title": "React Native Course for Beginners – Build 4 Apps", "url": "https://www.youtube.com/watch?v=obH0Po_RdWk", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://reactnative.dev/docs/getting-started"
+  },
+  "React Router": {
+    "video": { "title": "Learn React Router v6 – Full Course", "url": "https://www.youtube.com/watch?v=SMq1IQRweDc", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://reactrouter.com/start/library/installation"
+  },
+  "Redis": {
+    "video": { "title": "Redis Crash Course – Full Tutorial", "url": "https://www.youtube.com/watch?v=jgpVdJB2sKQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://redis.io/docs/latest/"
+  },
+  "Redux Toolkit": {
+    "video": { "title": "Redux Toolkit Tutorial – JavaScript State Management", "url": "https://www.youtube.com/watch?v=bbkBuqC1rU4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://redux-toolkit.js.org/introduction/getting-started"
+  },
+  "Responsive Design": {
+    "video": { "title": "CSS Flexbox and Grid – Full Course", "url": "https://www.youtube.com/watch?v=ieTHC78giGQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design"
+  },
+  "Retrieval-Augmented Generation (RAG)": {
+    "video": { "title": "RAG from Scratch – Full Course", "url": "https://www.youtube.com/watch?v=sVcwVQRHIc8", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://python.langchain.com/docs/tutorials/rag/"
+  },
+  "Routing (App Router)": {
+    "video": { "title": "Next.js Full Course – App Router 2024", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/routing"
+  },
+  "SEO": {
+    "video": { "title": "SEO Full Course – Search Engine Optimization Tutorial", "url": "https://www.youtube.com/watch?v=xsVTqzratPs", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developers.google.com/search/docs"
+  },
+  "SQL": {
+    "video": { "title": "SQL Tutorial – Full Database Course for Beginners", "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.w3schools.com/sql/"
+  },
+  "SQL Basics": {
+    "video": { "title": "SQL Tutorial – Full Database Course for Beginners", "url": "https://www.youtube.com/watch?v=HXV3zeQKqGY", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.w3schools.com/sql/"
+  },
+  "SQLite (Offline Storage)": {
+    "video": { "title": "SQLite Databases With Python – Full Course", "url": "https://www.youtube.com/watch?v=byHcYRpMgI4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.sqlite.org/docs.html"
+  },
+  "SSR/SSG": {
+    "video": { "title": "Learn Next.js 15 Caching & Rendering – SSR, SSG, ISR, CSR", "url": "https://www.youtube.com/watch?v=Lv9DfvEJRV0", "channel": "freeCodeCamp.org", "year": 2025 },
+    "docs": "https://nextjs.org/docs/app/building-your-application/rendering"
+  },
+  "Scalability": {
+    "video": { "title": "System Design Course for Beginners", "url": "https://www.youtube.com/watch?v=m8Icp_Cid5o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://aws.amazon.com/architecture/well-architected/"
+  },
+  "Selenium": {
+    "video": { "title": "Selenium Course – Web Scraping Bots, Browser Automation, Testing", "url": "https://www.youtube.com/watch?v=j7VZsCCnptM", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.selenium.dev/documentation/"
+  },
+  "Semantic HTML": {
+    "video": { "title": "HTML & CSS Full Course for free 🌎", "url": "https://www.youtube.com/watch?v=HGTJBPNC-Gw", "channel": "BroCode", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Glossary/Semantics"
+  },
+  "Software Testing Basics": {
+    "video": { "title": "Software Testing Tutorial – Learn Software Testing", "url": "https://www.youtube.com/watch?v=LdnlgKehEzQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.geeksforgeeks.org/software-testing-basics/"
+  },
+  "State & Props": {
+    "video": { "title": "React State Management – Intermediate JavaScript Course", "url": "https://www.youtube.com/watch?v=-bEzt5ISACA", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://react.dev/learn/passing-props-to-a-component"
+  },
+  "State Management": {
+    "video": { "title": "Redux Toolkit Tutorial – JavaScript State Management", "url": "https://www.youtube.com/watch?v=bbkBuqC1rU4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://redux-toolkit.js.org/introduction/getting-started"
+  },
+  "State Management (Provider/Riverpod)": {
+    "video": { "title": "Flutter State Management – Riverpod Full Guide", "url": "https://www.youtube.com/watch?v=J2iFYZUabVM", "channel": "Andrea Bizzotto", "year": 2023 },
+    "docs": "https://riverpod.dev/docs/introduction/getting_started"
+  },
+  "Storybook": {
+    "video": { "title": "Storybook Tutorial with React", "url": "https://www.youtube.com/watch?v=x-x47qHq3nY", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://storybook.js.org/docs"
+  },
+  "Styling": {
+    "video": { "title": "CSS Tutorial – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=OXGznpKZ_sA", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+  },
+  "System Architecture": {
+    "video": { "title": "Software Architecture – Full Course", "url": "https://www.youtube.com/watch?v=m8Icp_Cid5o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://martinfowler.com/architecture/"
+  },
+  "System Design": {
+    "video": { "title": "System Design Course for Beginners", "url": "https://www.youtube.com/watch?v=m8Icp_Cid5o", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://github.com/donnemartin/system-design-primer"
+  },
+  "System Integration": {
+    "video": { "title": "APIs for Beginners – Full Course", "url": "https://www.youtube.com/watch?v=GZvSYJDk-us", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.mulesoft.com/resources/api/what-is-system-integration"
+  },
+  "Tailwind CSS": {
+    "video": { "title": "Tailwind CSS Full Course for Beginners", "url": "https://www.youtube.com/watch?v=lCxcTsOHrjo", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://tailwindcss.com/docs/installation"
+  },
+  "Technical Writing": {
+    "video": { "title": "Technical Writing – How to Write for a Technical Audience", "url": "https://www.youtube.com/watch?v=gIHB-7KcKDs", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developers.google.com/tech-writing/one"
+  },
+  "Terraform": {
+    "video": { "title": "Complete Terraform Course – From Beginner to Pro", "url": "https://www.youtube.com/watch?v=7xngnjfIlK4", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://developer.hashicorp.com/terraform/docs"
+  },
+  "Terraform CLI": {
+    "video": { "title": "Complete Terraform Course – From Beginner to Pro", "url": "https://www.youtube.com/watch?v=7xngnjfIlK4", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://developer.hashicorp.com/terraform/cli"
+  },
+  "Test Cases & Bug Tracking": {
+    "video": { "title": "Software Testing Tutorial – Learn Software Testing", "url": "https://www.youtube.com/watch?v=LdnlgKehEzQ", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.atlassian.com/software/jira/guides/getting-started/introduction"
+  },
+  "Testing": {
+    "video": { "title": "JavaScript Testing – Unit Tests, Integration Tests & e2e", "url": "https://www.youtube.com/watch?v=r9HdJ8P6GQI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://jestjs.io/docs/getting-started"
+  },
+  "TypeScript": {
+    "video": { "title": "TypeScript Full Course for Beginners – Complete All-in-One 8 Hours", "url": "https://www.youtube.com/watch?v=gieEQFIfgYc", "channel": "Dave Gray", "year": 2023 },
+    "docs": "https://www.typescriptlang.org/docs/"
+  },
+  "Unit Testing (Jest/RTL)": {
+    "video": { "title": "JavaScript Testing Introduction Tutorial – Unit Tests, Integration, e2e", "url": "https://www.youtube.com/watch?v=r9HdJ8P6GQI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://jestjs.io/docs/getting-started"
+  },
+  "VS Code": {
+    "video": { "title": "VS Code Tutorial – Become More Productive", "url": "https://www.youtube.com/watch?v=heXQnM99oAI", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://code.visualstudio.com/docs"
+  },
+  "Vector Database": {
+    "video": { "title": "Vector Databases Explained – Full Course", "url": "https://www.youtube.com/watch?v=dN0lsF2cvm4", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://docs.pinecone.io/docs/quickstart"
+  },
+  "Vercel": {
+    "video": { "title": "Next.js Full Course – Deploy to Vercel", "url": "https://www.youtube.com/watch?v=KjY94sAKLlw", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://vercel.com/docs"
+  },
+  "Vite": {
+    "video": { "title": "Vite Crash Course – Frontend Build Tool 2025", "url": "https://www.youtube.com/watch?v=do62-z3z6FM", "channel": "freeCodeCamp.org", "year": 2025 },
+    "docs": "https://vitejs.dev/guide/"
+  },
+  "Web Accessibility (a11y)": {
+    "video": { "title": "Web Accessibility – Intro to Web Accessibility and W3C Standards", "url": "https://www.youtube.com/watch?v=20SHvU2PKsM", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://www.w3.org/WAI/WCAG22/quickref/"
+  },
+  "Web Security (JWT/OAuth)": {
+    "video": { "title": "Node.js Authentication – Passport.js & JWT", "url": "https://www.youtube.com/watch?v=6FOq4cUdH8k", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://jwt.io/introduction"
+  },
+  "Widget Lifecycle": {
+    "video": { "title": "Flutter Course for Beginners – Widget Lifecycle", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.flutter.dev/development/ui/widgets-intro"
+  },
+  "Xcode": {
+    "video": { "title": "Flutter Course for Beginners – iOS with Xcode", "url": "https://www.youtube.com/watch?v=VPvVD8t02U8", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://developer.apple.com/documentation/xcode"
+  },
+  "Zustand": {
+    "video": { "title": "Zustand React State Management – Full Course", "url": "https://www.youtube.com/watch?v=fZPgBnL2x-Q", "channel": "freeCodeCamp.org", "year": 2024 },
+    "docs": "https://zustand.docs.pmnd.rs/getting-started/introduction"
+  },
+  "draw.io / Miro": {
+    "video": { "title": "Draw.io Tutorial – Diagram & Flowchart Tool", "url": "https://www.youtube.com/watch?v=mKWhHMRDgIs", "channel": "Kevin Stratvert", "year": 2024 },
+    "docs": "https://www.drawio.com/doc/faq"
+  },
+  "npm": {
+    "video": { "title": "Node.js and npm – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ENrzD9FAZK4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.npmjs.com/"
+  },
+  "npm/pnpm": {
+    "video": { "title": "Node.js and npm – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ENrzD9FAZK4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://pnpm.io/installation"
+  },
+  "npm/pnpm/yarn": {
+    "video": { "title": "Node.js and npm – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ENrzD9FAZK4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://yarnpkg.com/getting-started"
+  },
+  "npm/yarn/pnpm": {
+    "video": { "title": "Node.js and npm – Full Course for Beginners", "url": "https://www.youtube.com/watch?v=ENrzD9FAZK4", "channel": "freeCodeCamp.org", "year": 2023 },
+    "docs": "https://docs.npmjs.com/"
+  }
+}

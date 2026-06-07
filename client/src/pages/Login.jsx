@@ -5,6 +5,14 @@ import { useStore } from '../store';
 
 import { api, STORAGE_KEYS } from '../lib/api';
 
+const campuses = [
+  { id: 'HCM', name: 'FPT Polytechnic Hồ Chí Minh' },
+  { id: 'HN', name: 'FPT Polytechnic Hà Nội' },
+  { id: 'DN', name: 'FPT Polytechnic Đà Nẵng' },
+  { id: 'CT', name: 'FPT Polytechnic Cần Thơ' },
+  { id: 'TN', name: 'FPT Polytechnic Tây Nguyên' }
+];
+
 export default function Login() {
   const navigate = useNavigate();
   const setCurrentUser = useStore(state => state.setCurrentUser);
