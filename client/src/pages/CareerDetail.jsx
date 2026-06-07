@@ -866,11 +866,51 @@ export default function CareerDetail() {
         }
       }
 
+      // Helper: re-sync một task đã lưu với skill gap mới nhất từ server
+      const syncTaskWithSkillGap = (task) => {
+        const clean = task.title.toLowerCase();
+        const haveCore = (analysis.skillGap?.core?.have || []).map(x => x.toLowerCase());
+        const haveAdv  = (analysis.skillGap?.advanced?.have || []).map(x => x.toLowerCase());
+
+        // Skill gap xác nhận "đã có" → luôn là DONE
+        if (haveCore.includes(clean) || haveAdv.includes(clean)) {
+          return {
+            ...task,
+            status: 'DONE',
+            completed_at: task.completed_at || new Date().toISOString().split('T')[0],
+            evidenceStatus: task.evidenceStatus === 'NONE' ? 'VERIFIED' : task.evidenceStatus,
+            verified: true,
+          };
+        }
+
+        // Đang học môn dạy skill này → IN_PROGRESS (chỉ nếu chưa DONE)
+        const isStudying = (analysis.academicProgress || []).some(
+          c => c.status === 'IN_PROGRESS' && c.skills.some(x => x.toLowerCase() === clean)
+        );
+        if (isStudying && task.status !== 'DONE') {
+          return {
+            ...task,
+            status: 'IN_PROGRESS',
+            started_at: task.started_at || new Date().toISOString().split('T')[0],
+          };
+        }
+
+        // Trường hợp còn lại: giữ nguyên trạng thái người dùng đã kéo
+        return task;
+      };
+
       if (loadedTasks) {
-        setTasks(loadedTasks);
+        // Re-sync tất cả tasks đã lưu với skill gap hiện tại để đảm bảo đồng bộ
+        const synced = loadedTasks.map(syncTaskWithSkillGap);
+        setTasks(synced);
+        localStorage.setItem(storageKey, JSON.stringify(synced));
+        try {
+          await api.put(`/v1/learning/board/${studentId}/${careerId}`, { tasks: synced });
+        } catch (e) { /* bỏ qua lỗi lưu ngầm */ }
         return;
       }
 
+      // Lần đầu tiên: khởi tạo từ danh sách kỹ năng của career
       const allCore = career.coreSkills || [];
       const allAdv = career.advancedSkills || [];
       const allSkills = [
