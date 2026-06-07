@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "boot": "npm run kill && npm run build:client && concurrently \"npm run server\" \"npm run preview\"",
     "build:client": "npm run build --prefix client",
-    "train": "node server/src/jobs/train.js",
+    "train": "node server/src/ai/training/trainRiskModel.js",
     "train:chat": "node server/src/jobs/train_nlp.js",
     "boot:full": "npm run kill && npm run train && npm run train:chat && npm run build:client && concurrently \"npm run server\" \"npm run preview\"",
     "start": "node server/server.js",
