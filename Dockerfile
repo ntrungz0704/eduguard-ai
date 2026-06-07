@@ -3,46 +3,58 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies for both client and server (using root package.json if monorepo, or separately)
+# Install native build tools (needed for better-sqlite3, tensorflow)
 RUN apk add --no-cache python3 make g++
+
+# Install root dependencies
 COPY package*.json ./
 COPY prisma ./prisma
-COPY client/package*.json ./client/
 RUN npm install --legacy-peer-deps
+
+# Install client dependencies
+COPY client/package*.json ./client/
 RUN cd client && npm install --legacy-peer-deps
 
-# Copy source code
+# Copy all source code
 COPY . .
 
-# Build the client
+# Build the React client
 RUN cd client && npm run build
+
+# Train the NLP chatbot model (generates model.nlp)
+RUN node server/src/jobs/train_nlp.js
 
 # Stage 2: Production Server
 FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy Prisma schema first
+RUN apk add --no-cache python3 make g++
+
+# Copy Prisma schema first (required before generate)
 COPY prisma ./prisma
 
-# Copy package files
+# Copy package files and install production deps
 COPY package*.json ./
-
-# Install dependencies with --ignore-scripts to skip postinstall
-RUN apk add --no-cache python3 make g++
 RUN npm install --production --legacy-peer-deps --ignore-scripts
 
-# Now run Prisma generate after schema is in place
+# Generate Prisma client
 RUN npx prisma generate
 
-# Copy built assets from builder
-COPY --from=builder /app/client/dist ./public
+# Copy built React app (server serves from client/dist)
+COPY --from=builder /app/client/dist ./client/dist
 
-# Copy server code
+# Copy server source code
 COPY server ./server
+
+# Copy static data files (curriculum, syllabus, chatbot data, etc.)
+COPY --from=builder /app/server/data ./server/data
+
+# Copy trained NLP model
+COPY --from=builder /app/model.nlp ./model.nlp
 
 # Expose API port
 EXPOSE 3000
 
-# Start server (Initialize DB and Seed on startup for 1-click experience)
+# Initialize DB schema, seed data, and start server
 CMD ["sh", "-c", "npx prisma db push && node prisma/seed.js && node server/server.js"]

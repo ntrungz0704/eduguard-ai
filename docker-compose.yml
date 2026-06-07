@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # EduGuard AI — Local Development Infrastructure
-# Run: docker-compose up -d
-# This starts the full local stack: App + PostgreSQL + Redis
+# Run: docker-compose up -d --build
+# This starts the full local stack: App (SQLite) + Redis
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
@@ -15,24 +15,23 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - DATABASE_URL=file:./prisma/dev.db  # SQLite for current prototype
-      - REDIS_URL=redis://redis_cache:6379
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis_cache:
-        condition: service_started
+      - FRONTEND_URL=http://localhost:3000
+      - DATABASE_URL=file:./prisma/dev.db
+      - JWT_SECRET=eduguard_docker_secret_change_in_production_32chars
+      - JWT_EXPIRES_IN=7d
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 15s
+      start_period: 20s
     networks:
       - app-network
 
-  # ── PostgreSQL (Ready for Phase 2 migration) ──────────────────────────────
+  # ── PostgreSQL (Ready for Phase 2 migration to PostgreSQL) ──────────────────
+  # NOTE: The current prototype uses SQLite. This PostgreSQL service is included
+  # for future production migration. The main app does NOT connect to it yet.
   postgres:
     image: postgres:15-alpine
     container_name: eduguard_postgres

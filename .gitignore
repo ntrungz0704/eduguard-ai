@@ -10,6 +10,15 @@ temp/
 .DS_Store
 coverage/
 
+# Log files (root & server)
 *.log
+combined.log
+error.log
+
+# Runtime generated files (do not commit)
 server/data/advisor-history.json
 model.nlp
+
+# Editor / OS
+.vscode/
+Thumbs.db
