@@ -77,10 +77,12 @@ export default function CareerRoadmapBoard() {
         const list = res.data.data || [];
         setCareers(list);
         if (list.length > 0) {
-          // Default to Backend Developer or first item
-          const defaultCareer = list.find(c => c.careerName.toLowerCase().includes('frontend')) || list[0];
+          const savedCareerId = localStorage.getItem(`eduguard_last_career_${studentId}`);
+          let defaultCareer = list.find(c => c.id === savedCareerId);
+          if (!defaultCareer) {
+            defaultCareer = list.find(c => c.careerName.toLowerCase().includes('frontend')) || list[0];
+          }
           setSelectedCareerId(defaultCareer.id);
-          navigate(`/career-universe/${defaultCareer.id}?tab=board`, { replace: true });
         }
       } catch (err) {
         console.error('Failed to load careers:', err);
@@ -537,7 +539,10 @@ export default function CareerRoadmapBoard() {
         <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedCareerId}
-            onChange={(e) => setSelectedCareerId(e.target.value)}
+            onChange={(e) => {
+              setSelectedCareerId(e.target.value);
+              localStorage.setItem(`eduguard_last_career_${studentId}`, e.target.value);
+            }}
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-700 dark:text-slate-200 outline-none focus:border-blue-500/50"
           >
             {careers.map(c => (
