@@ -3,21 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BrainCircuit, Loader2, Users, GraduationCap, MapPin, Eye, EyeOff } from 'lucide-react';
 import { useStore } from '../store';
 
-// ========================================================
-// MOCK ACCOUNTS - Login works instantly, no API needed
-// ========================================================
-const ADVISOR_ACCOUNTS = [
-  { username: 'admin', password: 'admin123', name: 'Nguyễn Văn An (Admin)', id: 'GV001' },
-  { username: 'giangvien', password: '123456', name: 'Trần Thị Bình', id: 'GV002' },
-];
-
-const campuses = [
-  { id: 'HCM', name: '🏙️ Hồ Chí Minh' },
-  { id: 'HN',  name: '🏛️ Hà Nội' },
-  { id: 'DN',  name: '🌊 Đà Nẵng' },
-  { id: 'CT',  name: '🌾 Cần Thơ' },
-  { id: 'TN',  name: '🏔️ Tây Nguyên' },
-];
+import { api, STORAGE_KEYS } from '../lib/api';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -31,51 +17,41 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (!username.trim()) return;
 
     setLoading(true);
     setError('');
 
-    // Simulate a small delay for UX
-    setTimeout(() => {
+    try {
+      const res = await api.post('/v1/auth/login', {
+        username: username.trim(),
+        password,
+        role
+      });
+
+      const { user, token } = res.data.data;
+
+      // Ensure campus is stored in user profile
+      const userWithCampus = { ...user, campus };
+
+      // Save token and user to localStorage
+      localStorage.setItem(STORAGE_KEYS.TOKEN, token);
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userWithCampus));
+
+      setCurrentUser(userWithCampus);
+
       if (role === 'ADVISOR') {
-        const account = ADVISOR_ACCOUNTS.find(
-          a => a.username === username.trim() && a.password === password
-        );
-        if (!account) {
-          setError('Tên đăng nhập hoặc mật khẩu không đúng');
-          setLoading(false);
-          return;
-        }
-        setCurrentUser({
-          id: account.id,
-          name: account.name,
-          role: 'ADVISOR',
-          campus,
-          email: `${account.username}@fpt.edu.vn`,
-        });
         navigate('/');
       } else {
-        // STUDENT - any username works (MSSV), password is anything with min 4 chars
-        if (password.length < 4) {
-          setError('Mật khẩu phải có ít nhất 4 ký tự');
-          setLoading(false);
-          return;
-        }
-        const mssv = username.trim().toUpperCase();
-        setCurrentUser({
-          id: mssv,
-          name: `Sinh viên ${mssv}`,
-          role: 'STUDENT',
-          campus,
-          email: `${username.trim()}@gmail.com`,
-        });
         navigate('/student-dashboard');
       }
+    } catch (err) {
+      setError(err.response?.data?.error || err.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
+    } finally {
       setLoading(false);
-    }, 600);
+    }
   };
 
   const quickFill = (type) => {

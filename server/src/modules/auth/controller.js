@@ -14,8 +14,8 @@ const AppError = require('../../shared/errors/AppError');
  */
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const result = await authService.login({ email, password });
+    const { username, password, role } = req.body;
+    const result = await authService.login({ username, password, role });
 
     return res.status(200).json({
       success: true,
