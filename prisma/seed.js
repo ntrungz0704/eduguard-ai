@@ -1,15 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-// Dynamically resolve the absolute path to dev.db to ensure SQLite resolves consistently 
 const dbPath = path.resolve(__dirname, 'dev.db');
-process.env.DATABASE_URL = `file:${dbPath}`;
+const databaseUrl = process.env.DATABASE_URL || `file:${dbPath}`;
 
 const { PrismaClient } = require('../server/generated/prisma');
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: `file:${dbPath}`
+      url: databaseUrl
     }
   }
 });

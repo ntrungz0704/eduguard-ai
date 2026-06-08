@@ -13,7 +13,7 @@ services:
       - key: FRONTEND_URL
         value: https://eduguard-ai.onrender.com
       - key: DATABASE_URL
-        value: file:./prisma/dev.db
+        value: file:/app/prisma/dev.db
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRES_IN
