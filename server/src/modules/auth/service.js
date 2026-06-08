@@ -77,8 +77,15 @@ const login = async ({ username, password, role = 'ADVISOR' }) => {
     };
   } else {
     // 2. Fetch from Prisma User data for Advisors
+    const normalizedUsername = username.toLowerCase().trim();
+    const email = normalizedUsername === 'admin'
+      ? 'admin@eduguard.ai'
+      : normalizedUsername === 'advisor'
+        ? 'advisor@eduguard.ai'
+        : normalizedUsername;
+
     const user = await prisma.user.findUnique({
-      where: { email: username.toLowerCase().trim() },
+      where: { email },
       select: { id: true, email: true, name: true, role: true },
     });
 
@@ -87,7 +94,7 @@ const login = async ({ username, password, role = 'ADVISOR' }) => {
       throw new AppError('Tài khoản giảng viên không tồn tại.', 401);
     }
 
-    if (process.env.NODE_ENV === 'production' && password !== '123456') {
+    if (process.env.NODE_ENV === 'production' && !['123456', 'admin123'].includes(password)) {
       throw new AppError('Sai mật khẩu.', 401);
     }
 
