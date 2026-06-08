@@ -1,0 +1,23 @@
+services:
+  - type: web
+    runtime: docker
+    name: eduguard-ai
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: FRONTEND_URL
+        value: https://eduguard-ai.onrender.com
+      - key: DATABASE_URL
+        value: file:/app/storage/dev.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+    disk:
+      name: eduguard-data
+      mountPath: /app/storage
+      sizeGB: 1
