@@ -3,8 +3,19 @@
 // Routes intents when the user is a STUDENT
 // ============================================================
 
-function routeStudentIntent(msg, nlpIntent = 'None') {
+const { getSession } = require('./sessionMemory');
+
+function routeStudentIntent(msg, nlpIntent = 'None', sessionId = null) {
   const msgLower = (msg || '').toLowerCase().trim();
+
+  // Retrieve session brain context if available
+  let brain = null;
+  if (sessionId) {
+    const session = getSession(sessionId, 'STUDENT');
+    if (session && session.brain) {
+      brain = session.brain;
+    }
+  }
 
   // Basic greeting fallback
   const greetingKeywords = ["hello", "hi", "helo", "alo", "xin chào", "chào"];
@@ -54,7 +65,30 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
   ];
   const hasCareerKeyword = careerKeywords.some(kw => msgLower.includes(kw));
 
-  // Heuristics fallback if NLP failed
+  // Context-Aware Intent Resolution (Student Brain Memory)
+  if (intent === 'STUDENT_FALLBACK_INTENT' && brain) {
+    // If student asks vague questions like "còn thiếu gì?", "học tiếp gì?"
+    // And we know their career goal -> Route to Skill Gap
+    if (brain.careerGoal && (msgLower.includes('thiếu') || msgLower.includes('cần học') || msgLower.includes('skill gap') || msgLower.includes('lỗ hổng'))) {
+      intent = 'STUDENT_SKILL_GAP_INTENT';
+      console.log(`[STUDENT_ROUTER] Brain resolved: Vague skill gap request -> STUDENT_SKILL_GAP_INTENT (context: ${brain.careerGoal})`);
+    }
+
+    // If student asks "nên làm dự án gì?"
+    // And we know their career goal -> Route to Portfolio
+    else if (brain.careerGoal && (msgLower.includes('dự án') || msgLower.includes('project') || msgLower.includes('portfolio'))) {
+      intent = 'STUDENT_PORTFOLIO_INTENT';
+      console.log(`[STUDENT_ROUTER] Brain resolved: Vague portfolio request -> STUDENT_PORTFOLIO_INTENT (context: ${brain.careerGoal})`);
+    }
+
+    // If student says "học gì tiếp theo" and last topic was ROADMAP
+    else if (brain.lastTopic === 'ROADMAP' && (msgLower.includes('tiếp theo') || msgLower.includes('học gì'))) {
+      intent = 'STUDENT_ROADMAP_INTENT';
+      console.log(`[STUDENT_ROUTER] Brain resolved: Follow-up roadmap request -> STUDENT_ROADMAP_INTENT (context: ${brain.lastTopic})`);
+    }
+  }
+
+  // Heuristics fallback if NLP and Context failed
   if (intent === 'STUDENT_FALLBACK_INTENT') {
     // Skill Gap intent
     if (msgLower.includes('skill gap') || msgLower.includes('lỗ hổng') || msgLower.includes('kỹ năng còn thiếu') ||
@@ -70,7 +104,7 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
       intent = 'STUDENT_PORTFOLIO_INTENT';
     }
     // Best career suggestion
-    else if (msgLower.includes('nên theo ngành gì') || msgLower.includes('hợp với nghề gì') || msgLower.includes('nghề nào phù hợp') || 
+    else if (msgLower.includes('nên theo ngành gì') || msgLower.includes('hợp với nghề gì') || msgLower.includes('nghề nào phù hợp') ||
              msgLower.includes('gợi ý nghề') || msgLower.includes('phù hợp nghề nào') || msgLower.includes('ngành nào tốt') ||
              msgLower.includes('nghề gì hay') || msgLower.includes('hướng đi nào')) {
       intent = 'STUDENT_BEST_CAREER_INTENT';
@@ -84,7 +118,7 @@ function routeStudentIntent(msg, nlpIntent = 'None') {
       intent = 'STUDENT_INTERNSHIP_PLAN_INTENT';
     }
     // 90-day plan
-    else if (msgLower.includes('kế hoạch 90 ngày') || msgLower.includes('tạo kế hoạch') || msgLower.includes('90-day plan') || 
+    else if (msgLower.includes('kế hoạch 90 ngày') || msgLower.includes('tạo kế hoạch') || msgLower.includes('90-day plan') ||
              msgLower.includes('12 tuần') || msgLower.includes('lên kế hoạch') || msgLower.includes('plan 90') ||
              msgLower.includes('kế hoạch học')) {
       intent = 'STUDENT_90_DAY_PLAN_INTENT';

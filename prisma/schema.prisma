@@ -46,15 +46,21 @@ model Course {
 }
 
 model Score {
-  id        Int      @id @default(autoincrement())
-  mssv      String
-  courseId  String
-  value     Float? // Nullable for currently studying / withdrew / test predicting
+  id         Int      @id @default(autoincrement())
+  mssv       String
+  courseId   String
+  value      Float? // Nullable for currently studying / withdrew / test predicting
   attendance Float?  // To simulate Feature Engineering (e.g., 60%)
-  semester  String
-  status    String   @default("STUDYING") // PASSED, FAILED, STUDYING, NOT_STARTED
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  quiz       Float?
+  lab        Float?
+  assignment Float?
+  asm1       Float?
+  asm2       Float?
+  final      Float?
+  semester   String
+  status     String   @default("STUDYING") // PASSED, FAILED, STUDYING, NOT_STARTED
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
   course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)

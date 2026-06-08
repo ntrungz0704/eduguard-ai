@@ -1,0 +1,17 @@
+{
+  "Programming Logic": {
+    "symptom": "Failed COM108 or struggles with loops/functions",
+    "strategy": "Luyện tập tư duy thuật toán cơ bản bằng giả mã (pseudo-code) và vẽ lưu đồ thuật toán (flowchart) trước khi viết code.",
+    "resources": ["Học lại nền tảng C/C++", "Thực hành bài tập vòng lặp/mảng trên HackerRank"]
+  },
+  "JavaScript": {
+    "symptom": "Failed WEB1043 or weak at DOM manipulation",
+    "strategy": "Nắm vững cơ bản về Data Types, Functions, và DOM. Không nên vội nhảy vào học React nếu JS chưa vững.",
+    "resources": ["Javascript30 (Wes Bos)", "Codecademy JS Course", "MDN Web Docs"]
+  },
+  "React": {
+    "symptom": "Failed WEB2081 or struggles with state/props",
+    "strategy": "Ôn lại JavaScript ES6 (Destructuring, Arrow functions, Map/Filter). Vẽ cây component (Component Tree) trước khi code.",
+    "resources": ["React Official Docs", "FreeCodeCamp React Course"]
+  }
+}

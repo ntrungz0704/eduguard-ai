@@ -268,8 +268,8 @@ export default function AIChat() {
 
   // Auto-scroll messages
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [messages, loading]);
 
   const handleSelectStudent = async (student) => {
     setSearchingStudents(true);
@@ -1045,16 +1045,20 @@ export default function AIChat() {
             ))}
 
             {loading && (
-              <div className="flex gap-4 max-w-[92%] mr-auto animate-pulse">
-                <div className="w-8 h-8 rounded-full bg-white dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white border border-purple-200 dark:border-purple-500/20 shadow-md flex-shrink-0">
+              <div className="flex gap-4 max-w-[92%] mr-auto animate-fade-in">
+                <div className="w-8 h-8 rounded-full bg-purple-50 border border-purple-200 text-purple-600 dark:bg-gradient-to-tr dark:from-purple-600 dark:to-indigo-600 dark:border-purple-500/20 shadow-sm flex items-center justify-center flex-shrink-0">
                   <Bot size={14} />
                 </div>
-                <div className="space-y-1 flex-1">
-                  <div className="p-0 bg-transparent border-none shadow-none text-slate-600 dark:text-slate-400 text-sm flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
-                    <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
-                    <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce delay-300"></span>
-                    <span className="font-medium bg-clip-text text-transparent bg-white dark:bg-gradient-to-r dark:from-blue-400 dark:to-purple-400">🧠 EduGuard AI đang phân tích dữ liệu học tập...</span>
+                <div className="space-y-1 max-w-[95%] flex-1">
+                  <div className="p-4 bg-transparent border-none shadow-none flex items-center gap-2 w-fit max-w-[85%]">
+                    <div className="flex items-center gap-1.5 px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-full shadow-inner border border-slate-200 dark:border-white/10">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-bounce" style={{animationDelay: '0ms'}}></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce" style={{animationDelay: '150ms'}}></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{animationDelay: '300ms'}}></span>
+                    </div>
+                    <span className="text-[11px] font-extrabold text-slate-500 dark:text-slate-400 tracking-wider">
+                      EduGuard AI đang suy nghĩ...
+                    </span>
                   </div>
                 </div>
               </div>

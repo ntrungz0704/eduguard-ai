@@ -505,14 +505,26 @@ router.all('/predict/:subject', async (req, res) => {
       });
       dbStudents = dbStudentsRaw.map(s => {
         const scoresObj = {};
+        const componentScoresObj = {};
         s.scores.forEach(sc => {
           scoresObj[sc.courseId] = sc.value;
+          componentScoresObj[sc.courseId] = {
+            quiz: sc.quiz,
+            lab: sc.lab,
+            assignment: sc.assignment,
+            asm1: sc.asm1,
+            asm2: sc.asm2,
+            final: sc.final,
+            attendance: sc.attendance,
+            status: sc.status
+          };
         });
         return {
           id: s.mssv,
           name: s.name,
           classCode: s.classCode,
-          scores: scoresObj
+          scores: scoresObj,
+          componentScores: componentScoresObj
         };
       });
     } catch (dbErr) {
@@ -531,6 +543,7 @@ router.all('/predict/:subject', async (req, res) => {
     dbStudents.forEach(s => {
       if (allStudentsMap[s.id]) {
         allStudentsMap[s.id].scores = { ...allStudentsMap[s.id].scores, ...s.scores };
+        allStudentsMap[s.id].componentScores = { ...(allStudentsMap[s.id].componentScores || {}), ...(s.componentScores || {}) };
         if (s.name) allStudentsMap[s.id].name = s.name;
         if (s.classCode) allStudentsMap[s.id].classCode = s.classCode;
       } else {
@@ -713,7 +726,8 @@ router.all('/predict/:subject', async (req, res) => {
           isPredicted,
           isEarlyWarning,
           weakPrereqs,
-          intervened: s.intervened || false
+          intervened: s.intervened || false,
+          componentScores: s.componentScores && s.componentScores[target] ? s.componentScores[target] : null
         });
       });
 
@@ -832,7 +846,8 @@ router.all('/predict/:subject', async (req, res) => {
         risk,
         reasons,
         isPredicted,
-        intervened: s.intervened || false
+        intervened: s.intervened || false,
+        componentScores: s.componentScores && s.componentScores[target] ? s.componentScores[target] : null
       });
     });
 
@@ -1533,7 +1548,6 @@ router.post('/students/:mssv/flag', async (req, res) => {
 // ============================================================
 router.get('/interventions-management', async (req, res) => {
   try {
-    // 1. Lấy danh sách can thiệp
     const interventions = await prisma.intervention.findMany({
       include: {
         student: { include: { scores: true } },
@@ -1542,11 +1556,11 @@ router.get('/interventions-management', async (req, res) => {
       orderBy: { updatedAt: 'desc' }
     });
 
-    const active = interventions.filter(i => i.status === 'PENDING' || i.status === 'ACTIVE');
+    const monitoring = interventions.filter(i => i.status === 'PENDING');
+    const intervened = interventions.filter(i => i.status === 'ACTIVE');
     const resolved = interventions.filter(i => i.status === 'RESOLVED');
 
-    const activeMssvSet = new Set(active.map(i => i.mssv + '_' + i.courseId));
-    const resolvedMssvSet = new Set(resolved.map(i => i.mssv + '_' + i.courseId));
+    const allInterventionMssvSet = new Set(interventions.map(i => i.mssv + '_' + i.courseId));
 
     // 2. Lấy danh sách có nguy cơ nhưng CHƯA ĐƯỢC CAN THIỆP (HIGH & MEDIUM)
     const dbPredictions = await prisma.prediction.findMany({
@@ -1558,15 +1572,15 @@ router.get('/interventions-management', async (req, res) => {
       orderBy: { predictedScore: 'asc' }
     });
 
-    const atRisk = [];
+    const urgent = [];
     for (const pred of dbPredictions) {
       const key = pred.mssv + '_' + pred.courseId;
-      if (!activeMssvSet.has(key) && !resolvedMssvSet.has(key)) {
-        atRisk.push(pred);
+      if (!allInterventionMssvSet.has(key)) {
+        urgent.push(pred);
       }
     }
 
-    res.json({ atRisk, active, resolved });
+    res.json({ urgent, monitoring, intervened, resolved });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -1584,6 +1598,21 @@ router.post('/interventions/:id/status', async (req, res) => {
       data: { status }
     });
     res.json({ success: true, intervention });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
+// API: Delete Intervention
+// ============================================================
+router.delete('/interventions/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.intervention.delete({
+      where: { id: parseInt(id) }
+    });
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

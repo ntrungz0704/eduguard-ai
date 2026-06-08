@@ -1,0 +1,38 @@
+{
+  "COM108": {
+    "name": "Nhập môn lập trình",
+    "core_skills": ["Programming Logic", "Variables", "Loops", "Functions"],
+    "unlocks": ["WEB104", "WEB1043", "WEB2063"],
+    "prerequisites": []
+  },
+  "WEB104": {
+    "name": "Xây dựng trang web",
+    "core_skills": ["HTML", "CSS", "Responsive Design"],
+    "unlocks": ["WEB3023", "PRO1014"],
+    "prerequisites": ["COM108"]
+  },
+  "WEB1043": {
+    "name": "Lập trình cơ sở với JavaScript",
+    "core_skills": ["JavaScript", "BOM/DOM", "Events"],
+    "unlocks": ["WEB2063", "WEB2081", "PRO1014"],
+    "prerequisites": ["COM108", "WEB104"]
+  },
+  "WEB2063": {
+    "name": "Lập trình Javascript nâng cao",
+    "core_skills": ["ES6", "Async/Await", "Promises", "API Integration"],
+    "unlocks": ["WEB2091", "WEB503", "PRO2201"],
+    "prerequisites": ["WEB1043"]
+  },
+  "WEB2081": {
+    "name": "Lập trình Front-End Framework 1",
+    "core_skills": ["React", "State Management", "Component Design"],
+    "unlocks": ["WEB2091", "PRO2201"],
+    "prerequisites": ["WEB1043", "WEB2063"]
+  },
+  "PRO1014": {
+    "name": "Dự án 1",
+    "core_skills": ["Project Management", "Teamwork", "Integration"],
+    "unlocks": ["PRO2201", "PRO116"],
+    "prerequisites": ["WEB104", "WEB1043"]
+  }
+}

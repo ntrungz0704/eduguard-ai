@@ -6,12 +6,13 @@ const { routeIntent } = require('./intentRouter');
 const { resolveContext } = require('./contextResolver');
 const { validateRole } = require('./roleValidator');
 const { extractAllEntities } = require('./entityExtractor');
-const { getSession, addConversationTurn } = require('./sessionMemory');
+const { getSession, addConversationTurn, updateBrain } = require('./sessionMemory');
 const { executeDecision } = require('./aiDecisionEngine');
 const { executeStudentDecision } = require('./studentEngine');
 const { buildTeacherResponse } = require('./response/teacherResponseBuilder');
 const { buildStudentResponse } = require('./response/studentResponseBuilder');
 const { guardConfidence } = require('./confidenceGuard');
+const academicGraphEngine = require('../advisor/academicGraphEngine');
 const { routeStudentIntent } = require('./studentIntentRouter');
 const appLogger = require('../../infrastructure/logger');
 
@@ -57,12 +58,12 @@ async function orchestrateChatbot(req, sessionId) {
   const nlpIntentRaw = req.body?.nlpIntent || 'None';
   const nlpScore = req.body?.nlpScore || 0;
   const nlpClassifications = req.body?.nlpClassifications || [];
-  
+
   const { finalIntent: nlpIntent, secondaryIntent } = guardConfidence(nlpIntentRaw, nlpScore, nlpClassifications);
   if (nlpIntentRaw !== 'None' && nlpIntent === 'FALLBACK_INTENT') {
     appLogger.info(`[NLP_GUARD] Blocked intent ${nlpIntentRaw} due to low confidence (${nlpScore})`);
   }
-  
+
   appLogger.intentTrace(message, nlpIntent, 'pending', sessionId);
 
 
@@ -72,6 +73,7 @@ async function orchestrateChatbot(req, sessionId) {
 
   // ─── Step 4: Entity Extraction ──────────────────────────
   const entities = extractAllEntities(message);
+  console.log('[DEBUG] Extracted entities:', JSON.stringify(entities));
 
   // Use entity MSSV if context couldn't resolve one
   const effectiveMssv = activeMssv || entities.mssv;
@@ -85,22 +87,49 @@ async function orchestrateChatbot(req, sessionId) {
 
   if (isStudent) {
     // ─── STUDENT BRANCH ──────────────────────────────
-    intent = routeStudentIntent(message, nlpIntent);
+    intent = routeStudentIntent(message, nlpIntent, sessionId);
     session.lastIntent = intent;
     appLogger.aiRouter(intent, effectiveMssv, { sessionId, nlpIntent, role: 'STUDENT' });
     appLogger.intentTrace(message, nlpIntent, intent, sessionId);
 
     try {
-      decisionData = await executeStudentDecision({ intent, activeMssv: effectiveMssv, session });
+      decisionData = await executeStudentDecision({ intent, activeMssv: effectiveMssv, entities, session });
     } catch (err) {
       appLogger.error(`[STUDENT_ENGINE] Error: ${err.message}`, { stack: err.stack });
       decisionData = { type: 'STUDENT_FALLBACK', activeMssv: effectiveMssv };
     }
 
+    // ─── ACADEMIC REASONING INJECTION ────────────────
+    if (decisionData.student && session.brain) {
+      // Sync basic DB fields to Brain v4
+      session.brain.studentId = decisionData.student.mssv || decisionData.student.id;
+      session.brain.gpa = decisionData.riskData?.gpa || null;
+
+      const scores = decisionData.student.scores || [];
+      const courseStatus = decisionData.student.courseStatus || {};
+
+      session.brain.failedCourses = scores.length > 0
+        ? scores.filter(s => s.status === 'FAILED' || s.value < 5.0).map(s => s.courseId)
+        : Object.keys(courseStatus).filter(c => courseStatus[c] === 'FAILED');
+
+      session.brain.completedCourses = scores.length > 0
+        ? scores.filter(s => s.status === 'PASSED' || s.value >= 5.0).map(s => s.courseId)
+        : Object.keys(courseStatus).filter(c => courseStatus[c] === 'PASSED');
+
+      const reasoningReport = academicGraphEngine.generateReasoningReport(session.brain);
+      decisionData.reasoningReport = reasoningReport;
+
+      appLogger.info(`[REASONING] Generated academic graph report for ${effectiveMssv}`);
+    }
+    // ─────────────────────────────────────────────────
+
     const responseObj = buildStudentResponse(decisionData);
     text = responseObj.text;
     chartData = responseObj.chartData;
     actions = responseObj.actions;
+
+    // Update Student Brain with context from this interaction
+    updateBrain(session, intent, decisionData);
 
   } else {
     // ─── TEACHER/ADMIN BRANCH ────────────────────────

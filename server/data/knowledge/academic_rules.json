@@ -1,0 +1,33 @@
+{
+  "warning_levels": {
+    "1": {
+      "condition": "GPA < 5.0 in one semester",
+      "action": "Academic Warning Level 1",
+      "impact": "Requires mentoring session"
+    },
+    "2": {
+      "condition": "GPA < 5.0 in two consecutive semesters",
+      "action": "Academic Warning Level 2",
+      "impact": "Limit registered credits to 12"
+    },
+    "3": {
+      "condition": "GPA < 5.0 in three consecutive semesters",
+      "action": "Expulsion",
+      "impact": "Dismissed from the program"
+    }
+  },
+  "attendance": {
+    "minimum_required": 0.8,
+    "penalty": "Banned from final exam (Fail course)"
+  },
+  "graduation": {
+    "minimum_credits": 120,
+    "minimum_gpa": 5.0,
+    "required_courses": ["PRO1014", "PRO2201", "PRO116"]
+  },
+  "internship": {
+    "minimum_credits": 80,
+    "minimum_gpa": 5.0,
+    "prerequisite_courses": ["PRO1014"]
+  }
+}

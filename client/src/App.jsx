@@ -57,7 +57,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
-      <aside className={`w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-white/5 h-screen fixed top-0 left-0 flex flex-col z-40 transition-transform duration-300 md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} shadow-sm`}>
+      <aside className={`w-64 glass-panel border-r border-slate-200 dark:border-white/5 h-screen fixed top-0 left-0 flex flex-col z-40 transition-transform duration-300 md:translate-x-0 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} shadow-lg`}>
         <div className="h-20 flex items-center px-6 border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-900/50 relative">
           <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 flex items-center justify-center mr-3 shadow-sm dark:shadow-blue-500/20 border border-blue-200 dark:border-transparent">
             <BrainCircuit className="text-[#1E40AF] dark:text-white" size={22} />

@@ -1,5 +1,7 @@
 const { prisma } = require('../../infrastructure/database/prisma');
 
+const readinessService = require('./readinessService');
+
 exports.getLearningBoard = async (req, res) => {
   try {
     const { studentId, careerId } = req.params;
@@ -36,9 +38,22 @@ exports.getLearningBoard = async (req, res) => {
         points: t.points,
         updated_at: t.updatedAt ? t.updatedAt.toISOString().split('T')[0] : null
       }));
-      res.json(formattedTasks);
+
+      // Calculate Readiness
+      const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, board.tasks);
+
+      res.json({
+        tasks: formattedTasks,
+        metrics: readinessMetrics
+      });
     } else {
-      res.json(null); // Let frontend initialize
+      // Calculate Readiness even if no tasks exist (academic score is still valid)
+      const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, []);
+
+      res.json({
+        tasks: [],
+        metrics: readinessMetrics
+      });
     }
   } catch (error) {
     console.error('Error fetching learning board from DB:', error);

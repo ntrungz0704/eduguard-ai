@@ -9,6 +9,7 @@ import {
   ChevronDown, ChevronRight, Sparkles, Loader2, ExternalLink, FolderGit2,
   GraduationCap, Brain, BarChart3, Info, Calendar, Award, Play, KanbanSquare, Link2, PlusCircle, ChevronLeft, ArrowUpRight
 } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, Cell } from 'recharts';
 
 const GithubIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={props.className} style={{ width: props.size, height: props.size }}>
@@ -100,7 +101,7 @@ function getRoadmapSource(careerName) {
 
 function getRecommendedResources(skillName) {
   const clean = skillName.toLowerCase().trim();
-  
+
   // 1. Exact match
   for (const [key, resource] of Object.entries(skillResources)) {
     if (key.toLowerCase() === clean) {
@@ -151,15 +152,15 @@ function hasSkill(career, skillName) {
   const core = (career.coreSkills || []).map(s => s.toLowerCase());
   const adv = (career.advancedSkills || []).map(s => s.toLowerCase());
   const clean = skillName.toLowerCase();
-  return core.includes(clean) || adv.includes(clean) || 
-         core.some(s => s.includes(clean) || clean.includes(s)) || 
+  return core.includes(clean) || adv.includes(clean) ||
+         core.some(s => s.includes(clean) || clean.includes(s)) ||
          adv.some(s => s.includes(clean) || clean.includes(s));
 }
 
 function getVisualRoadmapLevels(career) {
   if (!career) return [];
   const name = career.careerName.toLowerCase();
-  
+
   if (name.trim() === "frontend developer") {
     return [
       { name: 'Cấp độ 1: Kiến thức Cơ bản Web & Internet', skills: ['Internet', 'HTML', 'CSS', 'Responsive Design'].filter(s => hasSkill(career, s)), desc: 'Tìm hiểu cách hoạt động của web, cấu trúc HTML và thiết kế CSS' },
@@ -258,15 +259,18 @@ export default function CareerDetail() {
 
   // Kanban tasks local state
   const [tasks, setTasks] = useState([]);
-  
+
   // Drag & drop state
   const [dragOverCol, setDragOverCol] = useState(null);
-  
+
   // Evidence Modal State
   const [evidenceModalTask, setEvidenceModalTask] = useState(null);
   const [githubUrl, setGithubUrl] = useState('');
   const [demoUrl, setDemoUrl] = useState('');
   const [screenshotUrl, setScreenshotUrl] = useState('');
+
+  // Backend Metrics
+  const [backendMetrics, setBackendMetrics] = useState(null);
 
   const studentId = currentUser?.id || 'SE182001';
   const mode = (currentUser?.role === 'STUDENT' && currentUser?.id) ? 'STUDENT' : 'GUEST';
@@ -295,22 +299,22 @@ export default function CareerDetail() {
     if (!stored) return 0;
     const events = JSON.parse(stored);
     if (events.length === 0) return 0;
-    
+
     // Filter events for this student and unique days
     const dates = [...new Set(events.map(e => e.timestamp.split('T')[0]))].sort().reverse();
     if (dates.length === 0) return 0;
 
     const todayStr = new Date().toISOString().split('T')[0];
     const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    
+
     // If the latest event isn't today or yesterday, streak is broken
     if (dates[0] !== todayStr && dates[0] !== yesterdayStr) {
       return 0;
     }
-    
+
     let checkDate = new Date(dates[0]);
     let streak = 1;
-    
+
     for (let i = 1; i < dates.length; i++) {
       const prevDate = new Date(dates[i]);
       const diffTime = Math.abs(checkDate - prevDate);
@@ -433,29 +437,29 @@ export default function CareerDetail() {
       const allCore = career.coreSkills || [];
       const allAdv = career.advancedSkills || [];
       const allSkills = [
-        ...allCore.map(s => ({ name: s, type: 'core' })), 
+        ...allCore.map(s => ({ name: s, type: 'core' })),
         ...allAdv.map(s => ({ name: s, type: 'advanced' })),
         { name: 'Portfolio Project', type: 'advanced' },
         { name: 'Internship Ready', type: 'advanced' }
       ];
-      
+
       const initialTasks = allSkills.map((s, idx) => {
         const clean = s.name.toLowerCase();
         const haveCore = (analysis.skillGap?.core?.have || []).map(x => x.toLowerCase());
         const haveAdv = (analysis.skillGap?.advanced?.have || []).map(x => x.toLowerCase());
-        
+
         let status = 'TODO';
         if (haveCore.includes(clean) || haveAdv.includes(clean)) {
           status = 'DONE';
         }
-        
+
         const isStudying = (analysis.academicProgress || []).some(
           c => c.status === 'IN_PROGRESS' && c.skills.some(x => x.toLowerCase() === clean)
         );
         if (isStudying && status !== 'DONE') {
           status = 'IN_PROGRESS';
         }
-        
+
         return {
           id: `${careerId}_task_${idx}`,
           title: s.name,
@@ -473,7 +477,7 @@ export default function CareerDetail() {
           verified: status === 'DONE'
         };
       });
-      
+
       setTasks(initialTasks);
       localStorage.setItem(storageKey, JSON.stringify(initialTasks));
       try {
@@ -554,7 +558,7 @@ export default function CareerDetail() {
         alert('Không thể xác thực tự động. Link GitHub sẽ được giữ để giảng viên duyệt tay.');
       }
     }
-    
+
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
         recordLearningEvent(t.title, t.status, 'DONE');
@@ -574,7 +578,7 @@ export default function CareerDetail() {
       }
       return t;
     });
-    
+
     await saveTasks(updated);
     if (selectedSkill && selectedSkill.name === evidenceModalTask.title) {
       setSelectedSkill(getSkillDetail(evidenceModalTask.title, updated));
@@ -585,7 +589,7 @@ export default function CareerDetail() {
   // Complete Without Evidence
   const handleCompleteWithoutEvidence = async () => {
     if (!evidenceModalTask) return;
-    
+
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
         recordLearningEvent(t.title, t.status, 'DONE');
@@ -604,7 +608,7 @@ export default function CareerDetail() {
       }
       return t;
     });
-    
+
     await saveTasks(updated);
     if (selectedSkill && selectedSkill.name === evidenceModalTask.title) {
       setSelectedSkill(getSkillDetail(evidenceModalTask.title, updated));
@@ -643,8 +647,7 @@ export default function CareerDetail() {
       setDragOverCol(status);
     }
   };
-
-  const handleDragLeave = () => {
+const handleDragLeave = () => {
     setDragOverCol(null);
   };
 
@@ -698,40 +701,40 @@ export default function CareerDetail() {
   // Dynamic calculated scores based on local Kanban tasks state
   const computedMetrics = useMemo(() => {
     if (!analysis || tasks.length === 0) return { progressPercent: 0, readinessScore: 0, forecasts: [] };
-    
+
     const total = tasks.length;
     const doneTasks = tasks.filter(t => t.status === 'DONE');
     const progressPercent = Math.round((doneTasks.length / total) * 100);
-    
+
     // Academic score remains constant (from university records)
-    const academicScore = analysis.scores?.academic || 0;
-    
+    const academicScore = backendMetrics?.academicScore ?? (analysis.scores?.academic || 0);
+
     // Industry score: dynamically calculated by weights of completed tasks
     const totalWeight = tasks.reduce((sum, t) => sum + t.impact, 0);
     const acquiredWeight = doneTasks.reduce((sum, t) => sum + t.impact, 0);
-    const industryScore = totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0;
-    
+    const industryScore = backendMetrics?.industryScore ?? (totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0);
+
     // Portfolio score: based on Github evidence
     const verifiedTasksCount = doneTasks.filter(t => t.verified && t.github).length;
-    const portfolioScore = Math.min(100, verifiedTasksCount * 33);
-    
+    const portfolioScore = backendMetrics?.portfolioScore ?? Math.min(100, verifiedTasksCount * 33);
+
     // Behavior score: from backend mock/academic
     const behaviorScore = analysis.scores?.behavior || 0;
-    
-    const readinessScore = Math.round(
-      (academicScore * 0.3) + 
-      (industryScore * 0.4) + 
-      (portfolioScore * 0.2) + 
+
+    const readinessScore = backendMetrics?.readinessScore ?? Math.round(
+      (academicScore * 0.3) +
+      (industryScore * 0.4) +
+      (portfolioScore * 0.2) +
       (behaviorScore * 0.1)
     );
-    
+
     const activeMissing = tasks.filter(t => t.status !== 'DONE')
                                .sort((a,b) => b.impact - a.impact);
     const forecasts = activeMissing.slice(0, 2).map(t => ({
       action: `Complete learning ${t.title}`,
       points: Math.round((t.impact / (totalWeight || 1)) * 100 * 0.4)
     }));
-    
+
     if (portfolioScore < 100) {
       forecasts.push({
         action: "Upload GitHub evidence for 1 task",
@@ -850,14 +853,14 @@ export default function CareerDetail() {
   // 90-Day Plan calculation
   const weeklyPlan = useMemo(() => {
     if (!career) return [];
-    
+
     const missingCore = tasks.filter(t => t.status !== 'DONE' && t.type === 'core').map(t => t.title);
     const missingAdv = tasks.filter(t => t.status !== 'DONE' && t.type === 'advanced').map(t => t.title);
 
     const core = missingCore.length > 0 ? missingCore : (career.coreSkills || []);
     const adv = missingAdv.length > 0 ? missingAdv : (career.advancedSkills || []);
     const targetProject = career.portfolios?.[0]?.name || "Personal Portfolio Project";
-    
+
     const name = career.careerName.toLowerCase();
     const isFrontend = name.includes('frontend') || name.includes('react') || name.includes('next.js') || name.includes('ui');
 
@@ -880,7 +883,7 @@ export default function CareerDetail() {
         weeks: 'Tuần 5-6',
         title: isFrontend ? 'Thiết lập Framework & API' : 'Cơ sở dữ liệu & REST API',
         skills: core.slice(4).concat(adv.slice(0, 1)),
-        action: isFrontend 
+        action: isFrontend
           ? `Học thiết lập package npm và xây dựng các module UI React tái sử dụng được.`
           : `Thiết kế mô hình dữ liệu, viết câu truy vấn có cấu trúc và thiết lập endpoint bảo mật.`,
         duration: '1.5-2 giờ / ngày'
@@ -902,7 +905,7 @@ export default function CareerDetail() {
       {
         weeks: 'Tuần 11-12',
         title: isFrontend ? 'Kiểm thử, SEO & Khả năng tiếp cận' : 'Docker, Triển khai đám mây & Phỏng vấn',
-        skills: isFrontend 
+        skills: isFrontend
           ? ['SEO', 'Testing', 'Accessibility', 'Resume practice']
           : adv.slice(3).concat(['Resume practice']),
         action: isFrontend
@@ -968,7 +971,7 @@ export default function CareerDetail() {
                 📚 Nguồn: {getRoadmapSource(career.careerName).replace('https://', '')}
               </span>
             </div>
-            
+
             <p className="text-[10px] text-slate-400 dark:text-slate-500 italic font-semibold">
               * Lộ trình đã được AI chuẩn hóa từ tài liệu thực tế của {getRoadmapSource(career.careerName).replace('https://', '')} và ánh xạ trực tiếp với chương trình đào tạo của FPT Polytechnic.
             </p>
@@ -978,7 +981,7 @@ export default function CareerDetail() {
           {analysis && (
             <div className="flex flex-col md:flex-row gap-6 items-center bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-5 rounded-2xl shrink-0 w-full lg:w-auto">
               <ReadinessGauge score={computedMetrics.readinessScore} level={getReadinessConfig(computedMetrics.readinessScore).label} />
-              
+
               {/* Contribution Breakdown */}
               <div className="flex flex-col justify-center gap-1 border-l border-slate-200 dark:border-white/10 pl-5 text-[10px] font-bold text-slate-600 dark:text-slate-400 h-full shrink-0">
                 <span className="text-[8px] font-extrabold uppercase tracking-wider text-slate-400 mb-1 block">Đóng góp điểm số</span>
@@ -1050,7 +1053,7 @@ export default function CareerDetail() {
 
       {/* TAB CONTENTS */}
       <div className="mt-6">
-        
+
         {/* TAB 1: OVERVIEW */}
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1096,30 +1099,57 @@ export default function CareerDetail() {
 
             <div className="space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Tóm tắt Kỹ năng Kỹ thuật</h3>
-                <div className="space-y-3">
+                <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                  <BarChart3 size={18} className="text-blue-500" /> Tóm tắt Kỹ năng Kỹ thuật
+                </h3>
+
+                {/* Core Skills Chart */}
+                {career.coreSkills && career.coreSkills.length > 0 && (
+                  <div className="h-48 w-full mt-4">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={career.coreSkills.map(s => ({ name: s, impact: getSkillImpact(s) })).sort((a,b) => b.impact - a.impact)} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                        <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} tickLine={false} axisLine={false} />
+                        <YAxis tick={false} tickLine={false} axisLine={false} />
+                        <RechartsTooltip cursor={{ fill: 'rgba(59, 130, 246, 0.05)' }} contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontSize: '12px', color: '#fff', fontWeight: 'bold' }} />
+                        <Bar dataKey="impact" radius={[4, 4, 0, 0]}>
+                          {career.coreSkills.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={index < 3 ? '#3b82f6' : '#64748b'} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+
+                <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-white/10">
                   <div>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Kỹ năng cốt lõi ({career.coreSkills?.length})</span>
-                    <div className="flex flex-wrap gap-1.5">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Kỹ năng cốt lõi ({career.coreSkills?.length})</span>
+                    <div className="flex flex-wrap gap-2">
                       {(career.coreSkills || []).map((s, i) => (
-                        <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10">{s}</span>
+                        <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-blue-600 transition-all cursor-default shadow-sm flex items-center gap-1.5">
+                          {s} <span className="text-[9px] text-blue-500">+{getSkillImpact(s)}</span>
+                        </span>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Kỹ năng nâng cao ({career.advancedSkills?.length})</span>
-                    <div className="flex flex-wrap gap-1.5">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Kỹ năng nâng cao ({career.advancedSkills?.length})</span>
+                    <div className="flex flex-wrap gap-2">
                       {(career.advancedSkills || []).map((s, i) => (
-                        <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-blue-500/5 px-2.5 py-1 rounded-lg border border-blue-500/10 text-blue-600 dark:text-blue-400">{s}</span>
+                        <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-purple-500/5 px-3 py-1.5 rounded-lg border border-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-500/10 transition-all cursor-default shadow-sm">
+                          {s}
+                        </span>
                       ))}
                     </div>
                   </div>
                   {(career.tools || []).length > 0 && (
                     <div>
-                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">Công cụ phổ biến</span>
-                      <div className="flex flex-wrap gap-1.5">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Công cụ phổ biến</span>
+                      <div className="flex flex-wrap gap-2">
                         {career.tools.map((t, i) => (
-                          <span key={i} className="text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-white/10">{t}</span>
+                          <span key={i} className="text-xs font-bold text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 transition-all cursor-default shadow-sm">
+                            {t}
+                          </span>
                         ))}
                       </div>
                     </div>
@@ -1133,11 +1163,11 @@ export default function CareerDetail() {
         {/* TAB 2: VISUAL ROADMAP (TIMELINE GRID / BRANCHING FLOW) */}
         {activeTab === 'roadmap' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
+
             {/* Sơ đồ Visual Path */}
             <div className="lg:col-span-2 glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 flex flex-col items-center relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 text-slate-500/5 pointer-events-none"><BookOpen size={200} /></div>
-              
+
               <div className="text-center mb-8">
                 <h3 className="text-lg font-black text-slate-900 dark:text-white">Dòng thời gian Lộ trình</h3>
                 <p className="text-xs text-slate-500 mt-1">Nhấp vào các nút kỹ năng để xem môn học ánh xạ, điểm ảnh hưởng và nộp minh chứng học tập</p>
@@ -1149,7 +1179,7 @@ export default function CareerDetail() {
 
                 {levels.map((lvl, idx) => (
                   <div key={idx} className="w-full flex flex-col items-center relative mb-8 last:mb-0">
-                    
+
                     {/* Level Card */}
                     <div className="z-10 w-full max-w-xl text-center bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-white/10 rounded-2xl p-4 mb-4 hover:bg-slate-100 dark:hover:bg-white/5 transition-all shadow-sm">
                       <span className="text-[9px] font-black uppercase tracking-widest text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20 mb-1 inline-block">
@@ -1158,7 +1188,7 @@ export default function CareerDetail() {
                       <h4 className="font-extrabold text-xs text-slate-800 dark:text-slate-200 uppercase tracking-wider">{lvl.name}</h4>
                       <p className="text-[10px] text-slate-500 mt-0.5">{lvl.desc}</p>
                     </div>
-                    
+
                     {/* Skill Nodes Grid */}
                     <div className="flex flex-wrap justify-center gap-3 max-w-2xl z-10">
                       {lvl.skills.map((skill, sIdx) => {
@@ -1170,10 +1200,10 @@ export default function CareerDetail() {
                             key={sIdx}
                             onClick={() => setSelectedSkill(getSkillDetail(skill))}
                             className={`px-4 py-3 rounded-xl text-xs font-bold border transition-all hover:-translate-y-0.5 duration-200 flex items-center gap-2 cursor-pointer shadow-sm ${
-                              status === 'acquired' 
-                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shadow-emerald-500/5' 
-                                : status === 'in_progress' 
-                                ? 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 animate-pulse' 
+                              status === 'acquired'
+                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 shadow-emerald-500/5'
+                                : status === 'in_progress'
+                                ? 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 animate-pulse'
                                 : status === 'missing'
                                 ? 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400'
                                 : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400'
@@ -1199,7 +1229,7 @@ export default function CareerDetail() {
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                   <Info size={16} className="text-blue-500" /> Bộ kiểm tra chi tiết
                 </h3>
-                
+
                 {selectedSkill ? (
                   <div className="space-y-5 animate-fadeIn">
                     <div>
@@ -1229,10 +1259,10 @@ export default function CareerDetail() {
                     <div className="space-y-3 pt-1">
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
                         <span>Nguồn lộ trình:</span>
-                        <a 
-                          href={getRoadmapSource(selectedSkill.name) === 'https://roadmap.sh' ? getRoadmapSource(career.careerName) : getRoadmapSource(selectedSkill.name)} 
-                          target="_blank" 
-                          rel="noreferrer" 
+                        <a
+                          href={getRoadmapSource(selectedSkill.name) === 'https://roadmap.sh' ? getRoadmapSource(career.careerName) : getRoadmapSource(selectedSkill.name)}
+                          target="_blank"
+                          rel="noreferrer"
                           className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-0.5 font-extrabold"
                         >
                           {(getRoadmapSource(selectedSkill.name) === 'https://roadmap.sh' ? getRoadmapSource(career.careerName) : getRoadmapSource(selectedSkill.name)).replace('https://', '')} <ExternalLink size={10} />
@@ -1292,7 +1322,7 @@ export default function CareerDetail() {
                     {mode === 'STUDENT' && selectedSkill.task && (
                       <div className="border-t border-b border-slate-100 dark:border-white/5 py-3 space-y-2">
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Thay đổi trạng thái:</span>
-                        
+
                         {selectedSkill.task.status === 'TODO' && (
                           <button
                             onClick={() => moveTask(selectedSkill.task, 'IN_PROGRESS')}
@@ -1333,7 +1363,7 @@ export default function CareerDetail() {
                                     selectedSkill.task.evidenceStatus === 'REJECTED' ? 'text-rose-500' :
                                     'text-amber-500'
                                   }`}>
-                                    <Award size={10} /> 
+                                    <Award size={10} />
                                     {selectedSkill.task.evidenceStatus === 'VERIFIED' ? 'Minh chứng đã xác thực ✓' :
                                      selectedSkill.task.evidenceStatus === 'REJECTED' ? 'Minh chứng bị từ chối ✗' :
                                      'Đang chờ xác thực ⏳'}
@@ -1437,7 +1467,7 @@ export default function CareerDetail() {
                       <Sparkles size={16} />
                       <h4 className="text-xs font-black uppercase tracking-wider">Tổng quan từ AI Coach</h4>
                     </div>
-                    
+
                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-2.5 shadow-sm">
                       <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
                         <span>Cấp độ sẵn sàng:</span>
@@ -1487,7 +1517,7 @@ export default function CareerDetail() {
                         <span>{Math.min(100, computedMetrics.readinessScore + computedMetrics.forecasts.reduce((sum, f) => sum + f.points, 0))}/100</span>
                       </div>
                     </div>
-                    
+
                     <p className="text-[10px] text-slate-400 font-bold italic text-center">Nhấp vào nút kỹ năng để xem ánh xạ môn học và hành động chi tiết.</p>
                   </div>
                 )}
@@ -1499,15 +1529,15 @@ export default function CareerDetail() {
         {/* TAB 3: LEARNING KANBAN BOARD (DRAG AND DROP) */}
         {activeTab === 'board' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             {/* Column 1: TODO */}
-            <div 
+            <div
               onDragOver={(e) => handleDragOver(e, 'TODO')}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, 'TODO')}
               className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-200 ${
-                dragOverCol === 'TODO' 
-                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                dragOverCol === 'TODO'
+                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
                   : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/20'
               }`}
             >
@@ -1520,8 +1550,8 @@ export default function CareerDetail() {
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                 {columns.TODO.map(task => (
-                  <div 
-                    key={task.id} 
+                  <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task)}
                     className="glass-card bg-white dark:bg-slate-900/60 rounded-xl border border-slate-200 dark:border-white/5 p-4 space-y-3 hover:border-blue-500/30 transition-all group cursor-grab active:cursor-grabbing"
@@ -1532,7 +1562,7 @@ export default function CareerDetail() {
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-slate-400">
                       <span>Dự kiến: {task.duration}</span>
-                      <button 
+                      <button
                         onClick={() => moveTask(task, 'IN_PROGRESS')}
                         className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       >
@@ -1548,13 +1578,13 @@ export default function CareerDetail() {
             </div>
 
             {/* Column 2: IN PROGRESS */}
-            <div 
+            <div
               onDragOver={(e) => handleDragOver(e, 'IN_PROGRESS')}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, 'IN_PROGRESS')}
               className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-200 ${
-                dragOverCol === 'IN_PROGRESS' 
-                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                dragOverCol === 'IN_PROGRESS'
+                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
                   : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/20'
               }`}
             >
@@ -1567,8 +1597,8 @@ export default function CareerDetail() {
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                 {columns.IN_PROGRESS.map(task => (
-                  <div 
-                    key={task.id} 
+                  <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task)}
                     className="glass-card bg-white dark:bg-slate-900/60 rounded-xl border border-blue-500/20 dark:border-blue-500/30 p-4 space-y-3 shadow-sm shadow-blue-500/5 cursor-grab active:cursor-grabbing"
@@ -1584,13 +1614,13 @@ export default function CareerDetail() {
                       </div>
                     )}
                     <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-white/5">
-                      <button 
+                      <button
                         onClick={() => moveTask(task, 'TODO')}
                         className="text-[10px] font-bold text-slate-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
                         <ChevronLeft size={10} /> Hủy
                       </button>
-                      <button 
+                      <button
                         onClick={() => moveTask(task, 'DONE')}
                         className="text-[10px] font-black text-emerald-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
@@ -1608,13 +1638,13 @@ export default function CareerDetail() {
             </div>
 
             {/* Column 3: DONE */}
-            <div 
+            <div
               onDragOver={(e) => handleDragOver(e, 'DONE')}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, 'DONE')}
               className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-200 ${
-                dragOverCol === 'DONE' 
-                  ? 'border-emerald-500/50 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]' 
+                dragOverCol === 'DONE'
+                  ? 'border-emerald-500/50 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
                   : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/20'
               }`}
             >
@@ -1627,8 +1657,8 @@ export default function CareerDetail() {
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                 {columns.DONE.map(task => (
-                  <div 
-                    key={task.id} 
+                  <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task)}
                     className="glass-card bg-white dark:bg-slate-900/60 rounded-xl border border-emerald-500/20 dark:border-emerald-500/30 p-4 space-y-3 hover:border-emerald-500/40 transition-all cursor-grab active:cursor-grabbing"
@@ -1903,29 +1933,36 @@ export default function CareerDetail() {
               <p className="text-xs text-slate-500 mt-1">Lộ trình theo từng tuần được xây dựng động để bao quát các kỹ năng còn thiếu của bạn.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="relative border-l-2 border-blue-500/20 ml-4 space-y-8 mt-8 pb-4">
               {weeklyPlan.map((p, i) => (
-                <div key={i} className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-4 hover:border-blue-500/25 transition-all">
-                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
-                    <span className="text-xs font-black text-blue-500 uppercase tracking-widest">{p.weeks}</span>
-                    <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1"><Clock size={10} /> {p.duration}</span>
-                  </div>
+                <div key={i} className="relative pl-8 slide-up" style={{ animationFillMode: 'both', animationDelay: `${i * 100}ms` }}>
+                  {/* Timeline dot */}
+                  <span className="absolute -left-[11px] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 ring-4 ring-white dark:ring-[#0B1120] shadow-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white"></span>
+                  </span>
 
-                  <div className="space-y-1">
-                    <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">{p.title}</h4>
-                    <p className="text-xs text-slate-500">{p.action}</p>
-                  </div>
-
-                  {p.skills.length > 0 && (
-                    <div>
-                      <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Trọng tâm:</span>
-                      <div className="flex flex-wrap gap-1">
-                        {p.skills.map((s, si) => (
-                          <span key={si} className="text-[10px] font-bold px-2 py-1 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">{s}</span>
-                        ))}
-                      </div>
+                  <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-4 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+                      <span className="text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">{p.weeks}</span>
+                      <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md border border-slate-200 dark:border-white/10"><Clock size={10} /> {p.duration}</span>
                     </div>
-                  )}
+
+                    <div className="space-y-1.5">
+                      <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">{p.title}</h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{p.action}</p>
+                    </div>
+
+                    {p.skills.length > 0 && (
+                      <div className="pt-2">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Trọng tâm kỹ năng:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {p.skills.map((s, si) => (
+                            <span key={si} className="text-[10px] font-bold px-2 py-1 rounded-md bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 shadow-sm">{s}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

@@ -2,10 +2,10 @@
   "mssv": "SE182001",
   "name": "Nguyễn Văn A",
   "courseStatus": {
-    "COM108": "PASSED",
+    "COM108": "FAILED",
     "WEB101": "PASSED",
     "WEB1043": "PASSED",
-    "COM2012": "FAILED",
+    "COM2012": "PASSED",
     "PRO1014": "PASSED"
   },
   "skills": {

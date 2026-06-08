@@ -221,7 +221,7 @@ Bạn muốn xem chi tiết lộ trình và Skill Gap của ngành nào? (Ví d�
 }
 
 function buildStudentAnalysisResponse(decisionData) {
-  const { student, riskData, timeline } = decisionData;
+  const { student, riskData, timeline, reasoningReport } = decisionData;
   
   if (!student) {
     return {
@@ -236,13 +236,22 @@ function buildStudentAnalysisResponse(decisionData) {
   const reasonsList = riskData && riskData.reasons ? riskData.reasons : ['Không có rủi ro đáng kể.'];
   const fText = timeline && timeline.forecastText ? timeline.forecastText : 'Chưa có dự báo cụ thể.';
 
+  let reasoningText = '';
+  if (reasoningReport && reasoningReport.reasoning && reasoningReport.reasoning.hasImpact) {
+    const r = reasoningReport.reasoning;
+    reasoningText = `\n\n🧠 **Academic Graph Reasoning (Phân tích Suy luận)**\n` +
+      `- **Mục tiêu nghề nghiệp**: ${r.targetCareer}\n` +
+      `- **Chuỗi ảnh hưởng**:\n  + ${r.reasoningChain.join('\n  + ')}\n` +
+      (r.internshipImpact ? `- **Cảnh báo Thực tập**: ${r.internshipImpact}\n` : '');
+  }
+
   return {
     text: `📊 **Phân tích rủi ro học tập - Sinh viên: ${student.mssv}**
     
 - **Mức độ rủi ro**: ${rLevel}
 - **Môn học nguy hiểm**: ${cFailures.join(', ') || 'Không có'}
 - **Nguyên nhân cốt lõi**:
-${reasonsList.map(r => `  - ${r}`).join('\n')}
+${reasonsList.map(r => `  - ${r}`).join('\n')}${reasoningText}
 
 🔮 **Dự báo Timeline (Academic Timeline)**:
 ${fText}

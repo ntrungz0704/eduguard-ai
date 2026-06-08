@@ -152,7 +152,13 @@ exports.publishData = async (req, res) => {
           where: { id: existingScore.id },
           data: {
             value: row.score,
-            status: status
+            status: status,
+            quiz: row.quiz !== undefined ? parseFloat(row.quiz) : null,
+            asm1: row.asm !== undefined ? parseFloat(row.asm) : null,
+            final: row.final !== undefined ? parseFloat(row.final) : null,
+            lab: row.lab !== undefined ? parseFloat(row.lab) : null,
+            assignment: row.assignment !== undefined ? parseFloat(row.assignment) : null,
+            attendance: row.attendance !== undefined ? parseFloat(row.attendance) : (existingScore.attendance || 100)
           }
         });
       } else {
@@ -161,7 +167,12 @@ exports.publishData = async (req, res) => {
             mssv: row.mssv,
             courseId: row.course,
             value: row.score,
-            attendance: 100, // mock attendance
+            attendance: row.attendance !== undefined ? parseFloat(row.attendance) : 100,
+            quiz: row.quiz !== undefined ? parseFloat(row.quiz) : null,
+            asm1: row.asm !== undefined ? parseFloat(row.asm) : null,
+            final: row.final !== undefined ? parseFloat(row.final) : null,
+            lab: row.lab !== undefined ? parseFloat(row.lab) : null,
+            assignment: row.assignment !== undefined ? parseFloat(row.assignment) : null,
             semester: row.semester,
             status: status
           }

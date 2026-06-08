@@ -11,15 +11,23 @@ exports.verifyRepository = async (githubUrl) => {
     const owner = match[1];
     const repo = match[2].replace('.git', '');
     
-    // Call GitHub API to get languages
-    const languagesRes = await axios.get(`https://api.github.com/repos/${owner}/${repo}/languages`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        // 'Authorization': `token ${process.env.GITHUB_TOKEN}` // Optional: Add if hitting rate limits
-      }
-    });
+    // Config API Headers
+    const headers = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
+    if (process.env.GITHUB_TOKEN) {
+      headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+    }
+
+    // Call GitHub API to get languages and commits in parallel
+    const [languagesRes, commitsRes] = await Promise.all([
+      axios.get(`https://api.github.com/repos/${owner}/${repo}/languages`, { headers }),
+      axios.get(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=100`, { headers }).catch(() => ({ data: [] }))
+    ]);
     
     const languages = Object.keys(languagesRes.data);
+    const commits = commitsRes.data || [];
+    const commitCount = commits.length;
     
     // Calculate points based on languages
     let points = 0;
@@ -42,12 +50,18 @@ exports.verifyRepository = async (githubUrl) => {
     if (languages.length >= 3) {
       points += 5;
     }
-    
+
+    // NEW: Real GitHub Commit Analysis
+    // 1 commit = 1 point, cap at 50
+    const commitPoints = Math.min(commitCount, 50);
+    points += commitPoints;
+
     return {
       success: true,
       data: {
         owner,
         repo,
+        commitCount,
         languages: techDetected,
         pointsAwarded: points,
         verifiedAt: new Date().toISOString()

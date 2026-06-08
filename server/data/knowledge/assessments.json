@@ -1,0 +1,29 @@
+{
+  "COM108": {
+    "quiz": 10,
+    "lab": 20,
+    "assignment": 30,
+    "final": 40
+  },
+  "WEB104": {
+    "quiz": 10,
+    "lab": 20,
+    "assignment": 30,
+    "final": 40
+  },
+  "PRO1014": {
+    "defense_1": 30,
+    "defense_2": 70
+  },
+  "PRO2201": {
+    "defense_1": 20,
+    "defense_2": 30,
+    "final_defense": 50
+  },
+  "default": {
+    "quiz": 10,
+    "lab": 20,
+    "assignment": 30,
+    "final": 40
+  }
+}

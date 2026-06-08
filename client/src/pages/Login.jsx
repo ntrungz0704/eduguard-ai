@@ -81,14 +81,14 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse" style={{animationDelay: '1s'}} />
 
-      <div className="glass-card p-8 rounded-3xl w-full max-w-md relative z-10 border border-slate-200 dark:border-white/10 shadow-2xl">
+      <div className={`glass-card p-8 rounded-3xl w-full max-w-md relative z-10 border border-slate-200 dark:border-white/10 shadow-2xl animate-fade-in ${error ? 'animate-shake' : ''}`}>
 
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-sm dark:shadow-blue-500/30">
+        <div className="text-center mb-8 animate-slide-up">
+          <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gradient-to-br dark:from-blue-500 dark:to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-sm dark:shadow-blue-500/30 animate-float hover:scale-110 transition-transform cursor-pointer">
             <BrainCircuit className="text-slate-900 dark:text-white" size={34} />
           </div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -98,7 +98,7 @@ export default function Login() {
         </div>
 
         {/* Role Tabs */}
-        <div className="grid grid-cols-2 gap-2 p-1.5 bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-white/5 mb-6">
+        <div className="grid grid-cols-2 gap-2 p-1.5 bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-white/5 mb-6 animate-slide-up" style={{animationDelay: '0.1s'}}>
           <button
             type="button"
             onClick={() => { setRole('ADVISOR'); setUsername(''); setPassword(''); setError(''); }}
@@ -125,7 +125,7 @@ export default function Login() {
           </button>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4 animate-slide-up" style={{animationDelay: '0.2s'}}>
           {/* Campus select - only for ADVISOR */}
           {role === 'ADVISOR' && (
             <div>

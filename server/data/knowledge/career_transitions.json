@@ -1,0 +1,16 @@
+{
+  "Frontend_to_Backend": {
+    "from": "Frontend Developer",
+    "to": "Backend Developer",
+    "retained_skills": ["JavaScript", "Git", "REST API concepts", "JSON"],
+    "missing_skills": ["Node.js/Express", "Databases (SQL/NoSQL)", "System Design", "Security (JWT, OAuth)"],
+    "advice": "Bạn đã có tư duy lập trình với JavaScript. Hãy bắt đầu học Node.js để tái sử dụng kiến thức JS cho Backend, sau đó học cơ sở dữ liệu."
+  },
+  "Frontend_to_DevOps": {
+    "from": "Frontend Developer",
+    "to": "DevOps Engineer",
+    "retained_skills": ["Git", "Basic terminal usage", "CI/CD awareness (Vercel/Netlify)"],
+    "missing_skills": ["Linux Admin", "Docker", "Kubernetes", "AWS/Cloud", "Bash Scripting"],
+    "advice": "Việc chuyển từ Frontend sang DevOps là một bước nhảy lớn. Bạn nên bắt đầu bằng việc học Linux và Docker để container hóa các app Frontend hiện tại của mình."
+  }
+}

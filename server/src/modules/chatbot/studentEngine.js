@@ -61,7 +61,7 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
       mssv: 'SE182001', 
       name: 'Nguyễn Văn A',
       scores: [
-        { courseId: 'COM108', value: 8.5, status: 'PASSED', attendance: 100 },
+        { courseId: 'COM108', value: 4.0, status: 'FAILED', attendance: 100 },
         { courseId: 'WEB1013', value: 9.0, status: 'PASSED', attendance: 100 },
         { courseId: 'WEB1043', value: 7.0, status: 'PASSED', attendance: 100 },
         { courseId: 'COM2012', value: 4.0, status: 'FAILED', attendance: 55 },
@@ -186,12 +186,10 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
     case 'STUDENT_CAREER_REASON_INTENT':
     case 'STUDENT_INTERNSHIP_PLAN_INTENT':
     case 'STUDENT_90_DAY_PLAN_INTENT': {
-      // Use entityExtractor for robust career goal detection across all 18 paths
       const extractedGoal = entities && entities.careerGoal;
-      let careerGoal = extractedGoal || (session && session.lastCareerGoal) || 'Backend Developer';
+      let careerGoal = extractedGoal || (session && session.brain && session.brain.careerGoal) || 'Backend Developer';
       
-      // Store for follow-up questions
-      if (session) session.lastCareerGoal = careerGoal;
+      // We no longer manually update session here since orchestrator calls updateBrain()
 
       const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
       const bestCareers = careerEngine.suggestBestCareers(student);
@@ -206,8 +204,7 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
 
     case 'STUDENT_SKILL_GAP_INTENT': {
       const extractedGoal = entities && entities.careerGoal;
-      let careerGoal = extractedGoal || (session && session.lastCareerGoal) || 'Backend Developer';
-      if (session) session.lastCareerGoal = careerGoal;
+      let careerGoal = extractedGoal || (session && session.brain && session.brain.careerGoal) || 'Backend Developer';
       
       const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
       return { type: 'STUDENT_SKILL_GAP', careerGoal, careerAnalysis, student };
@@ -215,8 +212,7 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
 
     case 'STUDENT_PORTFOLIO_INTENT': {
       const extractedGoal = entities && entities.careerGoal;
-      let careerGoal = extractedGoal || (session && session.lastCareerGoal) || 'Backend Developer';
-      if (session) session.lastCareerGoal = careerGoal;
+      let careerGoal = extractedGoal || (session && session.brain && session.brain.careerGoal) || 'Backend Developer';
       
       const careerAnalysis = careerEngine.analyzeCareer(student, careerGoal);
       return { type: 'STUDENT_PORTFOLIO', careerGoal, careerAnalysis, student };

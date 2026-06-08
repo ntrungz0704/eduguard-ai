@@ -1,8 +1,12 @@
 // ============================================================
-// EduGuard AI — Entity Extractor (v2.0 — Production-Grade)
+// EduGuard AI — Entity Extractor (v3.0 — Synonym + Fuzzy)
 // Extracts structured entities from natural language messages
-// with robust MSSV normalization and fuzzy subject matching
+// with robust MSSV normalization, synonym resolution, and
+// Levenshtein fuzzy matching for typo tolerance
 // ============================================================
+
+const { resolveCareer, resolveCourse, _careerLookup, _courseLookup } = require('./synonymEngine');
+const { fuzzyExtractFromMessage, fuzzyResolve } = require('./fuzzyMatcher');
 
 // ────────────────────────────────────────────────────────────
 // SUBJECT ALIAS MAP — Fuzzy matching for course names
@@ -103,23 +107,37 @@ function extractMssv(message) {
 
 /**
  * Extract a Course/Subject ID from a message.
- * Supports both direct course codes (COM108) and fuzzy aliases (lập trình php → PHP1)
+ * Pipeline: Direct regex → Synonym Engine → Legacy aliases → Fuzzy match
  * @param {string} message
  * @returns {string|null}
  */
 function extractCourseId(message) {
   if (!message) return null;
 
-  // Direct course code match: 2-4 uppercase letters + 3 digits
+  // Step 1: Direct course code match: 2-4 uppercase letters + 3 digits
   const msgUpper = message.toUpperCase();
   const directMatch = msgUpper.match(/\b[A-Z]{2,4}\d{3}\b/);
   if (directMatch) return directMatch[0];
 
-  // Fuzzy alias matching
+  // Step 2: Synonym Engine lookup
+  const synonymResult = resolveCourse(message);
+  if (synonymResult) return synonymResult;
+
+  // Step 3: Legacy alias matching (backward compat)
   const msgLower = message.toLowerCase().trim();
   for (const [alias, courseId] of Object.entries(SUBJECT_ALIASES)) {
     if (msgLower.includes(alias)) {
       return courseId;
+    }
+  }
+
+  // Step 4: Fuzzy match (typo tolerance)
+  const words = msgLower.split(/\s+/);
+  for (const word of words) {
+    if (word.length < 3) continue;
+    const fuzzyResult = fuzzyResolve(word, _courseLookup, 2);
+    if (fuzzyResult && fuzzyResult.distance <= 2) {
+      return fuzzyResult.canonical;
     }
   }
 
@@ -154,20 +172,34 @@ const CAREER_KEYWORDS = [
 
 /**
  * Extract Career Goal from a message.
- * Supports all 18 career paths in career-roadmaps.json.
+ * Pipeline: Legacy keywords → Synonym Engine → Fuzzy match (Levenshtein)
+ * Supports all 18 career paths + typo tolerance.
  * @param {string} message
  * @returns {string|null}
  */
 function extractCareerGoal(message) {
   if (!message) return null;
   const msgLower = message.toLowerCase().trim();
-  
+
+  // Step 1: Legacy keyword matching (fastest, most specific patterns first)
   for (const entry of CAREER_KEYWORDS) {
     if (entry.keys.some(k => msgLower.includes(k))) {
       return entry.career;
     }
   }
-  
+
+  // Step 2: Synonym Engine lookup (O(1) hash-based)
+  const synonymResult = resolveCareer(msgLower);
+  if (synonymResult) return synonymResult;
+
+  // Step 3: Fuzzy match (Levenshtein distance ≤ 2) for typo tolerance
+  // e.g. "fronent" → "frontend" → "Frontend Developer"
+  const fuzzyResult = fuzzyExtractFromMessage(msgLower, _careerLookup, 2);
+  if (fuzzyResult) {
+    console.log(`[ENTITY_FUZZY] Typo corrected: "${msgLower}" → "${fuzzyResult.matchedAlias}" (distance: ${fuzzyResult.distance}) → ${fuzzyResult.canonical}`);
+    return fuzzyResult.canonical;
+  }
+
   return null;
 }
 

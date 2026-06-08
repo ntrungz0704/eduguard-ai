@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../store';
 import { Users, BookOpen, AlertTriangle, Database, TrendingUp, ShieldAlert, CheckCircle2, MessageSquare, Activity, Target, Send, X, BarChart2, PieChart as PieIcon, Layers } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend, AreaChart, Area, CartesianGrid } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend, AreaChart, Area, CartesianGrid, LabelList } from 'recharts';
 import { api, requestWithRestartRetry } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
 import RiskDistribution from '../components/charts/RiskDistribution';
@@ -36,7 +36,7 @@ export default function Dashboard() {
         console.error(e);
       }
     };
-    
+
     const fetchRoadmapProgress = async () => {
       try {
         const res = await requestWithRestartRetry(() => api.get('/advisor/class-roadmap-progress'));
@@ -47,7 +47,7 @@ export default function Dashboard() {
         console.error("Lỗi tải tiến độ lộ trình:", e);
       }
     };
-    
+
     fetchRedAlerts();
     fetchRoadmapProgress();
   }, []);
@@ -56,7 +56,7 @@ export default function Dashboard() {
     e.stopPropagation();
     try {
       await api.post(`/students/${mssv}/flag`, { courseId, action: 'Cảnh báo từ Dashboard', status: 'ACTIVE' });
-      setRedAlerts(prev => prev.map(a => 
+      setRedAlerts(prev => prev.map(a =>
         (a.mssv === mssv && a.targetCourse === courseId) ? { ...a, intervened: true } : a
       ));
       setKpi(prev => ({ ...prev, totalInterventions: prev.totalInterventions + 1 }));
@@ -88,7 +88,7 @@ export default function Dashboard() {
       dynamicRoadmap += `1. Tăng cường chú ý: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.\n`;
       dynamicRoadmap += `2. Tránh sao nhãng: Lập kế hoạch phân bổ thời gian tập trung ôn luyện môn ${alert.targetCourse} đều đặn mỗi ngày.\n`;
     }
-    
+
     if (alert.priorityLevel === 'CRITICAL') {
       dynamicRoadmap += `3. Khẩn cấp: Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn.`;
     } else if (alert.priorityLevel === 'HIGH') {
@@ -128,7 +128,7 @@ export default function Dashboard() {
       alert('Tất cả sinh viên trong danh sách đều đã được can thiệp!');
       return;
     }
-    
+
     if (!window.confirm(`Bạn có chắc chắn muốn gửi lộ trình tự động cho ${unintervened.length} sinh viên chưa được can thiệp?`)) return;
 
     setSendingBulk(true);
@@ -150,7 +150,7 @@ export default function Dashboard() {
           dynamicRoadmap += `1. Tăng cường chú ý: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.\n`;
           dynamicRoadmap += `2. Tránh sao nhãng: Lập kế hoạch phân bổ thời gian tập trung ôn luyện môn ${alert.targetCourse} đều đặn mỗi ngày.\n`;
         }
-        
+
         if (alert.priorityLevel === 'CRITICAL') {
           dynamicRoadmap += `3. Khẩn cấp: Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn.`;
         } else if (alert.priorityLevel === 'HIGH') {
@@ -166,18 +166,18 @@ export default function Dashboard() {
           receiverId: alert.mssv,
           content: msg
         });
-        
+
         await api.post(`/students/${alert.mssv}/flag`, { courseId: alert.targetCourse, action: 'Cảnh báo hàng loạt từ Dashboard', status: 'ACTIVE' });
         successCount++;
       }
-      
-      setRedAlerts(prev => prev.map(a => 
-        unintervened.find(u => u.mssv === a.mssv && u.targetCourse === a.targetCourse) 
-          ? { ...a, intervened: true } 
+
+      setRedAlerts(prev => prev.map(a =>
+        unintervened.find(u => u.mssv === a.mssv && u.targetCourse === a.targetCourse)
+          ? { ...a, intervened: true }
           : a
       ));
       setKpi(prev => ({ ...prev, totalInterventions: prev.totalInterventions + successCount }));
-      
+
       alert(`Đã gửi lộ trình và đánh dấu can thiệp cho ${successCount} sinh viên thành công!`);
     } catch (e) {
       alert('Lỗi khi gửi hàng loạt: ' + e.message);
@@ -220,7 +220,7 @@ export default function Dashboard() {
     .slice(0, 10);
 
   const currentRisk = redAlerts ? redAlerts.length : 0;
-  const safePercentage = trainingData.totalStudents > 0 
+  const safePercentage = trainingData.totalStudents > 0
     ? Number((((trainingData.totalStudents - currentRisk) / trainingData.totalStudents) * 100).toFixed(1))
     : 0;
 
@@ -235,7 +235,7 @@ export default function Dashboard() {
         <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto mb-8">
           Hệ thống hiện tại chưa có thông tin điểm số để phân tích. Vui lòng chuyển đến trang <b className="text-slate-900 dark:text-white">Dữ liệu & Phân tích</b> để import bảng điểm (Excel/CSV) và bắt đầu.
         </p>
-        <button 
+        <button
           onClick={() => navigate('/predict')}
           className="bg-indigo-600 hover:bg-indigo-500 text-slate-900 dark:text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-sm dark:shadow-indigo-500/20 transition-all flex items-center gap-2"
         >
@@ -255,7 +255,7 @@ export default function Dashboard() {
             Nền tảng <b>EduGuard AI</b> giám sát tiến độ học tập thời gian thực, phát hiện sớm nguy cơ trượt học phần.
           </p>
         </div>
-        
+
         {/* 3 Clear Insights KPI Widget */}
         <div className="relative z-10 flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
           <div className="bg-rose-50 dark:bg-rose-500/5 border border-rose-200 dark:border-rose-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-rose-100 dark:hover:bg-rose-500/10 transition-colors flex-shrink-0">
@@ -267,7 +267,7 @@ export default function Dashboard() {
               <h4 className="text-xl font-bold text-rose-600 dark:text-rose-400">{currentRisk} <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
           </div>
-          
+
           <div className="bg-amber-50 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-amber-100 dark:hover:bg-amber-500/10 transition-colors flex-shrink-0">
             <div className="p-3 bg-amber-100 dark:bg-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400">
               <Users size={20} />
@@ -320,7 +320,7 @@ export default function Dashboard() {
           <ShieldAlert size={24} className="text-rose-600 dark:text-rose-500" />
           <h3 className="text-xl font-bold text-slate-800 dark:text-white">Cảnh Báo Đỏ - Cần Can Thiệp Khẩn Cấp</h3>
           <span className="bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-xs px-3 py-1 rounded-full font-bold">Top rủi ro cao</span>
-          <button 
+          <button
             onClick={handleSendBulkRoadmap}
             disabled={sendingBulk || !redAlerts || redAlerts.length === 0}
             className="ml-auto bg-white dark:bg-gradient-to-r dark:from-indigo-600 dark:to-purple-600 hover:dark:from-indigo-500 hover:dark:to-purple-500 text-slate-900 dark:text-white px-4 py-2 rounded-xl transition-all shadow-sm border border-slate-200 dark:border-none dark:shadow-indigo-500/20 flex items-center gap-2 text-sm font-bold disabled:opacity-50"
@@ -391,14 +391,14 @@ export default function Dashboard() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-80 group-hover:opacity-100 transition-opacity">
-                        <button 
+                        <button
                           onClick={(e) => handleOpenRoadmap(alert, e)}
                           className="bg-indigo-50 dark:bg-indigo-600 hover:bg-indigo-100 dark:hover:bg-indigo-500 text-indigo-600 dark:text-white p-2 rounded-xl transition-colors shadow-sm dark:shadow-indigo-500/20 tooltip-trigger flex items-center gap-1 text-xs font-bold border border-indigo-200 dark:border-none"
                           title="Gửi Lộ trình qua Hộp thư"
                         >
                           <Send size={14} /> Gửi Lộ trình
                         </button>
-                        <button 
+                        <button
                           onClick={(e) => handleChat(alert, e)}
                           className="bg-blue-50 dark:bg-blue-600 hover:bg-blue-100 dark:hover:bg-blue-500 text-blue-600 dark:text-white p-2 rounded-xl transition-colors shadow-sm dark:shadow-blue-500/20 tooltip-trigger border border-blue-200 dark:border-none"
                           title={(() => {
@@ -413,12 +413,12 @@ export default function Dashboard() {
                         >
                           <MessageSquare size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={(e) => handleIntervene(alert.mssv, alert.targetCourse, e)}
                           disabled={alert.intervened}
                           className={`p-2 rounded-xl transition-colors flex items-center gap-1 ${
-                            alert.intervened 
-                              ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 cursor-not-allowed border border-emerald-200 dark:border-emerald-500/20' 
+                            alert.intervened
+                              ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 cursor-not-allowed border border-emerald-200 dark:border-emerald-500/20'
                               : 'bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/20 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5 shadow-sm'
                           }`}
                           title={alert.intervened ? 'Đã can thiệp' : 'Đánh dấu can thiệp'}
@@ -436,7 +436,7 @@ export default function Dashboard() {
         </div>
         {redAlerts && redAlerts.length > 5 && (
           <div className="p-4 border-t border-slate-200 dark:border-white/5 text-center">
-            <button 
+            <button
               onClick={() => setShowAllAlerts(!showAllAlerts)}
               className="text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
             >
@@ -475,20 +475,51 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 40 }}>
                 <Legend verticalAlign="top" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', color: '#94a3b8' }}/>
-                <XAxis 
-                  dataKey="subject" 
-                  tick={{fill: '#94a3b8', fontSize: 10}} 
-                  angle={-40} 
-                  textAnchor="end" 
-                  height={85} 
-                  stroke="#94a3b8"
+                <XAxis
+                  dataKey="subject"
+                  tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 500}}
+                  angle={-40}
+                  textAnchor="end"
+                  height={85}
+                  stroke="#e2e8f0"
+                  axisLine={{ stroke: '#e2e8f0', strokeWidth: 1 }}
+                  tickLine={{ stroke: '#e2e8f0' }}
+                  className="dark:stroke-slate-700"
                   tickFormatter={(val) => val.length > 15 ? val.substring(0, 15) + '...' : val}
                 />
-                <YAxis tick={{fill: '#94a3b8', fontSize: 11}} stroke="#94a3b8" />
-                <Tooltip 
-                  cursor={{fill: 'rgba(255,255,255,0.05)'}} 
-                  contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
-                  itemStyle={{color: '#fff'}}
+                <YAxis
+                  tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 500}}
+                  stroke="#e2e8f0"
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.2)" />
+                <Tooltip
+                  cursor={{fill: 'rgba(59, 130, 246, 0.05)'}}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const total = payload.find(p => p.dataKey === 'scored')?.value || 0;
+                      const atRisk = payload.find(p => p.dataKey === 'atRisk')?.value || 0;
+                      const rate = total > 0 ? ((atRisk / total) * 100).toFixed(1) : 0;
+                      return (
+                        <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-white/10 p-4 rounded-2xl shadow-xl">
+                          <p className="font-bold text-slate-800 dark:text-white mb-2 pb-2 border-b border-slate-100 dark:border-white/10">{label}</p>
+                          <div className="space-y-1 text-sm">
+                            <p className="text-slate-600 dark:text-slate-400">
+                              Tổng SV: <span className="font-bold text-slate-900 dark:text-white">{total}</span>
+                            </p>
+                            <p className="text-rose-600 dark:text-rose-400">
+                              Nguy cơ rớt: <span className="font-bold">{atRisk}</span>
+                            </p>
+                            <p className="text-amber-600 dark:text-amber-400 text-xs mt-2 font-semibold">
+                              Tỉ lệ rớt: {rate}%
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
                 <Bar dataKey="scored" name="Tổng số SV đã học" fill="#cbd5e1" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="atRisk" name="Số SV Dưới 5 (Rớt)" radius={[4, 4, 0, 0]}>
@@ -559,14 +590,14 @@ export default function Dashboard() {
 
         {/* Row 2: Timeline Escalation */}
         <div className="mb-5">
-          <TimelineEscalation 
+          <TimelineEscalation
             data={[
               { week: 1, warnings: 5, critical: 1 },
               { week: 2, warnings: 8, critical: 3 },
               { week: 3, warnings: 12, critical: 5 },
               { week: 4, warnings: 15, critical: 9 },
               { week: 5, warnings: 22, critical: 14 }
-            ]} 
+            ]}
           />
         </div>
 
@@ -582,7 +613,7 @@ export default function Dashboard() {
             failedSubjects: a.failedCourses?.length || 0
           })) : []}
         />
-        
+
         {/* Row 4: Class Roadmap Progress (Learning Board Analytics) */}
         <div className="mt-8">
           <div className="flex items-center gap-2 mb-5">
@@ -591,7 +622,7 @@ export default function Dashboard() {
             </div>
             <h3 className="text-slate-800 dark:text-slate-200 text-lg font-bold m-0">Career Roadmap Progress (Toàn Lớp)</h3>
           </div>
-          
+
           {!roadmapProgress ? (
              <div className="p-8 text-center text-slate-600 dark:text-slate-400 glass-card rounded-3xl border border-slate-200 dark:border-white/5">Đang tải dữ liệu tiến độ lộ trình...</div>
           ) : (
@@ -614,7 +645,7 @@ export default function Dashboard() {
                   <span className="font-bold text-slate-800 dark:text-white">{roadmapProgress.totalActiveStudents} SV</span>
                 </div>
               </div>
-              
+
               <div className="lg:col-span-2 glass-card rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden flex flex-col">
                 <div className="p-5 border-b border-slate-200 dark:border-white/5">
                   <h4 className="font-bold text-slate-800 dark:text-white">Bảng Xếp Hạng Kỹ Năng Thực Tế (Portfolio Points)</h4>
@@ -683,7 +714,7 @@ export default function Dashboard() {
       {showRoadmapModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
-            <button 
+            <button
               onClick={() => setShowRoadmapModal(false)}
               className="absolute top-4 right-4 text-slate-600 dark:text-slate-400 hover:text-white transition-colors"
             >
@@ -695,21 +726,21 @@ export default function Dashboard() {
             <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
               Tin nhắn này sẽ được gửi trực tiếp đến hộp thư của sinh viên <b>{selectedAlert?.name} ({selectedAlert?.mssv})</b>.
             </p>
-            
+
             <textarea
               value={roadmapMsg}
               onChange={(e) => setRoadmapMsg(e.target.value)}
               className="w-full h-48 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-4 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50 mb-4 custom-scrollbar"
             />
-            
+
             <div className="flex justify-end gap-3">
-              <button 
+              <button
                 onClick={() => setShowRoadmapModal(false)}
                 className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-white/5 transition-colors"
               >
                 Hủy bỏ
               </button>
-              <button 
+              <button
                 onClick={handleSendRoadmap}
                 disabled={sendingMsg}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white rounded-xl text-sm font-bold shadow-lg shadow-sm dark:shadow-blue-500/20 transition-all flex items-center gap-2 disabled:opacity-50"

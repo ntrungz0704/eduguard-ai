@@ -84,7 +84,7 @@ const DEMAND_LABEL = {
 function TopMatchCard({ career, rank, onClick }) {
   const medals = ['🥇', '🥈', '🥉'];
   return (
-    <button onClick={onClick} className="group glass-card rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5 p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-amber-300 dark:hover:border-amber-500/30 relative overflow-hidden w-full cursor-pointer">
+    <button onClick={onClick} className="group glass-card rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5 p-5 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:border-amber-400 dark:hover:border-amber-500/50 relative overflow-hidden w-full cursor-pointer">
       <div className="absolute top-3 right-3 text-2xl">{medals[rank] || '⭐'}</div>
       <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">#{rank + 1} Phù hợp nhất</p>
       <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{career.careerName}</h3>
@@ -104,7 +104,7 @@ function CareerCard({ career, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="group glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-300 dark:hover:border-blue-500/30 relative overflow-hidden w-full cursor-pointer"
+      className="group glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-400 dark:hover:border-blue-500/50 relative overflow-hidden w-full cursor-pointer"
     >
       <div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -270,7 +270,7 @@ export default function CareerUniverse() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm nghề nghiệp, kỹ năng (React, Node.js, Docker, API...)"
-              className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 outline-none focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all"
+              className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 outline-none focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all focus:shadow-[0_0_15px_rgba(59,130,246,0.15)]"
             />
           </div>
         </div>

@@ -5,7 +5,7 @@ import { api, requestWithRestartRetry } from '../lib/api';
 import { 
   UploadCloud, Activity, Zap, CheckCircle, Brain, Target, 
   Info, AlertTriangle, HeartHandshake, XCircle, Save, Database,
-  TrendingUp, HelpCircle
+  TrendingUp, HelpCircle, Loader2
 } from 'lucide-react';
 
 // Core FPT Polytechnic subjects filter for compact matrix layout
@@ -399,7 +399,7 @@ export default function Predict() {
               </div>
             </div>
             <button onClick={handlePredict} disabled={loading} className="w-full bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 hover:dark:from-blue-500 hover:dark:to-indigo-500 text-slate-900 dark:text-white font-bold p-4 rounded-2xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center justify-center gap-2 disabled:opacity-50">
-              {loading ? <span className="animate-pulse">Đang phân tích dữ liệu...</span> : <><Brain size={20} /> Phân tích Rủi ro</>}
+              {loading ? <><Loader2 className="animate-spin text-blue-500 dark:text-white" size={20} /> <span className="animate-pulse">Đang phân tích dữ liệu...</span></> : <><Brain size={20} /> Phân tích Rủi ro</>}
             </button>
           </div>
         </div>
@@ -689,8 +689,33 @@ export default function Predict() {
         </div>
       )}
 
+      {/* Loading Skeleton */}
+      {loading && (
+        <div className="glass-card rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl p-8 animate-pulse">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+            <div>
+              <div className="w-48 h-6 bg-slate-200 dark:bg-slate-800 rounded-lg mb-2"></div>
+              <div className="w-32 h-4 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              <div className="w-full h-20 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+              <div className="w-full h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+            </div>
+            <div className="w-full h-48 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+          </div>
+          <div className="mt-8 flex gap-3">
+            <div className="w-24 h-8 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+            <div className="w-32 h-8 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+            <div className="w-20 h-8 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+          </div>
+        </div>
+      )}
+
       {/* Results Area */}
-      {result && result.validation && (
+      {result && result.validation && !loading && (
         <div ref={resultsRef} className="glass-card rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl">
           
           {/* XAI Architecture Details */}
@@ -872,6 +897,28 @@ export default function Predict() {
                       </div>
                     </div>
                   </div>
+
+                  {singleStudent.componentScores && (
+                    <div className="my-4 pt-4 border-t border-slate-200/50 dark:border-white/5 animate-slide-up" style={{animationDuration: '0.3s'}}>
+                      <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-bold mb-3">Thành phần điểm hiện tại</span>
+                      <div className="grid grid-cols-4 gap-2">
+                        {[
+                          { label: 'Att.', value: singleStudent.componentScores.attendance != null ? (singleStudent.componentScores.attendance <= 1 ? `${Math.round(singleStudent.componentScores.attendance * 100)}%` : `${singleStudent.componentScores.attendance}%`) : '-' },
+                          { label: 'Quiz', value: singleStudent.componentScores.quiz ?? '-' },
+                          { label: 'Lab', value: singleStudent.componentScores.lab ?? '-' },
+                          { label: 'Assig.', value: singleStudent.componentScores.assignment ?? '-' },
+                          { label: 'ASM1', value: singleStudent.componentScores.asm1 ?? '-' },
+                          { label: 'ASM2', value: singleStudent.componentScores.asm2 ?? '-' },
+                          { label: 'Final', value: singleStudent.componentScores.final ?? '-' },
+                        ].map((c, idx) => (
+                          <div key={idx} className="bg-slate-100 dark:bg-black/30 rounded-lg p-2 flex flex-col items-center justify-center border border-slate-200 dark:border-white/5">
+                            <span className="text-[9px] text-slate-500 font-black uppercase tracking-wider mb-1">{c.label}</span>
+                            <span className={`text-xs font-bold ${c.value === '-' ? 'text-slate-400' : 'text-blue-600 dark:text-blue-400'}`}>{c.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="pt-4 border-t border-slate-200 dark:border-white/5 flex items-center justify-between">
                     <span className="text-xs text-slate-600 dark:text-slate-400">Can thiệp sư phạm:</span>

@@ -47,6 +47,11 @@ function normalizeSkill(str) {
   return str.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
+function slugify(str) {
+  if (!str) return '';
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
 exports.analyzeCareer = (student, careerGoal) => {
   const coursesDb = knowledgeCache.get('courses') || [];
   const careerRoadmaps = knowledgeCache.get('careerRoadmaps') || {};

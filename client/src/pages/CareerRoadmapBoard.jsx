@@ -42,25 +42,28 @@ function getDaysOfLearning(task) {
 export default function CareerRoadmapBoard() {
   const navigate = useNavigate();
   const currentUser = useStore(state => state.currentUser);
-  
+
   const [careers, setCareers] = useState([]);
   const [selectedCareerId, setSelectedCareerId] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingAnalysis, setLoadingAnalysis] = useState(false);
-  
+
   // Roadmap Tasks State
   const [tasks, setTasks] = useState([]);
-  
+
   // Evidence Modal State
   const [evidenceModalTask, setEvidenceModalTask] = useState(null);
   const [githubUrl, setGithubUrl] = useState('');
   const [demoUrl, setDemoUrl] = useState('');
   const [screenshotUrl, setScreenshotUrl] = useState('');
-  
+
+  // Backend Metrics
+  const [backendMetrics, setBackendMetrics] = useState(null);
+
   // Drag and drop state
   const [dragOverCol, setDragOverCol] = useState(null);
-  
+
   const studentId = currentUser?.id || 'SE182001';
   const mode = currentUser?.role === 'STUDENT' ? 'STUDENT' : 'GUEST';
 
@@ -96,7 +99,7 @@ export default function CareerRoadmapBoard() {
   // 2. Fetch analysis when career changes
   useEffect(() => {
     if (!selectedCareerId) return;
-    
+
     const fetchAnalysis = async () => {
       setLoadingAnalysis(true);
       try {
@@ -108,13 +111,18 @@ export default function CareerRoadmapBoard() {
         }
         const data = res.data.data || null;
         setAnalysis(data);
-        
+
         // 3. Initialize or load tasks from Backend API
         const loadTasks = async () => {
           let loadedTasks = null;
           try {
             const res = await api.get(`/v1/learning/board/${studentId}/${selectedCareerId}`);
-            if (res.data && res.data.length > 0) {
+            if (res.data && res.data.tasks) {
+              loadedTasks = res.data.tasks;
+              if (res.data.metrics) {
+                setBackendMetrics(res.data.metrics);
+              }
+            } else if (res.data && res.data.length > 0) {
               loadedTasks = res.data;
             }
           } catch (e) {
@@ -171,22 +179,22 @@ export default function CareerRoadmapBoard() {
             const allCore = data.industryRequirements?.core || [];
             const allAdv = data.industryRequirements?.advanced || [];
             const allSkills = [
-              ...allCore.map(s => ({ name: s, type: 'core' })), 
+              ...allCore.map(s => ({ name: s, type: 'core' })),
               ...allAdv.map(s => ({ name: s, type: 'advanced' })),
               { name: 'Portfolio Project', type: 'advanced' },
               { name: 'Internship Ready', type: 'advanced' }
             ];
-            
+
             const initialTasks = allSkills.map((s, idx) => {
               const clean = s.name.toLowerCase();
               const haveCore = (data.skillGap?.core?.have || []).map(x => x.toLowerCase());
               const haveAdv = (data.skillGap?.advanced?.have || []).map(x => x.toLowerCase());
-              
+
               let status = 'TODO';
               if (haveCore.includes(clean) || haveAdv.includes(clean)) {
                 status = 'DONE';
               }
-              
+
               // Check if course teaches it and is currently IN_PROGRESS
               const isStudying = (data.academicProgress || []).some(
                 c => c.status === 'IN_PROGRESS' && c.skills.some(x => x.toLowerCase() === clean)
@@ -194,7 +202,7 @@ export default function CareerRoadmapBoard() {
               if (isStudying && status !== 'DONE') {
                 status = 'IN_PROGRESS';
               }
-              
+
               return {
                 id: `${selectedCareerId}_task_${idx}`,
                 title: s.name,
@@ -212,7 +220,7 @@ export default function CareerRoadmapBoard() {
                 verified: status === 'DONE'
               };
             });
-            
+
             setTasks(initialTasks);
             try {
               await api.put(`/v1/learning/board/${studentId}/${selectedCareerId}`, { tasks: initialTasks });
@@ -277,11 +285,11 @@ export default function CareerRoadmapBoard() {
   const handleSubmitEvidence = async (e) => {
     e.preventDefault();
     if (!evidenceModalTask) return;
-    
+
     let isVerified = false;
     let evidenceStatus = githubUrl ? 'PENDING' : 'NONE';
     let extraPoints = 0;
-    
+
     // Auto Verify via GitHub API if a github link is provided
     if (githubUrl) {
       try {
@@ -297,7 +305,7 @@ export default function CareerRoadmapBoard() {
         alert('Không thể xác thực tự động. Link GitHub của bạn sẽ được giảng viên duyệt tay.');
       }
     }
-    
+
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
         recordLearningEvent(t.title, t.status, 'DONE');
@@ -317,7 +325,7 @@ export default function CareerRoadmapBoard() {
       }
       return t;
     });
-    
+
     await saveTasks(updated);
     setEvidenceModalTask(null);
   };
@@ -325,7 +333,7 @@ export default function CareerRoadmapBoard() {
   // Complete Without Evidence
   const handleCompleteWithoutEvidence = () => {
     if (!evidenceModalTask) return;
-    
+
     const updated = tasks.map(t => {
       if (t.id === evidenceModalTask.id) {
         recordLearningEvent(t.title, t.status, 'DONE');
@@ -344,7 +352,7 @@ export default function CareerRoadmapBoard() {
       }
       return t;
     });
-    
+
     saveTasks(updated);
     setEvidenceModalTask(null);
   };
@@ -425,33 +433,33 @@ export default function CareerRoadmapBoard() {
   // 4. Calculate Dynamic UI Values (Overlaying local Kanban tasks state on top of backend Analysis)
   const computedMetrics = useMemo(() => {
     if (!analysis || tasks.length === 0) return { progressPercent: 0, readinessScore: 0, forecasts: [] };
-    
+
     const total = tasks.length;
     const doneTasks = tasks.filter(t => t.status === 'DONE');
     const progressPercent = Math.round((doneTasks.length / total) * 100);
-    
+
     // Calculate new readiness score
-    const academicScore = analysis.scores?.academic || 0;
-    
+    const academicScore = backendMetrics?.academicScore ?? (analysis.scores?.academic || 0);
+
     // Industry Score: based on local done tasks
     const totalWeight = tasks.reduce((sum, t) => sum + t.impact, 0);
     const acquiredWeight = doneTasks.reduce((sum, t) => sum + t.impact, 0);
-    const industryScore = totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0;
-    
+    const industryScore = backendMetrics?.industryScore ?? (totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0);
+
     // Portfolio: based on tasks with Github evidence
     const verifiedTasksCount = doneTasks.filter(t => t.evidenceStatus === 'VERIFIED').length;
-    const portfolioScore = Math.min(100, verifiedTasksCount * 33);
-    
+    const portfolioScore = backendMetrics?.portfolioScore ?? Math.min(100, verifiedTasksCount * 33);
+
     // Behavior: remains unchanged from backend
     const behaviorScore = analysis.scores?.behavior || 0;
-    
-    const readinessScore = Math.round(
-      (academicScore * 0.3) + 
-      (industryScore * 0.4) + 
-      (portfolioScore * 0.2) + 
+
+    const readinessScore = backendMetrics?.readinessScore ?? Math.round(
+      (academicScore * 0.3) +
+      (industryScore * 0.4) +
+      (portfolioScore * 0.2) +
       (behaviorScore * 0.1)
     );
-    
+
     // Determine target forecasts (skills in IN_PROGRESS or top TODO)
     const activeMissing = tasks.filter(t => t.status !== 'DONE')
                                .sort((a,b) => b.impact - a.impact);
@@ -459,7 +467,7 @@ export default function CareerRoadmapBoard() {
       action: `Hoàn thành học ${t.title}`,
       points: Math.round((t.impact / (totalWeight || 1)) * 100 * 0.4)
     }));
-    
+
     // Add portfolio gain forecast if portfolio is not full
     if (portfolioScore < 100) {
       forecasts.push({
@@ -494,7 +502,7 @@ export default function CareerRoadmapBoard() {
   const aiCoachAlerts = useMemo(() => {
     const alerts = [];
     if (!analysis) return [];
-    
+
     const inProgress = columns.IN_PROGRESS;
     if (inProgress.length > 0) {
       alerts.push({
@@ -502,7 +510,7 @@ export default function CareerRoadmapBoard() {
         message: `Bạn đã học ${inProgress[0].title} được 8 ngày. Thời gian hoàn thành trung bình là 4-6 ngày. Bạn có gặp khó khăn với bài thực hành nào không? Hãy hỏi Chatbot hoặc nhắn tin cho giảng viên hướng dẫn!`
       });
     }
-    
+
     const todoList = columns.TODO.sort((a,b) => b.impact - a.impact);
     if (todoList.length > 0) {
       const top = todoList[0];
@@ -510,7 +518,7 @@ export default function CareerRoadmapBoard() {
         type: 'priority',
         message: `HỌC NGAY: Hãy bắt đầu học ${top.title} (+${top.impact} điểm). Đây là kỹ năng cốt lõi quan trọng giúp tăng nhanh Điểm Phù hợp của bạn.`
       });
-      
+
       if (todoList.length > 1) {
         const secondary = todoList[1];
         alerts.push({
@@ -519,7 +527,7 @@ export default function CareerRoadmapBoard() {
         });
       }
     }
-    
+
     return alerts;
   }, [columns, analysis]);
 
@@ -571,7 +579,7 @@ export default function CareerRoadmapBoard() {
         <>
           {/* Dashboard Summary Panel */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-            
+
             {/* Target Career & Progress */}
             <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-3 flex flex-col justify-between">
               <div>
@@ -661,15 +669,15 @@ export default function CareerRoadmapBoard() {
 
           {/* Kanban Board Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             {/* Column 1: TODO */}
-            <div 
+            <div
               onDragOver={(e) => handleDragOver(e, 'TODO')}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, 'TODO')}
               className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-200 ${
-                dragOverCol === 'TODO' 
-                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                dragOverCol === 'TODO'
+                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
                   : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/20'
               }`}
             >
@@ -682,8 +690,8 @@ export default function CareerRoadmapBoard() {
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                 {columns.TODO.map(task => (
-                  <div 
-                    key={task.id} 
+                  <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task)}
                     className="glass-card bg-white dark:bg-slate-900/60 rounded-xl border border-slate-200 dark:border-white/5 p-4 space-y-3 hover:border-blue-500/30 transition-all group cursor-grab active:cursor-grabbing"
@@ -694,7 +702,7 @@ export default function CareerRoadmapBoard() {
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-slate-400">
                       <span>Dự kiến: {task.duration}</span>
-                      <button 
+                      <button
                         onClick={() => moveTask(task, 'IN_PROGRESS')}
                         className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                       >
@@ -710,13 +718,13 @@ export default function CareerRoadmapBoard() {
             </div>
 
             {/* Column 2: IN PROGRESS */}
-            <div 
+            <div
               onDragOver={(e) => handleDragOver(e, 'IN_PROGRESS')}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, 'IN_PROGRESS')}
               className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-200 ${
-                dragOverCol === 'IN_PROGRESS' 
-                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                dragOverCol === 'IN_PROGRESS'
+                  ? 'border-blue-500/50 bg-blue-500/5 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
                   : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/20'
               }`}
             >
@@ -729,8 +737,8 @@ export default function CareerRoadmapBoard() {
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                 {columns.IN_PROGRESS.map(task => (
-                  <div 
-                    key={task.id} 
+                  <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task)}
                     className="glass-card bg-white dark:bg-slate-900/60 rounded-xl border border-blue-500/20 dark:border-blue-500/30 p-4 space-y-3 shadow-sm shadow-blue-500/5 cursor-grab active:cursor-grabbing"
@@ -746,13 +754,13 @@ export default function CareerRoadmapBoard() {
                       </div>
                     )}
                     <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-white/5">
-                      <button 
+                      <button
                         onClick={() => moveTask(task, 'TODO')}
                         className="text-[10px] font-bold text-slate-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
                         <ChevronLeft size={10} /> Hủy
                       </button>
-                      <button 
+                      <button
                         onClick={() => moveTask(task, 'DONE')}
                         className="text-[10px] font-black text-emerald-500 hover:underline cursor-pointer flex items-center gap-0.5"
                       >
@@ -770,13 +778,13 @@ export default function CareerRoadmapBoard() {
             </div>
 
             {/* Column 3: DONE */}
-            <div 
+            <div
               onDragOver={(e) => handleDragOver(e, 'DONE')}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, 'DONE')}
               className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-200 ${
-                dragOverCol === 'DONE' 
-                  ? 'border-emerald-500/50 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]' 
+                dragOverCol === 'DONE'
+                  ? 'border-emerald-500/50 bg-emerald-500/5 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
                   : 'border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/20'
               }`}
             >
@@ -789,8 +797,8 @@ export default function CareerRoadmapBoard() {
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                 {columns.DONE.map(task => (
-                  <div 
-                    key={task.id} 
+                  <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task)}
                     className="glass-card bg-white dark:bg-slate-900/60 rounded-xl border border-emerald-500/20 dark:border-emerald-500/30 p-4 space-y-3 hover:border-emerald-500/40 transition-all cursor-grab active:cursor-grabbing"

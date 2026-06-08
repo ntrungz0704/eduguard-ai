@@ -96,12 +96,12 @@ const RiskNode = ({ data }) => {
 
   return (
     <div
-      className={`w-64 rounded-2xl border p-4 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-xl ${tone.shell} ${
-        isSelected ? 'ring-2 ring-blue-500 dark:ring-cyan-300/70 scale-[1.02]' : ''
+      className={`w-64 rounded-2xl border p-4 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:z-50 ${tone.shell} ${
+        isSelected ? 'ring-2 ring-blue-500 dark:ring-cyan-300/70 scale-[1.02] animate-pulse' : ''
       }`}
       onClick={() => data.onSelect(node.id)}
     >
-      <Handle type="target" position={Position.Left} className="!h-2 !w-2 !bg-slate-300" />
+      <Handle type="target" position={Position.Left} className="!h-3 !w-3 !bg-slate-300 border-2 border-white dark:border-slate-800" />
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
@@ -124,7 +124,7 @@ const RiskNode = ({ data }) => {
           Điểm: <span className="font-bold text-slate-900 dark:text-white">{node.score ?? 'N/A'}</span>
         </span>
       </div>
-      <Handle type="source" position={Position.Right} className="!h-2 !w-2 !bg-slate-300" />
+      <Handle type="source" position={Position.Right} className="!h-3 !w-3 !bg-slate-300 border-2 border-white dark:border-slate-800" />
     </div>
   );
 };
@@ -366,7 +366,7 @@ const AcademicRiskMap = () => {
   );
 
   return (
-    <div className="flex h-full flex-col gap-5">
+    <div className="flex h-full flex-col gap-5 animate-fade-in">
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="flex items-center gap-3 text-3xl font-semibold text-slate-900 dark:text-white">
@@ -379,7 +379,7 @@ const AcademicRiskMap = () => {
       </div>
 
       {/* TOP ROW: Search & Overview */}
-      <section className="bg-[#F8FAFC] dark:bg-slate-950/70 flex flex-col lg:flex-row gap-6 rounded-[28px] border border-slate-200 dark:border-white/6 p-5 shadow-sm">
+      <section className="bg-[#F8FAFC] dark:bg-slate-950/70 flex flex-col lg:flex-row gap-6 rounded-[28px] border border-slate-200 dark:border-white/6 p-5 shadow-sm animate-slide-up" style={{animationDelay: '0.1s'}}>
         {/* Search */}
         <div className="w-full lg:w-80 shrink-0 relative">
           <div className="mb-3 flex items-center gap-3">
@@ -473,7 +473,7 @@ const AcademicRiskMap = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         
         {/* LEFT COLUMN: Risk Chain Selector */}
-        <section className="bg-white dark:bg-[#1F2937] flex flex-col gap-6 rounded-[28px] border border-slate-200 dark:border-slate-700 p-5 overflow-y-auto max-h-[400px] shadow-sm dark:shadow-lg">
+        <section className="bg-white dark:bg-[#1F2937] flex flex-col gap-6 rounded-[28px] border border-slate-200 dark:border-slate-700 p-5 overflow-y-auto max-h-[400px] shadow-sm dark:shadow-lg animate-slide-up" style={{animationDelay: '0.2s'}}>
           
           {/* Risk Chain Selector */}
           <div>
@@ -523,7 +523,7 @@ const AcademicRiskMap = () => {
         </section>
 
         {/* RIGHT COLUMN: AI Narrative */}
-        <section className="glass-panel flex flex-col gap-6 rounded-[28px] border border-slate-200 dark:border-white/6 bg-white dark:bg-slate-950/70 p-5 overflow-y-auto max-h-[400px] shadow-sm dark:shadow-lg">
+        <section className="glass-panel flex flex-col gap-6 rounded-[28px] border border-slate-200 dark:border-white/6 bg-white dark:bg-slate-950/70 p-5 overflow-y-auto max-h-[400px] shadow-sm dark:shadow-lg animate-slide-up" style={{animationDelay: '0.3s'}}>
           {/* AI Narrative */}
           <div>
             <div className="mb-3 flex items-center gap-2">
@@ -576,7 +576,7 @@ const AcademicRiskMap = () => {
       </div>
 
       {/* BOTTOM ROW: Graph (Full Width) */}
-      <section className="relative min-h-[600px] w-full overflow-hidden rounded-[32px] border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#111827] shadow-lg">
+      <section className="relative min-h-[600px] w-full overflow-hidden rounded-[32px] border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#111827] shadow-lg animate-slide-up" style={{animationDelay: '0.4s'}}>
           <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#1F2937]/90 px-6 py-4 backdrop-blur-md">
             <div>
               <div className="text-[11px] uppercase tracking-[0.24em] text-slate-600 dark:text-slate-300 font-extrabold">Sơ đồ tập trung</div>
