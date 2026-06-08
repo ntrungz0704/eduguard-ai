@@ -3,6 +3,7 @@ services:
     runtime: docker
     name: eduguard-ai
     branch: main
+    plan: free
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -12,12 +13,8 @@ services:
       - key: FRONTEND_URL
         value: https://eduguard-ai.onrender.com
       - key: DATABASE_URL
-        value: file:/app/storage/dev.db
+        value: file:./prisma/dev.db
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRES_IN
         value: 7d
-    disk:
-      name: eduguard-data
-      mountPath: /app/storage
-      sizeGB: 1
