@@ -32,6 +32,21 @@ function normalizeLegacyStudent(found) {
   };
 }
 
+function normalizeCourseKey(value) {
+  return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function findCourseInfo(coursesDb, courseId) {
+  const normalizedId = normalizeCourseKey(courseId);
+  if (!normalizedId) return null;
+
+  return coursesDb.find(c => {
+    const code = normalizeCourseKey(c.courseCode);
+    const name = normalizeCourseKey(c.courseName);
+    return code === normalizedId || name === normalizedId;
+  }) || null;
+}
+
 function enrichStudentData(student) {
   if (!student) return null;
   
@@ -39,10 +54,23 @@ function enrichStudentData(student) {
   const courseStatus = {};
   let totalAttendance = 0;
   let attendanceCount = 0;
+  let coursesDb = [];
+
+  try {
+    const knowledgeCache = require('../modules/knowledge/cache');
+    coursesDb = knowledgeCache.get('courses') || [];
+  } catch (e) {
+    coursesDb = [];
+  }
   
   if (Array.isArray(student.scores)) {
     student.scores.forEach(s => {
       courseStatus[s.courseId] = s.status;
+      const courseInfo = findCourseInfo(coursesDb, s.courseId);
+      if (courseInfo) {
+        courseStatus[courseInfo.courseCode] = s.status;
+        courseStatus[courseInfo.courseName] = s.status;
+      }
       if (s.attendance !== null && s.attendance !== undefined) {
         let att = parseFloat(s.attendance);
         if (att <= 1.0) att = att * 100;
@@ -70,18 +98,10 @@ function enrichStudentData(student) {
   if (Object.keys(skills).length === 0) {
     // Generate skills from passed courses using the knowledge cache
     try {
-      const knowledgeCache = require('../modules/knowledge/cache');
-      const coursesDb = knowledgeCache.get('courses') || [];
-      
       if (Array.isArray(student.scores)) {
         student.scores.forEach(s => {
           if (s.status === 'PASSED') {
-            const courseInfo = coursesDb.find(c => {
-              const cleanCode = c.courseCode.toLowerCase().replace(/[^a-z0-9]/g, '');
-              const cleanName = c.courseName.toLowerCase().replace(/[^a-z0-9]/g, '');
-              const cleanScoreId = s.courseId.toLowerCase().replace(/[^a-z0-9]/g, '');
-              return cleanCode === cleanScoreId || cleanName === cleanScoreId;
-            });
+            const courseInfo = findCourseInfo(coursesDb, s.courseId);
             if (courseInfo) {
               const val = s.value || 7.0;
               const skillScore = Math.round(val * 10);

@@ -47,6 +47,17 @@ function normalizeSkill(str) {
   return str.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
+function findCourseByKey(coursesDb, courseKey) {
+  const normalizedKey = normalizeSkill(courseKey);
+  if (!normalizedKey) return null;
+
+  return coursesDb.find(course => {
+    const code = normalizeSkill(course.courseCode);
+    const name = normalizeSkill(course.courseName);
+    return code === normalizedKey || name === normalizedKey;
+  }) || null;
+}
+
 function slugify(str) {
   if (!str) return '';
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -384,10 +395,12 @@ exports.suggestBestCareers = (student) => {
   
   const studentAcquiredSkills = new Set();
   const passedCourses = Object.keys(student.courseStatus || {}).filter(courseId => student.courseStatus[courseId] === 'PASSED');
+  const seenCourseCodes = new Set();
   
   passedCourses.forEach(courseId => {
-    const course = coursesDb.find(db => db.courseCode === courseId);
-    if (course) {
+    const course = findCourseByKey(coursesDb, courseId);
+    if (course && !seenCourseCodes.has(course.courseCode)) {
+      seenCourseCodes.add(course.courseCode);
       if (course.skills) course.skills.forEach(s => studentAcquiredSkills.add(s));
       if (course.technologies) course.technologies.forEach(t => studentAcquiredSkills.add(t));
     }
