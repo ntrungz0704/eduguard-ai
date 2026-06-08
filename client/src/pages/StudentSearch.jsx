@@ -898,7 +898,7 @@ export default function StudentSearch() {
                                     onChange={(e) => setSelectedStatusFilter(e.target.value)}
                                     className="appearance-none pl-4 pr-10 py-2 text-xs font-semibold bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 rounded-2xl text-slate-800 dark:text-slate-200 outline-none cursor-pointer focus:ring-1 focus:ring-purple-500/50 transition-all"
                                   >
-                                    {['Tất cả trạng thái', 'Cần cải thiện (D+, D, F)', 'Đạt loại Khá/Giỏi (B trở lên)'].map((stat) => (
+                                    {['Tất cả trạng thái', 'Đạt', 'Không đạt'].map((stat) => (
                                       <option key={stat} value={stat} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">{stat}</option>
                                     ))}
                                   </select>
@@ -917,11 +917,11 @@ export default function StudentSearch() {
                                   }
                                   
                                   // Status filter
-                                  if (selectedStatusFilter === 'Cần cải thiện (D+, D, F)') {
-                                    return sc.value !== null && sc.value < 6.5;
+                                  if (selectedStatusFilter === 'Đạt') {
+                                    return sc.value !== null && sc.value >= 5;
                                   }
-                                  if (selectedStatusFilter === 'Đạt loại Khá/Giỏi (B trở lên)') {
-                                    return sc.value !== null && sc.value >= 6.5;
+                                  if (selectedStatusFilter === 'Không đạt') {
+                                    return sc.value !== null && sc.value < 5;
                                   }
                                   
                                   return true;
@@ -971,18 +971,9 @@ export default function StudentSearch() {
                                             return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-200 dark:border-blue-500/30">Đang học</span>;
                                           }
                                           if (v < 5.0) {
-                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-200 dark:border-rose-500/30">Cần học cải thiện</span>;
+                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-200 dark:border-rose-500/30">Không đạt</span>;
                                           }
-                                          if (v < 6.5) {
-                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gray-500/20 text-gray-300 border border-gray-500/30">Trung bình - Đạt</span>;
-                                          }
-                                          if (v < 8.0) {
-                                            if (v >= 7.5) {
-                                              return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">Khá tốt</span>;
-                                            }
-                                            return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-200 dark:border-cyan-500/30">Đạt tốt</span>;
-                                          }
-                                          return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">Xuất sắc/Giỏi</span>;
+                                          return <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">Đạt</span>;
                                         };
 
                                         return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../store';
 import { Users, BookOpen, AlertTriangle, Database, TrendingUp, ShieldAlert, CheckCircle2, MessageSquare, Activity, Target, Send, X, BarChart2, PieChart as PieIcon, Layers } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend, AreaChart, Area, CartesianGrid, LabelList } from 'recharts';
@@ -25,6 +25,11 @@ export default function Dashboard() {
   const [sendingMsg, setSendingMsg] = useState(false);
   const [showAllAlerts, setShowAllAlerts] = useState(false);
   const [sendingBulk, setSendingBulk] = useState(false);
+  const alertsSectionRef = useRef(null);
+
+  const scrollToAlerts = () => {
+    alertsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     const fetchRedAlerts = async () => {
@@ -258,7 +263,11 @@ export default function Dashboard() {
 
         {/* 3 Clear Insights KPI Widget */}
         <div className="relative z-10 flex gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
-          <div className="bg-rose-50 dark:bg-rose-500/5 border border-rose-200 dark:border-rose-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-rose-100 dark:hover:bg-rose-500/10 transition-colors flex-shrink-0">
+          <button
+            type="button"
+            onClick={scrollToAlerts}
+            className="text-left bg-rose-50 dark:bg-rose-500/5 border border-rose-200 dark:border-rose-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-rose-100 dark:hover:bg-rose-500/10 transition-colors flex-shrink-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-rose-400/50"
+          >
             <div className="p-3 bg-rose-100 dark:bg-rose-500/20 rounded-xl text-rose-600 dark:text-rose-400">
               <ShieldAlert size={20} />
             </div>
@@ -266,9 +275,13 @@ export default function Dashboard() {
               <p className="text-[11px] text-rose-600/80 dark:text-rose-400/80 uppercase tracking-wider font-bold">Nguy cơ gãy chuỗi</p>
               <h4 className="text-xl font-bold text-rose-600 dark:text-rose-400">{currentRisk} <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
-          </div>
+          </button>
 
-          <div className="bg-amber-50 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-amber-100 dark:hover:bg-amber-500/10 transition-colors flex-shrink-0">
+          <button
+            type="button"
+            onClick={scrollToAlerts}
+            className="text-left bg-amber-50 dark:bg-amber-500/5 border border-amber-200 dark:border-amber-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-amber-100 dark:hover:bg-amber-500/10 transition-colors flex-shrink-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+          >
             <div className="p-3 bg-amber-100 dark:bg-amber-500/20 rounded-xl text-amber-600 dark:text-amber-400">
               <Users size={20} />
             </div>
@@ -276,7 +289,7 @@ export default function Dashboard() {
               <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 uppercase tracking-wider font-bold">Chuyên cần dưới ngưỡng</p>
               <h4 className="text-xl font-bold text-amber-600 dark:text-amber-400">{kpi.lowAttendanceCount || 0} <span className="text-xs font-normal">sinh viên</span></h4>
             </div>
-          </div>
+          </button>
 
           <div className="bg-emerald-50 dark:bg-emerald-500/5 border border-emerald-200 dark:border-emerald-500/20 px-5 py-4 rounded-2xl flex items-center gap-4 hover:bg-emerald-100 dark:hover:bg-emerald-500/10 transition-colors flex-shrink-0">
             <div className="p-3 bg-emerald-100 dark:bg-emerald-500/20 rounded-xl text-emerald-600 dark:text-emerald-400">
@@ -300,7 +313,11 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <div className="glass-card rounded-3xl border border-rose-200 dark:border-rose-500/20 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+        <button
+          type="button"
+          onClick={scrollToAlerts}
+          className="glass-card rounded-3xl border border-rose-200 dark:border-rose-500/20 p-6 flex flex-col items-center justify-center text-center relative overflow-hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-rose-400/50"
+        >
           <div className="absolute top-0 right-0 w-full h-full bg-rose-50 dark:bg-rose-500/5 rounded-full blur-3xl"></div>
           <div className="relative z-10">
             <div className="w-20 h-20 bg-rose-100 dark:bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-200 dark:border-rose-500/30">
@@ -310,11 +327,11 @@ export default function Dashboard() {
             <p className="text-rose-600 dark:text-rose-400 font-bold uppercase tracking-widest text-sm mb-4">Cảnh báo khẩn cấp</p>
             <p className="text-slate-600 dark:text-slate-400 text-sm">Sinh viên có nguy cơ cấm thi hoặc rớt môn tiên quyết tuần này.</p>
           </div>
-        </div>
+        </button>
       </div>
 
       {/* CẢNH BÁO ĐỎ - RED ALERTS */}
-      <div className="glass-card rounded-3xl border border-rose-200 dark:border-rose-500/20 overflow-hidden relative">
+      <div ref={alertsSectionRef} id="risk-alerts" className="glass-card rounded-3xl border border-rose-200 dark:border-rose-500/20 overflow-hidden relative scroll-mt-6">
         <div className="absolute top-0 right-0 w-64 h-64 bg-rose-50 dark:bg-rose-500/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
         <div className="p-6 border-b border-slate-200 dark:border-white/5 flex items-center gap-3 flex-wrap relative z-10">
           <ShieldAlert size={24} className="text-rose-600 dark:text-rose-500" />
