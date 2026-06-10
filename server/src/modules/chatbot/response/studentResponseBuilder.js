@@ -556,6 +556,60 @@ Hệ thống EduGuard sử dụng thuật toán **HK-Pearson V2.1** cải tiến
   };
 }
 
+function buildTechExplanationResponse(decisionData) {
+  const { tech, readinessStatus, readinessReason, student } = decisionData;
+  
+  if (!tech) {
+    return buildFallbackResponse();
+  }
+
+  let statusEmoji = '🟢';
+  if (readinessStatus === 'MISSING_PREREQUISITES') statusEmoji = '🔴';
+  else if (readinessStatus === 'CURRENTLY_STUDYING') statusEmoji = '🟡';
+  else if (readinessStatus === 'ALREADY_PASSED_RELATED') statusEmoji = '🔵';
+
+  const roadmapText = tech.roadmap30Days && tech.roadmap30Days.length > 0
+    ? tech.roadmap30Days.map(item => `- ${item}`).join('\n')
+    : '_Chưa có lộ trình cụ thể._';
+
+  const prerequisiteText = tech.prerequisiteCourses && tech.prerequisiteCourses.length > 0
+    ? tech.prerequisiteCourses.join(', ')
+    : 'Không có môn tiên quyết khắt khe';
+
+  const relatedText = tech.relatedCourses && tech.relatedCourses.length > 0
+    ? tech.relatedCourses.join(', ')
+    : 'Không có';
+
+  const text = `# 💡 Khám phá Kỹ năng: ${tech.name}
+
+**📝 Định nghĩa:**
+${tech.definition}
+
+**🎯 Tại sao phải học (Why it matters):**
+${tech.whyLearn}
+
+━━━━━━━━━━━━━━
+
+### 🎓 Góc nhìn Academic Advisor (FPT Polytechnic)
+- **Môn học liên quan:** ${relatedText}
+- **Nền tảng cần có:** ${prerequisiteText}
+
+**📊 Trạng thái của bạn:** ${statusEmoji} ${readinessReason}
+
+━━━━━━━━━━━━━━
+
+### 🚀 Lộ trình tự học 30 ngày (30-Day Roadmap)
+${roadmapText}
+
+💡 *Bạn có thể gõ "Tạo portfolio" hoặc "Lên kế hoạch 90 ngày" để đưa ${tech.name} vào lộ trình của mình!*`;
+
+  return {
+    text,
+    chartData: null,
+    actions: ['Lên kế hoạch 90 ngày', 'Gợi ý dự án']
+  };
+}
+
 function buildStudentResponse(decisionData) {
   if (!decisionData || !decisionData.type) {
     return buildFallbackResponse();
@@ -580,8 +634,8 @@ function buildStudentResponse(decisionData) {
     case 'STUDENT_INTERVENTION_REASON':
     case 'STUDENT_ROADMAP':
       return { text: decisionData.text, chartData: null, actions: null };
-    case 'STUDENT_SKILL_INQUIRY':
-      return { text: decisionData.text, chartData: null, actions: null };
+    case 'STUDENT_TECH_EXPLAIN':
+      return buildTechExplanationResponse(decisionData);
     case 'STUDENT_CAREER_PATH':
       return buildStudentCareerPath(decisionData);
     case 'STUDENT_SKILL_GAP':

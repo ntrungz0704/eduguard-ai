@@ -240,14 +240,57 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
     case 'EXPLAIN_MODEL_INTENT':
       return { type: 'EXPLAIN_MODEL' };
 
-    case 'STUDENT_SKILL_INQUIRY_INTENT': {
-      const skillGraphEngine = require('./skillGraphEngine');
-      const responseText = skillGraphEngine.processSkillQuery(message, session);
-      if (responseText) {
-        return { type: 'STUDENT_SKILL_INQUIRY', text: responseText, student };
-      } else {
-        return { type: 'STUDENT_FALLBACK', activeMssv };
+    case 'STUDENT_TECH_EXPLAIN_INTENT': {
+      const technologies = knowledgeCache.get('technologies') || [];
+      const msgLower = (message || '').toLowerCase();
+      const tech = technologies.find(t => 
+        t.aliases.some(alias => msgLower.includes(alias)) || msgLower.includes(t.name.toLowerCase())
+      );
+      
+      if (!tech) return { type: 'STUDENT_FALLBACK', activeMssv };
+
+      let readinessStatus = 'UNKNOWN';
+      let readinessReason = '';
+      
+      if (student) {
+        const scores = student.scores || [];
+        const completed = scores.filter(s => s.status === 'PASSED' || s.value >= 5.0).map(s => s.courseId);
+        const studying = scores.filter(s => s.status === 'STUDYING').map(s => s.courseId);
+        
+        // If courseStatus is used instead of scores
+        const courseStatus = student.courseStatus || {};
+        const allCompleted = Array.from(new Set([...completed, ...Object.keys(courseStatus).filter(c => courseStatus[c] === 'PASSED')]));
+        const allStudying = Array.from(new Set([...studying, ...Object.keys(courseStatus).filter(c => courseStatus[c] === 'STUDYING')]));
+        
+        const missingPrereqs = tech.prerequisiteCourses.filter(c => !allCompleted.includes(c));
+        const passedRelated = tech.relatedCourses.filter(c => allCompleted.includes(c));
+        const studyingRelated = tech.relatedCourses.filter(c => allStudying.includes(c));
+        
+        if (passedRelated.length > 0) {
+          readinessStatus = 'ALREADY_PASSED_RELATED';
+          readinessReason = `Bạn đã hoàn thành môn học liên quan (${passedRelated.join(', ')}). Chắc hẳn bạn đã có khái niệm cơ bản!`;
+        } else if (studyingRelated.length > 0) {
+          readinessStatus = 'CURRENTLY_STUDYING';
+          readinessReason = `Bạn đang học môn liên quan (${studyingRelated.join(', ')}). Hãy tập trung nắm vững trên lớp nhé!`;
+        } else if (tech.prerequisiteCourses.length > 0 && missingPrereqs.length === 0) {
+          readinessStatus = 'READY';
+          readinessReason = `Bạn đã có đủ nền tảng (đã qua ${tech.prerequisiteCourses.join(', ')}). Rất tuyệt vời để bắt đầu tự học!`;
+        } else if (missingPrereqs.length > 0) {
+          readinessStatus = 'MISSING_PREREQUISITES';
+          readinessReason = `Bạn đang thiếu kiến thức nền (chưa qua môn ${missingPrereqs.join(', ')}). Nên cân nhắc học vững các môn này trước khi đi sâu.`;
+        } else {
+          readinessStatus = 'READY';
+          readinessReason = 'Bạn có thể bắt đầu học kỹ năng này ngay mà không cần ràng buộc môn tiên quyết.';
+        }
       }
+
+      return {
+        type: 'STUDENT_TECH_EXPLAIN',
+        tech,
+        readinessStatus,
+        readinessReason,
+        student
+      };
     }
 
     case 'STUDENT_FALLBACK_INTENT':

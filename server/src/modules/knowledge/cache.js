@@ -11,7 +11,8 @@ const cache = {
   summary: null,
   centrality: null,
   learningDomains: null,
-  careerRoadmaps: null
+  careerRoadmaps: null,
+  technologies: null
 };
 
 const fileMap = {
@@ -22,7 +23,8 @@ const fileMap = {
   summary: 'knowledge-summary.json',
   centrality: 'course-centrality.json',
   learningDomains: 'learning-domains.json',
-  careerRoadmaps: 'career-roadmaps.json'
+  careerRoadmaps: 'career-roadmaps.json',
+  technologies: 'technologies.json'
 };
 
 exports.init = () => {

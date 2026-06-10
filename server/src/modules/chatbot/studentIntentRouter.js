@@ -107,12 +107,14 @@ function routeStudentIntent(msg, nlpIntent = 'None', sessionId = null) {
       return intent;
     }
 
-    // Skill Inquiry intent
-    const techDict = require('../../data/knowledge/technology_dictionary.json');
-    const hasTechKeyword = Object.keys(techDict).some(kw => msgLower.includes(kw));
-    if (hasTechKeyword && (msgLower.includes('là gì') || msgLower.includes('học') || msgLower.includes('như thế nào'))) {
-      intent = 'STUDENT_SKILL_INQUIRY_INTENT';
-      console.log(`[STUDENT_ROUTER] Detected SKILL_INQUIRY via heuristics.`);
+    // Tech/Skill Explain intent
+    const technologies = require('../../data/knowledge/technologies.json');
+    const hasTechKeyword = technologies.some(tech => 
+      tech.aliases.some(alias => msgLower.includes(alias)) || msgLower.includes(tech.name.toLowerCase())
+    );
+    if (hasTechKeyword && (msgLower.includes('là gì') || msgLower.includes('học') || msgLower.includes('như thế nào') || msgLower.includes('giải thích'))) {
+      intent = 'STUDENT_TECH_EXPLAIN_INTENT';
+      console.log(`[STUDENT_ROUTER] Detected TECH_EXPLAIN via heuristics.`);
       return intent;
     }
 

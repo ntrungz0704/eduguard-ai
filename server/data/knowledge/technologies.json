@@ -1,0 +1,98 @@
+[
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "aliases": ["node", "node.js", "nodejs"],
+    "definition": "Node.js là một môi trường runtime chạy mã JavaScript ở phía máy chủ (Server-side), được xây dựng trên V8 JavaScript engine của Chrome.",
+    "whyLearn": "Trong ngành Lập trình Web, Node.js cho phép dùng chung ngôn ngữ JavaScript cho cả Frontend và Backend, giúp Fullstack Developer xây dựng các ứng dụng thời gian thực (Real-time), API tốc độ cao và kiến trúc Microservices một cách nhanh chóng.",
+    "relatedCourses": ["WEB503", "WEB502", "PRO1014"],
+    "prerequisites": ["Cơ bản về JavaScript (ES6+)", "Hiểu về HTTP/APIs", "Bất đồng bộ (Async/Await)"],
+    "prerequisiteCourses": ["WEB1043", "WEB2063"],
+    "roadmap30Days": [
+      "Tuần 1: Hiểu về V8 Engine, Event Loop, Modules (CommonJS, ES Modules), npm/yarn.",
+      "Tuần 2: Thao tác File System, Events, Streams, và viết server cơ bản bằng HTTP module.",
+      "Tuần 3: Sử dụng Express.js, thiết kế RESTful API, Middleware, xử lý lỗi.",
+      "Tuần 4: Kết nối cơ sở dữ liệu (MongoDB/MySQL) qua Mongoose/Sequelize và xác thực JWT."
+    ]
+  },
+  {
+    "id": "html",
+    "name": "HTML",
+    "aliases": ["html", "html5"],
+    "definition": "HTML (HyperText Markup Language) là ngôn ngữ đánh dấu siêu văn bản, dùng để tạo dựng bộ khung cấu trúc của bất kỳ trang web nào trên Internet.",
+    "whyLearn": "Đây là bước chân đầu tiên bắt buộc phải có đối với mọi Frontend Developer hay Fullstack Developer. Không có HTML, trình duyệt không thể hiểu và hiển thị nội dung trang web.",
+    "relatedCourses": ["WEB1013", "WEB1043"],
+    "prerequisites": ["Không có"],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Cấu trúc thẻ cơ bản, tiêu đề, đoạn văn, danh sách, liên kết và hình ảnh.",
+      "Tuần 2: Thẻ Semantic HTML5 (header, footer, article, section) để tối ưu SEO.",
+      "Tuần 3: Form và các loại Input, Validation cơ bản trên trình duyệt.",
+      "Tuần 4: Nhúng Media (Audio, Video, iframe) và tiếp cận Web Accessibility (a11y)."
+    ]
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "aliases": ["js", "javascript", "ecmascript", "es6"],
+    "definition": "JavaScript (JS) là ngôn ngữ lập trình kịch bản đa nền tảng, cung cấp khả năng tương tác động cho trang web (Frontend) và xử lý logic máy chủ (Backend).",
+    "whyLearn": "JavaScript là trái tim của lập trình Web hiện đại. Nó là yêu cầu bắt buộc cho 100% các công việc liên quan đến Frontend và mở đường để học React, Vue, Angular hay Node.js.",
+    "relatedCourses": ["WEB1043", "WEB2063", "WEB2081"],
+    "prerequisites": ["Tư duy lập trình cơ bản (C/Java/Python)", "HTML & CSS cơ bản"],
+    "prerequisiteCourses": ["COM108", "WEB1013"],
+    "roadmap30Days": [
+      "Tuần 1: Biến, kiểu dữ liệu, vòng lặp, câu lệnh rẽ nhánh và các hàm (Functions).",
+      "Tuần 2: Xử lý Mảng (Array methods), Object, DOM manipulation và Events.",
+      "Tuần 3: ES6+ (Arrow functions, Destructuring, Spread/Rest, Template literals).",
+      "Tuần 4: Xử lý bất đồng bộ (Callbacks, Promises, Async/Await) và Fetch API."
+    ]
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "aliases": ["react", "react.js", "reactjs"],
+    "definition": "React là một thư viện JavaScript do Facebook phát triển, dùng để xây dựng giao diện người dùng (UI) tương tác cao thông qua các Component tái sử dụng.",
+    "whyLearn": "React hiện là kỹ năng Frontend được tuyển dụng nhiều nhất thế giới. Học React giúp bạn dễ dàng xin việc Frontend Developer hoặc mở rộng sang Mobile với React Native.",
+    "relatedCourses": ["WEB2081", "WEB2091"],
+    "prerequisites": ["HTML/CSS vững", "JavaScript ES6 (Array methods, Destructuring, Async/Await)", "Cơ chế DOM"],
+    "prerequisiteCourses": ["WEB1043", "WEB2063"],
+    "roadmap30Days": [
+      "Tuần 1: JSX, Components (Class & Functional), Props và State (useState).",
+      "Tuần 2: Vòng đời Component, useEffect, Xử lý sự kiện và Form handling.",
+      "Tuần 3: Routing với React Router DOM, Context API, Hooks tuỳ chỉnh (Custom Hooks).",
+      "Tuần 4: Gọi API (Axios/Fetch), Quản lý State toàn cục (Redux Toolkit/Zustand)."
+    ]
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js",
+    "aliases": ["next", "nextjs", "next.js"],
+    "definition": "Next.js là một React Framework mạnh mẽ, hỗ trợ Server-Side Rendering (SSR), Static Site Generation (SSG) giúp tối ưu SEO và hiệu suất.",
+    "whyLearn": "Các dự án thương mại điện tử, báo chí yêu cầu SEO khắt khe đều đang chuyển sang Next.js. Nắm vững Next.js giúp bạn vươn lên tầm Senior Frontend hoặc Fullstack.",
+    "relatedCourses": ["WEB503"],
+    "prerequisites": ["Sử dụng thành thạo React", "Hiểu về Client-side vs Server-side", "Node.js cơ bản"],
+    "prerequisiteCourses": ["WEB2081", "WEB502"],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm SSR/SSG/ISR, App Router vs Pages Router, Layouts & Pages.",
+      "Tuần 2: Data Fetching (fetch API, Server Components vs Client Components).",
+      "Tuần 3: Route Handlers (Viết API backend ngay trong Next.js), Server Actions.",
+      "Tuần 4: Tối ưu SEO (Metadata), Images, Fonts và Deploy lên Vercel."
+    ]
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB",
+    "aliases": ["mongodb", "mongo", "nosql"],
+    "definition": "MongoDB là một cơ sở dữ liệu NoSQL lưu trữ dữ liệu dưới dạng các tài liệu (documents) giống JSON, có khả năng mở rộng (scale) linh hoạt.",
+    "whyLearn": "Được sử dụng trong stack MERN (MongoDB, Express, React, Node) cực kỳ phổ biến. Phù hợp cho các hệ thống cần linh hoạt về Schema và tốc độ phát triển dự án nhanh.",
+    "relatedCourses": ["WEB502"],
+    "prerequisites": ["Hiểu cấu trúc dữ liệu JSON", "Kiến thức về Database cơ bản"],
+    "prerequisiteCourses": ["WEB1043"],
+    "roadmap30Days": [
+      "Tuần 1: Cài đặt MongoDB, khái niệm Collections, Documents, và BSON.",
+      "Tuần 2: CRUD Operations (Create, Read, Update, Delete) với MongoDB Shell.",
+      "Tuần 3: Sử dụng Mongoose (ODM) trong Node.js, Schema Design, Models.",
+      "Tuần 4: Aggregation Framework, Indexes để tối ưu truy vấn, Relationships (Refs vs Embeds)."
+    ]
+  }
+]
