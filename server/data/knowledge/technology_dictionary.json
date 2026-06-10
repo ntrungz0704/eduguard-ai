@@ -1,0 +1,22 @@
+{
+  "node": "Node.js",
+  "nodejs": "Node.js",
+  "node.js": "Node.js",
+  "react": "React",
+  "reactjs": "React",
+  "react.js": "React",
+  "next": "Next.js",
+  "nextjs": "Next.js",
+  "next.js": "Next.js",
+  "express": "ExpressJS",
+  "express.js": "ExpressJS",
+  "expressjs": "ExpressJS",
+  "mysql": "MySQL",
+  "sql": "MySQL",
+  "jwt": "JWT",
+  "json web token": "JWT",
+  "prisma": "Prisma",
+  "prisma orm": "Prisma",
+  "docker": "Docker",
+  "container": "Docker"
+}

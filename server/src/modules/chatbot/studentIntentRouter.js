@@ -107,6 +107,15 @@ function routeStudentIntent(msg, nlpIntent = 'None', sessionId = null) {
       return intent;
     }
 
+    // Skill Inquiry intent
+    const techDict = require('../../data/knowledge/technology_dictionary.json');
+    const hasTechKeyword = Object.keys(techDict).some(kw => msgLower.includes(kw));
+    if (hasTechKeyword && (msgLower.includes('là gì') || msgLower.includes('học') || msgLower.includes('như thế nào'))) {
+      intent = 'STUDENT_SKILL_INQUIRY_INTENT';
+      console.log(`[STUDENT_ROUTER] Detected SKILL_INQUIRY via heuristics.`);
+      return intent;
+    }
+
     // Skill Gap intent
     if (msgLower.includes('skill gap') || msgLower.includes('lỗ hổng') || msgLower.includes('kỹ năng còn thiếu') ||
         msgLower.includes('em thiếu gì') || msgLower.includes('thiếu kỹ năng') || msgLower.includes('kiến thức thiếu') ||

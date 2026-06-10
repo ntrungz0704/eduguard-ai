@@ -1,0 +1,35 @@
+{
+  "React": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "ES6+"
+  ],
+  "Next.js": [
+    "React",
+    "JavaScript"
+  ],
+  "Node.js": [
+    "JavaScript",
+    "ES6+",
+    "HTTP"
+  ],
+  "ExpressJS": [
+    "Node.js",
+    "HTTP"
+  ],
+  "JWT": [
+    "Node.js",
+    "HTTP",
+    "ExpressJS"
+  ],
+  "Prisma": [
+    "Node.js",
+    "MySQL",
+    "JavaScript"
+  ],
+  "NestJS": [
+    "Node.js",
+    "TypeScript"
+  ]
+}

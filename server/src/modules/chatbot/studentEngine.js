@@ -47,7 +47,7 @@ function getGraphDataForCourse(courseId) {
   };
 }
 
-async function executeStudentDecision({ intent, activeMssv, entities, session }) {
+async function executeStudentDecision({ intent, activeMssv, entities, session, message }) {
   const nonLoginIntents = ['STUDENT_CAREER_PATH_INTENT', 'STUDENT_RISK_CHAIN_INTENT', 'STUDENT_GREETING_INTENT', 'STUDENT_BEST_CAREER_INTENT', 'EXPLAIN_MODEL_INTENT'];
   if (!activeMssv && !nonLoginIntents.includes(intent)) {
     return { type: 'NEED_LOGIN' };
@@ -239,6 +239,16 @@ async function executeStudentDecision({ intent, activeMssv, entities, session })
 
     case 'EXPLAIN_MODEL_INTENT':
       return { type: 'EXPLAIN_MODEL' };
+
+    case 'STUDENT_SKILL_INQUIRY_INTENT': {
+      const skillGraphEngine = require('./skillGraphEngine');
+      const responseText = skillGraphEngine.processSkillQuery(message, session);
+      if (responseText) {
+        return { type: 'STUDENT_SKILL_INQUIRY', text: responseText, student };
+      } else {
+        return { type: 'STUDENT_FALLBACK', activeMssv };
+      }
+    }
 
     case 'STUDENT_FALLBACK_INTENT':
     default:

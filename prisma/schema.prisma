@@ -36,6 +36,8 @@ model Student {
   conversationHistories   ConversationHistory[]
   skillProfiles           SkillProfile[]
   recommendationHistories RecommendationHistory[]
+  chatSessions            ChatSession[]
+  learningProgresses      LearningProgress[]
 }
 
 model Course {
@@ -191,6 +193,10 @@ model StudentMemory {
   learningStyle String?
   strengths String? // JSON string
   weaknesses String? // JSON string
+  interestedSkills String? // JSON string
+  knownSkills String? // JSON string
+  skillMastery String? // JSON string
+  recentTopics String? // JSON string
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -260,6 +266,44 @@ model RecommendationHistory {
   recommendationType String // e.g., "ROADMAP", "SKILL_GAP", "PROJECT"
   content String // The recommended roadmap text or JSON
   createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  @@index([studentId])
+}
+
+model ChatSession {
+  id String @id @default(uuid())
+  studentId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  messages ChatMessage[]
+  @@index([studentId])
+}
+
+model ChatMessage {
+  id Int @id @default(autoincrement())
+  sessionId String
+  role String // "USER" or "BOT"
+  message String
+  intent String?
+  entities String? // JSON string
+  createdAt DateTime @default(now())
+
+  session ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  @@index([sessionId])
+}
+
+model LearningProgress {
+  id String @id @default(uuid())
+  studentId String
+  skillName String
+  status String @default("TODO") // TODO, IN_PROGRESS, COMPLETED
+  progress Int @default(0) // 0-100
+  targetDate String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
   @@index([studentId])

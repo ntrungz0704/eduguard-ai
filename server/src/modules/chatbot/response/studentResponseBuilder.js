@@ -580,6 +580,8 @@ function buildStudentResponse(decisionData) {
     case 'STUDENT_INTERVENTION_REASON':
     case 'STUDENT_ROADMAP':
       return { text: decisionData.text, chartData: null, actions: null };
+    case 'STUDENT_SKILL_INQUIRY':
+      return { text: decisionData.text, chartData: null, actions: null };
     case 'STUDENT_CAREER_PATH':
       return buildStudentCareerPath(decisionData);
     case 'STUDENT_SKILL_GAP':

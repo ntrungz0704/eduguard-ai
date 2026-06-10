@@ -61,6 +61,10 @@ function getSession(sessionId, userRole = 'TEACHER') {
         learningStyle: null,      // "Visual", "Auditory", "Hands-on", "Self-taught"
         strengths: [],            // ["HTML", "CSS", "Programming Logic"]
         weaknesses: [],           // ["JavaScript", "Math"]
+        interestedSkills: [],
+        knownSkills: [],
+        skillMastery: {},
+        recentTopics: [],
         targetInternshipDate: null, // "Spring 2027"
         careerReadiness: null,    // "Foundation"
         academicWarningCount: 0,   // Số lần bị cảnh báo
@@ -129,6 +133,18 @@ async function loadStudentMemoryFromDB(session, studentId) {
       if (memory.weaknesses) {
         try { session.brain.weaknesses = JSON.parse(memory.weaknesses); } catch(e){}
       }
+      if (memory.interestedSkills) {
+        try { session.brain.interestedSkills = JSON.parse(memory.interestedSkills); } catch(e){}
+      }
+      if (memory.knownSkills) {
+        try { session.brain.knownSkills = JSON.parse(memory.knownSkills); } catch(e){}
+      }
+      if (memory.skillMastery) {
+        try { session.brain.skillMastery = JSON.parse(memory.skillMastery); } catch(e){}
+      }
+      if (memory.recentTopics) {
+        try { session.brain.recentTopics = JSON.parse(memory.recentTopics); } catch(e){}
+      }
     }
 
     const skills = await prisma.skillProfile.findMany({
@@ -164,7 +180,11 @@ async function saveStudentMemoryToDB(session, studentId) {
         riskLevel: brain.riskLevel,
         learningStyle: brain.learningStyle,
         strengths: JSON.stringify(brain.strengths || []),
-        weaknesses: JSON.stringify(brain.weaknesses || [])
+        weaknesses: JSON.stringify(brain.weaknesses || []),
+        interestedSkills: JSON.stringify(brain.interestedSkills || []),
+        knownSkills: JSON.stringify(brain.knownSkills || []),
+        skillMastery: JSON.stringify(brain.skillMastery || {}),
+        recentTopics: JSON.stringify(brain.recentTopics || [])
       },
       create: {
         studentId,
@@ -175,7 +195,11 @@ async function saveStudentMemoryToDB(session, studentId) {
         riskLevel: brain.riskLevel,
         learningStyle: brain.learningStyle,
         strengths: JSON.stringify(brain.strengths || []),
-        weaknesses: JSON.stringify(brain.weaknesses || [])
+        weaknesses: JSON.stringify(brain.weaknesses || []),
+        interestedSkills: JSON.stringify(brain.interestedSkills || []),
+        knownSkills: JSON.stringify(brain.knownSkills || []),
+        skillMastery: JSON.stringify(brain.skillMastery || {}),
+        recentTopics: JSON.stringify(brain.recentTopics || [])
       }
     });
 

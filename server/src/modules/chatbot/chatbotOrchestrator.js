@@ -99,7 +99,7 @@ async function orchestrateChatbot(req, sessionId) {
     appLogger.intentTrace(message, nlpIntent, intent, sessionId);
 
     try {
-      decisionData = await executeStudentDecision({ intent, activeMssv: effectiveMssv, entities, session });
+      decisionData = await executeStudentDecision({ intent, activeMssv: effectiveMssv, entities, session, message });
     } catch (err) {
       appLogger.error(`[STUDENT_ENGINE] Error: ${err.message}`, { stack: err.stack });
       decisionData = { type: 'STUDENT_FALLBACK', activeMssv: effectiveMssv };

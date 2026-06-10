@@ -1,0 +1,31 @@
+{
+  "Backend Developer": [
+    "JavaScript",
+    "ES6+",
+    "Node.js",
+    "ExpressJS",
+    "MySQL",
+    "JWT",
+    "Prisma",
+    "Docker"
+  ],
+  "Frontend Developer": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "ES6+",
+    "React",
+    "Next.js"
+  ],
+  "Fullstack Developer": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "ES6+",
+    "React",
+    "Node.js",
+    "ExpressJS",
+    "MySQL",
+    "JWT"
+  ]
+}

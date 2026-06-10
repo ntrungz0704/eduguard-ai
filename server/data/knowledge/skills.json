@@ -1,0 +1,90 @@
+{
+  "Node.js": {
+    "type": "backend",
+    "description": "Môi trường chạy JavaScript phía Server (Runtime Environment).",
+    "purpose": "Xây dựng Backend APIs, kết nối Database, xử lý Logic, Realtime chat.",
+    "difficulty": 3,
+    "requiredSkills": ["JavaScript", "ES6+", "HTTP"],
+    "relatedCourses": ["WEB206", "PHP1", "PRO101"],
+    "careers": ["Backend Developer", "Fullstack Developer", "Software Engineer"],
+    "learningTime": "4 tuần",
+    "portfolioProjects": ["RESTful API User Management", "Realtime Chat App (Socket.io)"]
+  },
+  "React": {
+    "type": "frontend",
+    "description": "Thư viện JavaScript để xây dựng giao diện người dùng (UI Component).",
+    "purpose": "Tạo giao diện web tương tác nhanh, Component-based UI, Single Page Applications (SPA).",
+    "difficulty": 3,
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "ES6+"],
+    "relatedCourses": ["WEB206", "WEB104", "PRO101"],
+    "careers": ["Frontend Developer", "Fullstack Developer"],
+    "learningTime": "4 tuần",
+    "portfolioProjects": ["E-commerce UI", "Dashboard Admin"]
+  },
+  "Next.js": {
+    "type": "frontend",
+    "description": "Framework dựa trên React có hỗ trợ Server-Side Rendering (SSR).",
+    "purpose": "Tối ưu hóa SEO, tăng tốc độ tải trang, xây dựng ứng dụng React quy mô lớn.",
+    "difficulty": 4,
+    "requiredSkills": ["React", "JavaScript"],
+    "relatedCourses": ["WEB206"],
+    "careers": ["Frontend Developer", "Fullstack Developer"],
+    "learningTime": "3 tuần",
+    "portfolioProjects": ["Blog có SSR", "Hệ thống Booking Online"]
+  },
+  "ExpressJS": {
+    "type": "backend",
+    "description": "Framework cho Node.js, nhỏ gọn và linh hoạt.",
+    "purpose": "Tạo Web Server, xây dựng REST API nhanh chóng.",
+    "difficulty": 2,
+    "requiredSkills": ["Node.js", "HTTP"],
+    "relatedCourses": ["WEB206"],
+    "careers": ["Backend Developer", "Fullstack Developer"],
+    "learningTime": "2 tuần",
+    "portfolioProjects": ["API cho App Todo", "REST API với CRUD"]
+  },
+  "JWT": {
+    "type": "security",
+    "description": "Cơ chế xác thực (JSON Web Token) cho Web APIs.",
+    "purpose": "Xác thực người dùng, bảo mật API, Authorization (Phân quyền).",
+    "difficulty": 3,
+    "requiredSkills": ["Node.js", "HTTP", "ExpressJS"],
+    "relatedCourses": ["WEB206"],
+    "careers": ["Backend Developer", "Fullstack Developer", "Security Engineer"],
+    "learningTime": "1 tuần",
+    "portfolioProjects": ["Hệ thống Đăng nhập / Đăng ký API"]
+  },
+  "MySQL": {
+    "type": "database",
+    "description": "Hệ quản trị cơ sở dữ liệu quan hệ (RDBMS).",
+    "purpose": "Lưu trữ dữ liệu có cấu trúc, quan hệ, Transaction, ACID.",
+    "difficulty": 3,
+    "requiredSkills": ["SQL căn bản"],
+    "relatedCourses": ["COM108", "WEB206", "PHP1"],
+    "careers": ["Backend Developer", "Fullstack Developer", "Data Engineer"],
+    "learningTime": "3 tuần",
+    "portfolioProjects": ["Thiết kế CSDL Bán hàng", "CSDL Quản lý thư viện"]
+  },
+  "Prisma": {
+    "type": "database",
+    "description": "ORM (Object-Relational Mapping) hiện đại cho Node.js và TypeScript.",
+    "purpose": "Giao tiếp với Database, thực hiện Queries an toàn với kiểu (Type-safe).",
+    "difficulty": 2,
+    "requiredSkills": ["Node.js", "MySQL", "JavaScript"],
+    "relatedCourses": ["WEB206"],
+    "careers": ["Backend Developer", "Fullstack Developer"],
+    "learningTime": "2 tuần",
+    "portfolioProjects": ["GraphQL API kết hợp Prisma", "Hệ thống quản lý với ORM"]
+  },
+  "Docker": {
+    "type": "devops",
+    "description": "Nền tảng Ảo hóa Container (Containerization).",
+    "purpose": "Đóng gói ứng dụng để chạy ở mọi môi trường, triển khai ứng dụng (Deploy).",
+    "difficulty": 4,
+    "requiredSkills": ["Linux cơ bản", "Networking"],
+    "relatedCourses": ["NET101", "PRO101"],
+    "careers": ["Backend Developer", "DevOps Engineer", "Fullstack Developer"],
+    "learningTime": "3 tuần",
+    "portfolioProjects": ["Đóng gói Node.js App vào Docker", "Chạy Database bằng Docker Compose"]
+  }
+}
