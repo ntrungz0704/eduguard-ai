@@ -281,18 +281,9 @@ function App() {
   if (!currentUser) {
     return (
       <BrowserRouter>
-        <Suspense fallback={
-          <div className="h-screen w-full flex items-center justify-center bg-[#0b1120]">
-            <div className="flex flex-col items-center space-y-4">
-              <Loader2 size={32} className="text-blue-500 animate-spin" />
-              <p className="text-slate-600 dark:text-slate-400 font-medium">Đang tải...</p>
-            </div>
-          </div>
-        }>
-          <Routes>
-            <Route path="*" element={<Login />} />
-          </Routes>
-        </Suspense>
+        <Routes>
+          <Route path="*" element={<Login />} />
+        </Routes>
       </BrowserRouter>
     );
   }
