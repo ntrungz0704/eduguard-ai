@@ -209,12 +209,12 @@ function OverviewTab({ data, curriculumCourses }) {
   // Data for Charts
   const chartData = useMemo(() => {
     const sems = [
-      { name: 'Kỳ 1', courses: curriculumCourses.slice(0, 6) },
-      { name: 'Kỳ 2', courses: curriculumCourses.slice(6, 11) },
-      { name: 'Kỳ 3', courses: curriculumCourses.slice(11, 16) },
-      { name: 'Kỳ 4', courses: curriculumCourses.slice(16, 21) },
-      { name: 'Kỳ 5', courses: curriculumCourses.slice(21, 27) },
-      { name: 'Kỳ 6', courses: curriculumCourses.slice(27, curriculumCourses.length) }
+      { name: 'Kỳ 1', courses: curriculumCourses.slice(0, 7) },
+      { name: 'Kỳ 2', courses: curriculumCourses.slice(7, 12) },
+      { name: 'Kỳ 3', courses: curriculumCourses.slice(12, 20) },
+      { name: 'Kỳ 4', courses: curriculumCourses.slice(20, 26) },
+      { name: 'Kỳ 5', courses: curriculumCourses.slice(26, 32) },
+      { name: 'Kỳ 6', courses: curriculumCourses.slice(32, curriculumCourses.length) }
     ];
     let cumTotal = 0;
     let cumCount = 0;
@@ -679,12 +679,12 @@ function GradesTab({ curriculumCourses }) {
 function RoadmapTab({ curriculumCourses }) {
   // Let's divide curriculum courses into 6 semesters dynamically
   const totalCourses = curriculumCourses.length;
-  const sem1 = curriculumCourses.slice(0, 6);
-  const sem2 = curriculumCourses.slice(6, 11);
-  const sem3 = curriculumCourses.slice(11, 16);
-  const sem4 = curriculumCourses.slice(16, 21);
-  const sem5 = curriculumCourses.slice(21, 27);
-  const sem6 = curriculumCourses.slice(27, totalCourses);
+  const sem1 = curriculumCourses.slice(0, 7);
+  const sem2 = curriculumCourses.slice(7, 12);
+  const sem3 = curriculumCourses.slice(12, 20);
+  const sem4 = curriculumCourses.slice(20, 26);
+  const sem5 = curriculumCourses.slice(26, 32);
+  const sem6 = curriculumCourses.slice(32, totalCourses);
 
   const semesters = [
     { name: 'Học kỳ 1 (Cơ bản)', courses: sem1 },
