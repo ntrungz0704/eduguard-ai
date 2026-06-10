@@ -234,7 +234,7 @@ export default function Inbox() {
                     }`}>
                       <p className="whitespace-pre-wrap">{msg.content}</p>
                       
-                      {msg.attachments && msg.attachments.length > 0 && (
+                      {Array.isArray(msg.attachments) && msg.attachments.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {msg.attachments.map(att => (
                             <a 

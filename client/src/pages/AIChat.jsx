@@ -504,7 +504,7 @@ export default function AIChat() {
 
   // High-fidelity rendering parser for texts, bullet points, and markdown tables block-by-block
   const formatText = (text) => {
-    if (!text) return '';
+    if (!text || typeof text !== 'string') return typeof text === 'string' ? text : '';
     
     const lines = text.split('\n');
     const elements = [];
