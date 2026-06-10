@@ -1351,11 +1351,15 @@ export default function StudentDashboard() {
     const cleanCurr = currId.toLowerCase().trim();
     return studentScores.find(s => {
       const cleanS = s.courseId.toLowerCase().trim();
+      const cleanName = (s.course?.name || '').toLowerCase().trim();
       return (
         cleanS.includes(cleanCurr) ||
         cleanCurr.includes(cleanS) ||
-        (cleanCurr.includes('thể chất') && cleanS.includes('thể chất')) ||
-        (cleanCurr.includes('dự án mẫu') && cleanS.includes('dự án mẫu'))
+        cleanName === cleanCurr ||
+        cleanName.includes(cleanCurr) ||
+        cleanCurr.includes(cleanName) ||
+        (cleanCurr.includes('thể chất') && (cleanS.includes('thể chất') || cleanName.includes('thể chất'))) ||
+        (cleanCurr.includes('dự án mẫu') && (cleanS.includes('dự án mẫu') || cleanName.includes('dự án mẫu')))
       );
     });
   };
@@ -1365,11 +1369,15 @@ export default function StudentDashboard() {
     const cleanCurr = currId.toLowerCase().trim();
     return predictions.find(p => {
       const cleanP = p.courseId.toLowerCase().trim();
+      const cleanName = (p.course?.name || '').toLowerCase().trim();
       return (
         cleanP.includes(cleanCurr) ||
         cleanCurr.includes(cleanP) ||
-        (cleanCurr.includes('thể chất') && cleanP.includes('thể chất')) ||
-        (cleanCurr.includes('dự án mẫu') && cleanP.includes('dự án mẫu'))
+        cleanName === cleanCurr ||
+        cleanName.includes(cleanCurr) ||
+        cleanCurr.includes(cleanName) ||
+        (cleanCurr.includes('thể chất') && (cleanP.includes('thể chất') || cleanName.includes('thể chất'))) ||
+        (cleanCurr.includes('dự án mẫu') && (cleanP.includes('dự án mẫu') || cleanName.includes('dự án mẫu')))
       );
     });
   };
