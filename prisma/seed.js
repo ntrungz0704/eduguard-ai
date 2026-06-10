@@ -1,17 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dbPath = path.resolve(__dirname, 'dev.db');
-const databaseUrl = process.env.DATABASE_URL || `file:${dbPath}`;
-
-const { PrismaClient } = require('../server/generated/prisma');
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: databaseUrl
-    }
-  }
-});
+const { prisma } = require('../server/src/infrastructure/database/prisma');
 
 const COURSE_NAME_TO_CODE = {
   'Tin học': 'COM1071',
