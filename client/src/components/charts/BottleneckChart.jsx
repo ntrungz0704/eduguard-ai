@@ -4,7 +4,7 @@ import {
   ResponsiveContainer, Cell, LabelList
 } from 'recharts';
 
-const FAIL_COLORS = ['#ef4444', '#f97316', '#f97316', '#eab308', '#eab308'];
+const FAIL_COLORS = ['#dc2626', '#ef4444', '#f87171', '#fca5a5', '#fecaca'];
 
 const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) => {
   // data: [{ name: 'COM108', failCount: 12 }, ...]
@@ -43,10 +43,11 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
           <YAxis
             type="category"
             dataKey="name"
-            tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 600 }}
+            tick={{ fill: '#64748b', fontSize: 11, fontWeight: 600 }}
+            tickFormatter={(val) => val.length > 20 ? val.substring(0, 20) + '...' : val}
             axisLine={false}
             tickLine={false}
-            width={60}
+            width={120}
           />
           <Tooltip
             contentStyle={{

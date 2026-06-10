@@ -763,10 +763,8 @@ export default function StudentSearch() {
                       
                       {/* Horizontal tab header */}
                       <div className="flex border-b border-slate-200 dark:border-white/5 gap-2 overflow-x-auto pb-1 scrollbar-none">
-                        {[
                           { id: 'gpa', label: '📊 Phân tích & Học bạ' },
-                          { id: 'roadmap', label: '🎯 Lộ trình & Thử thách' },
-                          { id: 'tools', label: '🛠️ Công cụ Học tập' }
+                          { id: 'roadmap', label: '🎯 Lộ trình & Thử thách' }
                         ].map(t => (
                           <button
                             key={t.id}
@@ -1211,144 +1209,7 @@ export default function StudentSearch() {
                         </div>
                       )}
 
-                      {/* Tab 3: Interactive Support tools */}
-                      {activeTab === 'tools' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-                          
-                          {/* Expected GPA Calculator */}
-                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col justify-between h-[500px]">
-                            <div>
-                              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1 uppercase tracking-wider flex items-center gap-2">
-                                <BookOpen size={16} className="text-blue-400" /> Tính Toán GPA Dự Kiến
-                              </h4>
-                              <p className="text-[10px] text-slate-600 dark:text-slate-400 mb-4">Lập kế hoạch điểm số để đạt được GPA mục tiêu mong muốn.</p>
 
-                              {/* Course Rows */}
-                              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
-                                {calcCourses.map((c, idx) => (
-                                  <div key={idx} className="flex gap-2 items-center bg-slate-100 dark:bg-black/20 p-2 border border-slate-200 dark:border-white/5 rounded-xl">
-                                    <input
-                                      type="text"
-                                      value={c.name}
-                                      onChange={e => handleUpdateCalcCourse(idx, 'name', e.target.value)}
-                                      className="flex-1 min-w-0 bg-transparent text-xs text-slate-800 dark:text-slate-200 outline-none border-b border-transparent focus:border-white/20 px-1"
-                                      placeholder="Tên môn học"
-                                    />
-                                    <select
-                                      value={c.credits}
-                                      onChange={e => handleUpdateCalcCourse(idx, 'credits', parseInt(e.target.value))}
-                                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg px-1.5 py-1 text-[11px] text-slate-700 dark:text-slate-300 outline-none"
-                                    >
-                                      {[1, 2, 3, 4, 5].map(cr => (
-                                        <option key={cr} value={cr}>{cr} tín</option>
-                                      ))}
-                                    </select>
-                                    <select
-                                      value={c.grade}
-                                      onChange={e => handleUpdateCalcCourse(idx, 'grade', e.target.value)}
-                                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg px-1.5 py-1 text-[11px] text-slate-700 dark:text-slate-300 font-bold outline-none"
-                                    >
-                                      {['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F'].map(g => (
-                                        <option key={g} value={g}>{g}</option>
-                                      ))}
-                                    </select>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleRemoveCalcCourse(idx)}
-                                      className="text-slate-500 hover:text-rose-400 p-1 transition-colors"
-                                    >
-                                      <Trash2 size={12} />
-                                    </button>
-                                  </div>
-                                ))}
-                              </div>
-
-                              <button
-                                type="button"
-                                onClick={handleAddCalcCourse}
-                                className="mt-3 text-[10px] text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-2.5 py-1 rounded-xl transition-all"
-                              >
-                                <Plus size={10} /> Thêm môn học
-                              </button>
-                            </div>
-
-                            {/* Calculated expected GPA display */}
-                            <div className="bg-white dark:bg-gradient-to-br dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-500/20 p-4 rounded-2xl flex items-center justify-between mt-4">
-                              <div>
-                                <span className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider block">GPA Dự Kiến Học Kỳ</span>
-                                <span className="text-2xl font-black text-blue-400 mt-1 block">
-                                  {calculateCalcGpa()} <span className="text-xs text-slate-600 dark:text-slate-400 font-normal">/ 4.0</span>
-                                </span>
-                              </div>
-                              <div className="bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-3 py-1.5 rounded-xl text-center">
-                                <span className="text-[9px] text-blue-300 font-bold block">Xếp loại dự kiến</span>
-                                <span className="text-xs font-black text-slate-900 dark:text-white mt-0.5 block">
-                                  {(() => {
-                                    const gpa = parseFloat(calculateCalcGpa());
-                                    if (gpa >= 3.6) return 'Xuất sắc 🏆';
-                                    if (gpa >= 3.2) return 'Giỏi 🥇';
-                                    if (gpa >= 2.5) return 'Khá 🥈';
-                                    if (gpa >= 2.0) return 'Trung bình 🥉';
-                                    return 'Yếu ⚠️';
-                                  })()}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Pomodoro Timer */}
-                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col justify-between h-[500px]">
-                            <div>
-                              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1 uppercase tracking-wider flex items-center gap-2">
-                                <Clock size={16} className="text-purple-400" /> Pomodoro Timer
-                              </h4>
-                              <p className="text-[10px] text-slate-600 dark:text-slate-400 mb-4">Phương pháp 25 phút tập trung cao độ, 5 phút nghỉ ngơi.</p>
-                              
-                              <div className="flex flex-col items-center justify-center my-6">
-                                <div className="relative w-44 h-44 rounded-full border-4 border-purple-200 dark:border-purple-500/20 flex items-center justify-center shadow-lg shadow-purple-950/40">
-                                  <div className={`absolute inset-0 rounded-full border-4 border-purple-500 border-t-transparent ${timerActive ? 'animate-spin [animation-duration:10s]' : ''}`}></div>
-                                  <div className="text-center z-10">
-                                    <span className="text-4xl font-black text-slate-900 dark:text-white font-mono tracking-wider block">
-                                      {formatTimer(timerSeconds)}
-                                    </span>
-                                    <span className="text-[9px] text-purple-300 font-bold uppercase tracking-widest mt-1 block">
-                                      {timerActive ? '🚀 Đang tập trung' : '⏸️ Đang tạm dừng'}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Timer controls */}
-                            <div className="flex gap-3 justify-center">
-                              <button
-                                type="button"
-                                onClick={() => setTimerActive(!timerActive)}
-                                className={`flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl text-xs font-bold transition-all border shadow-lg ${
-                                  timerActive 
-                                    ? 'bg-rose-600 hover:bg-rose-500 border-rose-500 text-slate-900 dark:text-white shadow-rose-900/20' 
-                                    : 'bg-purple-600 hover:bg-purple-500 border-purple-500 text-slate-900 dark:text-white shadow-purple-900/20'
-                                }`}
-                              >
-                                {timerActive ? <Pause size={14} /> : <Play size={14} />}
-                                {timerActive ? 'Tạm dừng' : 'Bắt đầu học'}
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setTimerActive(false);
-                                  setTimerSeconds(1500);
-                                }}
-                                className="bg-white/5 hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 font-bold p-3 rounded-2xl transition-all"
-                                title="Đặt lại bộ đếm"
-                              >
-                                <RotateCcw size={14} />
-                              </button>
-                            </div>
-                          </div>
-
-                        </div>
-                      )}
 
                     </div>
 

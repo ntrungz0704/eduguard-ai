@@ -44,7 +44,7 @@ export default function Dashboard() {
 
     const fetchRoadmapProgress = async () => {
       try {
-        const res = await requestWithRestartRetry(() => api.get('/advisor/class-roadmap-progress'));
+        const res = await requestWithRestartRetry(() => api.get('/v1/advisor/class-roadmap-progress'));
         if (res.data && res.data.success) {
           setRoadmapProgress(res.data.data);
         }
@@ -608,13 +608,7 @@ export default function Dashboard() {
         {/* Row 2: Timeline Escalation */}
         <div className="mb-5">
           <TimelineEscalation
-            data={[
-              { week: 1, warnings: 5, critical: 1 },
-              { week: 2, warnings: 8, critical: 3 },
-              { week: 3, warnings: 12, critical: 5 },
-              { week: 4, warnings: 15, critical: 9 },
-              { week: 5, warnings: 22, critical: 14 }
-            ]}
+            data={[]}
           />
         </div>
 

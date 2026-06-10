@@ -35,6 +35,7 @@ const RiskDistribution = React.memo(({ data, title = 'Phân phối Rủi ro' }) 
   ];
 
   const total = chartData.reduce((s, d) => s + d.value, 0);
+  const activeData = chartData.filter(d => d.value > 0);
 
   return (
     <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-5 h-full">
@@ -48,17 +49,17 @@ const RiskDistribution = React.memo(({ data, title = 'Phân phối Rủi ro' }) 
       <ResponsiveContainer width="100%" height={220}>
         <PieChart>
           <Pie
-            data={chartData}
+            data={activeData}
             cx="50%"
             cy="50%"
             innerRadius={55}
             outerRadius={90}
-            paddingAngle={3}
+            stroke="none"
             dataKey="value"
             labelLine={false}
             label={renderCustomLabel}
           >
-            {chartData.map((entry) => (
+            {activeData.map((entry) => (
               <Cell key={entry.name} fill={COLORS[entry.name] || '#6b7280'} />
             ))}
           </Pie>
