@@ -793,9 +793,8 @@ function CourseInsightModal({ course, dependencies, onClose }) {
                      <Activity size={16} /> Mô phỏng What-If
                    </h4>
                    <p className="text-sm text-blue-700 dark:text-blue-400 mb-4">
-                     Hiện tại AI dự báo bạn có thể đạt {course.value.toFixed(1)}. Nếu bạn tập trung ôn luyện và đạt <strong>8.0</strong>, mức độ sẵn sàng cho các nghề {(dependencies.careers || []).slice(0,2).join(', ')} sẽ tăng thêm khoảng 15%.
+                     Hiện tại AI dự báo bạn có thể đạt {course.value.toFixed(1)}. Nếu bạn tập trung ôn luyện để nâng cao mức điểm này, mức độ sẵn sàng cho các nghề {(dependencies.careers || []).slice(0,2).join(', ')} sẽ được cải thiện đáng kể.
                    </p>
-                   <ScoreBar value={8.0} />
                  </div>
               )}
             </>

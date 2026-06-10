@@ -187,12 +187,7 @@ export default function StudentSearch() {
   const [expandedWeakSubject, setExpandedWeakSubject] = useState(0);
 
   // Challenges/Checklist State
-  const [challenges, setChallenges] = useState([
-    { id: 1, text: 'Lập lịch học cố định hàng tuần: Dành ít nhất 4 tiếng tự học và ôn tập kiến thức chuyên ngành.', completed: true },
-    { id: 2, text: 'Giải ít nhất 5 bài tập thực hành trên LeetCode/Hackerrank tự gõ code và debug.', completed: false },
-    { id: 3, text: 'Đăng ký tham gia nhóm bổ trợ học tập hoặc CLB học thuật của trường.', completed: false },
-    { id: 4, text: 'Luyện 3 đề thi thử cuối kỳ môn học bị hổng kiến thức để rèn luyện tâm lý.', completed: false }
-  ]);
+  const [challenges, setChallenges] = useState([]);
 
   const handleToggleChallenge = (id) => {
     setChallenges(prev => prev.map(ch => ch.id === id ? { ...ch, completed: !ch.completed } : ch));
@@ -1084,53 +1079,38 @@ export default function StudentSearch() {
                               <AlertTriangle size={16} className="text-rose-400" /> Môn yếu & Nguyên nhân cốt lõi
                             </h4>
                             <div className="space-y-3">
-                              {[
-                                {
-                                  title: `1. Môn: ${lowestSubjects[0]?.courseId || 'Cấu trúc dữ liệu và Giải thuật'} (${getLetterGrade(lowestSubjects[0]?.value)})`,
-                                  focus: "Trọng tâm kiến thức: Đệ quy, Cây nhị phân, Thuật toán tìm kiếm & sắp xếp",
-                                  points: [
-                                    "Chưa nắm chắc tư duy đệ quy và kỹ thuật duyệt cây (Pre-order, In-order, Post-order).",
-                                    "Gặp khó khăn khi tối ưu hóa độ phức tạp thuật toán (Big O Notation) cho các bài toán thực hành.",
-                                    "Nguyên nhân khách quan: Môn học đòi hỏi tư duy logic cao nhưng thời gian thực hành tương tác trực tiếp còn hạn chế."
-                                  ]
-                                },
-                                {
-                                  title: `2. Môn: ${lowestSubjects[1]?.courseId || 'Cơ sở dữ liệu'} (${getLetterGrade(lowestSubjects[1]?.value)})`,
-                                  focus: "Trọng tâm kiến thức: Chuẩn hóa cơ sở dữ liệu (1NF, 2NF, 3NF), Truy vấn SQL nâng cao",
-                                  points: [
-                                    "Bị hổng kỹ năng phân tích thực thể (ERD) dẫn đến việc thiết kế bảng dữ liệu bị dư thừa thông tin.",
-                                    "Kỹ năng tối ưu hóa chỉ mục (Indexes) và viết truy vấn Subquery, JOIN phức tạp còn chậm và dễ sai cú pháp.",
-                                    "Nguyên nhân khách quan: Cú pháp SQL nhiều biến thể, chưa có điều kiện thực hành trên các hệ quản trị CSDL lớn."
-                                  ]
-                                }
-                              ].map((item, idx) => {
-                                const isExpanded = expandedWeakSubject === idx;
-                                return (
-                                  <div key={idx} className="border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden bg-slate-100 dark:bg-black/20">
-                                    <button
-                                      type="button"
-                                      onClick={() => setExpandedWeakSubject(isExpanded ? -1 : idx)}
-                                      className="w-full flex items-center justify-between p-4 font-bold text-xs text-slate-800 dark:text-slate-200 hover:bg-white/5 transition-all text-left"
-                                    >
-                                      <div>
-                                        <p className="text-sm text-slate-100">{item.title}</p>
-                                        <p className="text-[10px] text-slate-600 dark:text-slate-400 font-normal mt-1">{item.focus}</p>
-                                      </div>
-                                      {isExpanded ? <ChevronUp size={16} className="text-slate-600 dark:text-slate-400" /> : <ChevronDown size={16} className="text-slate-600 dark:text-slate-400" />}
-                                    </button>
-                                    {isExpanded && (
-                                      <div className="p-4 border-t border-slate-200 dark:border-white/5 bg-slate-200 dark:bg-black/40 text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
-                                        {item.points.map((pt, pIdx) => (
-                                          <div key={pIdx} className="flex items-start gap-2">
-                                            <span className="text-rose-400 font-bold">•</span>
-                                            <p>{pt}</p>
+                              {lowestSubjects.length > 0 ? (
+                                lowestSubjects.slice(0, 3).map((subject, idx) => {
+                                  const isExpanded = expandedWeakSubject === idx;
+                                  return (
+                                    <div key={idx} className="border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden bg-slate-100 dark:bg-black/20">
+                                      <button
+                                        type="button"
+                                        onClick={() => setExpandedWeakSubject(isExpanded ? -1 : idx)}
+                                        className="w-full flex items-center justify-between p-4 font-bold text-xs text-slate-800 dark:text-slate-200 hover:bg-white/5 transition-all text-left"
+                                      >
+                                        <div>
+                                          <p className="text-sm text-slate-100">Môn: {courseNameToCode[subject.course?.name || subject.courseId] || subject.courseId} ({getLetterGrade(subject.value)})</p>
+                                          <p className="text-[10px] text-slate-600 dark:text-slate-400 font-normal mt-1">Cần phân tích nguyên nhân cốt lõi</p>
+                                        </div>
+                                        {isExpanded ? <ChevronUp size={16} className="text-slate-600 dark:text-slate-400" /> : <ChevronDown size={16} className="text-slate-600 dark:text-slate-400" />}
+                                      </button>
+                                      {isExpanded && (
+                                        <div className="p-4 border-t border-slate-200 dark:border-white/5 bg-slate-200 dark:bg-black/40 text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
+                                          <div className="flex items-start gap-2">
+                                            <span className="text-blue-400 font-bold">🤖</span>
+                                            <p>Vui lòng sử dụng tính năng <strong>Trợ lý AI</strong> bên phải để phân tích nguyên nhân cốt lõi và lấy lời khuyên cụ thể cho môn học này.</p>
                                           </div>
-                                        ))}
-                                      </div>
-                                    )}
-                                  </div>
-                                );
-                              })}
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })
+                              ) : (
+                                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 text-xs text-center font-semibold">
+                                  Sinh viên này không có môn yếu. Xin chúc mừng! 🎉
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -1154,26 +1134,33 @@ export default function StudentSearch() {
                             </div>
 
                             <div className="space-y-3">
-                              {challenges.map(ch => (
-                                <div 
-                                  key={ch.id} 
-                                  onClick={() => handleToggleChallenge(ch.id)}
-                                  className="flex items-start gap-3 p-3 bg-slate-100 dark:bg-black/20 hover:bg-black/35 border border-slate-200 dark:border-white/5 rounded-2xl cursor-pointer transition-all"
-                                >
-                                  <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all mt-0.5 ${
-                                    ch.completed 
-                                      ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
-                                      : 'border-slate-200 dark:border-white/20 text-transparent'
-                                  }`}>
-                                    <Check size={12} strokeWidth={3} />
+                              {challenges.length > 0 ? (
+                                challenges.map(ch => (
+                                  <div 
+                                    key={ch.id} 
+                                    onClick={() => handleToggleChallenge(ch.id)}
+                                    className="flex items-start gap-3 p-3 bg-slate-100 dark:bg-black/20 hover:bg-black/35 border border-slate-200 dark:border-white/5 rounded-2xl cursor-pointer transition-all"
+                                  >
+                                    <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all mt-0.5 ${
+                                      ch.completed 
+                                        ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
+                                        : 'border-slate-200 dark:border-white/20 text-transparent'
+                                    }`}>
+                                      <Check size={12} strokeWidth={3} />
+                                    </div>
+                                    <span className={`text-xs leading-relaxed transition-all ${
+                                      ch.completed ? 'text-slate-500 line-through' : 'text-slate-700 dark:text-slate-300 font-medium'
+                                    }`}>
+                                      {ch.text}
+                                    </span>
                                   </div>
-                                  <span className={`text-xs leading-relaxed transition-all ${
-                                    ch.completed ? 'text-slate-500 line-through' : 'text-slate-700 dark:text-slate-300 font-medium'
-                                  }`}>
-                                    {ch.text}
-                                  </span>
+                                ))
+                              ) : (
+                                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400 text-xs text-center">
+                                  <p>Chưa có thử thách nào được tạo.</p>
+                                  <p className="mt-1 font-semibold">Vui lòng sử dụng tính năng Chat AI để sinh lộ trình thử thách 21 ngày cá nhân hóa.</p>
                                 </div>
-                              ))}
+                              )}
                             </div>
                           </div>
 
@@ -1183,45 +1170,41 @@ export default function StudentSearch() {
                               <TrendingUp size={16} className="text-purple-400" /> Lộ Trình Cải Thiện GPA Học Tập
                             </h4>
                             <div className="relative pl-6 space-y-8 border-l border-slate-200 dark:border-white/10 ml-3">
-                              {[
-                                {
-                                  stage: "Giai đoạn 1: Khởi động & Vượt chướng ngại vật (Tháng 1-2)",
-                                  desc: "Tập trung bổ trợ toàn bộ lỗ hổng lý thuyết của các môn tiên quyết cơ sở. Đăng ký nhóm phụ đạo IT và tham gia 100% các buổi thực hành phòng Lab.",
-                                  status: "completed"
-                                },
-                                {
-                                  stage: "Giai đoạn 2: Tăng tốc & Đột phá kỹ năng thực hành (Tháng 3-4)",
-                                  desc: "Nâng cao năng lực code độc lập thông qua việc tự lập trình 5 demo thực tế. Ôn tập đề thi giữa kỳ đạt điểm khá (>=6.5).",
-                                  status: "active"
-                                },
-                                {
-                                  stage: "Giai đoạn 3: Về đích & Bứt phá thi cử (Tháng 5-6)",
-                                  desc: "Luyện 5 đề thi cuối kỳ chính thức dưới áp lực thời gian thực tế. Gặp giảng viên tháo gỡ vướng mắc 1-1 trước kỳ thi 2 tuần.",
-                                  status: "upcoming"
-                                }
-                              ].map((step, idx) => (
-                                <div key={idx} className="relative">
-                                  <div className={`absolute -left-[35px] top-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                                    step.status === 'completed' 
-                                      ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
-                                      : step.status === 'active'
-                                        ? 'bg-blue-600 border-blue-400 text-slate-900 dark:text-white animate-pulse'
-                                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-white/20'
-                                  }`}>
-                                    {(step.status === 'completed' || step.status === 'active') && <div className="w-1.5 h-1.5 bg-white rounded-full"></div>}
-                                  </div>
-                                  <div>
-                                    <h5 className={`text-xs font-bold ${
+                              {selectedStudent.roadmap && selectedStudent.roadmap.length > 0 ? (
+                                selectedStudent.roadmap.map((step, idx) => (
+                                  <div key={idx} className="relative">
+                                    <div className={`absolute -left-[35px] top-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
                                       step.status === 'completed' 
-                                        ? 'text-emerald-400' 
+                                        ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
                                         : step.status === 'active'
-                                          ? 'text-blue-400'
-                                          : 'text-slate-600 dark:text-slate-400'
-                                    }`}>{step.stage}</h5>
-                                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">{step.desc}</p>
+                                          ? 'bg-blue-600 border-blue-400 text-slate-900 dark:text-white animate-pulse'
+                                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-white/20'
+                                    }`}>
+                                      {(step.status === 'completed' || step.status === 'active') && <div className="w-1.5 h-1.5 bg-white rounded-full"></div>}
+                                    </div>
+                                    <div>
+                                      <h5 className={`text-xs font-bold ${
+                                        step.status === 'completed' 
+                                          ? 'text-emerald-400' 
+                                          : step.status === 'active'
+                                            ? 'text-blue-400'
+                                            : 'text-slate-600 dark:text-slate-400'
+                                      }`}>{step.stage}</h5>
+                                      <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">{step.desc}</p>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="relative">
+                                  <div className="absolute -left-[35px] top-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all bg-white dark:bg-slate-900 border-slate-200 dark:border-white/20"></div>
+                                  <div>
+                                    <h5 className="text-xs font-bold text-slate-600 dark:text-slate-400">Chưa có lộ trình học tập</h5>
+                                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">
+                                      Hệ thống chưa tạo lộ trình tự động. Bạn hãy nhập yêu cầu "Hãy lập lộ trình can thiệp học tập" vào khung Chat AI bên phải để sinh cấu trúc cải thiện điểm số.
+                                    </p>
                                   </div>
                                 </div>
-                              ))}
+                              )}
                             </div>
                           </div>
 
