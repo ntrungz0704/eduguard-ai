@@ -2,12 +2,27 @@
   {
     "id": "nodejs",
     "name": "Node.js",
-    "aliases": ["node", "node.js", "nodejs"],
+    "aliases": [
+      "node",
+      "node.js",
+      "nodejs"
+    ],
     "definition": "Node.js là một môi trường runtime chạy mã JavaScript ở phía máy chủ (Server-side), được xây dựng trên V8 JavaScript engine của Chrome.",
     "whyLearn": "Trong ngành Lập trình Web, Node.js cho phép dùng chung ngôn ngữ JavaScript cho cả Frontend và Backend, giúp Fullstack Developer xây dựng các ứng dụng thời gian thực (Real-time), API tốc độ cao và kiến trúc Microservices một cách nhanh chóng.",
-    "relatedCourses": ["WEB503", "WEB502", "PRO1014"],
-    "prerequisites": ["Cơ bản về JavaScript (ES6+)", "Hiểu về HTTP/APIs", "Bất đồng bộ (Async/Await)"],
-    "prerequisiteCourses": ["WEB1043", "WEB2063"],
+    "relatedCourses": [
+      "WEB503",
+      "WEB502",
+      "PRO1014"
+    ],
+    "prerequisites": [
+      "Cơ bản về JavaScript (ES6+)",
+      "Hiểu về HTTP/APIs",
+      "Bất đồng bộ (Async/Await)"
+    ],
+    "prerequisiteCourses": [
+      "WEB1043",
+      "WEB2063"
+    ],
     "roadmap30Days": [
       "Tuần 1: Hiểu về V8 Engine, Event Loop, Modules (CommonJS, ES Modules), npm/yarn.",
       "Tuần 2: Thao tác File System, Events, Streams, và viết server cơ bản bằng HTTP module.",
@@ -18,11 +33,19 @@
   {
     "id": "html",
     "name": "HTML",
-    "aliases": ["html", "html5"],
+    "aliases": [
+      "html",
+      "html5"
+    ],
     "definition": "HTML (HyperText Markup Language) là ngôn ngữ đánh dấu siêu văn bản, dùng để tạo dựng bộ khung cấu trúc của bất kỳ trang web nào trên Internet.",
     "whyLearn": "Đây là bước chân đầu tiên bắt buộc phải có đối với mọi Frontend Developer hay Fullstack Developer. Không có HTML, trình duyệt không thể hiểu và hiển thị nội dung trang web.",
-    "relatedCourses": ["WEB1013", "WEB1043"],
-    "prerequisites": ["Không có"],
+    "relatedCourses": [
+      "WEB1013",
+      "WEB1043"
+    ],
+    "prerequisites": [
+      "Không có"
+    ],
     "prerequisiteCourses": [],
     "roadmap30Days": [
       "Tuần 1: Cấu trúc thẻ cơ bản, tiêu đề, đoạn văn, danh sách, liên kết và hình ảnh.",
@@ -34,12 +57,27 @@
   {
     "id": "javascript",
     "name": "JavaScript",
-    "aliases": ["js", "javascript", "ecmascript", "es6"],
+    "aliases": [
+      "js",
+      "javascript",
+      "ecmascript",
+      "es6"
+    ],
     "definition": "JavaScript (JS) là ngôn ngữ lập trình kịch bản đa nền tảng, cung cấp khả năng tương tác động cho trang web (Frontend) và xử lý logic máy chủ (Backend).",
     "whyLearn": "JavaScript là trái tim của lập trình Web hiện đại. Nó là yêu cầu bắt buộc cho 100% các công việc liên quan đến Frontend và mở đường để học React, Vue, Angular hay Node.js.",
-    "relatedCourses": ["WEB1043", "WEB2063", "WEB2081"],
-    "prerequisites": ["Tư duy lập trình cơ bản (C/Java/Python)", "HTML & CSS cơ bản"],
-    "prerequisiteCourses": ["COM108", "WEB1013"],
+    "relatedCourses": [
+      "WEB1043",
+      "WEB2063",
+      "WEB2081"
+    ],
+    "prerequisites": [
+      "Tư duy lập trình cơ bản (C/Java/Python)",
+      "HTML & CSS cơ bản"
+    ],
+    "prerequisiteCourses": [
+      "COM108",
+      "WEB1013"
+    ],
     "roadmap30Days": [
       "Tuần 1: Biến, kiểu dữ liệu, vòng lặp, câu lệnh rẽ nhánh và các hàm (Functions).",
       "Tuần 2: Xử lý Mảng (Array methods), Object, DOM manipulation và Events.",
@@ -50,12 +88,26 @@
   {
     "id": "react",
     "name": "React",
-    "aliases": ["react", "react.js", "reactjs"],
+    "aliases": [
+      "react",
+      "react.js",
+      "reactjs"
+    ],
     "definition": "React là một thư viện JavaScript do Facebook phát triển, dùng để xây dựng giao diện người dùng (UI) tương tác cao thông qua các Component tái sử dụng.",
     "whyLearn": "React hiện là kỹ năng Frontend được tuyển dụng nhiều nhất thế giới. Học React giúp bạn dễ dàng xin việc Frontend Developer hoặc mở rộng sang Mobile với React Native.",
-    "relatedCourses": ["WEB2081", "WEB2091"],
-    "prerequisites": ["HTML/CSS vững", "JavaScript ES6 (Array methods, Destructuring, Async/Await)", "Cơ chế DOM"],
-    "prerequisiteCourses": ["WEB1043", "WEB2063"],
+    "relatedCourses": [
+      "WEB2081",
+      "WEB2091"
+    ],
+    "prerequisites": [
+      "HTML/CSS vững",
+      "JavaScript ES6 (Array methods, Destructuring, Async/Await)",
+      "Cơ chế DOM"
+    ],
+    "prerequisiteCourses": [
+      "WEB1043",
+      "WEB2063"
+    ],
     "roadmap30Days": [
       "Tuần 1: JSX, Components (Class & Functional), Props và State (useState).",
       "Tuần 2: Vòng đời Component, useEffect, Xử lý sự kiện và Form handling.",
@@ -66,12 +118,25 @@
   {
     "id": "nextjs",
     "name": "Next.js",
-    "aliases": ["next", "nextjs", "next.js"],
+    "aliases": [
+      "next",
+      "nextjs",
+      "next.js"
+    ],
     "definition": "Next.js là một React Framework mạnh mẽ, hỗ trợ Server-Side Rendering (SSR), Static Site Generation (SSG) giúp tối ưu SEO và hiệu suất.",
     "whyLearn": "Các dự án thương mại điện tử, báo chí yêu cầu SEO khắt khe đều đang chuyển sang Next.js. Nắm vững Next.js giúp bạn vươn lên tầm Senior Frontend hoặc Fullstack.",
-    "relatedCourses": ["WEB503"],
-    "prerequisites": ["Sử dụng thành thạo React", "Hiểu về Client-side vs Server-side", "Node.js cơ bản"],
-    "prerequisiteCourses": ["WEB2081", "WEB502"],
+    "relatedCourses": [
+      "WEB503"
+    ],
+    "prerequisites": [
+      "Sử dụng thành thạo React",
+      "Hiểu về Client-side vs Server-side",
+      "Node.js cơ bản"
+    ],
+    "prerequisiteCourses": [
+      "WEB2081",
+      "WEB502"
+    ],
     "roadmap30Days": [
       "Tuần 1: Khái niệm SSR/SSG/ISR, App Router vs Pages Router, Layouts & Pages.",
       "Tuần 2: Data Fetching (fetch API, Server Components vs Client Components).",
@@ -82,17 +147,509 @@
   {
     "id": "mongodb",
     "name": "MongoDB",
-    "aliases": ["mongodb", "mongo", "nosql"],
+    "aliases": [
+      "mongodb",
+      "mongo",
+      "nosql"
+    ],
     "definition": "MongoDB là một cơ sở dữ liệu NoSQL lưu trữ dữ liệu dưới dạng các tài liệu (documents) giống JSON, có khả năng mở rộng (scale) linh hoạt.",
     "whyLearn": "Được sử dụng trong stack MERN (MongoDB, Express, React, Node) cực kỳ phổ biến. Phù hợp cho các hệ thống cần linh hoạt về Schema và tốc độ phát triển dự án nhanh.",
-    "relatedCourses": ["WEB502"],
-    "prerequisites": ["Hiểu cấu trúc dữ liệu JSON", "Kiến thức về Database cơ bản"],
-    "prerequisiteCourses": ["WEB1043"],
+    "relatedCourses": [
+      "WEB502"
+    ],
+    "prerequisites": [
+      "Hiểu cấu trúc dữ liệu JSON",
+      "Kiến thức về Database cơ bản"
+    ],
+    "prerequisiteCourses": [
+      "WEB1043"
+    ],
     "roadmap30Days": [
       "Tuần 1: Cài đặt MongoDB, khái niệm Collections, Documents, và BSON.",
       "Tuần 2: CRUD Operations (Create, Read, Update, Delete) với MongoDB Shell.",
       "Tuần 3: Sử dụng Mongoose (ODM) trong Node.js, Schema Design, Models.",
       "Tuần 4: Aggregation Framework, Indexes để tối ưu truy vấn, Relationships (Refs vs Embeds)."
+    ]
+  },
+  {
+    "id": "css",
+    "name": "CSS",
+    "aliases": [
+      "css",
+      "css3",
+      "tailwind",
+      "sass"
+    ],
+    "definition": "CSS (Cascading Style Sheets) là ngôn ngữ dùng để mô tả cách trình bày các tài liệu viết bằng HTML. CSS giúp định dạng màu sắc, bố cục, font chữ và tạo hiệu ứng đồ họa.",
+    "whyLearn": "Nếu HTML là bộ xương, thì CSS là làn da và quần áo của trang web. Bất kỳ công việc Frontend nào cũng yêu cầu kỹ năng CSS xuất sắc để tạo giao diện đẹp và Responsive.",
+    "relatedCourses": [
+      "WEB1013",
+      "WEB1043"
+    ],
+    "prerequisites": [
+      "HTML cơ bản"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Cú pháp cơ bản, Selectors, Màu sắc, Font chữ và Box Model.",
+      "Tuần 2: Bố cục trang web với Flexbox và CSS Grid.",
+      "Tuần 3: Responsive Design (Media Queries), Mobile-first.",
+      "Tuần 4: CSS Animations, Transitions, Variables và làm quen Tailwind CSS."
+    ]
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "aliases": [
+      "ts",
+      "typescript"
+    ],
+    "definition": "TypeScript là một ngôn ngữ lập trình mã nguồn mở được phát triển bởi Microsoft, là một phiên bản siêu tập hợp (superset) của JavaScript có hỗ trợ khai báo kiểu tĩnh (static typing).",
+    "whyLearn": "Các dự án lớn (Enterprise) đều dùng TypeScript để giảm thiểu lỗi runtime và dễ bảo trì. Biết TypeScript giúp bạn vượt trội hơn hẳn so với ứng viên chỉ biết JavaScript thuần.",
+    "relatedCourses": [
+      "WEB2091"
+    ],
+    "prerequisites": [
+      "JavaScript ES6+",
+      "OOP cơ bản"
+    ],
+    "prerequisiteCourses": [
+      "WEB1043",
+      "WEB2063"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Khai báo kiểu cơ bản (Basic Types), Type Inference, Interfaces.",
+      "Tuần 2: Union & Intersection Types, Enums, Type Assertions, Functions.",
+      "Tuần 3: Classes, OOP trong TypeScript, Generics.",
+      "Tuần 4: Cấu hình tsconfig.json, kết hợp TypeScript với React (TSX) hoặc Node.js."
+    ]
+  },
+  {
+    "id": "git",
+    "name": "Git & GitHub",
+    "aliases": [
+      "git",
+      "github",
+      "gitlab",
+      "bitbucket",
+      "version control"
+    ],
+    "definition": "Git là hệ thống quản lý phiên bản phân tán, giúp theo dõi các thay đổi trong mã nguồn. GitHub là nền tảng đám mây để lưu trữ và cộng tác dựa trên Git.",
+    "whyLearn": "Đây là kỹ năng sinh tồn. Không một công ty phần mềm nào hiện nay không dùng Git. Nó giúp bạn làm việc nhóm, khôi phục code khi lỗi và xây dựng Portfolio.",
+    "relatedCourses": [
+      "COM108"
+    ],
+    "prerequisites": [
+      "Tin học cơ bản",
+      "Biết dùng Command Line cơ bản"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Cài đặt Git, khái niệm Working Directory, Staging Area, Local Repository.",
+      "Tuần 2: Các lệnh cơ bản: init, add, commit, status, log. Kết nối GitHub (push, pull).",
+      "Tuần 3: Quản lý nhánh (Branching): branch, checkout, merge, giải quyết Conflict.",
+      "Tuần 4: Làm việc nhóm: Pull Request (PR), Fork, Git Flow và viết README.md chuyên nghiệp."
+    ]
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "aliases": [
+      "docker",
+      "container",
+      "docker-compose"
+    ],
+    "definition": "Docker là một nền tảng mã nguồn mở giúp tự động hóa việc triển khai ứng dụng bên trong các container phần mềm nhẹ, di động và tự cung cấp môi trường.",
+    "whyLearn": "Giải quyết triệt để vấn đề 'code chạy trên máy tôi nhưng lỗi trên server'. Cần thiết cho Backend, DevOps và kiến trúc Microservices.",
+    "relatedCourses": [
+      "SYB301"
+    ],
+    "prerequisites": [
+      "Kiến thức hệ điều hành (Linux)",
+      "Mạng máy tính cơ bản"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm Virtualization vs Containerization. Cài đặt Docker Desktop.",
+      "Tuần 2: Docker Images, Docker Hub, viết Dockerfile và build Image cho ứng dụng Node/React.",
+      "Tuần 3: Docker Containers (run, stop, rm, logs, exec), Volumes và Mạng (Networking).",
+      "Tuần 4: Quản lý multi-container với Docker Compose."
+    ]
+  },
+  {
+    "id": "restapi",
+    "name": "REST API",
+    "aliases": [
+      "api",
+      "rest api",
+      "restful",
+      "rest"
+    ],
+    "definition": "REST API là một tiêu chuẩn kiến trúc phần mềm dùng để thiết kế các dịch vụ web kết nối giữa Client (Frontend/Mobile) và Server (Backend).",
+    "whyLearn": "Là cách thức giao tiếp chính của các hệ thống phần mềm hiện đại. Dù bạn làm Frontend (gọi API) hay Backend (viết API), bạn đều phải hiểu tường tận REST.",
+    "relatedCourses": [
+      "WEB502",
+      "WEB503"
+    ],
+    "prerequisites": [
+      "Giao thức HTTP",
+      "Cơ bản về Backend (Node/Java/PHP)"
+    ],
+    "prerequisiteCourses": [
+      "WEB1043"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Giao thức HTTP (Methods: GET, POST, PUT, DELETE), Status Codes, Headers.",
+      "Tuần 2: Thiết kế URI/URL chuẩn RESTful, JSON format. Sử dụng Postman để test API.",
+      "Tuần 3: Viết API với Express.js, nhận dữ liệu qua req.params, req.query, req.body.",
+      "Tuần 4: Xử lý lỗi (Error Handling), Pagination, Filtering, Sorting và API Documentation (Swagger)."
+    ]
+  },
+  {
+    "id": "sql",
+    "name": "SQL & RDBMS",
+    "aliases": [
+      "sql",
+      "mysql",
+      "postgresql",
+      "rdbms",
+      "database"
+    ],
+    "definition": "SQL (Structured Query Language) là ngôn ngữ chuẩn để tương tác với Cơ sở dữ liệu quan hệ (RDBMS) như MySQL, PostgreSQL, SQL Server.",
+    "whyLearn": "90% các hệ thống phần mềm cốt lõi (Ngân hàng, ERP, CRM) đều dùng CSDL quan hệ. Kỹ năng SQL vững chắc giúp bạn tối ưu hệ thống Backend cực tốt.",
+    "relatedCourses": [
+      "WEB502"
+    ],
+    "prerequisites": [
+      "Tư duy logic",
+      "Kiến thức về lưu trữ dữ liệu"
+    ],
+    "prerequisiteCourses": [
+      "COM108"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Thiết kế CSDL (Tables, Columns, Data Types), Primary Key, Foreign Key.",
+      "Tuần 2: Các câu lệnh CRUD (INSERT, SELECT, UPDATE, DELETE) và WHERE, LIKE, IN.",
+      "Tuần 3: Joins (INNER, LEFT, RIGHT), GROUP BY, HAVING và Aggregate Functions (COUNT, SUM).",
+      "Tuần 4: Indexes, Transactions (ACID), Subqueries và chuẩn hóa CSDL (Normalization)."
+    ]
+  },
+  {
+    "id": "aws",
+    "name": "AWS Cloud",
+    "aliases": [
+      "aws",
+      "cloud",
+      "amazon web services",
+      "ec2",
+      "s3"
+    ],
+    "definition": "AWS (Amazon Web Services) là nền tảng điện toán đám mây toàn diện và được sử dụng rộng rãi nhất thế giới, cung cấp hơn 200 dịch vụ từ các trung tâm dữ liệu toàn cầu.",
+    "whyLearn": "Chuyển dịch lên Cloud là xu hướng tất yếu. Sở hữu kỹ năng AWS (hoặc Azure/GCP) giúp bạn vươn lên thành Cloud Engineer hoặc DevOps với mức lương rất cao.",
+    "relatedCourses": [],
+    "prerequisites": [
+      "Mạng máy tính (Networking)",
+      "Linux CLI",
+      "Kiến trúc hệ thống"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm Cloud Computing (IaaS, PaaS, SaaS), IAM (Quản lý quyền truy cập).",
+      "Tuần 2: Dịch vụ tính toán (EC2), kết nối SSH, Security Groups, Elastic IP.",
+      "Tuần 3: Dịch vụ lưu trữ (S3) để chứa ảnh tĩnh/Frontend, RDS (Database managed).",
+      "Tuần 4: VPC (Networking cơ bản), Route53, Load Balancing (ELB) và Auto Scaling."
+    ]
+  },
+  {
+    "id": "reactnative",
+    "name": "React Native",
+    "aliases": [
+      "react native",
+      "reactnative",
+      "rn"
+    ],
+    "definition": "React Native là một framework mã nguồn mở do Meta tạo ra, cho phép bạn xây dựng ứng dụng di động gốc (Native Mobile Apps) cho iOS và Android sử dụng JavaScript và React.",
+    "whyLearn": "Tiết kiệm chi phí và thời gian phát triển app. Nếu bạn đã biết React web, bạn có thể học React Native rất nhanh để trở thành Mobile Developer.",
+    "relatedCourses": [
+      "MOB402",
+      "MOB403"
+    ],
+    "prerequisites": [
+      "Sử dụng thành thạo React (Hooks, Components)",
+      "JavaScript ES6+"
+    ],
+    "prerequisiteCourses": [
+      "WEB2091"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm Core Components (View, Text, Image, ScrollView, TextInput), Flexbox.",
+      "Tuần 2: Cài đặt môi trường (Expo CLI vs React Native CLI), Navigation (React Navigation).",
+      "Tuần 3: Quản lý State, FlatList, SectionList, Tương tác hệ thống (Camera, Location).",
+      "Tuần 4: Tích hợp API (Axios), Push Notifications và Build/Publish app lên Store."
+    ]
+  },
+  {
+    "id": "flutter",
+    "name": "Flutter",
+    "aliases": [
+      "flutter",
+      "dart",
+      "flutter framework"
+    ],
+    "definition": "Flutter là UI toolkit của Google để xây dựng các ứng dụng biên dịch gốc (natively compiled) cho thiết bị di động, web và desktop từ một codebase duy nhất sử dụng ngôn ngữ Dart.",
+    "whyLearn": "Flutter mang lại hiệu năng cao (bản chất compile ra mã gốc) và trải nghiệm UI/UX cực kỳ mượt mà, đang là lựa chọn số 1 cho các startup làm Mobile App.",
+    "relatedCourses": [
+      "MOB401",
+      "MOB402"
+    ],
+    "prerequisites": [
+      "Tư duy lập trình OOP (Java/C++/Dart)"
+    ],
+    "prerequisiteCourses": [
+      "COM108"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Cú pháp Dart cơ bản, khái niệm Widget (Mọi thứ đều là Widget), Stateless vs Stateful.",
+      "Tuần 2: Bố cục UI (Row, Column, Stack, Container), Material Design và Cupertino.",
+      "Tuần 3: Navigation, gọi REST API (http package), Xử lý JSON.",
+      "Tuần 4: State Management (Provider hoặc Riverpod), Lưu trữ cục bộ (Shared Preferences) và Build app."
+    ]
+  },
+  {
+    "id": "linux",
+    "name": "Linux CLI",
+    "aliases": [
+      "linux",
+      "bash",
+      "terminal",
+      "ubuntu",
+      "centos",
+      "cli"
+    ],
+    "definition": "Linux CLI là giao diện dòng lệnh của hệ điều hành Linux, nơi bạn tương tác với máy tính bằng các lệnh văn bản thay vì giao diện đồ họa (GUI).",
+    "whyLearn": "Hầu hết các server chạy web đều dùng Linux (Ubuntu/CentOS). Biết Linux CLI là bắt buộc để bạn có thể tự deploy code (Backend, Frontend) lên VPS.",
+    "relatedCourses": [
+      "SYB301"
+    ],
+    "prerequisites": [
+      "Tin học cơ bản"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Cấu trúc thư mục Linux, các lệnh di chuyển và thao tác file (cd, ls, mkdir, rm, cp, mv).",
+      "Tuần 2: Xem và chỉnh sửa nội dung file (cat, less, grep, nano, vim).",
+      "Tuần 3: Quản lý user, phân quyền (chmod, chown), quản lý tiến trình (ps, kill, top).",
+      "Tuần 4: Cài đặt phần mềm (apt/yum), cấu hình mạng cơ bản, SSH vào remote server."
+    ]
+  },
+  {
+    "id": "expressjs",
+    "name": "Express.js",
+    "aliases": [
+      "express",
+      "expressjs",
+      "express.js"
+    ],
+    "definition": "Express.js là một framework web tối giản và linh hoạt dành cho Node.js, cung cấp một tập hợp các tính năng mạnh mẽ để xây dựng ứng dụng web và mobile.",
+    "whyLearn": "Đây là tiêu chuẩn công nghiệp (de facto standard) cho việc xây dựng RESTful APIs trong hệ sinh thái Node.js. Hầu hết các công việc Backend Node.js đều yêu cầu.",
+    "relatedCourses": [
+      "WEB503"
+    ],
+    "prerequisites": [
+      "Node.js",
+      "REST API cơ bản"
+    ],
+    "prerequisiteCourses": [
+      "WEB502"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Cài đặt, Routing cơ bản, req và res.",
+      "Tuần 2: Middleware (Custom, Error handling, 3rd party like cors/morgan).",
+      "Tuần 3: Tích hợp Database (Mongoose, Sequelize), View Engines (EJS/Pug).",
+      "Tuần 4: Bảo mật (Helmet, Rate Limiting), Xác thực (JWT/Passport.js)."
+    ]
+  },
+  {
+    "id": "redux",
+    "name": "Redux & Zustand",
+    "aliases": [
+      "redux",
+      "zustand",
+      "state management",
+      "redux toolkit"
+    ],
+    "definition": "Redux và Zustand là các thư viện quản lý trạng thái (state management) toàn cục cho các ứng dụng JavaScript, phổ biến nhất là dùng kèm với React.",
+    "whyLearn": "Khi ứng dụng React lớn lên, việc truyền props (prop drilling) trở nên phức tạp. State Management là kỹ năng bắt buộc của Senior Frontend Developer.",
+    "relatedCourses": [
+      "WEB2091"
+    ],
+    "prerequisites": [
+      "React cơ bản",
+      "Hooks (useState, useContext)"
+    ],
+    "prerequisiteCourses": [
+      "WEB2081"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm Store, Actions, Reducers và Dispatch.",
+      "Tuần 2: Sử dụng Redux Toolkit (configureStore, createSlice).",
+      "Tuần 3: Xử lý bất đồng bộ (createAsyncThunk), RTK Query.",
+      "Tuần 4: Chuyển đổi sang Zustand (nhẹ và hiện đại hơn) và tối ưu Re-renders."
+    ]
+  },
+  {
+    "id": "nestjs",
+    "name": "NestJS",
+    "aliases": [
+      "nest",
+      "nestjs",
+      "nest.js"
+    ],
+    "definition": "NestJS là một framework Node.js tiến tiến để xây dựng các ứng dụng server-side hiệu quả, có thể mở rộng, sử dụng kiến trúc OOP, FP và FRP với TypeScript.",
+    "whyLearn": "NestJS mang lại cấu trúc chặt chẽ (giống Angular/Spring Boot), rất được các tập đoàn lớn (Enterprise) ưa chuộng cho các hệ thống phức tạp và Microservices.",
+    "relatedCourses": [],
+    "prerequisites": [
+      "TypeScript",
+      "Express.js",
+      "OOP/Decorators"
+    ],
+    "prerequisiteCourses": [
+      "WEB503"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm Modules, Controllers, Providers và Dependency Injection.",
+      "Tuần 2: Middleware, Exception Filters, Pipes (Validation), Guards (Auth).",
+      "Tuần 3: Interceptors, tích hợp TypeORM/Prisma với Database.",
+      "Tuần 4: Xây dựng GraphQL API, Microservices và Testing (Jest)."
+    ]
+  },
+  {
+    "id": "kubernetes",
+    "name": "Kubernetes (K8s)",
+    "aliases": [
+      "kubernetes",
+      "k8s"
+    ],
+    "definition": "Kubernetes là một hệ thống mã nguồn mở để tự động hóa việc triển khai, mở rộng quy mô và quản lý các ứng dụng được container hóa (Docker).",
+    "whyLearn": "Đây là trái tim của hệ sinh thái DevOps và Cloud Native. Nắm vững K8s là chìa khóa để trở thành DevOps/Cloud Engineer cấp cao.",
+    "relatedCourses": [],
+    "prerequisites": [
+      "Docker",
+      "Linux CLI",
+      "Networking"
+    ],
+    "prerequisiteCourses": [
+      "SYB301"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Kiến trúc K8s (Master/Worker nodes), Pods, Deployments.",
+      "Tuần 2: Services, Ingress, Namespaces, ConfigMaps và Secrets.",
+      "Tuần 3: Storage (Persistent Volumes, PVC), StatefulSets.",
+      "Tuần 4: Helm charts, Monitoring (Prometheus/Grafana) và CI/CD với K8s."
+    ]
+  },
+  {
+    "id": "cypress",
+    "name": "Cypress / Playwright",
+    "aliases": [
+      "cypress",
+      "playwright",
+      "e2e testing",
+      "automation test"
+    ],
+    "definition": "Cypress và Playwright là các công cụ kiểm thử tự động (Automation Testing) end-to-end cho các ứng dụng web hiện đại.",
+    "whyLearn": "Kiểm thử tự động giúp giảm thiểu lỗi khi deploy. Đây là kỹ năng cốt lõi của QA Automation Engineer và là một điểm cộng rất lớn cho lập trình viên.",
+    "relatedCourses": [
+      "SOF304"
+    ],
+    "prerequisites": [
+      "JavaScript",
+      "HTML/CSS cơ bản",
+      "Khái niệm Testing"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Cài đặt Cypress/Playwright, viết Test Case E2E đầu tiên, Selectors.",
+      "Tuần 2: Tương tác UI (Click, Type, Hover), Assertions (Chai/Expect).",
+      "Tuần 3: Intercept Network/APIs, Mocking dữ liệu, Xử lý Authentication.",
+      "Tuần 4: Tích hợp vào luồng CI/CD (GitHub Actions) và xuất Report (Allure)."
+    ]
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "aliases": [
+      "python",
+      "python3",
+      "py"
+    ],
+    "definition": "Python là ngôn ngữ lập trình bậc cao, đa năng, được biết đến với cú pháp cực kỳ dễ đọc. Python thống trị các lĩnh vực AI, Data Science và Backend.",
+    "whyLearn": "Dù bạn làm Web (Django/FastAPI) hay AI/Data, Python là công cụ không thể thiếu. Nó là ngôn ngữ phổ biến nhất thế giới hiện tại.",
+    "relatedCourses": [
+      "PYF101",
+      "PYF102"
+    ],
+    "prerequisites": [
+      "Tin học cơ bản"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Biến, Kiểu dữ liệu, Cấu trúc điều khiển (if, for, while).",
+      "Tuần 2: Cấu trúc dữ liệu (List, Tuple, Dictionary, Set), Functions.",
+      "Tuần 3: OOP (Classes, Inheritance), Xử lý File, Exception Handling.",
+      "Tuần 4: Làm quen thư viện (Requests, Pandas cơ bản) hoặc Web API (FastAPI)."
+    ]
+  },
+  {
+    "id": "langchain",
+    "name": "LangChain / LLM APIs",
+    "aliases": [
+      "langchain",
+      "llm",
+      "openai api",
+      "genai"
+    ],
+    "definition": "LangChain là một framework được thiết kế để đơn giản hóa việc tạo ra các ứng dụng sử dụng các mô hình ngôn ngữ lớn (LLMs) như OpenAI GPT-4.",
+    "whyLearn": "Trí tuệ nhân tạo tạo sinh (GenAI) đang bùng nổ. Biến LLM thành các ứng dụng thực tế (như Chatbot EduGuard) là kỹ năng nóng nhất của AI Engineer.",
+    "relatedCourses": [],
+    "prerequisites": [
+      "Python hoặc JavaScript/Node.js",
+      "REST APIs"
+    ],
+    "prerequisiteCourses": [],
+    "roadmap30Days": [
+      "Tuần 1: Gọi OpenAI API, Khái niệm Prompts, Tokens, Chat Models.",
+      "Tuần 2: Cài đặt LangChain, Prompts Templates, Output Parsers, Chains.",
+      "Tuần 3: RAG (Retrieval-Augmented Generation), Vector Databases (Pinecone, Chroma).",
+      "Tuần 4: Agents, Tools, Memory và xây dựng chatbot RAG hoàn chỉnh."
+    ]
+  },
+  {
+    "id": "cicd",
+    "name": "CI/CD & GitHub Actions",
+    "aliases": [
+      "ci/cd",
+      "cicd",
+      "github actions",
+      "jenkins",
+      "gitlab ci"
+    ],
+    "definition": "CI/CD (Continuous Integration / Continuous Deployment) là phương pháp tự động hóa quá trình tích hợp code, kiểm thử và triển khai ứng dụng lên server.",
+    "whyLearn": "Tăng tốc độ phát triển và giảm thiểu rủi ro khi release code. Kỹ năng bắt buộc để làm việc trong các đội ngũ Agile/DevOps chuyên nghiệp.",
+    "relatedCourses": [],
+    "prerequisites": [
+      "Git & GitHub",
+      "Linux CLI",
+      "Docker cơ bản"
+    ],
+    "prerequisiteCourses": [
+      "SYB301"
+    ],
+    "roadmap30Days": [
+      "Tuần 1: Khái niệm CI/CD. Làm quen GitHub Actions Workflow (.yaml).",
+      "Tuần 2: Tự động chạy Unit Tests và Linter mỗi khi có Pull Request (CI).",
+      "Tuần 3: Tự động Build Docker Image và Push lên Docker Hub.",
+      "Tuần 4: Tự động Deploy lên server (VPS/AWS/Vercel) khi merge vào nhánh main (CD)."
     ]
   }
 ]

@@ -22130,43 +22130,13 @@
               ]
             },
             {
-              "option": "nhập môn công nghệ thông tin",
+              "option": "giáo dục thể chất",
               "texts": [
-                "nhập môn công nghệ thông tin",
-                "Nhập môn Công nghệ thông tin",
-                "nhậpmôncôngnghệthôngtin",
-                "nhập môn công nghệ thông tin",
-                "nhập môn công nghệ thông tin"
-              ]
-            },
-            {
-              "option": "pháp luật",
-              "texts": [
-                "pháp luật",
-                "Pháp luật",
-                "phápluật",
-                "pháp luật",
-                "pháp luật"
-              ]
-            },
-            {
-              "option": "giáo dục quốc phòng",
-              "texts": [
-                "giáo dục quốc phòng",
-                "Giáo dục quốc phòng",
-                "giáodụcquốcphòng",
-                "giáo dục quốc phòng",
-                "giáo dục quốc phòng"
-              ]
-            },
-            {
-              "option": "nhập môn lập trình",
-              "texts": [
-                "nhập môn lập trình",
-                "Nhập môn lập trình",
-                "nhậpmônlậptrình",
-                "nhập môn lập trình",
-                "nhập môn code"
+                "giáo dục thể chất",
+                "Giáo dục thể chất",
+                "giáodụcthểchất",
+                "giáo dục thể chất",
+                "giáo dục thể chất"
               ]
             },
             {
@@ -22180,13 +22150,33 @@
               ]
             },
             {
-              "option": "giáo dục thể chất",
+              "option": "nhập môn lập trình",
               "texts": [
-                "giáo dục thể chất",
-                "Giáo dục thể chất",
-                "giáodụcthểchất",
-                "giáo dục thể chất",
-                "giáo dục thể chất"
+                "nhập môn lập trình",
+                "Nhập môn lập trình",
+                "nhậpmônlậptrình",
+                "nhập môn lập trình",
+                "nhập môn code"
+              ]
+            },
+            {
+              "option": "nhập môn công nghệ thông tin",
+              "texts": [
+                "nhập môn công nghệ thông tin",
+                "Nhập môn Công nghệ thông tin",
+                "nhậpmôncôngnghệthôngtin",
+                "nhập môn công nghệ thông tin",
+                "nhập môn công nghệ thông tin"
+              ]
+            },
+            {
+              "option": "giáo dục quốc phòng",
+              "texts": [
+                "giáo dục quốc phòng",
+                "Giáo dục quốc phòng",
+                "giáodụcquốcphòng",
+                "giáo dục quốc phòng",
+                "giáo dục quốc phòng"
               ]
             },
             {
@@ -22200,16 +22190,6 @@
               ]
             },
             {
-              "option": "xây dựng trang web",
-              "texts": [
-                "xây dựng trang web",
-                "Xây dựng trang Web",
-                "xâydựngtrangweb",
-                "xây dựng trang web",
-                "xây dựng trang web"
-              ]
-            },
-            {
               "option": "cơ sở dữ liệu",
               "texts": [
                 "cơ sở dữ liệu",
@@ -22217,6 +22197,16 @@
                 "cơsởdữliệu",
                 "cơ sở dữ liệu",
                 "cơ sở dữ liệu"
+              ]
+            },
+            {
+              "option": "xây dựng trang web",
+              "texts": [
+                "xây dựng trang web",
+                "Xây dựng trang Web",
+                "xâydựngtrangweb",
+                "xây dựng trang web",
+                "xây dựng trang web"
               ]
             },
             {
@@ -22230,6 +22220,16 @@
               ]
             },
             {
+              "option": "lập trình cơ sở với javascript",
+              "texts": [
+                "lập trình cơ sở với javascript",
+                "Lập trình cơ sở với JavaScript",
+                "lậptrìnhcơsởvớijavascript",
+                "lập trình cơ sở với javascript",
+                "code cơ sở với javascript"
+              ]
+            },
+            {
               "option": "lập trình php cơ bản",
               "texts": [
                 "lập trình php cơ bản",
@@ -22240,13 +22240,13 @@
               ]
             },
             {
-              "option": "lập trình cơ sở với javascript",
+              "option": "tiếng anh 2.1",
               "texts": [
-                "lập trình cơ sở với javascript",
-                "Lập trình cơ sở với JavaScript",
-                "lậptrìnhcơsởvớijavascript",
-                "lập trình cơ sở với javascript",
-                "code cơ sở với javascript"
+                "tiếng anh 2.1",
+                "Tiếng Anh 2.1",
+                "tiếnganh2.1",
+                "eng 2.1",
+                "tiếng anh 2.1"
               ]
             },
             {
@@ -22270,16 +22270,6 @@
               ]
             },
             {
-              "option": "dự án mẫu",
-              "texts": [
-                "dự án mẫu",
-                "Dự án mẫu",
-                "dựánmẫu",
-                "dự án mẫu",
-                "dự án mẫu"
-              ]
-            },
-            {
               "option": "lập trình php 1",
               "texts": [
                 "lập trình php 1",
@@ -22290,23 +22280,13 @@
               ]
             },
             {
-              "option": "thiết kế ui/ux",
+              "option": "pháp luật",
               "texts": [
-                "thiết kế ui/ux",
-                "Thiết kế UI/UX",
-                "thiếtkếui/ux",
-                "thiết kế ui/ux",
-                "thiết kế ui/ux"
-              ]
-            },
-            {
-              "option": "tiếng anh 2.1",
-              "texts": [
-                "tiếng anh 2.1",
-                "Tiếng Anh 2.1",
-                "tiếnganh2.1",
-                "eng 2.1",
-                "tiếng anh 2.1"
+                "pháp luật",
+                "Pháp luật",
+                "phápluật",
+                "pháp luật",
+                "pháp luật"
               ]
             },
             {
@@ -22320,13 +22300,23 @@
               ]
             },
             {
-              "option": "lập trình javascript nâng cao",
+              "option": "thiết kế ui/ux",
               "texts": [
-                "lập trình javascript nâng cao",
-                "Lập trình Javascript nâng cao",
-                "lậptrìnhjavascriptnângcao",
-                "lập trình javascript nâng cao",
-                "code javascript nâng cao"
+                "thiết kế ui/ux",
+                "Thiết kế UI/UX",
+                "thiếtkếui/ux",
+                "thiết kế ui/ux",
+                "thiết kế ui/ux"
+              ]
+            },
+            {
+              "option": "dự án mẫu",
+              "texts": [
+                "dự án mẫu",
+                "Dự án mẫu",
+                "dựánmẫu",
+                "dự án mẫu",
+                "dự án mẫu"
               ]
             },
             {
@@ -22350,6 +22340,16 @@
               ]
             },
             {
+              "option": "marketing trên internet",
+              "texts": [
+                "marketing trên internet",
+                "Marketing trên Internet",
+                "marketingtrêninternet",
+                "marketing trên internet",
+                "marketing trên internet"
+              ]
+            },
+            {
               "option": "lập trình ecmascript",
               "texts": [
                 "lập trình ecmascript",
@@ -22360,6 +22360,16 @@
               ]
             },
             {
+              "option": "lập trình javascript nâng cao",
+              "texts": [
+                "lập trình javascript nâng cao",
+                "Lập trình Javascript nâng cao",
+                "lậptrìnhjavascriptnângcao",
+                "lập trình javascript nâng cao",
+                "code javascript nâng cao"
+              ]
+            },
+            {
               "option": "dự án 1",
               "texts": [
                 "dự án 1",
@@ -22367,16 +22377,6 @@
                 "dựán1",
                 "dự án 1",
                 "dự án 1"
-              ]
-            },
-            {
-              "option": "marketing trên internet",
-              "texts": [
-                "marketing trên internet",
-                "Marketing trên Internet",
-                "marketingtrêninternet",
-                "marketing trên internet",
-                "marketing trên internet"
               ]
             },
             {
@@ -22400,6 +22400,26 @@
               ]
             },
             {
+              "option": "kỹ năng làm việc",
+              "texts": [
+                "kỹ năng làm việc",
+                "Kỹ năng làm việc",
+                "kỹnănglàmviệc",
+                "kỹ năng làm việc",
+                "kỹ năng làm việc"
+              ]
+            },
+            {
+              "option": "khởi sự doanh nghiệp",
+              "texts": [
+                "khởi sự doanh nghiệp",
+                "Khởi sự doanh nghiệp",
+                "khởisựdoanhnghiệp",
+                "khởi sự doanh nghiệp",
+                "khởi sự doanh nghiệp"
+              ]
+            },
+            {
               "option": "lập trình front-end framework 1",
               "texts": [
                 "lập trình front-end framework 1",
@@ -22417,26 +22437,6 @@
                 "lậptrìnhfront-endframework2",
                 "lập trình front-end framework 2",
                 "code front-end framework 2"
-              ]
-            },
-            {
-              "option": "khởi sự doanh nghiệp",
-              "texts": [
-                "khởi sự doanh nghiệp",
-                "Khởi sự doanh nghiệp",
-                "khởisựdoanhnghiệp",
-                "khởi sự doanh nghiệp",
-                "khởi sự doanh nghiệp"
-              ]
-            },
-            {
-              "option": "kỹ năng làm việc",
-              "texts": [
-                "kỹ năng làm việc",
-                "Kỹ năng làm việc",
-                "kỹnănglàmviệc",
-                "kỹ năng làm việc",
-                "kỹ năng làm việc"
               ]
             },
             {

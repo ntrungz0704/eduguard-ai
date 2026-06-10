@@ -253,7 +253,8 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
       let readinessReason = '';
       
       if (student) {
-        const scores = student.scores || [];
+        const rawScores = student.scores || [];
+        const scores = Array.isArray(rawScores) ? rawScores : Object.values(rawScores);
         const completed = scores.filter(s => s.status === 'PASSED' || s.value >= 5.0).map(s => s.courseId);
         const studying = scores.filter(s => s.status === 'STUDYING').map(s => s.courseId);
         
