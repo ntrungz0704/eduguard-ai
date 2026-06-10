@@ -1347,6 +1347,48 @@ router.get('/chat/history/:mssv', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+router.get('/chat/student/memory/:mssv', async (req, res) => {
+  try {
+    const { mssv } = req.params;
+    const { prisma } = require('../../src/infrastructure/database/prisma');
+    
+    // Fetch memory
+    const memory = await prisma.studentMemory.findUnique({
+      where: { studentId: mssv }
+    });
+
+    if (!memory) {
+      return res.json({ success: true, data: null, message: "Chưa có memory" });
+    }
+
+    // Parse JSON fields
+    const parsedMemory = {
+      ...memory,
+      learningGoals: memory.learningGoals ? JSON.parse(memory.learningGoals) : [],
+      completedRoadmaps: memory.completedRoadmaps ? JSON.parse(memory.completedRoadmaps) : [],
+      favoriteCareers: memory.favoriteCareers ? JSON.parse(memory.favoriteCareers) : []
+    };
+
+    // Fetch roadmaps
+    const roadmaps = await prisma.studentRoadmap.findMany({
+      where: { studentId: mssv },
+      include: { steps: true }
+    });
+
+    res.json({
+      success: true,
+      data: {
+        memory: parsedMemory,
+        roadmaps
+      }
+    });
+
+  } catch (err) {
+    console.error('[API] Error fetching student memory:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 router.post('/chat', async (req, res) => {
   try {
     const { message, sessionId } = req.body;

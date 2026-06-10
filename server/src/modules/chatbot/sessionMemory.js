@@ -65,7 +65,7 @@ function getSession(sessionId, userRole = 'TEACHER') {
         knownSkills: [],
         skillMastery: {},
         recentTopics: [],
-        targetInternshipDate: null, // "Spring 2027"
+        internshipTarget: null, // "Spring 2027"
         careerReadiness: null,    // "Foundation"
         academicWarningCount: 0,   // Số lần bị cảnh báo
 
@@ -78,6 +78,11 @@ function getSession(sessionId, userRole = 'TEACHER') {
         riskContext: null,       // Last risk analysis result
         academicScore: null,     // Last known academic score
         topCareers: [],          // Top career suggestions computed
+        
+        // v5 Fields (Persistent Brain)
+        learningGoals: [],
+        completedRoadmaps: [],
+        favoriteCareers: [],
       },
 
       // Conversation history (last 10 turns for context chain)
@@ -96,7 +101,7 @@ function getSession(sessionId, userRole = 'TEACHER') {
       chatSessions[sessionId].brain = {
         studentId: null, careerGoal: null, currentSemester: null, gpa: null,
         completedCourses: [], failedCourses: [], portfolioProjects: [], riskLevel: null,
-        learningStyle: null, strengths: [], weaknesses: [], targetInternshipDate: null,
+        learningStyle: null, strengths: [], weaknesses: [], internshipTarget: null,
         careerReadiness: null, academicWarningCount: 0,
         lastSkills: [], lastCourse: null, lastTopic: null, lastRoadmapStep: null,
         lastProject: null, missingSkills: [], riskContext: null, academicScore: null, topCareers: []
@@ -145,6 +150,29 @@ async function loadStudentMemoryFromDB(session, studentId) {
       if (memory.recentTopics) {
         try { session.brain.recentTopics = JSON.parse(memory.recentTopics); } catch(e){}
       }
+      if (memory.learningGoals) {
+        try { session.brain.learningGoals = JSON.parse(memory.learningGoals); } catch(e){}
+      }
+      if (memory.completedRoadmaps) {
+        try { session.brain.completedRoadmaps = JSON.parse(memory.completedRoadmaps); } catch(e){}
+      }
+      if (memory.favoriteCareers) {
+        try { session.brain.favoriteCareers = JSON.parse(memory.favoriteCareers); } catch(e){}
+      }
+    }
+
+    const learningProfile = await prisma.learningProfile.findUnique({
+      where: { studentId }
+    });
+    if (learningProfile) {
+      session.brain.internshipTarget = learningProfile.internshipTarget || session.brain.internshipTarget;
+      session.brain.academicWarningCount = learningProfile.academicWarningCount || session.brain.academicWarningCount;
+      if (learningProfile.completedCourses) {
+        try { session.brain.completedCourses = JSON.parse(learningProfile.completedCourses); } catch(e){}
+      }
+      if (learningProfile.failedCourses) {
+        try { session.brain.failedCourses = JSON.parse(learningProfile.failedCourses); } catch(e){}
+      }
     }
 
     const skills = await prisma.skillProfile.findMany({
@@ -184,7 +212,10 @@ async function saveStudentMemoryToDB(session, studentId) {
         interestedSkills: JSON.stringify(brain.interestedSkills || []),
         knownSkills: JSON.stringify(brain.knownSkills || []),
         skillMastery: JSON.stringify(brain.skillMastery || {}),
-        recentTopics: JSON.stringify(brain.recentTopics || [])
+        recentTopics: JSON.stringify(brain.recentTopics || []),
+        learningGoals: JSON.stringify(brain.learningGoals || []),
+        completedRoadmaps: JSON.stringify(brain.completedRoadmaps || []),
+        favoriteCareers: JSON.stringify(brain.favoriteCareers || [])
       },
       create: {
         studentId,
@@ -199,7 +230,10 @@ async function saveStudentMemoryToDB(session, studentId) {
         interestedSkills: JSON.stringify(brain.interestedSkills || []),
         knownSkills: JSON.stringify(brain.knownSkills || []),
         skillMastery: JSON.stringify(brain.skillMastery || {}),
-        recentTopics: JSON.stringify(brain.recentTopics || [])
+        recentTopics: JSON.stringify(brain.recentTopics || []),
+        learningGoals: JSON.stringify(brain.learningGoals || []),
+        completedRoadmaps: JSON.stringify(brain.completedRoadmaps || []),
+        favoriteCareers: JSON.stringify(brain.favoriteCareers || [])
       }
     });
 

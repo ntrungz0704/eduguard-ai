@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, lazy, Suspense } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
@@ -6,21 +6,21 @@ import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircu
 import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const Predict = lazy(() => import('./pages/Predict'));
-const GPA = lazy(() => import('./pages/GPA'));
-const StudentSearch = lazy(() => import('./pages/StudentSearch'));
-const StudentProfile = lazy(() => import('./pages/StudentProfile'));
-const AIChat = lazy(() => import('./pages/AIChat'));
-const Login = lazy(() => import('./pages/Login'));
-const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
-const Inbox = lazy(() => import('./pages/Inbox'));
-const Interventions = lazy(() => import('./pages/Interventions'));
-const AcademicRiskMap = lazy(() => import('./pages/AcademicRiskMap'));
-const DataImport = lazy(() => import('./pages/DataImport'));
-const CareerUniverse = lazy(() => import('./pages/CareerUniverse'));
-const CareerDetail = lazy(() => import('./pages/CareerDetail'));
-const CareerRoadmapBoard = lazy(() => import('./pages/CareerRoadmapBoard'));
+import Dashboard from './pages/Dashboard';
+import Predict from './pages/Predict';
+import GPA from './pages/GPA';
+import StudentSearch from './pages/StudentSearch';
+import StudentProfile from './pages/StudentProfile';
+import AIChat from './pages/AIChat';
+import Login from './pages/Login';
+import StudentDashboard from './pages/StudentDashboard';
+import Inbox from './pages/Inbox';
+import Interventions from './pages/Interventions';
+import AcademicRiskMap from './pages/AcademicRiskMap';
+import DataImport from './pages/DataImport';
+import CareerUniverse from './pages/CareerUniverse';
+import CareerDetail from './pages/CareerDetail';
+import CareerRoadmapBoard from './pages/CareerRoadmapBoard';
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -313,14 +313,6 @@ function App() {
                 </div>
               </div>
             )}
-            <Suspense fallback={
-              <div className="h-full w-full flex items-center justify-center">
-                <div className="flex flex-col items-center space-y-4">
-                  <Loader2 size={32} className="text-blue-500 animate-spin" />
-                  <p className="text-slate-600 dark:text-slate-400 font-medium animate-pulse">Đang nạp phân hệ...</p>
-                </div>
-              </div>
-            }>
               <Routes>
                 {currentUser.role === 'STUDENT' ? (
                   <>
@@ -348,7 +340,6 @@ function App() {
                   </>
                 )}
               </Routes>
-            </Suspense>
           </main>
         </div>
       </div>

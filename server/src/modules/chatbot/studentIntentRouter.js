@@ -48,6 +48,14 @@ function routeStudentIntent(msg, nlpIntent = 'None', sessionId = null) {
     intent = 'STUDENT_SYLLABUS_INFO_INTENT';
   } else if (nlpIntent === 'syllabus.prerequisite') {
     intent = 'STUDENT_SYLLABUS_PREREQ_INTENT';
+  } else if (nlpIntent === 'skill.definition') {
+    intent = 'skill.definition';
+  } else if (nlpIntent === 'skill.prerequisite') {
+    intent = 'skill.prerequisite';
+  } else if (nlpIntent === 'skill.compare') {
+    intent = 'skill.compare';
+  } else if (nlpIntent === 'skill.roadmap') {
+    intent = 'skill.roadmap';
   } else if (nlpIntent === 'intervention.reason') {
     intent = 'STUDENT_INTERVENTION_REASON_INTENT';
   } else if (nlpIntent === 'student.roadmap') {

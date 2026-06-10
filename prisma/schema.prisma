@@ -38,6 +38,7 @@ model Student {
   recommendationHistories RecommendationHistory[]
   chatSessions            ChatSession[]
   learningProgresses      LearningProgress[]
+  studentRoadmaps         StudentRoadmap[]
 }
 
 model Course {
@@ -197,6 +198,9 @@ model StudentMemory {
   knownSkills String? // JSON string
   skillMastery String? // JSON string
   recentTopics String? // JSON string
+  learningGoals String? // JSON string array of goals
+  completedRoadmaps String? // JSON string array of roadmap IDs
+  favoriteCareers String? // JSON string array of careers
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -251,7 +255,7 @@ model LearningProfile {
   studentId String @unique
   completedCourses String // JSON string
   failedCourses String // JSON string
-  targetInternshipDate String?
+  internshipTarget String?
   academicWarningCount Int @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -307,4 +311,32 @@ model LearningProgress {
 
   student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
   @@index([studentId])
+}
+
+model StudentRoadmap {
+  id String @id @default(uuid())
+  studentId String
+  skillName String // The central skill for this roadmap e.g. "Node.js"
+  type String @default("30_DAYS") // 30_DAYS, 90_DAYS
+  status String @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED, DROPPED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  steps RoadmapStep[]
+  @@index([studentId])
+}
+
+model RoadmapStep {
+  id String @id @default(uuid())
+  roadmapId String
+  week Int
+  title String
+  description String
+  status String @default("TODO") // TODO, COMPLETED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roadmap StudentRoadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+  @@index([roadmapId])
 }

@@ -1,0 +1,25 @@
+{
+  "Node.js": [
+    "JavaScript",
+    "Asynchronous Programming",
+    "HTTP/REST"
+  ],
+  "React": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "ES6+"
+  ],
+  "SQL": [
+    "Database Fundamentals"
+  ],
+  "Express.js": [
+    "Node.js",
+    "HTTP/REST",
+    "JavaScript"
+  ],
+  "Next.js": [
+    "React",
+    "JavaScript"
+  ]
+}

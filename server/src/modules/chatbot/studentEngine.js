@@ -3,6 +3,9 @@
 // Copilot engine specifically for students (Motivation, GPA, Planning)
 // ============================================================
 
+const { generateSkillRoadmap } = require('./engines/learningRoadmapEngine');
+const { handleSkillDefinition, handleSkillPrerequisite, handleSkillCompare } = require('./engines/skillKnowledgeEngine');
+const { getSession, updateBrain, saveStudentMemoryToDB } = require('./sessionMemory');
 const { fetchStudentByMssv } = require('../../repositories/studentRepository');
 const advisorService = require('../../modules/advisor/service');
 const syllabusEngine = require('./syllabusEngine');
@@ -102,6 +105,47 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
     session.lastSubject = courseCode;
   } else if (session && session.lastSubject) {
     courseCode = session.lastSubject;
+  }
+
+  // ========================================================
+  // INTELLIGENT LEARNING ADVISOR (SKILL ENGINE INTEGRATION)
+  // ========================================================
+  const subjectEntity = entities && Array.isArray(entities) ? entities.find(e => e.entity === 'subject') : null;
+  const skillName = subjectEntity ? subjectEntity.option || subjectEntity.sourceText : null;
+  const studentId = student?.mssv || activeMssv;
+
+  if (intent === 'skill.definition') {
+    if (!skillName) return { reply: "Bạn muốn tìm hiểu định nghĩa về ngôn ngữ hay công nghệ nào?", data: null };
+    const reply = handleSkillDefinition(skillName);
+    return { reply, data: { topic: 'SKILL_DEFINITION' } };
+  }
+
+  if (intent === 'skill.prerequisite') {
+    if (!skillName) return { reply: "Bạn muốn biết điều kiện tiên quyết của công nghệ nào?", data: null };
+    const sessionContext = session.brain;
+    const reply = handleSkillPrerequisite(skillName, sessionContext);
+    return { reply, data: { topic: 'SKILL_PREREQUISITE' } };
+  }
+
+  if (intent === 'skill.compare') {
+    const subjects = entities && Array.isArray(entities) ? entities.filter(e => e.entity === 'subject') : [];
+    if (subjects.length < 2) {
+      return { reply: "Để so sánh, bạn vui lòng cung cấp tên của ít nhất 2 công nghệ (Ví dụ: So sánh React và Vue).", data: null };
+    }
+    const s1 = subjects[0].option || subjects[0].sourceText;
+    const s2 = subjects[1].option || subjects[1].sourceText;
+    const reply = handleSkillCompare(s1, s2);
+    return { reply, data: { topic: 'SKILL_COMPARE' } };
+  }
+
+  if (intent === 'skill.roadmap') {
+    if (!skillName) return { reply: "Bạn muốn AI tạo lộ trình học cho công nghệ nào?", data: null };
+    
+    const { success, message, roadmapId } = await generateSkillRoadmap(studentId, skillName, true);
+    return {
+      reply: message,
+      data: { topic: 'SKILL_ROADMAP', roadmapId }
+    };
   }
 
   switch (intent) {

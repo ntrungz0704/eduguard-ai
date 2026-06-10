@@ -553,6 +553,36 @@
       "phần mềm phân tích thế nào",
       "mô hình ai hoạt động",
       "thuật toán phân tích rủi ro"
+    ],
+    "skill.definition": [
+      "Node.js là gì",
+      "Giải thích cho tôi về React",
+      "SQL dùng để làm gì",
+      "Định nghĩa của %subject%",
+      "%subject% là công nghệ gì",
+      "Công nghệ %subject% để làm gì",
+      "Tại sao nên học %subject%",
+      "Nói cho tôi biết về %subject%"
+    ],
+    "skill.roadmap": [
+      "Lộ trình học %subject%",
+      "Kế hoạch học %subject%",
+      "Làm sao để master %subject%",
+      "Học %subject% trong 30 ngày",
+      "Cần học những gì để thành thạo %subject%",
+      "Roadmap học %subject%"
+    ],
+    "skill.prerequisite": [
+      "Học gì trước khi học %subject%",
+      "Môn tiên quyết của %subject%",
+      "Cần kiến thức gì để học %subject%",
+      "Môn học nào ở FPT liên quan đến %subject%",
+      "Khóa học nào dạy %subject%"
+    ],
+    "skill.compare": [
+      "Nên học %subject% hay %subject%",
+      "So sánh %subject% và %subject%",
+      "Học cái nào trước %subject% hay %subject%"
     ]
   }
 }
