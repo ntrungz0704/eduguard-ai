@@ -9,6 +9,7 @@ const errorHandler = require('./middlewares/errors');
 const syllabusLoader = require('./modules/data/syllabusLoader');
 
 const app = express();
+app.set('trust proxy', 1); // Trust Render's reverse proxy for express-rate-limit
 
 // Initialize Data Caches
 syllabusLoader.init();
