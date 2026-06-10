@@ -1,25 +1,246 @@
 {
-  "Node.js": [
-    "JavaScript",
-    "Asynchronous Programming",
-    "HTTP/REST"
-  ],
-  "React": [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "ES6+"
-  ],
-  "SQL": [
-    "Database Fundamentals"
-  ],
-  "Express.js": [
-    "Node.js",
-    "HTTP/REST",
-    "JavaScript"
-  ],
+  "HTML": [],
+  "CSS": [],
+  "JavaScript": [],
+  "Responsive Design": [],
+  "Git and GitHub": [],
+  "REST API": [],
+  "Package Managers": [],
+  "React": [],
   "Next.js": [
-    "React",
-    "JavaScript"
-  ]
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "TypeScript": [],
+  "State Management": [],
+  "CSS Frameworks (Tailwind)": [],
+  "Performance Optimization": [],
+  "SEO": [],
+  "Testing": [],
+  "VS Code": [],
+  "Git": [],
+  "Figma": [],
+  "Vite": [],
+  "npm/yarn/pnpm": [],
+  "Component Design": [],
+  "State & Props": [],
+  "React Hooks": [],
+  "React Router": [],
+  "Redux Toolkit": [],
+  "Zustand": [],
+  "Context API": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Unit Testing (Jest/RTL)": [],
+  "Chrome DevTools": [],
+  "npm/pnpm": [],
+  "Storybook": [],
+  "Routing (App Router)": [],
+  "Data Fetching": [],
+  "SSR/SSG": [],
+  "Styling": [],
+  "API Routes": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Caching": [],
+  "Image/Font Optimization": [],
+  "Middleware": [],
+  "Edge Runtime": [],
+  "NextAuth": [],
+  "Vercel": [],
+  "Node.js": [],
+  "Express.js": [],
+  "SQL": [],
+  "PostgreSQL": [],
+  "Linux CLI": [],
+  "Redis": [],
+  "Docker": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Microservices": [],
+  "Message Queue": [],
+  "API Design": [],
+  "System Design": [],
+  "Database Design": [],
+  "Web Security (JWT/OAuth)": [],
+  "Postman": [],
+  "Linux Terminal": [],
+  "npm": [],
+  "NestJS": [],
+  "Fastify": [],
+  "Event Loops": [],
+  "Asynchronous programming": [],
+  "npm/pnpm/yarn": [],
+  "NoSQL (MongoDB)": [],
+  "CI/CD (GitHub Actions)": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Cloud Deployment (AWS/Vercel)": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "API Security": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Docker Desktop": [],
+  "Computer Science Basics": [],
+  "Algorithms & Data Structures": [],
+  "Java/C++/Python": [],
+  "OOP": [],
+  "Database Systems": [],
+  "Design Patterns": [],
+  "Code Review": [],
+  "System Architecture": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "IDE": [],
+  "Web Accessibility (a11y)": [],
+  "Semantic HTML": [],
+  "CSS Layouts (Flexbox/Grid)": [],
+  "Design Systems": [],
+  "Component Libraries": [],
+  "CSS Animations (Framer Motion/GSAP)": [],
+  "Figma to Code": [],
+  "Tailwind CSS": [],
+  "Dart Programming": [],
+  "Flutter Framework": [],
+  "Widget Lifecycle": [],
+  "Layouts & Gestures": [],
+  "State Management (Provider/Riverpod)": [],
+  "API Integration": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Firebase": [],
+  "SQLite (Offline Storage)": [],
+  "Bloc Pattern": [],
+  "Animations": [],
+  "Mobile Performance": [],
+  "Push Notifications": [],
+  "App Store/Play Store Deployment": [],
+  "Android Studio": [],
+  "Flutter CLI": [],
+  "Xcode": [],
+  "React Native": [],
+  "Flexbox Layouts": [],
+  "Navigation": [],
+  "Expo": [],
+  "Native Modules": [],
+  "Expo CLI": [],
+  "Flipper": [],
+  "Software Testing Basics": [],
+  "Test Cases & Bug Tracking": [],
+  "API Testing (Postman)": [],
+  "JavaScript/Python": [],
+  "Selenium": [],
+  "Cypress": [],
+  "Playwright": [],
+  "CI/CD Integration": [],
+  "Performance/Load Testing (JMeter)": [],
+  "SQL Basics": [],
+  "Jenkins/GitHub Actions": [],
+  "Linux": [],
+  "Bash Scripting": [],
+  "Networking Basics": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Kubernetes": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "CI/CD Pipelines": [],
+  "Terraform": [],
+  "AWS": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Monitoring (Grafana/Prometheus)": [],
+  "Terraform CLI": [],
+  "AWS CLI": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Networking": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Cloud Architecture Basics": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Azure": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "CI/CD": [],
+  "Cloud Security": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "AWS Console/CLI": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Prompt Engineering": [],
+  "HTML/CSS": [],
+  "OpenAI/Gemini APIs": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Retrieval-Augmented Generation (RAG)": [],
+  "AI Chat UI": [],
+  "AI Agents": [],
+  "Python": [],
+  "AI APIs": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Vector Database": [],
+  "LangChain / LlamaIndex": [],
+  "Jupyter Notebook": [],
+  "Pinecone Console": [],
+  "LLM Foundations": [],
+  "Chain-of-Thought": [],
+  "Few-shot prompting": [],
+  "Prompt Evaluation": [],
+  "Fine-Tuning basics": [],
+  "Agentic Workflows": [],
+  "Playground": [],
+  "Distributed Systems": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Cloud Architecture": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Scalability": [],
+  "Fault Tolerance": [],
+  "High Availability": [],
+  "draw.io / Miro": [],
+  "AWS Console": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Communication": [],
+  "Presentation": [],
+  "Technical Writing": [],
+  "Cloud Architecture (AWS/Azure)": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Pre-sales & Demos": [],
+  "Proof of Concept (PoC) Development": [],
+  "System Integration": [
+    "Computer Science Basics",
+    "Programming Logic"
+  ],
+  "Business Acumen": []
 }

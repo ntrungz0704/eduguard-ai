@@ -558,31 +558,31 @@
       "Node.js là gì",
       "Giải thích cho tôi về React",
       "SQL dùng để làm gì",
-      "Định nghĩa của %subject%",
-      "%subject% là công nghệ gì",
-      "Công nghệ %subject% để làm gì",
-      "Tại sao nên học %subject%",
-      "Nói cho tôi biết về %subject%"
+      "Định nghĩa của %skill%",
+      "%skill% là công nghệ gì",
+      "Công nghệ %skill% để làm gì",
+      "Tại sao nên học %skill%",
+      "Nói cho tôi biết về %skill%"
     ],
     "skill.roadmap": [
-      "Lộ trình học %subject%",
-      "Kế hoạch học %subject%",
-      "Làm sao để master %subject%",
-      "Học %subject% trong 30 ngày",
-      "Cần học những gì để thành thạo %subject%",
-      "Roadmap học %subject%"
+      "Lộ trình học %skill%",
+      "Kế hoạch học %skill%",
+      "Làm sao để master %skill%",
+      "Học %skill% trong 30 ngày",
+      "Cần học những gì để thành thạo %skill%",
+      "Roadmap học %skill%"
     ],
     "skill.prerequisite": [
-      "Học gì trước khi học %subject%",
-      "Môn tiên quyết của %subject%",
-      "Cần kiến thức gì để học %subject%",
-      "Môn học nào ở FPT liên quan đến %subject%",
-      "Khóa học nào dạy %subject%"
+      "Học gì trước khi học %skill%",
+      "Môn tiên quyết của %skill%",
+      "Cần kiến thức gì để học %skill%",
+      "Môn học nào ở FPT liên quan đến %skill%",
+      "Khóa học nào dạy %skill%"
     ],
     "skill.compare": [
-      "Nên học %subject% hay %subject%",
-      "So sánh %subject% và %subject%",
-      "Học cái nào trước %subject% hay %subject%"
+      "Nên học %skill% hay %skill%",
+      "So sánh %skill% và %skill%",
+      "Học cái nào trước %skill% hay %skill%"
     ]
   }
 }

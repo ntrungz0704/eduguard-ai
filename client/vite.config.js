@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  optimizeDeps: {
+    include: ['recharts']
+  },
   server: {
     port: 5173,
     proxy: {

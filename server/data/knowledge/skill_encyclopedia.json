@@ -1,51 +1,240 @@
 {
-  "Node.js": {
-    "skill": "Node.js",
-    "definition": "Node.js là một môi trường runtime mã nguồn mở, đa nền tảng, cho phép thực thi mã JavaScript bên ngoài trình duyệt web.",
-    "whyLearn": "Cho phép lập trình viên sử dụng JavaScript để viết cả Frontend lẫn Backend, tiết kiệm thời gian học ngôn ngữ mới, phù hợp với kiến trúc microservices và I/O bất đồng bộ.",
+  "HTML": {
+    "skill": "HTML",
+    "definition": "Ngôn ngữ đánh dấu siêu văn bản, dùng để xây dựng cấu trúc cơ bản của mọi trang web.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Language để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
     "usedIn": [
-      "Backend Developer",
+      "Frontend Developer",
+      "React Developer",
+      "Next.js Developer",
       "Full Stack Developer",
-      "Node.js Developer",
-      "Software Engineer"
+      "UI Engineer"
     ],
-    "prerequisites": [
-      "JavaScript",
-      "Asynchronous Programming",
-      "HTTP/REST"
-    ],
+    "prerequisites": [],
     "relatedCourses": [
-      "WEB206",
-      "PRO1014"
+      "WEB1013",
+      "WEB108",
+      "WEB2041",
+      "WEB3023"
     ],
-    "difficulty": "Intermediate",
-    "learningTime": "4-6 weeks",
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
     "resources": [
-      "Tài liệu chính thức Node.js",
-      "Khóa học Udemy Node.js Bootcamp"
+      "Official Docs for HTML",
+      "FPT Polytechnic Library"
     ],
     "roadmap": {
-      "week1": "Cơ bản về Node.js, V8 Engine, Modules, NPM, Event Loop",
-      "week2": "Express.js cơ bản, Xây dựng REST API, Middleware",
-      "week3": "Kết nối Database (MongoDB/PostgreSQL), Xác thực JWT",
-      "week4": "Kiến trúc ứng dụng, Xử lý lỗi, Triển khai (Deployment)"
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của HTML.",
+      "week2": "Thực hành các components/logic cốt lõi của HTML.",
+      "week3": "Ứng dụng HTML vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp HTML vào Project và tối ưu mã nguồn."
     },
     "projects": [
-      "Todo API",
-      "Blog REST API",
-      "Chat App với Socket.io",
-      "Hệ thống quản lý sinh viên"
+      "Mini Project áp dụng HTML",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CSS": {
+    "skill": "CSS",
+    "definition": "Ngôn ngữ tạo kiểu dùng để thiết kế giao diện, màu sắc, và bố cục cho trang web HTML.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Language để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer",
+      "Next.js Developer",
+      "Full Stack Developer",
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [
+      "WEB1013",
+      "WEB2041",
+      "WEB2091",
+      "WEB3023"
+    ],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CSS",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CSS.",
+      "week2": "Thực hành các components/logic cốt lõi của CSS.",
+      "week3": "Ứng dụng CSS vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CSS vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CSS",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "JavaScript": {
+    "skill": "JavaScript",
+    "definition": "Ngôn ngữ lập trình cốt lõi của Web, cho phép tạo ra các tương tác động, logic nghiệp vụ trên trình duyệt và server.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Language để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer",
+      "Next.js Developer",
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "UI Engineer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [
+      "WEB1013",
+      "WEB1043",
+      "WEB2063",
+      "WEB2091",
+      "WEB3023",
+      "WEB501",
+      "WEB502",
+      "WEB503"
+    ],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for JavaScript",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của JavaScript.",
+      "week2": "Thực hành các components/logic cốt lõi của JavaScript.",
+      "week3": "Ứng dụng JavaScript vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp JavaScript vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng JavaScript",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Responsive Design": {
+    "skill": "Responsive Design",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Responsive Design).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Responsive Design",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Responsive Design.",
+      "week2": "Thực hành các components/logic cốt lõi của Responsive Design.",
+      "week3": "Ứng dụng Responsive Design vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Responsive Design vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Responsive Design",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Git and GitHub": {
+    "skill": "Git and GitHub",
+    "definition": "Kết hợp giữa công cụ quản lý phiên bản Git và nền tảng lưu trữ mã nguồn đám mây GitHub.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "Software Engineer",
+      "DevOps Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Git and GitHub",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Git and GitHub.",
+      "week2": "Thực hành các components/logic cốt lõi của Git and GitHub.",
+      "week3": "Ứng dụng Git and GitHub vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Git and GitHub vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Git and GitHub",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "REST API": {
+    "skill": "REST API",
+    "definition": "Tiêu chuẩn thiết kế API dựa trên giao thức HTTP, sử dụng các phương thức GET, POST, PUT, DELETE để giao tiếp client-server.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer",
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for REST API",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của REST API.",
+      "week2": "Thực hành các components/logic cốt lõi của REST API.",
+      "week3": "Ứng dụng REST API vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp REST API vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng REST API",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Package Managers": {
+    "skill": "Package Managers",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Package Managers được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Package Managers",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Package Managers.",
+      "week2": "Thực hành các components/logic cốt lõi của Package Managers.",
+      "week3": "Ứng dụng Package Managers vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Package Managers vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Package Managers",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
     ]
   },
   "React": {
     "skill": "React",
     "definition": "React là một thư viện JavaScript dùng để xây dựng giao diện người dùng (UI), được phát triển bởi Facebook.",
-    "whyLearn": "React là công nghệ Frontend phổ biến nhất hiện nay, giúp xây dựng ứng dụng Single Page Application (SPA) với hiệu suất cao thông qua Virtual DOM và mô hình Component.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
     "usedIn": [
       "Frontend Developer",
-      "Full Stack Developer",
       "React Developer",
-      "UI Engineer"
+      "Next.js Developer",
+      "Full Stack Developer",
+      "React Native Developer",
+      "AI Frontend Engineer",
+      "AI Fullstack Engineer"
     ],
     "prerequisites": [
       "HTML",
@@ -55,13 +244,15 @@
     ],
     "relatedCourses": [
       "WEB207",
-      "PRO116"
+      "PRO116",
+      "WEB2081",
+      "WEB2091"
     ],
     "difficulty": "Intermediate",
-    "learningTime": "6-8 weeks",
+    "learningTime": "2-4 weeks",
     "resources": [
-      "React.dev",
-      "Khóa học Frontend Masters"
+      "Official Docs for React",
+      "FPT Polytechnic Library"
     ],
     "roadmap": {
       "week1": "Cơ bản về JSX, Components, Props",
@@ -70,111 +261,4404 @@
       "week4": "Quản lý State nâng cao (Redux/Zustand), Performance Optimization"
     },
     "projects": [
-      "Ứng dụng Quản lý công việc (Todo App)",
-      "Trang web E-commerce UI",
-      "Ứng dụng Thời tiết"
-    ]
-  },
-  "SQL": {
-    "skill": "SQL",
-    "definition": "SQL (Structured Query Language) là ngôn ngữ chuẩn dùng để quản lý và thao tác với các cơ sở dữ liệu quan hệ (RDBMS).",
-    "whyLearn": "SQL là nền tảng cốt lõi của Backend, Data Engineering và Data Analytics. Bất kỳ ứng dụng nào cũng cần lưu trữ dữ liệu có cấu trúc.",
-    "usedIn": [
-      "Backend Developer",
-      "Full Stack Developer",
-      "Database Administrator",
-      "QA Automation Engineer"
-    ],
-    "prerequisites": [
-      "Database Fundamentals"
-    ],
-    "relatedCourses": [
-      "COM2034",
-      "SOF203"
-    ],
-    "difficulty": "Beginner to Intermediate",
-    "learningTime": "3-5 weeks",
-    "resources": [
-      "W3Schools SQL",
-      "SQLZoo"
-    ],
-    "roadmap": {
-      "week1": "Khái niệm Database, Bảng, Các câu lệnh CRUD cơ bản (SELECT, INSERT, UPDATE, DELETE)",
-      "week2": "Filtering, Sorting, Functions (COUNT, SUM, AVG), GROUP BY",
-      "week3": "JOIN (INNER, LEFT, RIGHT), Subqueries, Ràng buộc dữ liệu",
-      "week4": "Index, View, Stored Procedures, Transaction"
-    },
-    "projects": [
-      "Hệ thống quản lý Thư viện (Lược đồ DB)",
-      "Hệ thống Cửa hàng bán lẻ (SQL Scripts)"
-    ]
-  },
-  "Express.js": {
-    "skill": "Express.js",
-    "definition": "Express.js là một framework web tối giản và linh hoạt dành cho Node.js, cung cấp bộ tính năng mạnh mẽ cho web và ứng dụng di động.",
-    "whyLearn": "Đây là tiêu chuẩn công nghiệp (de-facto standard) để xây dựng Web APIs bằng Node.js, với cộng đồng hỗ trợ lớn và vô số middleware.",
-    "usedIn": [
-      "Backend Developer",
-      "Full Stack Developer"
-    ],
-    "prerequisites": [
-      "Node.js",
-      "HTTP/REST",
-      "JavaScript"
-    ],
-    "relatedCourses": [
-      "WEB206"
-    ],
-    "difficulty": "Beginner to Intermediate",
-    "learningTime": "2-3 weeks",
-    "resources": [
-      "Express.js Documentation"
-    ],
-    "roadmap": {
-      "week1": "Cài đặt Express, Routing cơ bản, Xử lý Request/Response",
-      "week2": "Middleware, Template Engines (Tùy chọn), Error Handling",
-      "week3": "Tích hợp Database, Xây dựng RESTful API chuẩn",
-      "week4": "Xác thực & Bảo mật (CORS, Helmet, JWT)"
-    },
-    "projects": [
-      "REST API Quản lý sản phẩm",
-      "API Đăng nhập/Đăng ký"
+      "Mini Project áp dụng React",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
     ]
   },
   "Next.js": {
     "skill": "Next.js",
-    "definition": "Next.js là một React framework hỗ trợ Server-Side Rendering (SSR) và Static Site Generation (SSG), giúp xây dựng web cực nhanh và chuẩn SEO.",
-    "whyLearn": "Giải quyết bài toán SEO và hiệu suất tải trang đầu tiên của React truyền thống, được nhiều công ty lớn tin dùng.",
+    "definition": "React framework hỗ trợ Server-Side Rendering (SSR) và Static Site Generation (SSG) giúp tối ưu SEO và hiệu năng.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
     "usedIn": [
       "Frontend Developer",
+      "React Developer",
       "Next.js Developer",
       "Full Stack Developer"
     ],
     "prerequisites": [
-      "React",
-      "JavaScript",
-      "TypeScript (Tùy chọn)"
+      "Computer Science Basics",
+      "Programming Logic"
     ],
-    "relatedCourses": [
-      "WEB207",
-      "PRO116"
-    ],
+    "relatedCourses": [],
     "difficulty": "Advanced",
-    "learningTime": "4-6 weeks",
+    "learningTime": "6-8 weeks",
     "resources": [
-      "Next.js Learn",
-      "Vercel Docs"
+      "Official Docs for Next.js",
+      "FPT Polytechnic Library"
     ],
     "roadmap": {
-      "week1": "App Router vs Pages Router, Routing cơ bản",
-      "week2": "Data Fetching (SSR, SSG, ISR), Server Components",
-      "week3": "API Routes, Middleware, NextAuth",
-      "week4": "Tối ưu hóa hình ảnh/font, Triển khai lên Vercel"
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Next.js.",
+      "week2": "Thực hành các components/logic cốt lõi của Next.js.",
+      "week3": "Ứng dụng Next.js vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Next.js vào Project và tối ưu mã nguồn."
     },
     "projects": [
-      "Blog cá nhân tĩnh (SSG)",
-      "Trang thương mại điện tử (SSR)",
-      "Hệ thống Quản trị"
+      "Mini Project áp dụng Next.js",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "TypeScript": {
+    "skill": "TypeScript",
+    "definition": "Phiên bản nâng cấp của JavaScript bổ sung hệ thống kiểu tĩnh (static typing) giúp bắt lỗi sớm và code an toàn hơn.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Language để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer",
+      "Next.js Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "React Native Developer",
+      "AI Frontend Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [
+      "WEB502"
+    ],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for TypeScript",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của TypeScript.",
+      "week2": "Thực hành các components/logic cốt lõi của TypeScript.",
+      "week3": "Ứng dụng TypeScript vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp TypeScript vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng TypeScript",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "State Management": {
+    "skill": "State Management",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên State Management được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for State Management",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của State Management.",
+      "week2": "Thực hành các components/logic cốt lõi của State Management.",
+      "week3": "Ứng dụng State Management vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp State Management vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng State Management",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CSS Frameworks (Tailwind)": {
+    "skill": "CSS Frameworks (Tailwind)",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (CSS Frameworks (Tailwind)).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CSS Frameworks (Tailwind)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CSS Frameworks (Tailwind).",
+      "week2": "Thực hành các components/logic cốt lõi của CSS Frameworks (Tailwind).",
+      "week3": "Ứng dụng CSS Frameworks (Tailwind) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CSS Frameworks (Tailwind) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CSS Frameworks (Tailwind)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Performance Optimization": {
+    "skill": "Performance Optimization",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Performance Optimization được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Performance Optimization",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Performance Optimization.",
+      "week2": "Thực hành các components/logic cốt lõi của Performance Optimization.",
+      "week3": "Ứng dụng Performance Optimization vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Performance Optimization vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Performance Optimization",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "SEO": {
+    "skill": "SEO",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên SEO được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for SEO",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của SEO.",
+      "week2": "Thực hành các components/logic cốt lõi của SEO.",
+      "week3": "Ứng dụng SEO vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp SEO vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng SEO",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Testing": {
+    "skill": "Testing",
+    "definition": "Công cụ / Phương pháp kiểm thử phần mềm tự động giúp đảm bảo chất lượng code với Testing.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Testing để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "Software Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Testing",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Testing.",
+      "week2": "Thực hành các components/logic cốt lõi của Testing.",
+      "week3": "Ứng dụng Testing vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Testing vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Testing",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "VS Code": {
+    "skill": "VS Code",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên VS Code được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer",
+      "Next.js Developer",
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "UI Engineer",
+      "Flutter Developer",
+      "React Native Developer",
+      "QA Automation Engineer",
+      "AI Frontend Engineer",
+      "AI Fullstack Engineer",
+      "Prompt Engineer",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for VS Code",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của VS Code.",
+      "week2": "Thực hành các components/logic cốt lõi của VS Code.",
+      "week3": "Ứng dụng VS Code vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp VS Code vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng VS Code",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Git": {
+    "skill": "Git",
+    "definition": "Hệ thống quản lý phiên bản phân tán giúp theo dõi sự thay đổi của mã nguồn và phối hợp làm việc nhóm hiệu quả.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer",
+      "Next.js Developer",
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "Software Engineer",
+      "UI Engineer",
+      "Flutter Developer",
+      "React Native Developer",
+      "QA Automation Engineer",
+      "DevOps Engineer",
+      "Cloud Engineer",
+      "AI Frontend Engineer",
+      "AI Fullstack Engineer",
+      "Prompt Engineer",
+      "Software Architect",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Git",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Git.",
+      "week2": "Thực hành các components/logic cốt lõi của Git.",
+      "week3": "Ứng dụng Git vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Git vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Git",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Figma": {
+    "skill": "Figma",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Figma).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "UI Engineer",
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Figma",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Figma.",
+      "week2": "Thực hành các components/logic cốt lõi của Figma.",
+      "week3": "Ứng dụng Figma vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Figma vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Figma",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Vite": {
+    "skill": "Vite",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Vite được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer",
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Vite",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Vite.",
+      "week2": "Thực hành các components/logic cốt lõi của Vite.",
+      "week3": "Ứng dụng Vite vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Vite vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Vite",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "npm/yarn/pnpm": {
+    "skill": "npm/yarn/pnpm",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên npm/yarn/pnpm được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Frontend Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for npm/yarn/pnpm",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của npm/yarn/pnpm.",
+      "week2": "Thực hành các components/logic cốt lõi của npm/yarn/pnpm.",
+      "week3": "Ứng dụng npm/yarn/pnpm vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp npm/yarn/pnpm vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng npm/yarn/pnpm",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Component Design": {
+    "skill": "Component Design",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Component Design).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Component Design",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Component Design.",
+      "week2": "Thực hành các components/logic cốt lõi của Component Design.",
+      "week3": "Ứng dụng Component Design vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Component Design vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Component Design",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "State & Props": {
+    "skill": "State & Props",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên State & Props được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for State & Props",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của State & Props.",
+      "week2": "Thực hành các components/logic cốt lõi của State & Props.",
+      "week3": "Ứng dụng State & Props vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp State & Props vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng State & Props",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "React Hooks": {
+    "skill": "React Hooks",
+    "definition": "Công nghệ hệ sinh thái JavaScript/Frontend hỗ trợ phát triển giao diện hoặc logic ứng dụng cho React Hooks.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for React Hooks",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của React Hooks.",
+      "week2": "Thực hành các components/logic cốt lõi của React Hooks.",
+      "week3": "Ứng dụng React Hooks vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp React Hooks vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng React Hooks",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "React Router": {
+    "skill": "React Router",
+    "definition": "Công nghệ hệ sinh thái JavaScript/Frontend hỗ trợ phát triển giao diện hoặc logic ứng dụng cho React Router.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for React Router",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của React Router.",
+      "week2": "Thực hành các components/logic cốt lõi của React Router.",
+      "week3": "Ứng dụng React Router vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp React Router vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng React Router",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Redux Toolkit": {
+    "skill": "Redux Toolkit",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Redux Toolkit được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Redux Toolkit",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Redux Toolkit.",
+      "week2": "Thực hành các components/logic cốt lõi của Redux Toolkit.",
+      "week3": "Ứng dụng Redux Toolkit vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Redux Toolkit vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Redux Toolkit",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Zustand": {
+    "skill": "Zustand",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Zustand được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Zustand",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Zustand.",
+      "week2": "Thực hành các components/logic cốt lõi của Zustand.",
+      "week3": "Ứng dụng Zustand vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Zustand vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Zustand",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Context API": {
+    "skill": "Context API",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (Context API).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Context API",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Context API.",
+      "week2": "Thực hành các components/logic cốt lõi của Context API.",
+      "week3": "Ứng dụng Context API vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Context API vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Context API",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Unit Testing (Jest/RTL)": {
+    "skill": "Unit Testing (Jest/RTL)",
+    "definition": "Công cụ / Phương pháp kiểm thử phần mềm tự động giúp đảm bảo chất lượng code với Unit Testing (Jest/RTL).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Testing để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Unit Testing (Jest/RTL)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Unit Testing (Jest/RTL).",
+      "week2": "Thực hành các components/logic cốt lõi của Unit Testing (Jest/RTL).",
+      "week3": "Ứng dụng Unit Testing (Jest/RTL) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Unit Testing (Jest/RTL) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Unit Testing (Jest/RTL)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Chrome DevTools": {
+    "skill": "Chrome DevTools",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Chrome DevTools được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer",
+      "Next.js Developer",
+      "Full Stack Developer",
+      "UI Engineer",
+      "QA Automation Engineer",
+      "AI Frontend Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Chrome DevTools",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Chrome DevTools.",
+      "week2": "Thực hành các components/logic cốt lõi của Chrome DevTools.",
+      "week3": "Ứng dụng Chrome DevTools vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Chrome DevTools vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Chrome DevTools",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "npm/pnpm": {
+    "skill": "npm/pnpm",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên npm/pnpm được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer",
+      "Next.js Developer",
+      "AI Frontend Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for npm/pnpm",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của npm/pnpm.",
+      "week2": "Thực hành các components/logic cốt lõi của npm/pnpm.",
+      "week3": "Ứng dụng npm/pnpm vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp npm/pnpm vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng npm/pnpm",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Storybook": {
+    "skill": "Storybook",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Storybook được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Developer",
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Storybook",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Storybook.",
+      "week2": "Thực hành các components/logic cốt lõi của Storybook.",
+      "week3": "Ứng dụng Storybook vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Storybook vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Storybook",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Routing (App Router)": {
+    "skill": "Routing (App Router)",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Routing (App Router) được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Routing (App Router)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Routing (App Router).",
+      "week2": "Thực hành các components/logic cốt lõi của Routing (App Router).",
+      "week3": "Ứng dụng Routing (App Router) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Routing (App Router) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Routing (App Router)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Data Fetching": {
+    "skill": "Data Fetching",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Data Fetching được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Data Fetching",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Data Fetching.",
+      "week2": "Thực hành các components/logic cốt lõi của Data Fetching.",
+      "week3": "Ứng dụng Data Fetching vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Data Fetching vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Data Fetching",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "SSR/SSG": {
+    "skill": "SSR/SSG",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên SSR/SSG được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for SSR/SSG",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của SSR/SSG.",
+      "week2": "Thực hành các components/logic cốt lõi của SSR/SSG.",
+      "week3": "Ứng dụng SSR/SSG vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp SSR/SSG vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng SSR/SSG",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Styling": {
+    "skill": "Styling",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Styling được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Styling",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Styling.",
+      "week2": "Thực hành các components/logic cốt lõi của Styling.",
+      "week3": "Ứng dụng Styling vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Styling vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Styling",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "API Routes": {
+    "skill": "API Routes",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (API Routes).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for API Routes",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của API Routes.",
+      "week2": "Thực hành các components/logic cốt lõi của API Routes.",
+      "week3": "Ứng dụng API Routes vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp API Routes vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng API Routes",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Caching": {
+    "skill": "Caching",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Caching được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Caching",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Caching.",
+      "week2": "Thực hành các components/logic cốt lõi của Caching.",
+      "week3": "Ứng dụng Caching vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Caching vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Caching",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Image/Font Optimization": {
+    "skill": "Image/Font Optimization",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Image/Font Optimization được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Image/Font Optimization",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Image/Font Optimization.",
+      "week2": "Thực hành các components/logic cốt lõi của Image/Font Optimization.",
+      "week3": "Ứng dụng Image/Font Optimization vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Image/Font Optimization vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Image/Font Optimization",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Middleware": {
+    "skill": "Middleware",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Middleware được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Middleware",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Middleware.",
+      "week2": "Thực hành các components/logic cốt lõi của Middleware.",
+      "week3": "Ứng dụng Middleware vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Middleware vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Middleware",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Edge Runtime": {
+    "skill": "Edge Runtime",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Edge Runtime được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Edge Runtime",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Edge Runtime.",
+      "week2": "Thực hành các components/logic cốt lõi của Edge Runtime.",
+      "week3": "Ứng dụng Edge Runtime vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Edge Runtime vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Edge Runtime",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "NextAuth": {
+    "skill": "NextAuth",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên NextAuth được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for NextAuth",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của NextAuth.",
+      "week2": "Thực hành các components/logic cốt lõi của NextAuth.",
+      "week3": "Ứng dụng NextAuth vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp NextAuth vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng NextAuth",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Vercel": {
+    "skill": "Vercel",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Vercel được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Next.js Developer",
+      "AI Frontend Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Vercel",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Vercel.",
+      "week2": "Thực hành các components/logic cốt lõi của Vercel.",
+      "week3": "Ứng dụng Vercel vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Vercel vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Vercel",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Node.js": {
+    "skill": "Node.js",
+    "definition": "Node.js là một môi trường runtime mã nguồn mở, đa nền tảng, cho phép thực thi mã JavaScript bên ngoài trình duyệt web.",
+    "whyLearn": "Cho phép lập trình viên sử dụng JavaScript để viết cả Frontend lẫn Backend, tiết kiệm thời gian học ngôn ngữ mới.",
+    "usedIn": [
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [
+      "JavaScript",
+      "Asynchronous Programming",
+      "HTTP/REST"
+    ],
+    "relatedCourses": [
+      "WEB206",
+      "PRO1014",
+      "WEB503"
+    ],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Node.js",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Cơ bản về Node.js, V8 Engine, Modules, NPM, Event Loop",
+      "week2": "Express.js cơ bản, Xây dựng REST API, Middleware",
+      "week3": "Kết nối Database (MongoDB/PostgreSQL), Xác thực JWT",
+      "week4": "Kiến trúc ứng dụng, Xử lý lỗi, Triển khai (Deployment)"
+    },
+    "projects": [
+      "Mini Project áp dụng Node.js",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Express.js": {
+    "skill": "Express.js",
+    "definition": "Framework backend tối giản và linh hoạt nhất cho Node.js, giúp xây dựng RESTful API một cách nhanh chóng.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Express.js",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Express.js.",
+      "week2": "Thực hành các components/logic cốt lõi của Express.js.",
+      "week3": "Ứng dụng Express.js vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Express.js vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Express.js",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "SQL": {
+    "skill": "SQL",
+    "definition": "Ngôn ngữ truy vấn có cấu trúc dùng để giao tiếp, thao tác và quản lý dữ liệu trong hệ quản trị CSDL quan hệ.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Language để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Full Stack Developer",
+      "Software Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [
+      "COM2012",
+      "PRO1014",
+      "PRO2201",
+      "WEB108",
+      "WEB503"
+    ],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for SQL",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của SQL.",
+      "week2": "Thực hành các components/logic cốt lõi của SQL.",
+      "week3": "Ứng dụng SQL vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp SQL vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng SQL",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "PostgreSQL": {
+    "skill": "PostgreSQL",
+    "definition": "Hệ quản trị CSDL quan hệ mã nguồn mở mạnh mẽ, hỗ trợ nhiều tính năng nâng cao và ACID compliance.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Full Stack Developer",
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for PostgreSQL",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của PostgreSQL.",
+      "week2": "Thực hành các components/logic cốt lõi của PostgreSQL.",
+      "week3": "Ứng dụng PostgreSQL vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp PostgreSQL vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng PostgreSQL",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Linux CLI": {
+    "skill": "Linux CLI",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Linux CLI được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Linux CLI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Linux CLI.",
+      "week2": "Thực hành các components/logic cốt lõi của Linux CLI.",
+      "week3": "Ứng dụng Linux CLI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Linux CLI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Linux CLI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Redis": {
+    "skill": "Redis",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Redis được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Full Stack Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Redis",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Redis.",
+      "week2": "Thực hành các components/logic cốt lõi của Redis.",
+      "week3": "Ứng dụng Redis vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Redis vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Redis",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Docker": {
+    "skill": "Docker",
+    "definition": "Nền tảng đóng gói ứng dụng thành các container độc lập, giúp chạy ứng dụng đồng nhất trên mọi môi trường.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Full Stack Developer",
+      "DevOps Engineer",
+      "Cloud Engineer",
+      "AI Fullstack Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Docker",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Docker.",
+      "week2": "Thực hành các components/logic cốt lõi của Docker.",
+      "week3": "Ứng dụng Docker vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Docker vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Docker",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Microservices": {
+    "skill": "Microservices",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Microservices được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Node.js Developer",
+      "Software Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Microservices",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Microservices.",
+      "week2": "Thực hành các components/logic cốt lõi của Microservices.",
+      "week3": "Ứng dụng Microservices vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Microservices vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Microservices",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Message Queue": {
+    "skill": "Message Queue",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Message Queue được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Message Queue",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Message Queue.",
+      "week2": "Thực hành các components/logic cốt lõi của Message Queue.",
+      "week3": "Ứng dụng Message Queue vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Message Queue vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Message Queue",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "API Design": {
+    "skill": "API Design",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (API Design).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Software Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for API Design",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của API Design.",
+      "week2": "Thực hành các components/logic cốt lõi của API Design.",
+      "week3": "Ứng dụng API Design vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp API Design vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng API Design",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "System Design": {
+    "skill": "System Design",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (System Design).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Full Stack Developer",
+      "Software Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for System Design",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của System Design.",
+      "week2": "Thực hành các components/logic cốt lõi của System Design.",
+      "week3": "Ứng dụng System Design vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp System Design vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng System Design",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Database Design": {
+    "skill": "Database Design",
+    "definition": "Công nghệ cơ sở dữ liệu / Quản trị dữ liệu liên quan tới Database Design.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Database Design",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Database Design.",
+      "week2": "Thực hành các components/logic cốt lõi của Database Design.",
+      "week3": "Ứng dụng Database Design vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Database Design vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Database Design",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Web Security (JWT/OAuth)": {
+    "skill": "Web Security (JWT/OAuth)",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Web Security (JWT/OAuth) được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Web Security (JWT/OAuth)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Web Security (JWT/OAuth).",
+      "week2": "Thực hành các components/logic cốt lõi của Web Security (JWT/OAuth).",
+      "week3": "Ứng dụng Web Security (JWT/OAuth) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Web Security (JWT/OAuth) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Web Security (JWT/OAuth)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Postman": {
+    "skill": "Postman",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Postman được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Node.js Developer",
+      "Full Stack Developer",
+      "Software Engineer",
+      "QA Automation Engineer",
+      "AI Fullstack Engineer",
+      "Software Architect",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Postman",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Postman.",
+      "week2": "Thực hành các components/logic cốt lõi của Postman.",
+      "week3": "Ứng dụng Postman vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Postman vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Postman",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Linux Terminal": {
+    "skill": "Linux Terminal",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Linux Terminal được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Backend Developer",
+      "Software Engineer",
+      "DevOps Engineer",
+      "Cloud Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Linux Terminal",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Linux Terminal.",
+      "week2": "Thực hành các components/logic cốt lõi của Linux Terminal.",
+      "week3": "Ứng dụng Linux Terminal vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Linux Terminal vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Linux Terminal",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "npm": {
+    "skill": "npm",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên npm được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for npm",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của npm.",
+      "week2": "Thực hành các components/logic cốt lõi của npm.",
+      "week3": "Ứng dụng npm vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp npm vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng npm",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "NestJS": {
+    "skill": "NestJS",
+    "definition": "Công nghệ hệ sinh thái JavaScript/Frontend hỗ trợ phát triển giao diện hoặc logic ứng dụng cho NestJS.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for NestJS",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của NestJS.",
+      "week2": "Thực hành các components/logic cốt lõi của NestJS.",
+      "week3": "Ứng dụng NestJS vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp NestJS vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng NestJS",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Fastify": {
+    "skill": "Fastify",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Fastify được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Fastify",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Fastify.",
+      "week2": "Thực hành các components/logic cốt lõi của Fastify.",
+      "week3": "Ứng dụng Fastify vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Fastify vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Fastify",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Event Loops": {
+    "skill": "Event Loops",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Event Loops được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Event Loops",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Event Loops.",
+      "week2": "Thực hành các components/logic cốt lõi của Event Loops.",
+      "week3": "Ứng dụng Event Loops vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Event Loops vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Event Loops",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Asynchronous programming": {
+    "skill": "Asynchronous programming",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Asynchronous programming được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Asynchronous programming",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Asynchronous programming.",
+      "week2": "Thực hành các components/logic cốt lõi của Asynchronous programming.",
+      "week3": "Ứng dụng Asynchronous programming vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Asynchronous programming vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Asynchronous programming",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "npm/pnpm/yarn": {
+    "skill": "npm/pnpm/yarn",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên npm/pnpm/yarn được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Node.js Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for npm/pnpm/yarn",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của npm/pnpm/yarn.",
+      "week2": "Thực hành các components/logic cốt lõi của npm/pnpm/yarn.",
+      "week3": "Ứng dụng npm/pnpm/yarn vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp npm/pnpm/yarn vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng npm/pnpm/yarn",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "NoSQL (MongoDB)": {
+    "skill": "NoSQL (MongoDB)",
+    "definition": "Cơ sở dữ liệu phi quan hệ lưu trữ dữ liệu dưới dạng Document (JSON-like), cực kỳ linh hoạt và dễ scale.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Full Stack Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for NoSQL (MongoDB)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của NoSQL (MongoDB).",
+      "week2": "Thực hành các components/logic cốt lõi của NoSQL (MongoDB).",
+      "week3": "Ứng dụng NoSQL (MongoDB) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp NoSQL (MongoDB) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng NoSQL (MongoDB)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CI/CD (GitHub Actions)": {
+    "skill": "CI/CD (GitHub Actions)",
+    "definition": "Quy trình Tích hợp liên tục và Triển khai liên tục, tự động hóa việc build, test và deploy mã nguồn.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Full Stack Developer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for CI/CD (GitHub Actions)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CI/CD (GitHub Actions).",
+      "week2": "Thực hành các components/logic cốt lõi của CI/CD (GitHub Actions).",
+      "week3": "Ứng dụng CI/CD (GitHub Actions) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CI/CD (GitHub Actions) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CI/CD (GitHub Actions)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Cloud Deployment (AWS/Vercel)": {
+    "skill": "Cloud Deployment (AWS/Vercel)",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng Cloud Deployment (AWS/Vercel).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Full Stack Developer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Cloud Deployment (AWS/Vercel)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Cloud Deployment (AWS/Vercel).",
+      "week2": "Thực hành các components/logic cốt lõi của Cloud Deployment (AWS/Vercel).",
+      "week3": "Ứng dụng Cloud Deployment (AWS/Vercel) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Cloud Deployment (AWS/Vercel) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Cloud Deployment (AWS/Vercel)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "API Security": {
+    "skill": "API Security",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (API Security).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Full Stack Developer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for API Security",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của API Security.",
+      "week2": "Thực hành các components/logic cốt lõi của API Security.",
+      "week3": "Ứng dụng API Security vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp API Security vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng API Security",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Docker Desktop": {
+    "skill": "Docker Desktop",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Docker Desktop được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Full Stack Developer",
+      "DevOps Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Docker Desktop",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Docker Desktop.",
+      "week2": "Thực hành các components/logic cốt lõi của Docker Desktop.",
+      "week3": "Ứng dụng Docker Desktop vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Docker Desktop vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Docker Desktop",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Computer Science Basics": {
+    "skill": "Computer Science Basics",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Computer Science Basics được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Computer Science Basics",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Computer Science Basics.",
+      "week2": "Thực hành các components/logic cốt lõi của Computer Science Basics.",
+      "week3": "Ứng dụng Computer Science Basics vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Computer Science Basics vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Computer Science Basics",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Algorithms & Data Structures": {
+    "skill": "Algorithms & Data Structures",
+    "definition": "Nền tảng Khoa học máy tính về thuật toán và cấu trúc dữ liệu để giải quyết bài toán tối ưu về thời gian và bộ nhớ.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Hard",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Algorithms & Data Structures",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Algorithms & Data Structures.",
+      "week2": "Thực hành các components/logic cốt lõi của Algorithms & Data Structures.",
+      "week3": "Ứng dụng Algorithms & Data Structures vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Algorithms & Data Structures vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Algorithms & Data Structures",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Java/C++/Python": {
+    "skill": "Java/C++/Python",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Java/C++/Python được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Java/C++/Python",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Java/C++/Python.",
+      "week2": "Thực hành các components/logic cốt lõi của Java/C++/Python.",
+      "week3": "Ứng dụng Java/C++/Python vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Java/C++/Python vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Java/C++/Python",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "OOP": {
+    "skill": "OOP",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên OOP được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for OOP",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của OOP.",
+      "week2": "Thực hành các components/logic cốt lõi của OOP.",
+      "week3": "Ứng dụng OOP vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp OOP vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng OOP",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Database Systems": {
+    "skill": "Database Systems",
+    "definition": "Công nghệ cơ sở dữ liệu / Quản trị dữ liệu liên quan tới Database Systems.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer",
+      "Software Architect",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Database Systems",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Database Systems.",
+      "week2": "Thực hành các components/logic cốt lõi của Database Systems.",
+      "week3": "Ứng dụng Database Systems vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Database Systems vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Database Systems",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Design Patterns": {
+    "skill": "Design Patterns",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Design Patterns).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer",
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Design Patterns",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Design Patterns.",
+      "week2": "Thực hành các components/logic cốt lõi của Design Patterns.",
+      "week3": "Ứng dụng Design Patterns vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Design Patterns vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Design Patterns",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Code Review": {
+    "skill": "Code Review",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Code Review được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Code Review",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Code Review.",
+      "week2": "Thực hành các components/logic cốt lõi của Code Review.",
+      "week3": "Ứng dụng Code Review vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Code Review vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Code Review",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "System Architecture": {
+    "skill": "System Architecture",
+    "definition": "Khái niệm thiết kế cấu trúc tổng thể của hệ thống phần mềm, bao gồm các thành phần, module và cách chúng tương tác.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer",
+      "Software Architect",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for System Architecture",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của System Architecture.",
+      "week2": "Thực hành các components/logic cốt lõi của System Architecture.",
+      "week3": "Ứng dụng System Architecture vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp System Architecture vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng System Architecture",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "IDE": {
+    "skill": "IDE",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên IDE được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for IDE",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của IDE.",
+      "week2": "Thực hành các components/logic cốt lõi của IDE.",
+      "week3": "Ứng dụng IDE vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp IDE vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng IDE",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Web Accessibility (a11y)": {
+    "skill": "Web Accessibility (a11y)",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Web Accessibility (a11y) được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Web Accessibility (a11y)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Web Accessibility (a11y).",
+      "week2": "Thực hành các components/logic cốt lõi của Web Accessibility (a11y).",
+      "week3": "Ứng dụng Web Accessibility (a11y) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Web Accessibility (a11y) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Web Accessibility (a11y)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Semantic HTML": {
+    "skill": "Semantic HTML",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Semantic HTML được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Semantic HTML",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Semantic HTML.",
+      "week2": "Thực hành các components/logic cốt lõi của Semantic HTML.",
+      "week3": "Ứng dụng Semantic HTML vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Semantic HTML vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Semantic HTML",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CSS Layouts (Flexbox/Grid)": {
+    "skill": "CSS Layouts (Flexbox/Grid)",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (CSS Layouts (Flexbox/Grid)).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CSS Layouts (Flexbox/Grid)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CSS Layouts (Flexbox/Grid).",
+      "week2": "Thực hành các components/logic cốt lõi của CSS Layouts (Flexbox/Grid).",
+      "week3": "Ứng dụng CSS Layouts (Flexbox/Grid) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CSS Layouts (Flexbox/Grid) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CSS Layouts (Flexbox/Grid)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Design Systems": {
+    "skill": "Design Systems",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Design Systems).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Design Systems",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Design Systems.",
+      "week2": "Thực hành các components/logic cốt lõi của Design Systems.",
+      "week3": "Ứng dụng Design Systems vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Design Systems vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Design Systems",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Component Libraries": {
+    "skill": "Component Libraries",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Component Libraries được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Component Libraries",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Component Libraries.",
+      "week2": "Thực hành các components/logic cốt lõi của Component Libraries.",
+      "week3": "Ứng dụng Component Libraries vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Component Libraries vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Component Libraries",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CSS Animations (Framer Motion/GSAP)": {
+    "skill": "CSS Animations (Framer Motion/GSAP)",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (CSS Animations (Framer Motion/GSAP)).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CSS Animations (Framer Motion/GSAP)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CSS Animations (Framer Motion/GSAP).",
+      "week2": "Thực hành các components/logic cốt lõi của CSS Animations (Framer Motion/GSAP).",
+      "week3": "Ứng dụng CSS Animations (Framer Motion/GSAP) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CSS Animations (Framer Motion/GSAP) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CSS Animations (Framer Motion/GSAP)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Figma to Code": {
+    "skill": "Figma to Code",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Figma to Code).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Figma to Code",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Figma to Code.",
+      "week2": "Thực hành các components/logic cốt lõi của Figma to Code.",
+      "week3": "Ứng dụng Figma to Code vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Figma to Code vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Figma to Code",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Tailwind CSS": {
+    "skill": "Tailwind CSS",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (Tailwind CSS).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "UI Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Tailwind CSS",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Tailwind CSS.",
+      "week2": "Thực hành các components/logic cốt lõi của Tailwind CSS.",
+      "week3": "Ứng dụng Tailwind CSS vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Tailwind CSS vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Tailwind CSS",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Dart Programming": {
+    "skill": "Dart Programming",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Dart Programming được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Dart Programming",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Dart Programming.",
+      "week2": "Thực hành các components/logic cốt lõi của Dart Programming.",
+      "week3": "Ứng dụng Dart Programming vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Dart Programming vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Dart Programming",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Flutter Framework": {
+    "skill": "Flutter Framework",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Flutter Framework được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Flutter Framework",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Flutter Framework.",
+      "week2": "Thực hành các components/logic cốt lõi của Flutter Framework.",
+      "week3": "Ứng dụng Flutter Framework vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Flutter Framework vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Flutter Framework",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Widget Lifecycle": {
+    "skill": "Widget Lifecycle",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Widget Lifecycle được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Widget Lifecycle",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Widget Lifecycle.",
+      "week2": "Thực hành các components/logic cốt lõi của Widget Lifecycle.",
+      "week3": "Ứng dụng Widget Lifecycle vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Widget Lifecycle vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Widget Lifecycle",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Layouts & Gestures": {
+    "skill": "Layouts & Gestures",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Layouts & Gestures được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Layouts & Gestures",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Layouts & Gestures.",
+      "week2": "Thực hành các components/logic cốt lõi của Layouts & Gestures.",
+      "week3": "Ứng dụng Layouts & Gestures vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Layouts & Gestures vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Layouts & Gestures",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "State Management (Provider/Riverpod)": {
+    "skill": "State Management (Provider/Riverpod)",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên State Management (Provider/Riverpod) được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for State Management (Provider/Riverpod)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của State Management (Provider/Riverpod).",
+      "week2": "Thực hành các components/logic cốt lõi của State Management (Provider/Riverpod).",
+      "week3": "Ứng dụng State Management (Provider/Riverpod) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp State Management (Provider/Riverpod) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng State Management (Provider/Riverpod)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "API Integration": {
+    "skill": "API Integration",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (API Integration).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "AI Frontend Engineer",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for API Integration",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của API Integration.",
+      "week2": "Thực hành các components/logic cốt lõi của API Integration.",
+      "week3": "Ứng dụng API Integration vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp API Integration vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng API Integration",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Firebase": {
+    "skill": "Firebase",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Firebase được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Firebase",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Firebase.",
+      "week2": "Thực hành các components/logic cốt lõi của Firebase.",
+      "week3": "Ứng dụng Firebase vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Firebase vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Firebase",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "SQLite (Offline Storage)": {
+    "skill": "SQLite (Offline Storage)",
+    "definition": "Công nghệ cơ sở dữ liệu / Quản trị dữ liệu liên quan tới SQLite (Offline Storage).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for SQLite (Offline Storage)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của SQLite (Offline Storage).",
+      "week2": "Thực hành các components/logic cốt lõi của SQLite (Offline Storage).",
+      "week3": "Ứng dụng SQLite (Offline Storage) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp SQLite (Offline Storage) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng SQLite (Offline Storage)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Bloc Pattern": {
+    "skill": "Bloc Pattern",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Bloc Pattern được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Bloc Pattern",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Bloc Pattern.",
+      "week2": "Thực hành các components/logic cốt lõi của Bloc Pattern.",
+      "week3": "Ứng dụng Bloc Pattern vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Bloc Pattern vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Bloc Pattern",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Animations": {
+    "skill": "Animations",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Animations được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Animations",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Animations.",
+      "week2": "Thực hành các components/logic cốt lõi của Animations.",
+      "week3": "Ứng dụng Animations vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Animations vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Animations",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Mobile Performance": {
+    "skill": "Mobile Performance",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Mobile Performance được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Mobile Performance",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Mobile Performance.",
+      "week2": "Thực hành các components/logic cốt lõi của Mobile Performance.",
+      "week3": "Ứng dụng Mobile Performance vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Mobile Performance vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Mobile Performance",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Push Notifications": {
+    "skill": "Push Notifications",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Push Notifications được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Push Notifications",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Push Notifications.",
+      "week2": "Thực hành các components/logic cốt lõi của Push Notifications.",
+      "week3": "Ứng dụng Push Notifications vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Push Notifications vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Push Notifications",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "App Store/Play Store Deployment": {
+    "skill": "App Store/Play Store Deployment",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên App Store/Play Store Deployment được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for App Store/Play Store Deployment",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của App Store/Play Store Deployment.",
+      "week2": "Thực hành các components/logic cốt lõi của App Store/Play Store Deployment.",
+      "week3": "Ứng dụng App Store/Play Store Deployment vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp App Store/Play Store Deployment vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng App Store/Play Store Deployment",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Android Studio": {
+    "skill": "Android Studio",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Android Studio được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Android Studio",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Android Studio.",
+      "week2": "Thực hành các components/logic cốt lõi của Android Studio.",
+      "week3": "Ứng dụng Android Studio vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Android Studio vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Android Studio",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Flutter CLI": {
+    "skill": "Flutter CLI",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Flutter CLI được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Flutter CLI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Flutter CLI.",
+      "week2": "Thực hành các components/logic cốt lõi của Flutter CLI.",
+      "week3": "Ứng dụng Flutter CLI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Flutter CLI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Flutter CLI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Xcode": {
+    "skill": "Xcode",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Xcode được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Flutter Developer",
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Xcode",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Xcode.",
+      "week2": "Thực hành các components/logic cốt lõi của Xcode.",
+      "week3": "Ứng dụng Xcode vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Xcode vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Xcode",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "React Native": {
+    "skill": "React Native",
+    "definition": "Công nghệ hệ sinh thái JavaScript/Frontend hỗ trợ phát triển giao diện hoặc logic ứng dụng cho React Native.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Framework để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for React Native",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của React Native.",
+      "week2": "Thực hành các components/logic cốt lõi của React Native.",
+      "week3": "Ứng dụng React Native vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp React Native vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng React Native",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Flexbox Layouts": {
+    "skill": "Flexbox Layouts",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Flexbox Layouts được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Flexbox Layouts",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Flexbox Layouts.",
+      "week2": "Thực hành các components/logic cốt lõi của Flexbox Layouts.",
+      "week3": "Ứng dụng Flexbox Layouts vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Flexbox Layouts vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Flexbox Layouts",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Navigation": {
+    "skill": "Navigation",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Navigation được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Navigation",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Navigation.",
+      "week2": "Thực hành các components/logic cốt lõi của Navigation.",
+      "week3": "Ứng dụng Navigation vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Navigation vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Navigation",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Expo": {
+    "skill": "Expo",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Expo được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Expo",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Expo.",
+      "week2": "Thực hành các components/logic cốt lõi của Expo.",
+      "week3": "Ứng dụng Expo vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Expo vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Expo",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Native Modules": {
+    "skill": "Native Modules",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Native Modules được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Native Modules",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Native Modules.",
+      "week2": "Thực hành các components/logic cốt lõi của Native Modules.",
+      "week3": "Ứng dụng Native Modules vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Native Modules vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Native Modules",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Expo CLI": {
+    "skill": "Expo CLI",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Expo CLI được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Expo CLI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Expo CLI.",
+      "week2": "Thực hành các components/logic cốt lõi của Expo CLI.",
+      "week3": "Ứng dụng Expo CLI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Expo CLI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Expo CLI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Flipper": {
+    "skill": "Flipper",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Flipper được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "React Native Developer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Flipper",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Flipper.",
+      "week2": "Thực hành các components/logic cốt lõi của Flipper.",
+      "week3": "Ứng dụng Flipper vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Flipper vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Flipper",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Software Testing Basics": {
+    "skill": "Software Testing Basics",
+    "definition": "Công cụ / Phương pháp kiểm thử phần mềm tự động giúp đảm bảo chất lượng code với Software Testing Basics.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Testing để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Software Testing Basics",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Software Testing Basics.",
+      "week2": "Thực hành các components/logic cốt lõi của Software Testing Basics.",
+      "week3": "Ứng dụng Software Testing Basics vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Software Testing Basics vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Software Testing Basics",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Test Cases & Bug Tracking": {
+    "skill": "Test Cases & Bug Tracking",
+    "definition": "Công cụ / Phương pháp kiểm thử phần mềm tự động giúp đảm bảo chất lượng code với Test Cases & Bug Tracking.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Testing để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Test Cases & Bug Tracking",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Test Cases & Bug Tracking.",
+      "week2": "Thực hành các components/logic cốt lõi của Test Cases & Bug Tracking.",
+      "week3": "Ứng dụng Test Cases & Bug Tracking vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Test Cases & Bug Tracking vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Test Cases & Bug Tracking",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "API Testing (Postman)": {
+    "skill": "API Testing (Postman)",
+    "definition": "Công cụ / Phương pháp kiểm thử phần mềm tự động giúp đảm bảo chất lượng code với API Testing (Postman).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Testing để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for API Testing (Postman)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của API Testing (Postman).",
+      "week2": "Thực hành các components/logic cốt lõi của API Testing (Postman).",
+      "week3": "Ứng dụng API Testing (Postman) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp API Testing (Postman) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng API Testing (Postman)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "JavaScript/Python": {
+    "skill": "JavaScript/Python",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên JavaScript/Python được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for JavaScript/Python",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của JavaScript/Python.",
+      "week2": "Thực hành các components/logic cốt lõi của JavaScript/Python.",
+      "week3": "Ứng dụng JavaScript/Python vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp JavaScript/Python vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng JavaScript/Python",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Selenium": {
+    "skill": "Selenium",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Selenium được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Selenium",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Selenium.",
+      "week2": "Thực hành các components/logic cốt lõi của Selenium.",
+      "week3": "Ứng dụng Selenium vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Selenium vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Selenium",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Cypress": {
+    "skill": "Cypress",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Cypress được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Cypress",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Cypress.",
+      "week2": "Thực hành các components/logic cốt lõi của Cypress.",
+      "week3": "Ứng dụng Cypress vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Cypress vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Cypress",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Playwright": {
+    "skill": "Playwright",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Playwright được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Playwright",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Playwright.",
+      "week2": "Thực hành các components/logic cốt lõi của Playwright.",
+      "week3": "Ứng dụng Playwright vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Playwright vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Playwright",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CI/CD Integration": {
+    "skill": "CI/CD Integration",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên CI/CD Integration được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CI/CD Integration",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CI/CD Integration.",
+      "week2": "Thực hành các components/logic cốt lõi của CI/CD Integration.",
+      "week3": "Ứng dụng CI/CD Integration vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CI/CD Integration vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CI/CD Integration",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Performance/Load Testing (JMeter)": {
+    "skill": "Performance/Load Testing (JMeter)",
+    "definition": "Công cụ / Phương pháp kiểm thử phần mềm tự động giúp đảm bảo chất lượng code với Performance/Load Testing (JMeter).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Testing để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Performance/Load Testing (JMeter)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Performance/Load Testing (JMeter).",
+      "week2": "Thực hành các components/logic cốt lõi của Performance/Load Testing (JMeter).",
+      "week3": "Ứng dụng Performance/Load Testing (JMeter) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Performance/Load Testing (JMeter) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Performance/Load Testing (JMeter)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "SQL Basics": {
+    "skill": "SQL Basics",
+    "definition": "Công nghệ cơ sở dữ liệu / Quản trị dữ liệu liên quan tới SQL Basics.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for SQL Basics",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của SQL Basics.",
+      "week2": "Thực hành các components/logic cốt lõi của SQL Basics.",
+      "week3": "Ứng dụng SQL Basics vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp SQL Basics vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng SQL Basics",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Jenkins/GitHub Actions": {
+    "skill": "Jenkins/GitHub Actions",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Jenkins/GitHub Actions được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "QA Automation Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Jenkins/GitHub Actions",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Jenkins/GitHub Actions.",
+      "week2": "Thực hành các components/logic cốt lõi của Jenkins/GitHub Actions.",
+      "week3": "Ứng dụng Jenkins/GitHub Actions vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Jenkins/GitHub Actions vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Jenkins/GitHub Actions",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Linux": {
+    "skill": "Linux",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Linux được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer",
+      "Cloud Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Linux",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Linux.",
+      "week2": "Thực hành các components/logic cốt lõi của Linux.",
+      "week3": "Ứng dụng Linux vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Linux vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Linux",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Bash Scripting": {
+    "skill": "Bash Scripting",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Bash Scripting được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Bash Scripting",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Bash Scripting.",
+      "week2": "Thực hành các components/logic cốt lõi của Bash Scripting.",
+      "week3": "Ứng dụng Bash Scripting vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Bash Scripting vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Bash Scripting",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Networking Basics": {
+    "skill": "Networking Basics",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (Networking Basics).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Networking Basics",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Networking Basics.",
+      "week2": "Thực hành các components/logic cốt lõi của Networking Basics.",
+      "week3": "Ứng dụng Networking Basics vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Networking Basics vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Networking Basics",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Kubernetes": {
+    "skill": "Kubernetes",
+    "definition": "Hệ thống điều phối container mã nguồn mở giúp tự động hóa việc triển khai, scale và quản lý ứng dụng containerized.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer",
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Kubernetes",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Kubernetes.",
+      "week2": "Thực hành các components/logic cốt lõi của Kubernetes.",
+      "week3": "Ứng dụng Kubernetes vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Kubernetes vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Kubernetes",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CI/CD Pipelines": {
+    "skill": "CI/CD Pipelines",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên CI/CD Pipelines được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CI/CD Pipelines",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CI/CD Pipelines.",
+      "week2": "Thực hành các components/logic cốt lõi của CI/CD Pipelines.",
+      "week3": "Ứng dụng CI/CD Pipelines vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CI/CD Pipelines vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CI/CD Pipelines",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Terraform": {
+    "skill": "Terraform",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Terraform được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer",
+      "Cloud Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Terraform",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Terraform.",
+      "week2": "Thực hành các components/logic cốt lõi của Terraform.",
+      "week3": "Ứng dụng Terraform vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Terraform vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Terraform",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AWS": {
+    "skill": "AWS",
+    "definition": "Dịch vụ điện toán đám mây toàn diện và phổ biến nhất của Amazon, cung cấp máy chủ, database, storage.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer",
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for AWS",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AWS.",
+      "week2": "Thực hành các components/logic cốt lõi của AWS.",
+      "week3": "Ứng dụng AWS vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AWS vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AWS",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Monitoring (Grafana/Prometheus)": {
+    "skill": "Monitoring (Grafana/Prometheus)",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Monitoring (Grafana/Prometheus) được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Monitoring (Grafana/Prometheus)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Monitoring (Grafana/Prometheus).",
+      "week2": "Thực hành các components/logic cốt lõi của Monitoring (Grafana/Prometheus).",
+      "week3": "Ứng dụng Monitoring (Grafana/Prometheus) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Monitoring (Grafana/Prometheus) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Monitoring (Grafana/Prometheus)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Terraform CLI": {
+    "skill": "Terraform CLI",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Terraform CLI được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer",
+      "Cloud Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Terraform CLI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Terraform CLI.",
+      "week2": "Thực hành các components/logic cốt lõi của Terraform CLI.",
+      "week3": "Ứng dụng Terraform CLI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Terraform CLI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Terraform CLI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AWS CLI": {
+    "skill": "AWS CLI",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng AWS CLI.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "DevOps Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for AWS CLI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AWS CLI.",
+      "week2": "Thực hành các components/logic cốt lõi của AWS CLI.",
+      "week3": "Ứng dụng AWS CLI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AWS CLI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AWS CLI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Networking": {
+    "skill": "Networking",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (Networking).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Networking",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Networking.",
+      "week2": "Thực hành các components/logic cốt lõi của Networking.",
+      "week3": "Ứng dụng Networking vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Networking vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Networking",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Cloud Architecture Basics": {
+    "skill": "Cloud Architecture Basics",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng Cloud Architecture Basics.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Cloud Architecture Basics",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Cloud Architecture Basics.",
+      "week2": "Thực hành các components/logic cốt lõi của Cloud Architecture Basics.",
+      "week3": "Ứng dụng Cloud Architecture Basics vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Cloud Architecture Basics vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Cloud Architecture Basics",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Azure": {
+    "skill": "Azure",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng Azure.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Azure",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Azure.",
+      "week2": "Thực hành các components/logic cốt lõi của Azure.",
+      "week3": "Ứng dụng Azure vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Azure vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Azure",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "CI/CD": {
+    "skill": "CI/CD",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên CI/CD được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Cloud Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for CI/CD",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của CI/CD.",
+      "week2": "Thực hành các components/logic cốt lõi của CI/CD.",
+      "week3": "Ứng dụng CI/CD vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp CI/CD vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng CI/CD",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Cloud Security": {
+    "skill": "Cloud Security",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng Cloud Security.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Cloud Security",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Cloud Security.",
+      "week2": "Thực hành các components/logic cốt lõi của Cloud Security.",
+      "week3": "Ứng dụng Cloud Security vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Cloud Security vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Cloud Security",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AWS Console/CLI": {
+    "skill": "AWS Console/CLI",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng AWS Console/CLI.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Cloud Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for AWS Console/CLI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AWS Console/CLI.",
+      "week2": "Thực hành các components/logic cốt lõi của AWS Console/CLI.",
+      "week3": "Ứng dụng AWS Console/CLI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AWS Console/CLI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AWS Console/CLI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Prompt Engineering": {
+    "skill": "Prompt Engineering",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Prompt Engineering được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Frontend Engineer",
+      "AI Fullstack Engineer",
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Prompt Engineering",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Prompt Engineering.",
+      "week2": "Thực hành các components/logic cốt lõi của Prompt Engineering.",
+      "week3": "Ứng dụng Prompt Engineering vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Prompt Engineering vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Prompt Engineering",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "HTML/CSS": {
+    "skill": "HTML/CSS",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (HTML/CSS).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Frontend Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for HTML/CSS",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của HTML/CSS.",
+      "week2": "Thực hành các components/logic cốt lõi của HTML/CSS.",
+      "week3": "Ứng dụng HTML/CSS vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp HTML/CSS vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng HTML/CSS",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "OpenAI/Gemini APIs": {
+    "skill": "OpenAI/Gemini APIs",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (OpenAI/Gemini APIs).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Frontend Engineer",
+      "Prompt Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for OpenAI/Gemini APIs",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của OpenAI/Gemini APIs.",
+      "week2": "Thực hành các components/logic cốt lõi của OpenAI/Gemini APIs.",
+      "week3": "Ứng dụng OpenAI/Gemini APIs vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp OpenAI/Gemini APIs vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng OpenAI/Gemini APIs",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Retrieval-Augmented Generation (RAG)": {
+    "skill": "Retrieval-Augmented Generation (RAG)",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Retrieval-Augmented Generation (RAG) được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Frontend Engineer",
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Retrieval-Augmented Generation (RAG)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Retrieval-Augmented Generation (RAG).",
+      "week2": "Thực hành các components/logic cốt lõi của Retrieval-Augmented Generation (RAG).",
+      "week3": "Ứng dụng Retrieval-Augmented Generation (RAG) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Retrieval-Augmented Generation (RAG) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Retrieval-Augmented Generation (RAG)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AI Chat UI": {
+    "skill": "AI Chat UI",
+    "definition": "Kỹ năng và công cụ thiết kế giao diện, trải nghiệm người dùng hoặc dàn trang web (AI Chat UI).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Design để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Frontend Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Beginner",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for AI Chat UI",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AI Chat UI.",
+      "week2": "Thực hành các components/logic cốt lõi của AI Chat UI.",
+      "week3": "Ứng dụng AI Chat UI vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AI Chat UI vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AI Chat UI",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AI Agents": {
+    "skill": "AI Agents",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên AI Agents được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Frontend Engineer",
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for AI Agents",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AI Agents.",
+      "week2": "Thực hành các components/logic cốt lõi của AI Agents.",
+      "week3": "Ứng dụng AI Agents vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AI Agents vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AI Agents",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Python": {
+    "skill": "Python",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Python được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Python",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Python.",
+      "week2": "Thực hành các components/logic cốt lõi của Python.",
+      "week3": "Ứng dụng Python vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Python vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Python",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AI APIs": {
+    "skill": "AI APIs",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (AI APIs).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for AI APIs",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AI APIs.",
+      "week2": "Thực hành các components/logic cốt lõi của AI APIs.",
+      "week3": "Ứng dụng AI APIs vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AI APIs vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AI APIs",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Vector Database": {
+    "skill": "Vector Database",
+    "definition": "Công nghệ cơ sở dữ liệu / Quản trị dữ liệu liên quan tới Vector Database.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Database để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Fullstack Engineer",
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Vector Database",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Vector Database.",
+      "week2": "Thực hành các components/logic cốt lõi của Vector Database.",
+      "week3": "Ứng dụng Vector Database vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Vector Database vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Vector Database",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "LangChain / LlamaIndex": {
+    "skill": "LangChain / LlamaIndex",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên LangChain / LlamaIndex được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for LangChain / LlamaIndex",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của LangChain / LlamaIndex.",
+      "week2": "Thực hành các components/logic cốt lõi của LangChain / LlamaIndex.",
+      "week3": "Ứng dụng LangChain / LlamaIndex vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp LangChain / LlamaIndex vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng LangChain / LlamaIndex",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Jupyter Notebook": {
+    "skill": "Jupyter Notebook",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Jupyter Notebook được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Fullstack Engineer",
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Jupyter Notebook",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Jupyter Notebook.",
+      "week2": "Thực hành các components/logic cốt lõi của Jupyter Notebook.",
+      "week3": "Ứng dụng Jupyter Notebook vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Jupyter Notebook vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Jupyter Notebook",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Pinecone Console": {
+    "skill": "Pinecone Console",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Pinecone Console được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "AI Fullstack Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Pinecone Console",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Pinecone Console.",
+      "week2": "Thực hành các components/logic cốt lõi của Pinecone Console.",
+      "week3": "Ứng dụng Pinecone Console vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Pinecone Console vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Pinecone Console",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "LLM Foundations": {
+    "skill": "LLM Foundations",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên LLM Foundations được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for LLM Foundations",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của LLM Foundations.",
+      "week2": "Thực hành các components/logic cốt lõi của LLM Foundations.",
+      "week3": "Ứng dụng LLM Foundations vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp LLM Foundations vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng LLM Foundations",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Chain-of-Thought": {
+    "skill": "Chain-of-Thought",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Chain-of-Thought được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Chain-of-Thought",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Chain-of-Thought.",
+      "week2": "Thực hành các components/logic cốt lõi của Chain-of-Thought.",
+      "week3": "Ứng dụng Chain-of-Thought vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Chain-of-Thought vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Chain-of-Thought",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Few-shot prompting": {
+    "skill": "Few-shot prompting",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Few-shot prompting được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Few-shot prompting",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Few-shot prompting.",
+      "week2": "Thực hành các components/logic cốt lõi của Few-shot prompting.",
+      "week3": "Ứng dụng Few-shot prompting vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Few-shot prompting vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Few-shot prompting",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Prompt Evaluation": {
+    "skill": "Prompt Evaluation",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Prompt Evaluation được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Prompt Evaluation",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Prompt Evaluation.",
+      "week2": "Thực hành các components/logic cốt lõi của Prompt Evaluation.",
+      "week3": "Ứng dụng Prompt Evaluation vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Prompt Evaluation vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Prompt Evaluation",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Fine-Tuning basics": {
+    "skill": "Fine-Tuning basics",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Fine-Tuning basics được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Fine-Tuning basics",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Fine-Tuning basics.",
+      "week2": "Thực hành các components/logic cốt lõi của Fine-Tuning basics.",
+      "week3": "Ứng dụng Fine-Tuning basics vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Fine-Tuning basics vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Fine-Tuning basics",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Agentic Workflows": {
+    "skill": "Agentic Workflows",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Agentic Workflows được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Agentic Workflows",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Agentic Workflows.",
+      "week2": "Thực hành các components/logic cốt lõi của Agentic Workflows.",
+      "week3": "Ứng dụng Agentic Workflows vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Agentic Workflows vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Agentic Workflows",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Playground": {
+    "skill": "Playground",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Playground được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Prompt Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Playground",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Playground.",
+      "week2": "Thực hành các components/logic cốt lõi của Playground.",
+      "week3": "Ứng dụng Playground vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Playground vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Playground",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Distributed Systems": {
+    "skill": "Distributed Systems",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (Distributed Systems).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Distributed Systems",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Distributed Systems.",
+      "week2": "Thực hành các components/logic cốt lõi của Distributed Systems.",
+      "week3": "Ứng dụng Distributed Systems vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Distributed Systems vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Distributed Systems",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Cloud Architecture": {
+    "skill": "Cloud Architecture",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng Cloud Architecture.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Cloud Architecture",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Cloud Architecture.",
+      "week2": "Thực hành các components/logic cốt lõi của Cloud Architecture.",
+      "week3": "Ứng dụng Cloud Architecture vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Cloud Architecture vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Cloud Architecture",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Scalability": {
+    "skill": "Scalability",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Scalability được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Scalability",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Scalability.",
+      "week2": "Thực hành các components/logic cốt lõi của Scalability.",
+      "week3": "Ứng dụng Scalability vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Scalability vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Scalability",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Fault Tolerance": {
+    "skill": "Fault Tolerance",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Fault Tolerance được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Fault Tolerance",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Fault Tolerance.",
+      "week2": "Thực hành các components/logic cốt lõi của Fault Tolerance.",
+      "week3": "Ứng dụng Fault Tolerance vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Fault Tolerance vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Fault Tolerance",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "High Availability": {
+    "skill": "High Availability",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên High Availability được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for High Availability",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của High Availability.",
+      "week2": "Thực hành các components/logic cốt lõi của High Availability.",
+      "week3": "Ứng dụng High Availability vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp High Availability vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng High Availability",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "draw.io / Miro": {
+    "skill": "draw.io / Miro",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên draw.io / Miro được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for draw.io / Miro",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của draw.io / Miro.",
+      "week2": "Thực hành các components/logic cốt lõi của draw.io / Miro.",
+      "week3": "Ứng dụng draw.io / Miro vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp draw.io / Miro vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng draw.io / Miro",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "AWS Console": {
+    "skill": "AWS Console",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng AWS Console.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Software Architect",
+      "Solutions Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for AWS Console",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của AWS Console.",
+      "week2": "Thực hành các components/logic cốt lõi của AWS Console.",
+      "week3": "Ứng dụng AWS Console vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp AWS Console vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng AWS Console",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Communication": {
+    "skill": "Communication",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Communication được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Communication",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Communication.",
+      "week2": "Thực hành các components/logic cốt lõi của Communication.",
+      "week3": "Ứng dụng Communication vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Communication vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Communication",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Presentation": {
+    "skill": "Presentation",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Presentation được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Presentation",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Presentation.",
+      "week2": "Thực hành các components/logic cốt lõi của Presentation.",
+      "week3": "Ứng dụng Presentation vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Presentation vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Presentation",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Technical Writing": {
+    "skill": "Technical Writing",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Technical Writing được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Technical Writing",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Technical Writing.",
+      "week2": "Thực hành các components/logic cốt lõi của Technical Writing.",
+      "week3": "Ứng dụng Technical Writing vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Technical Writing vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Technical Writing",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Cloud Architecture (AWS/Azure)": {
+    "skill": "Cloud Architecture (AWS/Azure)",
+    "definition": "Dịch vụ và giải pháp điện toán đám mây cho phép triển khai ứng dụng Cloud Architecture (AWS/Azure).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Cloud để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for Cloud Architecture (AWS/Azure)",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Cloud Architecture (AWS/Azure).",
+      "week2": "Thực hành các components/logic cốt lõi của Cloud Architecture (AWS/Azure).",
+      "week3": "Ứng dụng Cloud Architecture (AWS/Azure) vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Cloud Architecture (AWS/Azure) vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Cloud Architecture (AWS/Azure)",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Pre-sales & Demos": {
+    "skill": "Pre-sales & Demos",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Pre-sales & Demos được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Pre-sales & Demos",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Pre-sales & Demos.",
+      "week2": "Thực hành các components/logic cốt lõi của Pre-sales & Demos.",
+      "week3": "Ứng dụng Pre-sales & Demos vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Pre-sales & Demos vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Pre-sales & Demos",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Proof of Concept (PoC) Development": {
+    "skill": "Proof of Concept (PoC) Development",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Proof of Concept (PoC) Development được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Proof of Concept (PoC) Development",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Proof of Concept (PoC) Development.",
+      "week2": "Thực hành các components/logic cốt lõi của Proof of Concept (PoC) Development.",
+      "week3": "Ứng dụng Proof of Concept (PoC) Development vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Proof of Concept (PoC) Development vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Proof of Concept (PoC) Development",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "System Integration": {
+    "skill": "System Integration",
+    "definition": "Kiến trúc hệ thống, mạng lưới và giao tiếp kết nối phần mềm (System Integration).",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về System để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [
+      "Computer Science Basics",
+      "Programming Logic"
+    ],
+    "relatedCourses": [],
+    "difficulty": "Advanced",
+    "learningTime": "6-8 weeks",
+    "resources": [
+      "Official Docs for System Integration",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của System Integration.",
+      "week2": "Thực hành các components/logic cốt lõi của System Integration.",
+      "week3": "Ứng dụng System Integration vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp System Integration vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng System Integration",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
+    ]
+  },
+  "Business Acumen": {
+    "skill": "Business Acumen",
+    "definition": "Kỹ năng chuyên môn / Công cụ phần mềm có tên Business Acumen được yêu cầu trong ngành CNTT.",
+    "whyLearn": "Giúp sinh viên trang bị năng lực cốt lõi về Tool/Concept để đáp ứng yêu cầu tuyển dụng thực tế của doanh nghiệp.",
+    "usedIn": [
+      "Solutions Engineer"
+    ],
+    "prerequisites": [],
+    "relatedCourses": [],
+    "difficulty": "Intermediate",
+    "learningTime": "2-4 weeks",
+    "resources": [
+      "Official Docs for Business Acumen",
+      "FPT Polytechnic Library"
+    ],
+    "roadmap": {
+      "week1": "Làm quen với khái niệm cơ bản và môi trường của Business Acumen.",
+      "week2": "Thực hành các components/logic cốt lõi của Business Acumen.",
+      "week3": "Ứng dụng Business Acumen vào giải quyết bài toán thực tế.",
+      "week4": "Tích hợp Business Acumen vào Project và tối ưu mã nguồn."
+    },
+    "projects": [
+      "Mini Project áp dụng Business Acumen",
+      "Dự án thực tế (Tương đương Assignment / Project FPT)"
     ]
   }
 }

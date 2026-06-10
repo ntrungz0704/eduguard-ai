@@ -60,6 +60,18 @@ try {
   });
   console.log(`💼 Đã nạp thành công ${careers.length} nghề nghiệp vào bộ nhớ NER.`);
 
+  // Load skills
+  const skillsPath = path.join(__dirname, '..', '..', 'data', 'knowledge', 'skill_encyclopedia.json');
+  if (fs.existsSync(skillsPath)) {
+    const skillsDict = JSON.parse(fs.readFileSync(skillsPath, 'utf8'));
+    const skills = Object.keys(skillsDict);
+    skills.forEach((skill) => {
+      const lower = skill.toLowerCase();
+      manager.addNamedEntityText('skill', lower, ['vi'], [lower, skill, lower.replace(/ /g, '')]);
+    });
+    console.log(`🚀 Đã nạp thành công ${skills.length} skills vào bộ nhớ NER.`);
+  }
+
 } catch (e) {
   console.error('❌ Lỗi nạp Entity:', e.message);
 }
