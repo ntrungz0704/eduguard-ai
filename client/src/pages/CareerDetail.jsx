@@ -854,65 +854,62 @@ const handleDragLeave = () => {
   const weeklyPlan = useMemo(() => {
     if (!career) return [];
 
-    const missingCore = tasks.filter(t => t.status !== 'DONE' && t.type === 'core').map(t => t.title);
-    const missingAdv = tasks.filter(t => t.status !== 'DONE' && t.type === 'advanced').map(t => t.title);
-
-    const core = missingCore.length > 0 ? missingCore : (career.coreSkills || []);
-    const adv = missingAdv.length > 0 ? missingAdv : (career.advancedSkills || []);
+    const core = career.coreSkills || [];
+    const adv = career.advancedSkills || [];
     const targetProject = career.portfolios?.[0]?.name || "Personal Portfolio Project";
+
+    const doneTasks = tasks.filter(t => t.status === 'DONE').map(t => t.title);
+    const isDone = (skill) => doneTasks.includes(skill);
 
     const name = career.careerName.toLowerCase();
     const isFrontend = name.includes('frontend') || name.includes('react') || name.includes('next.js') || name.includes('ui');
 
-    return [
-      {
-        weeks: 'Tuần 1-2',
-        title: 'Kiến thức Nền tảng',
-        skills: core.slice(0, 2),
-        action: `Thực hành cú pháp và xây dựng dự án đơn giản với: ${core.slice(0, 2).join(', ') || 'cơ bản'}.`,
-        duration: '1-2 giờ / ngày'
-      },
-      {
-        weeks: 'Tuần 3-4',
-        title: 'Lập trình cốt lõi & Quản lý phiên bản',
-        skills: core.slice(2, 4),
-        action: `Hiểu luồng xử lý bất đồng bộ, các hàm chuẩn và quản lý trạng thái trong: ${core.slice(2, 4).join(', ') || 'logic lập trình'}.`,
-        duration: '2 giờ / ngày'
-      },
-      {
-        weeks: 'Tuần 5-6',
-        title: isFrontend ? 'Thiết lập Framework & API' : 'Cơ sở dữ liệu & REST API',
-        skills: core.slice(4).concat(adv.slice(0, 1)),
-        action: isFrontend
-          ? `Học thiết lập package npm và xây dựng các module UI React tái sử dụng được.`
-          : `Thiết kế mô hình dữ liệu, viết câu truy vấn có cấu trúc và thiết lập endpoint bảo mật.`,
-        duration: '1.5-2 giờ / ngày'
-      },
-      {
-        weeks: 'Tuần 7-8',
-        title: isFrontend ? 'Framework phía Client nâng cao' : 'Mô hình Framework & Tối ưu hóa',
-        skills: adv.slice(1, 3),
-        action: `Triển khai hook nâng cao, theo dõi hiệu năng, bố cục định tuyến và bộ kiểm thử.`,
-        duration: '2 giờ / ngày'
-      },
-      {
-        weeks: 'Tuần 9-10',
-        title: 'Xây dựng dự án Portfolio',
-        skills: ['Portfolio Project'],
-        action: `Triển khai dự án được đề xuất: "${targetProject}". Viết code mỗi ngày và push lên GitHub.`,
-        duration: '3 giờ / ngày'
-      },
-      {
-        weeks: 'Tuần 11-12',
-        title: isFrontend ? 'Kiểm thử, SEO & Khả năng tiếp cận' : 'Docker, Triển khai đám mây & Phỏng vấn',
-        skills: isFrontend
-          ? ['SEO', 'Testing', 'Accessibility', 'Resume practice']
-          : adv.slice(3).concat(['Resume practice']),
-        action: isFrontend
-          ? `Chạy kiểm tra SEO, triển khai các quy tắc tiếp cận web và thực hành phỏng vấn frontend.`
-          : `Đóng gói container và triển khai ứng dụng demo. Cập nhật CV với các kỹ năng lộ trình vừa hoàn thành.`,
-        duration: '2 hours / day'
+    const createBlock = (weeks, title, requiredSkills, defaultDurationHrs, actionText, links) => {
+      const total = requiredSkills.length;
+      let missingCount = 0;
+      let missingSkills = [];
+      requiredSkills.forEach(s => {
+        if (!isDone(s) && s !== 'Portfolio Project' && s !== 'Resume practice' && s !== 'SEO' && s !== 'Testing' && s !== 'Accessibility') {
+          missingCount++;
+          missingSkills.push(s);
+        } else if (!isDone(s)) {
+            // These pseudo-skills are considered incomplete by default unless explicitly done
+            missingCount++;
+            missingSkills.push(s);
+        }
+      });
+      
+      const isBlockDone = total > 0 && missingCount === 0;
+      let finalDuration = '';
+      if (isBlockDone) {
+        finalDuration = 'Đã hoàn thành 🎉';
+      } else if (total > 0) {
+        const ratio = missingCount / total;
+        const adjustedHrs = (defaultDurationHrs * ratio).toFixed(1);
+        finalDuration = `${adjustedHrs} giờ / ngày`;
+      } else {
+        finalDuration = `${defaultDurationHrs} giờ / ngày`;
       }
+
+      return {
+        weeks,
+        title,
+        skills: requiredSkills,
+        missingSkills,
+        isDone: isBlockDone,
+        action: isBlockDone ? `Tuyệt vời! Bạn đã hoàn thành toàn bộ trọng tâm của tuần này.` : actionText,
+        duration: finalDuration,
+        links: links || []
+      };
+    };
+
+    return [
+      createBlock('Tuần 1-2', 'Kiến thức Nền tảng', core.slice(0, 2), 2, `Thực hành cú pháp và xây dựng dự án đơn giản.`, [{ title: 'MDN Web Docs', url: 'https://developer.mozilla.org/' }]),
+      createBlock('Tuần 3-4', 'Lập trình cốt lõi & Quản lý phiên bản', core.slice(2, 4), 2, `Hiểu luồng xử lý bất đồng bộ, các hàm chuẩn và quản lý trạng thái.`, [{ title: 'GitHub Training', url: 'https://skills.github.com/' }]),
+      createBlock('Tuần 5-6', isFrontend ? 'Thiết lập Framework & API' : 'Cơ sở dữ liệu & REST API', core.slice(4).concat(adv.slice(0, 1)), 2, isFrontend ? 'Học thiết lập package npm và xây dựng các module UI React.' : 'Thiết kế mô hình dữ liệu, viết câu truy vấn có cấu trúc.', [{ title: isFrontend ? 'React Docs' : 'PostgreSQL Docs', url: isFrontend ? 'https://react.dev/' : 'https://www.postgresql.org/docs/' }]),
+      createBlock('Tuần 7-8', isFrontend ? 'Framework phía Client nâng cao' : 'Mô hình Framework & Tối ưu hóa', adv.slice(1, 3), 2, 'Triển khai hook nâng cao, theo dõi hiệu năng.', [{ title: 'Next.js Routing', url: 'https://nextjs.org/docs' }]),
+      createBlock('Tuần 9-10', 'Xây dựng dự án Portfolio', ['Portfolio Project'], 3, `Triển khai dự án được đề xuất: "${targetProject}". Viết code mỗi ngày và push lên GitHub.`, [{ title: 'Vercel Deployment', url: 'https://vercel.com/docs' }]),
+      createBlock('Tuần 11-12', isFrontend ? 'Kiểm thử, SEO & Khả năng tiếp cận' : 'Docker, Triển khai đám mây & Phỏng vấn', isFrontend ? ['SEO', 'Testing', 'Accessibility', 'Resume practice'] : adv.slice(3).concat(['Resume practice']), 2, isFrontend ? 'Chạy kiểm tra SEO, triển khai các quy tắc tiếp cận web.' : 'Đóng gói container và triển khai ứng dụng demo.', [{ title: 'Lighthouse', url: 'https://developer.chrome.com/docs/lighthouse/overview/' }])
     ].filter(w => w.skills.length > 0 || w.title.includes('Portfolio') || w.title.includes('Deploy') || w.title.includes('SEO'));
   }, [career, tasks]);
 
@@ -1806,6 +1803,40 @@ const handleDragLeave = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Suggested Projects Box */}
+                <div className="md:col-span-2 glass-card rounded-2xl border border-indigo-200 dark:border-indigo-500/20 p-6 bg-indigo-500/5 mt-2">
+                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+                    <Rocket size={18} className="text-indigo-500" /> Đề xuất Dự án (Dựa trên kỹ năng đã có)
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {(() => {
+                      const haveCore = analysis?.skillGap?.core?.have || [];
+                      const haveAdv = analysis?.skillGap?.advanced?.have || [];
+                      const allHave = [...haveCore, ...haveAdv];
+                      if (allHave.length === 0) return <p className="text-xs text-slate-500 italic col-span-full">Hãy tích lũy thêm kỹ năng để nhận đề xuất dự án.</p>;
+
+                      const projectsSet = new Set();
+                      allHave.forEach(skill => {
+                        getSuggestedProjects(skill).forEach(p => projectsSet.add(p));
+                      });
+                      const generic = ["Dự án thực hành giới thiệu kỹ năng", "Ứng dụng trình diễn kỹ năng"];
+                      const finalProjects = Array.from(projectsSet).filter(p => !generic.includes(p)).slice(0, 5);
+
+                      if (finalProjects.length === 0) return <p className="text-xs text-slate-500 italic col-span-full">Chưa có dự án cụ thể phù hợp với kỹ năng hiện tại.</p>;
+
+                      return finalProjects.map((proj, idx) => (
+                        <div key={idx} className="p-4 bg-white dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/30 rounded-xl shadow-sm">
+                          <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 mb-2">{proj}</h4>
+                          <p className="text-[10px] text-slate-500 mb-3">Dự án tham khảo phổ biến trên thế giới, giúp bạn áp dụng các kỹ năng đã học vào thực tế.</p>
+                          <a href={`https://github.com/search?q=${encodeURIComponent(proj)}+in:readme&type=Repositories`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-[10px] font-black text-indigo-600 dark:text-indigo-400 hover:underline">
+                            <GithubIcon size={12} /> Tham khảo GitHub <ArrowUpRight size={10} />
+                          </a>
+                        </div>
+                      ));
+                    })()}
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-12 text-center">
@@ -1935,29 +1966,72 @@ const handleDragLeave = () => {
 
             <div className="relative border-l-2 border-blue-500/20 ml-4 space-y-8 mt-8 pb-4">
               {weeklyPlan.map((p, i) => (
-                <div key={i} className="relative pl-8 slide-up" style={{ animationFillMode: 'both', animationDelay: `${i * 100}ms` }}>
+                <div key={i} className={`relative pl-8 slide-up ${p.isDone ? 'opacity-60' : ''}`} style={{ animationFillMode: 'both', animationDelay: `${i * 100}ms` }}>
                   {/* Timeline dot */}
-                  <span className="absolute -left-[11px] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 ring-4 ring-white dark:ring-[#0B1120] shadow-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white"></span>
+                  <span className={`absolute -left-[11px] top-1 flex h-5 w-5 items-center justify-center rounded-full ring-4 shadow-sm ${
+                    p.isDone 
+                      ? 'bg-emerald-500 ring-emerald-500/20 text-white' 
+                      : 'bg-blue-500 ring-white dark:ring-[#0B1120]'
+                  }`}>
+                    {p.isDone ? <CheckCircle size={12} className="stroke-[3]" /> : <span className="h-1.5 w-1.5 rounded-full bg-white"></span>}
                   </span>
 
-                  <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 space-y-4 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className={`glass-card rounded-2xl border p-5 space-y-4 transition-all duration-300 ${
+                    p.isDone 
+                      ? 'border-emerald-500/30 bg-emerald-500/5' 
+                      : 'border-slate-200 dark:border-white/10 hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1'
+                  }`}>
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
-                      <span className="text-xs font-black text-blue-500 uppercase tracking-widest bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">{p.weeks}</span>
-                      <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md border border-slate-200 dark:border-white/10"><Clock size={10} /> {p.duration}</span>
+                      <span className={`text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-md border ${
+                        p.isDone ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' : 'text-blue-500 bg-blue-500/10 border-blue-500/20'
+                      }`}>
+                        {p.weeks}
+                      </span>
+                      <span className={`text-[10px] font-bold flex items-center gap-1 px-2 py-1 rounded-md border ${
+                        p.isDone ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20' : 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10'
+                      }`}>
+                        {p.isDone ? <CheckCircle size={10} /> : <Clock size={10} />} {p.duration}
+                      </span>
                     </div>
 
                     <div className="space-y-1.5">
-                      <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">{p.title}</h4>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{p.action}</p>
+                      <h4 className={`text-sm font-extrabold ${p.isDone ? 'text-emerald-700 dark:text-emerald-300 line-through decoration-emerald-500/40' : 'text-slate-900 dark:text-white'}`}>{p.title}</h4>
+                      <p className={`text-xs leading-relaxed ${p.isDone ? 'text-emerald-600/70 dark:text-emerald-400/70' : 'text-slate-600 dark:text-slate-400'}`}>{p.action}</p>
                     </div>
 
-                    {p.skills.length > 0 && (
+                    {p.skills.length > 0 && !p.isDone && (
                       <div className="pt-2">
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Trọng tâm kỹ năng:</span>
                         <div className="flex flex-wrap gap-1.5">
-                          {p.skills.map((s, si) => (
-                            <span key={si} className="text-[10px] font-bold px-2 py-1 rounded-md bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 shadow-sm">{s}</span>
+                          {p.skills.map((s, si) => {
+                            const isSkillDone = !p.missingSkills.includes(s);
+                            return (
+                              <span key={si} className={`text-[10px] font-bold px-2 py-1 rounded-md border shadow-sm ${
+                                isSkillDone 
+                                  ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 line-through' 
+                                  : 'bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300'
+                              }`}>
+                                {s}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {p.links.length > 0 && !p.isDone && (
+                      <div className="pt-3 border-t border-slate-100 dark:border-white/5">
+                        <div className="flex flex-wrap gap-2">
+                          {p.links.map((link, idx) => (
+                            <a 
+                              key={idx} 
+                              href={link.url} 
+                              target="_blank" 
+                              rel="noreferrer" 
+                              className="inline-flex items-center gap-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:underline bg-indigo-50 dark:bg-indigo-500/10 px-2 py-1 rounded border border-indigo-100 dark:border-indigo-500/20 transition-colors"
+                            >
+                              <Link2 size={10} /> {link.title} <ArrowUpRight size={8} />
+                            </a>
                           ))}
                         </div>
                       </div>

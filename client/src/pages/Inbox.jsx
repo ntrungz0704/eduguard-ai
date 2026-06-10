@@ -107,12 +107,10 @@ export default function Inbox() {
     }
 
     try {
-      // Use raw fetch or axios for FormData
-      const res = await fetch('http://localhost:3000/api/comm/messages', {
-        method: 'POST',
-        body: formData
+      const res = await api.post('/comm/messages', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
-      const newMsg = await res.json();
+      const newMsg = res.data;
       
       setInputMsg('');
       setFile(null);
@@ -141,26 +139,28 @@ export default function Inbox() {
           <h2 className="text-lg font-black text-[#0F172A] dark:text-white flex items-center gap-2 mb-4">
             <MessageSquare size={18} className="text-[#1D4ED8]" /> Hộp thư Inbox
           </h2>
-          <div className="flex bg-slate-100 dark:bg-black/40 p-1 rounded-lg border border-slate-200 dark:border-transparent">
-            <button 
-              onClick={() => handleTabSelect('all')}
-              className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'all' ? 'bg-white text-[#1D4ED8] dark:bg-white/10 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
-            >
-              Tất cả
-            </button>
-            <button 
-              onClick={() => handleTabSelect('urgent')}
-              className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'urgent' ? 'bg-rose-500/10 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
-            >
-              Cần xử lý gấp
-            </button>
-            <button 
-              onClick={() => handleTabSelect('resolved')}
-              className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'resolved' ? 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
-            >
-              Đã theo dõi
-            </button>
-          </div>
+          {currentUser.role !== 'STUDENT' && (
+            <div className="flex bg-slate-100 dark:bg-black/40 p-1 rounded-lg border border-slate-200 dark:border-transparent">
+              <button 
+                onClick={() => handleTabSelect('all')}
+                className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'all' ? 'bg-white text-[#1D4ED8] dark:bg-white/10 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+              >
+                Tất cả
+              </button>
+              <button 
+                onClick={() => handleTabSelect('urgent')}
+                className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'urgent' ? 'bg-rose-500/10 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+              >
+                Cần xử lý gấp
+              </button>
+              <button 
+                onClick={() => handleTabSelect('resolved')}
+                className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'resolved' ? 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
+              >
+                Đã theo dõi
+              </button>
+            </div>
+          )}
         </div>
         <div className="flex-1 overflow-y-auto custom-scrollbar bg-white dark:bg-slate-900/10">
           {conversations.filter(c => {

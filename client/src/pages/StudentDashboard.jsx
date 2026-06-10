@@ -919,11 +919,10 @@ function ChatTab({ currentUser, activeStudentData }) {
       formData.append('receiverId', selectedAdvisorId);
       formData.append('content', content);
 
-      const res = await fetch('http://localhost:3000/api/comm/messages', {
-        method: 'POST',
-        body: formData
+      const res = await api.post('/comm/messages', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
-      const newMsg = await res.json();
+      const newMsg = res.data;
       
       setAdvisorMessages(prev => [...prev, newMsg]);
       // refresh conversations list

@@ -50,10 +50,8 @@ const login = async ({ username, password, role = 'ADVISOR' }) => {
     throw new AppError('Username and password are required.', 400);
   }
 
-  // TODO Phase 2: Add proper password validation (e.g. bcrypt.compare)
-  // For now: allow any password >= 4 chars for mock students
-  if (password.length < 4) {
-    throw new AppError('Password must be at least 4 characters long.', 400);
+  if (role === 'STUDENT' && password !== '123456') {
+    throw new AppError('Sai mật khẩu.', 401);
   }
 
   let tokenPayload;

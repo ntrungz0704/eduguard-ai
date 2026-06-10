@@ -93,8 +93,8 @@ function enrichStudentData(student) {
     }
   }
   
-  // 3. Build skills dynamically if not in mock data
-  const skills = mockData.skills || student.skills || {};
+  // 3. Build skills dynamically based on actual scores
+  let skills = student.skills || {};
   if (Object.keys(skills).length === 0) {
     // Generate skills from passed courses using the knowledge cache
     try {
