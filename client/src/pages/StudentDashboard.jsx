@@ -1348,36 +1348,36 @@ export default function StudentDashboard() {
   // Soft-matching helpers to handle suffixes like (TKTW) or - Vovinam
   const findMatchingScore = (currId) => {
     if (scoreMap[currId]) return scoreMap[currId];
-    const cleanCurr = currId.toLowerCase().trim();
+    const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
     return studentScores.find(s => {
-      const cleanS = s.courseId.toLowerCase().trim();
-      const cleanName = (s.course?.name || '').toLowerCase().trim();
+      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+      const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
       return (
         cleanS.includes(cleanCurr) ||
         cleanCurr.includes(cleanS) ||
         cleanName === cleanCurr ||
         cleanName.includes(cleanCurr) ||
         cleanCurr.includes(cleanName) ||
-        (cleanCurr.includes('thể chất') && (cleanS.includes('thể chất') || cleanName.includes('thể chất'))) ||
-        (cleanCurr.includes('dự án mẫu') && (cleanS.includes('dự án mẫu') || cleanName.includes('dự án mẫu')))
+        (cleanCurr.includes('thểchất') && (cleanS.includes('thểchất') || cleanName.includes('thểchất'))) ||
+        (cleanCurr.includes('dựánmẫu') && (cleanS.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
       );
     });
   };
 
   const findMatchingPrediction = (currId) => {
     if (predictionMap[currId]) return predictionMap[currId];
-    const cleanCurr = currId.toLowerCase().trim();
+    const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
     return predictions.find(p => {
-      const cleanP = p.courseId.toLowerCase().trim();
-      const cleanName = (p.course?.name || '').toLowerCase().trim();
+      const cleanP = p.courseId.toLowerCase().replace(/\s+/g, '');
+      const cleanName = (p.course?.name || '').toLowerCase().replace(/\s+/g, '');
       return (
         cleanP.includes(cleanCurr) ||
         cleanCurr.includes(cleanP) ||
         cleanName === cleanCurr ||
         cleanName.includes(cleanCurr) ||
         cleanCurr.includes(cleanName) ||
-        (cleanCurr.includes('thể chất') && (cleanP.includes('thể chất') || cleanName.includes('thể chất'))) ||
-        (cleanCurr.includes('dự án mẫu') && (cleanP.includes('dự án mẫu') || cleanName.includes('dự án mẫu')))
+        (cleanCurr.includes('thểchất') && (cleanP.includes('thểchất') || cleanName.includes('thểchất'))) ||
+        (cleanCurr.includes('dựánmẫu') && (cleanP.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
       );
     });
   };

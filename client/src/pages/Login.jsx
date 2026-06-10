@@ -173,7 +173,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                placeholder={role === 'ADVISOR' ? 'admin123' : 'Nhập bất kỳ (≥ 4 ký tự)'}
+                placeholder={role === 'ADVISOR' ? 'admin123' : '123456'}
                 className="w-full bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-blue-500 rounded-xl px-4 py-3 pr-12 text-slate-900 dark:text-white outline-none transition-all placeholder-slate-600"
               />
               <button
@@ -233,7 +233,7 @@ export default function Login() {
       {/* Credentials hint */}
       <div className="mt-4 text-center space-y-1 text-slate-600 text-[11px]">
         <p>GV: <span className="text-slate-600 dark:text-slate-400 font-mono">admin</span> / <span className="text-slate-600 dark:text-slate-400 font-mono">admin123</span></p>
-        <p>SV: Nhập bất kỳ MSSV + mật khẩu ≥ 4 ký tự</p>
+        <p>SV: Nhập MSSV hợp lệ (Vd: PS47261) + mật khẩu <span className="text-slate-600 dark:text-slate-400 font-mono">123456</span></p>
       </div>
     </div>
   );

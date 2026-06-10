@@ -277,17 +277,23 @@ export default function CareerUniverse() {
       </div>
 
       {/* Top Career Match (Student Only) */}
-      {topMatches.length > 0 && (
+      {currentUser?.role === 'STUDENT' && (
         <div className="animate-fadeIn">
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={18} className="text-amber-500" />
             <h2 className="text-lg font-black text-slate-900 dark:text-white">Nghề phù hợp nhất với bạn</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {topMatches.map((career, i) => (
-              <TopMatchCard key={career.id} career={career} rank={i} onClick={() => navigate(`/career-universe/${career.id}`)} />
-            ))}
-          </div>
+          {topMatches.filter(c => (c.readinessScore || 0) > 0).length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {topMatches.filter(c => (c.readinessScore || 0) > 0).slice(0, 3).map((career, i) => (
+                <TopMatchCard key={career.id} career={career} rank={i} onClick={() => navigate(`/career-universe/${career.id}`)} />
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 glass-panel border border-slate-200 dark:border-white/10 rounded-2xl text-center">
+              <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Chưa đủ dữ liệu điểm số để đánh giá độ phù hợp nghề nghiệp. Vui lòng cập nhật điểm các môn chuyên ngành.</p>
+            </div>
+          )}
         </div>
       )}
 

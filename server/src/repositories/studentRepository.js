@@ -62,9 +62,15 @@ function enrichStudentData(student) {
   } catch (e) {
     coursesDb = [];
   }
-  
   if (Array.isArray(student.scores)) {
-    student.scores.forEach(s => {
+    // Sort scores deterministically to ensure consistent skill generation order
+    const sortedScores = [...student.scores].sort((a, b) => {
+      const idA = a.courseId || '';
+      const idB = b.courseId || '';
+      return idA.localeCompare(idB);
+    });
+    
+    sortedScores.forEach(s => {
       courseStatus[s.courseId] = s.status;
       const courseInfo = findCourseInfo(coursesDb, s.courseId);
       if (courseInfo) {
@@ -128,7 +134,7 @@ function enrichStudentData(student) {
   // 4. Build projects dynamically if not in mock data
   const projects = mockData.projects || student.projects || [];
   if (projects.length === 0) {
-    const skillKeys = Object.keys(skills);
+    const skillKeys = Object.keys(skills).sort();
     if (skillKeys.length > 0) {
       const techForProject1 = skillKeys.slice(0, 3);
       const techForProject2 = skillKeys.slice(3, 5);

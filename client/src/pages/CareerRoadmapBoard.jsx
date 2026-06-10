@@ -30,6 +30,25 @@ function getSkillImpact(skillName) {
   return 8; // Default impact score
 }
 
+function getSuggestedProjects(skillName) {
+  const clean = skillName.toLowerCase();
+  if (clean.includes('html') || clean.includes('css') || clean.includes('tailwind')) 
+    return ['Clone Netflix Landing Page', 'Tạo Portfolio cá nhân 3D', 'Xây dựng trang Dashboard quản trị', 'Thiết kế giao diện Clone Apple', 'Landing Page công ty SaaS'];
+  if (clean.includes('javascript') || clean.includes('js')) 
+    return ['App quản lý chi tiêu cá nhân', 'Game 2048 hoặc Tetris Web', 'Trình phát nhạc Online (Music Player)', 'App Thời tiết với Public API', 'To-do List với Drag & Drop'];
+  if (clean.includes('react') || clean.includes('next')) 
+    return ['Bản sao mạng xã hội (Twitter/Instagram clone)', 'Ứng dụng Thương mại điện tử Full Flow', 'Bảng Kanban giống Trello', 'Hệ thống Đặt vé rạp chiếu phim', 'Ứng dụng chat Real-time (Zalo/Messenger clone)'];
+  if (clean.includes('node') || clean.includes('express')) 
+    return ['RESTful API cho E-commerce', 'Máy chủ GraphQL cho mạng xã hội', 'Hệ thống Microservices đặt hàng', 'Websocket Chat Server', 'API rút gọn Link (URL Shortener)'];
+  if (clean.includes('sql') || clean.includes('postgres') || clean.includes('database') || clean.includes('mongo')) 
+    return ['Thiết kế CSDL cho hệ thống Đặt xe (Grab)', 'Lược đồ CSDL cho Streaming (Netflix)', 'Hệ thống Quản lý thư viện', 'Thiết kế CSDL Phân tán cho E-commerce'];
+  if (clean.includes('docker') || clean.includes('kubernetes') || clean.includes('devops')) 
+    return ['Dockerize toàn bộ Fullstack App', 'Xây dựng CI/CD Pipeline với GitHub Actions', 'Deploy Kubernetes Cluster', 'Hệ thống Monitor với Prometheus/Grafana'];
+  if (clean.includes('python') || clean.includes('ai') || clean.includes('prompt')) 
+    return ['Trợ lý ảo RAG với OpenAI', 'Chatbot CSKH Tự động hóa', 'Mô hình phân loại hình ảnh (Computer Vision)', 'Hệ thống Gợi ý phim (Recommendation Engine)'];
+  return ['Đóng góp mã nguồn mở (Open Source)', 'Xây dựng thư viện npm/pip cá nhân', 'Viết ứng dụng quản lý công việc', 'Tham gia Hackathon nội bộ'];
+}
+
 function getDaysOfLearning(task) {
   if (!task || !task.started_at) return 0;
   const start = new Date(task.started_at);
@@ -876,6 +895,19 @@ export default function CareerRoadmapBoard() {
                           </button>
                         </div>
                       )}
+                      
+                      {/* Project Suggestions for DONE tasks */}
+                      <div className="mt-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                        <p className="text-[9px] uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1">
+                          <Sparkles size={10} className="text-amber-500" /> Đề xuất dự án thực hành:
+                        </p>
+                        <ul className="list-disc pl-3 space-y-0.5 text-[10px] text-slate-600 dark:text-slate-400 font-medium">
+                          {getSuggestedProjects(task.title).slice(0, 4).map((proj, idx) => (
+                            <li key={idx}>{proj}</li>
+                          ))}
+                        </ul>
+                      </div>
+
                     </div>
                   </div>
                 ))}
