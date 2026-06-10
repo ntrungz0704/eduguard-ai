@@ -109,8 +109,8 @@ export default function StudentProfile() {
       
       // Auto select first studied/failed subject as intervention candidate
       if (res.data.scores && res.data.scores.length > 0) {
-        const warningSub = res.data.scores.find(s => s.value < 5 || s.status === 'FAILED');
-        setSelectedCourse(warningSub ? warningSub.courseId : res.data.scores[0].courseId);
+        const warningSub = (Array.isArray(res.data.scores) ? res.data.scores : Object.values(res.data.scores || {})).find(s => s.value < 5 || s.status === 'FAILED');
+        setSelectedCourse(warningSub ? warningSub.courseId : (Array.isArray(res.data.scores) ? res.data.scores : Object.values(res.data.scores || {}))[0].courseId);
       }
     } catch (err) {
       console.error(err);
@@ -222,7 +222,7 @@ export default function StudentProfile() {
   };
 
   // Calculate statistics from actual scores
-  const scoreEntries = student.scores || [];
+  const scoreEntries = Array.isArray(student.scores) ? student.scores : Object.values(student.scores || {});
   const passedScores = scoreEntries.filter(s => s.status === 'PASSED' && s.value !== null);
   const failedScores = scoreEntries.filter(s => s.status === 'FAILED' && s.value !== null);
   

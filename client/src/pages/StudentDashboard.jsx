@@ -1505,8 +1505,14 @@ export default function StudentDashboard() {
   }
 
   // Compile the status for every course in the curriculum dynamically
-  const studentScores = data?.scores || [];
-  const predictions = data?.predictions || [];
+  const getSafeArray = (arr) => {
+    if (Array.isArray(arr)) return arr;
+    if (arr && typeof arr === 'object') return Object.values(arr);
+    return [];
+  };
+
+  const studentScores = getSafeArray(data?.scores);
+  const predictions = getSafeArray(data?.predictions);
 
   const scoreMap = {};
   studentScores.forEach(s => {
