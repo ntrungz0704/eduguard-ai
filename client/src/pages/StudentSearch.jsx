@@ -88,6 +88,23 @@ const getLetterGrade = (val) => {
   return 'F';
 };
 
+
+const getScoresArray = (student) => {
+  if (!student) return [];
+  const scores = student.scores;
+  if (!scores) return [];
+  if (Array.isArray(scores)) return scores;
+  if (typeof scores === 'object') {
+    return Object.entries(scores).map(([courseId, val]) => ({
+      courseId,
+      value: val,
+      status: val === null ? 'STUDYING' : (val >= 5 ? 'PASSED' : 'FAILED'),
+      course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
+    }));
+  }
+  return [];
+};
+
 export default function StudentSearch() {
   const activeStudent = useStore(state => state.activeStudent);
   const setActiveStudent = useStore(state => state.setActiveStudent);
@@ -110,21 +127,33 @@ export default function StudentSearch() {
 
   useEffect(() => {
     const urlId = searchParams.get('id');
-    if (urlId && !activeStudent && !selectedStudent) {
-      api.get(`/students/${urlId}`).then(res => {
-        setActiveStudent(res.data);
-      }).catch(console.error);
+    if (urlId) {
+      const isAlreadyLoaded = 
+        selectedStudent && 
+        (selectedStudent.mssv === urlId || selectedStudent.id === urlId) && 
+        Array.isArray(selectedStudent.scores);
+        
+      if (!isAlreadyLoaded) {
+        setLoading(true);
+        api.get(`/students/${urlId}`).then(res => {
+          setActiveStudent(res.data);
+          setSelectedStudent(res.data);
+        }).catch(console.error)
+          .finally(() => setLoading(false));
+      }
     }
-  }, [searchParams, activeStudent, selectedStudent, setActiveStudent]);
+  }, [searchParams, selectedStudent, setActiveStudent]);
 
   useEffect(() => {
     if (activeStudent) {
       setSearchParams({ id: activeStudent.mssv || activeStudent.id }, { replace: true });
-      setSelectedStudent(activeStudent);
+      if (!selectedStudent || (selectedStudent.mssv !== activeStudent.mssv && selectedStudent.id !== activeStudent.id)) {
+        setSelectedStudent(activeStudent);
+      }
       setChatHistory([
         {
           role: 'ai',
-          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên ${activeStudent.name} (${activeStudent.mssv}). Bạn có thể hỏi tôi về:
+          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên ${activeStudent.name} (${activeStudent.mssv || activeStudent.id}). Bạn có thể hỏi tôi về:
           \n- Tại sao sinh viên này có nguy cơ trượt môn nào đó?
           \n- Gợi ý lộ trình can thiệp và cải thiện điểm số.
           \n- Phân tích chi tiết lỗ hổng kiến thức tiên quyết.`
@@ -216,7 +245,7 @@ export default function StudentSearch() {
     const printWindow = window.open('', '_blank');
     
     // Compute GPA and failed subjects
-    const validScores = selectedStudent.scores?.filter(s => s.value !== null) || [];
+    const validScores = getScoresArray(selectedStudent).filter(s => s.value !== null);
     
     const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
     
@@ -231,7 +260,7 @@ export default function StudentSearch() {
 
     const gpa = totalCredits > 0 ? (Math.round(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10).toFixed(1) : '0.0';
     
-    const failedSubjects = selectedStudent.scores?.filter(s => s.value !== null && s.value < 5) || [];
+    const failedSubjects = getScoresArray(selectedStudent).filter(s => s.value !== null && s.value < 5);
     const failedListHTML = failedSubjects.length > 0
       ? failedSubjects.map(s => `<li><strong>${s.courseId}</strong> (Điểm số: ${s.value})</li>`).join('')
       : '<li>Không có học phần nào bị cảnh báo nguy cơ trượt.</li>';
@@ -655,11 +684,11 @@ export default function StudentSearch() {
                   };
                 };
 
-                const fptStats = calculateFptStats(selectedStudent.scores);
+                const fptStats = calculateFptStats(getScoresArray(selectedStudent));
                 const selectedStudentGpa = parseFloat(fptStats.gpa10);
 
                 const getGpaTrend = (student) => {
-                  const validScores = (student.scores || []).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+                  const validScores = getScoresArray(student).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
                   const groupedBySem = {};
                   validScores.forEach(s => {
                     const sem = s.semester || 'Kỳ 1';
@@ -682,7 +711,7 @@ export default function StudentSearch() {
                 };
 
                 const getRadarData = (student) => {
-                  const validScores = (student.scores || []).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+                  const validScores = getScoresArray(student).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
                   const recent = validScores.slice(-5);
                   if (recent.length === 0) {
                     return [
@@ -700,7 +729,7 @@ export default function StudentSearch() {
                 const radarData = getRadarData(selectedStudent);
 
                 // Get two lowest scoring subjects
-                const lowestSubjects = [...(selectedStudent.scores || [])]
+                const lowestSubjects = getScoresArray(selectedStudent)
                   .filter(s => s.value !== null)
                   .sort((a, b) => a.value - b.value)
                   .slice(0, 2);
@@ -870,7 +899,7 @@ export default function StudentSearch() {
                                     onChange={(e) => setSelectedSemesterFilter(e.target.value)}
                                     className="appearance-none pl-4 pr-10 py-2 text-xs font-semibold bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 rounded-2xl text-slate-800 dark:text-slate-200 outline-none cursor-pointer focus:ring-1 focus:ring-blue-500/50 transition-all"
                                   >
-                                    {['Tất cả các học kỳ', ...Array.from(new Set(selectedStudent.scores?.map(s => s.semester).filter(Boolean) || []))].map((sem) => (
+                                    {['Tất cả các học kỳ', ...Array.from(new Set(getScoresArray(selectedStudent).map(s => s.semester).filter(Boolean)))].map((sem) => (
                                       <option key={sem} value={sem} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">{sem}</option>
                                     ))}
                                   </select>
@@ -896,7 +925,7 @@ export default function StudentSearch() {
                             {/* Table Representation */}
                             <div className="overflow-x-auto max-h-[500px] overflow-y-auto rounded-2xl border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-black/20">
                               {(() => {
-                                const filteredScores = (selectedStudent.scores || []).filter(sc => {
+                                const filteredScores = getScoresArray(selectedStudent).filter(sc => {
                                   // Semester filter
                                   if (selectedSemesterFilter !== 'Tất cả các học kỳ' && sc.semester !== selectedSemesterFilter) {
                                     return false;

@@ -203,32 +203,100 @@ async function fetchStudentByMssv(mssv) {
   }
 
   const mockPath = path.join(__dirname, '..', '..', 'data', 'mock-lms', 'students', `${upperMssv}.json`);
+  let enriched = null;
   if (fs.existsSync(mockPath)) {
     try {
       const data = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
-      return enrichStudentData({
+      enriched = enrichStudentData({
         mssv: data.mssv || upperMssv,
         name: data.name || `Sinh viên ${upperMssv}`,
         courseStatus: data.courseStatus || {},
         skills: data.skills || {},
         projects: data.projects || [],
-        behavior: data.behavior
+        behavior: data.behavior,
+        scores: Object.entries(data.courseStatus || {}).map(([courseId, status]) => {
+          const value = status === 'PASSED' ? 8.0 : (status === 'FAILED' ? 4.0 : null);
+          return {
+            courseId,
+            value,
+            status,
+            attendance: null
+          };
+        })
       });
     } catch (e) {
       console.error('Error reading mock student', e);
     }
   }
 
-  const legacy = getLegacyCache();
-  const allStudents = [
-    ...(legacy.trainingData?.students || []),
-    ...(legacy.uploadedStudents || [])
-  ];
-  
-  const found = allStudents.find(s => (s.id || '').toUpperCase() === upperMssv);
-  if (!found) return null;
+  if (!enriched) {
+    const legacy = getLegacyCache();
+    const allStudents = [
+      ...(legacy.trainingData?.students || []),
+      ...(legacy.uploadedStudents || [])
+    ];
+    
+    const found = allStudents.find(s => (s.id || '').toUpperCase() === upperMssv);
+    if (found) {
+      enriched = enrichStudentData(normalizeLegacyStudent(found));
+    }
+  }
 
-  return enrichStudentData(normalizeLegacyStudent(found));
+  // If found in fallback, let's automatically save it to SQLite!
+  if (enriched) {
+    try {
+      const { mssv, name, classCode } = enriched;
+      // 1. Upsert Student
+      await prisma.student.upsert({
+        where: { mssv },
+        update: { name, classCode },
+        create: { mssv, name, classCode }
+      });
+      // 2. Upsert Courses and Scores
+      if (Array.isArray(enriched.scores)) {
+        for (const s of enriched.scores) {
+          const courseId = s.courseId;
+          const value = s.value;
+          const status = s.status || (value === null ? 'STUDYING' : (value >= 5 ? 'PASSED' : 'FAILED'));
+          
+          // Helper credits
+          let credits = 3;
+          const lowerId = courseId.toLowerCase();
+          if (lowerId.includes('thể chất') || lowerId.includes('vovinam') || lowerId.includes('vie103')) credits = 2;
+          else if (lowerId.includes('quốc phòng') || lowerId.includes('gdqp') || lowerId.includes('vie104')) credits = 4;
+          else if (lowerId.includes('thực tập') || lowerId.includes('pro115') || lowerId.includes('pro110')) credits = 5;
+
+          await prisma.course.upsert({
+            where: { id: courseId },
+            update: {},
+            create: { id: courseId, name: courseId, credits, prerequisites: '' }
+          });
+
+          await prisma.score.upsert({
+            where: {
+              mssv_courseId_semester: {
+                mssv,
+                courseId,
+                semester: 'Summer 2025'
+              }
+            },
+            update: { value, status },
+            create: {
+              mssv,
+              courseId,
+              value,
+              status,
+              semester: 'Summer 2025'
+            }
+          });
+        }
+      }
+    } catch (dbErr) {
+      console.warn('[DB_SYNC] Failed to auto-persist mock student to SQLite:', dbErr.message);
+    }
+  }
+
+  return enriched;
 }
 
 async function fetchAllStudents() {
