@@ -182,8 +182,8 @@ async function main() {
   }));
   
   console.log(`🚀 Inserting ${studentData.length} students...`);
-  // Batch in chunks of 100 to avoid SQLite limits
-  const BATCH_SIZE = 100;
+  // Batch in chunks to avoid SQLite variables limits
+  const BATCH_SIZE = 500;
   for (let i = 0; i < studentData.length; i += BATCH_SIZE) {
     const batch = studentData.slice(i, i + BATCH_SIZE);
     await prisma.$transaction(
