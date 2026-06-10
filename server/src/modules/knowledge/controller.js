@@ -8,6 +8,13 @@ exports.getCourseInfo = (req, res, next) => {
   } catch (err) { next(err); }
 };
 
+exports.getDependencies = (req, res, next) => {
+  try {
+    const data = service.getDependencies();
+    res.json({ success: true, data });
+  } catch (err) { next(err); }
+};
+
 exports.getRiskChain = (req, res, next) => {
   try {
     const data = service.getRiskChain(req.params.courseId);

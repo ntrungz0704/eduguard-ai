@@ -43,6 +43,19 @@ exports.getCourse = (code) => {
   return course;
 };
 
+exports.getDependencies = () => {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const dataPath = path.join(__dirname, '../../data/knowledge/course_dependency.json');
+    const raw = fs.readFileSync(dataPath, 'utf8');
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error("Error reading course_dependency.json:", err);
+    return {};
+  }
+};
+
 exports.getRiskChain = (code) => {
   const riskChains = cache.get('riskChains');
   if (!riskChains) throw new Error("Knowledge cache not loaded");

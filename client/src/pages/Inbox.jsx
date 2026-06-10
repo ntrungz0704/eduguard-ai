@@ -24,6 +24,10 @@ export default function Inbox() {
 
   useEffect(() => {
     fetchConversations();
+    const interval = setInterval(() => {
+      fetchConversations(false);
+    }, 4000);
+    return () => clearInterval(interval);
   }, [currentUser]);
 
   useEffect(() => {
@@ -49,14 +53,14 @@ export default function Inbox() {
     }
   }, [activePartnerId, conversations]);
 
-  const fetchConversations = async () => {
+  const fetchConversations = async (showLoading = true) => {
     try {
       const res = await api.get(`/comm/messages/${currentUser.id}?role=${currentUser.role}`);
       setConversations(res.data);
     } catch (err) {
       console.error("Lỗi lấy danh sách tin nhắn", err);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 

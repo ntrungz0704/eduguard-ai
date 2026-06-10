@@ -1,0 +1,38 @@
+{
+  "COM108": {
+    "role": "Môn nền tảng lập trình cốt lõi",
+    "skills": ["Logic Programming", "Variables & Types", "Control Flow (Loops/Conditions)", "Functions"],
+    "affects": ["WEB104", "WEB206", "PRO101", "WEB501"],
+    "careers": ["Frontend Developer", "Backend Developer", "Full Stack Developer"]
+  },
+  "WEB104": {
+    "role": "Nền tảng giao diện Web tĩnh",
+    "skills": ["HTML5 Semantics", "CSS3 Styling", "Responsive Layout", "Flexbox & Grid"],
+    "affects": ["WEB206", "WEB202", "WEB501"],
+    "careers": ["Frontend Developer", "UI/UX Developer"]
+  },
+  "WEB206": {
+    "role": "Lập trình tương tác Frontend",
+    "skills": ["DOM Manipulation", "ES6+ Syntax", "Event Handling", "Asynchronous JavaScript"],
+    "affects": ["WEB202", "PRO110", "PRO115", "WEB501"],
+    "careers": ["Frontend Developer", "Full Stack Developer"]
+  },
+  "WEB202": {
+    "role": "Thiết kế Web nâng cao",
+    "skills": ["CSS Animations", "SASS/SCSS", "Advanced Responsive", "UI Frameworks"],
+    "affects": ["PRO115", "PRO116"],
+    "careers": ["Frontend Developer", "UI/UX Developer"]
+  },
+  "PRO101": {
+    "role": "Nền tảng quản trị dự án & cơ sở dữ liệu",
+    "skills": ["SQL Queries", "Database Design", "Project Management Basic", "Teamwork"],
+    "affects": ["WEB501", "PRO115", "PRO2201"],
+    "careers": ["Backend Developer", "Full Stack Developer", "Project Manager"]
+  },
+  "WEB501": {
+    "role": "Lập trình Backend & API",
+    "skills": ["Node.js/PHP", "RESTful API", "Database Integration", "Authentication"],
+    "affects": ["PRO2201", "PRO116"],
+    "careers": ["Backend Developer", "Full Stack Developer"]
+  }
+}

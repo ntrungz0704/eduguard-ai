@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useStore } from '../store';
 import { api } from '../lib/api';
@@ -674,9 +674,134 @@ function GradesTab({ curriculumCourses }) {
 }
 
 // ─────────────────────────────────────────────
+//  Course Insight Modal (AI Level 2-6)
+// ─────────────────────────────────────────────
+function CourseInsightModal({ course, dependencies, onClose }) {
+  if (!course) return null;
+  const isWeak = course.value !== null && course.value < 6.5 && course.status !== 'NOT_STARTED';
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" onClick={onClose}>
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-slate-200 dark:border-slate-800" onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="p-6 border-b border-slate-100 dark:border-white/5 flex items-start justify-between bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+          <div>
+            <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <BookOpen size={20} className="text-blue-500" />
+              {course.courseId} - {course.course?.name || "Chi tiết môn học"}
+            </h3>
+            <div className="mt-2 flex items-center gap-4">
+              <span className="text-sm font-bold bg-white/60 dark:bg-black/20 px-3 py-1 rounded-full text-slate-700 dark:text-slate-300">
+                {course.credits} Tín chỉ
+              </span>
+              {course.value !== null && (
+                <span className="text-sm font-bold flex items-center gap-1" style={{ color: scoreColor(course.value) }}>
+                  Điểm: {course.value.toFixed(1)} {course.isPredicted ? '(Dự báo AI)' : ''}
+                </span>
+              )}
+            </div>
+          </div>
+          <button onClick={onClose} className="p-2 rounded-xl bg-white/50 hover:bg-white dark:bg-black/20 dark:hover:bg-white/10 text-slate-500 transition-colors">
+            X
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto max-h-[70vh] space-y-6 custom-scrollbar">
+          {!dependencies ? (
+            <div className="flex flex-col items-center justify-center py-10 opacity-50">
+              <Loader2 className="animate-spin mb-2" size={24} />
+              <p>Đang tải dữ liệu phân tích...</p>
+            </div>
+          ) : (
+            <>
+              {/* Role & Careers */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="glass-card p-4 rounded-xl border border-indigo-100 dark:border-indigo-500/20 bg-indigo-50/50 dark:bg-indigo-500/5">
+                  <h4 className="text-xs font-black text-indigo-800 dark:text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-1"><CheckCircle size={14}/> Vai trò cốt lõi</h4>
+                  <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">{dependencies.role || 'Đang cập nhật'}</p>
+                </div>
+                <div className="glass-card p-4 rounded-xl border border-emerald-100 dark:border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-500/5">
+                  <h4 className="text-xs font-black text-emerald-800 dark:text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-1"><Award size={14}/> Hỗ trợ nghề nghiệp</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {(dependencies.careers || []).map((car, i) => (
+                      <span key={i} className="text-[10px] font-bold bg-white dark:bg-black/40 px-2 py-1 rounded border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400">
+                        {car}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Skills & Affects */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl border border-slate-200 dark:border-white/5">
+                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-3">Kỹ năng đạt được</h4>
+                  <ul className="space-y-2">
+                    {(dependencies.skills || []).map((skill, i) => (
+                      <li key={i} className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500" /> {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="p-4 rounded-xl border border-slate-200 dark:border-white/5">
+                  <h4 className="text-xs font-black text-slate-500 uppercase tracking-wider mb-3">Ảnh hưởng môn sau</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {(dependencies.affects || []).map((aff, i) => (
+                      <span key={i} className="text-xs font-bold bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-400 flex items-center gap-1 border border-slate-200 dark:border-slate-700">
+                        <TrendingUp size={12} className="text-amber-500" /> {aff}
+                      </span>
+                    ))}
+                    {(!dependencies.affects || dependencies.affects.length === 0) && (
+                      <span className="text-sm text-slate-400">Không có môn học phụ thuộc trực tiếp.</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* AI Coaching Insight */}
+              {isWeak && (
+                <div className="p-5 rounded-xl border border-rose-200 bg-rose-50 dark:bg-rose-500/10 dark:border-rose-500/20 flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center shrink-0">
+                    <Bot size={20} className="text-rose-600 dark:text-rose-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-rose-800 dark:text-rose-300">Nhận xét từ AI Cố vấn</h4>
+                    <p className="text-sm text-rose-700 dark:text-rose-400 mt-1 font-medium leading-relaxed">
+                      Bạn đã hoàn thành môn học nhưng với mức điểm <strong>{course.value.toFixed(1)}</strong>. Môn học này đóng vai trò quan trọng làm nền tảng cho {(dependencies.affects || []).join(', ')}. 
+                      <br/>Để không gặp khó khăn ở các môn học sau, bạn nên củng cố lại kiến thức về: <span className="font-bold">{(dependencies.skills || []).slice(0, 2).join(', ')}</span>.
+                    </p>
+                  </div>
+                </div>
+              )}
+              
+              {/* What-If Simulation Simple Version */}
+              {course.status === 'STUDYING' && course.isPredicted && (
+                 <div className="p-5 rounded-xl border border-blue-200 bg-blue-50 dark:bg-blue-500/10 dark:border-blue-500/20">
+                   <h4 className="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2 mb-2">
+                     <Activity size={16} /> Mô phỏng What-If
+                   </h4>
+                   <p className="text-sm text-blue-700 dark:text-blue-400 mb-4">
+                     Hiện tại AI dự báo bạn có thể đạt {course.value.toFixed(1)}. Nếu bạn tập trung ôn luyện và đạt <strong>8.0</strong>, mức độ sẵn sàng cho các nghề {(dependencies.careers || []).slice(0,2).join(', ')} sẽ tăng thêm khoảng 15%.
+                   </p>
+                   <ScoreBar value={8.0} />
+                 </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
 //  Roadmap Tab (6 Semesters Curriculum Timeline)
 // ─────────────────────────────────────────────
-function RoadmapTab({ curriculumCourses }) {
+function RoadmapTab({ curriculumCourses, courseDependencies }) {
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  
   // Let's divide curriculum courses into 6 semesters dynamically
   const totalCourses = curriculumCourses.length;
   const sem1 = curriculumCourses.slice(0, 7);
@@ -755,11 +880,12 @@ function RoadmapTab({ curriculumCourses }) {
                 {sem.courses.map((c, cIdx) => (
                   <div 
                     key={cIdx} 
-                    className={`glass-card p-4 rounded-xl border transition-all hover:-translate-y-0.5 ${
-                      c.status === 'PASSED' ? 'border-emerald-200 dark:border-emerald-500/15 bg-emerald-500/2' :
-                      c.status === 'FAILED' ? 'border-rose-200 dark:border-rose-500/15 bg-rose-500/2' :
-                      c.status === 'STUDYING' ? 'border-blue-200 dark:border-blue-500/30 bg-blue-500/5' :
-                      'border-slate-200 dark:border-white/5 bg-white dark:bg-slate-900/20 opacity-60'
+                    onClick={() => setSelectedCourse(c)}
+                    className={`glass-card p-4 rounded-xl border transition-all hover:-translate-y-0.5 cursor-pointer ${
+                      c.status === 'PASSED' ? 'border-emerald-200 dark:border-emerald-500/15 bg-emerald-500/2 hover:shadow-emerald-500/10' :
+                      c.status === 'FAILED' ? 'border-rose-200 dark:border-rose-500/15 bg-rose-500/2 hover:shadow-rose-500/10' :
+                      c.status === 'STUDYING' ? 'border-blue-200 dark:border-blue-500/30 bg-blue-500/5 hover:shadow-blue-500/10' :
+                      'border-slate-200 dark:border-white/5 bg-white dark:bg-slate-900/20 opacity-60 hover:opacity-100'
                     }`}
                   >
                     <div className="flex justify-between items-start gap-2 mb-2">
@@ -796,6 +922,11 @@ function RoadmapTab({ curriculumCourses }) {
           );
         })}
       </div>
+      <CourseInsightModal 
+        course={selectedCourse} 
+        dependencies={selectedCourse ? (courseDependencies[selectedCourse.courseId] || courseDependencies[selectedCourse.courseId.replace(/\s+/g,'')]) : null}
+        onClose={() => setSelectedCourse(null)} 
+      />
     </div>
   );
 }
@@ -833,11 +964,15 @@ function ChatTab({ currentUser, activeStudentData }) {
   useEffect(() => {
     if (chatMode === 'advisor') {
       fetchAdvisorsAndMessages();
+      const interval = setInterval(() => {
+        fetchAdvisorsAndMessages(false);
+      }, 4000);
+      return () => clearInterval(interval);
     }
   }, [chatMode, currentUser]);
 
-  const fetchAdvisorsAndMessages = async () => {
-    setLoadingConv(true);
+  const fetchAdvisorsAndMessages = async (showLoading = true) => {
+    if (showLoading) setLoadingConv(true);
     try {
       // 1. Fetch available advisors
       const advRes = await api.get('/comm/advisors');
@@ -866,7 +1001,7 @@ function ChatTab({ currentUser, activeStudentData }) {
     } catch (e) {
       console.error('Error fetching advisor messages:', e);
     } finally {
-      setLoadingConv(false);
+      if (showLoading) setLoadingConv(false);
     }
   };
 
@@ -1297,7 +1432,13 @@ export default function StudentDashboard() {
   const [data, setData] = useState(null);
   const [curriculum, setCurriculum] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'overview';
+  
+  const handleTabChange = (tabId) => {
+    setSearchParams({ tab: tabId });
+  };
+  const [courseDependencies, setCourseDependencies] = useState({});
 
   useEffect(() => {
     const fetch = async () => {
@@ -1308,8 +1449,16 @@ export default function StudentDashboard() {
         // 2. Fetch curriculum info
         const currRes = await api.get('/training-info');
         
+        // 3. Fetch dependencies
+        let depData = {};
+        try {
+          const depRes = await api.get('/knowledge/dependencies');
+          depData = depRes.data.data || {};
+        } catch(e) { console.warn("Failed to load dependencies"); }
+        
         setData(studentRes.data);
         setCurriculum(currRes.data.curriculumOrder || []);
+        setCourseDependencies(depData);
       } catch (err) {
         console.error('Error fetching student dashboard details:', err);
         // Fallback placeholder data
@@ -1496,7 +1645,7 @@ export default function StudentDashboard() {
             <TabBtn
               key={t.id}
               active={activeTab === t.id}
-              onClick={() => setActiveTab(t.id)}
+              onClick={() => handleTabChange(t.id)}
               icon={t.icon}
               label={t.label}
             />
@@ -1507,7 +1656,7 @@ export default function StudentDashboard() {
       {/* ── Dynamic Tab Content Render ── */}
       {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} />}
       {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} />}
-      {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} />}
+      {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}
 
     </div>
