@@ -124,8 +124,25 @@ class AcademicGraphEngine {
       }
     }
 
-    if (brain.failedCourses && brain.failedCourses.length > 0 && brain.careerGoal) {
-      // Lấy môn rớt đầu tiên để phân tích sâu
+    if (brain.predictions && brain.predictions.length > 0 && brain.careerGoal) {
+      // Tìm các môn dự báo điểm thấp (< 6.5) hoặc Rủi ro cao (HIGH/MEDIUM) sắp học
+      const upcomingRisks = brain.predictions
+        .filter(p => p.predictedScore < 6.5 || p.risk === 'HIGH')
+        .sort((a, b) => a.predictedScore - b.predictedScore);
+
+      if (upcomingRisks.length > 0) {
+        const topRisk = upcomingRisks[0];
+        const analysis = this.reasonCourseFailure(topRisk.courseId, brain.careerGoal);
+        
+        // Điều chỉnh lại message cho môn sắp tới (Dự báo) thay vì môn đã rớt
+        if (analysis.reasoningChain && analysis.reasoningChain.length > 0) {
+          analysis.reasoningChain.unshift(`⚠️ DỰ BÁO KỲ TỚI: Nếu bạn học không tốt môn ${topRisk.courseId} (dự báo điểm: ${topRisk.predictedScore}), bạn sẽ gặp rủi ro dây chuyền sau:`);
+        }
+        
+        report.reasoning = analysis;
+      }
+    } else if (brain.failedCourses && brain.failedCourses.length > 0 && brain.careerGoal) {
+      // Fallback: Lấy môn rớt đầu tiên để phân tích sâu nếu không có dự báo
       const analysis = this.reasonCourseFailure(brain.failedCourses[0], brain.careerGoal);
       report.reasoning = analysis;
     }

@@ -235,9 +235,15 @@ router.post('/messages/read', async (req, res) => {
 // GET /api/comm/advisors
 router.get('/advisors', async (req, res) => {
   try {
-    const advisors = await prisma.user.findMany({
+    let advisors = await prisma.user.findMany({
       where: { role: 'ADVISOR' }
     });
+    if (advisors.length === 0) {
+      const adv = await prisma.user.create({
+        data: { email: 'admin@fpt.edu.vn', name: 'Cố vấn Học vụ FPT', role: 'ADVISOR' }
+      });
+      advisors = [adv];
+    }
     res.json(advisors);
   } catch (err) {
     res.status(500).json({ error: err.message });

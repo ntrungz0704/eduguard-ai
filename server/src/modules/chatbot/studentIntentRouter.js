@@ -90,6 +90,23 @@ function routeStudentIntent(msg, nlpIntent = 'None', sessionId = null) {
 
   // Heuristics fallback if NLP and Context failed
   if (intent === 'STUDENT_FALLBACK_INTENT') {
+    // Direct numeric routing based on menu options
+    const numMatch = msgLower.match(/^(?:số|chọn|phím)?\s*([1-7])\b/);
+    if (numMatch) {
+      const option = parseInt(numMatch[1], 10);
+      switch (option) {
+        case 1: intent = 'STUDENT_SYLLABUS_INFO_INTENT'; break;
+        case 2: intent = 'STUDENT_RISK_INTENT'; break;
+        case 3: intent = 'STUDENT_GPA_SIMULATION_INTENT'; break;
+        case 4: intent = 'STUDENT_CAREER_PATH_INTENT'; break;
+        case 5: intent = 'STUDENT_SKILL_GAP_INTENT'; break;
+        case 6: intent = 'STUDENT_PORTFOLIO_INTENT'; break;
+        case 7: intent = 'STUDENT_90_DAY_PLAN_INTENT'; break;
+      }
+      console.log(`[STUDENT_ROUTER] Numeric shortcut ${option} mapped to ${intent}`);
+      return intent;
+    }
+
     // Skill Gap intent
     if (msgLower.includes('skill gap') || msgLower.includes('lỗ hổng') || msgLower.includes('kỹ năng còn thiếu') ||
         msgLower.includes('em thiếu gì') || msgLower.includes('thiếu kỹ năng') || msgLower.includes('kiến thức thiếu') ||

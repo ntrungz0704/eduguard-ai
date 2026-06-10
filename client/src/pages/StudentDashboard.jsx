@@ -178,7 +178,7 @@ const calculateFptStats = (curriculumCourses) => {
 //  Overview Tab
 // ─────────────────────────────────────────────
 function OverviewTab({ data, curriculumCourses }) {
-  const predictions = data?.predictions || [];
+  const predictions = Array.isArray(data?.predictions) ? data.predictions : [];
   
   const stats = calculateFptStats(curriculumCourses);
   const gpa = stats.gpa10;
@@ -189,8 +189,16 @@ function OverviewTab({ data, curriculumCourses }) {
 
   // Strengths: top 3 highest academic scores
   const strengths = [...stats.academicScores].sort((a, b) => b.value - a.value).slice(0, 3);
-  // Weaknesses: bottom 3 lowest academic scores under 7.5
-  const weaknesses = [...stats.academicScores].sort((a, b) => a.value - b.value).filter(c => c.value < 7.5).slice(0, 3);
+  // Weaknesses: bottom 3 lowest predicted upcoming courses (Cảnh báo các môn sắp tới dựa trên tiên quyết)
+  const weaknesses = predictions
+    .filter(p => p.predictedScore < 6.5)
+    .sort((a, b) => a.predictedScore - b.predictedScore)
+    .map(p => ({
+      courseId: p.course?.name || p.courseId,
+      value: p.predictedScore,
+      isPrediction: true
+    }))
+    .slice(0, 3);
   
   // At risk predictions
   const atRisk = predictions.filter(p => p.predictedScore < 5);
@@ -396,7 +404,9 @@ function OverviewTab({ data, curriculumCourses }) {
               {weaknesses.map((c, i) => (
                 <div key={i} className="hover:bg-white/3 p-2 rounded-lg transition-colors">
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[80%]">{c.courseId}</span>
+                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[80%]">
+                      {c.courseId} {c.isPrediction && <span className="text-[10px] text-rose-500 font-normal italic ml-1">(Dự báo)</span>}
+                    </span>
                     <span className="text-xs font-black text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-200 dark:border-rose-500/20">{c.value.toFixed(1)}</span>
                   </div>
                   <ScoreBar value={c.value} />
@@ -959,6 +969,23 @@ function ChatTab({ currentUser, activeStudentData }) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [aiMessages, advisorMessages, chatMode]);
+
+  // Load AI Chat history
+  useEffect(() => {
+    if (chatMode === 'ai' && currentUser?.id) {
+      const fetchHistory = async () => {
+        try {
+          const res = await api.get(`/chat/history/${currentUser.id}`);
+          if (res.data && res.data.history) {
+            setAiMessages(res.data.history);
+          }
+        } catch (e) {
+          console.error('Lỗi lấy lịch sử AI:', e);
+        }
+      };
+      fetchHistory();
+    }
+  }, [chatMode, currentUser]);
 
   // Load advisor accounts and messages
   useEffect(() => {

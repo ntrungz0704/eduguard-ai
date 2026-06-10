@@ -1,0 +1,26 @@
+[
+  {
+    "skillName": "NodeJS",
+    "description": "Node.js là một runtime environment mã nguồn mở đa nền tảng để chạy JavaScript bên ngoài trình duyệt.",
+    "what_is_it": "Môi trường chạy JS trên server.",
+    "why_important": "Cho phép dùng JavaScript để viết backend, chia sẻ code dễ dàng giữa client và server.",
+    "prerequisites": ["JavaScript", "Programming Logic"],
+    "roadmap": ["Cơ bản Node.js", "NPM", "Event Loop", "Express.js", "Database kết nối"],
+    "resources": ["Trang chủ Node.js", "FreeCodeCamp", "Youtube"],
+    "projects": ["Build API đơn giản", "Web Scraper", "Chat App CLI"],
+    "mistakes": ["Không handle asynchronous code tốt", "Chặn Event Loop", "Quản lý lỗi kém"],
+    "interview_questions": ["Event loop hoạt động thế nào?", "Sự khác biệt giữa setImmediate và process.nextTick?", "Streams là gì?"]
+  },
+  {
+    "skillName": "React",
+    "description": "Thư viện UI phổ biến nhất hiện nay cho front-end.",
+    "what_is_it": "Một thư viện JS dùng để xây dựng User Interfaces.",
+    "why_important": "Component-based, hiệu năng cao với Virtual DOM.",
+    "prerequisites": ["HTML", "CSS", "JavaScript", "ES6+"],
+    "roadmap": ["Components", "JSX", "State & Props", "Hooks", "Routing", "State Management"],
+    "resources": ["React Docs", "F8", "Codecademy"],
+    "projects": ["Todo List", "Weather App", "E-commerce UI"],
+    "mistakes": ["Mutate state trực tiếp", "Quên key trong map", "Lạm dụng useEffect"],
+    "interview_questions": ["Virtual DOM là gì?", "Phân biệt State và Props?", "Hooks hoạt động thế nào?"]
+  }
+]

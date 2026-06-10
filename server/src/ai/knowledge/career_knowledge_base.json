@@ -1,0 +1,50 @@
+[
+  {
+    "careerId": "frontend_dev",
+    "careerName": "Frontend Developer",
+    "description": "Chuyên gia phát triển giao diện người dùng cho ứng dụng web.",
+    "requiredSkills": ["HTML", "CSS", "JavaScript", "React", "TypeScript", "NextJS", "Responsive Design", "Git"],
+    "recommendedCourses": ["WEB105", "WEB206", "PRO111"],
+    "portfolioProjects": ["Personal Portfolio", "E-commerce UI", "Dashboard React"],
+    "learningPath": ["HTML/CSS", "JavaScript", "React", "State Management", "TypeScript", "NextJS"],
+    "marketDemand": "HIGH",
+    "salaryRange": "10M - 25M VND",
+    "internshipRequirements": ["Nắm vững HTML/CSS/JS", "Có project React cá nhân"]
+  },
+  {
+    "careerId": "backend_dev",
+    "careerName": "Backend Developer",
+    "description": "Chuyên gia phát triển logic, API và database server.",
+    "requiredSkills": ["Programming Logic", "NodeJS", "ExpressJS", "SQL", "MongoDB", "REST API", "Authentication", "Docker"],
+    "recommendedCourses": ["COM108", "WEB206", "PRO211"],
+    "portfolioProjects": ["RESTful API", "E-commerce Backend", "Chat App"],
+    "learningPath": ["NodeJS", "ExpressJS", "SQL/NoSQL", "Authentication", "Docker", "Microservices"],
+    "marketDemand": "HIGH",
+    "salaryRange": "12M - 30M VND",
+    "internshipRequirements": ["Hiểu biết về REST API", "Có kiến thức SQL cơ bản", "NodeJS"]
+  },
+  {
+    "careerId": "devops_eng",
+    "careerName": "DevOps Engineer",
+    "description": "Chuyên gia tự động hóa và quản lý hệ thống, CI/CD.",
+    "requiredSkills": ["Linux", "Networking", "Docker", "Kubernetes", "CI/CD", "AWS", "Monitoring"],
+    "recommendedCourses": ["NET101", "SEC201"],
+    "portfolioProjects": ["CI/CD Pipeline", "Dockerized App", "AWS Deployment"],
+    "learningPath": ["Linux Basics", "Networking", "Docker", "CI/CD", "AWS", "Kubernetes"],
+    "marketDemand": "VERY HIGH",
+    "salaryRange": "15M - 40M VND",
+    "internshipRequirements": ["Sử dụng thành thạo Linux", "Hiểu biết Docker cơ bản"]
+  },
+  {
+    "careerId": "ai_fullstack",
+    "careerName": "AI Fullstack Engineer",
+    "description": "Kỹ sư kết hợp AI models với web apps.",
+    "requiredSkills": ["Python", "Machine Learning", "LLM", "Prompt Engineering", "Vector Database", "RAG", "FastAPI", "React"],
+    "recommendedCourses": ["PMA101", "AI301"],
+    "portfolioProjects": ["RAG Chatbot", "Image Generator", "Data Analysis Dashboard"],
+    "learningPath": ["Python", "Machine Learning", "LLM & Prompting", "FastAPI", "React", "Vector DB"],
+    "marketDemand": "VERY HIGH",
+    "salaryRange": "20M - 50M VND",
+    "internshipRequirements": ["Python", "Hiểu cơ bản về NLP/LLM"]
+  }
+]

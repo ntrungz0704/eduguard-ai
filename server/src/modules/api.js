@@ -1320,6 +1320,33 @@ require('../../src/events/grade.event');
 require('../../src/events/risk.event');
 require('../../src/events/intervention.event');
 
+router.get('/chat/history/:mssv', async (req, res) => {
+  try {
+    const mssv = req.params.mssv;
+    if (!mssv) return res.status(400).json({ error: 'MSSV required' });
+    
+    const { prisma } = require('../../src/infrastructure/database/prisma');
+    const history = await prisma.conversationHistory.findMany({
+      where: { studentId: mssv },
+      orderBy: { createdAt: 'asc' }
+    });
+    
+    let formatted = history.map(h => ({
+      sender: h.role === 'BOT' ? 'ai' : 'user',
+      text: h.message,
+      time: new Date(h.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+    }));
+    
+    if (formatted.length === 0) {
+      formatted.push({ sender: 'ai', text: `Chào bạn! Mình là AI Assistant. Bạn cần hỗ trợ gì về lộ trình học hay tư vấn hướng nghiệp không?`, time: 'Bây giờ' });
+    }
+    
+    res.json({ history: formatted });
+  } catch (e) {
+    console.error('Lỗi lấy lịch sử chat:', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 router.post('/chat', async (req, res) => {
   try {
     const { message, sessionId } = req.body;

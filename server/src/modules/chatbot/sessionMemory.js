@@ -102,6 +102,114 @@ function getSession(sessionId, userRole = 'TEACHER') {
   return chatSessions[sessionId];
 }
 
+const { prisma } = require('../../infrastructure/database/prisma');
+
+/**
+ * Load student memory from Prisma DB into session.brain
+ */
+async function loadStudentMemoryFromDB(session, studentId) {
+  if (!studentId || !session.brain) return;
+
+  try {
+    const memory = await prisma.studentMemory.findUnique({
+      where: { studentId }
+    });
+
+    if (memory) {
+      session.brain.careerGoal = memory.careerGoal || session.brain.careerGoal;
+      session.brain.careerReadiness = memory.careerReadiness || session.brain.careerReadiness;
+      session.brain.gpa = memory.gpa || session.brain.gpa;
+      session.brain.currentSemester = memory.currentSemester || session.brain.currentSemester;
+      session.brain.riskLevel = memory.riskLevel || session.brain.riskLevel;
+      session.brain.learningStyle = memory.learningStyle || session.brain.learningStyle;
+      
+      if (memory.strengths) {
+        try { session.brain.strengths = JSON.parse(memory.strengths); } catch(e){}
+      }
+      if (memory.weaknesses) {
+        try { session.brain.weaknesses = JSON.parse(memory.weaknesses); } catch(e){}
+      }
+    }
+
+    const skills = await prisma.skillProfile.findMany({
+      where: { studentId }
+    });
+    
+    if (skills.length > 0) {
+      session.brain.missingSkills = skills.filter(s => s.level === 'Missing').map(s => s.skillName);
+      session.brain.lastSkills = skills.filter(s => s.level !== 'Missing').map(s => s.skillName);
+    }
+    
+    session.brain.studentId = studentId;
+  } catch (err) {
+    console.error('[MEMORY] Failed to load from DB:', err.message);
+  }
+}
+
+/**
+ * Save current session.brain context into Prisma DB
+ */
+async function saveStudentMemoryToDB(session, studentId) {
+  if (!studentId || !session.brain) return;
+  const brain = session.brain;
+
+  try {
+    await prisma.studentMemory.upsert({
+      where: { studentId },
+      update: {
+        careerGoal: brain.careerGoal,
+        careerReadiness: brain.careerReadiness,
+        gpa: brain.gpa,
+        currentSemester: brain.currentSemester,
+        riskLevel: brain.riskLevel,
+        learningStyle: brain.learningStyle,
+        strengths: JSON.stringify(brain.strengths || []),
+        weaknesses: JSON.stringify(brain.weaknesses || [])
+      },
+      create: {
+        studentId,
+        careerGoal: brain.careerGoal,
+        careerReadiness: brain.careerReadiness,
+        gpa: brain.gpa,
+        currentSemester: brain.currentSemester,
+        riskLevel: brain.riskLevel,
+        learningStyle: brain.learningStyle,
+        strengths: JSON.stringify(brain.strengths || []),
+        weaknesses: JSON.stringify(brain.weaknesses || [])
+      }
+    });
+
+    // Save missing skills
+    if (brain.missingSkills && brain.missingSkills.length > 0) {
+      for (const skill of brain.missingSkills) {
+        await prisma.skillProfile.upsert({
+          where: {
+            studentId_skillName: { studentId, skillName: skill }
+          },
+          update: { level: 'Missing', source: 'CHAT_INFERRED' },
+          create: { studentId, skillName: skill, level: 'Missing', source: 'CHAT_INFERRED' }
+        });
+      }
+    }
+
+    // Save matched/owned skills
+    if (brain.lastSkills && brain.lastSkills.length > 0) {
+      for (const skill of brain.lastSkills) {
+        await prisma.skillProfile.upsert({
+          where: {
+            studentId_skillName: { studentId, skillName: skill }
+          },
+          update: { level: 'Intermediate', source: 'CHAT_INFERRED' },
+          create: { studentId, skillName: skill, level: 'Intermediate', source: 'CHAT_INFERRED' }
+        });
+      }
+    }
+
+  } catch (err) {
+    console.error('[MEMORY] Failed to save to DB:', err.message);
+  }
+}
+
 /**
  * Add a conversation turn to session history (max 10)
  */
@@ -200,5 +308,7 @@ module.exports = {
   chatSessions,
   getSession,
   addConversationTurn,
-  updateBrain
+  updateBrain,
+  loadStudentMemoryFromDB,
+  saveStudentMemoryToDB
 };

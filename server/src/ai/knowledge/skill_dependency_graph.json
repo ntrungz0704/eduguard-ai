@@ -1,0 +1,16 @@
+{
+  "Backend": {
+    "Programming Logic": ["JavaScript", "Python"],
+    "JavaScript": ["NodeJS"],
+    "NodeJS": ["ExpressJS"],
+    "ExpressJS": ["REST API"],
+    "REST API": ["Authentication", "SQL", "MongoDB"],
+    "Authentication": ["Docker", "Microservices"]
+  },
+  "Frontend": {
+    "HTML": ["CSS"],
+    "CSS": ["JavaScript", "Responsive Design"],
+    "JavaScript": ["React"],
+    "React": ["TypeScript", "NextJS"]
+  }
+}

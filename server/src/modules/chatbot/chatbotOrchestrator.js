@@ -6,7 +6,7 @@ const { routeIntent } = require('./intentRouter');
 const { resolveContext } = require('./contextResolver');
 const { validateRole } = require('./roleValidator');
 const { extractAllEntities } = require('./entityExtractor');
-const { getSession, addConversationTurn, updateBrain } = require('./sessionMemory');
+const { getSession, addConversationTurn, updateBrain, loadStudentMemoryFromDB, saveStudentMemoryToDB } = require('./sessionMemory');
 const { executeDecision } = require('./aiDecisionEngine');
 const { executeStudentDecision } = require('./studentEngine');
 const { buildTeacherResponse } = require('./response/teacherResponseBuilder');
@@ -82,6 +82,12 @@ async function orchestrateChatbot(req, sessionId) {
     appLogger.session(`Active student set via entity extraction: ${entities.mssv}`, sessionId);
   }
 
+  // ─── Step 4.5: Load Persistent Brain from DB ────────────
+  if (isStudent && effectiveMssv && !session.brainLoaded) {
+    await loadStudentMemoryFromDB(session, effectiveMssv);
+    session.brainLoaded = true;
+  }
+
   // ─── Step 5: Intent Routing ──────────────────────────────
   let intent, decisionData, text, chartData, actions;
 
@@ -116,6 +122,8 @@ async function orchestrateChatbot(req, sessionId) {
         ? scores.filter(s => s.status === 'PASSED' || s.value >= 5.0).map(s => s.courseId)
         : Object.keys(courseStatus).filter(c => courseStatus[c] === 'PASSED');
 
+      session.brain.predictions = decisionData.student.predictions || [];
+
       const reasoningReport = academicGraphEngine.generateReasoningReport(session.brain);
       decisionData.reasoningReport = reasoningReport;
 
@@ -130,6 +138,29 @@ async function orchestrateChatbot(req, sessionId) {
 
     // Update Student Brain with context from this interaction
     updateBrain(session, intent, decisionData);
+    
+    // Save updated context back to DB
+    if (effectiveMssv) {
+      await saveStudentMemoryToDB(session, effectiveMssv);
+      const { prisma } = require('../../infrastructure/database/prisma');
+      await prisma.conversationHistory.create({
+        data: {
+          studentId: effectiveMssv,
+          role: 'USER',
+          message: message,
+          intent: intent,
+          entities: JSON.stringify(entities)
+        }
+      });
+      await prisma.conversationHistory.create({
+        data: {
+          studentId: effectiveMssv,
+          role: 'BOT',
+          message: text,
+          intent: intent
+        }
+      });
+    }
 
   } else {
     // ─── TEACHER/ADMIN BRANCH ────────────────────────

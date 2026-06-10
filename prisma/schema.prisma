@@ -27,10 +27,15 @@ model Student {
   classCode     String
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  scores        Score[]
-  predictions   Prediction[]
-  interventions Intervention[]
-  learningBoards LearningBoard[]
+  scores                  Score[]
+  predictions             Prediction[]
+  interventions           Intervention[]
+  learningBoards          LearningBoard[]
+  studentMemory           StudentMemory?
+  learningProfile         LearningProfile?
+  conversationHistories   ConversationHistory[]
+  skillProfiles           SkillProfile[]
+  recommendationHistories RecommendationHistory[]
 }
 
 model Course {
@@ -173,4 +178,89 @@ model LearningTask {
   board          LearningBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
   @@index([boardId])
+}
+
+model StudentMemory {
+  id String @id @default(uuid())
+  studentId String @unique // One-to-One with Student
+  careerGoal String?
+  careerReadiness String?
+  gpa Float?
+  currentSemester String?
+  riskLevel String?
+  learningStyle String?
+  strengths String? // JSON string
+  weaknesses String? // JSON string
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+}
+
+model ConversationHistory {
+  id String @id @default(uuid())
+  studentId String
+  role String // "USER" or "BOT"
+  message String
+  intent String?
+  entities String? // JSON string
+  createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  @@index([studentId])
+}
+
+model SkillProfile {
+  id String @id @default(uuid())
+  studentId String
+  skillName String
+  level String // e.g., "Beginner", "Intermediate", "Missing", "Advanced"
+  source String // e.g., "CHAT_INFERRED", "MANUAL", "COURSE_PASSED"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  @@index([studentId])
+  @@unique([studentId, skillName])
+}
+
+model CareerProfile {
+  id String @id @default(uuid())
+  careerId String @unique
+  careerName String
+  description String
+  requiredSkills String // JSON string
+  recommendedCourses String // JSON string
+  portfolioProjects String // JSON string
+  learningPath String // JSON string
+  marketDemand String
+  salaryRange String
+  internshipRequirements String // JSON string
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LearningProfile {
+  id String @id @default(uuid())
+  studentId String @unique
+  completedCourses String // JSON string
+  failedCourses String // JSON string
+  targetInternshipDate String?
+  academicWarningCount Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+}
+
+model RecommendationHistory {
+  id String @id @default(uuid())
+  studentId String
+  careerId String?
+  recommendationType String // e.g., "ROADMAP", "SKILL_GAP", "PROJECT"
+  content String // The recommended roadmap text or JSON
+  createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  @@index([studentId])
 }

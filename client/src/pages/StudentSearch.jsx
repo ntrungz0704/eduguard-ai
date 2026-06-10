@@ -614,36 +614,7 @@ export default function StudentSearch() {
         </div>
       </div>
 
-      {/* Proactive Notification Banner */}
-      <div className="glass-card p-4 rounded-3xl border border-rose-200 dark:border-rose-500/20 bg-rose-950/10 flex items-center justify-between gap-4 animate-pulse">
-        <div className="flex items-center gap-3">
-          <div className="bg-rose-500/20 p-2.5 rounded-2xl text-rose-400 border border-rose-200 dark:border-rose-500/30">
-            <AlertTriangle size={20} />
-          </div>
-          <div>
-            <h5 className="text-sm font-bold text-slate-900 dark:text-white">⚠️ Quét định kỳ EduGuard AI</h5>
-            <p className="text-xs text-rose-300/80">Phát hiện sinh viên <strong>Hoàng Nhật Minh (PS23116)</strong> rơi vào nhóm nguy cơ trượt môn Thiết kế UI/UX.</p>
-          </div>
-        </div>
-        <button
-          onClick={async () => {
-            try {
-              setLoading(true);
-              const res = await api.get('/students/PS23116');
-              setActiveStudent(res.data);
-            } catch (err) {
-              console.error(err);
-            } finally {
-              setLoading(false);
-            }
-          }}
-          className="text-xs bg-rose-600 hover:bg-rose-500 text-slate-900 dark:text-white font-bold px-3.5 py-1.5 rounded-xl border border-rose-200 dark:border-rose-500/30 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-lg shadow-rose-900/30"
-        >
-          Can thiệp ngay
-        </button>
-      </div>
-
-      {/* Detailed Profile & AI Assistant (Full Width) */}
+            {/* Detailed Profile & AI Assistant (Full Width) */}
       <div className="w-full space-y-6">
         {selectedStudent ? (
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
@@ -688,26 +659,41 @@ export default function StudentSearch() {
                 const selectedStudentGpa = parseFloat(fptStats.gpa10);
 
                 const getGpaTrend = (student) => {
-                  const seed = student.name ? student.name.charCodeAt(0) : 5;
-                  return [
-                    { name: 'Kỳ I', gpa: (5.2 + (seed % 3) * 0.6).toFixed(1), target: 7.5 },
-                    { name: 'Kỳ II', gpa: (5.8 + (seed % 4) * 0.5).toFixed(1), target: 7.5 },
-                    { name: 'Kỳ III', gpa: (6.5 + (seed % 2) * 0.7).toFixed(1), target: 8.0 },
-                    { name: 'Kỳ IV', gpa: (7.0 + (seed % 3) * 0.4).toFixed(1), target: 8.0 },
-                    { name: 'Kỳ V', gpa: (7.4 + (seed % 4) * 0.3).toFixed(1), target: 8.5 },
-                    { name: 'Kỳ VI', gpa: selectedStudentGpa.toFixed(1), target: 8.5 },
+                  const validScores = (student.scores || []).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+                  const groupedBySem = {};
+                  validScores.forEach(s => {
+                    const sem = s.semester || 'Kỳ 1';
+                    if (!groupedBySem[sem]) groupedBySem[sem] = { totalPoints: 0, totalCredits: 0 };
+                    const credits = getCourseCredits(s.courseId || s.course?.name);
+                    groupedBySem[sem].totalPoints += s.value * credits;
+                    groupedBySem[sem].totalCredits += credits;
+                  });
+                  const trend = Object.keys(groupedBySem).sort().map(sem => {
+                    const gpa = groupedBySem[sem].totalCredits > 0 ? (groupedBySem[sem].totalPoints / groupedBySem[sem].totalCredits) : 0;
+                    return {
+                      name: sem,
+                      gpa: parseFloat(gpa.toFixed(1)),
+                      target: 8.0
+                    };
+                  });
+                  return trend.length > 0 ? trend : [
+                    { name: 'Chưa có', gpa: 0, target: 8.0 }
                   ];
                 };
 
                 const getRadarData = (student) => {
-                  const seed = student.name ? student.name.length : 10;
-                  return [
-                    { subject: 'Giải thuật', value: 50 + (seed % 5) * 10, fullMark: 100 },
-                    { subject: 'Xác suất/Toán', value: 45 + (seed % 6) * 9, fullMark: 100 },
-                    { subject: 'Lập trình OOP', value: 60 + (seed % 4) * 10, fullMark: 100 },
-                    { subject: 'Web Frontend', value: 65 + (seed % 5) * 8, fullMark: 100 },
-                    { subject: 'Kỹ thuật PM', value: 55 + (seed % 6) * 7, fullMark: 100 },
-                  ];
+                  const validScores = (student.scores || []).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+                  const recent = validScores.slice(-5);
+                  if (recent.length === 0) {
+                    return [
+                      { subject: 'Chưa có dữ liệu', value: 0, fullMark: 10 }
+                    ];
+                  }
+                  return recent.map(s => ({
+                    subject: (s.course?.name || s.courseId).substring(0, 15),
+                    value: parseFloat((s.value).toFixed(1)),
+                    fullMark: 10
+                  }));
                 };
 
                 const trendData = getGpaTrend(selectedStudent);

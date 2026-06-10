@@ -1148,7 +1148,7 @@ export default function Predict() {
                   <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Hỗ trợ Phân tích & Tiên lượng Cá nhân</h4>
                   <p className="text-xs text-slate-500 mt-2 max-w-md leading-relaxed">
                     Hệ thống EduGuard AI đang lưu trữ <strong>{result.predictions.length} hồ sơ sinh viên</strong> trong bộ nhớ học tập. 
-                    Để có trải nghiệm tối ưu nhất, vui lòng nhập MSSV (VD: <code>PS23116</code>) hoặc tên của sinh viên bạn muốn xem vào thanh tìm kiếm ở trên để nhận báo cáo phân tích rủi ro chi tiết ngay lập tức!
+                    Để có trải nghiệm tối ưu nhất, vui lòng nhập MSSV hoặc tên của sinh viên bạn muốn xem vào thanh tìm kiếm ở trên để nhận báo cáo phân tích rủi ro chi tiết ngay lập tức!
                   </p>
                 </div>
               )
