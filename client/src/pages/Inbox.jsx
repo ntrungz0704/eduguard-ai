@@ -42,7 +42,7 @@ export default function Inbox() {
     if (activePartnerId) {
       const conv = conversations.find(c => c.partnerId === activePartnerId);
       if (conv) {
-        setMessages(conv.messages.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)));
+        setMessages((conv.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)));
         setActivePartnerName(conv.partnerName);
         markAsRead(activePartnerId);
       } else {
@@ -111,9 +111,7 @@ export default function Inbox() {
     }
 
     try {
-      const res = await api.post('/comm/messages', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const res = await api.post('/comm/messages', formData);
       const newMsg = res.data;
       
       setInputMsg('');

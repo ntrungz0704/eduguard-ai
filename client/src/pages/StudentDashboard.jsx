@@ -1017,7 +1017,7 @@ function ChatTab({ currentUser, activeStudentData }) {
         currentPartnerId = firstConv.partnerId;
         setSelectedAdvisorId(firstConv.partnerId);
         setSelectedAdvisorName(firstConv.partnerName);
-        setAdvisorMessages(firstConv.messages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+        setAdvisorMessages((firstConv.messages || []).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
       } else if (advRes.data && advRes.data.length > 0) {
         // No conversation, default to the first advisor found
         const firstAdv = advRes.data[0];
@@ -1038,7 +1038,7 @@ function ChatTab({ currentUser, activeStudentData }) {
     // Find if we have active conversation
     const existing = conversations.find(c => c.partnerId === adv.id);
     if (existing) {
-      setAdvisorMessages(existing.messages.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)));
+      setAdvisorMessages((existing.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)));
     } else {
       setAdvisorMessages([]);
     }
@@ -1081,9 +1081,7 @@ function ChatTab({ currentUser, activeStudentData }) {
       formData.append('receiverId', selectedAdvisorId);
       formData.append('content', content);
 
-      const res = await api.post('/comm/messages', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const res = await api.post('/comm/messages', formData);
       const newMsg = res.data;
       
       setAdvisorMessages(prev => [...prev, newMsg]);
