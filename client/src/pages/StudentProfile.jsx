@@ -241,7 +241,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
 
   // HÀM HỖ TRỢ PHÂN TÍCH GPA VÀ TÍN CHỈ CHUẨN FPT POLYTECHNIC
   const calculateFptStats = (scores) => {
-    const validScores = (scores || []).filter(s => s.value !== null);
+    const validScores = (scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
     const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
 
     let totalScoreWeight10 = 0;
@@ -262,8 +262,8 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
       }
     });
 
-    const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
-    const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
+    const gpa10 = totalAcademicCredits === 0 ? 0.0 : parseFloat((Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1));
+    const gpa4 = totalAcademicCredits === 0 ? 0.0 : parseFloat((Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2));
 
     return {
       gpa10,
