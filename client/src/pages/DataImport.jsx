@@ -9,6 +9,7 @@ const DataImport = () => {
   const [loading, setLoading] = useState(false);
   const [previewData, setPreviewData] = useState(null);
   const [publishStatus, setPublishStatus] = useState(null); // 'loading', 'success', 'error'
+  const [mssvInput, setMssvInput] = useState("");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -54,6 +55,9 @@ const DataImport = () => {
     
     const formData = new FormData();
     formData.append('file', fileToUpload);
+    if (mssvInput.trim() !== '') {
+      formData.append('mssv', mssvInput.trim());
+    }
 
     try {
       const res = await api.post('/v1/data/preview', formData, {
@@ -122,8 +126,21 @@ const DataImport = () => {
             Hỗ trợ định dạng .xlsx, .xls. Cấu trúc file cần có các cột: <br/>
             <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">mssv</code> 
             <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">course</code>
-            <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">final</code> (hoặc quiz, asm, final)
+            <code className="bg-white dark:bg-blue-900/30 text-[#0F172A] dark:text-blue-300 border border-slate-200 dark:border-transparent px-2.5 py-1 rounded mx-1 mt-2 inline-block font-black shadow-sm">final</code> (hoặc Thang điểm 10)
           </p>
+          
+          <div className="w-full max-w-xs mb-6">
+            <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">MSSV (Tùy chọn)</label>
+            <input 
+              type="text" 
+              placeholder="VD: PH47261" 
+              value={mssvInput}
+              onChange={(e) => setMssvInput(e.target.value)}
+              className="w-full px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+            />
+            <p className="text-xs text-slate-500 mt-1">Dành cho việc upload file bảng điểm cá nhân tải từ FAP (không có cột mssv sẵn).</p>
+          </div>
+          
           
           <input
             ref={fileInputRef}

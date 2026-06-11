@@ -23,16 +23,34 @@ exports.previewData = async (req, res) => {
       return res.status(400).json({ error: 'Không tìm thấy file Excel' });
     }
 
+    // Support default MSSV if provided by client (FPT portal transcripts often lack MSSV column)
+    const defaultMssv = req.body.mssv || null;
+
     // Read the Excel file from buffer
     const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     
-    // Convert to JSON
-    const data = xlsx.utils.sheet_to_json(sheet);
+    // Read raw data as array of arrays to smartly find header row (FPT format has 'Bảng điểm | ...' in row 1)
+    const rawData = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+    if (!rawData || rawData.length === 0) {
+      return res.status(400).json({ error: 'File Excel rỗng' });
+    }
+
+    let headerRowIndex = 0;
+    for (let i = 0; i < Math.min(10, rawData.length); i++) {
+      const rowStrings = rawData[i].map(cell => String(cell).toLowerCase());
+      if (rowStrings.includes('mssv') || rowStrings.includes('course') || rowStrings.includes('mã môn') || rowStrings.includes('môn học') || rowStrings.includes('mã sinh viên')) {
+        headerRowIndex = i;
+        break;
+      }
+    }
+
+    // Convert to JSON using the detected header row
+    const data = xlsx.utils.sheet_to_json(sheet, { range: headerRowIndex });
     
     if (!data || data.length === 0) {
-      return res.status(400).json({ error: 'File Excel rỗng' });
+      return res.status(400).json({ error: 'Không tìm thấy dữ liệu hợp lệ trong file' });
     }
 
     const previewData = [];
@@ -41,23 +59,50 @@ exports.previewData = async (req, res) => {
 
     // Fetch existing courses to validate
     const existingCourses = await prisma.course.findMany({ select: { id: true } });
-    const courseSet = new Set(existingCourses.map(c => c.id));
+    const courseSet = new Set(existingCourses.map(c => c.id.toLowerCase()));
 
     data.forEach((row, index) => {
-      const rowNum = index + 2; // +1 for 0-index, +1 for header
-      const mssv = row.student_code || row.mssv;
-      const course = row.course || row.courseId;
-      const calculatedScore = calculateScore(row);
-      const semester = row.semester || 'SP26'; // Default if not provided
+      const rowNum = index + headerRowIndex + 2; // +1 for 0-index, +1 for header line
+      
+      // Auto-detect columns for flexibility
+      const mssv = row.student_code || row.mssv || row['MSSV'] || row['Mã sinh viên'] || defaultMssv;
+      const rawCourse = row.course || row.courseId || row['Mã môn'] || row['Mã chuyển đổi'] || row['Môn học'];
+      const course = typeof rawCourse === 'string' ? rawCourse.trim().toUpperCase() : rawCourse;
+      const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
+      
+      let calculatedScore = calculateScore(row);
+      // FPT format fallback
+      if (calculatedScore === null) {
+        if (row['Thang điểm 10'] !== undefined && row['Thang điểm 10'] !== '') {
+          calculatedScore = parseFloat(row['Thang điểm 10']);
+        }
+      }
+
+      // Trạng thái parsing
+      let rowStatus = null;
+      const trangThai = row['Trạng thái'] || row['Trạng Thái'] || row.status;
+      if (trangThai) {
+        const t = String(trangThai).toLowerCase().trim();
+        if (t === 'studying' || t === 'đang học') rowStatus = 'STUDYING';
+        else if (t === 'not started' || t === 'chưa học') rowStatus = 'NOT_STARTED';
+        else if (t === 'passed' || t === 'đạt') rowStatus = 'PASSED';
+        else if (t === 'failed' || t === 'trượt') rowStatus = 'FAILED';
+      }
+
+      // If studying or not started, we don't strictly require a score and score should be null
+      if (rowStatus === 'STUDYING' || rowStatus === 'NOT_STARTED') {
+        calculatedScore = null;
+      }
       
       const errors = [];
       
-      if (!mssv) errors.push('Thiếu MSSV');
-      if (!course) errors.push('Thiếu Môn học');
-      else if (!courseSet.has(course)) errors.push(`Môn học ${course} không tồn tại trong hệ thống`);
+      if (!mssv) errors.push('Thiếu MSSV (bạn có thể nhập tay ở ô MSSV)');
+      if (!course) errors.push('Thiếu Mã môn học');
+      else if (!courseSet.has(course.toLowerCase())) errors.push(`Môn học ${course} không tồn tại trong hệ thống`);
       
-      if (calculatedScore === null) errors.push('Thiếu dữ liệu điểm');
-      else if (isNaN(calculatedScore) || calculatedScore < 0 || calculatedScore > 10) {
+      if (calculatedScore === null && rowStatus !== 'STUDYING' && rowStatus !== 'NOT_STARTED') {
+        errors.push('Thiếu dữ liệu điểm');
+      } else if (calculatedScore !== null && (isNaN(calculatedScore) || calculatedScore < 0 || calculatedScore > 10)) {
         errors.push(`Điểm không hợp lệ: ${calculatedScore}`);
       }
 
@@ -65,13 +110,14 @@ exports.previewData = async (req, res) => {
 
       previewData.push({
         _row: rowNum,
-        mssv: mssv || 'N/A',
+        mssv: mssv ? String(mssv).toUpperCase() : 'N/A',
         course: course || 'N/A',
         quiz: row.quiz,
         asm: row.asm,
         final: row.final,
-        score: calculatedScore ? parseFloat(calculatedScore.toFixed(2)) : null,
-        semester,
+        score: calculatedScore !== null && !isNaN(calculatedScore) ? parseFloat(calculatedScore.toFixed(2)) : null,
+        semester: String(semester).trim(),
+        rowStatus,
         errors,
         isValid: errors.length === 0
       });
@@ -136,7 +182,10 @@ exports.publishData = async (req, res) => {
       });
 
       // Insert/Update Score
-      const status = row.score >= 5 ? 'PASSED' : 'FAILED';
+      let status = row.rowStatus;
+      if (!status) {
+        status = row.score >= 5 ? 'PASSED' : 'FAILED';
+      }
       
       // Since MSSV, CourseId, Semester is unique constraint in DB
       const existingScore = await prisma.score.findFirst({
