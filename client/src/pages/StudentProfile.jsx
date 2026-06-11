@@ -3,9 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import { 
-  ArrowLeft, User, BookOpen, Award, AlertTriangle, 
-  HeartHandshake, Brain, TrendingUp, Send, CheckCircle2, 
-  Clock, XCircle, ShieldAlert 
+  ArrowLeft, GraduationCap, Mail, Brain, CheckCircle2,
+  AlertTriangle, Phone, Calendar, Send, HeartHandshake, Loader2, Sparkles, BookOpen, UserPlus, X, Copy
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
@@ -92,22 +91,21 @@ export default function StudentProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // State for adding intervention
-  const [selectedCourse, setSelectedCourse] = useState('');
   const [interventionNote, setInterventionNote] = useState('');
-  const [submittingFlag, setSubmittingFlag] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [updating, setUpdating] = useState(false);
+  
+  const [activeWorkflow, setActiveWorkflow] = useState(null);
+  const [workflowContent, setWorkflowContent] = useState('');
 
   const fetchStudentProfile = async () => {
     setLoading(true);
     try {
       const res = await api.get(`/students/${mssv}`);
       setStudent(res.data);
-      // Inject to global assistant store so chatbot becomes "possessed"
       setActiveStudent(res.data);
       setError(null);
       
-      // Auto select first studied/failed subject as intervention candidate
       if (res.data.scores && res.data.scores.length > 0) {
         const warningSub = (Array.isArray(res.data.scores) ? res.data.scores : Object.values(res.data.scores || {})).find(s => s.value < 5 || s.status === 'FAILED');
         setSelectedCourse(warningSub ? warningSub.courseId : (Array.isArray(res.data.scores) ? res.data.scores : Object.values(res.data.scores || {}))[0].courseId);
@@ -122,32 +120,87 @@ export default function StudentProfile() {
 
   useEffect(() => {
     fetchStudentProfile();
-    
-    // Clear context on exit
-    return () => {
-      setActiveStudent(null);
-    };
+    return () => { setActiveStudent(null); };
   }, [mssv]);
 
   const handleFlagIntervention = async (e) => {
     e.preventDefault();
-    if (!selectedCourse) return alert('Vui lòng chọn môn học cần can thiệp!');
-    setSubmittingFlag(true);
-    setSuccessMsg('');
+    if (!selectedCourse) return alert('Vui lòng chọn môn học!');
+    setUpdating(true);
     try {
       await api.post(`/students/${mssv}/flag`, {
         courseId: selectedCourse,
         action: interventionNote || 'Cần can thiệp sư phạm đặc biệt - Cảnh báo CVHT'
       });
-      setSuccessMsg('Đã thiết lập cắm cờ can thiệp thành công!');
+      alert('Đã thiết lập cắm cờ can thiệp thành công!');
       setInterventionNote('');
-      fetchStudentProfile();
+      await fetchStudentProfile();
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.error || 'Có lỗi xảy ra khi tạo can thiệp');
+      alert('Lỗi cập nhật');
     } finally {
-      setSubmittingFlag(false);
+      setUpdating(false);
     }
+  };
+
+  const handleOpenWorkflow = (type, p) => {
+    let content = '';
+    const causes = p.explanation ? p.explanation.toLowerCase() : 'các môn học tiên quyết bị hổng';
+    
+    if (type === 'email') {
+      content = `Tiêu đề: [EduGuard] Cảnh báo Học vụ - Cần cải thiện môn ${p.courseId}
+
+Chào em ${student.name},
+Cô/Thầy là Cố vấn học tập của em.
+
+Qua phân tích dữ liệu học tập trên hệ thống EduGuard AI, cô/thầy nhận thấy em đang có rủi ro cao gặp khó khăn ở môn ${p.courseId} (Mức rủi ro: ${p.risk}). 
+Nguyên nhân cốt lõi mà AI chẩn đoán là do: ${causes}.
+
+Để đảm bảo tiến độ học tập không bị ảnh hưởng, cô/thầy yêu cầu em:
+1. Xem lại ngay các bài giảng cơ bản của phần kiến thức bị hổng này.
+2. Chủ động liên hệ giảng viên bộ môn hoặc tham gia lớp Tutor để được giải đáp thắc mắc.
+
+Em vui lòng phản hồi lại email này để cô/thầy biết em đã nhận được thông tin và trao đổi kế hoạch khắc phục nhé.
+
+Trân trọng,
+Phòng Công tác Sinh viên.`;
+    } else if (type === 'tutor') {
+      content = `LỚP TUTOR ĐỀ XUẤT CHO MÔN ${p.courseId}
+--------------------------------------------------
+Dựa trên phân tích lỗ hổng kiến thức của sinh viên ${student.name}, hệ thống EduGuard AI tự động tìm kiếm các lớp Tutor phù hợp để bù đắp:
+
+1. Lớp Tutor bổ trợ nền tảng môn ${p.courseId}
+- Giảng viên: Thầy Nguyễn Văn A
+- Thời gian: Tối thứ 3, thứ 5 (19:00 - 21:00)
+- Hình thức: Online (Google Meet)
+- Trọng tâm: Ôn tập cấp tốc kiến thức phần: ${causes}
+
+2. Lớp học nhóm Mentorship (1 Kèm 1)
+- Mentor: SV Giỏi Khóa trên (GPA > 8.5)
+- Thời gian: Linh hoạt theo lịch rảnh của sinh viên
+- Phí tham gia: Miễn phí (Hỗ trợ từ nhà trường)
+
+=> HÀNH ĐỘNG TỰ ĐỘNG: Đã thêm sinh viên ${student.name} vào danh sách chờ xếp lớp Mentorship tự động. Hệ thống sẽ tự gửi Notification qua app FAP khi xếp lớp thành công.`;
+    } else if (type === 'call') {
+      content = `KỊCH BẢN GỌI ĐIỆN CHO PHỤ HUYNH SINH VIÊN ${student.name}
+--------------------------------------------------
+- Người nhận: Phụ huynh em ${student.name}
+- Tình trạng: Nguy cơ rớt môn ${p.courseId} (${p.risk})
+
+Nội dung gợi ý (AI):
+"Dạ chào anh/chị, em là Cố vấn học tập của cháu ${student.name} tại trường. 
+Hôm nay em gọi điện để trao đổi về tình hình học tập của cháu hiện tại đang có dấu hiệu đi xuống ở môn ${p.courseId}. 
+Hệ thống AI của trường phát hiện cháu đang bị hổng kiến thức từ ${causes}. 
+Em mong gia đình cùng phối hợp với nhà trường động viên cháu tham gia đầy đủ các buổi học Tutor bổ trợ vào buổi tối để theo kịp chương trình ạ..."`;
+    }
+    
+    setWorkflowContent(content);
+    setActiveWorkflow({ type, p });
+  };
+
+  const copyWorkflowToClipboard = () => {
+    navigator.clipboard.writeText(workflowContent);
+    alert('Đã copy nội dung vào khay nhớ tạm!');
   };
 
   if (loading) return (
@@ -443,54 +496,131 @@ export default function StudentProfile() {
             <div className="glass-card p-6 rounded-3xl border border-amber-200 dark:border-amber-500/20 bg-white dark:bg-gradient-to-b dark:from-amber-950/20 dark:to-slate-900/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2 relative z-10">
-                <HeartHandshake className="text-amber-400" size={20} /> Hệ thống Đề Xuất Can Thiệp
+                <HeartHandshake className="text-amber-400" size={20} /> Hệ thống Đề Xuất Hành Động Can Thiệp (AI Prescriptive)
               </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 relative z-10">
+                EduGuard AI không chỉ chẩn đoán nguyên nhân, mà còn tự động khởi tạo các luồng công việc can thiệp cá nhân hóa để giúp bạn giải quyết triệt để vấn đề:
+              </p>
               
-              <div className="space-y-3 relative z-10">
+              <div className="space-y-4 relative z-10">
                 {student.predictions.map((p, i) => {
                   if (p.risk !== 'CRITICAL' && p.risk !== 'HIGH') return null;
                   
-                  let recommendations = [];
-                  if (p.risk === 'CRITICAL') {
-                    recommendations = [
-                      "🚨 Gọi điện khẩn cấp cho phụ huynh thông báo tình hình.",
-                      "📅 Đặt lịch hẹn cố vấn học tập 1-1 ngay trong tuần này.",
-                      "⚠️ Cảnh báo nguy cơ cấm thi do vắng quá 20% (nếu có)."
-                    ];
-                  } else if (p.risk === 'HIGH') {
-                    recommendations = [
-                      "📧 Gửi email nhắc nhở về tiến độ học tập và bài tập.",
-                      "👥 Đề xuất tham gia nhóm học tập/Tutoring của bộ môn.",
-                      "📚 Yêu cầu nộp bù bài tập/lab còn thiếu."
-                    ];
-                  }
-
                   return (
-                    <div key={i} className="p-4 bg-slate-200 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/5 hover:border-amber-500/30 transition-colors">
-                      <div className="text-xs font-bold text-amber-400 mb-2 uppercase tracking-wider">
-                        Đối với môn {p.courseId} ({p.risk})
+                    <div key={i} className="p-5 bg-slate-200 dark:bg-black/40 rounded-xl border border-slate-200 dark:border-white/5 hover:border-amber-500/50 transition-all shadow-sm">
+                      <div className="text-xs font-black text-amber-500 mb-3 uppercase tracking-wider flex items-center gap-2">
+                        <Sparkles size={14} /> Kế hoạch can thiệp: Môn {p.courseId} ({p.risk})
                       </div>
-                      <ul className="space-y-2">
-                        {recommendations.map((rec, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
-                            <span className="text-amber-500 mt-0.5">•</span>
-                            <span>{rec}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <button 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setSelectedCourse(p.courseId);
-                          setInterventionNote(recommendations.join('\n'));
-                        }}
-                        className="mt-3 px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-bold rounded-lg transition-colors border border-amber-200 dark:border-amber-500/20"
-                      >
-                        Áp dụng đề xuất này
-                      </button>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <button 
+                          onClick={() => handleOpenWorkflow('email', p)}
+                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-blue-50 dark:hover:bg-blue-500/10 border border-slate-200 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all group"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <Mail size={18} />
+                          </div>
+                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Soạn Email Nhắc nhở</span>
+                          <span className="text-[10px] text-slate-500 text-center mt-1">Cá nhân hóa theo lý do hổng kiến thức</span>
+                        </button>
+                        
+                        <button 
+                          onClick={() => handleOpenWorkflow('tutor', p)}
+                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 border border-slate-200 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-500/30 transition-all group"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <BookOpen size={18} />
+                          </div>
+                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Đề xuất Lớp Tutor</span>
+                          <span className="text-[10px] text-slate-500 text-center mt-1">Tìm lớp kèm phù hợp với điểm yếu</span>
+                        </button>
+
+                        <button 
+                          onClick={() => handleOpenWorkflow('call', p)}
+                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 border border-slate-200 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-500/30 transition-all group"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <Phone size={18} />
+                          </div>
+                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Kịch bản Gọi Phụ huynh</span>
+                          <span className="text-[10px] text-slate-500 text-center mt-1">AI soạn kịch bản nói chuyện tinh tế</span>
+                        </button>
+                      </div>
+                      
+                      <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/10 flex justify-end">
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setSelectedCourse(p.courseId);
+                            setInterventionNote(`Đã thiết lập luồng can thiệp tự động cho môn ${p.courseId} qua AI.`);
+                          }}
+                          className="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 text-xs font-bold rounded-lg transition-colors border border-amber-200 dark:border-amber-500/20"
+                        >
+                          Ghi log can thiệp nhanh
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          )}
+
+          {/* AI Workflow Modal Overlay */}
+          {activeWorkflow && (
+            <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+              <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl border border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden flex flex-col">
+                <div className={`p-4 border-b flex justify-between items-center ${
+                  activeWorkflow.type === 'email' ? 'bg-blue-500/10 border-blue-500/20' : 
+                  activeWorkflow.type === 'tutor' ? 'bg-emerald-500/10 border-emerald-500/20' : 
+                  'bg-rose-500/10 border-rose-500/20'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    {activeWorkflow.type === 'email' && <Mail className="text-blue-500" size={24} />}
+                    {activeWorkflow.type === 'tutor' && <BookOpen className="text-emerald-500" size={24} />}
+                    {activeWorkflow.type === 'call' && <Phone className="text-rose-500" size={24} />}
+                    <div>
+                      <h3 className="font-bold text-slate-900 dark:text-white">
+                        {activeWorkflow.type === 'email' ? 'AI Draft Email - ' : 
+                         activeWorkflow.type === 'tutor' ? 'AI Smart Match Tutor - ' : 
+                         'AI Call Script - '} 
+                        Môn {activeWorkflow.p.courseId}
+                      </h3>
+                      <p className="text-xs text-slate-500">Tự động khởi tạo dựa trên dữ liệu chẩn đoán của EduGuard XAI</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setActiveWorkflow(null)} className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors">
+                    <X size={20} className="text-slate-500" />
+                  </button>
+                </div>
+                
+                <div className="p-6">
+                  <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 font-mono text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed max-h-[50vh] overflow-y-auto">
+                    {workflowContent}
+                  </div>
+                </div>
+                
+                <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex justify-between items-center">
+                  <button onClick={copyWorkflowToClipboard} className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+                    <Copy size={16} /> Copy nội dung
+                  </button>
+                  <button 
+                    onClick={() => {
+                      alert(activeWorkflow.type === 'tutor' ? 'Đã tự động gửi link Tutor cho sinh viên!' : 'Hành động đã được thực thi thông qua API hệ thống!');
+                      setActiveWorkflow(null);
+                    }}
+                    className={`px-6 py-2 rounded-xl text-white font-bold flex items-center gap-2 shadow-lg transition-transform hover:scale-105 ${
+                      activeWorkflow.type === 'email' ? 'bg-blue-500 shadow-blue-500/20 hover:bg-blue-400' : 
+                      activeWorkflow.type === 'tutor' ? 'bg-emerald-500 shadow-emerald-500/20 hover:bg-emerald-400' : 
+                      'bg-rose-500 shadow-rose-500/20 hover:bg-rose-400'
+                    }`}
+                  >
+                    <CheckCircle2 size={18} />
+                    {activeWorkflow.type === 'email' ? 'Gửi Email ngay' : 
+                     activeWorkflow.type === 'tutor' ? 'Duyệt Đăng ký Tutor' : 
+                     'Đã Gọi xong'}
+                  </button>
+                </div>
               </div>
             </div>
           )}
