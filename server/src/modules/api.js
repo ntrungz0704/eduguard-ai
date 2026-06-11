@@ -261,8 +261,8 @@ router.get('/evaluate-model', (req, res) => {
         const model = precomputedModels[target];
         let predicted = null;
         
-        if (model && model.topK.length > 0) {
-          const activeFeatures = model.topK.filter(f => features.includes(f.feature));
+        if (model && model.topFeatures.length > 0) {
+          const activeFeatures = model.topFeatures.filter(f => features.includes(f.feature));
           if (activeFeatures.length > 0) {
             const activeTotalScore = activeFeatures.reduce((sum, f) => sum + f.hybridScore, 0) || 1;
             let predSum = 0;
