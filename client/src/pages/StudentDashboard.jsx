@@ -177,10 +177,9 @@ const calculateFptStats = (scores) => {
 // ─────────────────────────────────────────────
 //  Overview Tab
 // ─────────────────────────────────────────────
-function OverviewTab({ data, curriculumCourses }) {
+function OverviewTab({ data, curriculumCourses, stats }) {
   const predictions = Array.isArray(data?.predictions) ? data.predictions : [];
   
-  const stats = calculateFptStats(curriculumCourses);
   const gpa = stats.gpa10;
   const gpa4 = stats.gpa4;
   const totalEarnedCredits = stats.totalEarnedCredits;
@@ -1568,11 +1567,16 @@ export default function StudentDashboard() {
     predictionMap[p.courseId] = p;
   });
 
+  const usedScoreIds = new Set();
   // Soft-matching helpers to handle suffixes like (TKTW) or - Vovinam
   const findMatchingScore = (currId) => {
-    if (scoreMap[currId]) return scoreMap[currId];
+    if (scoreMap[currId] && !usedScoreIds.has(scoreMap[currId].id || scoreMap[currId].courseId)) {
+      usedScoreIds.add(scoreMap[currId].id || scoreMap[currId].courseId);
+      return scoreMap[currId];
+    }
     const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
-    return studentScores.find(s => {
+    const found = studentScores.find(s => {
+      if (usedScoreIds.has(s.id || s.courseId)) return false;
       const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
       const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
       return (
@@ -1585,6 +1589,8 @@ export default function StudentDashboard() {
         (cleanCurr.includes('dựánmẫu') && (cleanS.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
       );
     });
+    if (found) usedScoreIds.add(found.id || found.courseId);
+    return found;
   };
 
   const findMatchingPrediction = (currId) => {
@@ -1756,7 +1762,7 @@ export default function StudentDashboard() {
       </div>
 
       {/* ── Dynamic Tab Content Render ── */}
-      {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} />}
+      {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} stats={stats} />}
       {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} />}
       {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}
