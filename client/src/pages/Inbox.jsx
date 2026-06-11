@@ -159,7 +159,7 @@ export default function Inbox() {
             <MessageSquare size={18} className="text-[#1D4ED8]" /> Hộp thư Inbox
           </h2>
           {currentUser.role !== 'STUDENT' && (
-            <div className="flex bg-slate-100 dark:bg-black/40 p-1 rounded-lg border border-slate-200 dark:border-transparent">
+            <div className="flex bg-slate-100 dark:bg-black/40 p-1 rounded-lg border border-slate-200 dark:border-transparent mb-3">
               <button 
                 onClick={() => handleTabSelect('all')}
                 className={`flex-1 text-[10px] font-black py-1.5 rounded-md transition-all ${filterTab === 'all' ? 'bg-white text-[#1D4ED8] dark:bg-white/10 dark:text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'}`}
@@ -178,6 +178,30 @@ export default function Inbox() {
               >
                 Đã theo dõi
               </button>
+            </div>
+          )}
+          {currentUser.role !== 'STUDENT' && (
+            <div className="relative">
+              <input 
+                type="text" 
+                placeholder="Tìm kiếm MSSV để nhắn tin..."
+                className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-sm px-3 py-2 rounded-lg text-slate-800 dark:text-white font-semibold outline-none focus:border-blue-500"
+                onChange={(e) => {
+                  const val = e.target.value.trim().toUpperCase();
+                  if(val.length >= 5) {
+                    if (!conversations.find(c => c.partnerId.toUpperCase() === val)) {
+                      setConversations(prev => [{
+                        partnerId: val,
+                        partnerName: `Sinh viên ${val}`,
+                        lastMessage: '',
+                        lastMessageAt: new Date().toISOString(),
+                        unreadCount: 0,
+                        messages: []
+                      }, ...prev]);
+                    }
+                  }
+                }}
+              />
             </div>
           )}
         </div>
