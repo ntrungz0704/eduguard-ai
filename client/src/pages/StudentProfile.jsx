@@ -232,7 +232,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
           <AlertTriangle className="text-rose-500" /> Lỗi Hồ Sơ
         </h3>
         <p className="mb-6">{error}</p>
-        <button onClick={() => navigate('/predict')} className="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+        <button onClick={() => navigate('/dashboard')} className="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
           <ArrowLeft size={16} /> Quay lại danh sách
         </button>
       </div>
@@ -294,7 +294,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     <div className="space-y-8 animate-fade-in pb-16">
       {/* Back navigation */}
       <div className="flex items-center justify-between">
-        <button onClick={() => navigate('/predict')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all">
+        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all">
           <ArrowLeft size={18} /> Quay lại danh sách
         </button>
         <div className="flex items-center gap-3">

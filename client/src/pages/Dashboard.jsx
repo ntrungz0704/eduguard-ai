@@ -73,7 +73,7 @@ export default function Dashboard() {
   const handleChat = (alert, e) => {
     e.stopPropagation();
     setActiveStudent({ id: alert.mssv, name: alert.name, classCode: alert.classCode });
-    navigate('/chat');
+    navigate(`/inbox?mssv=${alert.mssv}`);
   };
 
   const handleOpenRoadmap = (alert, e) => {

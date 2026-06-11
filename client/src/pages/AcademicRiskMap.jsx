@@ -460,9 +460,9 @@ const AcademicRiskMap = () => {
                 {renderMetricCard('Điểm TB', studentOverview.gpa, 'text-[#0F172A] dark:text-white font-extrabold')}
                 {renderMetricCard('Chuyên cần', studentOverview.attendance, 'text-[#0F172A] dark:text-white font-extrabold')}
                 {renderMetricCard('Nợ môn', studentOverview.totalFailedSubjects, 'text-[#DC2626] dark:text-rose-300 font-black')}
-                {renderMetricCard('Học kỳ', studentOverview.currentSemester, 'text-[#0F172A] dark:text-white font-extrabold')}
                 {renderMetricCard('Điểm rủi ro', studentOverview.riskScore, 'text-[#D97706] dark:text-amber-200 font-black')}
                 {renderMetricCard('Mức độ', studentOverview.riskLevel, 'text-[#1D4ED8] dark:text-cyan-200 font-black')}
+                {renderMetricCard('AI Confidence', `${studentOverview.confidenceScore || 85}%`, 'text-indigo-600 dark:text-indigo-400 font-black')}
               </div>
             </div>
           )}

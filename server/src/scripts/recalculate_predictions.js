@@ -31,6 +31,30 @@ async function recalculateAllPredictions() {
     const students = await prisma.student.findMany({ include: { scores: true } });
     console.log(`Tìm thấy ${students.length} sinh viên trong Database.`);
     
+    const dbCourses = await prisma.course.findMany();
+    
+    const getCourseId = (name) => {
+        const exact = dbCourses.find(c => c.name === name);
+        if (exact) return exact.id;
+        const lower = dbCourses.find(c => c.name.toLowerCase() === name.toLowerCase());
+        if (lower) return lower.id;
+        if (name === "Thiết kế Web với HTML5 & CSS3") return "WEB3023";
+        if (name === "Dự án tốt nghiệp") return "PRO2201";
+        return null;
+    };
+
+    const getTrainingName = (id) => {
+        const c = dbCourses.find(x => x.id === id);
+        if (!c) return null;
+        const exact = trainingData.subjects.find(s => s === c.name);
+        if (exact) return exact;
+        const lower = trainingData.subjects.find(s => s.toLowerCase() === c.name.toLowerCase());
+        if (lower) return lower;
+        if (id === 'WEB3023') return 'Thiết kế Web với HTML5 & CSS3';
+        if (id === 'PRO2201') return 'Dự án tốt nghiệp';
+        return c.name;
+    };
+
     let count = 0;
 
     for (const student of students) {
@@ -38,11 +62,18 @@ async function recalculateAllPredictions() {
         const scoresMap = {};
         student.scores.forEach(s => {
             scoresMap[s.courseId] = s.value;
+            const tName = getTrainingName(s.courseId);
+            if (tName) scoresMap[tName] = s.value;
         });
 
         for (const target of Object.keys(modelCache)) {
+            const courseId = getCourseId(target);
+            if (!courseId) {
+                console.warn(`Không tìm thấy Course ID cho môn: ${target}`);
+                continue;
+            }
             // Predict if they haven't learned it
-            if (scoresMap[target] == null) {
+            if (scoresMap[target] == null && scoresMap[courseId] == null) {
                 const cachedModel = modelCache[target];
                 if (!cachedModel || !cachedModel.topFeatures) continue;
                 
@@ -79,7 +110,30 @@ async function recalculateAllPredictions() {
                     });
                 }
 
-                if (predicted == null) continue;
+                if (predicted == null) {
+                    const otherScores = Object.values(scoresMap).filter(v => v !== null && typeof v === 'number');
+                    if (otherScores.length > 0) {
+                        const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
+                        predicted = Math.round(avgOther * 10) / 10;
+                        reasons = [{
+                            subject: 'Trung bình môn học khác',
+                            score: predicted,
+                            r: 0.4,
+                            impact: predicted < 5 ? 'negative' : 'positive',
+                            explanation: `Dự báo dựa trên điểm trung bình các môn khác (${predicted}đ)`
+                        }];
+                    } else {
+                        const trainAvg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 7.2;
+                        predicted = Math.round(trainAvg * 10) / 10;
+                        reasons = [{
+                            subject: 'Trung bình môn học',
+                            score: predicted,
+                            r: 0.1,
+                            impact: 'neutral',
+                            explanation: `Dự báo dựa trên điểm trung bình môn của khóa trước (${predicted}đ)`
+                        }];
+                    }
+                }
 
                 // Cascading Risk
                 const prereqs = ACADEMIC_PREREQUISITES[target] || [];
@@ -114,9 +168,9 @@ async function recalculateAllPredictions() {
                 const risk = predicted < 5 ? 'HIGH' : predicted < 6.5 ? 'MEDIUM' : 'LOW';
 
                 await prisma.prediction.upsert({
-                    where: { mssv_courseId: { mssv, courseId: target } },
+                    where: { mssv_courseId: { mssv, courseId: courseId } },
                     update: { predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) },
-                    create: { mssv, courseId: target, predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) }
+                    create: { mssv, courseId: courseId, predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) }
                 });
                 count++;
             }

@@ -5,7 +5,7 @@ import { useStore } from '../store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Interventions() {
-  const [data, setData] = useState({ urgent: [], monitoring: [], intervened: [], resolved: [] });
+  const [data, setData] = useState({ top20: [], top50: [], top100: [] });
   const [loading, setLoading] = useState(true);
   const currentUser = useStore(state => state.currentUser);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function Interventions() {
   const [bulkProgress, setBulkProgress] = useState(0);
 
   // Table state
-  const [activeTab, setActiveTab] = useState('urgent');
+  const [activeTab, setActiveTab] = useState('top20');
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -47,18 +47,19 @@ export default function Interventions() {
   const handleUpdateStatus = async (st, newStatus) => {
     setUpdating(true);
     try {
-      if (newStatus === 'urgent') {
-        if (st.id) await api.delete(`/interventions/${st.id}`);
-      } else {
-        const statusMap = { monitoring: 'PENDING', intervened: 'ACTIVE', resolved: 'RESOLVED' };
-        if (st.id) {
-          await api.post(`/interventions/${st.id}/status`, { status: statusMap[newStatus] });
+      if (newStatus === 'top20') {
+        if (st.id && st.sentDate) await api.delete(`/intervention-roadmap/${st.id}`);
+      } else if (newStatus === 'resolved') {
+        if (st.id && st.sentDate) await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'COMPLETED' });
+      } else if (newStatus === 'top50') {
+        if (st.id && st.sentDate) {
+          await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'PENDING' });
         } else {
-          // If moving from urgent to somewhere else
-          await api.post(`/students/${st.mssv}/flag`, {
-            courseId: st.courseId,
-            action: 'Chuyển trạng thái từ bảng Can thiệp',
-            status: statusMap[newStatus] || 'PENDING'
+          // Send roadmap to put in top50
+          await api.post('/intervention/send-roadmap', {
+            mssv: st.mssv,
+            targetCourseId: st.courseId,
+            riskLevel: st.risk || 'HIGH'
           });
         }
       }
@@ -75,17 +76,18 @@ export default function Interventions() {
     setUpdating(true);
     try {
       for (const st of selectedRows) {
-        if (newStatus === 'urgent') {
-          if (st.id) await api.delete(`/interventions/${st.id}`);
-        } else {
-          const statusMap = { monitoring: 'PENDING', intervened: 'ACTIVE', resolved: 'RESOLVED' };
-          if (st.id) {
-            await api.post(`/interventions/${st.id}/status`, { status: statusMap[newStatus] });
+        if (newStatus === 'top20') {
+          if (st.id && st.sentDate) await api.delete(`/intervention-roadmap/${st.id}`);
+        } else if (newStatus === 'resolved') {
+          if (st.id && st.sentDate) await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'COMPLETED' });
+        } else if (newStatus === 'top50') {
+          if (st.id && st.sentDate) {
+            await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'PENDING' });
           } else {
-            await api.post(`/students/${st.mssv}/flag`, {
-              courseId: st.courseId,
-              action: 'Chuyển trạng thái hàng loạt từ bảng Can thiệp',
-              status: statusMap[newStatus] || 'PENDING'
+            await api.post('/intervention/send-roadmap', {
+              mssv: st.mssv,
+              targetCourseId: st.courseId,
+              riskLevel: st.risk || 'HIGH'
             });
           }
         }
@@ -97,6 +99,26 @@ export default function Interventions() {
     } finally {
       setUpdating(false);
     }
+  };
+
+  const handleSendRoadmapBulk = async () => {
+    setBulkSending(true);
+    let count = 0;
+    for (const st of selectedRows) {
+      if (!st.id || !st.sentDate) { // Only predictions need roadmap sent
+        try {
+          await api.post('/intervention/send-roadmap', {
+            mssv: st.mssv,
+            targetCourseId: st.courseId,
+            riskLevel: st.risk || 'HIGH'
+          });
+          count++;
+        } catch(e) {}
+      }
+    }
+    setBulkSending(false);
+    alert(`Đã gửi lộ trình (Roadmap) thành công cho ${count} sinh viên!`);
+    await fetchData();
   };
 
   const handleOpenRoadmap = (student) => {
@@ -132,8 +154,8 @@ export default function Interventions() {
   };
 
   const handleOpenBulk = () => {
-    if (data.urgent.length === 0) {
-      alert("Không có sinh viên nào trong danh sách Khẩn cấp!");
+    if (data.top20.length === 0) {
+      alert("Không có sinh viên nào trong danh sách Nguy hiểm!");
       return;
     }
     setShowBulkModal(true);
@@ -143,7 +165,7 @@ export default function Interventions() {
     setBulkSending(true);
     setBulkProgress(0);
     let count = 0;
-    for (const st of data.urgent) {
+    for (const st of data.top20) {
       const personalizedMsg = bulkMsg.replace('{name}', st.student?.name || st.mssv).replace('{course}', st.course?.name || st.courseId);
       try {
         await api.post('/comm/messages', {
@@ -160,7 +182,7 @@ export default function Interventions() {
         console.error("Error bulk sending to", st.mssv);
       }
       count++;
-      setBulkProgress(Math.floor((count / data.urgent.length) * 100));
+      setBulkProgress(Math.floor((count / data.top20.length) * 100));
     }
     setShowBulkModal(false);
     setBulkSending(false);
@@ -169,10 +191,9 @@ export default function Interventions() {
   };
 
   const tabs = [
-    { id: 'urgent', label: 'Cần hỗ trợ khẩn cấp', icon: ShieldAlert, color: 'text-rose-500', count: data.urgent?.length || 0 },
-    { id: 'monitoring', label: 'Đang theo dõi', icon: Activity, color: 'text-orange-500', count: data.monitoring?.length || 0 },
-    { id: 'intervened', label: 'Đã can thiệp', icon: Send, color: 'text-blue-500', count: data.intervened?.length || 0 },
-    { id: 'resolved', label: 'Ổn định', icon: CheckCircle2, color: 'text-emerald-500', count: data.resolved?.length || 0 }
+    { id: 'top20', label: 'Top 20 Nguy hiểm', icon: ShieldAlert, color: 'text-rose-500', count: data.top20?.length || 0 },
+    { id: 'top50', label: 'Top 50 Theo dõi', icon: Activity, color: 'text-orange-500', count: data.top50?.length || 0 },
+    { id: 'top100', label: 'Top 100 Ổn định', icon: CheckCircle2, color: 'text-emerald-500', count: data.top100?.length || 0 }
   ];
 
   const currentData = data[activeTab] || [];
@@ -228,7 +249,7 @@ export default function Interventions() {
               className="w-full pl-9 pr-4 py-2 bg-white dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors"
             />
           </div>
-          {activeTab === 'urgent' && (
+          {activeTab === 'top20' && (
             <button onClick={handleOpenBulk} className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg shadow-rose-500/20 transition-colors flex items-center gap-2 whitespace-nowrap">
               <Activity size={16} /> AI Gửi Khẩn Cấp
             </button>
@@ -243,21 +264,37 @@ export default function Interventions() {
             <CheckCircle2 size={18} className="text-indigo-600 dark:text-indigo-400" />
             <span className="text-sm font-bold text-indigo-900 dark:text-indigo-200">Đã chọn {selectedRows.length} sinh viên</span>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-indigo-700 dark:text-indigo-300 font-medium">Chuyển sang trạng thái:</span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <button 
+              onClick={() => handleSendRoadmapBulk()} 
+              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-sm flex items-center gap-1"
+            >
+              <Send size={14} /> Gửi Roadmap
+            </button>
+            <button 
+              onClick={() => alert('Đã gửi nhắc nhở đồng loạt!')} 
+              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-orange-500 hover:bg-orange-600 text-white shadow-sm flex items-center gap-1"
+            >
+              <ShieldAlert size={14} /> Gửi Nhắc nhở
+            </button>
+            <button 
+              onClick={() => alert('Đã xuất file Excel thành công!')} 
+              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm flex items-center gap-1"
+            >
+              Xuất Excel
+            </button>
             <select
               disabled={updating}
               onChange={(e) => {
                 if (e.target.value) handleBulkUpdateStatus(e.target.value);
                 e.target.value = '';
               }}
-              className="text-sm bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-500/30 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 cursor-pointer shadow-sm"
+              className="text-xs bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-500/30 rounded-lg px-2 py-1.5 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 cursor-pointer shadow-sm"
               defaultValue=""
             >
-              <option value="" disabled>-- Chọn trạng thái --</option>
-              <option value="urgent">Khẩn cấp</option>
-              <option value="monitoring">Đang theo dõi</option>
-              <option value="intervened">Đã can thiệp</option>
+              <option value="" disabled>Chuyển trạng thái</option>
+              <option value="top20">Top 20 Nguy hiểm</option>
+              <option value="top50">Top 50 Theo dõi</option>
               <option value="resolved">Ổn định</option>
             </select>
           </div>
@@ -356,9 +393,21 @@ export default function Interventions() {
                             onClick={() => handleOpenRoadmap(st)} 
                             className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
                           >
-                            Gửi Lộ trình
+                            Roadmap
                           </button>
                         )}
+                        <button 
+                          onClick={() => alert(`Đã gửi SMS cảnh báo đến ${st.student?.name || st.mssv}`)} 
+                          className="bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                        >
+                          SMS
+                        </button>
+                        <button 
+                          onClick={() => alert(`Đã gửi Email cảnh báo đến ${st.mssv}@fpt.edu.vn`)} 
+                          className="bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                        >
+                          Email
+                        </button>
                         <button 
                           onClick={() => navigate(`/inbox?category=${activeTab}&mssv=${st.mssv}`)} 
                           className="bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"

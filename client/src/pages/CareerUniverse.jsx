@@ -12,7 +12,7 @@ const ECOSYSTEM = {
   'Web Development': {
     title: 'Web Development 🌐',
     desc: 'Lập trình toàn diện từ giao diện người dùng (Frontend) đến logic máy chủ và cơ sở dữ liệu (Backend)',
-    careers: ['Frontend Developer', 'React Developer', 'Next.js Developer', 'Backend Developer', 'Node.js Developer', 'Full Stack Developer', 'Software Engineer', 'UI Engineer'],
+    careers: ['Frontend Developer', 'Backend Developer', 'Fullstack Developer'],
     gradient: 'from-blue-500/10 to-cyan-500/10',
     border: 'border-blue-500/20',
     text: 'text-blue-500',
@@ -21,56 +21,56 @@ const ECOSYSTEM = {
   'Mobile Development': {
     title: 'Mobile Development 📱',
     desc: 'Phát triển ứng dụng di động đa nền tảng và native hiệu năng cao',
-    careers: ['Flutter Developer', 'React Native Developer'],
+    careers: ['Mobile App Developer'],
     gradient: 'from-pink-500/10 to-rose-500/10',
     border: 'border-pink-500/20',
     text: 'text-pink-500',
     icon: <Smartphone size={16} />
   },
-  'QA & Testing': {
-    title: 'QA & Testing 🧪',
-    desc: 'Kiểm thử chất lượng phần mềm, đảm bảo độ tin cậy và tự động hóa quy trình test',
-    careers: ['QA Automation Engineer'],
-    gradient: 'from-amber-500/10 to-orange-500/10',
-    border: 'border-amber-500/20',
-    text: 'text-amber-500',
-    icon: <TestTube2 size={16} />
-  },
-  'Cloud & DevOps': {
-    title: 'Cloud & DevOps ☁️',
-    desc: 'Thiết kế, triển khai hạ tầng đám mây và tự động hóa quy trình phát hành phần mềm (CI/CD)',
-    careers: ['DevOps Engineer', 'Cloud Engineer'],
-    gradient: 'from-sky-500/10 to-indigo-500/10',
-    border: 'border-sky-500/20',
-    text: 'text-sky-500',
-    icon: <Cloud size={16} />
-  },
-  'AI & Emerging': {
-    title: 'AI & Emerging Tech 🤖',
-    desc: 'Tích hợp mô hình ngôn ngữ lớn (LLMs), RAG, Prompt Engineering và AI Agents',
-    careers: ['AI Frontend Engineer', 'AI Fullstack Engineer', 'Prompt Engineer'],
+  'Data & AI': {
+    title: 'Data & AI 🧠',
+    desc: 'Khai phá dữ liệu và xây dựng trí tuệ nhân tạo',
+    careers: ['Data Analyst', 'Data Engineer', 'Data Scientist', 'AI/ML Engineer'],
     gradient: 'from-violet-500/10 to-fuchsia-500/10',
     border: 'border-violet-500/20',
     text: 'text-violet-500',
     icon: <Bot size={16} />
   },
-  'Architecture': {
-    title: 'Software Architecture 🏛️',
-    desc: 'Thiết kế kiến trúc hệ thống lớn, tối ưu hóa khả năng mở rộng, chịu tải và bảo mật',
-    careers: ['Software Architect'],
-    gradient: 'from-purple-500/10 to-indigo-500/10',
-    border: 'border-purple-500/20',
-    text: 'text-purple-500',
-    icon: <Layers size={16} />
+  'Cloud & DevOps': {
+    title: 'Cloud & Infrastructure ☁️',
+    desc: 'Thiết kế, triển khai hạ tầng đám mây và mạng',
+    careers: ['DevOps Engineer', 'Cloud Architect', 'System Administrator', 'Network Engineer'],
+    gradient: 'from-sky-500/10 to-indigo-500/10',
+    border: 'border-sky-500/20',
+    text: 'text-sky-500',
+    icon: <Cloud size={16} />
   },
-  'Support': {
-    title: 'Solutions & Support 🛠️',
-    desc: 'Cầu nối kỹ thuật doanh nghiệp, tư vấn giải pháp hạ tầng và tích hợp hệ thống',
-    careers: ['Solutions Engineer'],
-    gradient: 'from-slate-500/10 to-zinc-500/10',
-    border: 'border-slate-500/20',
-    text: 'text-slate-500',
-    icon: <Briefcase size={16} />
+  'QA & Testing': {
+    title: 'QA & Testing 🧪',
+    desc: 'Kiểm thử chất lượng phần mềm, đảm bảo độ tin cậy và tự động hóa quy trình test',
+    careers: ['QA/Tester (Manual & Automation)'],
+    gradient: 'from-amber-500/10 to-orange-500/10',
+    border: 'border-amber-500/20',
+    text: 'text-amber-500',
+    icon: <TestTube2 size={16} />
+  },
+  'UI/UX & Product': {
+    title: 'Design & Product 🎨',
+    desc: 'Thiết kế giao diện và quản lý sản phẩm phần mềm',
+    careers: ['UI/UX Designer', 'Product Manager', 'Business Analyst (BA)'],
+    gradient: 'from-emerald-500/10 to-teal-500/10',
+    border: 'border-emerald-500/20',
+    text: 'text-emerald-500',
+    icon: <Palette size={16} />
+  },
+  'Cybersecurity & Gaming': {
+    title: 'Cybersecurity & Gaming 🎮',
+    desc: 'Bảo mật hệ thống và phát triển trò chơi',
+    careers: ['Cybersecurity Analyst', 'Game Developer'],
+    gradient: 'from-rose-500/10 to-red-500/10',
+    border: 'border-rose-500/20',
+    text: 'text-rose-500',
+    icon: <Sparkles size={16} />
   }
 };
 

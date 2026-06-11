@@ -52,7 +52,7 @@ class AcademicGraphEngine {
     const weakSkills = course.core_skills || [];
 
     // 2. Skills -> Career Requirements (Tìm điểm giao nhau)
-    const careerReqs = [...(careerData.coreSkills || []), ...(careerData.advancedSkills || [])].map(s => s.toLowerCase());
+    const careerReqs = [...(careerData.skills || []), ...(careerData.subSkills || [])].map(s => s.toLowerCase());
     
     const blockedSkills = weakSkills.filter(skill => 
       careerReqs.some(req => req.includes(skill.toLowerCase()) || skill.toLowerCase().includes(req))

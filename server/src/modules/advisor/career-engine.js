@@ -328,6 +328,20 @@ exports.analyzeCareer = (student, careerGoal) => {
 
   const progressPercent = maxAcademicWeight > 0 ? Math.round((passedAcademicWeight / maxAcademicWeight) * 100) : 0;
 
+  const subjectDependencies = knowledgeCache.get('subjectDependencies') || [];
+  const dynamicRoadmap = missingCourses.map(c => {
+    const missingSkillsForCourse = c.skills.filter(s => !isAcquired(s));
+    const affects = subjectDependencies
+      .filter(dep => dep.prerequisites.includes(c.courseId) || dep.prerequisites.includes(c.courseName))
+      .map(dep => dep.target);
+    return {
+      courseCode: c.courseId,
+      courseName: c.courseName,
+      missingSkills: missingSkillsForCourse,
+      affects: affects
+    };
+  });
+
   return {
     mode,
     careerGoal: industryData.careerName || careerGoal,
@@ -362,7 +376,8 @@ exports.analyzeCareer = (student, careerGoal) => {
       salaryRange: industryData.salaryRange,
       marketDemand: industryData.marketDemand,
       futureTrend: industryData.futureTrend
-    }
+    },
+    roadmap: dynamicRoadmap
   };
 };
 

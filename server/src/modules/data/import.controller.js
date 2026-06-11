@@ -66,7 +66,7 @@ exports.previewData = async (req, res) => {
       
       // Auto-detect columns for flexibility
       const mssv = row.student_code || row.mssv || row['MSSV'] || row['Mã sinh viên'] || defaultMssv;
-      const rawCourse = row.course || row.courseId || row['Mã môn'] || row['Mã chuyển đổi'] || row['Môn học'];
+      const rawCourse = row.course || row.courseId || row['Mã chuyển đổi'] || row['Mã môn'] || row['Môn học'];
       const course = typeof rawCourse === 'string' ? rawCourse.trim().toUpperCase() : rawCourse;
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
@@ -98,7 +98,6 @@ exports.previewData = async (req, res) => {
       
       if (!mssv) errors.push('Thiếu MSSV (bạn có thể nhập tay ở ô MSSV)');
       if (!course) errors.push('Thiếu Mã môn học');
-      else if (!courseSet.has(course.toLowerCase())) errors.push(`Môn học ${course} không tồn tại trong hệ thống`);
       
       if (calculatedScore === null && rowStatus !== 'STUDYING' && rowStatus !== 'NOT_STARTED') {
         errors.push('Thiếu dữ liệu điểm');
@@ -178,6 +177,17 @@ exports.publishData = async (req, res) => {
           mssv: row.mssv,
           name: `Sinh viên ${row.mssv}`,
           classCode: classCode || 'UNKNOWN'
+        }
+      });
+
+      // Automatically create course if not exists
+      await prisma.course.upsert({
+        where: { id: row.course },
+        update: {},
+        create: {
+          id: row.course,
+          name: row.course,
+          credits: 3
         }
       });
 

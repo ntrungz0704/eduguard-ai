@@ -1678,13 +1678,17 @@ router.post('/chat', async (req, res) => {
     res.status(500).json({ error: 'Lỗi xử lý AI: ' + err.message });
   }
 });
-
-
-
-
-
-
-
+// ============================================================
+// API: Academic Graph
+// ============================================================
+router.get('/academic-graph', (req, res) => {
+  try {
+    const { academicGraph } = require('./knowledge/academicGraph');
+    res.json(academicGraph);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // ============================================================
 // API: Get detailed profile of a single student by MSSV
@@ -1810,27 +1814,26 @@ router.post('/students/:mssv/flag', async (req, res) => {
 });
 
 // ============================================================
-// API: Get Intervention Management lists
+// API: Get Intervention Management lists (Smart Queue)
 // ============================================================
 router.get('/interventions-management', async (req, res) => {
   try {
-    const interventions = await prisma.intervention.findMany({
+    // 1. Lấy danh sách InterventionRoadmap đã tạo
+    const roadmaps = await prisma.interventionRoadmap.findMany({
       include: {
-        student: { include: { scores: true } },
-        course: true
+        student: { include: { scores: true } }
       },
-      orderBy: { updatedAt: 'desc' }
+      orderBy: { sentDate: 'desc' }
     });
 
-    const monitoring = interventions.filter(i => i.status === 'PENDING');
-    const intervened = interventions.filter(i => i.status === 'ACTIVE');
-    const resolved = interventions.filter(i => i.status === 'RESOLVED');
+    const monitoringRoadmaps = roadmaps.filter(r => r.status === 'PENDING' || r.status === 'OPENED' || r.status === 'IN_PROGRESS');
+    const resolvedRoadmaps = roadmaps.filter(r => r.status === 'COMPLETED');
 
-    const allInterventionMssvSet = new Set(interventions.map(i => i.mssv + '_' + i.courseId));
+    const roadmapStudentSet = new Set(roadmaps.map(r => r.studentId + '_' + r.targetCourseId));
 
-    // 2. Lấy danh sách có nguy cơ nhưng CHƯA ĐƯỢC CAN THIỆP (HIGH & MEDIUM)
+    // 2. Lấy sinh viên có nguy cơ nhưng chưa có roadmap
     const dbPredictions = await prisma.prediction.findMany({
-      where: { risk: { in: ['HIGH', 'MEDIUM'] } },
+      where: { risk: { in: ['HIGH', 'CRITICAL', 'MEDIUM'] } },
       include: {
         student: { include: { scores: true } },
         course: true
@@ -1838,45 +1841,54 @@ router.get('/interventions-management', async (req, res) => {
       orderBy: { predictedScore: 'asc' }
     });
 
-    const urgent = [];
+    const urgentList = [];
     for (const pred of dbPredictions) {
       const key = pred.mssv + '_' + pred.courseId;
-      if (!allInterventionMssvSet.has(key)) {
-        urgent.push(pred);
+      if (!roadmapStudentSet.has(key)) {
+        urgentList.push(pred);
       }
     }
 
-    res.json({ urgent, monitoring, intervened, resolved });
+    // Top 20 Nguy hiểm (Urgent)
+    const top20 = urgentList.slice(0, 20);
+    
+    // Top 50 Theo dõi (Monitoring)
+    const top50 = monitoringRoadmaps.slice(0, 50);
+
+    // Top 100 Ổn định (Resolved/Completed)
+    const top100 = resolvedRoadmaps.slice(0, 100);
+
+    res.json({ top20, top50, top100 });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // ============================================================
-// API: Update Intervention Status
+// API: Update InterventionRoadmap Status
 // ============================================================
-router.post('/interventions/:id/status', async (req, res) => {
+router.post('/intervention-roadmap/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    const intervention = await prisma.intervention.update({
-      where: { id: parseInt(id) },
+    const interventionRoadmap = await prisma.interventionRoadmap.update({
+      where: { id: id },
       data: { status }
     });
-    res.json({ success: true, intervention });
+    res.json({ success: true, interventionRoadmap });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // ============================================================
-// API: Delete Intervention
+// API: Delete InterventionRoadmap
 // ============================================================
-router.delete('/interventions/:id', async (req, res) => {
+router.delete('/intervention-roadmap/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.intervention.delete({
-      where: { id: parseInt(id) }
+    await prisma.interventionRoadmap.delete({
+      where: { id: id }
     });
     res.json({ success: true });
   } catch (err) {
@@ -1926,27 +1938,58 @@ router.post('/students/update-score', async (req, res) => {
     // Trigger dynamic prediction recalibration for this student
     try {
       // Get the student's scores to recalculate risk predictions
-      const studentScores = await prisma.score.findMany({
-        where: { mssv }
+      const studentAfterUpdate = await prisma.student.findUnique({
+        where: { mssv },
+        include: { scores: true }
       });
 
-      // Construct clean score maps
+      const trainingData = cache.trainingData;
+      const getTrainingName = (id) => {
+          const dbCoursesLocal = cache.courses || []; 
+          const c = dbCoursesLocal.find(x => x.courseCode === id);
+          if (!c) return null;
+          const exact = trainingData.subjects.find(s => s === c.courseName);
+          if (exact) return exact;
+          const lower = trainingData.subjects.find(s => s.toLowerCase() === c.courseName.toLowerCase());
+          if (lower) return lower;
+          if (id === 'WEB3023') return 'Thiết kế Web với HTML5 & CSS3';
+          if (id === 'PRO2201') return 'Dự án tốt nghiệp';
+          return c.courseName;
+      };
+
+      // Convert scores back to simple map for prediction
       const scoresMap = {};
-      studentScores.forEach(s => {
+      studentAfterUpdate.scores.forEach(s => {
         scoresMap[s.courseId] = s.value;
+        const cName = getTrainingName(s.courseId);
+        if (cName) scoresMap[cName] = s.value;
       });
 
       // Recalculate linear regression forecast for each predicted subject
       const subjects = cache.trainingData.subjects || [];
+      const dbCourses = await prisma.course.findMany();
+      const getCourseId = (name) => {
+        const exact = dbCourses.find(c => c.name === name);
+        if (exact) return exact.id;
+        const lower = dbCourses.find(c => c.name.toLowerCase() === name.toLowerCase());
+        if (lower) return lower.id;
+        if (name === "Thiết kế Web với HTML5 & CSS3") return "WEB3023";
+        if (name === "Dự án tốt nghiệp") return "PRO2201";
+        return null;
+      };
+
       for (const course of subjects) {
-        if (scoresMap[course] === undefined) {
+        const cId = getCourseId(course);
+        if (!cId) continue;
+        
+        if (scoresMap[course] === undefined && scoresMap[cId] === undefined) {
           const predObj = weightedPrediction({ scores: scoresMap }, course, cache.modelCache);
           if (predObj) {
             await prisma.prediction.upsert({
               where: {
                 mssv_courseId: {
                   mssv,
-                  courseId: course
+                  courseId: cId
                 }
               },
               update: {
@@ -1958,7 +2001,7 @@ router.post('/students/update-score', async (req, res) => {
               },
               create: {
                 mssv,
-                courseId: course,
+                courseId: cId,
                 predictedScore: predObj.predictedScore,
                 risk: predObj.risk,
                 confidence: 0.85,
@@ -1984,6 +2027,33 @@ router.post('/students/update-score', async (req, res) => {
   }
 });
 
+
+// ============================================================
+// API: Intervention Roadmap
+// ============================================================
+router.post('/intervention/send-roadmap', async (req, res) => {
+  try {
+    const { mssv, targetCourseId, riskLevel } = req.body;
+    if (!mssv || !targetCourseId) {
+      return res.status(400).json({ error: 'Thiếu mssv hoặc targetCourseId' });
+    }
+
+    const { fetchStudentByMssv } = require('../../src/repositories/studentRepository');
+    const studentData = await fetchStudentByMssv(mssv);
+    
+    if (!studentData) {
+      return res.status(404).json({ error: 'Không tìm thấy sinh viên' });
+    }
+
+    const { sendAutomatedRoadmap } = require('./intervention/interventionEngine');
+    const result = await sendAutomatedRoadmap(mssv, targetCourseId, riskLevel || 'HIGH', studentData);
+
+    res.json(result);
+  } catch (e) {
+    console.error('[API] Lỗi khi gửi lộ trình can thiệp:', e);
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // ============================================================
 // API: Pearson Correlation Matrix across all curriculum subjects

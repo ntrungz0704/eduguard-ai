@@ -13,6 +13,7 @@ export default function Inbox() {
   const [activePartnerName, setActivePartnerName] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [availableAdvisors, setAvailableAdvisors] = useState([]);
   
   const [filterTab, setFilterTab] = useState(searchParams.get('category') || 'all'); // 'all', 'urgent', 'resolved'
   
@@ -32,8 +33,12 @@ export default function Inbox() {
 
   useEffect(() => {
     const mssv = searchParams.get('mssv');
-    const category = searchParams.get('category') || 'all';
+    let category = searchParams.get('category') || 'all';
     
+    // Map categories from Interventions table to Inbox filters
+    if (category === 'top20') category = 'urgent';
+    if (category === 'top50' || category === 'top100' || category === 'resolved') category = 'resolved';
+
     if (mssv !== activePartnerId) setActivePartnerId(mssv);
     if (category !== filterTab) setFilterTab(category);
   }, [searchParams]);
@@ -58,9 +63,10 @@ export default function Inbox() {
       const res = await api.get(`/comm/messages/${currentUser.id}?role=${currentUser.role}`);
       
       if (res.data.length === 0 && currentUser.role === 'STUDENT') {
-        const advisors = await api.get('/comm/advisors');
-        if (advisors.data.length > 0) {
-          const defaultAdvisor = advisors.data[0];
+        const advisorsRes = await api.get('/comm/advisors');
+        if (advisorsRes.data.length > 0) {
+          setAvailableAdvisors(advisorsRes.data);
+          const defaultAdvisor = advisorsRes.data[0];
           setConversations([{
             partnerId: defaultAdvisor.id,
             partnerName: defaultAdvisor.name,
@@ -71,6 +77,9 @@ export default function Inbox() {
           }]);
           return;
         }
+      } else if (currentUser.role === 'STUDENT') {
+         const advisorsRes = await api.get('/comm/advisors');
+         setAvailableAdvisors(advisorsRes.data);
       }
       
       setConversations(res.data);
@@ -146,6 +155,26 @@ export default function Inbox() {
     }
   };
 
+  const handleSendRoadmap = async () => {
+    try {
+      const courseId = prompt("Nhập mã môn học cần gửi lộ trình (vd: COM108):", "COM108");
+      if (!courseId) return;
+
+      const res = await api.post('/intervention/send-roadmap', {
+        mssv: activePartnerId,
+        targetCourseId: courseId,
+        riskLevel: 'HIGH'
+      });
+
+      if (res.data.success) {
+        alert("Đã gửi lộ trình thành công!");
+        fetchConversations(false);
+      }
+    } catch (e) {
+      alert("Lỗi khi gửi lộ trình: " + e.message);
+    }
+  };
+
   if (loading) {
     return <div className="flex h-full items-center justify-center text-slate-600 dark:text-slate-400">Đang tải tin nhắn...</div>;
   }
@@ -180,7 +209,7 @@ export default function Inbox() {
               </button>
             </div>
           )}
-          {currentUser.role !== 'STUDENT' && (
+          {currentUser.role !== 'STUDENT' ? (
             <div className="relative">
               <input 
                 type="text" 
@@ -198,6 +227,33 @@ export default function Inbox() {
                         unreadCount: 0,
                         messages: []
                       }, ...prev]);
+                    }
+                  }
+                }}
+              />
+            </div>
+          ) : (
+            <div className="relative">
+              <input 
+                type="text" 
+                placeholder="Tìm kiếm Giảng viên (vd: GV01, Cô Ngọc...)"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-sm px-3 py-2 rounded-lg text-slate-800 dark:text-white font-semibold outline-none focus:border-blue-500"
+                onChange={(e) => {
+                  const val = e.target.value.trim().toLowerCase();
+                  if(val.length >= 2) {
+                    // Find an advisor whose name matches the search string
+                    const matchedAdvisor = availableAdvisors.find(adv => adv.name.toLowerCase().includes(val) || adv.email.toLowerCase().includes(val));
+                    if (matchedAdvisor) {
+                      if (!conversations.find(c => c.partnerId === matchedAdvisor.id)) {
+                        setConversations(prev => [{
+                          partnerId: matchedAdvisor.id,
+                          partnerName: matchedAdvisor.name,
+                          lastMessage: '',
+                          lastMessageAt: new Date().toISOString(),
+                          unreadCount: 0,
+                          messages: []
+                        }, ...prev]);
+                      }
                     }
                   }
                 }}
@@ -260,6 +316,16 @@ export default function Inbox() {
                 <h3 className="text-sm font-extrabold text-[#0F172A] dark:text-slate-200">{activePartnerName}</h3>
                 <p className="text-xs text-green-600 dark:text-slate-400 font-bold">Trực tuyến</p>
               </div>
+              {currentUser.role !== 'STUDENT' && (
+                <div className="ml-auto">
+                  <button 
+                    onClick={handleSendRoadmap}
+                    className="px-3 py-1.5 bg-gradient-to-r from-[#1D4ED8] to-[#9333EA] text-white text-xs font-bold rounded-lg shadow-sm hover:opacity-90 flex items-center gap-2"
+                  >
+                    🚀 Gửi lộ trình tự động
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Chat messages */}

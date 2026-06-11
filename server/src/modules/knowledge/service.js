@@ -137,7 +137,8 @@ exports.getAllCareers = async (mssv) => {
       softSkills: data.softSkills || [],
       portfolios: data.portfolios || [],
       category: CATEGORY_MAP[key] || 'Other',
-      readinessScore
+      readinessScore,
+      roadmap: data.roadmap || []
     };
   }));
   return results;

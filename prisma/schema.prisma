@@ -39,6 +39,7 @@ model Student {
   chatSessions            ChatSession[]
   learningProgresses      LearningProgress[]
   studentRoadmaps         StudentRoadmap[]
+  interventionRoadmaps    InterventionRoadmap[] @relation("StudentInterventionRoadmaps")
 }
 
 model Course {
@@ -184,25 +185,21 @@ model LearningTask {
 }
 
 model StudentMemory {
-  id String @id @default(uuid())
-  studentId String @unique // One-to-One with Student
-  careerGoal String?
-  careerReadiness String?
-  gpa Float?
-  currentSemester String?
-  riskLevel String?
-  learningStyle String?
-  strengths String? // JSON string
-  weaknesses String? // JSON string
-  interestedSkills String? // JSON string
-  knownSkills String? // JSON string
-  skillMastery String? // JSON string
-  recentTopics String? // JSON string
-  learningGoals String? // JSON string array of goals
-  completedRoadmaps String? // JSON string array of roadmap IDs
-  favoriteCareers String? // JSON string array of careers
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  studentId           String   @unique
+  careerGoal          String?
+  learningStyle       String?
+  strengths           String?  // JSON string
+  weaknesses          String?  // JSON string
+  currentSemester     Int?
+  completedCourses    String?  // JSON string
+  failedCourses       String?  // JSON string
+  interestedSkills    String?  // JSON string
+  lastRoadmap         String?  // JSON string
+  lastRisk            String?  // JSON string
+  conversationSummary String?  // Text summary of conversations
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   student Student @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
 }
@@ -339,4 +336,25 @@ model RoadmapStep {
 
   roadmap StudentRoadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
   @@index([roadmapId])
+}
+
+model InterventionRoadmap {
+  id               String    @id @default(uuid())
+  studentId        String
+  targetCourseId   String?
+  riskLevel        String?
+  riskReason       String?
+  affectedCourses  String?   // JSON string array of affected course IDs
+  missingSkills    String?   // JSON string array
+  roadmap          String?   // JSON string
+  sentDate         DateTime  @default(now())
+  openedAt         DateTime?
+  repliedAt        DateTime?
+  completedAt      DateTime?
+  improvementScore Float?
+  advisorNotes     String?
+  status           String    @default("PENDING") // PENDING, OPENED, IN_PROGRESS, COMPLETED
+
+  student Student @relation("StudentInterventionRoadmaps", fields: [studentId], references: [mssv], onDelete: Cascade)
+  @@index([studentId])
 }

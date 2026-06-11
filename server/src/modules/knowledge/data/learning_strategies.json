@@ -1,0 +1,41 @@
+{
+  "COM108": {
+    "title": "Nhập môn lập trình",
+    "skills": [
+      "Biến và Kiểu dữ liệu",
+      "Câu lệnh điều kiện (if/else)",
+      "Vòng lặp (for, while)",
+      "Mảng 1 chiều",
+      "Hàm và truyền tham số",
+      "Xử lý chuỗi cơ bản",
+      "Logic thuật toán cơ bản",
+      "Debug lỗi cơ bản"
+    ]
+  },
+  "WEB104": {
+    "title": "Xây dựng trang web",
+    "skills": [
+      "Cấu trúc Semantic HTML5",
+      "Forms và Inputs HTML",
+      "CSS Selectors",
+      "CSS Box Model",
+      "CSS Flexbox",
+      "CSS Grid cơ bản",
+      "Responsive Media Queries",
+      "Hoạt ảnh CSS cơ bản"
+    ]
+  },
+  "WEB206": {
+    "title": "Lập trình Web Front-End với React",
+    "skills": [
+      "JSX Syntax",
+      "Components (Functional)",
+      "Props và State",
+      "React Hooks (useState, useEffect)",
+      "Handling Events",
+      "Render Lists",
+      "Conditional Rendering",
+      "Routing cơ bản"
+    ]
+  }
+}

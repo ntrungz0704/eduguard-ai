@@ -4,11 +4,11 @@
  * Engine chỉ đọc Config, không chứa Hardcode.
  */
 const RISK_WEIGHTS = {
-  FAILED_SUBJECTS: 0.40,      // Nợ môn (Cực kỳ nghiêm trọng)
-  ATTENDANCE_DROP: 0.25,      // Chuyên cần giảm
-  LOW_LAB_SCORE: 0.15,        // Điểm thực hành thấp
-  PREREQUISITE_BREAK: 0.10,   // Đứt gãy tiên quyết
-  TREND_DECLINE: 0.10         // Xu hướng giảm sút GPA
+  LOW_GPA: 0.30,              // GPA 30%
+  ATTENDANCE_DROP: 0.25,      // CC 25%
+  PREREQUISITE_BREAK: 0.20,   // Môn TQ 20%
+  TREND_DECLINE: 0.15,        // Trend 15%
+  BEHAVIOR_ANOMALY: 0.10      // Behavior 10%
 };
 
 const RISK_LEVELS = {

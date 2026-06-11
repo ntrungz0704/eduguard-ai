@@ -186,6 +186,21 @@ function OverviewTab({ data, curriculumCourses }) {
   const totalEarnedCredits = stats.totalEarnedCredits;
   const validScores = stats.validScores;
   const completed = validScores.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
+  
+  // Dynamic GPA target calculation
+  let targetGPA = Math.min(10, Math.ceil(gpa * 10) / 10 + 0.5);
+  if (gpa === 0) targetGPA = 7.5;
+  const totalCurriculumCredits = 120; // Assume 120 credits for total program
+  const remainingCredits = Math.max(10, totalCurriculumCredits - totalEarnedCredits);
+  const currentPoints = gpa * totalEarnedCredits;
+  const targetPoints = targetGPA * totalCurriculumCredits;
+  let requiredGPA = remainingCredits > 0 ? ((targetPoints - currentPoints) / remainingCredits) : targetGPA;
+  if (requiredGPA > 10) requiredGPA = 10;
+  
+  // Evaluate goal label
+  let targetLabel = "Khá";
+  if (targetGPA >= 8.0) targetLabel = "Giỏi";
+  if (targetGPA >= 9.0) targetLabel = "Xuất sắc";
 
   // Strengths: top 3 highest academic scores
   const strengths = [...stats.academicScores].sort((a, b) => b.value - a.value).slice(0, 3);
@@ -1363,6 +1378,36 @@ function ChatTab({ currentUser, activeStudentData }) {
                 ))
               )}
             </div>
+
+            {/* GPA TARGET & 90-DAY PLAN */}
+            <div className="glass-card p-6 rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-amber-50/50 dark:bg-amber-900/10">
+              <h3 className="font-bold text-amber-600 dark:text-amber-400 text-sm mb-4 flex items-center gap-2">
+                <Target size={18} /> Mục tiêu GPA & Kế hoạch 90 ngày
+              </h3>
+              <div className="space-y-4">
+                <p className="text-xs text-slate-700 dark:text-slate-300">
+                  Dựa trên năng lực hiện tại, để đạt <strong>GPA {targetGPA.toFixed(1)} ({targetLabel})</strong> khi ra trường, bạn cần đạt trung bình <strong>{requiredGPA.toFixed(1)}</strong> cho các môn còn lại.
+                </p>
+                <div className="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-amber-100 dark:border-amber-500/10">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase mb-3">Kế hoạch 90 ngày tới</h4>
+                  <ul className="space-y-3">
+                    <li className="flex gap-3 text-sm">
+                      <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xs">1</div>
+                      <span className="text-slate-700 dark:text-slate-300">Tập trung cải thiện 2 môn lập trình sắp tới bằng cách làm thêm 5 bài lab mỗi tuần.</span>
+                    </li>
+                    <li className="flex gap-3 text-sm">
+                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 font-bold text-xs">2</div>
+                      <span className="text-slate-700 dark:text-slate-300">Hoàn thành đồ án chuyên ngành đúng hạn (đừng để dồn vào tuần cuối).</span>
+                    </li>
+                    <li className="flex gap-3 text-sm">
+                      <div className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 font-bold text-xs">3</div>
+                      <span className="text-slate-700 dark:text-slate-300">Tham gia phụ đạo môn khó (Dự báo rủi ro cao).</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Messaging Chat Pane */}

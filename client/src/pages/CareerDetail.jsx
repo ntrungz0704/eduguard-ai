@@ -675,8 +675,15 @@ const handleDragLeave = () => {
 
   // Group career skills into structured levels dynamically
   const levels = useMemo(() => {
+    if (analysis?.roadmap && Array.isArray(analysis.roadmap) && analysis.roadmap.length > 0 && typeof analysis.roadmap[0] === 'object') {
+      return analysis.roadmap.map((course, idx) => ({
+        name: `Học phần ${idx + 1}: ${course.courseName || course.courseCode}`,
+        skills: course.missingSkills && course.missingSkills.length > 0 ? course.missingSkills : ['Hoàn thành kỹ năng môn'],
+        desc: `Kỹ năng này phục vụ trực tiếp cho môn học: ${course.affects && course.affects.length > 0 ? course.affects.join(', ') : 'Chuyên ngành'}`
+      }));
+    }
     return getVisualRoadmapLevels(career);
-  }, [career]);
+  }, [career, analysis]);
 
   // Skill detail description helper (uses local tasks state if available)
   const getSkillDetail = (skillName, currentTasks = tasks) => {
