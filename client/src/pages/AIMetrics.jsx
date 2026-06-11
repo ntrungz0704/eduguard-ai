@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../lib/api';
-import { BarChart3, RefreshCw, AlertTriangle, CheckCircle2, TrendingUp, Clock, Info } from 'lucide-react';
+import { BarChart2, RefreshCw, AlertTriangle, CheckCircle2, TrendingUp, Clock, Info } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 const AIMetrics = () => {
@@ -38,7 +38,9 @@ const AIMetrics = () => {
       <div className="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-            <BarChart3 className="text-indigo-600" />
+            <div className="p-3 bg-indigo-50 rounded-2xl">
+              <BarChart2 className="text-indigo-600" />
+            </div>
             Đánh giá Hiệu suất Mô hình AI (LOOCV)
           </h1>
           <p className="text-slate-500 mt-1">Quét và kiểm tra độ chính xác của AI trên toàn bộ cơ sở dữ liệu hiện có.</p>

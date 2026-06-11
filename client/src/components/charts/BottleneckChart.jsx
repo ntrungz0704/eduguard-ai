@@ -54,8 +54,10 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
               background: '#0f172a',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: 8,
-              color: '#e2e8f0'
+              color: '#f8fafc'
             }}
+            itemStyle={{ color: '#cbd5e1' }}
+            labelStyle={{ color: '#f8fafc', fontWeight: 'bold', marginBottom: '4px' }}
             formatter={(value) => [`${value} sinh viên chưa đạt`, 'Số lượng']}
           />
           <Bar dataKey="failCount" radius={[0, 6, 6, 0]} maxBarSize={28}>

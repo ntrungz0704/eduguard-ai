@@ -16,6 +16,7 @@ export default function Interventions() {
   const [roadmapMsg, setRoadmapMsg] = useState('');
   const [sendingMsg, setSendingMsg] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   // Bulk Intervention State
   const [showBulkModal, setShowBulkModal] = useState(false);
@@ -35,6 +36,7 @@ export default function Interventions() {
     try {
       const res = await api.get('/interventions-management');
       setData(res.data);
+      setSelectedRows([]);
     } catch (e) {
       console.error(e);
     } finally {
@@ -63,6 +65,35 @@ export default function Interventions() {
       await fetchData();
     } catch (e) {
       alert("Lỗi cập nhật: " + e.message);
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleBulkUpdateStatus = async (newStatus) => {
+    if (selectedRows.length === 0) return;
+    setUpdating(true);
+    try {
+      for (const st of selectedRows) {
+        if (newStatus === 'urgent') {
+          if (st.id) await api.delete(`/interventions/${st.id}`);
+        } else {
+          const statusMap = { monitoring: 'PENDING', intervened: 'ACTIVE', resolved: 'RESOLVED' };
+          if (st.id) {
+            await api.post(`/interventions/${st.id}/status`, { status: statusMap[newStatus] });
+          } else {
+            await api.post(`/students/${st.mssv}/flag`, {
+              courseId: st.courseId,
+              action: 'Chuyển trạng thái hàng loạt từ bảng Can thiệp',
+              status: statusMap[newStatus] || 'PENDING'
+            });
+          }
+        }
+      }
+      alert(`Đã cập nhật trạng thái cho ${selectedRows.length} sinh viên thành công!`);
+      await fetchData();
+    } catch (e) {
+      alert("Lỗi cập nhật hàng loạt: " + e.message);
     } finally {
       setUpdating(false);
     }
@@ -205,13 +236,55 @@ export default function Interventions() {
         </div>
       </div>
 
+      {/* Bulk Action Bar */}
+      {selectedRows.length > 0 && (
+        <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-500/30 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-4 animate-fade-in mb-4">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={18} className="text-indigo-600 dark:text-indigo-400" />
+            <span className="text-sm font-bold text-indigo-900 dark:text-indigo-200">Đã chọn {selectedRows.length} sinh viên</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-indigo-700 dark:text-indigo-300 font-medium">Chuyển sang trạng thái:</span>
+            <select
+              disabled={updating}
+              onChange={(e) => {
+                if (e.target.value) handleBulkUpdateStatus(e.target.value);
+                e.target.value = '';
+              }}
+              className="text-sm bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-500/30 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 cursor-pointer shadow-sm"
+              defaultValue=""
+            >
+              <option value="" disabled>-- Chọn trạng thái --</option>
+              <option value="urgent">Khẩn cấp</option>
+              <option value="monitoring">Đang theo dõi</option>
+              <option value="intervened">Đã can thiệp</option>
+              <option value="resolved">Ổn định</option>
+            </select>
+          </div>
+        </div>
+      )}
+
       {/* Data Table */}
       <div className="glass-card rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
             <thead className="bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-400 text-xs tracking-wider">
               <tr>
-                <th className="px-6 py-4 font-semibold">Sinh viên</th>
+                <th className="px-4 py-4 w-12 text-center">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    checked={filteredData.length > 0 && selectedRows.length === filteredData.length}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedRows([...filteredData]);
+                      } else {
+                        setSelectedRows([]);
+                      }
+                    }}
+                  />
+                </th>
+                <th className="px-2 py-4 font-semibold">Sinh viên</th>
                 <th className="px-6 py-4 font-semibold">Môn học</th>
                 <th className="px-6 py-4 font-semibold text-center">Dự báo</th>
                 <th className="px-6 py-4 font-semibold text-center">Trạng thái</th>
@@ -220,9 +293,25 @@ export default function Interventions() {
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/5">
               {filteredData.length > 0 ? (
-                filteredData.map((st, i) => (
-                  <tr key={(st.id || st.mssv) + '-' + st.courseId + '-' + i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4">
+                filteredData.map((st, i) => {
+                  const isSelected = selectedRows.some(r => r.mssv === st.mssv && r.courseId === st.courseId);
+                  return (
+                  <tr key={(st.id || st.mssv) + '-' + st.courseId + '-' + i} className={`hover:bg-slate-50 dark:hover:bg-white/5 transition-colors ${isSelected ? 'bg-indigo-50/50 dark:bg-indigo-900/10' : ''}`}>
+                    <td className="px-4 py-4 text-center">
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        checked={isSelected}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedRows([...selectedRows, st]);
+                          } else {
+                            setSelectedRows(selectedRows.filter(r => !(r.mssv === st.mssv && r.courseId === st.courseId)));
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="px-2 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs">
                           {st.student?.name?.charAt(0) || 'SV'}
@@ -279,10 +368,11 @@ export default function Interventions() {
                       </div>
                     </td>
                   </tr>
-                ))
+                  );
+                })
               ) : (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
                     Chưa có dữ liệu sinh viên trong danh sách này.
                   </td>
                 </tr>
