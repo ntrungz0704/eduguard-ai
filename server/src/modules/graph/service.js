@@ -488,7 +488,7 @@ class GraphService {
     const scores = databaseStudent?.scores?.length
       ? databaseStudent.scores
       : this.convertTrainingScoresToArray(trainingStudent?.scores || {}, courseIndex);
-    const gpa = scores.length ? calculateFptGPA(scores) : null;
+    const gpa = scores.length ? calculateFptGPA(scores).gpa : null;
     const attendanceValues = (databaseStudent?.scores || [])
       .map((score) => this.toNullableNumber(score.attendance))
       .filter((value) => value !== null);

@@ -68,7 +68,7 @@ function calculateBaseRisk(student) {
   totalScore += factors.PREREQUISITE_BREAK;
 
   // 5. TREND DECLINE
-  const gpa = calculateFptGPA(student.scores);
+  const gpa = calculateFptGPA(student.scores).gpa;
   const scoredSubjects = student.scores.filter(s => s.value !== null && s.status !== 'STUDYING');
   let trendScore = 0;
   if (scoredSubjects.length >= 4) {

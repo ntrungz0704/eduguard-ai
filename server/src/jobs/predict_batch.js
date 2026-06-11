@@ -168,8 +168,8 @@ files.forEach((filename, index) => {
   });
 
   // Tính GPA thực tế và GPA dự phóng
-  const gpaActual = calculateFptGPA(studentScores);
-  const gpaProjected = calculateFptGPA(fullScores);
+  const gpaActual = calculateFptGPA(studentScores).gpa;
+  const gpaProjected = calculateFptGPA(fullScores).gpa;
 
   // Tạo dòng báo cáo
   const reportRow = {

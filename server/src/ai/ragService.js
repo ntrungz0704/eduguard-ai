@@ -23,7 +23,7 @@ async function getStudentContext(mssv, limit = 5) {
     const chunks = [];
 
     // Chunk 0: Thông tin tổng quan và GPA tích lũy chuẩn FPT Polytechnic
-    const gpa = calculateFptGPA(student.scores);
+    const gpa = calculateFptGPA(student.scores).gpa;
     chunks.push(`THÔNG TIN TỔNG QUAN của ${student.name} (${student.mssv}): Lớp: ${student.classCode || 'WD18301'}. Điểm trung bình tích lũy (GPA) chuẩn FPT Polytechnic: ${gpa.toFixed(1)}/10.`);
 
     // Chunk 1: Bảng điểm thực tế
