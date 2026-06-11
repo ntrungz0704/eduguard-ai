@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 're
 import { useStore } from './store';
 import { api } from './lib/api';
 import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap, Briefcase, KanbanSquare } from 'lucide-react';
-import { LogOut, GraduationCap, Mails, HeartHandshake } from 'lucide-react';
+import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2 } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
 import Dashboard from './pages/Dashboard';
@@ -33,7 +33,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Bản đồ Rủi ro Học tập' },
-    { path: '/ai-metrics', icon: <BarChart3 size={20} />, label: 'Đánh giá AI (LOOCV)' },
+    { path: '/ai-metrics', icon: <BarChart2 size={20} />, label: 'Đánh giá AI (LOOCV)' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý Phân tích NLP' }

@@ -7,7 +7,7 @@ import {
   ArrowLeft, Briefcase, TrendingUp, Star, Zap, Code2, Wrench, Users,
   BookOpen, CheckCircle, XCircle, AlertCircle, Target, Rocket, Clock,
   ChevronDown, ChevronRight, Sparkles, Loader2, ExternalLink, FolderGit2,
-  GraduationCap, Brain, BarChart3, Info, Calendar, Award, Play, KanbanSquare, Link2, PlusCircle, ChevronLeft, ArrowUpRight
+  GraduationCap, Brain, BarChart2, Info, Calendar, Award, Play, KanbanSquare, Link2, PlusCircle, ChevronLeft, ArrowUpRight
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, Cell } from 'recharts';
 
@@ -1097,7 +1097,7 @@ const handleDragLeave = () => {
             <div className="space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-6 space-y-4">
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <BarChart3 size={18} className="text-blue-500" /> Tóm tắt Kỹ năng Kỹ thuật
+                  <BarChart2 size={18} className="text-blue-500" /> Tóm tắt Kỹ năng Kỹ thuật
                 </h3>
 
                 {/* Core Skills Chart */}

@@ -7,7 +7,7 @@ import {
   LayoutDashboard, BookOpen, MessageSquare, Map,
   TrendingUp, TrendingDown, ChevronRight,
   AlertCircle, CheckCircle, Clock, Award,
-  GraduationCap, BarChart3, Send, Paperclip, User, Loader2, Sparkles, HelpCircle, Activity, Check, Bot
+  GraduationCap, BarChart2, Send, Paperclip, User, Loader2, Sparkles, HelpCircle, Activity, Check, Bot
 } from 'lucide-react';
 
 
@@ -422,7 +422,7 @@ function OverviewTab({ data, curriculumCourses }) {
         <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 rounded-xl bg-blue-500/20 flex items-center justify-center shadow-lg shadow-sm dark:shadow-blue-500/5">
-              <BarChart3 size={18} className="text-blue-400" />
+              <BarChart2 size={18} className="text-blue-400" />
             </div>
             <div>
               <h3 className="font-bold text-slate-900 dark:text-white text-sm">Dự báo Học kỳ hiện tại (AI Dự toán)</h3>
