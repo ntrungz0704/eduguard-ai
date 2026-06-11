@@ -138,39 +138,39 @@ const getLetterGrade = (val) => {
   return 'F';
 };
 
-const calculateFptStats = (curriculumCourses) => {
-  const completed = (curriculumCourses || []).filter(c => c.status === 'PASSED' || c.status === 'FAILED');
-  const validScores = completed.filter(c => typeof c.value === 'number');
-  
-  const academicScores = validScores.filter(s => !isConditionalCourse(s.courseId, s.courseId));
-  
+const calculateFptStats = (scores) => {
+  const validScores = (scores || []).filter(s => s.value !== null);
+  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+
   let totalScoreWeight10 = 0;
   let totalScoreWeight4 = 0;
   let totalAcademicCredits = 0;
-  
+
   academicScores.forEach(s => {
-    const credits = getCourseCredits(s.courseId);
+    const credits = getCourseCredits(s.courseId || s.course?.name);
     totalScoreWeight10 += (s.value * credits);
     totalScoreWeight4 += (get40Scale(s.value) * credits);
     totalAcademicCredits += credits;
   });
-  
+
   let totalEarnedCredits = 0;
   validScores.forEach(s => {
     if (s.value >= 5.0 || s.status === 'PASSED') {
-      totalEarnedCredits += getCourseCredits(s.courseId);
+      totalEarnedCredits += getCourseCredits(s.courseId || s.course?.name);
     }
   });
-  
-  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
-  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
-  
+
+  const gpa10 = totalAcademicCredits === 0 ? '0.0' : (Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1);
+  const gpa4 = totalAcademicCredits === 0 ? '0.00' : (Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2);
+
   return {
     gpa10,
     gpa4,
     totalEarnedCredits,
     academicScores,
-    validScores
+    validScores,
+    academicScoresCount: academicScores.length,
+    totalScoresCount: validScores.length
   };
 };
 
@@ -184,8 +184,8 @@ function OverviewTab({ data, curriculumCourses }) {
   const gpa = stats.gpa10;
   const gpa4 = stats.gpa4;
   const totalEarnedCredits = stats.totalEarnedCredits;
-  const completed = curriculumCourses.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
   const validScores = stats.validScores;
+  const completed = validScores.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
 
   // Strengths: top 3 highest academic scores
   const strengths = [...stats.academicScores].sort((a, b) => b.value - a.value).slice(0, 3);
@@ -1629,11 +1629,12 @@ export default function StudentDashboard() {
     }
   });
 
-  // Calculate actual completed GPA using unified FPT Polytechnic logic
-  const stats = calculateFptStats(curriculumCourses);
+  // Calculate actual completed GPA using unified FPT Polytechnic logic on raw scores
+  const stats = calculateFptStats(studentScores);
   const gpa = stats.gpa10;
   const gpa4 = stats.gpa4;
   const totalEarnedCredits = stats.totalEarnedCredits;
+  const validScoresCount = stats.totalScoresCount;
 
   const tabs = [
     { id: 'overview', icon: <LayoutDashboard size={15} />, label: 'Tổng quan Học tập' },

@@ -150,20 +150,27 @@ export default function StudentSearch() {
       if (!selectedStudent || (selectedStudent.mssv !== activeStudent.mssv && selectedStudent.id !== activeStudent.id)) {
         setSelectedStudent(activeStudent);
       }
-      setChatHistory([
-        {
-          role: 'ai',
-          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên ${activeStudent.name} (${activeStudent.mssv || activeStudent.id}). Bạn có thể hỏi tôi về:
-          \n- Tại sao sinh viên này có nguy cơ trượt môn nào đó?
-          \n- Gợi ý lộ trình can thiệp và cải thiện điểm số.
-          \n- Phân tích chi tiết lỗ hổng kiến thức tiên quyết.`
-        }
-      ]);
+      
+      const studentId = activeStudent.mssv || activeStudent.id;
+      api.get(`/chat/teacher-history/${studentId}`)
+        .then(res => {
+          if (res.data.history && res.data.history.length > 0) {
+            setChatHistory(res.data.history);
+          } else {
+            setChatHistory([
+              {
+                role: 'ai',
+                text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên **${activeStudent.name}** (${studentId}). Bạn có thể hỏi tôi về:\n\n- *Tại sao sinh viên này có nguy cơ trượt môn nào đó?*\n- *Gợi ý lộ trình can thiệp và cải thiện điểm số.*\n- *Phân tích chi tiết lỗ hổng kiến thức tiên quyết.*`
+              }
+            ]);
+          }
+        })
+        .catch(console.error);
     } else {
       setSearchParams({}, { replace: true });
       setSelectedStudent(null);
     }
-  }, [activeStudent, setSearchParams]);
+  }, [activeStudent?.mssv, activeStudent?.id, setSearchParams]);
   
   // Chatbot State
   const [chatMessage, setChatMessage] = useState('');
