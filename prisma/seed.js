@@ -112,40 +112,7 @@ async function main() {
     }
   }
   
-  function getCourseCredits(courseNameOrId) {
-    const name = String(courseNameOrId || '').trim();
-    const lower = name.toLowerCase();
-    const code = name.toUpperCase();
-
-    if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
-    if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
-    if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110')) return 5;
-
-    if (
-      lower.includes('chính trị') || 
-      code.includes('VIE108') || 
-      lower.includes('dự án tốt nghiệp') || 
-      code.includes('PRO2201') ||
-      code.includes('PRO220')
-    ) {
-      return 5;
-    }
-
-    if (
-      lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
-      lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
-      lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
-      lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
-      lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
-      lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
-      lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-      lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
-    ) {
-      return 2;
-    }
-
-    return 3;
-  }
+  const { getCourseCredits } = require('../server/src/utils/dataService');
 
   // Use upsert for courses sequentially (works on SQLite, avoids Prisma Rust Engine panic)
   for (const [id, name] of courseIds.entries()) {
