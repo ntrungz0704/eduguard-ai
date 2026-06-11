@@ -1,6 +1,6 @@
 {
   "source": "FPT Polytechnic CNTT - Bảng điểm tổng hợp 50% TCTH",
-  "lastUpdated": "2026-06-10",
+  "lastUpdated": "2026-06-11",
   "curriculumOrder": [
     "Tin học",
     "Giáo dục thể chất",
@@ -62,7 +62,7 @@
         "Lập trình PHP 1": 6.4,
         "Thiết kế UI/UX": 7,
         "Kỹ năng phát triển bản thân": 7,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 6,
         "Lập trình ECMAScript": 6,
         "Dự án 1 (TKTW)": 5.9,
@@ -80,7 +80,7 @@
     {
       "id": "PC08158",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.4,
         "Pháp luật": 6.5,
         "Giáo dục quốc phòng": 6.8,
@@ -112,7 +112,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -151,7 +151,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 6.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -229,7 +229,7 @@
         "Lập trình Front-End Framework 2": 7,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.2
       }
     },
@@ -268,7 +268,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -346,7 +346,7 @@
         "Lập trình Front-End Framework 2": 5.8,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
@@ -385,7 +385,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -431,7 +431,7 @@
     {
       "id": "PS27468",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 7,
         "Giáo dục quốc phòng": 7,
@@ -453,7 +453,7 @@
         "Thiết kế UI/UX": 5.5,
         "Kỹ năng phát triển bản thân": null,
         "Lập trình Javascript nâng cao": 5.9,
-        "Quản trị website": null,
+        "Quản trị website": 1,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 5,
         "Marketing trên Internet": 7.7,
@@ -502,7 +502,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -541,7 +541,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -580,7 +580,7 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9.2
       }
     },
@@ -619,14 +619,14 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 9.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.6
       }
     },
     {
       "id": "PS27883",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 8,
         "Giáo dục quốc phòng": 6.5,
@@ -658,7 +658,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -697,7 +697,7 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 3.1
       }
     },
@@ -892,7 +892,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.2
       }
     },
@@ -931,7 +931,7 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.9
       }
     },
@@ -977,7 +977,7 @@
     {
       "id": "PS29646",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 6.3,
         "Giáo dục quốc phòng": null,
@@ -1022,7 +1022,7 @@
         "Giáo dục quốc phòng": 8.8,
         "Kỹ năng học tập": 8.1,
         "Giáo dục thể chất - Vovinam": null,
-        "Tiếng Anh 1.1": null,
+        "Tiếng Anh 1.1": 1,
         "Tiếng Anh 1.2": 8.2,
         "Tiếng Anh 2.1": 8.3,
         "Tiếng Anh 2.2": 7.1,
@@ -1048,7 +1048,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": null,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -1126,7 +1126,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -1255,7 +1255,7 @@
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 8.5,
         "Kỹ năng học tập": 7.6,
-        "Giáo dục thể chất - Vovinam": null,
+        "Giáo dục thể chất - Vovinam": 1,
         "Tiếng Anh 1.1": 7.8,
         "Tiếng Anh 1.2": 7.3,
         "Tiếng Anh 2.1": 7.9,
@@ -1265,7 +1265,7 @@
         "Cơ sở dữ liệu": 7.7,
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 8.3,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 7,
         "Dự án mẫu (TKTW)": 6.5,
         "Lập trình PHP 1": 7.6,
@@ -1282,7 +1282,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -1319,7 +1319,7 @@
         "Lập trình TypeScript": 5.1,
         "Lập trình Front-End Framework 1": null,
         "Lập trình Front-End Framework 2": 5.9,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": null,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": 0.7
@@ -1360,14 +1360,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": null,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.7
       }
     },
     {
       "id": "PS31630",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 7.7,
@@ -1399,14 +1399,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 3
       }
     },
     {
       "id": "PS31786",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 6,
         "Giáo dục quốc phòng": 8,
@@ -1422,7 +1422,7 @@
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 7.4,
         "Chính trị": 8.3,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5.5,
         "Lập trình PHP 1": 7.2,
         "Thiết kế UI/UX": 7.3,
@@ -1438,14 +1438,14 @@
         "Lập trình Front-End Framework 2": 6.7,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
     {
       "id": "PS31939",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 6.7,
         "Giáo dục quốc phòng": 8.3,
@@ -1466,7 +1466,7 @@
         "Lập trình PHP 1": 8.9,
         "Thiết kế UI/UX": 6.7,
         "Kỹ năng phát triển bản thân": null,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.2,
         "Lập trình ECMAScript": 6.6,
         "Dự án 1 (TKTW)": 6.6,
@@ -1477,7 +1477,7 @@
         "Lập trình Front-End Framework 2": 9,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.9
       }
     },
@@ -1516,7 +1516,7 @@
         "Lập trình Front-End Framework 2": 6.6,
         "Khởi sự doanh nghiệp": 9.1,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.9
       }
     },
@@ -1594,7 +1594,7 @@
         "Lập trình Front-End Framework 2": 6.7,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.1
       }
     },
@@ -1633,7 +1633,7 @@
         "Lập trình Front-End Framework 2": 8.1,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.5
       }
     },
@@ -1711,7 +1711,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -1750,7 +1750,7 @@
         "Lập trình Front-End Framework 2": 7.5,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.8
       }
     },
@@ -1789,7 +1789,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -1828,7 +1828,7 @@
         "Lập trình Front-End Framework 2": 7.9,
         "Khởi sự doanh nghiệp": 9.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.9
       }
     },
@@ -1841,7 +1841,7 @@
         "Giáo dục quốc phòng": null,
         "Kỹ năng học tập": 6.7,
         "Giáo dục thể chất - Vovinam": 7.1,
-        "Tiếng Anh 1.1": null,
+        "Tiếng Anh 1.1": 1,
         "Tiếng Anh 1.2": 8.9,
         "Tiếng Anh 2.1": 8.5,
         "Tiếng Anh 2.2": 8.7,
@@ -1906,7 +1906,7 @@
         "Lập trình Front-End Framework 2": 7.7,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.9
       }
     },
@@ -1945,7 +1945,7 @@
         "Lập trình Front-End Framework 2": 6.4,
         "Khởi sự doanh nghiệp": 8.4,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -2023,7 +2023,7 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.2
       }
     },
@@ -2062,14 +2062,14 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.9
       }
     },
     {
       "id": "PS33659",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 5.5,
@@ -2101,7 +2101,7 @@
         "Lập trình Front-End Framework 2": 7.6,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.3
       }
     },
@@ -2140,7 +2140,7 @@
         "Lập trình Front-End Framework 2": 5.3,
         "Khởi sự doanh nghiệp": 5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.8
       }
     },
@@ -2179,7 +2179,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 9.1,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.8
       }
     },
@@ -2207,7 +2207,7 @@
         "Lập trình PHP 1": 8.5,
         "Thiết kế UI/UX": 6.5,
         "Kỹ năng phát triển bản thân": null,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7,
         "Lập trình ECMAScript": 7.6,
         "Dự án 1 (TKTW)": 6.2,
@@ -2216,9 +2216,9 @@
         "Lập trình TypeScript": 8,
         "Lập trình Front-End Framework 1": 6.3,
         "Lập trình Front-End Framework 2": 7,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.3
       }
     },
@@ -2257,7 +2257,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -2296,7 +2296,7 @@
         "Lập trình Front-End Framework 2": 5.6,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6
       }
     },
@@ -2319,7 +2319,7 @@
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 9.5,
         "Chính trị": 8.7,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 8.6,
         "Lập trình PHP 1": 9.5,
         "Thiết kế UI/UX": 6.5,
@@ -2335,7 +2335,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.4,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -2372,10 +2372,10 @@
         "Lập trình TypeScript": 7.1,
         "Lập trình Front-End Framework 1": 8.1,
         "Lập trình Front-End Framework 2": 6.7,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": null,
         "Thực tập tốt nghiệp (TKTW)": null,
-        "Dự án tốt nghiệp": null
+        "Dự án tốt nghiệp": 1
       }
     },
     {
@@ -2398,7 +2398,7 @@
         "Lập trình cơ sở với JavaScript": 8,
         "Chính trị": 9.5,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.1,
         "Thiết kế UI/UX": 7.4,
         "Kỹ năng phát triển bản thân": null,
@@ -2413,7 +2413,7 @@
         "Lập trình Front-End Framework 2": 5.6,
         "Khởi sự doanh nghiệp": 6.1,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -2452,7 +2452,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -2491,7 +2491,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -2514,7 +2514,7 @@
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 6.3,
         "Chính trị": 7.2,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5.5,
         "Lập trình PHP 1": 6.8,
         "Thiết kế UI/UX": 6.9,
@@ -2530,7 +2530,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -2569,7 +2569,7 @@
         "Lập trình Front-End Framework 2": 6.4,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.8
       }
     },
@@ -2608,7 +2608,7 @@
         "Lập trình Front-End Framework 2": 6.9,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.2
       }
     },
@@ -2631,7 +2631,7 @@
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 6.3,
         "Chính trị": 8.2,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9.5,
         "Lập trình PHP 1": 6.4,
         "Thiết kế UI/UX": 6.5,
@@ -2686,7 +2686,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -2695,7 +2695,7 @@
       "scores": {
         "Tin học": 6,
         "Nhập môn Công nghệ thông tin": null,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 6.3,
         "Kỹ năng học tập": 7.5,
         "Giáo dục thể chất - Vovinam": 7.5,
@@ -2764,7 +2764,7 @@
         "Lập trình Front-End Framework 2": 5.7,
         "Khởi sự doanh nghiệp": 8.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -2810,7 +2810,7 @@
     {
       "id": "PS36155",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 7.5,
         "Giáo dục quốc phòng": null,
@@ -2957,7 +2957,7 @@
         "Lập trình TypeScript": 1.3,
         "Lập trình Front-End Framework 1": null,
         "Lập trình Front-End Framework 2": null,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": null,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": null
@@ -2968,7 +2968,7 @@
       "scores": {
         "Tin học": 7.6,
         "Nhập môn Công nghệ thông tin": null,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 7.2,
         "Kỹ năng học tập": 7.8,
         "Giáo dục thể chất - Vovinam": 7,
@@ -3005,7 +3005,7 @@
     {
       "id": "PS36453",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": 6.3,
         "Giáo dục quốc phòng": 7.8,
@@ -3115,7 +3115,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3200,7 +3200,7 @@
     {
       "id": "PS37201",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.2,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 8.3,
@@ -3210,7 +3210,7 @@
         "Tiếng Anh 1.2": 8.5,
         "Tiếng Anh 2.1": 7.7,
         "Tiếng Anh 2.2": 7.8,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 9.3,
         "Cơ sở dữ liệu": 7.1,
         "Lập trình PHP cơ bản": null,
@@ -3232,7 +3232,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.1,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3271,14 +3271,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37217",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.6,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 8.5,
@@ -3288,7 +3288,7 @@
         "Tiếng Anh 1.2": 8.1,
         "Tiếng Anh 2.1": 7.5,
         "Tiếng Anh 2.2": 7.1,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 9.8,
         "Cơ sở dữ liệu": 9.2,
         "Lập trình PHP cơ bản": null,
@@ -3310,14 +3310,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37226",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 8.2,
@@ -3349,7 +3349,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3388,14 +3388,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37238",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.9,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 9,
@@ -3405,7 +3405,7 @@
         "Tiếng Anh 1.2": 7.8,
         "Tiếng Anh 2.1": 6.6,
         "Tiếng Anh 2.2": 7.2,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 6.2,
         "Cơ sở dữ liệu": 8.4,
         "Lập trình PHP cơ bản": null,
@@ -3427,14 +3427,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37253",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.2,
         "Pháp luật": 8,
         "Giáo dục quốc phòng": 9.3,
@@ -3455,7 +3455,7 @@
         "Lập trình PHP 1": 9.6,
         "Thiết kế UI/UX": 8.7,
         "Kỹ năng phát triển bản thân": null,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.7,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8,
@@ -3466,7 +3466,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3551,7 +3551,7 @@
     {
       "id": "PS37383",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.4,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 9.3,
@@ -3561,7 +3561,7 @@
         "Tiếng Anh 1.2": 8.4,
         "Tiếng Anh 2.1": 7.7,
         "Tiếng Anh 2.2": 7.4,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 8.9,
         "Cơ sở dữ liệu": 8.4,
         "Lập trình PHP cơ bản": null,
@@ -3583,14 +3583,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37424",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 8.7,
@@ -3622,14 +3622,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37457",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.1,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 7.7,
@@ -3661,7 +3661,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3700,7 +3700,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.3,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3723,12 +3723,12 @@
         "Lập trình PHP cơ bản": 9.1,
         "Lập trình cơ sở với JavaScript": 9.4,
         "Chính trị": 8.7,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9.2,
         "Lập trình PHP 1": 8.1,
         "Thiết kế UI/UX": 9.4,
         "Kỹ năng phát triển bản thân": 8.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.8,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.1,
@@ -3739,7 +3739,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3778,14 +3778,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.1,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37566",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 8.5,
@@ -3817,14 +3817,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37567",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.4,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 7.7,
@@ -3856,7 +3856,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -3895,14 +3895,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37587",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": null,
@@ -3934,14 +3934,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37591",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 8.3,
         "Giáo dục quốc phòng": 8.7,
@@ -3973,7 +3973,7 @@
         "Lập trình Front-End Framework 2": 8.2,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.7
       }
     },
@@ -4012,7 +4012,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4051,7 +4051,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4090,7 +4090,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": 5.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4129,14 +4129,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 6.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37668",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.3,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 8.7,
@@ -4168,7 +4168,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4207,7 +4207,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4246,14 +4246,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.5,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS37701",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": 6.5,
         "Giáo dục quốc phòng": 8,
@@ -4263,7 +4263,7 @@
         "Tiếng Anh 1.2": 7.3,
         "Tiếng Anh 2.1": 7.5,
         "Tiếng Anh 2.2": 7.4,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 9.3,
         "Cơ sở dữ liệu": 9,
         "Lập trình PHP cơ bản": null,
@@ -4285,7 +4285,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4294,7 +4294,7 @@
       "scores": {
         "Tin học": 7.6,
         "Nhập môn Công nghệ thông tin": 6,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 6,
         "Kỹ năng học tập": 5.1,
         "Giáo dục thể chất - Vovinam": 7.2,
@@ -4348,7 +4348,7 @@
         "Lập trình cơ sở với JavaScript": 7.8,
         "Chính trị": 8.7,
         "Thiết kế Web với HTML5 & CSS3": 5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 7.2,
         "Thiết kế UI/UX": 4.3,
         "Kỹ năng phát triển bản thân": 6.6,
@@ -4361,7 +4361,7 @@
         "Lập trình TypeScript": 7.5,
         "Lập trình Front-End Framework 1": 6.6,
         "Lập trình Front-End Framework 2": 7,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": 6.9,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": 3.5
@@ -4441,7 +4441,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": null,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4480,7 +4480,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.4,
         "Kỹ năng làm việc": 6.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4519,7 +4519,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.1,
         "Kỹ năng làm việc": 5.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4558,7 +4558,7 @@
         "Lập trình Front-End Framework 2": 6.5,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.3
       }
     },
@@ -4597,14 +4597,14 @@
         "Lập trình Front-End Framework 2": 6.5,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.3
       }
     },
     {
       "id": "PS38004",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 6.8,
         "Giáo dục quốc phòng": 9,
@@ -4636,14 +4636,14 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.7
       }
     },
     {
       "id": "PS38044",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 6.8,
         "Giáo dục quốc phòng": 9,
@@ -4675,7 +4675,7 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.7
       }
     },
@@ -4703,7 +4703,7 @@
         "Lập trình PHP 1": 7.6,
         "Thiết kế UI/UX": 7.9,
         "Kỹ năng phát triển bản thân": 8.2,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 6.7,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.9,
@@ -4714,7 +4714,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4736,13 +4736,13 @@
         "Cơ sở dữ liệu": 8.5,
         "Lập trình PHP cơ bản": 9.2,
         "Lập trình cơ sở với JavaScript": 9.4,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.5,
         "Dự án mẫu (TKTW)": 9.3,
         "Lập trình PHP 1": 8.7,
         "Thiết kế UI/UX": 9.3,
         "Kỹ năng phát triển bản thân": 7.9,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.6,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.2,
@@ -4753,7 +4753,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4781,7 +4781,7 @@
         "Lập trình PHP 1": 5.9,
         "Thiết kế UI/UX": 9.1,
         "Kỹ năng phát triển bản thân": 7.1,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.2,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.3,
@@ -4792,7 +4792,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": 6.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -4831,7 +4831,7 @@
         "Lập trình Front-End Framework 2": 8.5,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.2
       }
     },
@@ -4909,7 +4909,7 @@
         "Lập trình Front-End Framework 2": 8.1,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
@@ -4937,7 +4937,7 @@
         "Lập trình PHP 1": 1.1,
         "Thiết kế UI/UX": 2.5,
         "Kỹ năng phát triển bản thân": 7,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 1.7,
         "Lập trình ECMAScript": 0.7,
         "Dự án 1 (TKTW)": null,
@@ -4987,7 +4987,7 @@
         "Lập trình Front-End Framework 2": 6.3,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -5009,7 +5009,7 @@
         "Cơ sở dữ liệu": 8,
         "Lập trình PHP cơ bản": 7.7,
         "Lập trình cơ sở với JavaScript": 8.3,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 8.7,
         "Dự án mẫu (TKTW)": 6.2,
         "Lập trình PHP 1": 6.5,
@@ -5026,14 +5026,14 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.4
       }
     },
     {
       "id": "PS38149",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 9,
@@ -5054,7 +5054,7 @@
         "Lập trình PHP 1": 7.8,
         "Thiết kế UI/UX": 7.3,
         "Kỹ năng phát triển bản thân": 8.8,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 6.6,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.9,
@@ -5065,7 +5065,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5104,7 +5104,7 @@
         "Lập trình Front-End Framework 2": 5.9,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6
       }
     },
@@ -5143,7 +5143,7 @@
         "Lập trình Front-End Framework 2": 8.7,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9.1
       }
     },
@@ -5182,14 +5182,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS38243",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": 8.3,
         "Giáo dục quốc phòng": 8.7,
@@ -5210,7 +5210,7 @@
         "Lập trình PHP 1": 7.4,
         "Thiết kế UI/UX": 7.3,
         "Kỹ năng phát triển bản thân": 8.1,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 6.7,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.6,
@@ -5221,7 +5221,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5260,7 +5260,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5299,7 +5299,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.1,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5327,7 +5327,7 @@
         "Lập trình PHP 1": 7.3,
         "Thiết kế UI/UX": 7.1,
         "Kỹ năng phát triển bản thân": 8,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.3,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.3,
@@ -5338,7 +5338,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5377,14 +5377,14 @@
         "Lập trình Front-End Framework 2": 8.2,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
     {
       "id": "PS38342",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 9.2,
@@ -5400,7 +5400,7 @@
         "Lập trình PHP cơ bản": 9.7,
         "Lập trình cơ sở với JavaScript": 9.4,
         "Chính trị": 9,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 8.8,
         "Lập trình PHP 1": 7.5,
         "Thiết kế UI/UX": 8.3,
@@ -5416,7 +5416,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5455,7 +5455,7 @@
         "Lập trình Front-End Framework 2": 0.6,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.5
       }
     },
@@ -5533,7 +5533,7 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.6
       }
     },
@@ -5561,7 +5561,7 @@
         "Lập trình PHP 1": 7.4,
         "Thiết kế UI/UX": 7.8,
         "Kỹ năng phát triển bản thân": 8.4,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.1,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.5,
@@ -5572,7 +5572,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5678,7 +5678,7 @@
         "Lập trình PHP 1": 6.2,
         "Thiết kế UI/UX": 5.7,
         "Kỹ năng phát triển bản thân": 7.4,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 5.4,
         "Lập trình ECMAScript": 3.5,
         "Dự án 1 (TKTW)": 1.7,
@@ -5756,7 +5756,7 @@
         "Lập trình PHP 1": 6.6,
         "Thiết kế UI/UX": 8.2,
         "Kỹ năng phát triển bản thân": 7.6,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 6.8,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.5,
@@ -5767,7 +5767,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.6,
         "Kỹ năng làm việc": 6.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -5806,7 +5806,7 @@
         "Lập trình Front-End Framework 2": 7.9,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.6
       }
     },
@@ -5852,7 +5852,7 @@
     {
       "id": "PS38490",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.4,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 6.8,
@@ -5867,7 +5867,7 @@
         "Cơ sở dữ liệu": 6.7,
         "Lập trình PHP cơ bản": 7.7,
         "Lập trình cơ sở với JavaScript": 6,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 5.5,
         "Dự án mẫu (TKTW)": 8.4,
         "Lập trình PHP 1": 5.6,
@@ -5884,7 +5884,7 @@
         "Lập trình Front-End Framework 2": 6.6,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8
       }
     },
@@ -5912,7 +5912,7 @@
         "Lập trình PHP 1": 5.4,
         "Thiết kế UI/UX": null,
         "Kỹ năng phát triển bản thân": 2.2,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": null,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": null,
@@ -6001,7 +6001,7 @@
         "Lập trình Front-End Framework 2": 6.7,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -6040,7 +6040,7 @@
         "Lập trình Front-End Framework 2": 7.7,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.6
       }
     },
@@ -6079,7 +6079,7 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6
       }
     },
@@ -6118,7 +6118,7 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.4
       }
     },
@@ -6157,7 +6157,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.2,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6196,7 +6196,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.7,
         "Kỹ năng làm việc": 5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6235,7 +6235,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.2,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6274,14 +6274,14 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 8.6,
         "Kỹ năng làm việc": 6.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
     {
       "id": "PS38622",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.3,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 7.3,
@@ -6313,7 +6313,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6359,7 +6359,7 @@
     {
       "id": "PS38640",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 8.2,
@@ -6391,14 +6391,14 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
     {
       "id": "PS38659",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 7.8,
@@ -6430,14 +6430,14 @@
         "Lập trình Front-End Framework 2": 7.8,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.4
       }
     },
     {
       "id": "PS38672",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 8,
         "Giáo dục quốc phòng": 9.2,
@@ -6469,14 +6469,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS38677",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.3,
         "Pháp luật": 8.3,
         "Giáo dục quốc phòng": 6.3,
@@ -6508,7 +6508,7 @@
         "Lập trình Front-End Framework 2": 7.1,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
@@ -6625,7 +6625,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.3,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6664,7 +6664,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 5.7,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6692,7 +6692,7 @@
         "Lập trình PHP 1": 4.2,
         "Thiết kế UI/UX": null,
         "Kỹ năng phát triển bản thân": 6.4,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 5.4,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": null,
@@ -6710,7 +6710,7 @@
     {
       "id": "PS38727",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 7.2,
@@ -6742,7 +6742,7 @@
         "Lập trình Front-End Framework 2": 7.7,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.9
       }
     },
@@ -6770,7 +6770,7 @@
         "Lập trình PHP 1": 8.5,
         "Thiết kế UI/UX": 9.4,
         "Kỹ năng phát triển bản thân": 7.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.5,
         "Lập trình ECMAScript": 8.6,
         "Dự án 1 (TKTW)": 6.7,
@@ -6781,7 +6781,7 @@
         "Lập trình Front-End Framework 2": 9.7,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.7
       }
     },
@@ -6820,7 +6820,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6859,7 +6859,7 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.3
       }
     },
@@ -6898,7 +6898,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -6937,7 +6937,7 @@
         "Lập trình Front-End Framework 2": 7.7,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
@@ -6976,7 +6976,7 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
@@ -6998,7 +6998,7 @@
         "Cơ sở dữ liệu": 9.1,
         "Lập trình PHP cơ bản": 8.9,
         "Lập trình cơ sở với JavaScript": 9.2,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
         "Dự án mẫu (TKTW)": 8.7,
         "Lập trình PHP 1": 9.2,
@@ -7015,7 +7015,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -7054,7 +7054,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -7093,7 +7093,7 @@
         "Lập trình Front-End Framework 2": 9,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.7
       }
     },
@@ -7132,7 +7132,7 @@
         "Lập trình Front-End Framework 2": 9.7,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.5
       }
     },
@@ -7171,7 +7171,7 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 5.9,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
@@ -7210,7 +7210,7 @@
         "Lập trình Front-End Framework 2": 6.4,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9
       }
     },
@@ -7238,7 +7238,7 @@
         "Lập trình PHP 1": 5.6,
         "Thiết kế UI/UX": null,
         "Kỹ năng phát triển bản thân": null,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": null,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": null,
@@ -7256,7 +7256,7 @@
     {
       "id": "PS38930",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 7.5,
@@ -7277,7 +7277,7 @@
         "Lập trình PHP 1": 8,
         "Thiết kế UI/UX": 9.1,
         "Kỹ năng phát triển bản thân": 8.1,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.1,
         "Lập trình ECMAScript": 8.2,
         "Dự án 1 (TKTW)": 7.9,
@@ -7288,7 +7288,7 @@
         "Lập trình Front-End Framework 2": 8.1,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.2
       }
     },
@@ -7366,7 +7366,7 @@
         "Lập trình Front-End Framework 2": 5.8,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -7405,7 +7405,7 @@
         "Lập trình Front-End Framework 2": 6.4,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.9
       }
     },
@@ -7483,7 +7483,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -7522,7 +7522,7 @@
         "Lập trình Front-End Framework 2": 8.4,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.3
       }
     },
@@ -7550,7 +7550,7 @@
         "Lập trình PHP 1": 7.5,
         "Thiết kế UI/UX": 9.3,
         "Kỹ năng phát triển bản thân": 8.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.7,
         "Lập trình ECMAScript": 8.2,
         "Dự án 1 (TKTW)": 7.8,
@@ -7561,7 +7561,7 @@
         "Lập trình Front-End Framework 2": 9.6,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 8.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.7
       }
     },
@@ -7589,7 +7589,7 @@
         "Lập trình PHP 1": 9.2,
         "Thiết kế UI/UX": 9.4,
         "Kỹ năng phát triển bản thân": 7.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.8,
         "Lập trình ECMAScript": 8.7,
         "Dự án 1 (TKTW)": 7.9,
@@ -7600,7 +7600,7 @@
         "Lập trình Front-End Framework 2": 9.7,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 8.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.8
       }
     },
@@ -7639,14 +7639,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS38973",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": 6.3,
         "Giáo dục quốc phòng": 7,
@@ -7678,7 +7678,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -7717,7 +7717,7 @@
         "Lập trình Front-End Framework 2": 7.1,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8
       }
     },
@@ -7756,7 +7756,7 @@
         "Lập trình Front-End Framework 2": 7.1,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8
       }
     },
@@ -7823,7 +7823,7 @@
         "Lập trình PHP 1": 8.2,
         "Thiết kế UI/UX": 7.5,
         "Kỹ năng phát triển bản thân": 7.8,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.6,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.8,
@@ -7834,7 +7834,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -7873,14 +7873,14 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 6.6,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9
       }
     },
     {
       "id": "PS39061",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 9.5,
         "Giáo dục quốc phòng": 8,
@@ -7891,7 +7891,7 @@
         "Tiếng Anh 2.1": 8.2,
         "Tiếng Anh 2.2": 7.7,
         "Nhập môn lập trình": 9.3,
-        "Xây dựng trang Web": null,
+        "Xây dựng trang Web": 1,
         "Cơ sở dữ liệu": 9.7,
         "Lập trình PHP cơ bản": 8.8,
         "Lập trình cơ sở với JavaScript": 8.4,
@@ -7912,7 +7912,7 @@
         "Lập trình Front-End Framework 2": 8.4,
         "Khởi sự doanh nghiệp": 8.5,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
@@ -7951,7 +7951,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.4,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -7990,7 +7990,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8013,7 +8013,7 @@
         "Lập trình PHP cơ bản": 9.3,
         "Lập trình cơ sở với JavaScript": 8.5,
         "Chính trị": 8.8,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9.5,
         "Lập trình PHP 1": 8.8,
         "Thiết kế UI/UX": 7.8,
@@ -8029,7 +8029,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.7,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8057,7 +8057,7 @@
         "Lập trình PHP 1": 8.1,
         "Thiết kế UI/UX": 8.4,
         "Kỹ năng phát triển bản thân": 5.6,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.3,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8,
@@ -8068,7 +8068,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8091,12 +8091,12 @@
         "Lập trình PHP cơ bản": 9.7,
         "Lập trình cơ sở với JavaScript": 9.3,
         "Chính trị": 9.3,
-        "Thiết kế Web với HTML5 & CSS3": null,
-        "Dự án mẫu (TKTW)": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.2,
         "Thiết kế UI/UX": 8.6,
         "Kỹ năng phát triển bản thân": 8.1,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.1,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.6,
@@ -8107,7 +8107,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8146,7 +8146,7 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.7
       }
     },
@@ -8170,11 +8170,11 @@
         "Lập trình cơ sở với JavaScript": 9.2,
         "Chính trị": 9.7,
         "Thiết kế Web với HTML5 & CSS3": 9.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.4,
         "Thiết kế UI/UX": 8.4,
         "Kỹ năng phát triển bản thân": 7.7,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.2,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.6,
@@ -8185,7 +8185,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8207,13 +8207,13 @@
         "Cơ sở dữ liệu": 9.2,
         "Lập trình PHP cơ bản": 9.9,
         "Lập trình cơ sở với JavaScript": 9.3,
-        "Chính trị": null,
-        "Thiết kế Web với HTML5 & CSS3": null,
-        "Dự án mẫu (TKTW)": null,
+        "Chính trị": 1,
+        "Thiết kế Web với HTML5 & CSS3": 1,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.6,
         "Thiết kế UI/UX": 8.4,
         "Kỹ năng phát triển bản thân": 8,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 9.6,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.6,
@@ -8224,7 +8224,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.4,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8263,7 +8263,7 @@
         "Lập trình Front-End Framework 2": 8.5,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.7
       }
     },
@@ -8302,7 +8302,7 @@
         "Lập trình Front-End Framework 2": 6.7,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": 6.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -8330,7 +8330,7 @@
         "Lập trình PHP 1": 7.4,
         "Thiết kế UI/UX": 8,
         "Kỹ năng phát triển bản thân": 7,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.6,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.1,
@@ -8341,7 +8341,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8365,11 +8365,11 @@
         "Lập trình cơ sở với JavaScript": 9.5,
         "Chính trị": 9,
         "Thiết kế Web với HTML5 & CSS3": 9,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.3,
         "Thiết kế UI/UX": 8.8,
         "Kỹ năng phát triển bản thân": 8.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.9,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.3,
@@ -8380,7 +8380,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8419,7 +8419,7 @@
         "Lập trình Front-End Framework 2": 7.3,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 6.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.9
       }
     },
@@ -8458,14 +8458,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": 8.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS39278",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": 6.8,
         "Giáo dục quốc phòng": 8.8,
@@ -8497,7 +8497,7 @@
         "Lập trình Front-End Framework 2": 8.8,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 8.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.6
       }
     },
@@ -8525,7 +8525,7 @@
         "Lập trình PHP 1": 8.9,
         "Thiết kế UI/UX": 7.3,
         "Kỹ năng phát triển bản thân": 8.3,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 6.4,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.8,
@@ -8536,7 +8536,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8575,7 +8575,7 @@
         "Lập trình Front-End Framework 2": 8.1,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.7
       }
     },
@@ -8636,10 +8636,10 @@
         "Cơ sở dữ liệu": 9.8,
         "Lập trình PHP cơ bản": 8.3,
         "Lập trình cơ sở với JavaScript": 7.5,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.3,
         "Dự án mẫu (TKTW)": 7.5,
-        "Lập trình PHP 1": null,
+        "Lập trình PHP 1": 1,
         "Thiết kế UI/UX": 8.6,
         "Kỹ năng phát triển bản thân": 8.4,
         "Lập trình Javascript nâng cao": 6,
@@ -8653,7 +8653,7 @@
         "Lập trình Front-End Framework 2": 9.7,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.9
       }
     },
@@ -8675,7 +8675,7 @@
         "Cơ sở dữ liệu": 8.3,
         "Lập trình PHP cơ bản": 7.7,
         "Lập trình cơ sở với JavaScript": 8.3,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 6.5,
         "Dự án mẫu (TKTW)": 6.5,
         "Lập trình PHP 1": 9.5,
@@ -8692,7 +8692,7 @@
         "Lập trình Front-End Framework 2": 9.4,
         "Khởi sự doanh nghiệp": 6.6,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.3
       }
     },
@@ -8731,14 +8731,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": 8.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS39361",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": 8,
         "Giáo dục quốc phòng": 6.2,
@@ -8770,7 +8770,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8809,7 +8809,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 5.9,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8848,7 +8848,7 @@
         "Lập trình Front-End Framework 2": 7.5,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 1.8
       }
     },
@@ -8887,7 +8887,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8926,7 +8926,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -8965,7 +8965,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9011,7 +9011,7 @@
     {
       "id": "PS39640",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.2,
         "Pháp luật": 6,
         "Giáo dục quốc phòng": 8,
@@ -9041,7 +9041,7 @@
         "Lập trình TypeScript": null,
         "Lập trình Front-End Framework 1": null,
         "Lập trình Front-End Framework 2": null,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": 1.3,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": null
@@ -9082,14 +9082,14 @@
         "Lập trình Front-End Framework 2": 6.5,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 5.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
     {
       "id": "PS39705",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.3,
         "Pháp luật": 6.3,
         "Giáo dục quốc phòng": 7,
@@ -9121,7 +9121,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 5.8,
         "Kỹ năng làm việc": 6.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9167,7 +9167,7 @@
     {
       "id": "PS39861",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 8.7,
@@ -9183,12 +9183,12 @@
         "Lập trình PHP cơ bản": 8.8,
         "Lập trình cơ sở với JavaScript": 8.8,
         "Chính trị": 9.2,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9.3,
         "Lập trình PHP 1": 8.6,
         "Thiết kế UI/UX": 7.8,
         "Kỹ năng phát triển bản thân": 7.8,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.9,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.1,
@@ -9199,7 +9199,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9238,7 +9238,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9277,7 +9277,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9316,7 +9316,7 @@
         "Lập trình Front-End Framework 2": 5.8,
         "Khởi sự doanh nghiệp": 5.7,
         "Kỹ năng làm việc": 6.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -9355,7 +9355,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 5.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9394,7 +9394,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 5.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9433,7 +9433,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.6,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9472,7 +9472,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 6.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9511,7 +9511,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9628,7 +9628,7 @@
         "Lập trình Front-End Framework 2": 7.8,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.8
       }
     },
@@ -9667,7 +9667,7 @@
         "Lập trình Front-End Framework 2": 5.8,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.7
       }
     },
@@ -9706,7 +9706,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -9745,7 +9745,7 @@
         "Lập trình Front-End Framework 2": 8,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": 8.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.3
       }
     },
@@ -9784,7 +9784,7 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": 8.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
@@ -9823,7 +9823,7 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.7
       }
     },
@@ -9862,7 +9862,7 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.3
       }
     },
@@ -9901,7 +9901,7 @@
         "Lập trình Front-End Framework 2": 5.5,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 6.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.8
       }
     },
@@ -9940,7 +9940,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -10018,7 +10018,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.3
       }
     },
@@ -10096,7 +10096,7 @@
         "Lập trình Front-End Framework 2": 5.3,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -10135,7 +10135,7 @@
         "Lập trình Front-End Framework 2": 6,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.3
       }
     },
@@ -10174,7 +10174,7 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.2
       }
     },
@@ -10213,7 +10213,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 6.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -10252,7 +10252,7 @@
         "Lập trình Front-End Framework 2": 5.4,
         "Khởi sự doanh nghiệp": 5.7,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8
       }
     },
@@ -10291,7 +10291,7 @@
         "Lập trình Front-End Framework 2": 6.4,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.6
       }
     },
@@ -10300,7 +10300,7 @@
       "scores": {
         "Tin học": 7,
         "Nhập môn Công nghệ thông tin": 8.6,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 7.3,
         "Kỹ năng học tập": 7.4,
         "Giáo dục thể chất - Vovinam": 7.9,
@@ -10313,7 +10313,7 @@
         "Cơ sở dữ liệu": 6.7,
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 6.9,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": null,
         "Dự án mẫu (TKTW)": 0.5,
         "Lập trình PHP 1": 1.7,
@@ -10369,7 +10369,7 @@
         "Lập trình Front-End Framework 2": 7.9,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.8
       }
     },
@@ -10408,7 +10408,7 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 8.7,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.9
       }
     },
@@ -10447,7 +10447,7 @@
         "Lập trình Front-End Framework 2": 6.3,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -10486,7 +10486,7 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 8.7,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.3
       }
     },
@@ -10509,7 +10509,7 @@
         "Lập trình PHP cơ bản": 8.6,
         "Lập trình cơ sở với JavaScript": 8.9,
         "Chính trị": 9.2,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 8.9,
         "Lập trình PHP 1": 8.4,
         "Thiết kế UI/UX": 8,
@@ -10525,7 +10525,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -10564,14 +10564,14 @@
         "Lập trình Front-End Framework 2": 6.6,
         "Khởi sự doanh nghiệp": 8.7,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.7
       }
     },
     {
       "id": "PS40446",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 6.5,
         "Giáo dục quốc phòng": 9.2,
@@ -10603,15 +10603,15 @@
         "Lập trình Front-End Framework 2": 7.3,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.6
       }
     },
     {
       "id": "PS40448",
       "scores": {
-        "Tin học": null,
-        "Nhập môn Công nghệ thông tin": null,
+        "Tin học": 1,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 7.5,
         "Giáo dục quốc phòng": 9,
         "Kỹ năng học tập": 7.3,
@@ -10631,7 +10631,7 @@
         "Lập trình PHP 1": 5.4,
         "Thiết kế UI/UX": 8,
         "Kỹ năng phát triển bản thân": 8.4,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.8,
         "Lập trình ECMAScript": 7.3,
         "Dự án 1 (TKTW)": 7.1,
@@ -10642,7 +10642,7 @@
         "Lập trình Front-End Framework 2": 6.9,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": 5.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.3
       }
     },
@@ -10681,7 +10681,7 @@
         "Lập trình Front-End Framework 2": 5.7,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.3
       }
     },
@@ -10720,7 +10720,7 @@
         "Lập trình Front-End Framework 2": 5.9,
         "Khởi sự doanh nghiệp": 5.6,
         "Kỹ năng làm việc": 6.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.4
       }
     },
@@ -10759,7 +10759,7 @@
         "Lập trình Front-End Framework 2": 8,
         "Khởi sự doanh nghiệp": 8.9,
         "Kỹ năng làm việc": 8.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.5
       }
     },
@@ -10798,7 +10798,7 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 6.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.1
       }
     },
@@ -10826,7 +10826,7 @@
         "Lập trình PHP 1": 8.1,
         "Thiết kế UI/UX": 6.8,
         "Kỹ năng phát triển bản thân": 6.9,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.1,
         "Lập trình ECMAScript": 6.8,
         "Dự án 1 (TKTW)": 6.3,
@@ -10837,7 +10837,7 @@
         "Lập trình Front-End Framework 2": 8.2,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.6
       }
     },
@@ -10865,9 +10865,9 @@
         "Lập trình PHP 1": 1.3,
         "Thiết kế UI/UX": 6.1,
         "Kỹ năng phát triển bản thân": 6.9,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": null,
-        "Lập trình ECMAScript": null,
+        "Lập trình ECMAScript": 1,
         "Dự án 1 (TKTW)": 3.7,
         "Marketing trên Internet": 3.1,
         "NodeJS & Restful Web Service": null,
@@ -10954,7 +10954,7 @@
         "Lập trình Front-End Framework 2": 5.3,
         "Khởi sự doanh nghiệp": 5.9,
         "Kỹ năng làm việc": 6.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.9
       }
     },
@@ -10993,7 +10993,7 @@
         "Lập trình Front-End Framework 2": 5.6,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.4
       }
     },
@@ -11032,7 +11032,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11071,7 +11071,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11099,7 +11099,7 @@
         "Lập trình PHP 1": 9.2,
         "Thiết kế UI/UX": 7.5,
         "Kỹ năng phát triển bản thân": 8.2,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7.8,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.8,
@@ -11110,7 +11110,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.4,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11227,7 +11227,7 @@
         "Lập trình Front-End Framework 2": 5.3,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 5.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -11266,7 +11266,7 @@
         "Lập trình Front-End Framework 2": 6.4,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -11305,7 +11305,7 @@
         "Lập trình Front-End Framework 2": 5.6,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 6.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.8
       }
     },
@@ -11344,7 +11344,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.5,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11383,7 +11383,7 @@
         "Lập trình Front-End Framework 2": 7.3,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 6.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.6
       }
     },
@@ -11405,7 +11405,7 @@
         "Cơ sở dữ liệu": 7.8,
         "Lập trình PHP cơ bản": 6.2,
         "Lập trình cơ sở với JavaScript": 6.7,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 0.5,
         "Dự án mẫu (TKTW)": 0.2,
         "Lập trình PHP 1": 3.1,
@@ -11450,7 +11450,7 @@
         "Lập trình PHP 1": 9,
         "Thiết kế UI/UX": 8.5,
         "Kỹ năng phát triển bản thân": 8.3,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.7,
         "Lập trình ECMAScript": 7.3,
         "Dự án 1 (TKTW)": 6.4,
@@ -11461,7 +11461,7 @@
         "Lập trình Front-End Framework 2": 8.2,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7
       }
     },
@@ -11500,7 +11500,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 6.1,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.8
       }
     },
@@ -11523,12 +11523,12 @@
         "Lập trình PHP cơ bản": 8.3,
         "Lập trình cơ sở với JavaScript": 8.5,
         "Chính trị": 8.5,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 7,
         "Lập trình PHP 1": 8.8,
         "Thiết kế UI/UX": 7.9,
         "Kỹ năng phát triển bản thân": 7.6,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.5,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8,
@@ -11539,7 +11539,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.9,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11578,14 +11578,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS40932",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.3,
         "Pháp luật": 6,
         "Giáo dục quốc phòng": 6,
@@ -11656,15 +11656,15 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 6.2,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.8
       }
     },
     {
       "id": "PS40956",
       "scores": {
-        "Tin học": null,
-        "Nhập môn Công nghệ thông tin": null,
+        "Tin học": 1,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 6.2,
         "Kỹ năng học tập": 7.1,
@@ -11695,7 +11695,7 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 5.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.2
       }
     },
@@ -11734,7 +11734,7 @@
         "Lập trình Front-End Framework 2": 8.9,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
@@ -11773,7 +11773,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 5.8,
         "Kỹ năng làm việc": 6.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11797,7 +11797,7 @@
         "Lập trình cơ sở với JavaScript": 8.7,
         "Chính trị": 9,
         "Thiết kế Web với HTML5 & CSS3": 9.9,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 8.9,
         "Thiết kế UI/UX": 6.8,
         "Kỹ năng phát triển bản thân": 6.9,
@@ -11812,7 +11812,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.4,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11851,7 +11851,7 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.1
       }
     },
@@ -11890,7 +11890,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -11951,7 +11951,7 @@
         "Cơ sở dữ liệu": 5.8,
         "Lập trình PHP cơ bản": 1.7,
         "Lập trình cơ sở với JavaScript": 6.4,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 5.8,
         "Dự án mẫu (TKTW)": 5.5,
         "Lập trình PHP 1": 6.1,
@@ -12085,14 +12085,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS41133",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.7,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 6.8,
@@ -12124,7 +12124,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.1,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -12154,7 +12154,7 @@
         "Kỹ năng phát triển bản thân": 7.2,
         "Lập trình Javascript nâng cao": 0.9,
         "Quản trị website": 6.8,
-        "Lập trình ECMAScript": null,
+        "Lập trình ECMAScript": 1,
         "Dự án 1 (TKTW)": null,
         "Marketing trên Internet": 5.5,
         "NodeJS & Restful Web Service": 5,
@@ -12202,14 +12202,14 @@
         "Lập trình Front-End Framework 2": 6.7,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.3
       }
     },
     {
       "id": "PS41208",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.9,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 7.7,
@@ -12248,7 +12248,7 @@
     {
       "id": "PS41211",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 6,
@@ -12280,7 +12280,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 5.9,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -12319,7 +12319,7 @@
         "Lập trình Front-End Framework 2": 6,
         "Khởi sự doanh nghiệp": 7.4,
         "Kỹ năng làm việc": 5.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -12358,7 +12358,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 6.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -12404,7 +12404,7 @@
     {
       "id": "PS41280",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.7,
         "Pháp luật": 6,
         "Giáo dục quốc phòng": 5.8,
@@ -12436,7 +12436,7 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.2
       }
     },
@@ -12482,7 +12482,7 @@
     {
       "id": "PS41317",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.1,
         "Pháp luật": 7.5,
         "Giáo dục quốc phòng": 5.8,
@@ -12497,7 +12497,7 @@
         "Cơ sở dữ liệu": 6.2,
         "Lập trình PHP cơ bản": 4.3,
         "Lập trình cơ sở với JavaScript": 2,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 5,
         "Dự án mẫu (TKTW)": null,
         "Lập trình PHP 1": 3.6,
@@ -12553,7 +12553,7 @@
         "Lập trình Front-End Framework 2": 5.5,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
@@ -12592,7 +12592,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -12601,7 +12601,7 @@
       "scores": {
         "Tin học": 6,
         "Nhập môn Công nghệ thông tin": 8.5,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 5.7,
         "Kỹ năng học tập": 7.4,
         "Giáo dục thể chất - Vovinam": 8.4,
@@ -12631,7 +12631,7 @@
         "Lập trình Front-End Framework 2": 6.6,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 7.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.8
       }
     },
@@ -12677,7 +12677,7 @@
     {
       "id": "PS41432",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 7.5,
         "Giáo dục quốc phòng": 7.2,
@@ -12687,7 +12687,7 @@
         "Tiếng Anh 1.2": 7.6,
         "Tiếng Anh 2.1": 7.4,
         "Tiếng Anh 2.2": 8,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 9.8,
         "Cơ sở dữ liệu": 8.3,
         "Lập trình PHP cơ bản": 9.1,
@@ -12709,7 +12709,7 @@
         "Lập trình Front-End Framework 2": 8.8,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9
       }
     },
@@ -12718,7 +12718,7 @@
       "scores": {
         "Tin học": 9,
         "Nhập môn Công nghệ thông tin": 8.8,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 6.3,
         "Kỹ năng học tập": 6.4,
         "Giáo dục thể chất - Vovinam": 6.8,
@@ -12737,7 +12737,7 @@
         "Lập trình PHP 1": 1.2,
         "Thiết kế UI/UX": 1.2,
         "Kỹ năng phát triển bản thân": null,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": null,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": null,
@@ -12755,7 +12755,7 @@
     {
       "id": "PS41442",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": 7.5,
         "Giáo dục quốc phòng": 7,
@@ -12765,13 +12765,13 @@
         "Tiếng Anh 1.2": null,
         "Tiếng Anh 2.1": null,
         "Tiếng Anh 2.2": 8.6,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 9.2,
         "Cơ sở dữ liệu": 8.5,
         "Lập trình PHP cơ bản": 9.1,
         "Lập trình cơ sở với JavaScript": 8.4,
-        "Chính trị": null,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Chính trị": 1,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 8.5,
         "Lập trình PHP 1": 9,
         "Thiết kế UI/UX": 8.5,
@@ -12787,7 +12787,7 @@
         "Lập trình Front-End Framework 2": 8.2,
         "Khởi sự doanh nghiệp": 8.4,
         "Kỹ năng làm việc": 7.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.1
       }
     },
@@ -12826,14 +12826,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 8.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS41482",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 6.7,
@@ -12865,14 +12865,14 @@
         "Lập trình Front-End Framework 2": 8.2,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9
       }
     },
     {
       "id": "PS41484",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.2,
         "Pháp luật": 6.8,
         "Giáo dục quốc phòng": 8.3,
@@ -12904,14 +12904,14 @@
         "Lập trình Front-End Framework 2": 9,
         "Khởi sự doanh nghiệp": 8,
         "Kỹ năng làm việc": 8.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.5
       }
     },
     {
       "id": "PS41487",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 6.7,
@@ -12927,7 +12927,7 @@
         "Lập trình PHP cơ bản": 8.1,
         "Lập trình cơ sở với JavaScript": 9.3,
         "Chính trị": 9.2,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9.8,
         "Lập trình PHP 1": 9.3,
         "Thiết kế UI/UX": 8.8,
@@ -12943,7 +12943,7 @@
         "Lập trình Front-End Framework 2": 9.9,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 8.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.7
       }
     },
@@ -12965,8 +12965,8 @@
         "Cơ sở dữ liệu": 6.8,
         "Lập trình PHP cơ bản": 7.6,
         "Lập trình cơ sở với JavaScript": 8.1,
-        "Chính trị": null,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Chính trị": 1,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 8.2,
         "Lập trình PHP 1": 8.8,
         "Thiết kế UI/UX": 8.5,
@@ -12982,7 +12982,7 @@
         "Lập trình Front-End Framework 2": 8.9,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 9
       }
     },
@@ -13021,14 +13021,14 @@
         "Lập trình Front-End Framework 2": 7.8,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.1
       }
     },
     {
       "id": "PS41555",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.1,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 9,
@@ -13060,14 +13060,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.7,
         "Kỹ năng làm việc": 6.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS41585",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.4,
         "Pháp luật": 6.2,
         "Giáo dục quốc phòng": 7.7,
@@ -13099,7 +13099,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 5.7,
         "Kỹ năng làm việc": 6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13138,14 +13138,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS41668",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.6,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 9.2,
@@ -13162,11 +13162,11 @@
         "Lập trình cơ sở với JavaScript": 9.4,
         "Chính trị": 8.7,
         "Thiết kế Web với HTML5 & CSS3": 9.2,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 8.8,
         "Thiết kế UI/UX": 9.6,
         "Kỹ năng phát triển bản thân": 7.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 7,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 8.7,
@@ -13177,7 +13177,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13205,7 +13205,7 @@
         "Lập trình PHP 1": 7.1,
         "Thiết kế UI/UX": 7.2,
         "Kỹ năng phát triển bản thân": 7.1,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.2,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 6.9,
@@ -13216,7 +13216,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13255,7 +13255,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.1,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13294,7 +13294,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13341,7 +13341,7 @@
       "id": "PS41890",
       "scores": {
         "Tin học": 9.4,
-        "Nhập môn Công nghệ thông tin": null,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 9.2,
         "Kỹ năng học tập": 8,
@@ -13372,14 +13372,14 @@
         "Lập trình Front-End Framework 2": 7.2,
         "Khởi sự doanh nghiệp": 7.5,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
     {
       "id": "PS41895",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 7,
@@ -13411,7 +13411,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13478,7 +13478,7 @@
         "Lập trình PHP 1": 2,
         "Thiết kế UI/UX": null,
         "Kỹ năng phát triển bản thân": 5.5,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 5.6,
         "Lập trình ECMAScript": 2.1,
         "Dự án 1 (TKTW)": 2.8,
@@ -13528,7 +13528,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 7.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13567,7 +13567,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": 5.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6
       }
     },
@@ -13606,7 +13606,7 @@
         "Lập trình Front-End Framework 2": 6.1,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": 5.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6
       }
     },
@@ -13645,7 +13645,7 @@
         "Lập trình Front-End Framework 2": 5.5,
         "Khởi sự doanh nghiệp": 6.1,
         "Kỹ năng làm việc": 5.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.6
       }
     },
@@ -13684,7 +13684,7 @@
         "Lập trình Front-End Framework 2": 5.5,
         "Khởi sự doanh nghiệp": 6.1,
         "Kỹ năng làm việc": 5.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.6
       }
     },
@@ -13723,7 +13723,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.6,
         "Kỹ năng làm việc": 6.8,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -13762,7 +13762,7 @@
         "Lập trình Front-End Framework 2": 3.7,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 5.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.8
       }
     },
@@ -13801,14 +13801,14 @@
         "Lập trình Front-End Framework 2": 3.7,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 5.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 5.8
       }
     },
     {
       "id": "PS42232",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 8.7,
@@ -13840,14 +13840,14 @@
         "Lập trình Front-End Framework 2": 7.7,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.2
       }
     },
     {
       "id": "PS42235",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 8.7,
@@ -13879,7 +13879,7 @@
         "Lập trình Front-End Framework 2": 7.7,
         "Khởi sự doanh nghiệp": 8.8,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.2
       }
     },
@@ -13964,7 +13964,7 @@
     {
       "id": "PS42281",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.9,
         "Pháp luật": 8.8,
         "Giáo dục quốc phòng": 7.8,
@@ -13996,14 +13996,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS42285",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.9,
         "Pháp luật": 8.8,
         "Giáo dục quốc phòng": 7.8,
@@ -14035,7 +14035,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.8,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -14074,7 +14074,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6,
         "Kỹ năng làm việc": 6.9,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -14113,7 +14113,7 @@
         "Lập trình Front-End Framework 2": 8,
         "Khởi sự doanh nghiệp": 6.5,
         "Kỹ năng làm việc": 7.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.9
       }
     },
@@ -14121,7 +14121,7 @@
       "id": "PS42299",
       "scores": {
         "Tin học": 7,
-        "Nhập môn Công nghệ thông tin": null,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 7,
         "Giáo dục quốc phòng": 7.7,
         "Kỹ năng học tập": 7.3,
@@ -14152,7 +14152,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.3,
         "Kỹ năng làm việc": 8.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -14191,7 +14191,7 @@
         "Lập trình Front-End Framework 2": 5.5,
         "Khởi sự doanh nghiệp": 5.7,
         "Kỹ năng làm việc": 5.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.4
       }
     },
@@ -14230,15 +14230,15 @@
         "Lập trình Front-End Framework 2": 5.9,
         "Khởi sự doanh nghiệp": 5.9,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.5
       }
     },
     {
       "id": "PS42348",
       "scores": {
-        "Tin học": null,
-        "Nhập môn Công nghệ thông tin": null,
+        "Tin học": 1,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 8.8,
         "Kỹ năng học tập": 7.8,
@@ -14253,12 +14253,12 @@
         "Lập trình PHP cơ bản": 9.2,
         "Lập trình cơ sở với JavaScript": 9.3,
         "Chính trị": 9,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9,
         "Lập trình PHP 1": 7.7,
         "Thiết kế UI/UX": 7.3,
         "Kỹ năng phát triển bản thân": 6.4,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.9,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.2,
@@ -14269,14 +14269,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.9,
         "Kỹ năng làm việc": 7.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS42395",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 7.7,
         "Giáo dục quốc phòng": 9.7,
@@ -14308,14 +14308,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS42451",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.5,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 8.3,
@@ -14347,7 +14347,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 9.6,
         "Kỹ năng làm việc": 7.3,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -14371,7 +14371,7 @@
         "Lập trình cơ sở với JavaScript": 6.3,
         "Chính trị": 8.8,
         "Thiết kế Web với HTML5 & CSS3": 6,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 6,
         "Thiết kế UI/UX": 7.5,
         "Kỹ năng phát triển bản thân": 8.1,
@@ -14386,7 +14386,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 7.4,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -14425,7 +14425,7 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 7.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.1
       }
     },
@@ -14503,7 +14503,7 @@
         "Lập trình Front-End Framework 2": 7.4,
         "Khởi sự doanh nghiệp": 7.8,
         "Kỹ năng làm việc": 7.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.6
       }
     },
@@ -14531,7 +14531,7 @@
         "Lập trình PHP 1": 7,
         "Thiết kế UI/UX": 9.1,
         "Kỹ năng phát triển bản thân": 8.4,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.9,
         "Lập trình ECMAScript": 8.7,
         "Dự án 1 (TKTW)": 7.7,
@@ -14542,14 +14542,14 @@
         "Lập trình Front-End Framework 2": 8.3,
         "Khởi sự doanh nghiệp": 7.3,
         "Kỹ năng làm việc": 8.6,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8
       }
     },
     {
       "id": "PS42734",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 9.7,
@@ -14570,7 +14570,7 @@
         "Lập trình PHP 1": 7.1,
         "Thiết kế UI/UX": 7.6,
         "Kỹ năng phát triển bản thân": 7.6,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.4,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 7.5,
@@ -14581,7 +14581,7 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 8.4,
         "Kỹ năng làm việc": 6.7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
@@ -14698,15 +14698,15 @@
         "Lập trình Front-End Framework 2": 6.8,
         "Khởi sự doanh nghiệp": 7.6,
         "Kỹ năng làm việc": 7,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 7.1
       }
     },
     {
       "id": "PS42924",
       "scores": {
-        "Tin học": null,
-        "Nhập môn Công nghệ thông tin": null,
+        "Tin học": 1,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 8.8,
         "Kỹ năng học tập": 8.2,
@@ -14717,7 +14717,7 @@
         "Tiếng Anh 2.2": 7.8,
         "Nhập môn lập trình": 9.1,
         "Xây dựng trang Web": 9.3,
-        "Cơ sở dữ liệu": null,
+        "Cơ sở dữ liệu": 1,
         "Lập trình PHP cơ bản": 9.6,
         "Lập trình cơ sở với JavaScript": 9.7,
         "Chính trị": 8.8,
@@ -14737,14 +14737,14 @@
         "Lập trình Front-End Framework 2": null,
         "Khởi sự doanh nghiệp": 7.9,
         "Kỹ năng làm việc": 8.1,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": null
       }
     },
     {
       "id": "PS42930",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.9,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 9.2,
@@ -14765,7 +14765,7 @@
         "Lập trình PHP 1": 9.5,
         "Thiết kế UI/UX": 8.2,
         "Kỹ năng phát triển bản thân": 8.6,
-        "Lập trình Javascript nâng cao": null,
+        "Lập trình Javascript nâng cao": 1,
         "Quản trị website": 8.8,
         "Lập trình ECMAScript": 8.7,
         "Dự án 1 (TKTW)": 7.5,
@@ -14776,7 +14776,7 @@
         "Lập trình Front-End Framework 2": 8.8,
         "Khởi sự doanh nghiệp": 7.2,
         "Kỹ năng làm việc": 6.5,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 8.4
       }
     },
@@ -14808,7 +14808,7 @@
         "Quản trị website": 3,
         "Lập trình ECMAScript": null,
         "Dự án 1 (TKTW)": 0.4,
-        "Marketing trên Internet": null,
+        "Marketing trên Internet": 1,
         "NodeJS & Restful Web Service": null,
         "Lập trình TypeScript": null,
         "Lập trình Front-End Framework 1": null,
@@ -14854,7 +14854,7 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 5.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.3
       }
     },
@@ -14893,7 +14893,7 @@
         "Lập trình Front-End Framework 2": 6.2,
         "Khởi sự doanh nghiệp": 6.4,
         "Kỹ năng làm việc": 5.2,
-        "Thực tập tốt nghiệp (TKTW)": null,
+        "Thực tập tốt nghiệp (TKTW)": 1,
         "Dự án tốt nghiệp": 6.3
       }
     },
@@ -14955,7 +14955,7 @@
         "Lập trình PHP cơ bản": 6.6,
         "Lập trình cơ sở với JavaScript": 6.1,
         "Chính trị": 8,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 6.5,
         "Lập trình PHP 1": 6.3,
         "Thiết kế UI/UX": 6.6,
@@ -14993,9 +14993,9 @@
         "Cơ sở dữ liệu": 9.3,
         "Lập trình PHP cơ bản": 8.6,
         "Lập trình cơ sở với JavaScript": 7.6,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 8.1,
         "Thiết kế UI/UX": 8.9,
         "Kỹ năng phát triển bản thân": 6.7,
@@ -15032,9 +15032,9 @@
         "Cơ sở dữ liệu": 9.3,
         "Lập trình PHP cơ bản": 8.6,
         "Lập trình cơ sở với JavaScript": 7.6,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 8.1,
         "Thiết kế UI/UX": 8.9,
         "Kỹ năng phát triển bản thân": 6.7,
@@ -15056,7 +15056,7 @@
     {
       "id": "PS44115",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 7.5,
@@ -15072,7 +15072,7 @@
         "Lập trình PHP cơ bản": 8.1,
         "Lập trình cơ sở với JavaScript": 7.5,
         "Chính trị": 9.7,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 9.9,
         "Lập trình PHP 1": 8.9,
         "Thiết kế UI/UX": 8.7,
@@ -15095,7 +15095,7 @@
     {
       "id": "PS44152",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.1,
         "Pháp luật": 6.5,
         "Giáo dục quốc phòng": 7,
@@ -15136,7 +15136,7 @@
       "scores": {
         "Tin học": 8,
         "Nhập môn Công nghệ thông tin": 7.4,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 8.8,
         "Kỹ năng học tập": 7.7,
         "Giáo dục thể chất - Vovinam": 7.4,
@@ -15149,7 +15149,7 @@
         "Cơ sở dữ liệu": 7.7,
         "Lập trình PHP cơ bản": 8.2,
         "Lập trình cơ sở với JavaScript": 6.9,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 5.8,
         "Dự án mẫu (TKTW)": 6.5,
         "Lập trình PHP 1": 6.5,
@@ -15190,7 +15190,7 @@
         "Lập trình cơ sở với JavaScript": 8.1,
         "Chính trị": 9.5,
         "Thiết kế Web với HTML5 & CSS3": 9.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 8.4,
         "Thiết kế UI/UX": 9.1,
         "Kỹ năng phát triển bản thân": 7.9,
@@ -15329,7 +15329,7 @@
     {
       "id": "PS44320",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.4,
         "Pháp luật": 9.7,
         "Giáo dục quốc phòng": 7,
@@ -15368,7 +15368,7 @@
     {
       "id": "PS44350",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.3,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 8.2,
@@ -15385,7 +15385,7 @@
         "Lập trình cơ sở với JavaScript": 9,
         "Chính trị": 8.2,
         "Thiết kế Web với HTML5 & CSS3": 7.7,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 7.7,
         "Thiết kế UI/UX": 9.1,
         "Kỹ năng phát triển bản thân": 8.6,
@@ -15501,7 +15501,7 @@
         "Lập trình PHP cơ bản": 7.9,
         "Lập trình cơ sở với JavaScript": 1.8,
         "Chính trị": 8.8,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5.5,
         "Lập trình PHP 1": 3,
         "Thiết kế UI/UX": 6,
@@ -15539,7 +15539,7 @@
         "Cơ sở dữ liệu": 9.1,
         "Lập trình PHP cơ bản": null,
         "Lập trình cơ sở với JavaScript": 8.5,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": null,
         "Dự án mẫu (TKTW)": null,
         "Lập trình PHP 1": null,
@@ -15565,7 +15565,7 @@
       "scores": {
         "Tin học": 9,
         "Nhập môn Công nghệ thông tin": 9.9,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 9.3,
         "Kỹ năng học tập": 9.1,
         "Giáo dục thể chất - Vovinam": 9.5,
@@ -15579,13 +15579,13 @@
         "Lập trình PHP cơ bản": 9.3,
         "Lập trình cơ sở với JavaScript": 9.4,
         "Chính trị": 9.3,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 8,
         "Lập trình PHP 1": 9,
         "Thiết kế UI/UX": 9.2,
         "Kỹ năng phát triển bản thân": 8.4,
         "Lập trình Javascript nâng cao": 9,
-        "Quản trị website": null,
+        "Quản trị website": 1,
         "Lập trình ECMAScript": 9.3,
         "Dự án 1 (TKTW)": 9.3,
         "Marketing trên Internet": 9.4,
@@ -15656,7 +15656,7 @@
         "Cơ sở dữ liệu": 7.3,
         "Lập trình PHP cơ bản": 7.5,
         "Lập trình cơ sở với JavaScript": 7.6,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 8.3,
         "Dự án mẫu (TKTW)": 6,
         "Lập trình PHP 1": 7.8,
@@ -15680,7 +15680,7 @@
     {
       "id": "PS44538",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 6.9,
         "Pháp luật": 5.5,
         "Giáo dục quốc phòng": 7.7,
@@ -15719,9 +15719,9 @@
     {
       "id": "PS44561",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 9.3,
         "Kỹ năng học tập": 8,
         "Giáo dục thể chất - Vovinam": 7.7,
@@ -15734,7 +15734,7 @@
         "Cơ sở dữ liệu": 8.2,
         "Lập trình PHP cơ bản": 8.8,
         "Lập trình cơ sở với JavaScript": 7.4,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 8.8,
         "Dự án mẫu (TKTW)": 6.5,
         "Lập trình PHP 1": 6.9,
@@ -15797,7 +15797,7 @@
     {
       "id": "PS44603",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 8.8,
         "Giáo dục quốc phòng": 8.7,
@@ -16007,7 +16007,7 @@
         "Cơ sở dữ liệu": 8.3,
         "Lập trình PHP cơ bản": 8.9,
         "Lập trình cơ sở với JavaScript": 8.3,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.7,
         "Dự án mẫu (TKTW)": 9.9,
         "Lập trình PHP 1": 9.1,
@@ -16070,7 +16070,7 @@
     {
       "id": "PS44728",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7,
         "Pháp luật": 8.5,
         "Giáo dục quốc phòng": 8.5,
@@ -16148,7 +16148,7 @@
     {
       "id": "PS44775",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.1,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 9,
@@ -16187,7 +16187,7 @@
     {
       "id": "PS44783",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 8.8,
@@ -16352,7 +16352,7 @@
         "Tiếng Anh 1.1": 6.6,
         "Tiếng Anh 1.2": 6.5,
         "Tiếng Anh 2.1": 6.7,
-        "Tiếng Anh 2.2": null,
+        "Tiếng Anh 2.2": 1,
         "Nhập môn lập trình": 7.8,
         "Xây dựng trang Web": 6.5,
         "Cơ sở dữ liệu": 7.1,
@@ -16373,7 +16373,7 @@
         "Lập trình TypeScript": 6.9,
         "Lập trình Front-End Framework 1": 5.6,
         "Lập trình Front-End Framework 2": 5.5,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": 6,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": null
@@ -16460,7 +16460,7 @@
     {
       "id": "PS44866",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.4,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 6.8,
@@ -16540,7 +16540,7 @@
       "scores": {
         "Tin học": 7,
         "Nhập môn Công nghệ thông tin": 8.1,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 8.5,
         "Kỹ năng học tập": 8.4,
         "Giáo dục thể chất - Vovinam": 8.2,
@@ -16813,7 +16813,7 @@
       "scores": {
         "Tin học": 8,
         "Nhập môn Công nghệ thông tin": 7.5,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 7.8,
         "Kỹ năng học tập": 0.8,
         "Giáo dục thể chất - Vovinam": 7.3,
@@ -16872,7 +16872,7 @@
         "Thiết kế UI/UX": 6,
         "Kỹ năng phát triển bản thân": 7.1,
         "Lập trình Javascript nâng cao": 8.9,
-        "Quản trị website": null,
+        "Quản trị website": 1,
         "Lập trình ECMAScript": 8.3,
         "Dự án 1 (TKTW)": 7.8,
         "Marketing trên Internet": 7.4,
@@ -17162,7 +17162,7 @@
     {
       "id": "PS45221",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.1,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 7.7,
@@ -17179,7 +17179,7 @@
         "Lập trình cơ sở với JavaScript": 8.9,
         "Chính trị": 8,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 6.1,
         "Thiết kế UI/UX": 7.3,
         "Kỹ năng phát triển bản thân": 6.9,
@@ -17279,7 +17279,7 @@
     {
       "id": "PS45236",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": 8.3,
         "Giáo dục quốc phòng": 8.8,
@@ -17335,7 +17335,7 @@
         "Lập trình cơ sở với JavaScript": 8,
         "Chính trị": 9.7,
         "Thiết kế Web với HTML5 & CSS3": 8,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 7.2,
         "Thiết kế UI/UX": 8.9,
         "Kỹ năng phát triển bản thân": 8.6,
@@ -17437,7 +17437,7 @@
       "scores": {
         "Tin học": 9,
         "Nhập môn Công nghệ thông tin": 6.6,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 8.2,
         "Kỹ năng học tập": 7,
         "Giáo dục thể chất - Vovinam": null,
@@ -17513,7 +17513,7 @@
     {
       "id": "PS45273",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 8,
@@ -17591,7 +17591,7 @@
     {
       "id": "PS45288",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 8,
@@ -17708,7 +17708,7 @@
     {
       "id": "PS45316",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 5.4,
         "Pháp luật": 9.2,
         "Giáo dục quốc phòng": 8.8,
@@ -17725,7 +17725,7 @@
         "Lập trình cơ sở với JavaScript": 7.6,
         "Chính trị": 9.5,
         "Thiết kế Web với HTML5 & CSS3": 9.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 6.5,
         "Thiết kế UI/UX": 8.3,
         "Kỹ năng phát triển bản thân": 8.1,
@@ -17763,8 +17763,8 @@
         "Lập trình PHP cơ bản": 8.1,
         "Lập trình cơ sở với JavaScript": 7.5,
         "Chính trị": 9.8,
-        "Thiết kế Web với HTML5 & CSS3": null,
-        "Dự án mẫu (TKTW)": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 6.7,
         "Thiết kế UI/UX": 8.7,
         "Kỹ năng phát triển bản thân": 7.7,
@@ -17786,7 +17786,7 @@
     {
       "id": "PS45333",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 7,
@@ -17944,7 +17944,7 @@
       "scores": {
         "Tin học": 8.5,
         "Nhập môn Công nghệ thông tin": 7.4,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 6.5,
         "Kỹ năng học tập": 0.8,
         "Giáo dục thể chất - Vovinam": null,
@@ -18192,7 +18192,7 @@
         "Lập trình PHP cơ bản": 7.1,
         "Lập trình cơ sở với JavaScript": 7.8,
         "Chính trị": 7.3,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5,
         "Lập trình PHP 1": 6,
         "Thiết kế UI/UX": 7.9,
@@ -18215,7 +18215,7 @@
     {
       "id": "PS45448",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 5,
@@ -18371,7 +18371,7 @@
     {
       "id": "PS45491",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 8.3,
@@ -18427,7 +18427,7 @@
         "Lập trình cơ sở với JavaScript": 8.6,
         "Chính trị": 9.3,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 7.7,
         "Thiết kế UI/UX": 8.4,
         "Kỹ năng phát triển bản thân": 7.9,
@@ -18488,7 +18488,7 @@
     {
       "id": "PS45603",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": 6.2,
         "Giáo dục quốc phòng": 6,
@@ -18527,7 +18527,7 @@
     {
       "id": "PS45605",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 8,
@@ -18547,7 +18547,7 @@
         "Dự án mẫu (TKTW)": null,
         "Lập trình PHP 1": 3.2,
         "Thiết kế UI/UX": null,
-        "Kỹ năng phát triển bản thân": null,
+        "Kỹ năng phát triển bản thân": 1,
         "Lập trình Javascript nâng cao": null,
         "Quản trị website": null,
         "Lập trình ECMAScript": null,
@@ -18620,7 +18620,7 @@
         "Cơ sở dữ liệu": 7.7,
         "Lập trình PHP cơ bản": 7.6,
         "Lập trình cơ sở với JavaScript": 7,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 7.8,
         "Dự án mẫu (TKTW)": 8,
         "Lập trình PHP 1": 6.4,
@@ -18644,7 +18644,7 @@
     {
       "id": "PS45657",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
         "Pháp luật": 9.3,
         "Giáo dục quốc phòng": 7.2,
@@ -18659,9 +18659,9 @@
         "Cơ sở dữ liệu": 9.4,
         "Lập trình PHP cơ bản": 8.6,
         "Lập trình cơ sở với JavaScript": 7.2,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 7.4,
         "Thiết kế UI/UX": 7.6,
         "Kỹ năng phát triển bản thân": 7.8,
@@ -18683,7 +18683,7 @@
     {
       "id": "PS45666",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.2,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": 8.2,
@@ -18700,7 +18700,7 @@
         "Lập trình cơ sở với JavaScript": 6.8,
         "Chính trị": 9.5,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 7,
         "Thiết kế UI/UX": 7.7,
         "Kỹ năng phát triển bản thân": 8,
@@ -18738,7 +18738,7 @@
         "Lập trình PHP cơ bản": 6.9,
         "Lập trình cơ sở với JavaScript": 6.9,
         "Chính trị": 9.5,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 7.5,
         "Lập trình PHP 1": 8,
         "Thiết kế UI/UX": 7.4,
@@ -18776,7 +18776,7 @@
         "Cơ sở dữ liệu": 6.6,
         "Lập trình PHP cơ bản": 7.7,
         "Lập trình cơ sở với JavaScript": 5.9,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 7.3,
         "Dự án mẫu (TKTW)": 7.5,
         "Lập trình PHP 1": 5.9,
@@ -18800,7 +18800,7 @@
     {
       "id": "PS45701",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.7,
         "Pháp luật": 6.5,
         "Giáo dục quốc phòng": 7.8,
@@ -18878,7 +18878,7 @@
     {
       "id": "PS45717",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 5.8,
@@ -18932,7 +18932,7 @@
         "Cơ sở dữ liệu": 7.8,
         "Lập trình PHP cơ bản": 8.9,
         "Lập trình cơ sở với JavaScript": 6.9,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 7,
         "Dự án mẫu (TKTW)": 9,
         "Lập trình PHP 1": 5.8,
@@ -19025,7 +19025,7 @@
         "Lập trình TypeScript": 5.7,
         "Lập trình Front-End Framework 1": 6.7,
         "Lập trình Front-End Framework 2": 3.5,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": 5.9,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": null
@@ -19051,12 +19051,12 @@
         "Lập trình cơ sở với JavaScript": 7.6,
         "Chính trị": 8,
         "Thiết kế Web với HTML5 & CSS3": 8.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 8.6,
         "Thiết kế UI/UX": 7.7,
         "Kỹ năng phát triển bản thân": 8.2,
         "Lập trình Javascript nâng cao": 9.1,
-        "Quản trị website": null,
+        "Quản trị website": 1,
         "Lập trình ECMAScript": 8.9,
         "Dự án 1 (TKTW)": 8,
         "Marketing trên Internet": 7.9,
@@ -19089,7 +19089,7 @@
         "Lập trình PHP cơ bản": 7.5,
         "Lập trình cơ sở với JavaScript": 6.8,
         "Chính trị": 9.5,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5,
         "Lập trình PHP 1": 7,
         "Thiết kế UI/UX": 7.6,
@@ -19129,7 +19129,7 @@
         "Lập trình cơ sở với JavaScript": 5,
         "Chính trị": 6.5,
         "Thiết kế Web với HTML5 & CSS3": 7.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 5.8,
         "Thiết kế UI/UX": 5,
         "Kỹ năng phát triển bản thân": 6.4,
@@ -19283,7 +19283,7 @@
         "Cơ sở dữ liệu": 9.7,
         "Lập trình PHP cơ bản": 7.3,
         "Lập trình cơ sở với JavaScript": 7.2,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 8,
         "Dự án mẫu (TKTW)": 9.5,
         "Lập trình PHP 1": 6.4,
@@ -19307,7 +19307,7 @@
     {
       "id": "PS45961",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": 7.8,
         "Giáo dục quốc phòng": 7.8,
@@ -19346,7 +19346,7 @@
     {
       "id": "PS46006",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": 8.3,
         "Giáo dục quốc phòng": 6.7,
@@ -19362,7 +19362,7 @@
         "Lập trình PHP cơ bản": 8.6,
         "Lập trình cơ sở với JavaScript": 7.1,
         "Chính trị": 9.7,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 7.6,
         "Lập trình PHP 1": 7.9,
         "Thiết kế UI/UX": 7.6,
@@ -19518,7 +19518,7 @@
         "Lập trình PHP cơ bản": 8.3,
         "Lập trình cơ sở với JavaScript": 8.4,
         "Chính trị": 7.3,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 7.6,
         "Lập trình PHP 1": 8.2,
         "Thiết kế UI/UX": 7.8,
@@ -19635,7 +19635,7 @@
         "Lập trình PHP cơ bản": 8,
         "Lập trình cơ sở với JavaScript": 5.9,
         "Chính trị": 8.7,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5.4,
         "Lập trình PHP 1": 5.8,
         "Thiết kế UI/UX": 7.3,
@@ -19674,7 +19674,7 @@
         "Lập trình PHP cơ bản": 8,
         "Lập trình cơ sở với JavaScript": 5.9,
         "Chính trị": 8.7,
-        "Thiết kế Web với HTML5 & CSS3": null,
+        "Thiết kế Web với HTML5 & CSS3": 1,
         "Dự án mẫu (TKTW)": 5.4,
         "Lập trình PHP 1": 5.8,
         "Thiết kế UI/UX": 7.3,
@@ -19948,7 +19948,7 @@
         "Lập trình cơ sở với JavaScript": 6.6,
         "Chính trị": null,
         "Thiết kế Web với HTML5 & CSS3": 7,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": null,
         "Thiết kế UI/UX": 7.4,
         "Kỹ năng phát triển bản thân": 7.7,
@@ -20048,7 +20048,7 @@
     {
       "id": "PS46571",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.6,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 9.2,
@@ -20087,7 +20087,7 @@
     {
       "id": "PS46582",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 8,
@@ -20126,7 +20126,7 @@
     {
       "id": "PS46590",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 6,
         "Giáo dục quốc phòng": 6,
@@ -20180,7 +20180,7 @@
         "Cơ sở dữ liệu": 7.1,
         "Lập trình PHP cơ bản": 8.9,
         "Lập trình cơ sở với JavaScript": 7.5,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.5,
         "Dự án mẫu (TKTW)": 9.9,
         "Lập trình PHP 1": 6.7,
@@ -20219,7 +20219,7 @@
         "Cơ sở dữ liệu": 7.1,
         "Lập trình PHP cơ bản": 8.9,
         "Lập trình cơ sở với JavaScript": 7.5,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.5,
         "Dự án mẫu (TKTW)": 9.9,
         "Lập trình PHP 1": 6.7,
@@ -20321,7 +20321,7 @@
     {
       "id": "PS46742",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": 9,
         "Giáo dục quốc phòng": 7.2,
@@ -20401,7 +20401,7 @@
       "scores": {
         "Tin học": 6.2,
         "Nhập môn Công nghệ thông tin": 8.2,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 7.3,
         "Kỹ năng học tập": 5.1,
         "Giáo dục thể chất - Vovinam": 1.9,
@@ -20414,7 +20414,7 @@
         "Cơ sở dữ liệu": 5.7,
         "Lập trình PHP cơ bản": 6.4,
         "Lập trình cơ sở với JavaScript": null,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": null,
         "Dự án mẫu (TKTW)": 5.8,
         "Lập trình PHP 1": 3.1,
@@ -20440,7 +20440,7 @@
       "scores": {
         "Tin học": 8.4,
         "Nhập môn Công nghệ thông tin": 7.8,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 5.8,
         "Kỹ năng học tập": 2.7,
         "Giáo dục thể chất - Vovinam": null,
@@ -20453,7 +20453,7 @@
         "Cơ sở dữ liệu": 5.7,
         "Lập trình PHP cơ bản": 6.5,
         "Lập trình cơ sở với JavaScript": null,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 0.4,
         "Dự án mẫu (TKTW)": 6,
         "Lập trình PHP 1": 3.1,
@@ -20494,7 +20494,7 @@
         "Lập trình cơ sở với JavaScript": 5.9,
         "Chính trị": 9.5,
         "Thiết kế Web với HTML5 & CSS3": 6.5,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 6.2,
         "Thiết kế UI/UX": 5.3,
         "Kỹ năng phát triển bản thân": 8,
@@ -20570,7 +20570,7 @@
         "Cơ sở dữ liệu": 8.6,
         "Lập trình PHP cơ bản": 9.1,
         "Lập trình cơ sở với JavaScript": 9.1,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.9,
         "Dự án mẫu (TKTW)": 5.8,
         "Lập trình PHP 1": 9.2,
@@ -20596,7 +20596,7 @@
       "scores": {
         "Tin học": 7.9,
         "Nhập môn Công nghệ thông tin": 6.6,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 5,
         "Kỹ năng học tập": 6.7,
         "Giáo dục thể chất - Vovinam": 6.9,
@@ -20609,7 +20609,7 @@
         "Cơ sở dữ liệu": 5.9,
         "Lập trình PHP cơ bản": 6.6,
         "Lập trình cơ sở với JavaScript": 5.8,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 0.3,
         "Dự án mẫu (TKTW)": null,
         "Lập trình PHP 1": null,
@@ -20843,7 +20843,7 @@
         "Cơ sở dữ liệu": 7.2,
         "Lập trình PHP cơ bản": 6.9,
         "Lập trình cơ sở với JavaScript": 6.6,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 6.2,
         "Dự án mẫu (TKTW)": 6.4,
         "Lập trình PHP 1": 6.4,
@@ -20882,7 +20882,7 @@
         "Cơ sở dữ liệu": 8.3,
         "Lập trình PHP cơ bản": 9.2,
         "Lập trình cơ sở với JavaScript": 9.1,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 8.7,
         "Dự án mẫu (TKTW)": 9,
         "Lập trình PHP 1": 8.6,
@@ -20984,7 +20984,7 @@
     {
       "id": "PS47378",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.2,
         "Pháp luật": 9.3,
         "Giáo dục quốc phòng": null,
@@ -21023,7 +21023,7 @@
     {
       "id": "PS47415",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 7.7,
@@ -21101,7 +21101,7 @@
     {
       "id": "PS47503",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 8,
         "Giáo dục quốc phòng": 8.5,
@@ -21112,13 +21112,13 @@
         "Tiếng Anh 2.1": 7,
         "Tiếng Anh 2.2": null,
         "Nhập môn lập trình": 9.3,
-        "Xây dựng trang Web": null,
+        "Xây dựng trang Web": 1,
         "Cơ sở dữ liệu": 9,
         "Lập trình PHP cơ bản": 9.4,
         "Lập trình cơ sở với JavaScript": 9,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.3,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.3,
         "Thiết kế UI/UX": 9,
         "Kỹ năng phát triển bản thân": 8.8,
@@ -21140,7 +21140,7 @@
     {
       "id": "PS47541",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.5,
         "Pháp luật": 6.8,
         "Giáo dục quốc phòng": 8.2,
@@ -21235,7 +21235,7 @@
         "Lập trình cơ sở với JavaScript": 6.9,
         "Chính trị": 5.8,
         "Thiết kế Web với HTML5 & CSS3": null,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 3,
         "Thiết kế UI/UX": 3,
         "Kỹ năng phát triển bản thân": 3.8,
@@ -21248,7 +21248,7 @@
         "Lập trình TypeScript": 3.4,
         "Lập trình Front-End Framework 1": 3.7,
         "Lập trình Front-End Framework 2": 3,
-        "Khởi sự doanh nghiệp": null,
+        "Khởi sự doanh nghiệp": 1,
         "Kỹ năng làm việc": null,
         "Thực tập tốt nghiệp (TKTW)": null,
         "Dự án tốt nghiệp": null
@@ -21257,7 +21257,7 @@
     {
       "id": "PS47581",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.2,
         "Pháp luật": 7.3,
         "Giáo dục quốc phòng": 5.8,
@@ -21296,7 +21296,7 @@
     {
       "id": "PS47622",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.5,
         "Pháp luật": 6.3,
         "Giáo dục quốc phòng": 6.8,
@@ -21337,7 +21337,7 @@
       "scores": {
         "Tin học": 9.5,
         "Nhập môn Công nghệ thông tin": 9.5,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 8.2,
         "Kỹ năng học tập": 7.5,
         "Giáo dục thể chất - Vovinam": 7.2,
@@ -21374,7 +21374,7 @@
     {
       "id": "PS47683",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": 8.2,
         "Giáo dục quốc phòng": 7.3,
@@ -21389,9 +21389,9 @@
         "Cơ sở dữ liệu": 8.3,
         "Lập trình PHP cơ bản": 8.9,
         "Lập trình cơ sở với JavaScript": 9.2,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.8,
-        "Dự án mẫu (TKTW)": null,
+        "Dự án mẫu (TKTW)": 1,
         "Lập trình PHP 1": 9.4,
         "Thiết kế UI/UX": 9,
         "Kỹ năng phát triển bản thân": 9.1,
@@ -21413,7 +21413,7 @@
     {
       "id": "PS47719",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.3,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 5.8,
@@ -21530,7 +21530,7 @@
     {
       "id": "PS47803",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": 7.2,
         "Giáo dục quốc phòng": 7,
@@ -21545,7 +21545,7 @@
         "Cơ sở dữ liệu": 8.4,
         "Lập trình PHP cơ bản": 9,
         "Lập trình cơ sở với JavaScript": 8.6,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": 9.6,
         "Dự án mẫu (TKTW)": 7,
         "Lập trình PHP 1": 8.2,
@@ -21803,7 +21803,7 @@
     {
       "id": "PS47986",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.2,
         "Pháp luật": null,
         "Giáo dục quốc phòng": null,
@@ -21842,7 +21842,7 @@
     {
       "id": "PS47994",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.6,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 8.8,
@@ -21920,7 +21920,7 @@
     {
       "id": "PS48030",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": null,
         "Giáo dục quốc phòng": null,
@@ -21998,7 +21998,7 @@
     {
       "id": "PS48043",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 7.5,
@@ -22271,7 +22271,7 @@
     {
       "id": "PS48179",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 6.5,
@@ -22310,7 +22310,7 @@
     {
       "id": "PS48202",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.5,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 6.8,
@@ -22388,7 +22388,7 @@
     {
       "id": "PS48280",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 8.7,
@@ -22895,7 +22895,7 @@
     {
       "id": "PS48558",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 5.7,
@@ -22973,7 +22973,7 @@
     {
       "id": "PS48627",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.8,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 7.2,
@@ -23129,9 +23129,9 @@
     {
       "id": "PS48668",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
-        "Pháp luật": null,
+        "Pháp luật": 1,
         "Giáo dục quốc phòng": 7.3,
         "Kỹ năng học tập": 7.2,
         "Giáo dục thể chất - Vovinam": null,
@@ -23324,7 +23324,7 @@
     {
       "id": "PS48727",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 8.5,
@@ -23870,7 +23870,7 @@
     {
       "id": "PS48940",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 7,
@@ -23909,7 +23909,7 @@
     {
       "id": "PS48975",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 7.8,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 6.8,
@@ -23948,7 +23948,7 @@
     {
       "id": "PS48984",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.1,
         "Pháp luật": null,
         "Giáo dục quốc phòng": null,
@@ -24182,7 +24182,7 @@
     {
       "id": "PS49223",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.4,
         "Pháp luật": null,
         "Giáo dục quốc phòng": null,
@@ -24221,7 +24221,7 @@
     {
       "id": "PS49257",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.5,
         "Pháp luật": 8,
         "Giáo dục quốc phòng": 8.5,
@@ -24338,7 +24338,7 @@
     {
       "id": "PS49380",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.7,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 7.8,
@@ -24377,7 +24377,7 @@
     {
       "id": "PS49383",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.9,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 9,
@@ -24494,7 +24494,7 @@
     {
       "id": "PS49549",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.4,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 5.8,
@@ -24533,7 +24533,7 @@
     {
       "id": "PS49594",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 9.6,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 7.5,
@@ -24572,8 +24572,8 @@
     {
       "id": "PS49606",
       "scores": {
-        "Tin học": null,
-        "Nhập môn Công nghệ thông tin": null,
+        "Tin học": 1,
+        "Nhập môn Công nghệ thông tin": 1,
         "Pháp luật": 9.3,
         "Giáo dục quốc phòng": 6.8,
         "Kỹ năng học tập": 8.9,
@@ -24650,7 +24650,7 @@
     {
       "id": "PS49625",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8,
         "Pháp luật": null,
         "Giáo dục quốc phòng": 7.8,
@@ -24806,7 +24806,7 @@
     {
       "id": "PS49899",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": null,
         "Pháp luật": null,
         "Giáo dục quốc phòng": null,
@@ -24845,7 +24845,7 @@
     {
       "id": "PS49958",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8,
         "Pháp luật": 8.7,
         "Giáo dục quốc phòng": null,
@@ -24855,7 +24855,7 @@
         "Tiếng Anh 1.2": null,
         "Tiếng Anh 2.1": 6.4,
         "Tiếng Anh 2.2": 6.8,
-        "Nhập môn lập trình": null,
+        "Nhập môn lập trình": 1,
         "Xây dựng trang Web": 6.8,
         "Cơ sở dữ liệu": 5.8,
         "Lập trình PHP cơ bản": 5.8,
@@ -25094,7 +25094,7 @@
         "Cơ sở dữ liệu": 6.7,
         "Lập trình PHP cơ bản": 5.9,
         "Lập trình cơ sở với JavaScript": 6.8,
-        "Chính trị": null,
+        "Chính trị": 1,
         "Thiết kế Web với HTML5 & CSS3": null,
         "Dự án mẫu (TKTW)": null,
         "Lập trình PHP 1": null,
@@ -25235,7 +25235,7 @@
     {
       "id": "PS50485",
       "scores": {
-        "Tin học": null,
+        "Tin học": 1,
         "Nhập môn Công nghệ thông tin": 8.6,
         "Pháp luật": 6.3,
         "Giáo dục quốc phòng": null,

@@ -69,12 +69,16 @@ async function fetchAndParse() {
               if (raw === '' || raw === '*' || raw === 'X' || raw === '-' || raw === 'F') {
                 scores[sub] = null;
               } else {
-                const n = parseFloat(raw);
-                // Bẫy dữ liệu điểm 1.0 (Bảo lưu điểm / Chuyển điểm)
-                if (isNaN(n) || n === 1.0 || n === 1) {
-                  scores[sub] = null; // AI bỏ qua
+                const lower = raw.toLowerCase();
+                if (lower === 'đạt' || lower === 'passed' || lower === 'miễn') {
+                  scores[sub] = 1.0;
                 } else {
-                  scores[sub] = n;
+                  const n = parseFloat(raw);
+                  if (isNaN(n)) {
+                    scores[sub] = null;
+                  } else {
+                    scores[sub] = n;
+                  }
                 }
               }
             });

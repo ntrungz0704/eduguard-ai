@@ -7,6 +7,11 @@ function parseScore(val) {
   if (val === undefined || val === null || val === '') return null;
   const s = String(val).trim();
   if (s === '*' || s === 'X' || s === '-' || s === 'F') return null;
+  
+  // Xử lý các điểm đặc biệt của FPT Poly
+  const lower = s.toLowerCase();
+  if (lower === 'đạt' || lower === 'passed' || lower === 'miễn') return 1.0; 
+  
   const n = parseFloat(s);
   if (isNaN(n)) return null;
   return n;

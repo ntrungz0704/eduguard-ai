@@ -157,7 +157,7 @@ async function main() {
     for (const [subName, scoreVal] of Object.entries(s.scores || {})) {
       if (scoreVal === null) continue;
       
-      const status = scoreVal >= 5 ? 'PASSED' : 'FAILED';
+      const status = (scoreVal >= 5 || scoreVal === 1.0) ? 'PASSED' : 'FAILED';
       scoreCreates.push({
         mssv,
         courseId: normalizeCourseId(subName),
