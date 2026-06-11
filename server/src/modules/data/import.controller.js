@@ -152,7 +152,7 @@ exports.previewData = async (req, res) => {
 
 exports.publishData = async (req, res) => {
   try {
-    const { data } = req.body;
+    const { data, classCode } = req.body;
     
     if (!data || !Array.isArray(data) || data.length === 0) {
       return res.status(400).json({ error: 'Không có dữ liệu để publish' });
@@ -173,11 +173,11 @@ exports.publishData = async (req, res) => {
       // Upsert Student (assuming basic name if not exists)
       await prisma.student.upsert({
         where: { mssv: row.mssv },
-        update: {},
+        update: classCode ? { classCode } : {},
         create: {
           mssv: row.mssv,
           name: `Sinh viên ${row.mssv}`,
-          classCode: 'UNKNOWN'
+          classCode: classCode || 'UNKNOWN'
         }
       });
 
