@@ -31,7 +31,6 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/search', icon: <Search size={20} />, label: 'Tra cứu học vụ' },
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
-    { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
     { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Bản đồ Rủi ro Học tập' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
@@ -40,6 +39,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
 
   const studentNavItems = [
     { path: '/student-dashboard', icon: <LayoutDashboard size={20} />, label: 'Bảng điểm của tôi' },
+    { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
     { path: '/career-universe', icon: <Briefcase size={20} />, label: 'Vũ trụ Nghề nghiệp' },
     { path: '/career-board', icon: <KanbanSquare size={20} />, label: 'Bảng Lộ trình' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Hỏi đáp Cố vấn AI' },
