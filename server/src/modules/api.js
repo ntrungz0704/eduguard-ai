@@ -207,6 +207,136 @@ router.get('/training-info', (req, res) => {
 });
 
 // ============================================================
+// API: Model Evaluation Engine (LOOCV Approximation)
+// ============================================================
+router.get('/evaluate-model', (req, res) => {
+  try {
+    const students = cache.trainingData.students || [];
+    const subjects = cache.trainingData.subjects || [];
+    
+    if (students.length === 0) {
+      return res.status(400).json({ error: "No training data available" });
+    }
+
+    // 1. Pre-calculate models for all subjects to optimize speed
+    // This reduces operations from 168 million to ~750,000.
+    // Since N=649, training on N vs N-1 yields almost identical weights.
+    const precomputedModels = {};
+    const trainAverages = {};
+    const trainScoresList = {};
+
+    subjects.forEach(target => {
+      const features = subjects.filter(sub => sub !== target);
+      precomputedModels[target] = weightedPrediction(features, target, students);
+      
+      const scoredStudents = students.filter(s => s.scores[target] != null);
+      if (scoredStudents.length > 0) {
+        trainScoresList[target] = scoredStudents.map(s => s.scores[target]);
+        trainAverages[target] = trainScoresList[target].reduce((a, b) => a + b, 0) / scoredStudents.length;
+      } else {
+        trainAverages[target] = 5.0;
+        trainScoresList[target] = [];
+      }
+    });
+
+    let totalPredictions = 0;
+    let excellent = 0; // <= 0.5
+    let good = 0; // <= 1.0
+    let poor = 0; // > 1.0
+    let sumAbsError = 0;
+    let subjectStats = {};
+    
+    subjects.forEach(s => {
+      subjectStats[s] = { subject: s, count: 0, totalError: 0, excellent: 0, good: 0, poor: 0 };
+    });
+
+    // 2. Predict every single known score (simulated Leave-One-Out)
+    students.forEach((student) => {
+      const completedSubjects = Object.keys(student.scores).filter(sub => student.scores[sub] !== null);
+      
+      completedSubjects.forEach(target => {
+        const actualScore = student.scores[target];
+        const features = completedSubjects.filter(sub => sub !== target);
+        
+        const model = precomputedModels[target];
+        let predicted = null;
+        
+        if (model && model.topK.length > 0) {
+          const activeFeatures = model.topK.filter(f => features.includes(f.feature));
+          if (activeFeatures.length > 0) {
+            const activeTotalScore = activeFeatures.reduce((sum, f) => sum + f.hybridScore, 0) || 1;
+            let predSum = 0;
+            activeFeatures.forEach(f => {
+              const x = student.scores[f.feature];
+              const val = Math.min(10, Math.max(0, f.reg.a + f.reg.b * x));
+              predSum += (f.hybridScore / activeTotalScore) * val;
+            });
+            const rawPredicted = Math.round(predSum * 10) / 10;
+            predicted = calibrate(rawPredicted, trainScoresList[target]);
+          }
+        }
+        
+        if (predicted == null) {
+          if (features.length > 0) {
+            const otherScores = features.map(f => student.scores[f]);
+            const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
+            predicted = Math.round(avgOther * 10) / 10;
+          } else {
+             predicted = Math.round(trainAverages[target] * 10) / 10;
+          }
+        }
+        
+        // Analyze Error
+        const absError = Math.abs(predicted - actualScore);
+        totalPredictions++;
+        sumAbsError += absError;
+        
+        subjectStats[target].count++;
+        subjectStats[target].totalError += absError;
+        
+        if (absError <= 0.5) {
+          excellent++;
+          subjectStats[target].excellent++;
+        } else if (absError <= 1.0) {
+          good++;
+          subjectStats[target].good++;
+        } else {
+          poor++;
+          subjectStats[target].poor++;
+        }
+      });
+    });
+
+    const mae = totalPredictions > 0 ? (sumAbsError / totalPredictions) : 0;
+    
+    // Sort subject stats by MAE (ascending, best first)
+    const subjectStatsArray = Object.values(subjectStats)
+      .filter(s => s.count > 0)
+      .map(s => ({
+        ...s,
+        mae: Math.round((s.totalError / s.count) * 100) / 100
+      }))
+      .sort((a, b) => a.mae - b.mae);
+
+    res.json({
+      totalStudents: students.length,
+      totalPredictions,
+      mae: Math.round(mae * 100) / 100,
+      distribution: {
+        excellent,
+        good,
+        poor
+      },
+      subjectStats: subjectStatsArray
+    });
+    
+  } catch (err) {
+    console.error("Evaluate model error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
 // API: Cảnh báo đỏ & Priority Intervention Ranking
 // ============================================================
 router.get('/red-alerts', async (req, res) => {

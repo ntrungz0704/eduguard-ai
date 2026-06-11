@@ -643,6 +643,19 @@ export default function StudentSearch() {
         {selectedStudent ? (
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
               
+              <div className="xl:col-span-12">
+                <button 
+                  onClick={() => {
+                    setActiveStudent(null);
+                    setSelectedStudent(null);
+                    setSearchParams({}, { replace: true });
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 transition-all border border-slate-200 dark:border-white/10"
+                >
+                  <ArrowRight className="w-4 h-4 rotate-180" /> Quay lại danh sách
+                </button>
+              </div>
+
               {/* Dynamic calculations for selected student */}
               {(() => {
                 const calculateFptStats = (scores) => {

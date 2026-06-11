@@ -56,7 +56,7 @@ const DataImport = () => {
     formData.append('file', fileToUpload);
 
     try {
-      const res = await api.post('/data/preview', formData, {
+      const res = await api.post('/v1/data/preview', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -76,7 +76,7 @@ const DataImport = () => {
     
     setPublishStatus('loading');
     try {
-      const res = await api.post('/data/publish', {
+      const res = await api.post('/v1/data/publish', {
         data: previewData.data
       });
       setPublishStatus('success');
