@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Target, Shuffle, AlertCircle, TrendingUp, Compass, User, TrendingDown, Activity, Zap, CheckCircle2 } from 'lucide-react';
 import { api } from '../lib/api';
+import { useStore } from '../store';
 
 const isConditionalCourse = (courseName, courseId) => {
   const name = (courseName || '').toLowerCase();
@@ -32,12 +33,20 @@ export default function GPA() {
     trend: 'stable'
   });
 
-  useEffect(() => {
-    api.get('/students-search?q=').then(res => setStudents(res.data)).catch(console.error);
-  }, []);
+  const currentUser = useStore(state => state.currentUser);
+  const isStudent = currentUser?.role === 'STUDENT';
 
-  const fetchStudentData = async () => {
-    const id = selectedStudentId.trim().toUpperCase();
+  useEffect(() => {
+    if (isStudent && currentUser?.id) {
+      setSelectedStudentId(currentUser.id);
+      fetchStudentData(currentUser.id);
+    } else {
+      api.get('/students-search?q=').then(res => setStudents(res.data)).catch(console.error);
+    }
+  }, [isStudent, currentUser]);
+
+  const fetchStudentData = async (idParam) => {
+    const id = (typeof idParam === 'string' ? idParam : selectedStudentId).trim().toUpperCase();
     if (!id) {
       setStudentData(null);
       return;
@@ -147,25 +156,34 @@ export default function GPA() {
           </div>
         </div>
 
-        <div className="relative z-10 w-full md:w-80 group">
-          <label className="block text-xs uppercase tracking-wider font-semibold text-cyan-400 mb-2 flex items-center gap-2"><User size={14}/> Phân tích theo sinh viên</label>
-          <div className="flex gap-2">
-            <input 
-              type="text" 
-              placeholder="Nhập MSSV (VD: PS12345)..." 
-              value={selectedStudentId} 
-              onChange={e => setSelectedStudentId(e.target.value)} 
-              onKeyDown={e => e.key === 'Enter' && fetchStudentData()}
-              className="w-full p-4 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 text-slate-900 dark:text-white transition-all font-bold uppercase"
-            />
-            <button 
-              onClick={fetchStudentData} 
-              className="bg-cyan-600 hover:bg-cyan-500 text-slate-900 dark:text-white p-4 rounded-2xl transition-colors shadow-lg shadow-sm dark:shadow-cyan-500/20 font-bold whitespace-nowrap"
-            >
-              Phân tích
-            </button>
+        {isStudent ? (
+          <div className="relative z-10 w-full md:w-auto group text-right">
+            <label className="block text-xs uppercase tracking-wider font-semibold text-cyan-400 mb-2 flex items-center justify-end gap-2"><User size={14}/> Hồ sơ của bạn</label>
+            <div className="text-xl font-bold text-slate-900 dark:text-white uppercase px-4 py-2 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl">
+              {currentUser.name} ({currentUser.id})
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="relative z-10 w-full md:w-80 group">
+            <label className="block text-xs uppercase tracking-wider font-semibold text-cyan-400 mb-2 flex items-center gap-2"><User size={14}/> Phân tích theo sinh viên</label>
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Nhập MSSV (VD: PS12345)..." 
+                value={selectedStudentId} 
+                onChange={e => setSelectedStudentId(e.target.value)} 
+                onKeyDown={e => e.key === 'Enter' && fetchStudentData()}
+                className="w-full p-4 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-2xl outline-none focus:border-cyan-500/50 text-slate-900 dark:text-white transition-all font-bold uppercase"
+              />
+              <button 
+                onClick={fetchStudentData} 
+                className="bg-cyan-600 hover:bg-cyan-500 text-slate-900 dark:text-white p-4 rounded-2xl transition-colors shadow-lg shadow-sm dark:shadow-cyan-500/20 font-bold whitespace-nowrap"
+              >
+                Phân tích
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {!studentData && !loadingStudent && (
