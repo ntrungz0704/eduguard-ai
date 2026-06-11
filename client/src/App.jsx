@@ -21,6 +21,7 @@ import DataImport from './pages/DataImport';
 import CareerUniverse from './pages/CareerUniverse';
 import CareerDetail from './pages/CareerDetail';
 import CareerRoadmapBoard from './pages/CareerRoadmapBoard';
+import AIMetrics from './pages/AIMetrics';
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/academic-risk-map', icon: <Network size={20} />, label: 'Bản đồ Rủi ro Học tập' },
+    { path: '/ai-metrics', icon: <BarChart3 size={20} />, label: 'Đánh giá AI (LOOCV)' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý Phân tích NLP' }
@@ -322,6 +324,7 @@ function App() {
                     <Route path="/predict" element={<Predict />} />
                     <Route path="/gpa" element={<GPA />} />
                     <Route path="/academic-risk-map" element={<AcademicRiskMap />} />
+                    <Route path="/ai-metrics" element={<AIMetrics />} />
                     <Route path="/import-data" element={<DataImport />} />
                     <Route path="/interventions" element={<Interventions />} />
                     <Route path="/chat" element={<AIChat />} />

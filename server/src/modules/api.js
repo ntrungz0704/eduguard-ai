@@ -62,6 +62,11 @@ async function syncUploadedData(validStudents) {
         create: { mssv, name, classCode }
       });
 
+      // === BẢO MẬT DỮ LIỆU: Xóa dữ liệu rác cũ (residual data) của sinh viên này trước khi đè dữ liệu mới từ file Excel ===
+      await prisma.score.deleteMany({
+        where: { mssv }
+      });
+
       for (const [courseId, val] of Object.entries(st.scores || {})) {
         if (val === null) continue;
         const value = parseFloat(val);
@@ -969,6 +974,35 @@ router.get('/stats', (req, res) => {
 // ============================================================
 // API: Get uploaded students
 // ============================================================
+
+// ============================================================
+// API: AI Evaluation (LOOCV metrics)
+// ============================================================
+router.get('/ai-evaluation', (req, res) => {
+  const fs = require('fs');
+  const path = require('path');
+  const metricsPath = path.join(__dirname, '../datasets/ai_metrics.json');
+  if (fs.existsSync(metricsPath)) {
+    const data = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
+    return res.json(data);
+  }
+  res.json({ empty: true, message: 'Chưa có dữ liệu đánh giá. Vui lòng chạy Quét toàn bộ hệ thống.' });
+});
+
+router.post('/ai-evaluation/run', (req, res) => {
+  const { runAIEvaluation } = require('../ai/evaluateTask');
+  
+  const students = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
+  const currOrder = cache.trainingData.curriculumOrder || [];
+
+  // Run in background (do not await)
+  runAIEvaluation(students, currOrder).catch(err => {
+    console.error('[AI Evaluation] Error:', err);
+  });
+  
+  res.json({ success: true, message: 'Đã khởi chạy tiến trình đánh giá ngầm (LOOCV). Vui lòng đợi khoảng 15-20s và tải lại.' });
+});
+
 router.get('/students', (req, res) => {
   const students = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
   const subjects = cache.uploadedStudents.length > 0 ? Object.keys(students[0]?.scores || {}) : (cache.trainingData.subjects || []);
@@ -997,7 +1031,13 @@ router.post('/save-uploaded', async (req, res) => {
     // Persist as current active uploaded list in RAM
     cache.uploadedStudents = students;
 
-    res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database!` });
+    // Auto-trigger AI Evaluation (LOOCV) in the background so metrics are always up-to-date
+    const { runAIEvaluation } = require('../ai/evaluateTask');
+    const currOrder = cache.trainingData.curriculumOrder || [];
+    // Run in background (do not await)
+    runAIEvaluation(students, currOrder).catch(err => console.error('[Auto-evaluation] Error:', err));
+
+    res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! Hệ thống đang tự động quét lại AI...` });
   } catch (err) {
     console.error('Lỗi khi lưu dữ liệu:', err);
     res.status(500).json({ error: 'Lỗi máy chủ khi lưu dữ liệu sinh viên: ' + err.message });
