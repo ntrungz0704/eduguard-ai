@@ -313,6 +313,7 @@ function App() {
                     <Route path="/career-universe" element={<CareerUniverse />} />
                     <Route path="/career-universe/:careerId" element={<CareerDetail />} />
                     <Route path="/career-board" element={<CareerRoadmapBoard />} />
+                    <Route path="/gpa" element={<GPA />} />
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />
                     <Route path="*" element={<StudentDashboard />} />
@@ -322,7 +323,6 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/search" element={<StudentSearch />} />
                     <Route path="/predict" element={<Predict />} />
-                    <Route path="/gpa" element={<GPA />} />
                     <Route path="/academic-risk-map" element={<AcademicRiskMap />} />
                     <Route path="/ai-metrics" element={<AIMetrics />} />
                     <Route path="/import-data" element={<DataImport />} />
