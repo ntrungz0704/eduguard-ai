@@ -4,7 +4,7 @@ import {
   ResponsiveContainer, Cell, LabelList
 } from 'recharts';
 
-const FAIL_COLORS = ['#dc2626', '#ef4444', '#f87171', '#fca5a5', '#fecaca'];
+const FAIL_COLORS = ['#ea580c', '#ef4444', '#f43f5e', '#d946ef', '#8b5cf6'];
 
 const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) => {
   // data: [{ name: 'COM108', failCount: 12 }, ...]
@@ -31,7 +31,7 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
         <BarChart
           data={chartData}
           layout="vertical"
-          margin={{ top: 0, right: 40, left: 10, bottom: 0 }}
+          margin={{ top: 0, right: 60, left: 10, bottom: 0 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="var(--tw-colors-slate-200)" strokeOpacity={0.2} horizontal={false} />
           <XAxis
@@ -43,11 +43,11 @@ const BottleneckChart = React.memo(({ data, title = 'Môn Học Bottleneck' }) =
           <YAxis
             type="category"
             dataKey="name"
-            tick={{ fill: '#64748b', fontSize: 11, fontWeight: 600 }}
-            tickFormatter={(val) => val.length > 20 ? val.substring(0, 20) + '...' : val}
+            tick={{ fill: '#64748b', fontSize: 10, fontWeight: 600 }}
+            tickFormatter={(val) => val.length > 25 ? val.substring(0, 25) + '...' : val}
             axisLine={false}
             tickLine={false}
-            width={120}
+            width={140}
           />
           <Tooltip
             contentStyle={{

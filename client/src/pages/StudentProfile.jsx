@@ -244,9 +244,14 @@ export default function StudentProfile() {
         <button onClick={() => navigate('/predict')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all">
           <ArrowLeft size={18} /> Quay lại danh sách
         </button>
-        <span className="px-3.5 py-1.5 text-xs font-black bg-blue-500/10 text-blue-400 border border-blue-200 dark:border-blue-500/20 rounded-full flex items-center gap-1.5 animate-pulse">
-          <Brain size={14}/> Hệ thống đang phân tích
-        </span>
+        <div className="flex items-center gap-3">
+          <Link to={`/inbox?mssv=${student.mssv}`} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all">
+            <Send size={16} /> Nhắn tin cho Sinh viên
+          </Link>
+          <span className="px-3.5 py-1.5 text-xs font-black bg-blue-500/10 text-blue-400 border border-blue-200 dark:border-blue-500/20 rounded-full flex items-center gap-1.5 animate-pulse">
+            <Brain size={14}/> Hệ thống đang phân tích
+          </span>
+        </div>
       </div>
 
       {/* Main Student Header Card */}

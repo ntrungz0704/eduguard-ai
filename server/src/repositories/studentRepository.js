@@ -193,7 +193,11 @@ async function fetchStudentByMssv(mssv) {
   try {
     const dbStudent = await prisma.student.findUnique({
       where: { mssv: upperMssv },
-      include: { scores: true }
+      include: { 
+        scores: {
+          include: { course: true }
+        }
+      }
     });
     if (dbStudent) {
       return enrichStudentData(dbStudent);

@@ -718,10 +718,9 @@ function CourseInsightModal({ course, dependencies, onClose }) {
 
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[70vh] space-y-6 custom-scrollbar">
-          {!dependencies ? (
+          {!dependencies && course.courseId ? (
             <div className="flex flex-col items-center justify-center py-10 opacity-50">
-              <Loader2 className="animate-spin mb-2" size={24} />
-              <p>Đang tải dữ liệu phân tích...</p>
+              <p>Chưa có dữ liệu phân tích sâu (XAI) cho môn này.</p>
             </div>
           ) : (
             <>
@@ -838,7 +837,7 @@ function RoadmapTab({ curriculumCourses, courseDependencies }) {
         <div>
           <h3 className="font-bold text-slate-900 dark:text-white">Lộ trình học tập & Cải thiện học thuật</h3>
           <p className="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">
-            Xem toàn bộ hành trình 6 học kỳ tại trường. Điểm số hoàn thành và dự báo AI sẽ chỉ ra lộ trình kiến thức của bạn.
+            Xem toàn bộ hành trình 6 học kỳ tại trường. Dựa trên <strong>khung chương trình chuẩn của FPT Polytechnic</strong>. Điểm số hoàn thành và dự báo AI sẽ chỉ ra lộ trình kiến thức của bạn.
           </p>
         </div>
       </div>
@@ -1601,6 +1600,33 @@ export default function StudentDashboard() {
       prediction: predObj,
       semester: semester || (predObj ? 'Kỳ hiện tại' : '')
     };
+  });
+
+  // Append any courses that the student took but are not in the curriculumOrder list
+  const matchedCourseIds = curriculumCourses.map(c => c.courseId);
+  studentScores.forEach(s => {
+    // Check if this student score was matched by findMatchingScore
+    // We can do this by checking if s.courseId is not mapped?
+    // Actually, findMatchingScore maps using soft-match. Let's just find if s.courseId or s.course.name is in the matched ones.
+    const isMatched = curriculumCourses.some(c => {
+      const cleanC = c.courseId.toLowerCase().replace(/\s+/g, '');
+      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+      const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
+      return cleanC === cleanS || cleanC === cleanName || cleanC.includes(cleanS) || cleanS.includes(cleanC);
+    });
+
+    if (!isMatched) {
+      const predObj = predictionMap[s.courseId];
+      curriculumCourses.push({
+        courseId: s.course?.name || s.courseId,
+        value: s.value,
+        status: s.status,
+        credits: getCourseCredits(s.courseId),
+        isPredicted: false,
+        prediction: predObj,
+        semester: s.semester || 'Tự chọn/Học lại'
+      });
+    }
   });
 
   // Calculate actual completed GPA using unified FPT Polytechnic logic

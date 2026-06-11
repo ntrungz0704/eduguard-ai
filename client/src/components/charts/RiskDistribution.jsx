@@ -26,7 +26,6 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent
 };
 
 const RiskDistribution = React.memo(({ data, title = 'Phân phối Rủi ro' }) => {
-  // data: [{ name: 'CRITICAL', value: 5 }, ...]
   const chartData = data || [
     { name: 'CRITICAL', value: 0 },
     { name: 'HIGH', value: 0 },
@@ -35,84 +34,61 @@ const RiskDistribution = React.memo(({ data, title = 'Phân phối Rủi ro' }) 
   ];
 
   const total = chartData.reduce((s, d) => s + d.value, 0);
-  const activeData = chartData.filter(d => d.value > 0);
+
+  const labels = {
+    CRITICAL: 'Nguy cấp',
+    HIGH: 'Nguy cơ cao',
+    MEDIUM: 'Nguy cơ vừa',
+    LOW: 'An toàn'
+  };
 
   return (
     <div className="bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-5 h-full">
       <h3 className="text-slate-800 dark:text-slate-200 text-sm font-bold mb-1 tracking-wider uppercase">
         {title}
       </h3>
-      <p className="text-slate-500 dark:text-slate-400 text-xs mb-4">
+      <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">
         Tổng: <strong className="text-slate-700 dark:text-slate-300">{total}</strong> sinh viên
       </p>
 
-      <ResponsiveContainer width="100%" height={220}>
-        <PieChart>
-          <Pie
-            data={activeData}
-            cx="50%"
-            cy="50%"
-            innerRadius={55}
-            outerRadius={90}
-            stroke="none"
-            dataKey="value"
-            labelLine={false}
-            label={renderCustomLabel}
-          >
-            {activeData.map((entry) => (
-              <Cell key={entry.name} fill={COLORS[entry.name] || '#6b7280'} />
-            ))}
-          </Pie>
-          <Tooltip
-            contentStyle={{
-              background: '#0f172a',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 8,
-              color: '#e2e8f0'
-            }}
-            formatter={(value, name) => {
-              const labels = {
-                CRITICAL: 'Nguy cấp',
-                HIGH: 'Nguy cơ cao',
-                MEDIUM: 'Nguy cơ vừa',
-                LOW: 'An toàn'
-              };
-              return [`${value} SV`, labels[name] || name];
-            }}
-          />
-          <Legend
-            formatter={(value) => {
-              const labels = {
-                CRITICAL: 'Nguy cấp',
-                HIGH: 'Nguy cơ cao',
-                MEDIUM: 'Nguy cơ vừa',
-                LOW: 'An toàn'
-              };
-              return (
-                <span className="text-slate-600 dark:text-slate-400 text-xs">{labels[value] || value}</span>
-              );
-            }}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      {total > 0 ? (
+        <ResponsiveContainer width="100%" height={200}>
+          <PieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              innerRadius={50}
+              outerRadius={80}
+              paddingAngle={0} // Không có khoảng trống
+              dataKey="value"
+              stroke="none"
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[entry.name]} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }}
+              formatter={(value, name) => [`${value} SV`, labels[name] || name]}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <div className="h-[200px] flex items-center justify-center">
+          <span className="text-xs text-slate-500">Chưa có dữ liệu</span>
+        </div>
+      )}
 
       {/* Summary Badges */}
-      <div className="grid grid-cols-2 gap-2 mt-2">
-        {chartData.map(item => {
-          const labels = {
-            CRITICAL: 'Nguy cấp',
-            HIGH: 'Nguy cơ cao',
-            MEDIUM: 'Nguy cơ vừa',
-            LOW: 'An toàn'
-          };
-          return (
-            <div key={item.name} className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-white/5 rounded-lg border border-slate-200 dark:border-transparent">
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[item.name], flexShrink: 0 }} />
-              <span className="text-slate-600 dark:text-slate-400 text-xs">{labels[item.name] || item.name}</span>
-              <span style={{ color: COLORS[item.name] }} className="text-[13px] font-bold ml-auto">{item.value}</span>
-            </div>
-          );
-        })}
+      <div className="grid grid-cols-2 gap-2 mt-4">
+        {chartData.map(item => (
+          <div key={item.name} className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-white/5 rounded-lg border border-slate-200 dark:border-transparent">
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[item.name], flexShrink: 0 }} />
+            <span className="text-slate-600 dark:text-slate-400 text-xs">{labels[item.name] || item.name}</span>
+            <span style={{ color: COLORS[item.name] }} className="text-[13px] font-bold ml-auto">{item.value}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

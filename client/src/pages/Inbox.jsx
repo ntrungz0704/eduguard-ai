@@ -56,6 +56,23 @@ export default function Inbox() {
   const fetchConversations = async (showLoading = true) => {
     try {
       const res = await api.get(`/comm/messages/${currentUser.id}?role=${currentUser.role}`);
+      
+      if (res.data.length === 0 && currentUser.role === 'STUDENT') {
+        const advisors = await api.get('/comm/advisors');
+        if (advisors.data.length > 0) {
+          const defaultAdvisor = advisors.data[0];
+          setConversations([{
+            partnerId: defaultAdvisor.id,
+            partnerName: defaultAdvisor.name,
+            lastMessage: '',
+            lastMessageAt: new Date().toISOString(),
+            unreadCount: 0,
+            messages: []
+          }]);
+          return;
+        }
+      }
+      
       setConversations(res.data);
     } catch (err) {
       console.error("Lỗi lấy danh sách tin nhắn", err);

@@ -387,57 +387,20 @@ exports.analyzeStudentCareer = async (goalSlug, mssv) => {
 
 exports.suggestBestCareers = (student) => {
   const careerRoadmaps = knowledgeCache.get('careerRoadmaps') || {};
-  const coursesDb = knowledgeCache.get('courses') || [];
-
   if (!student) return [];
 
   const results = [];
   
-  const studentAcquiredSkills = new Set();
-  const passedCourses = Object.keys(student.courseStatus || {}).filter(courseId => student.courseStatus[courseId] === 'PASSED');
-  const seenCourseCodes = new Set();
-  
-  passedCourses.forEach(courseId => {
-    const course = findCourseByKey(coursesDb, courseId);
-    if (course && !seenCourseCodes.has(course.courseCode)) {
-      seenCourseCodes.add(course.courseCode);
-      if (course.skills) course.skills.forEach(s => studentAcquiredSkills.add(s));
-      if (course.technologies) course.technologies.forEach(t => studentAcquiredSkills.add(t));
-    }
-  });
-
-  if (student.skills) {
-    Object.keys(student.skills).forEach(s => studentAcquiredSkills.add(s));
-  }
-
-  const acquiredList = Array.from(studentAcquiredSkills);
-
-  for (const [careerGoal, industryData] of Object.entries(careerRoadmaps)) {
-    const coreSkills = industryData.coreSkills || [];
-    const advancedSkills = industryData.advancedSkills || [];
-    const requiredSkills = [...coreSkills, ...advancedSkills];
-
-    let matchCount = 0;
-    requiredSkills.forEach(reqSkill => {
-      // Check if student acquired this exact skill or a subset/superset
-      const hasSkill = acquiredList.some(acq => 
-        acq.toLowerCase() === reqSkill.toLowerCase() || 
-        acq.toLowerCase().includes(reqSkill.toLowerCase()) || 
-        reqSkill.toLowerCase().includes(acq.toLowerCase())
-      );
-      if (hasSkill) matchCount++;
-    });
-
-    const score = requiredSkills.length > 0 ? (matchCount / requiredSkills.length) * 100 : 0;
-    
+  for (const careerGoal of Object.keys(careerRoadmaps)) {
+    const analysis = exports.analyzeCareer(student, careerGoal);
     results.push({
       id: careerGoal === 'AI Fullstack Engineer' ? 'ai-engineer' : slugify(careerGoal),
       careerName: careerGoal,
-      matchScore: Math.round(score),
-      readinessScore: Math.round(score), // using same score as readiness roughly
-      score: score,
-      matchCount: matchCount,
-      totalRequired: requiredSkills.length
+      matchScore: analysis.readinessScore,
+      readinessScore: analysis.readinessScore,
+      score: analysis.readinessScore,
+      matchCount: analysis.skillGap.core.have.length + analysis.skillGap.advanced.have.length,
+      totalRequired: analysis.industryRequirements.core.length + analysis.industryRequirements.advanced.length
     });
   }
 
