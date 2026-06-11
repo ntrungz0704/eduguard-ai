@@ -83,8 +83,15 @@ async function fetchAndParse() {
               }
             });
             
-            // Loại bỏ tên sinh viên để tối ưu dung lượng và bảo mật (chỉ giữ mssv)
+          // Loại bỏ tên sinh viên để tối ưu dung lượng và bảo mật (chỉ giữ mssv)
             students.push({ id: mssv, scores });
+          }
+          
+          // Hardcode patch for PS47261 because the Google Sheet class dataset is missing their GDQP score
+          // but their personal transcript has it as 6.0
+          const ps47261 = students.find(s => s.id === 'PS47261');
+          if (ps47261) {
+            ps47261.scores['Giáo dục quốc phòng'] = 6.0;
           }
           
           console.log(`👥 Parsed ${students.length} unique students successfully`);
