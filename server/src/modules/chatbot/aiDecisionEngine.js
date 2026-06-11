@@ -145,6 +145,15 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       return { type: 'FOLLOWUP_INTERVENTION', followupType: 'INTERVENTION', student, riskData, timeline };
     }
     
+    case 'GENERATE_MESSAGE_INTENT': {
+      const mssv = activeMssv || entities.mssv;
+      let student = null;
+      if (mssv) {
+        student = await fetchStudentByMssv(mssv);
+      }
+      return { type: 'GENERATE_MESSAGE', student };
+    }
+    
     // ----------------------------------------------------
     // LEVEL 6: KNOWLEDGE GRAPH QUERIES
     // ----------------------------------------------------

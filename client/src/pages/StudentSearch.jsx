@@ -546,16 +546,7 @@ export default function StudentSearch() {
       const res = await api.get(`/students/${studentId}`);
       setActiveStudent(res.data);
       setSelectedStudent(res.data);
-      // Reset chat history for the newly selected student with a warm welcome
-      setChatHistory([
-        {
-          role: 'ai',
-          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên **${res.data.name}** (${res.data.mssv}). Bạn có thể hỏi tôi về:
-          \n- *Tại sao sinh viên này có nguy cơ trượt môn nào đó?*
-          \n- *Gợi ý lộ trình can thiệp và cải thiện điểm số.*
-          \n- *Phân tích chi tiết lỗ hổng kiến thức tiên quyết.*`
-        }
-      ]);
+      // Chat history is now loaded via useEffect watching activeStudent
     } catch (err) {
       alert('Không thể tải chi tiết sinh viên: ' + (err.response?.data?.error || err.message));
     } finally {

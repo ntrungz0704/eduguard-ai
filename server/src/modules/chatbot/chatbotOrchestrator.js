@@ -196,6 +196,33 @@ async function orchestrateChatbot(req, sessionId) {
     text = responseObj.text;
     chartData = responseObj.chartData;
     actions = responseObj.actions;
+    
+    // Save teacher chat history to DB if active student is selected
+    if (session.activeStudent || effectiveMssv) {
+      const dbStudentId = session.activeStudent || effectiveMssv;
+      try {
+        const { prisma } = require('../../infrastructure/database/prisma');
+        await prisma.conversationHistory.create({
+          data: {
+            studentId: dbStudentId,
+            role: 'TEACHER_USER',
+            message: message,
+            intent: intent,
+            entities: JSON.stringify(entities)
+          }
+        });
+        await prisma.conversationHistory.create({
+          data: {
+            studentId: dbStudentId,
+            role: 'TEACHER_BOT',
+            message: text,
+            intent: intent
+          }
+        });
+      } catch (err) {
+        appLogger.error(`[HISTORY] Failed to save teacher chat history: ${err.message}`);
+      }
+    }
   }
 
   // Update session state

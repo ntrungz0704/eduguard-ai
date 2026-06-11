@@ -1518,6 +1518,33 @@ router.get('/chat/history/:mssv', async (req, res) => {
   }
 });
 
+router.get('/chat/teacher-history/:mssv', async (req, res) => {
+  try {
+    const mssv = req.params.mssv;
+    if (!mssv) return res.status(400).json({ error: 'MSSV required' });
+    
+    const { prisma } = require('../../src/infrastructure/database/prisma');
+    const history = await prisma.conversationHistory.findMany({
+      where: { 
+        studentId: mssv,
+        role: { in: ['TEACHER_USER', 'TEACHER_BOT'] }
+      },
+      orderBy: { createdAt: 'asc' }
+    });
+    
+    let formatted = history.map(h => ({
+      role: h.role === 'TEACHER_BOT' ? 'ai' : 'user',
+      text: h.message,
+      time: new Date(h.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+    }));
+    
+    res.json({ history: formatted });
+  } catch (e) {
+    console.error('Lỗi lấy lịch sử chat giáo viên:', e);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 router.get('/chat/student/memory/:mssv', async (req, res) => {
   try {
     const { mssv } = req.params;
