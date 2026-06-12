@@ -481,14 +481,28 @@ export default function Dashboard() {
                   <tr key={`${alert.mssv}-${alert.targetCourse}-${idx}`} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-900 dark:text-slate-200">{alert.name}</div>
-                      <div className="text-slate-500 text-xs">{alert.mssv} • {alert.classCode}</div>
+                      <div className="text-slate-500 text-xs flex items-center gap-1.5 mt-1 flex-wrap">
+                        <span>{alert.mssv} • {alert.classCode}</span>
+                        {alert.totalRisksCount > 0 && (
+                          <span className="bg-rose-500/10 text-rose-500 dark:text-rose-400 text-[10px] px-1.5 py-0.5 rounded-lg font-bold border border-rose-200/20 dark:border-rose-500/20">
+                            {alert.totalRisksCount} rủi ro
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-slate-800 dark:text-slate-300">{alert.targetCourse}</span>
-                        <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400">
-                          {alert.predictedScore.toFixed(1)} điểm
-                        </span>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-slate-800 dark:text-slate-200">{alert.targetCourse}</span>
+                          <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400">
+                            {alert.predictedScore.toFixed(1)} điểm
+                          </span>
+                        </div>
+                        {alert.allPredictedRisks && alert.allPredictedRisks.length > 1 && (
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold italic">
+                            Và {alert.allPredictedRisks.length - 1} môn dự báo rủi ro khác
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -508,13 +522,24 @@ export default function Dashboard() {
                       {alert.isEarlyWarning && <span className="ml-2 text-[10px] text-amber-600 dark:text-amber-300 font-bold">Tuần 1-2</span>}
                     </td>
                     <td className="px-6 py-4">
-                      {alert.weakPrereqs.length > 0 ? (
+                      {alert.weakPrereqs && alert.weakPrereqs.length > 0 ? (
                         <div className="flex flex-col gap-1">
                           {alert.weakPrereqs.map(wp => (
                             <div key={wp.courseId} className="text-xs text-rose-600 dark:text-rose-300">
                               <span className="opacity-70 text-slate-600 dark:text-rose-300/70">Gãy</span> {wp.courseId}: <span className="font-bold">{wp.score}đ</span>
                             </div>
                           ))}
+                        </div>
+                      ) : alert.failedCourses && alert.failedCourses.length > 0 ? (
+                        <div className="flex flex-col gap-1">
+                          {alert.failedCourses.slice(0, 3).map(fc => (
+                            <div key={fc.courseId} className="text-xs text-rose-500 dark:text-rose-400">
+                              <span className="opacity-70 text-slate-600 dark:text-rose-400/70">Nợ</span> {fc.courseId}: <span className="font-bold">{fc.score}đ</span>
+                            </div>
+                          ))}
+                          {alert.failedCourses.length > 3 && (
+                            <span className="text-[10px] text-slate-500 italic">Và {alert.failedCourses.length - 3} môn khác</span>
+                          )}
                         </div>
                       ) : (
                         <span className="text-slate-500 text-xs italic">Phong độ giảm sút</span>

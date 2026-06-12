@@ -116,6 +116,7 @@ export default function StudentSearch() {
   
   const [allStudents, setAllStudents] = useState([]);
   const [sortType, setSortType] = useState('name-asc');
+  const [onlyShowAtRisk, setOnlyShowAtRisk] = useState(false);
 
   useEffect(() => {
     if (!selectedStudent) {
@@ -1352,32 +1353,49 @@ export default function StudentSearch() {
                   <h4 className="text-lg font-bold text-slate-900 dark:text-white">Danh sách Sinh viên</h4>
                   <p className="text-xs text-slate-600 dark:text-slate-400">Chọn sinh viên để xem chi tiết học bạ và tư vấn AI.</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold">Sắp xếp theo:</span>
-                  <select
-                    value={sortType}
-                    onChange={(e) => setSortType(e.target.value)}
-                    className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50"
-                  >
-                    <option value="name-asc">Tên (A-Z)</option>
-                    <option value="name-desc">Tên (Z-A)</option>
-                    <option value="risk-desc">Rủi ro (Cao - Thấp)</option>
-                  </select>
+                 <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={onlyShowAtRisk}
+                      onChange={(e) => setOnlyShowAtRisk(e.target.checked)}
+                      className="rounded border-slate-300 dark:border-white/10 text-blue-600 focus:ring-blue-500/50 w-4 h-4 bg-transparent cursor-pointer"
+                    />
+                    Chỉ hiện sinh viên có rủi ro
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold">Sắp xếp theo:</span>
+                    <select
+                      value={sortType}
+                      onChange={(e) => setSortType(e.target.value)}
+                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50"
+                    >
+                      <option value="name-asc">Tên (A-Z)</option>
+                      <option value="name-desc">Tên (Z-A)</option>
+                      <option value="risk-desc">Rủi ro (Cao - Thấp)</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {[...allStudents].sort((a, b) => {
-                  const nameA = a?.name || '';
-                  const nameB = b?.name || '';
-                  if (sortType === 'name-asc') return nameA.localeCompare(nameB);
-                  if (sortType === 'name-desc') return nameB.localeCompare(nameA);
-                  if (sortType === 'risk-desc') {
-                    const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
-                    const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
-                    return riskB - riskA;
-                  }
-                  return 0;
-                }).map(st => {
+                {[...allStudents]
+                  .filter(st => {
+                    if (!onlyShowAtRisk) return true;
+                    const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
+                    return riskCount > 0;
+                  })
+                  .sort((a, b) => {
+                    const nameA = a?.name || '';
+                    const nameB = b?.name || '';
+                    if (sortType === 'name-asc') return nameA.localeCompare(nameB);
+                    if (sortType === 'name-desc') return nameB.localeCompare(nameA);
+                    if (sortType === 'risk-desc') {
+                      const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
+                      const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
+                      return riskB - riskA;
+                    }
+                    return 0;
+                  }).map(st => {
                   const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
                   return (
                     <button

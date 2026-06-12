@@ -357,8 +357,12 @@ router.get('/red-alerts', async (req, res) => {
       console.warn("Lỗi fetch prediction:", e);
     }
 
-    let alerts = dbPredictions.map(pred => {
+    const studentAlertsMap = new Map();
+    
+    dbPredictions.forEach(pred => {
       const student = pred.student;
+      if (!student) return;
+      const mssv = student.mssv;
       const targetCourse = pred.course.name;
       const prereqs = ACADEMIC_PREREQUISITES[targetCourse] || [];
       
@@ -371,13 +375,10 @@ router.get('/red-alerts', async (req, res) => {
       
       const targetScore = student.scores.find(sc => sc.courseId === pred.courseId);
       const isEarlyWarning = !targetScore || targetScore.value === null;
-
-      const hasIntervened = interventions[targetCourse] && interventions[targetCourse].includes(student.mssv);
-
-      // Priority Intervention Ranking Logic
+      const hasIntervened = interventions[targetCourse] && interventions[targetCourse].includes(mssv);
+      
       let priorityLevel = 'LOW';
       let riskScore = 100 - (pred.predictedScore * 10);
-      
       if (pred.risk === 'HIGH') {
         priorityLevel = weakPrereqs.length > 0 ? 'CRITICAL' : 'HIGH';
         riskScore = Math.min(100, riskScore + (weakPrereqs.length * 10) + (isEarlyWarning ? 5 : 0));
@@ -385,23 +386,126 @@ router.get('/red-alerts', async (req, res) => {
         priorityLevel = 'MEDIUM';
         riskScore = Math.min(70, riskScore + (weakPrereqs.length * 5));
       }
-
-      return {
-        mssv: student.mssv,
-        name: student.name,
-        classCode: student.classCode || 'WD18301',
-        targetCourse: targetCourse,
-        targetCourseId: pred.course.id,
+      
+      const predictionItem = {
+        courseName: targetCourse,
+        courseId: pred.course.id,
         predictedScore: pred.predictedScore,
         risk: pred.risk,
         priorityLevel,
         riskScore: Math.round(riskScore),
-        weakPrereqs: weakPrereqs,
-        isEarlyWarning: isEarlyWarning,
+        weakPrereqs,
+        isEarlyWarning,
         intervened: hasIntervened || false,
         reasons: pred.reasons
       };
+      
+      if (!studentAlertsMap.has(mssv)) {
+        studentAlertsMap.set(mssv, {
+          mssv,
+          name: student.name,
+          classCode: student.classCode || 'WD18301',
+          predictions: [predictionItem],
+          studentScores: student.scores
+        });
+      } else {
+        studentAlertsMap.get(mssv).predictions.push(predictionItem);
+      }
     });
+
+    // Also include students who have actual failed courses (value < 5.0) but might not have prediction records
+    let allDbStudents = [];
+    try {
+      allDbStudents = await prisma.student.findMany({
+        include: { scores: true }
+      });
+    } catch (err) {
+      console.warn("Lỗi fetch all students for red-alerts:", err);
+    }
+
+    allDbStudents.forEach(student => {
+      const mssv = student.mssv;
+      const failedScores = student.scores.filter(sc => sc.value !== null && sc.value < 5.0);
+      if (failedScores.length > 0) {
+        if (!studentAlertsMap.has(mssv)) {
+          studentAlertsMap.set(mssv, {
+            mssv,
+            name: student.name,
+            classCode: student.classCode || 'WD18301',
+            predictions: [],
+            studentScores: student.scores
+          });
+        }
+      }
+    });
+
+    let alerts = [];
+    
+    for (const [mssv, data] of studentAlertsMap.entries()) {
+      const failedCourses = data.studentScores
+        .filter(sc => sc.value !== null && sc.value < 5.0)
+        .map(sc => ({ courseId: sc.courseId, score: sc.value }));
+        
+      let primary = null;
+      if (data.predictions.length > 0) {
+        const severityWeight = { 'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1 };
+        data.predictions.sort((a, b) => {
+          if (severityWeight[a.priorityLevel] !== severityWeight[b.priorityLevel]) {
+            return severityWeight[b.priorityLevel] - severityWeight[a.priorityLevel];
+          }
+          return a.predictedScore - b.predictedScore;
+        });
+        primary = data.predictions[0];
+      } else {
+        // Fallback when no prediction records exist but the student has failed courses
+        const firstFailed = failedCourses[0];
+        primary = {
+          courseName: firstFailed.courseId,
+          courseId: firstFailed.courseId,
+          predictedScore: firstFailed.score,
+          risk: 'HIGH',
+          priorityLevel: 'HIGH',
+          riskScore: 80,
+          weakPrereqs: [],
+          isEarlyWarning: false,
+          intervened: false,
+          reasons: JSON.stringify([{
+            subject: firstFailed.courseId,
+            score: firstFailed.score,
+            r: 1.0,
+            impact: 'negative',
+            explanation: `Rớt môn "${firstFailed.courseId}" (${firstFailed.score}đ)`
+          }])
+        };
+      }
+      
+      alerts.push({
+        mssv: data.mssv,
+        name: data.name,
+        classCode: data.classCode,
+        targetCourse: primary.courseName,
+        targetCourseId: primary.courseId,
+        predictedScore: primary.predictedScore,
+        risk: primary.risk,
+        priorityLevel: primary.priorityLevel,
+        riskScore: primary.riskScore,
+        weakPrereqs: primary.weakPrereqs,
+        isEarlyWarning: primary.isEarlyWarning,
+        intervened: primary.intervened,
+        reasons: primary.reasons,
+        
+        failedCourses: failedCourses,
+        allPredictedRisks: data.predictions.map(p => ({
+          courseName: p.courseName,
+          predictedScore: p.predictedScore,
+          risk: p.risk
+        })),
+        totalRisksCount: new Set([
+          ...failedCourses.map(c => c.courseId),
+          ...data.predictions.map(p => p.courseId)
+        ]).size
+      });
+    }
 
     alerts.sort((a, b) => {
       if (a.intervened !== b.intervened) return a.intervened ? 1 : -1;
@@ -412,12 +516,12 @@ router.get('/red-alerts', async (req, res) => {
       return b.riskScore - a.riskScore;
     });
 
-    const totalAtRisk = new Set(alerts.map(a => a.mssv)).size;
+    const totalAtRisk = alerts.length;
     const criticalCount = alerts.filter(a => a.priorityLevel === 'CRITICAL').length;
     const highCount = alerts.filter(a => a.priorityLevel === 'HIGH').length;
     const mediumCount = alerts.filter(a => a.priorityLevel === 'MEDIUM').length;
 
-    alerts = alerts.slice(0, 50);
+    alerts = alerts.slice(0, 150);
 
     const totalInterventions = Object.values(interventions).reduce((acc, curr) => acc + curr.length, 0);
 
@@ -1203,7 +1307,7 @@ router.get('/students-search', async (req, res) => {
           ]
         },
         include: { scores: { include: { course: true } } },
-        take: 15
+        take: q ? 50 : 700
       });
     } catch (dbErr) {
       console.warn('Lỗi tra cứu SQLite:', dbErr);
@@ -1232,14 +1336,14 @@ router.get('/students-search', async (req, res) => {
         const sname = String(s.name || '').toLowerCase();
         return sid.includes(q) || sname.includes(q);
       })
-      .slice(0, 15)
+      .slice(0, q ? 50 : 700)
       .map(s => ({ id: s.id, name: s.name || `Sinh viên ${s.id}`, classCode: s.classCode || 'WD18301', scores: s.scores || {}, source: 'Memory Cache' }));
 
     // Combine lists, preventing duplicates
     const combined = [...dbMapped];
     memMapped.forEach(ms => { if (!combined.some(cs => cs.id === ms.id)) combined.push(ms); });
 
-    res.json(combined.slice(0, 20));
+    res.json(combined.slice(0, q ? 50 : 700));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
