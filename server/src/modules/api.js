@@ -343,6 +343,18 @@ router.get('/red-alerts', async (req, res) => {
   try {
     const interventions = getInterventions();
     
+    // Fetch all database interventions
+    let dbInterventions = [];
+    try {
+      dbInterventions = await prisma.intervention.findMany();
+    } catch (dbIvErr) {
+      console.warn("Lỗi fetch interventions từ database:", dbIvErr);
+    }
+    const interventionStatusMap = new Map();
+    dbInterventions.forEach(iv => {
+      interventionStatusMap.set(`${iv.mssv}_${iv.courseId}`, iv.status);
+    });
+    
     let dbPredictions = [];
     try {
       dbPredictions = await prisma.prediction.findMany({
@@ -364,6 +376,20 @@ router.get('/red-alerts', async (req, res) => {
       if (!student) return;
       const mssv = student.mssv;
       const targetCourse = pred.course.name;
+      const courseId = pred.courseId;
+
+      // Exclude if student has already passed this course (score >= 5.0)
+      const targetScore = student.scores.find(sc => sc.courseId === courseId);
+      if (targetScore && targetScore.value !== null && targetScore.value >= 5.0) {
+        return;
+      }
+
+      // Exclude if intervention is RESOLVED
+      const status = interventionStatusMap.get(`${mssv}_${courseId}`);
+      if (status === 'RESOLVED') {
+        return;
+      }
+
       const prereqs = ACADEMIC_PREREQUISITES[targetCourse] || [];
       
       const weakPrereqs = [];
@@ -373,9 +399,8 @@ router.get('/red-alerts', async (req, res) => {
         }
       });
       
-      const targetScore = student.scores.find(sc => sc.courseId === pred.courseId);
       const isEarlyWarning = !targetScore || targetScore.value === null;
-      const hasIntervened = interventions[targetCourse] && interventions[targetCourse].includes(mssv);
+      const hasIntervened = status === 'PENDING' || status === 'ACTIVE' || (interventions[targetCourse] && interventions[targetCourse].includes(mssv));
       
       let priorityLevel = 'LOW';
       let riskScore = 100 - (pred.predictedScore * 10);
@@ -425,7 +450,13 @@ router.get('/red-alerts', async (req, res) => {
 
     allDbStudents.forEach(student => {
       const mssv = student.mssv;
-      const failedScores = student.scores.filter(sc => sc.value !== null && sc.value < 5.0);
+      const failedScores = student.scores.filter(sc => {
+        if (sc.value === null || sc.value >= 5.0) return false;
+        // Exclude if intervention is RESOLVED
+        const status = interventionStatusMap.get(`${mssv}_${sc.courseId}`);
+        if (status === 'RESOLVED') return false;
+        return true;
+      });
       if (failedScores.length > 0) {
         if (!studentAlertsMap.has(mssv)) {
           studentAlertsMap.set(mssv, {
@@ -443,9 +474,18 @@ router.get('/red-alerts', async (req, res) => {
     
     for (const [mssv, data] of studentAlertsMap.entries()) {
       const failedCourses = data.studentScores
-        .filter(sc => sc.value !== null && sc.value < 5.0)
+        .filter(sc => {
+          if (sc.value === null || sc.value >= 5.0) return false;
+          const status = interventionStatusMap.get(`${mssv}_${sc.courseId}`);
+          if (status === 'RESOLVED') return false;
+          return true;
+        })
         .map(sc => ({ courseId: sc.courseId, score: sc.value }));
         
+      if (data.predictions.length === 0 && failedCourses.length === 0) {
+        continue;
+      }
+
       let primary = null;
       if (data.predictions.length > 0) {
         const severityWeight = { 'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1 };
@@ -479,6 +519,9 @@ router.get('/red-alerts', async (req, res) => {
         };
       }
       
+      const primaryInterventionStatus = interventionStatusMap.get(`${mssv}_${primary.courseId}`);
+      const isIntervened = primaryInterventionStatus === 'PENDING' || primaryInterventionStatus === 'ACTIVE' || primary.intervened;
+
       alerts.push({
         mssv: data.mssv,
         name: data.name,
@@ -491,7 +534,7 @@ router.get('/red-alerts', async (req, res) => {
         riskScore: primary.riskScore,
         weakPrereqs: primary.weakPrereqs,
         isEarlyWarning: primary.isEarlyWarning,
-        intervened: primary.intervened,
+        intervened: isIntervened,
         reasons: primary.reasons,
         
         failedCourses: failedCourses,
@@ -2044,6 +2087,22 @@ router.post('/students/update-score', async (req, res) => {
         status
       }
     });
+
+    // Automatically update intervention status to RESOLVED if student passed (value >= 5.0)
+    if (numericValue >= 5.0) {
+      try {
+        await prisma.intervention.updateMany({
+          where: { mssv, courseId },
+          data: { status: 'RESOLVED' }
+        });
+        const courseObj = await prisma.course.findUnique({ where: { id: courseId } });
+        if (courseObj) {
+          saveIntervention(mssv, courseObj.name, false);
+        }
+      } catch (err) {
+        console.warn("Lỗi khi cập nhật trạng thái can thiệp sau khi đạt điểm:", err);
+      }
+    }
 
     // Trigger dynamic prediction recalibration for this student
     try {

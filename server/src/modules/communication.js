@@ -166,7 +166,7 @@ router.get('/messages/suggestion', async (req, res) => {
     if (weakPrereqs.length > 0) {
       explanation = `Nguyên nhân chính do em bị hổng kiến thức từ các môn tiên quyết: ${weakPrereqs.map(w => `${w.courseId} (${w.score}đ)`).join(', ')}.`;
       
-      weakPrereqActions += `⚠️ **Hành động khẩn cấp cho môn tiên quyết:**\n`;
+      weakPrereqActions += `⚠️ Hành động khẩn cấp cho môn tiên quyết:\n`;
       for (const wp of weakPrereqs) {
         const wpPath = path.join(__dirname, '..', '..', 'data', 'processed-json', `${wp.courseId}.json`);
         let wpSyllabus = null;
@@ -176,9 +176,9 @@ router.get('/messages/suggestion', async (req, res) => {
         if (wpSyllabus && wpSyllabus.sessions && wpSyllabus.sessions.length > 0) {
           // Get the first 3 topics
           const coreTopics = wpSyllabus.sessions.slice(0, 3).map(s => s.topic).join(', ');
-          weakPrereqActions += `- Với môn **${wpSyllabus.course_name} (${wp.courseId})**: Ôn tập lại ngay các chủ đề cốt lõi: ${coreTopics}.\n`;
+          weakPrereqActions += `- Với môn ${wpSyllabus.course_name} (${wp.courseId}): Ôn tập lại ngay các chủ đề cốt lõi: ${coreTopics}.\n`;
         } else {
-          weakPrereqActions += `- Với môn **${wp.courseId}**: Ôn tập lại slide, video bài giảng và hoàn thành các bài thực hành/lab cốt lõi.\n`;
+          weakPrereqActions += `- Với môn ${wp.courseId}: Ôn tập lại slide, video bài giảng và hoàn thành các bài thực hành/lab cốt lõi.\n`;
         }
       }
     } else {
@@ -196,12 +196,12 @@ router.get('/messages/suggestion', async (req, res) => {
         toolsStr = targetSyllabus.tools_required.join(', ');
       }
       if (targetSyllabus.learning_outcomes && targetSyllabus.learning_outcomes.length > 0) {
-        outcomesStr = targetSyllabus.learning_outcomes.slice(0, 3).map(o => `- **${o.code}**: ${o.title}`).join('\n');
+        outcomesStr = targetSyllabus.learning_outcomes.slice(0, 3).map(o => `- ${o.code}: ${o.title}`).join('\n');
       } else {
         outcomesStr = `- Hiểu và vận dụng các kiến thức cốt lõi của môn học.\n- Hoàn thành các bài thực hành và dự án mẫu.`;
       }
       if (targetSyllabus.sessions && targetSyllabus.sessions.length > 0) {
-        sessionsStr = targetSyllabus.sessions.slice(0, 4).map(s => `- **Session ${s.session}**: ${s.topic}`).join('\n');
+        sessionsStr = targetSyllabus.sessions.slice(0, 4).map(s => `- Session ${s.session}: ${s.topic}`).join('\n');
       } else {
         sessionsStr = `- Tuần 1: Làm quen môn học và cài đặt công cụ.\n- Tuần 2: Học các khái niệm cơ bản đầu tiên.`;
       }
@@ -215,24 +215,24 @@ router.get('/messages/suggestion', async (req, res) => {
 
     const isCritical = predScoreNum < 4.0;
     const action3 = isCritical 
-      ? `3. 🚨 **Khẩn cấp (Hành động trực tiếp)**: Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn điểm chuyên cần và điểm số.`
-      : `3. 👥 **Tham gia phụ đạo**: Tham gia các buổi tutorial/phụ đạo do trường tổ chức hoặc nhờ nhóm bạn hỗ trợ ôn tập thêm ngoài giờ học.`;
+      ? `3. 🚨 Khẩn cấp (Hành động trực tiếp): Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn điểm chuyên cần và điểm số.`
+      : `3. 👥 Tham gia phụ đạo: Tham gia các buổi tutorial/phụ đạo do trường tổ chức hoặc nhờ nhóm bạn hỗ trợ ôn tập thêm ngoài giờ học.`;
 
     const suggestion = `Chào ${student.name},\n
-Giảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn **${course.name} (${course.id})** sắp tới (Dự báo AI: **${predScoreFormatted}đ**).
+Giảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${course.name} (${course.id}) sắp tới (Dự báo AI: ${predScoreFormatted}đ).
 ${explanation}\n
-🎯 **LỘ TRÌNH CẢI THIỆN (AI Đề xuất dựa trên Đề cương chi tiết):**\n
-1. 📚 **Bù đắp lỗ hổng kiến thức tiên quyết:**
+🎯 LỘ TRÌNH CẢI THIỆN (AI Đề xuất dựa trên Đề cương chi tiết):\n
+1. 📚 Bù đắp lỗ hổng kiến thức tiên quyết:
 ${weakPrereqActions}
-2. 🚀 **Chủ động tiếp cận môn học mới (${course.name}):**
-- 🛠️ Yêu cầu công cụ: Đảm bảo đã cài đặt và biết sử dụng: **${toolsStr}**.
+2. 🚀 Chủ động tiếp cận môn học mới (${course.name}):
+- 🛠️ Yêu cầu công cụ: Đảm bảo đã cài đặt và biết sử dụng: ${toolsStr}.
 - 🎯 Chuẩn đầu ra quan trọng cần đạt:
 ${outcomesStr}
 - 📅 Nội dung trọng tâm cần học trước (Tuần 1-2):
 ${sessionsStr}\n
-3. 📆 **Kế hoạch hành động chi tiết:**
-- 1. **Dành 2 giờ mỗi ngày** tự học và làm lại các phần Assignment/Lab tương tự.
-- 2. **Tăng cường chú ý**: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.
+3. 📆 Kế hoạch hành động chi tiết:
+- 1. Dành 2 giờ mỗi ngày tự học và làm lại các phần Assignment/Lab tương tự.
+- 2. Tăng cường chú ý: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.
 - ${action3}\n
 Nếu cần hỗ trợ thêm, hãy phản hồi lại qua Hộp thư này. Chúc em học tốt và cải thiện điểm số thành công!`;
 
@@ -290,6 +290,48 @@ router.get('/messages/:userId', async (req, res) => {
         conversations[partnerId].unreadCount += 1;
       }
       conversations[partnerId].messages.push(msg);
+    }
+
+    // Pre-populate conversations using the Intervention table
+    if (role === 'STUDENT') {
+      const interventions = await prisma.intervention.findMany({
+        where: { mssv: userId },
+        include: { advisor: true }
+      });
+      for (const iv of interventions) {
+        const partnerId = iv.advisorId;
+        if (!conversations[partnerId]) {
+          const partnerName = iv.advisor ? iv.advisor.name : 'Giảng viên';
+          conversations[partnerId] = {
+            partnerId,
+            partnerName,
+            lastMessage: '',
+            lastMessageAt: iv.createdAt,
+            unreadCount: 0,
+            messages: []
+          };
+        }
+      }
+    } else {
+      // ADVISOR
+      const interventions = await prisma.intervention.findMany({
+        where: { advisorId: userId },
+        include: { student: true }
+      });
+      for (const iv of interventions) {
+        const partnerId = iv.mssv;
+        if (!conversations[partnerId]) {
+          const partnerName = iv.student ? `${iv.student.name} (${iv.student.mssv})` : partnerId;
+          conversations[partnerId] = {
+            partnerId,
+            partnerName,
+            lastMessage: '',
+            lastMessageAt: iv.createdAt,
+            unreadCount: 0,
+            messages: []
+          };
+        }
+      }
     }
     
     res.json(Object.values(conversations).sort((a,b) => new Date(b.lastMessageAt) - new Date(a.lastMessageAt)));

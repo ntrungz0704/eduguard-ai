@@ -478,7 +478,14 @@ export default function Dashboard() {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-white/5">
                 {(showAllAlerts ? redAlerts : redAlerts.slice(0, 5)).map((alert, idx) => (
-                  <tr key={`${alert.mssv}-${alert.targetCourse}-${idx}`} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+                  <tr
+                    key={`${alert.mssv}-${alert.targetCourse}-${idx}`}
+                    className={`transition-colors group ${
+                      alert.intervened
+                        ? 'bg-emerald-500/5 hover:bg-emerald-500/10 opacity-75'
+                        : 'hover:bg-slate-50 dark:hover:bg-white/5'
+                    }`}
+                  >
                     <td className="px-6 py-4">
                       <div className="font-bold text-slate-900 dark:text-slate-200">{alert.name}</div>
                       <div className="text-slate-500 text-xs flex items-center gap-1.5 mt-1 flex-wrap">
