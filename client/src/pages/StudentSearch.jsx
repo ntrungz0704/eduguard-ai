@@ -154,20 +154,13 @@ export default function StudentSearch() {
       }
       
       const studentId = activeStudent.mssv || activeStudent.id;
-      api.get(`/chat/teacher-history/${studentId}`)
-        .then(res => {
-          if (res.data.history && res.data.history.length > 0) {
-            setChatHistory(res.data.history);
-          } else {
-            setChatHistory([
-              {
-                role: 'ai',
-                text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên **${activeStudent.name}** (${studentId}). Bạn có thể hỏi tôi về:\n\n- *Tại sao sinh viên này có nguy cơ trượt môn nào đó?*\n- *Gợi ý lộ trình can thiệp và cải thiện điểm số.*\n- *Phân tích chi tiết lỗ hổng kiến thức tiên quyết.*`
-              }
-            ]);
-          }
-        })
-        .catch(console.error);
+      // Chat box nhỏ chỉ lưu tạm thời trong session, không persist — reset mỗi lần chọn SV mới
+      setChatHistory([
+        {
+          role: 'ai',
+          text: `👋 Tôi đã sẵn sàng hỗ trợ! Tôi vừa nạp toàn bộ học bạ và phân tích rủi ro của sinh viên **${activeStudent.name}** (${studentId}). Bạn có thể hỏi tôi về:\n\n- *Tại sao sinh viên này có nguy cơ trượt môn nào đó?*\n- *Gợi ý lộ trình can thiệp và cải thiện điểm số.*\n- *Phân tích chi tiết lỗ hổng kiến thức tiên quyết.*`
+        }
+      ]);
     } else {
       setSearchParams({}, { replace: true });
       setSelectedStudent(null);

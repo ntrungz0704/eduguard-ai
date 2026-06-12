@@ -98,7 +98,6 @@ export default function StudentProfile() {
   const [submittingFlag, setSubmittingFlag] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [generatingNote, setGeneratingNote] = useState(false);
-  
   const [activeWorkflow, setActiveWorkflow] = useState(null);
   const [workflowContent, setWorkflowContent] = useState('');
 
@@ -109,11 +108,6 @@ export default function StudentProfile() {
       setStudent(res.data);
       setActiveStudent(res.data);
       setError(null);
-      
-      if (res.data.scores && res.data.scores.length > 0) {
-        const warningSub = (Array.isArray(res.data.scores) ? res.data.scores : Object.values(res.data.scores || {})).find(s => s.value < 5 || s.status === 'FAILED');
-        setSelectedCourse(warningSub ? warningSub.courseId : (Array.isArray(res.data.scores) ? res.data.scores : Object.values(res.data.scores || {}))[0].courseId);
-      }
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.error || 'Không thể lấy thông tin sinh viên');
@@ -126,6 +120,27 @@ export default function StudentProfile() {
     fetchStudentProfile();
     return () => { setActiveStudent(null); };
   }, [mssv]);
+
+  // Tự động chọn môn rủi ro cao nhất làm mặc định sau khi load xong
+  useEffect(() => {
+    if (!student?.scores || student.scores.length === 0) return;
+    const entries = Array.isArray(student.scores) ? student.scores : Object.values(student.scores || {});
+    const predictions = student.predictions || [];
+    const highRisk = entries.find(s => {
+      if (isConditionalCourse(s.course?.name || s.courseId, s.courseId)) return false;
+      const pred = predictions.find(p => p.courseId === s.courseId);
+      return pred && (pred.risk === 'HIGH' || pred.risk === 'CRITICAL');
+    });
+    const failed = entries.find(s => s.status === 'FAILED' && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+    const lowScore = entries.find(s => s.value !== null && s.value < 6 && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+    const inProgressRisk = entries.find(s => {
+      if (isConditionalCourse(s.course?.name || s.courseId, s.courseId)) return false;
+      const pred = predictions.find(p => p.courseId === s.courseId);
+      return s.status !== 'PASSED' && s.status !== 'FAILED' && pred;
+    });
+    const picked = highRisk || failed || lowScore || inProgressRisk;
+    if (picked) setSelectedCourse(picked.courseId);
+  }, [student?.mssv]);
 
   // Tự động sinh ghi chú can thiệp bằng AI cho môn được chọn
   const handleGenerateNote = async () => {
@@ -173,16 +188,51 @@ export default function StudentProfile() {
     setSubmittingFlag(true);
     setSuccessMsg('');
     try {
+      // 1. Đăng ký cắm cờ can thiệp
       await api.post(`/students/${mssv}/flag`, {
         courseId: selectedCourse,
         action: interventionNote || 'Cần can thiệp sư phạm đặc biệt - Cảnh báo CVHT'
       });
-      setSuccessMsg('Đã thiết lập cắm cờ can thiệp thành công!');
+
+      // 2. Tự động xây dựng & gửi tin nhắn vào hộp thư SV
+      const courseScore = scoreEntries.find(s => s.courseId === selectedCourse);
+      const prediction = student.predictions?.find(p => p.courseId === selectedCourse);
+      const courseName = courseScore?.course?.name || selectedCourse;
+
+      // Xây dựng nội dung tin nhắn cảnh báo gửi SV
+      let msgContent = '';
+      try {
+        const prompt = `Soạn một tin nhắn cảnh báo học vụ ngắn gọn, thân thiện gửi thẳng cho sinh viên ${student.name} về môn ${selectedCourse} (${courseName}). ` +
+          `Tin nhắn phải gồm 3 phần RÕ RÀNG:\n` +
+          `1. EM ĐANG BỊ GÌ: ${courseScore?.status === 'FAILED' ? `Môn này em đã bị trượt (điểm ${courseScore.value}/10).` : courseScore?.value !== null ? `Điểm hiện tại của em là ${courseScore.value}/10 - có nguy cơ rủi ro.` : 'Môn này đang có dấu hiệu rủi ro cao.'} ${prediction?.explanation ? `Nguyên nhân: ${prediction.explanation}` : ''}\n` +
+          `2. ĐỀ XUẤT HỌC TẬP: (Ôn lại kiến thức syllabus cụ thể - chương nào, chủ đề nào cần nắm chắc)\n` +
+          `3. HỔ TRỢ NGOAI KHOA: đề xuất những nguồn bên ngoài (Tutor, YouTube, khóa học online, nhóm học)\n\n` +
+          `${interventionNote ? `Ghi chú thêm từ CVHT: ${interventionNote}\n\n` : ''}` +
+          `Xưng hô là Anh/Chị, gọi SV là em. Giọng điệu động viên, không dỊa dẫm. Dùng emoji nhẹ nhàng. Không quá 3 đoạn.`;
+        const res = await api.post('/chat', { message: prompt, studentContext: student, provider: 'gemini', history: [] });
+        msgContent = (res.data?.reply || '').replace(/\*\*/g, '');
+      } catch (_) {
+        // Fallback nếu AI lỗi
+        msgContent = `Chào em ${student.name},\n\n` +
+          `Anh/Chị vừa rà soát tiến độ học tập và nhận thấy em đang có rủi ro ở môn ${selectedCourse} (${courseName}).\n\n` +
+          (interventionNote ? `Nội dung can thiệp: ${interventionNote}\n\n` : '') +
+          `Đề xuất: Em hãy nhìn lại kiến thức cơ bản của môn này, tham gia lớp Tutor bổ trợ nếu có, và chủ động liên hệ giảng viên bộ môn khi cần hỗ trợ nhé.\n\nAnh/Chị luôn sẵn sàng hỗ trợ em! 💪`;
+      }
+
+      // Gửi vào hộp thư SV
+      const currentUser = JSON.parse(localStorage.getItem('eduguard_user') || '{}');
+      await api.post('/comm/messages', {
+        senderId: currentUser.id || 'advisor',
+        receiverId: mssv,
+        content: msgContent
+      });
+
+      setSuccessMsg(`✅ Đã đưa vào diện Chú ý và gửi thông báo vào Hộp thư của ${student.name}!`);
       setInterventionNote('');
       await fetchStudentProfile();
     } catch (err) {
       console.error(err);
-      alert('Lỗi cập nhật');
+      alert('Lỗi cập nhật: ' + (err.response?.data?.error || err.message));
     } finally {
       setUpdating(false);
       setSubmittingFlag(false);
@@ -324,6 +374,23 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
   const scoreEntries = Array.isArray(student.scores) ? student.scores : Object.values(student.scores || {});
   const passedScores = scoreEntries.filter(s => s.status === 'PASSED' && s.value !== null);
   const failedScores = scoreEntries.filter(s => s.status === 'FAILED' && s.value !== null);
+  
+  // Chỉ hiện môn có rủi ro trong dropdown can thiệp:
+  // - Đã trượt (FAILED)
+  // - Điểm < 6 (nguy cơ cao)
+  // - Có AI prediction HIGH/CRITICAL
+  // - Đang học (chưa có điểm) và có prediction bất kỳ
+  // Bỏ qua môn điều kiện (Thể chất, Quốc phòng, Vovinam)
+  const riskyCourses = scoreEntries.filter(s => {
+    if (isConditionalCourse(s.course?.name || s.courseId, s.courseId)) return false;
+    const pred = student.predictions?.find(p => p.courseId === s.courseId);
+    const isFailed = s.status === 'FAILED';
+    const isLowScore = s.value !== null && s.value < 6;
+    const isHighRisk = pred && (pred.risk === 'HIGH' || pred.risk === 'CRITICAL');
+    const isMediumRisk = pred && pred.risk === 'MEDIUM';
+    const isInProgress = s.status !== 'PASSED' && s.status !== 'FAILED';
+    return isFailed || isLowScore || isHighRisk || (isInProgress && (isHighRisk || isMediumRisk || pred));
+  });
   
   const fptStats = calculateFptStats(scoreEntries);
   const currentGPA = fptStats.gpa10;
@@ -678,23 +745,35 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
               <ShieldAlert className="text-rose-400" size={20} /> Can Thiệp Học Vụ Chủ Động
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-              Phát hiện môn học nguy cơ trượt cao? Đánh dấu can thiệp sư phạm để gửi cảnh báo trực tiếp tới Cố vấn học tập (CVHT).
+              Phát hiện môn học rủi ro? Nhấn “Đưa vào diện Chú ý” để <strong className="text-rose-400">đồng thời cắm cờ can thiệp</strong> và <strong className="text-blue-400">gửi tin nhắn phân tích + đề xuất cải thiện vào Hộp thư sinh viên</strong> ngay lập tức.
             </p>
             
             <form onSubmit={handleFlagIntervention} className="space-y-4 relative z-10">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Chọn môn học cần can thiệp</label>
                 <select 
-                  value={selectedCourse}
-                  onChange={e => setSelectedCourse(e.target.value)}
+                  value={selectedCourse || ''}
+                  onChange={e => { setSelectedCourse(e.target.value); setInterventionNote(''); }}
                   className="w-full p-3.5 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-slate-900 dark:text-white text-sm transition-colors"
                 >
-                  {scoreEntries.map(s => (
-                    <option key={s.courseId} value={s.courseId} className="bg-white dark:bg-slate-900">
-                      {s.courseId} — {s.course?.name || s.courseId}
-                    </option>
-                  ))}
+                  {riskyCourses.length === 0 ? (
+                    <option value="" disabled>Không có môn nào có rủi ro hiện tại</option>
+                  ) : (
+                    riskyCourses.map(s => {
+                      const pred = student.predictions?.find(p => p.courseId === s.courseId);
+                      const risk = pred?.risk;
+                      const label = risk === 'HIGH' || risk === 'CRITICAL' ? ' 🔴 Cao' : risk === 'MEDIUM' ? ' 🟡 Trung bình' : s.status === 'FAILED' ? ' ❌ Trượt' : ' ⚠️ Rủi ro';
+                      return (
+                        <option key={s.courseId} value={s.courseId} className="bg-white dark:bg-slate-900">
+                          {s.courseId} — {s.course?.name || s.courseId}{label}
+                        </option>
+                      );
+                    })
+                  )}
                 </select>
+                {riskyCourses.length > 0 && (
+                  <p className="text-[10px] text-slate-500">{riskyCourses.length} môn có rủi ro — Chỉ hiện môn cần can thiệp, bỏ qua môn đã đạt tốt.</p>
+                )}
               </div>
 
               <div className="space-y-1.5">
