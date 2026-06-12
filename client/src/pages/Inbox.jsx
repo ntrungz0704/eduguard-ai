@@ -24,12 +24,15 @@ export default function Inbox() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    fetchConversations();
+    fetchConversations(true);
+  }, [currentUser]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       fetchConversations(false);
     }, 4000);
     return () => clearInterval(interval);
-  }, [currentUser]);
+  }, [currentUser, activePartnerId]);
 
   useEffect(() => {
     const mssv = searchParams.get('mssv');
@@ -44,46 +47,10 @@ export default function Inbox() {
   }, [searchParams]);
 
   useEffect(() => {
-    const loadMissingPartner = async () => {
-      if (activePartnerId && !loading && !conversations.some(c => c.partnerId === activePartnerId)) {
-        try {
-          if (currentUser.role === 'STUDENT') {
-            const advisorsRes = await api.get('/comm/advisors');
-            const adv = advisorsRes.data.find(a => a.id === activePartnerId);
-            const partnerName = adv ? adv.name : 'Giảng viên';
-            const newConv = {
-              partnerId: activePartnerId,
-              partnerName,
-              lastMessage: '',
-              lastMessageAt: new Date().toISOString(),
-              unreadCount: 0,
-              messages: []
-            };
-            setConversations(prev => [newConv, ...prev]);
-            setActivePartnerName(partnerName);
-          } else {
-            const res = await api.get(`/students/${activePartnerId}`);
-            if (res.data) {
-              const newConv = {
-                partnerId: activePartnerId,
-                partnerName: `${res.data.name} (${activePartnerId})`,
-                lastMessage: '',
-                lastMessageAt: new Date().toISOString(),
-                unreadCount: 0,
-                messages: []
-              };
-              setConversations(prev => [newConv, ...prev]);
-              setActivePartnerName(`${res.data.name} (${activePartnerId})`);
-            }
-          }
-        } catch (err) {
-          console.error("Lỗi khi tải thông tin sinh viên mới:", err);
-          setActivePartnerName(activePartnerId);
-        }
-      }
-    };
-    loadMissingPartner();
-  }, [activePartnerId, conversations, currentUser, loading]);
+    if (activePartnerId) {
+      fetchConversations(false, activePartnerId);
+    }
+  }, [activePartnerId]);
 
   useEffect(() => {
     if (activePartnerId) {
@@ -100,31 +67,75 @@ export default function Inbox() {
     }
   }, [activePartnerId, conversations]);
 
-  const fetchConversations = async (showLoading = true) => {
+  const fetchConversations = async (showLoading = true, currentActivePartnerId = activePartnerId) => {
     try {
       const res = await api.get(`/comm/messages/${currentUser.id}?role=${currentUser.role}`);
+      let data = res.data;
       
-      if (res.data.length === 0 && currentUser.role === 'STUDENT') {
+      if (data.length === 0 && currentUser.role === 'STUDENT') {
         const advisorsRes = await api.get('/comm/advisors');
         if (advisorsRes.data.length > 0) {
           setAvailableAdvisors(advisorsRes.data);
           const defaultAdvisor = advisorsRes.data[0];
-          setConversations([{
+          data = [{
             partnerId: defaultAdvisor.id,
             partnerName: defaultAdvisor.name,
             lastMessage: '',
             lastMessageAt: new Date().toISOString(),
             unreadCount: 0,
             messages: []
-          }]);
-          return;
+          }];
         }
       } else if (currentUser.role === 'STUDENT') {
          const advisorsRes = await api.get('/comm/advisors');
          setAvailableAdvisors(advisorsRes.data);
       }
       
-      setConversations(res.data);
+      // Check if currentActivePartnerId is present in data, if not prepend it!
+      if (currentActivePartnerId && !data.some(c => c.partnerId === currentActivePartnerId)) {
+        try {
+          if (currentUser.role === 'STUDENT') {
+            const advisorsRes = await api.get('/comm/advisors');
+            const adv = advisorsRes.data.find(a => a.id === currentActivePartnerId);
+            const partnerName = adv ? adv.name : 'Giảng viên';
+            data = [{
+              partnerId: currentActivePartnerId,
+              partnerName,
+              lastMessage: '',
+              lastMessageAt: new Date().toISOString(),
+              unreadCount: 0,
+              messages: []
+            }, ...data];
+            setActivePartnerName(partnerName);
+          } else {
+            const stuRes = await api.get(`/students/${currentActivePartnerId}`);
+            if (stuRes.data) {
+              data = [{
+                partnerId: currentActivePartnerId,
+                partnerName: `${stuRes.data.name} (${currentActivePartnerId})`,
+                lastMessage: '',
+                lastMessageAt: new Date().toISOString(),
+                unreadCount: 0,
+                messages: []
+              }, ...data];
+              setActivePartnerName(`${stuRes.data.name} (${currentActivePartnerId})`);
+            }
+          }
+        } catch (err) {
+          console.error("Lỗi khi tải thông tin đối tác mới:", err);
+          data = [{
+            partnerId: currentActivePartnerId,
+            partnerName: currentActivePartnerId,
+            lastMessage: '',
+            lastMessageAt: new Date().toISOString(),
+            unreadCount: 0,
+            messages: []
+          }, ...data];
+          setActivePartnerName(currentActivePartnerId);
+        }
+      }
+      
+      setConversations(data);
     } catch (err) {
       console.error("Lỗi lấy danh sách tin nhắn", err);
     } finally {
