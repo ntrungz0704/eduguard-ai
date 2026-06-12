@@ -142,7 +142,8 @@ export default function StudentSearch() {
           .finally(() => setLoading(false));
       }
     }
-  }, [searchParams, selectedStudent, setActiveStudent]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, setActiveStudent]);
 
   useEffect(() => {
     if (activeStudent) {

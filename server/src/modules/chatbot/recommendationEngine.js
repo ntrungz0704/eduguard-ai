@@ -12,7 +12,7 @@ function generateInterventionRoadmap(student, riskData) {
     return '🎯 Lộ trình phát triển:\n- Khuyến khích tham gia thi Code/Olympic.\n- Mentoring cho các sinh viên khóa dưới.';
   }
 
-  const reasons = riskData.reasons.map(r => r.factor || '');
+  const reasons = (riskData.explanations || riskData.reasons || []).map(r => r.factor || '');
   let roadmap = '🎯 **Lộ trình can thiệp đề xuất:**\n\n';
 
   if (level === 'CRITICAL') {

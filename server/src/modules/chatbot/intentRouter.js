@@ -70,7 +70,7 @@ function keywordHeuristicRoute(msgLower, activeStudent) {
   if (msgLower.includes('khẩn cấp') || msgLower.includes('ai cần cứu')) return 'PRIORITY_ENGINE_INTENT';
   if (msgLower.includes('dự báo') || msgLower.includes('tương lai') || msgLower.includes('timeline') || msgLower.includes('lộ trình học tập')) return 'PREDICT_FUTURE_INTENT';
   if (msgLower.includes('nếu') || msgLower.includes('giả lập') || msgLower.includes('mô phỏng')) return 'SCENARIO_SIMULATION_INTENT';
-  if (msgLower.includes('nguyên nhân') || msgLower.includes('vì sao')) return 'ROOT_CAUSE_XAI_INTENT';
+  if (msgLower.includes('nguyên nhân') || msgLower.includes('vì sao') || msgLower.includes('tại sao') || msgLower.includes('lý do')) return 'ROOT_CAUSE_XAI_INTENT';
   if (msgLower.includes('can thiệp') || msgLower.includes('cứu') || msgLower.includes('lộ trình')) return 'INTERVENTION_REC_INTENT';
   if (msgLower.includes('chuyên cần') || msgLower.includes('điểm danh') || msgLower.includes('vắng')) return 'ATTENDANCE_ANALYSIS_INTENT';
   if (msgLower.includes('muốn theo') || msgLower.includes('backend') || msgLower.includes('frontend')) return 'CAREER_PATH_INTENT';
