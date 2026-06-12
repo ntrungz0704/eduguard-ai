@@ -11,7 +11,7 @@ const loginSchema = z.object({
   body: z.object({
     username: z.string().min(1, 'Username/MSSV is required'),
     password: z.string().min(1, 'Password is required'),
-    role: z.enum(['ADVISOR', 'STUDENT']).optional(),
+    role: z.enum(['ADMIN', 'ADVISOR', 'STUDENT']).optional(),
   }),
 });
 

@@ -21,6 +21,10 @@ export default function Inbox() {
   const [file, setFile] = useState(null);
   const [sending, setSending] = useState(false);
   
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchFocused, setSearchFocused] = useState(false);
+  
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -286,22 +290,48 @@ export default function Inbox() {
                 type="text" 
                 placeholder="Tìm kiếm MSSV để nhắn tin..."
                 className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-sm px-3 py-2 rounded-lg text-slate-800 dark:text-white font-semibold outline-none focus:border-blue-500"
-                onChange={(e) => {
-                  const val = e.target.value.trim().toUpperCase();
-                  if(val.length >= 5) {
-                    if (!conversations.find(c => c.partnerId.toUpperCase() === val)) {
-                      setConversations(prev => [{
-                        partnerId: val,
-                        partnerName: `Sinh viên ${val}`,
-                        lastMessage: '',
-                        lastMessageAt: new Date().toISOString(),
-                        unreadCount: 0,
-                        messages: []
-                      }, ...prev]);
+                value={searchQuery}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
+                onChange={async (e) => {
+                  const val = e.target.value;
+                  setSearchQuery(val);
+                  const cleanVal = val.trim().toLowerCase();
+                  if (cleanVal.length >= 2) {
+                    try {
+                      const res = await api.get(`/students-search?q=${cleanVal}`);
+                      setSearchResults(res.data);
+                    } catch (err) {
+                      console.error("Lỗi tìm kiếm sinh viên:", err);
                     }
+                  } else {
+                    setSearchResults([]);
                   }
                 }}
               />
+              {searchFocused && searchQuery.trim().length >= 2 && searchResults.length > 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
+                  {searchResults.map(item => (
+                    <div 
+                      key={item.id}
+                      onClick={() => {
+                        handlePartnerSelect(item.id);
+                        setSearchQuery('');
+                        setSearchResults([]);
+                      }}
+                      className="px-4 py-2 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer text-slate-800 dark:text-slate-200 text-sm font-semibold border-b border-slate-100 dark:border-white/5 flex justify-between"
+                    >
+                      <span>{item.name}</span>
+                      <span className="text-xs text-slate-500">{item.id}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {searchFocused && searchQuery.trim().length >= 2 && searchResults.length === 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg shadow-lg p-4 text-center text-xs text-slate-500 z-50">
+                  Không tìm thấy kết quả phù hợp
+                </div>
+              )}
             </div>
           ) : (
             <div className="relative">
@@ -309,26 +339,47 @@ export default function Inbox() {
                 type="text" 
                 placeholder="Tìm kiếm Giảng viên (vd: GV01, Cô Ngọc...)"
                 className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-sm px-3 py-2 rounded-lg text-slate-800 dark:text-white font-semibold outline-none focus:border-blue-500"
+                value={searchQuery}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
                 onChange={(e) => {
-                  const val = e.target.value.trim().toLowerCase();
-                  if(val.length >= 2) {
-                    // Find an advisor whose name matches the search string
-                    const matchedAdvisor = availableAdvisors.find(adv => adv.name.toLowerCase().includes(val) || adv.email.toLowerCase().includes(val));
-                    if (matchedAdvisor) {
-                      if (!conversations.find(c => c.partnerId === matchedAdvisor.id)) {
-                        setConversations(prev => [{
-                          partnerId: matchedAdvisor.id,
-                          partnerName: matchedAdvisor.name,
-                          lastMessage: '',
-                          lastMessageAt: new Date().toISOString(),
-                          unreadCount: 0,
-                          messages: []
-                        }, ...prev]);
-                      }
-                    }
+                  const val = e.target.value;
+                  setSearchQuery(val);
+                  const cleanVal = val.trim().toLowerCase();
+                  if (cleanVal.length >= 2) {
+                    const matched = availableAdvisors.filter(adv => 
+                      adv.name.toLowerCase().includes(cleanVal) || 
+                      adv.email.toLowerCase().includes(cleanVal)
+                    );
+                    setSearchResults(matched);
+                  } else {
+                    setSearchResults([]);
                   }
                 }}
               />
+              {searchFocused && searchQuery.trim().length >= 2 && searchResults.length > 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
+                  {searchResults.map(item => (
+                    <div 
+                      key={item.id}
+                      onClick={() => {
+                        handlePartnerSelect(item.id);
+                        setSearchQuery('');
+                        setSearchResults([]);
+                      }}
+                      className="px-4 py-2 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer text-slate-800 dark:text-slate-200 text-sm font-semibold border-b border-slate-100 dark:border-white/5 flex justify-between"
+                    >
+                      <span>{item.name}</span>
+                      <span className="text-xs text-slate-500">{item.email}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {searchFocused && searchQuery.trim().length >= 2 && searchResults.length === 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-lg shadow-lg p-4 text-center text-xs text-slate-500 z-50">
+                  Không tìm thấy kết quả phù hợp
+                </div>
+              )}
             </div>
           )}
         </div>

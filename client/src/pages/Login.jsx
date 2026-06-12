@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BrainCircuit, Loader2, Users, GraduationCap, MapPin, Eye, EyeOff } from 'lucide-react';
+import { BrainCircuit, Loader2, Users, GraduationCap, MapPin, Eye, EyeOff, Shield } from 'lucide-react';
 import { useStore } from '../store';
 
 import { api, STORAGE_KEYS } from '../lib/api';
@@ -50,10 +50,10 @@ export default function Login() {
 
       setCurrentUser(userWithCampus);
 
-      if (role === 'ADVISOR') {
-        navigate('/');
-      } else {
+      if (role === 'STUDENT') {
         navigate('/student-dashboard');
+      } else {
+        navigate('/');
       }
     } catch (err) {
       const errorData = err.response?.data?.error;
@@ -65,14 +65,19 @@ export default function Login() {
   };
 
   const quickFill = (type) => {
-    if (type === 'GV') {
-      setRole('ADVISOR');
+    if (type === 'ADMIN') {
+      setRole('ADMIN');
       setUsername('admin');
+      setPassword('admin123');
+      setError('');
+    } else if (type === 'GV') {
+      setRole('ADVISOR');
+      setUsername('advisor');
       setPassword('admin123');
       setError('');
     } else {
       setRole('STUDENT');
-      setUsername('PS47261');
+      setUsername('PS21034');
       setPassword('123456');
       setError('');
     }
@@ -98,7 +103,19 @@ export default function Login() {
         </div>
 
         {/* Role Tabs */}
-        <div className="grid grid-cols-2 gap-2 p-1.5 bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-white/5 mb-6 animate-slide-up" style={{animationDelay: '0.1s'}}>
+        <div className="grid grid-cols-3 gap-2 p-1.5 bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-white/5 mb-6 animate-slide-up" style={{animationDelay: '0.1s'}}>
+          <button
+            type="button"
+            onClick={() => { setRole('ADMIN'); setUsername(''); setPassword(''); setError(''); }}
+            className={`py-3 rounded-xl flex flex-col items-center gap-1 transition-all ${
+              role === 'ADMIN'
+                ? 'bg-rose-600 shadow-lg shadow-sm dark:shadow-rose-500/30 text-slate-900 dark:text-white'
+                : 'text-slate-600 dark:text-slate-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Shield size={18} />
+            <span className="text-[11px] font-bold uppercase tracking-wider">Admin</span>
+          </button>
           <button
             type="button"
             onClick={() => { setRole('ADVISOR'); setUsername(''); setPassword(''); setError(''); }}
@@ -147,7 +164,7 @@ export default function Login() {
           {/* Username */}
           <div>
             <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
-              {role === 'ADVISOR' ? 'Tên đăng nhập' : 'Mã số sinh viên (MSSV)'}
+              {role === 'ADMIN' ? 'Tên đăng nhập Admin' : role === 'ADVISOR' ? 'Tên đăng nhập Giảng viên' : 'Mã số sinh viên (MSSV)'}
             </label>
             <div className="flex bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus-within:border-blue-500 rounded-xl overflow-hidden transition-all">
               <input
@@ -155,11 +172,11 @@ export default function Login() {
                 required
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                placeholder={role === 'ADVISOR' ? 'admin' : 'PS47261'}
+                placeholder={role === 'ADMIN' ? 'admin' : role === 'ADVISOR' ? 'advisor' : 'PS21034'}
                 className="w-full bg-transparent px-4 py-3 text-slate-900 dark:text-white outline-none placeholder-slate-600"
               />
               <div className="px-3 py-3 bg-white/5 border-l border-slate-200 dark:border-white/10 flex items-center text-slate-500 text-xs font-medium whitespace-nowrap">
-                {role === 'ADVISOR' ? '@fpt.edu.vn' : '@gmail.com'}
+                {role === 'ADMIN' ? '@eduguard.ai' : role === 'ADVISOR' ? '@fpt.edu.vn' : '@gmail.com'}
               </div>
             </div>
           </div>
@@ -173,7 +190,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                placeholder={role === 'ADVISOR' ? 'admin123' : '123456'}
+                placeholder={role === 'STUDENT' ? '123456' : 'admin123'}
                 className="w-full bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-blue-500 rounded-xl px-4 py-3 pr-12 text-slate-900 dark:text-white outline-none transition-all placeholder-slate-600"
               />
               <button
@@ -198,9 +215,11 @@ export default function Login() {
             type="submit"
             disabled={loading}
             className={`w-full py-4 rounded-xl text-slate-900 dark:text-white font-bold tracking-wide shadow-xl transition-all flex items-center justify-center disabled:opacity-60 ${
-              role === 'ADVISOR'
-                ? 'bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 hover:dark:from-blue-500 hover:dark:to-indigo-500 shadow-sm dark:shadow-blue-500/20'
-                : 'bg-white dark:bg-gradient-to-r dark:from-purple-600 dark:to-pink-600 hover:dark:from-purple-500 hover:dark:to-pink-500 shadow-sm dark:shadow-purple-500/20'
+              role === 'ADMIN'
+                ? 'bg-white dark:bg-gradient-to-r dark:from-rose-600 dark:to-orange-600 hover:dark:from-rose-500 hover:dark:to-orange-500 shadow-sm dark:shadow-rose-500/20'
+                : role === 'ADVISOR'
+                  ? 'bg-white dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 hover:dark:from-blue-500 hover:dark:to-indigo-500 shadow-sm dark:shadow-blue-500/20'
+                  : 'bg-white dark:bg-gradient-to-r dark:from-purple-600 dark:to-pink-600 hover:dark:from-purple-500 hover:dark:to-pink-500 shadow-sm dark:shadow-purple-500/20'
             }`}
           >
             {loading ? <Loader2 className="animate-spin" size={20} /> : 'Đăng nhập vào Hệ thống'}
@@ -210,20 +229,27 @@ export default function Login() {
         {/* Quick login hint */}
         <div className="mt-6 pt-5 border-t border-slate-200 dark:border-white/5">
           <p className="text-[10px] text-center text-slate-600 font-bold uppercase tracking-wider mb-3">Đăng nhập nhanh để demo</p>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => quickFill('ADMIN')}
+              className="py-2.5 px-2 rounded-xl bg-rose-600/10 hover:bg-rose-600/20 border border-rose-200 dark:border-rose-500/20 text-rose-400 text-[11px] font-bold transition-all"
+            >
+              👑 Tài khoản Admin
+            </button>
             <button
               type="button"
               onClick={() => quickFill('GV')}
-              className="py-2.5 px-3 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-200 dark:border-blue-500/20 text-blue-400 text-xs font-bold transition-all"
+              className="py-2.5 px-2 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-200 dark:border-blue-500/20 text-blue-400 text-[11px] font-bold transition-all"
             >
-              👨‍🏫 Vào tài khoản GV
+              👨‍🏫 Tài khoản GV
             </button>
             <button
               type="button"
               onClick={() => quickFill('SV')}
-              className="py-2.5 px-3 rounded-xl bg-purple-600/10 hover:bg-purple-600/20 border border-purple-200 dark:border-purple-500/20 text-purple-400 text-xs font-bold transition-all"
+              className="py-2.5 px-2 rounded-xl bg-purple-600/10 hover:bg-purple-600/20 border border-purple-200 dark:border-purple-500/20 text-purple-400 text-[11px] font-bold transition-all"
             >
-              🎓 Vào tài khoản SV
+              🎓 Tài khoản SV
             </button>
           </div>
         </div>
@@ -232,8 +258,9 @@ export default function Login() {
 
       {/* Credentials hint */}
       <div className="mt-4 text-center space-y-1 text-slate-600 text-[11px]">
-        <p>GV: <span className="text-slate-600 dark:text-slate-400 font-mono">admin</span> / <span className="text-slate-600 dark:text-slate-400 font-mono">admin123</span></p>
-        <p>SV: Nhập MSSV hợp lệ (Vd: PS47261) + mật khẩu <span className="text-slate-600 dark:text-slate-400 font-mono">123456</span></p>
+        <p>Admin: <span className="text-slate-600 dark:text-slate-400 font-mono">admin</span> / <span className="text-slate-600 dark:text-slate-400 font-mono">admin123</span></p>
+        <p>GV: <span className="text-slate-600 dark:text-slate-400 font-mono">advisor</span> / <span className="text-slate-600 dark:text-slate-400 font-mono">admin123</span></p>
+        <p>SV: Nhập MSSV hợp lệ (Vd: PS21034) + mật khẩu <span className="text-slate-600 dark:text-slate-400 font-mono">123456</span></p>
       </div>
     </div>
   );

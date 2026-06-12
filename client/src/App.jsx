@@ -195,7 +195,15 @@ const Header = ({ setMobileMenuOpen }) => {
         >
           <Menu size={24} />
         </button>
-        <h2 className="font-semibold text-xl text-slate-900 dark:text-white hidden md:block">EduGuard AI {currentUser?.role === 'STUDENT' && <span className="text-xs text-purple-400 font-bold ml-2">CỔNG SINH VIÊN</span>}</h2>
+        <h2 className="font-semibold text-xl text-slate-900 dark:text-white hidden md:block">
+          EduGuard AI {currentUser?.role === 'STUDENT' ? (
+            <span className="text-xs text-purple-400 font-bold ml-2">CỔNG SINH VIÊN</span>
+          ) : currentUser?.role === 'ADMIN' ? (
+            <span className="text-xs text-rose-400 font-bold ml-2">CỔNG QUẢN TRỊ</span>
+          ) : (
+            <span className="text-xs text-blue-400 font-bold ml-2">CỔNG GIẢNG VIÊN</span>
+          )}
+        </h2>
       </div>
 
       {/* Global Premium Search Input in Navbar (Advisors only) */}
@@ -258,10 +266,12 @@ const Header = ({ setMobileMenuOpen }) => {
         <ThemeToggle />
         <div className="text-right hidden sm:block">
           <p className="text-sm font-medium text-slate-900 dark:text-white leading-none">{currentUser?.name}</p>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{currentUser?.role === 'STUDENT' ? 'Trang cá nhân Sinh viên' : 'Trang quản trị Cố vấn'}</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+            {currentUser?.role === 'STUDENT' ? 'Trang cá nhân Sinh viên' : currentUser?.role === 'ADMIN' ? 'Trang quản trị Admin' : 'Trang quản lý Cố vấn'}
+          </p>
         </div>
         <div className="w-10 h-10 rounded-full bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-purple-600 flex items-center justify-center text-slate-900 dark:text-white font-bold text-sm shadow-[0_0_15px_rgba(59,130,246,0.4)] border-2 border-slate-200 dark:border-white/10 ring-2 ring-black">
-          {currentUser?.role === 'STUDENT' ? <GraduationCap size={18} /> : 'GV'}
+          {currentUser?.role === 'STUDENT' ? <GraduationCap size={18} /> : currentUser?.role === 'ADMIN' ? 'AD' : 'GV'}
         </div>
         <button onClick={() => setCurrentUser(null)} className="p-2 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors">
           <LogOut size={18} />

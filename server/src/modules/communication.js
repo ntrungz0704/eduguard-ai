@@ -398,7 +398,11 @@ router.post('/messages/read', async (req, res) => {
 router.get('/advisors', async (req, res) => {
   try {
     let advisors = await prisma.user.findMany({
-      where: { role: 'ADVISOR' }
+      where: {
+        role: {
+          in: ['ADVISOR', 'ADMIN']
+        }
+      }
     });
     if (advisors.length === 0) {
       const adv = await prisma.user.create({
