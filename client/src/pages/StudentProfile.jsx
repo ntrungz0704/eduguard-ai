@@ -95,6 +95,8 @@ export default function StudentProfile() {
   const [interventionNote, setInterventionNote] = useState('');
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [updating, setUpdating] = useState(false);
+  const [submittingFlag, setSubmittingFlag] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
   
   const [activeWorkflow, setActiveWorkflow] = useState(null);
   const [workflowContent, setWorkflowContent] = useState('');
@@ -128,12 +130,14 @@ export default function StudentProfile() {
     e.preventDefault();
     if (!selectedCourse) return alert('Vui lòng chọn môn học!');
     setUpdating(true);
+    setSubmittingFlag(true);
+    setSuccessMsg('');
     try {
       await api.post(`/students/${mssv}/flag`, {
         courseId: selectedCourse,
         action: interventionNote || 'Cần can thiệp sư phạm đặc biệt - Cảnh báo CVHT'
       });
-      alert('Đã thiết lập cắm cờ can thiệp thành công!');
+      setSuccessMsg('Đã thiết lập cắm cờ can thiệp thành công!');
       setInterventionNote('');
       await fetchStudentProfile();
     } catch (err) {
@@ -141,6 +145,7 @@ export default function StudentProfile() {
       alert('Lỗi cập nhật');
     } finally {
       setUpdating(false);
+      setSubmittingFlag(false);
     }
   };
 
