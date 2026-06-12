@@ -96,6 +96,7 @@ export default function AIChat() {
 
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [generatingRoadmap, setGeneratingRoadmap] = useState(false);
   
   // Interactive Student Search states (Inline Popover)
   const [showInlineSearch, setShowInlineSearch] = useState(false);
@@ -354,6 +355,80 @@ export default function AIChat() {
       showToast('📤 Đã gửi lộ trình trực tiếp vào Hộp thư của Sinh viên thành công!', 'success');
     } catch (err) {
       alert("Lỗi khi gửi tin nhắn: " + err.message);
+    }
+  };
+
+  // Gửi full lộ trình cải thiện (phân tích tương quan cao/thấp giữa các môn)
+  const handleSendFullRoadmap = async () => {
+    if (!sessionActiveStudent) {
+      alert("Bạn chưa liên kết học bạ của Sinh viên nào!");
+      return;
+    }
+    if (!currentUser) return;
+    setGeneratingRoadmap(true);
+    try {
+      // Build full context prompt
+      const sv = sessionActiveStudent;
+      const scores = Array.isArray(sv.scores) ? sv.scores : Object.values(sv.scores || {});
+      const predictions = sv.predictions || [];
+
+      // Sort failed/high-risk first
+      const sorted = [...scores].sort((a, b) => {
+        const aFail = a.status === 'FAILED' || (a.value !== null && a.value < 5) ? 0 : 1;
+        const bFail = b.status === 'FAILED' || (b.value !== null && b.value < 5) ? 0 : 1;
+        return aFail - bFail;
+      });
+
+      const scoreLines = sorted.map(s => {
+        const pred = predictions.find(p => p.courseId === s.courseId);
+        return `- ${s.courseId} (${s.course?.name || s.courseId}): điểm ${s.value !== null ? s.value : 'chưa có'}/10, ${s.status === 'FAILED' ? 'TRƯỢT' : s.status === 'PASSED' ? 'Đạt' : 'Đang học'}` +
+          (pred ? `, rủi ro AI: ${pred.risk}` + (pred.explanation ? ` — ${pred.explanation}` : '') : '');
+      }).join('\n');
+
+      const highRisk = predictions.filter(p => p.risk === 'HIGH' || p.risk === 'CRITICAL');
+      const failedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5));
+
+      const prompt = `Hãy soạn một LỘ TRÌNH CẢI THIỆN HỌC LỰC ĐẦY ĐỦ cho sinh viên ${sv.name} (${sv.mssv || sv.id}) gửi trực tiếp cho sinh viên, bao gồm:\n` +
+        `1. Phân tích ngắn gọn TƯƠNG QUAN giữa các môn: từ môn có điểm thấp/trượt ảnh hưởng như thế nào đến môn học tiếp theo (chuỗi rủi ro tiên quyết).\n` +
+        `2. Ưu tiên MÔN CẦN CẢI THIỆN KHẨN (cao → thấp) với lý do cụ thể.\n` +
+        `3. Kế hoạch hành động theo tuần (week-by-week) trong 4 tuần tới.\n` +
+        `4. Nguồn lực hỗ trợ cụ thể (tutor, tài liệu, giảng viên bộ môn).\n` +
+        `5. Mục tiêu GPA cuối kỳ thực tế.\n\n` +
+        `BẢNG ĐIỂM HIỆN TẠI:\n${scoreLines}\n\n` +
+        (highRisk.length > 0 ? `MÔN RỦI RO CAO (AI dự báo): ${highRisk.map(p => `${p.courseId} (${p.risk})`).join(', ')}\n\n` : '') +
+        (failedCourses.length > 0 ? `MÔN ĐÃ TRƯỢT: ${failedCourses.map(s => s.courseId).join(', ')}\n\n` : '') +
+        `Viết bằng giọng điệu thân thiện, khích lệ, xưng hô "Anh/Chị" gọi sinh viên là "em". Dùng emoji phù hợp.`;
+
+      const res = await api.post('/chat', {
+        message: prompt,
+        studentContext: sv,
+        provider: 'gemini',
+        history: []
+      });
+
+      const roadmapText = res.data?.reply || 'Không thể tạo lộ trình. Vui lòng thử lại.';
+
+      // Add roadmap to chat UI
+      const roadmapMsg = {
+        sender: 'ai',
+        text: `📋 **LỘ TRÌNH CẢI THIỆN ĐÃ TẠO CHO ${sv.name.toUpperCase()}**\n\n${roadmapText}`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actions: ['Gửi lộ trình khác', 'Soạn tin Zalo kèm lộ trình này']
+      };
+      updateActiveSession({ messages: [...messages, roadmapMsg] });
+
+      // Send to student inbox
+      await api.post('/comm/messages', {
+        senderId: currentUser.id,
+        receiverId: sv.mssv || sv.id,
+        content: roadmapText
+      });
+      showToast('🚀 Đã tạo & gửi lộ trình đầy đủ vào Hộp thư Sinh viên!', 'success');
+    } catch (err) {
+      console.error('Lỗi gửi lộ trình:', err);
+      alert('Lỗi khi tạo lộ trình: ' + (err.response?.data?.error || err.message));
+    } finally {
+      setGeneratingRoadmap(false);
     }
   };
 
@@ -1072,6 +1147,20 @@ export default function AIChat() {
           <div className="max-w-6xl mx-auto w-full">
             {/* Scrollable Action Pills Row */}
             <div className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-none max-w-full">
+              {/* Send Full Roadmap button — only for advisor with student linked */}
+              {!isStudent && sessionActiveStudent && (
+                <button
+                  disabled={generatingRoadmap || loading}
+                  onClick={handleSendFullRoadmap}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-[10px] font-black rounded-full transition-all cursor-pointer whitespace-nowrap shadow-sm flex-shrink-0"
+                  title="Tạo & gửi full lộ trình cải thiện (phân tích tương quan môn) vào hộp thư sinh viên"
+                >
+                  {generatingRoadmap
+                    ? <><Loader2 size={11} className="animate-spin" /><span>Đang tạo lộ trình...</span></>
+                    : <><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg><span>🗺️ Gửi lộ trình đầy đủ</span></>
+                  }
+                </button>
+              )}
               {currentPills.map((pill, idx) => (
                 <button
                   key={idx}

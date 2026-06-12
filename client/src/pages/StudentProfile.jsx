@@ -5,7 +5,7 @@ import { api } from '../lib/api';
 import { 
   ArrowLeft, GraduationCap, Mail, Brain, CheckCircle2,
   AlertTriangle, Phone, Calendar, Send, HeartHandshake, Loader2, Sparkles, BookOpen, UserPlus, X, Copy,
-  TrendingUp, XCircle, Clock, ShieldAlert
+  TrendingUp, XCircle, Clock, ShieldAlert, Wand2
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
@@ -97,6 +97,7 @@ export default function StudentProfile() {
   const [updating, setUpdating] = useState(false);
   const [submittingFlag, setSubmittingFlag] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+  const [generatingNote, setGeneratingNote] = useState(false);
   
   const [activeWorkflow, setActiveWorkflow] = useState(null);
   const [workflowContent, setWorkflowContent] = useState('');
@@ -125,6 +126,45 @@ export default function StudentProfile() {
     fetchStudentProfile();
     return () => { setActiveStudent(null); };
   }, [mssv]);
+
+  // Tự động sinh ghi chú can thiệp bằng AI cho môn được chọn
+  const handleGenerateNote = async () => {
+    if (!selectedCourse || !student) return;
+    setGeneratingNote(true);
+    try {
+      const courseScore = scoreEntries.find(s => s.courseId === selectedCourse);
+      const prediction = student.predictions?.find(p => p.courseId === selectedCourse);
+      const prompt = `Với vai trò là cố vấn học tập, hãy soạn NGẮN GỌN một ghi chú hành động can thiệp sư phạm cụ thể CHỈ cho môn ${selectedCourse} (${courseScore?.course?.name || selectedCourse}) của sinh viên ${student.name}. ` +
+        (courseScore ? `Điểm hiện tại: ${courseScore.value !== null ? courseScore.value : 'chưa có'}/10, trạng thái: ${courseScore.status === 'FAILED' ? 'TRƯỢT' : courseScore.status === 'PASSED' ? 'Đạt' : 'Đang học'}. ` : '') +
+        (prediction ? `AI dự báo mức rủi ro: ${prediction.risk} (${prediction.predictedScore?.toFixed(0)}%). Nguyên nhân: ${prediction.explanation || 'chưa rõ'}. ` : '') +
+        `Ghi chú phải: (1) nêu rõ hành động cụ thể (kèm 1-1 / nhắc nộp bài / đăng ký tutor), (2) thời hạn ưu tiên, (3) kênh liên hệ đề xuất. Trả lời trong 2-3 câu, không dùng markdown.`;
+
+      const res = await api.post('/chat', {
+        message: prompt,
+        studentContext: student,
+        provider: 'gemini',
+        history: []
+      });
+      const raw = res.data?.reply || '';
+      // Strip markdown bold markers
+      setInterventionNote(raw.replace(/\*\*/g, '').trim());
+    } catch (err) {
+      console.error('Lỗi AI sinh ghi chú:', err);
+      // Fallback template
+      const courseScore = scoreEntries.find(s => s.courseId === selectedCourse);
+      const prediction = student.predictions?.find(p => p.courseId === selectedCourse);
+      setInterventionNote(
+        `Can thiệp khẩn môn ${selectedCourse}` +
+        (courseScore?.value !== null ? ` (điểm ${courseScore.value}/10)` : '') +
+        `: ` +
+        (prediction?.risk === 'HIGH' || prediction?.risk === 'CRITICAL'
+          ? `Mời SV gặp CVHT trong 48h, đề xuất đăng ký ngay lớp Tutor bổ trợ. Nhắc nhở kiểm tra giữa kỳ và nộp bài tập còn thiếu.`
+          : `Theo dõi sát tiến độ, nhắc nhở SV hoàn thành bài tập, liên hệ qua Zalo nếu không phản hồi trong 24h.`)
+      );
+    } finally {
+      setGeneratingNote(false);
+    }
+  };
 
   const handleFlagIntervention = async (e) => {
     e.preventDefault();
@@ -658,11 +698,24 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Ghi chú hành động sư phạm</label>
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Ghi chú hành động sư phạm</label>
+                  <button
+                    type="button"
+                    onClick={handleGenerateNote}
+                    disabled={generatingNote || !selectedCourse}
+                    className="flex items-center gap-1.5 px-2.5 py-1 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-200 dark:border-purple-500/30 text-purple-600 dark:text-purple-400 text-[10px] font-bold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="AI tự động soạn ghi chú can thiệp cho môn đã chọn"
+                  >
+                    {generatingNote
+                      ? <><Loader2 size={11} className="animate-spin" /> Đang soạn...</>
+                      : <><Wand2 size={11} /> AI Soạn nhanh</>}
+                  </button>
+                </div>
                 <textarea 
                   value={interventionNote}
                   onChange={e => setInterventionNote(e.target.value)}
-                  placeholder="Ghi chú can thiệp (ví dụ: Kèm 1-1, gọi nhắc nhở nộp ASS1 gấp, đề xuất lớp bổ trợ...)"
+                  placeholder={`Nhấn "AI Soạn nhanh" để tự động tạo ghi chú theo môn ${selectedCourse || 'đã chọn'}, hoặc nhập tay...`}
                   rows={4}
                   className="w-full p-3.5 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-slate-900 dark:text-white text-sm transition-colors placeholder-slate-600 resize-none"
                 />
