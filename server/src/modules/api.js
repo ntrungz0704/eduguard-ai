@@ -412,7 +412,7 @@ router.get('/red-alerts', async (req, res) => {
       return b.riskScore - a.riskScore;
     });
 
-    const totalAtRisk = alerts.length;
+    const totalAtRisk = new Set(alerts.map(a => a.mssv)).size;
     const criticalCount = alerts.filter(a => a.priorityLevel === 'CRITICAL').length;
     const highCount = alerts.filter(a => a.priorityLevel === 'HIGH').length;
     const mediumCount = alerts.filter(a => a.priorityLevel === 'MEDIUM').length;
@@ -2153,6 +2153,44 @@ router.get('/pearson-matrix', async (req, res) => {
     console.error("Lỗi tính Pearson Matrix:", err);
     res.status(500).json({ error: err.message });
   }
+});
+
+let recalculationState = {
+  isRecalculating: false,
+  lastCompleted: null,
+  error: null,
+  processedCount: 0
+};
+
+router.post('/prediction/recalculate', async (req, res) => {
+  if (recalculationState.isRecalculating) {
+    return res.status(400).json({ success: false, message: 'Hệ thống đang tiến hành tính toán, vui lòng đợi.' });
+  }
+
+  recalculationState.isRecalculating = true;
+  recalculationState.error = null;
+  recalculationState.processedCount = 0;
+
+  // Run in background programmatically
+  const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+  recalculateAllPredictions(false)
+    .then((count) => {
+      recalculationState.isRecalculating = false;
+      recalculationState.lastCompleted = new Date().toISOString();
+      recalculationState.processedCount = count;
+      console.log(`[RECALCULATE] Finished recalculating ${count} predictions.`);
+    })
+    .catch((err) => {
+      recalculationState.isRecalculating = false;
+      recalculationState.error = err.message;
+      console.error('[RECALCULATE] Error during recalculation:', err);
+    });
+
+  res.json({ success: true, message: 'Đã bắt đầu tiến trình phân tích lại AI trong nền.' });
+});
+
+router.get('/prediction/recalculate-status', (req, res) => {
+  res.json(recalculationState);
 });
 
 // Backward compatibility redirect

@@ -7,7 +7,7 @@ const path = require('path');
 const modelCachePath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'regression', 'trained_model.json');
 const datasetPath = path.join(__dirname, '..', '..', 'src', 'datasets', 'training_data.json');
 
-async function recalculateAllPredictions() {
+async function recalculateAllPredictions(shouldExit = false) {
     console.log('Bắt đầu tính toán lại toàn bộ dự báo...');
     
     let modelCache = {};
@@ -177,10 +177,17 @@ async function recalculateAllPredictions() {
         }
     }
     console.log(`✅ Đã tính toán và lưu ${count} dự báo vào Database.`);
-    process.exit(0);
+    if (shouldExit) {
+        process.exit(0);
+    }
+    return count;
 }
 
-recalculateAllPredictions().catch(e => {
-    console.error(e);
-    process.exit(1);
-});
+if (require.main === module) {
+    recalculateAllPredictions(true).catch(e => {
+        console.error(e);
+        process.exit(1);
+    });
+} else {
+    module.exports = { recalculateAllPredictions };
+}

@@ -49,32 +49,82 @@ export default function Dashboard() {
     alertsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  useEffect(() => {
-    const fetchRedAlerts = async () => {
-      try {
-        const res = await requestWithRestartRetry(() => api.get('/red-alerts'));
-        setRedAlerts(res.data.alerts);
-        setTotalRisk(res.data.totalAtRisk || (res.data.alerts ? res.data.alerts.length : 0));
-        setKpi(res.data.kpi);
-      } catch (e) {
-        console.error(e);
-      }
-    };
+  const [isRecalculating, setIsRecalculating] = useState(false);
+  const [recalcProgress, setRecalcProgress] = useState(0);
 
-    const fetchRoadmapProgress = async () => {
-      try {
-        const res = await requestWithRestartRetry(() => api.get('/v1/advisor/class-roadmap-progress'));
-        if (res.data && res.data.success) {
-          setRoadmapProgress(res.data.data);
-        }
-      } catch (e) {
-        console.error("Lỗi tải tiến độ lộ trình:", e);
-      }
-    };
+  const fetchRedAlerts = async () => {
+    try {
+      const res = await requestWithRestartRetry(() => api.get('/red-alerts'));
+      setRedAlerts(res.data.alerts);
+      setTotalRisk(res.data.totalAtRisk || (res.data.alerts ? res.data.alerts.length : 0));
+      setKpi(res.data.kpi);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
+  const fetchRoadmapProgress = async () => {
+    try {
+      const res = await requestWithRestartRetry(() => api.get('/v1/advisor/class-roadmap-progress'));
+      if (res.data && res.data.success) {
+        setRoadmapProgress(res.data.data);
+      }
+    } catch (e) {
+      console.error("Lỗi tải tiến độ lộ trình:", e);
+    }
+  };
+
+  const fetchData = () => {
     fetchRedAlerts();
     fetchRoadmapProgress();
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
+
+  const checkRecalcStatus = async () => {
+    try {
+      const res = await api.get('/prediction/recalculate-status');
+      if (res.data.isRecalculating) {
+        setIsRecalculating(true);
+        setRecalcProgress(prev => {
+          if (prev >= 95) return 95;
+          return prev + Math.floor(Math.random() * 5) + 1;
+        });
+      } else {
+        setIsRecalculating(currentIsRecalc => {
+          if (currentIsRecalc) {
+            fetchData();
+          }
+          return false;
+        });
+        setRecalcProgress(0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    let interval;
+    if (isRecalculating) {
+      interval = setInterval(checkRecalcStatus, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [isRecalculating]);
+
+  const handleRecalculatePredictions = async () => {
+    if (isRecalculating) return;
+    try {
+      setIsRecalculating(true);
+      setRecalcProgress(5);
+      await api.post('/prediction/recalculate');
+    } catch (e) {
+      setIsRecalculating(false);
+      alert('Lỗi kích hoạt phân tích AI: ' + e.message);
+    }
+  };
 
   const handleIntervene = async (mssv, courseId, e) => {
     e.stopPropagation();
@@ -260,7 +310,30 @@ export default function Dashboard() {
       <div className="glass-card p-8 rounded-3xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
         <div className="relative z-10 mb-6 md:mb-0">
-          <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2 tracking-tight">Trang chủ Giảng viên 👋</h2>
+          <div className="flex items-center gap-4 mb-2 flex-wrap">
+            <h2 className="text-3xl font-bold text-slate-800 dark:text-white tracking-tight">Trang chủ Giảng viên 👋</h2>
+            <button
+              onClick={handleRecalculatePredictions}
+              disabled={isRecalculating}
+              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm border border-transparent ${
+                isRecalculating
+                  ? 'bg-blue-500/20 text-blue-400 border-blue-500/30 cursor-not-allowed'
+                  : 'bg-indigo-600 hover:bg-indigo-500 text-white cursor-pointer hover:shadow-indigo-500/20'
+              }`}
+            >
+              {isRecalculating ? (
+                <>
+                  <Activity size={12} className="animate-spin" />
+                  Đang phân tích AI ({recalcProgress}%)...
+                </>
+              ) : (
+                <>
+                  <Activity size={12} />
+                  Phân tích lại AI
+                </>
+              )}
+            </button>
+          </div>
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl text-sm leading-relaxed">
             Nền tảng <b>EduGuard AI</b> giám sát tiến độ học tập thời gian thực, phát hiện sớm nguy cơ trượt học phần.
           </p>
@@ -509,7 +582,7 @@ export default function Dashboard() {
           { label: 'Tổng sinh viên (Train)', value: trainingData.totalStudents, icon: <Users size={24} className="text-blue-600 dark:text-blue-400" />, color: 'bg-blue-50 dark:bg-gradient-to-br dark:from-blue-500/20 dark:to-blue-500/5', border: 'border-blue-200 dark:border-blue-500/20' },
           { label: 'Số môn học', value: trainingData.totalSubjects, icon: <BookOpen size={24} className="text-purple-600 dark:text-purple-400" />, color: 'bg-purple-50 dark:bg-gradient-to-br dark:from-purple-500/20 dark:to-purple-500/5', border: 'border-purple-200 dark:border-purple-500/20' },
           { label: 'Nguồn dữ liệu', value: 'FPT Poly', icon: <Database size={24} className="text-cyan-600 dark:text-cyan-400" />, color: 'bg-cyan-50 dark:bg-gradient-to-br dark:from-cyan-500/20 dark:to-cyan-500/5', border: 'border-cyan-200 dark:border-cyan-500/20' },
-          { label: 'Tổng lượt rớt (Lịch sử)', value: totalAtRisk, icon: <AlertTriangle size={24} className="text-rose-600 dark:text-rose-400" />, color: 'bg-rose-50 dark:bg-gradient-to-br dark:from-rose-500/20 dark:to-rose-500/5', border: 'border-rose-200 dark:border-rose-500/20' }
+          { label: 'Lượt trượt Lịch sử (Train)', value: totalAtRisk, icon: <AlertTriangle size={24} className="text-rose-600 dark:text-rose-400" />, color: 'bg-rose-50 dark:bg-gradient-to-br dark:from-rose-500/20 dark:to-rose-500/5', border: 'border-rose-200 dark:border-rose-500/20' }
         ].map((stat, i) => (
           <div key={i} className={`glass-card p-6 rounded-2xl flex items-center ${stat.color} border ${stat.border} hover:scale-105 transition-transform duration-300 cursor-default hover:shadow-md`}>
             <div className="mr-5 p-3 bg-white dark:bg-white/5 shadow-sm dark:shadow-none rounded-xl border border-slate-200 dark:border-white/5">{stat.icon}</div>
