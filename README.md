@@ -70,12 +70,13 @@ npm run boot
 
 ## 🔐 2. Demo Credentials
 
-Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100+ sinh viên, 1000+ bảng điểm).
+Hệ thống đã được thiết lập sẵn tài khoản và dữ liệu (100+ sinh viên, 1000+ bảng điểm) với 3 vai trò rõ rệt:
 
-| Role | Username | Password |
-|------|----------|----------|
-| **Giảng viên / Admin** | `admin` *(hệ thống ghép đuôi @fpt.edu.vn)* | `admin123` |
-| **Sinh viên** | `PS47261` *(hoặc bất kỳ MSSV hợp lệ)* | `123456` *(hoặc bất kỳ chuỗi ≥ 4 ký tự)* |
+| Role | Username / Email | Password | Email Suffix |
+|------|------------------|----------|--------------|
+| 👑 **Admin (Quản trị viên)** | `admin` / `admin@eduguard.ai` | `admin123` | `@eduguard.ai` |
+| 👨‍🏫 **Giảng viên (Cố vấn)** | `advisor` / `advisor@eduguard.ai` | `admin123` | `@fpt.edu.vn` |
+| 🎓 **Sinh viên** | `PS21034` *(hoặc bất kỳ MSSV hợp lệ)* | `123456` | `@gmail.com` |
 
 ---
 
