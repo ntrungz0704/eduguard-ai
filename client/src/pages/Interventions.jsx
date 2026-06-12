@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../lib/api';
-import { ShieldAlert, Activity, CheckCircle2, Send, Loader2, Flag, Search, Filter } from 'lucide-react';
+import { ShieldAlert, Activity, CheckCircle2, Send, Loader2, Search, RotateCcw, Info, XCircle } from 'lucide-react';
 import { useStore } from '../store';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +28,9 @@ export default function Interventions() {
   const [activeTab, setActiveTab] = useState('top20');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Undo state - track recently changed students
+  const [recentlyMoved, setRecentlyMoved] = useState([]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -44,18 +47,50 @@ export default function Interventions() {
     }
   };
 
+  // Check if student score has improved (>= 5.0 means safe)
+  const hasScoreImproved = (st) => {
+    // For roadmap entries (top50/top100), check if student scores improved
+    if (st.student?.scores && st.student.scores.length > 0) {
+      const courseScore = st.student.scores.find(s => s.courseId === st.targetCourseId || s.courseId === st.courseId);
+      if (courseScore && courseScore.value >= 5.0) return true;
+    }
+    // For predictions, if predictedScore still low, not improved
+    if (st.predictedScore !== undefined && st.predictedScore < 5.0) return false;
+    return false;
+  };
+
   const handleUpdateStatus = async (st, newStatus) => {
+    // Prevent "resolved" if student scores haven't improved
+    if (newStatus === 'resolved') {
+      const improved = hasScoreImproved(st);
+      if (!improved && activeTab === 'top50') {
+        const confirmed = window.confirm(
+          `⚠️ Điểm của sinh viên ${st.student?.name || st.mssv} chưa được cải thiện (Dự báo: ${st.predictedScore?.toFixed(1) || '?'}đ < 5.0đ).\n\nBạn có chắc chắn muốn đánh dấu "Ổn định"?\n(Chỉ đánh dấu khi điểm thực tế đã được cập nhật và sinh viên đạt ≥ 5.0đ)`
+        );
+        if (!confirmed) return;
+      }
+    }
+
     setUpdating(true);
     try {
       if (newStatus === 'top20') {
+        // Move back to urgent (undo roadmap)
         if (st.id && st.sentDate) await api.delete(`/intervention-roadmap/${st.id}`);
+        setRecentlyMoved(prev => [...prev, { ...st, movedFrom: activeTab }]);
       } else if (newStatus === 'resolved') {
         if (st.id && st.sentDate) await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'COMPLETED' });
+        else {
+          // For predictions without roadmap, send roadmap first then mark completed
+          await api.post('/intervention/send-roadmap', {
+            mssv: st.mssv,
+            targetCourseId: st.courseId,
+            riskLevel: st.risk || 'HIGH'
+          });
+        }
       } else if (newStatus === 'top50') {
         if (st.id && st.sentDate) {
           await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'PENDING' });
         } else {
-          // Send roadmap to put in top50
           await api.post('/intervention/send-roadmap', {
             mssv: st.mssv,
             targetCourseId: st.courseId,
@@ -105,7 +140,7 @@ export default function Interventions() {
     setBulkSending(true);
     let count = 0;
     for (const st of selectedRows) {
-      if (!st.id || !st.sentDate) { // Only predictions need roadmap sent
+      if (!st.id || !st.sentDate) {
         try {
           await api.post('/intervention/send-roadmap', {
             mssv: st.mssv,
@@ -124,7 +159,7 @@ export default function Interventions() {
   const handleOpenRoadmap = (student) => {
     setSelectedStudent(student);
     const riskLevelText = student.risk === 'HIGH' || student.risk === 'high' ? 'Cao' : student.risk === 'MEDIUM' || student.risk === 'medium' ? 'Vừa' : 'Thấp';
-    let msg = `Chào ${student.student?.name || student.mssv},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course?.name || student.courseId} sắp tới (Nguy cơ rớt: ${riskLevelText}, Dự báo: ${student.predictedScore ? student.predictedScore.toFixed(1) : '-'} điểm).`;
+    let msg = `Chào ${student.student?.name || student.mssv},\n\nGiảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn ${student.course?.name || student.targetCourse?.name || student.courseId} sắp tới (Nguy cơ rớt: ${riskLevelText}, Dự báo: ${student.predictedScore ? student.predictedScore.toFixed(1) : '-'} điểm).`;
     msg += `\n\n🎯 Lộ trình cải thiện (AI Đề xuất):\n1. Ôn tập lại ngay kiến thức căn bản.\n2. Cần đặc biệt chú ý cải thiện phần logic và thực hành.\n3. Nếu cần hỗ trợ thêm tài liệu, hãy phản hồi lại qua Hộp thư này.\n\nChúc em học tốt!`;
     setRoadmapMsg(msg);
     setShowRoadmapModal(true);
@@ -143,8 +178,14 @@ export default function Interventions() {
         action: 'Đã gửi Lộ trình Cải thiện qua Inbox',
         status: 'ACTIVE'
       });
+      // Also move from top20 to top50 (monitoring)
+      await api.post('/intervention/send-roadmap', {
+        mssv: selectedStudent.mssv,
+        targetCourseId: selectedStudent.courseId,
+        riskLevel: selectedStudent.risk || 'HIGH'
+      });
       setShowRoadmapModal(false);
-      alert('Đã gửi Lộ trình thành công!');
+      alert('Đã gửi Lộ trình thành công! Sinh viên đã được chuyển sang "Theo dõi".');
       fetchData();
     } catch (e) {
       alert('Lỗi gửi tin nhắn: ' + e.message);
@@ -190,6 +231,12 @@ export default function Interventions() {
     fetchData();
   };
 
+  const getStatusLabel = (tab) => {
+    if (tab === 'top20') return { label: 'Khẩn cấp', color: 'bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400' };
+    if (tab === 'top50') return { label: 'Đang theo dõi', color: 'bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400' };
+    return { label: 'Ổn định', color: 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' };
+  };
+
   const tabs = [
     { id: 'top20', label: 'Top 20 Nguy hiểm', icon: ShieldAlert, color: 'text-rose-500', count: data.top20?.length || 0 },
     { id: 'top50', label: 'Top 50 Theo dõi', icon: Activity, color: 'text-orange-500', count: data.top50?.length || 0 },
@@ -200,8 +247,8 @@ export default function Interventions() {
   const filteredData = currentData.filter(st => {
     const search = searchQuery.toLowerCase();
     const name = (st.student?.name || '').toLowerCase();
-    const mssv = (st.mssv || '').toLowerCase();
-    const course = (st.course?.name || st.courseId || '').toLowerCase();
+    const mssv = (st.mssv || st.studentId || '').toLowerCase();
+    const course = (st.course?.name || st.targetCourse?.name || st.courseId || st.targetCourseId || '').toLowerCase();
     return name.includes(search) || mssv.includes(search) || course.includes(search);
   });
 
@@ -209,11 +256,23 @@ export default function Interventions() {
     return <div className="flex h-64 items-center justify-center text-slate-600 dark:text-slate-400">Đang tải dữ liệu...</div>;
   }
 
+  const statusInfo = getStatusLabel(activeTab);
+
   return (
     <div className="space-y-6 animate-fade-in pb-10">
       <div>
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Danh sách Cần Can Thiệp</h2>
         <p className="text-slate-600 dark:text-slate-400 text-sm">Theo dõi và quản lý quá trình hỗ trợ sinh viên với giao diện dạng bảng.</p>
+      </div>
+
+      {/* Info Banner */}
+      <div className="flex items-start gap-3 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-2xl p-4 text-sm text-blue-700 dark:text-blue-300">
+        <Info size={18} className="mt-0.5 flex-shrink-0" />
+        <div>
+          <span className="font-bold">Quy trình can thiệp:</span>
+          {' '}Sinh viên được phát hiện nguy cơ → Gửi Lộ trình (chuyển sang <b>Theo dõi</b>) → Khi điểm thực tế ≥ 5.0đ thì chuyển sang <b>Ổn định</b>. 
+          Bạn có thể undo về "Nguy hiểm" nếu bấm nhầm.
+        </div>
       </div>
 
       {/* Control Panel */}
@@ -225,7 +284,7 @@ export default function Interventions() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => { setActiveTab(tab.id); setSearchQuery(''); setSelectedRows([]); }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${isActive ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               >
                 <Icon size={16} className={isActive ? tab.color : 'opacity-50'} />
@@ -272,16 +331,10 @@ export default function Interventions() {
               <Send size={14} /> Gửi Roadmap
             </button>
             <button 
-              onClick={() => alert('Đã gửi nhắc nhở đồng loạt!')} 
-              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-orange-500 hover:bg-orange-600 text-white shadow-sm flex items-center gap-1"
+              onClick={() => setSelectedRows([])} 
+              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-1"
             >
-              <ShieldAlert size={14} /> Gửi Nhắc nhở
-            </button>
-            <button 
-              onClick={() => alert('Đã xuất file Excel thành công!')} 
-              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm flex items-center gap-1"
-            >
-              Xuất Excel
+              <XCircle size={14} /> Bỏ chọn
             </button>
             <select
               disabled={updating}
@@ -293,9 +346,9 @@ export default function Interventions() {
               defaultValue=""
             >
               <option value="" disabled>Chuyển trạng thái</option>
-              <option value="top20">Top 20 Nguy hiểm</option>
-              <option value="top50">Top 50 Theo dõi</option>
-              <option value="resolved">Ổn định</option>
+              <option value="top20">🔴 Top 20 Nguy hiểm</option>
+              <option value="top50">🟠 Top 50 Theo dõi</option>
+              <option value="resolved">🟢 Ổn định (cần điểm ≥5)</option>
             </select>
           </div>
         </div>
@@ -323,7 +376,7 @@ export default function Interventions() {
                 </th>
                 <th className="px-2 py-4 font-semibold">Sinh viên</th>
                 <th className="px-6 py-4 font-semibold">Môn học</th>
-                <th className="px-6 py-4 font-semibold text-center">Dự báo</th>
+                <th className="px-6 py-4 font-semibold text-center">Dự báo điểm</th>
                 <th className="px-6 py-4 font-semibold text-center">Trạng thái</th>
                 <th className="px-6 py-4 font-semibold text-right">Thao tác</th>
               </tr>
@@ -331,9 +384,15 @@ export default function Interventions() {
             <tbody className="divide-y divide-slate-100 dark:divide-white/5">
               {filteredData.length > 0 ? (
                 filteredData.map((st, i) => {
-                  const isSelected = selectedRows.some(r => r.mssv === st.mssv && r.courseId === st.courseId);
+                  const isSelected = selectedRows.some(r => (r.mssv || r.studentId) === (st.mssv || st.studentId) && (r.courseId || r.targetCourseId) === (st.courseId || st.targetCourseId));
+                  const studentMssv = st.mssv || st.studentId;
+                  const courseDisplay = st.course?.name || st.targetCourse?.name || st.courseId || st.targetCourseId;
+                  const predictedScore = st.predictedScore;
+                  const riskLevel = st.risk || (predictedScore < 3 ? 'HIGH' : predictedScore < 5 ? 'MEDIUM' : 'LOW');
+                  const scoreImproved = hasScoreImproved(st);
+                  
                   return (
-                  <tr key={(st.id || st.mssv) + '-' + st.courseId + '-' + i} className={`hover:bg-slate-50 dark:hover:bg-white/5 transition-colors ${isSelected ? 'bg-indigo-50/50 dark:bg-indigo-900/10' : ''}`}>
+                  <tr key={(st.id || studentMssv) + '-' + (st.courseId || st.targetCourseId) + '-' + i} className={`hover:bg-slate-50 dark:hover:bg-white/5 transition-colors ${isSelected ? 'bg-indigo-50/50 dark:bg-indigo-900/10' : ''}`}>
                     <td className="px-4 py-4 text-center">
                       <input
                         type="checkbox"
@@ -343,7 +402,7 @@ export default function Interventions() {
                           if (e.target.checked) {
                             setSelectedRows([...selectedRows, st]);
                           } else {
-                            setSelectedRows(selectedRows.filter(r => !(r.mssv === st.mssv && r.courseId === st.courseId)));
+                            setSelectedRows(selectedRows.filter(r => !((r.mssv || r.studentId) === (st.mssv || st.studentId) && (r.courseId || r.targetCourseId) === (st.courseId || st.targetCourseId))));
                           }
                         }}
                       />
@@ -354,62 +413,82 @@ export default function Interventions() {
                           {st.student?.name?.charAt(0) || 'SV'}
                         </div>
                         <div>
-                          <div className="font-bold text-slate-900 dark:text-slate-200">{st.student?.name || st.mssv}</div>
-                          <div className="text-[11px] text-slate-500 font-mono mt-0.5">{st.mssv}</div>
+                          <div className="font-bold text-slate-900 dark:text-slate-200">{st.student?.name || studentMssv}</div>
+                          <div className="text-[11px] text-slate-500 font-mono mt-0.5">{studentMssv}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="inline-flex text-xs font-semibold bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-300 px-2 py-1 rounded-lg">
-                        {st.course?.name || st.courseId}
+                        {courseDisplay}
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-black ${
-                        (st.risk === 'HIGH' || st.risk === 'high') ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
-                        (st.risk === 'MEDIUM' || st.risk === 'medium') ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' : 
-                        'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
-                      }`}>
-                        {st.predictedScore ? st.predictedScore.toFixed(1) : '-'} đ
-                      </span>
+                      {predictedScore !== undefined && predictedScore !== null ? (
+                        <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-black ${
+                          (riskLevel === 'HIGH' || riskLevel === 'CRITICAL') ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
+                          riskLevel === 'MEDIUM' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' : 
+                          'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
+                        }`}>
+                          {predictedScore.toFixed(1)} đ
+                        </span>
+                      ) : (
+                        <span className="text-slate-400 text-xs">—</span>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <select 
-                        disabled={updating}
-                        value={activeTab}
-                        onChange={(e) => handleUpdateStatus(st, e.target.value)}
-                        className="text-xs bg-transparent border border-slate-200 dark:border-white/10 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-300 outline-none focus:border-blue-500 cursor-pointer"
-                      >
-                        <option value="urgent">Khẩn cấp</option>
-                        <option value="monitoring">Đang theo dõi</option>
-                        <option value="intervened">Đã can thiệp</option>
-                        <option value="resolved">Ổn định</option>
-                      </select>
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${statusInfo.color}`}>
+                        {statusInfo.label}
+                      </span>
+                      {activeTab === 'top50' && (
+                        <div className="mt-1">
+                          {scoreImproved ? (
+                            <span className="text-[10px] text-emerald-500 font-bold">✓ Điểm đã cải thiện</span>
+                          ) : (
+                            <span className="text-[10px] text-slate-400">Chờ điểm cải thiện</span>
+                          )}
+                        </div>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="flex justify-end gap-2">
-                        {activeTab !== 'resolved' && (
+                      <div className="flex justify-end gap-2 flex-wrap">
+                        {/* Undo / Move back button for top50 and top100 */}
+                        {activeTab !== 'top20' && (
+                          <button 
+                            onClick={() => handleUpdateStatus(st, 'top20')}
+                            disabled={updating}
+                            title="Chuyển lại Nguy hiểm (Undo)"
+                            className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 p-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-50"
+                          >
+                            <RotateCcw size={14} />
+                          </button>
+                        )}
+                        {activeTab !== 'top100' && (
                           <button 
                             onClick={() => handleOpenRoadmap(st)} 
                             className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
                           >
-                            Roadmap
+                            {activeTab === 'top20' ? 'Gửi Roadmap' : 'Xem Roadmap'}
+                          </button>
+                        )}
+                        {/* Mark as resolved - only for top50 */}
+                        {activeTab === 'top50' && (
+                          <button
+                            onClick={() => handleUpdateStatus(st, 'resolved')}
+                            disabled={updating}
+                            title={scoreImproved ? 'Đánh dấu Ổn định' : 'Cần điểm SV ≥ 5.0đ để hoàn thành'}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-50 flex items-center gap-1 ${
+                              scoreImproved 
+                                ? 'bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20' 
+                                : 'bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-600 border border-slate-200 dark:border-white/5 cursor-not-allowed'
+                            }`}
+                          >
+                            <CheckCircle2 size={12} />
+                            {scoreImproved ? 'Ổn định' : 'Chờ điểm'}
                           </button>
                         )}
                         <button 
-                          onClick={() => alert(`Đã gửi SMS cảnh báo đến ${st.student?.name || st.mssv}`)} 
-                          className="bg-orange-50 dark:bg-orange-500/10 hover:bg-orange-100 dark:hover:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                        >
-                          SMS
-                        </button>
-                        <button 
-                          onClick={() => alert(`Đã gửi Email cảnh báo đến ${st.mssv}@fpt.edu.vn`)} 
-                          className="bg-purple-50 dark:bg-purple-500/10 hover:bg-purple-100 dark:hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                        >
-                          Email
-                        </button>
-                        <button 
-                          onClick={() => navigate(`/inbox?category=${activeTab}&mssv=${st.mssv}`)} 
+                          onClick={() => navigate(`/inbox?mssv=${studentMssv}`)} 
                           className="bg-blue-50 dark:bg-blue-500/10 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
                         >
                           Inbox
@@ -422,7 +501,12 @@ export default function Interventions() {
               ) : (
                 <tr>
                   <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
-                    Chưa có dữ liệu sinh viên trong danh sách này.
+                    {activeTab === 'top100' 
+                      ? '✅ Chưa có sinh viên nào được đánh dấu Ổn định. Hãy theo dõi và cập nhật khi điểm cải thiện.'
+                      : activeTab === 'top50'
+                      ? '📋 Chưa có sinh viên nào trong danh sách Theo dõi. Hãy gửi Roadmap cho sinh viên Nguy hiểm.'
+                      : '🎉 Tuyệt vời! Không có sinh viên nào trong vùng nguy hiểm.'
+                    }
                   </td>
                 </tr>
               )}
@@ -438,7 +522,10 @@ export default function Interventions() {
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
               <Send size={20} className="text-blue-400" /> Can thiệp bằng Lộ trình
             </h3>
-            <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">Gửi lộ trình qua hộp thư cho <b>{selectedStudent?.student?.name || selectedStudent?.mssv}</b> để bắt đầu can thiệp.</p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+              Gửi lộ trình qua hộp thư cho <b>{selectedStudent?.student?.name || selectedStudent?.mssv}</b>.
+              <span className="ml-1 text-amber-600 dark:text-amber-400">⚡ Sau khi gửi, sinh viên sẽ được chuyển sang "Theo dõi".</span>
+            </p>
             <textarea
               value={roadmapMsg}
               onChange={(e) => setRoadmapMsg(e.target.value)}
@@ -462,7 +549,7 @@ export default function Interventions() {
               <Activity size={20} className="text-purple-400" /> AI Can thiệp tự động
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-              Hệ thống sẽ tự động cá nhân hóa thông báo cho <b>{data.urgent.length}</b> sinh viên. Các biến <span className="text-cyan-400 font-mono text-xs">{'{name}'}</span> và <span className="text-cyan-400 font-mono text-xs">{'{course}'}</span> sẽ được điền tự động.
+              Hệ thống sẽ tự động cá nhân hóa thông báo cho <b>{data.top20.length}</b> sinh viên. Các biến <span className="text-cyan-400 font-mono text-xs">{'{name}'}</span> và <span className="text-cyan-400 font-mono text-xs">{'{course}'}</span> sẽ được điền tự động.
             </p>
             <textarea
               value={bulkMsg}

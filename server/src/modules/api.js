@@ -355,6 +355,18 @@ router.get('/red-alerts', async (req, res) => {
       interventionStatusMap.set(`${iv.mssv}_${iv.courseId}`, iv.status);
     });
     
+    // Also check InterventionRoadmap COMPLETED status for exclusions
+    let completedRoadmapKeys = new Set();
+    try {
+      const completedRoadmaps = await prisma.interventionRoadmap.findMany({
+        where: { status: 'COMPLETED' },
+        select: { studentId: true, targetCourseId: true }
+      });
+      completedRoadmaps.forEach(r => completedRoadmapKeys.add(`${r.studentId}_${r.targetCourseId}`));
+    } catch (e) {
+      console.warn("Lỗi fetch completed roadmaps:", e);
+    }
+
     let dbPredictions = [];
     try {
       dbPredictions = await prisma.prediction.findMany({
@@ -384,9 +396,13 @@ router.get('/red-alerts', async (req, res) => {
         return;
       }
 
-      // Exclude if intervention is RESOLVED
+      // Exclude if intervention is RESOLVED (via Intervention model or completed roadmap)
       const status = interventionStatusMap.get(`${mssv}_${courseId}`);
       if (status === 'RESOLVED') {
+        return;
+      }
+      // Also exclude if InterventionRoadmap is COMPLETED
+      if (completedRoadmapKeys.has(`${mssv}_${courseId}`)) {
         return;
       }
 
@@ -2028,6 +2044,38 @@ router.post('/intervention-roadmap/:id/status', async (req, res) => {
       where: { id: id },
       data: { status }
     });
+
+    // Sync: When roadmap is COMPLETED, update existing Intervention records as RESOLVED
+    // so that the red-alerts endpoint can correctly exclude this student.
+    if (status === 'COMPLETED') {
+      try {
+        await prisma.intervention.updateMany({
+          where: {
+            mssv: interventionRoadmap.studentId,
+            courseId: interventionRoadmap.targetCourseId
+          },
+          data: { status: 'RESOLVED' }
+        });
+      } catch (syncErr) {
+        console.warn('[Sync] Lỗi đồng bộ InterventionRoadmap → RESOLVED:', syncErr.message);
+      }
+    }
+
+    // Sync: When roadmap is PENDING (moved back to monitoring), update Intervention to ACTIVE
+    if (status === 'PENDING') {
+      try {
+        await prisma.intervention.updateMany({
+          where: {
+            mssv: interventionRoadmap.studentId,
+            courseId: interventionRoadmap.targetCourseId
+          },
+          data: { status: 'ACTIVE' }
+        });
+      } catch (syncErr) {
+        console.warn('[Sync] Lỗi đồng bộ PENDING:', syncErr.message);
+      }
+    }
+
     res.json({ success: true, interventionRoadmap });
   } catch (err) {
     res.status(500).json({ error: err.message });
