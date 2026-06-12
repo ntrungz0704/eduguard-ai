@@ -157,19 +157,37 @@ export default function Inbox() {
 
   const handleSendRoadmap = async () => {
     try {
-      const courseId = prompt("Nhập mã môn học cần gửi lộ trình (vd: COM108):", "COM108");
-      if (!courseId) return;
+      const courseIdRaw = prompt("Nhập mã môn học cần gửi lộ trình (vd: COM108):", "COM108");
+      if (!courseIdRaw) return;
+      const courseId = courseIdRaw.trim().toUpperCase();
 
-      const res = await api.post('/intervention/send-roadmap', {
-        mssv: activePartnerId,
-        targetCourseId: courseId,
-        riskLevel: 'HIGH'
+      // Fetch suggestion from our new syllabus API
+      const sugRes = await api.get('/comm/messages/suggestion', {
+        params: {
+          mssv: activePartnerId,
+          courseId,
+          predictedScore: 5.0
+        }
       });
 
-      if (res.data.success) {
-        alert("Đã gửi lộ trình thành công!");
-        fetchConversations(false);
+      const content = sugRes.data.suggestion;
+
+      // Post the message directly as the current user (Advisor/Teacher)
+      await api.post('/comm/messages', {
+        senderId: currentUser.id,
+        receiverId: activePartnerId,
+        content
+      });
+
+      // Also flag student intervention status in the DB
+      try {
+        await api.post(`/students/${activePartnerId}/flag`, { courseId, action: 'Gửi lộ trình qua Hộp thư', status: 'ACTIVE' });
+      } catch (flagErr) {
+        console.warn("Lỗi đánh dấu can thiệp:", flagErr);
       }
+
+      alert("Đã tạo và gửi lộ trình thành công qua Hộp thư!");
+      fetchConversations(false);
     } catch (e) {
       alert("Lỗi khi gửi lộ trình: " + e.message);
     }

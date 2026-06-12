@@ -391,6 +391,7 @@ router.get('/red-alerts', async (req, res) => {
         name: student.name,
         classCode: student.classCode || 'WD18301',
         targetCourse: targetCourse,
+        targetCourseId: pred.course.id,
         predictedScore: pred.predictedScore,
         risk: pred.risk,
         priorityLevel,
@@ -411,11 +412,14 @@ router.get('/red-alerts', async (req, res) => {
       return b.riskScore - a.riskScore;
     });
 
+    const totalAtRisk = alerts.length;
+    const criticalCount = alerts.filter(a => a.priorityLevel === 'CRITICAL').length;
+    const highCount = alerts.filter(a => a.priorityLevel === 'HIGH').length;
+    const mediumCount = alerts.filter(a => a.priorityLevel === 'MEDIUM').length;
+
     alerts = alerts.slice(0, 50);
 
     const totalInterventions = Object.values(interventions).reduce((acc, curr) => acc + curr.length, 0);
-    const criticalCount = alerts.filter(a => a.priorityLevel === 'CRITICAL').length;
-    const highCount = alerts.filter(a => a.priorityLevel === 'HIGH').length;
 
     // Calculate low attendance students
     let lowAttendanceCount = 0;
@@ -431,11 +435,13 @@ router.get('/red-alerts', async (req, res) => {
 
     res.json({
       alerts,
+      totalAtRisk,
       kpi: {
         totalInterventions: totalInterventions,
         improvementRate: Math.min(100, Math.round(50 + totalInterventions * 2.5)),
         criticalCount,
         highCount,
+        mediumCount,
         lowAttendanceCount
       }
     });

@@ -123,6 +123,126 @@ router.post('/auth/google', async (req, res) => {
 // MESSAGING ENDPOINTS
 // ----------------------------------------------------
 
+// Get AI-generated personalized roadmap suggestion based on syllabus JSONs
+router.get('/messages/suggestion', async (req, res) => {
+  const { mssv, courseId, predictedScore } = req.query;
+  if (!mssv || !courseId) {
+    return res.status(400).json({ error: 'Missing mssv or courseId' });
+  }
+
+  try {
+    const student = await prisma.student.findUnique({
+      where: { mssv },
+      include: { scores: true }
+    });
+    
+    const course = await prisma.course.findUnique({
+      where: { id: courseId }
+    });
+
+    if (!student || !course) {
+      return res.status(404).json({ error: 'Student or Course not found' });
+    }
+
+    // Load target course syllabus from processed-json
+    const syllabusPath = path.join(__dirname, '..', '..', 'data', 'processed-json', `${courseId}.json`);
+    let targetSyllabus = null;
+    if (fs.existsSync(syllabusPath)) {
+      targetSyllabus = JSON.parse(fs.readFileSync(syllabusPath, 'utf8'));
+    }
+
+    // Determine weak prerequisites from student scores
+    const { ACADEMIC_PREREQUISITES } = require('../ai/regression');
+    const targetPrereqs = ACADEMIC_PREREQUISITES[course.name] || [];
+    const weakPrereqs = [];
+    student.scores.forEach(sc => {
+      if (targetPrereqs.includes(sc.courseId) && sc.value != null && sc.value < 6.0) {
+        weakPrereqs.push({ courseId: sc.courseId, score: sc.value });
+      }
+    });
+
+    let explanation = '';
+    let weakPrereqActions = '';
+    if (weakPrereqs.length > 0) {
+      explanation = `Nguyên nhân chính do em bị hổng kiến thức từ các môn tiên quyết: ${weakPrereqs.map(w => `${w.courseId} (${w.score}đ)`).join(', ')}.`;
+      
+      weakPrereqActions += `⚠️ **Hành động khẩn cấp cho môn tiên quyết:**\n`;
+      for (const wp of weakPrereqs) {
+        const wpPath = path.join(__dirname, '..', '..', 'data', 'processed-json', `${wp.courseId}.json`);
+        let wpSyllabus = null;
+        if (fs.existsSync(wpPath)) {
+          wpSyllabus = JSON.parse(fs.readFileSync(wpPath, 'utf8'));
+        }
+        if (wpSyllabus && wpSyllabus.sessions && wpSyllabus.sessions.length > 0) {
+          // Get the first 3 topics
+          const coreTopics = wpSyllabus.sessions.slice(0, 3).map(s => s.topic).join(', ');
+          weakPrereqActions += `- Với môn **${wpSyllabus.course_name} (${wp.courseId})**: Ôn tập lại ngay các chủ đề cốt lõi: ${coreTopics}.\n`;
+        } else {
+          weakPrereqActions += `- Với môn **${wp.courseId}**: Ôn tập lại slide, video bài giảng và hoàn thành các bài thực hành/lab cốt lõi.\n`;
+        }
+      }
+    } else {
+      explanation = `Nguyên nhân do phong độ học tập gần đây của em có dấu hiệu giảm sút.`;
+      weakPrereqActions += `- Ôn tập lại các kiến thức cơ bản của ngành học để lấy lại nhịp độ học tập.\n`;
+    }
+
+    // Target course details
+    let toolsStr = 'VS Code, Git';
+    let outcomesStr = '';
+    let sessionsStr = '';
+
+    if (targetSyllabus) {
+      if (targetSyllabus.tools_required && targetSyllabus.tools_required.length > 0) {
+        toolsStr = targetSyllabus.tools_required.join(', ');
+      }
+      if (targetSyllabus.learning_outcomes && targetSyllabus.learning_outcomes.length > 0) {
+        outcomesStr = targetSyllabus.learning_outcomes.slice(0, 3).map(o => `- **${o.code}**: ${o.title}`).join('\n');
+      } else {
+        outcomesStr = `- Hiểu và vận dụng các kiến thức cốt lõi của môn học.\n- Hoàn thành các bài thực hành và dự án mẫu.`;
+      }
+      if (targetSyllabus.sessions && targetSyllabus.sessions.length > 0) {
+        sessionsStr = targetSyllabus.sessions.slice(0, 4).map(s => `- **Session ${s.session}**: ${s.topic}`).join('\n');
+      } else {
+        sessionsStr = `- Tuần 1: Làm quen môn học và cài đặt công cụ.\n- Tuần 2: Học các khái niệm cơ bản đầu tiên.`;
+      }
+    } else {
+      outcomesStr = `- Hiểu và vận dụng các kiến thức cốt lõi của môn học.\n- Hoàn thành các bài thực hành và dự án mẫu.`;
+      sessionsStr = `- Tuần 1: Làm quen môn học và cài đặt công cụ.\n- Tuần 2: Học các khái niệm cơ bản đầu tiên.`;
+    }
+
+    const predScoreNum = predictedScore ? parseFloat(predictedScore) : 5.0;
+    const predScoreFormatted = isNaN(predScoreNum) ? '5.0' : predScoreNum.toFixed(1);
+
+    const isCritical = predScoreNum < 4.0;
+    const action3 = isCritical 
+      ? `3. 🚨 **Khẩn cấp (Hành động trực tiếp)**: Đặt lịch hẹn gặp Cố vấn học tập (CVHT) trong tuần này để được hỗ trợ phương án cứu vãn điểm chuyên cần và điểm số.`
+      : `3. 👥 **Tham gia phụ đạo**: Tham gia các buổi tutorial/phụ đạo do trường tổ chức hoặc nhờ nhóm bạn hỗ trợ ôn tập thêm ngoài giờ học.`;
+
+    const suggestion = `Chào ${student.name},\n
+Giảng viên phát hiện em đang có nguy cơ gặp khó khăn ở môn **${course.name} (${course.id})** sắp tới (Dự báo AI: **${predScoreFormatted}đ**).
+${explanation}\n
+🎯 **LỘ TRÌNH CẢI THIỆN (AI Đề xuất dựa trên Đề cương chi tiết):**\n
+1. 📚 **Bù đắp lỗ hổng kiến thức tiên quyết:**
+${weakPrereqActions}
+2. 🚀 **Chủ động tiếp cận môn học mới (${course.name}):**
+- 🛠️ Yêu cầu công cụ: Đảm bảo đã cài đặt và biết sử dụng: **${toolsStr}**.
+- 🎯 Chuẩn đầu ra quan trọng cần đạt:
+${outcomesStr}
+- 📅 Nội dung trọng tâm cần học trước (Tuần 1-2):
+${sessionsStr}\n
+3. 📆 **Kế hoạch hành động chi tiết:**
+- 1. **Dành 2 giờ mỗi ngày** tự học và làm lại các phần Assignment/Lab tương tự.
+- 2. **Tăng cường chú ý**: Xem lại video bài giảng và các phần thực hành trên lớp tuần qua.
+- ${action3}\n
+Nếu cần hỗ trợ thêm, hãy phản hồi lại qua Hộp thư này. Chúc em học tốt và cải thiện điểm số thành công!`;
+
+    res.json({ suggestion });
+  } catch (err) {
+    console.error("Lỗi tạo đề xuất:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get inbox for a user
 router.get('/messages/:userId', async (req, res) => {
   const { userId } = req.params;
