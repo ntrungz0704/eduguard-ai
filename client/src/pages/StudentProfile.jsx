@@ -5,7 +5,7 @@ import { api } from '../lib/api';
 import { 
   ArrowLeft, GraduationCap, Mail, Brain, CheckCircle2,
   AlertTriangle, Phone, Calendar, Send, HeartHandshake, Loader2, Sparkles, BookOpen, UserPlus, X, Copy,
-  TrendingUp
+  TrendingUp, XCircle, Clock, ShieldAlert
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
