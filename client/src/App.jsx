@@ -172,8 +172,10 @@ const Header = ({ setMobileMenuOpen }) => {
       setSearchQuery('');
       setShowDropdown(false);
       
-      // Auto navigate to search page unless we are on the AI Chat page
-      if (location.pathname !== '/search' && location.pathname !== '/chat') {
+      // Auto navigate to search page unless we are on the AI Chat page, or switch profile if currently on a student profile page
+      if (location.pathname.startsWith('/student/')) {
+        navigate(`/student/${student.id}`);
+      } else if (location.pathname !== '/search' && location.pathname !== '/chat') {
         navigate('/search');
       }
     } catch (err) {

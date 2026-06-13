@@ -69,21 +69,23 @@ function getCourseCredits(courseNameOrId) {
   const lower = name.toLowerCase();
   const code = name.toUpperCase();
 
-  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 3;
   if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
   if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
   if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
 
   if (
-    lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
-    lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
-    lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
-    lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+    lower.includes('tiếng anh') || lower.includes('tieng anh') || code.includes('ENT')
+  ) {
+    return 3;
+  }
+
+  if (
     lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
     lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
     lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE1026') || code.includes('VIE102')
   ) {
     return 2;
   }
@@ -100,26 +102,29 @@ const isConditionalCourse = (courseName, courseId) => {
     name.includes('thực tập tốt nghiệp') ||
     name.includes('vovinam') ||
     name.includes('gdqp') ||
+    name.includes('chính trị') ||
     cid.includes('VIE103') ||
     cid.includes('VIE104') ||
+    cid.includes('VIE108') ||
     cid.includes('PRO110') ||
     cid.includes('PRO115') ||
     cid.includes('PRO116')
   );
 };
 
+const isEnglishCourse = (courseName, courseId) => {
+  const name = (courseName || '').toLowerCase();
+  const cid = (courseId || '').toUpperCase();
+  return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
+};
+
 const get40Scale = (val) => {
   if (val === null || val === undefined) return 0.0;
   if (val >= 9.0) return 4.0;
-  if (val >= 8.5) return 3.75;
   if (val >= 8.0) return 3.5;
-  if (val >= 7.5) return 3.25;
   if (val >= 7.0) return 3.0;
-  if (val >= 6.5) return 2.75;
   if (val >= 6.0) return 2.5;
-  if (val >= 5.5) return 2.0;
-  if (val >= 5.0) return 1.5;
-  if (val >= 4.0) return 1.0;
+  if (val >= 5.0) return 2.0;
   return 0.0;
 };
 
@@ -140,14 +145,14 @@ const getLetterGrade = (val) => {
 
 const calculateFptStats = (scores) => {
   const validScores = (scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
-  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglishCourse(s.course?.name || s.courseId, s.courseId) && s.value > 1.0);
 
   let totalScoreWeight10 = 0;
   let totalScoreWeight4 = 0;
   let totalAcademicCredits = 0;
 
   academicScores.forEach(s => {
-    const credits = getCourseCredits(s.courseId || s.course?.name);
+    const credits = s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
     totalScoreWeight10 += (s.value * credits);
     totalScoreWeight4 += (get40Scale(s.value) * credits);
     totalAcademicCredits += credits;
@@ -155,13 +160,13 @@ const calculateFptStats = (scores) => {
 
   let totalEarnedCredits = 0;
   validScores.forEach(s => {
-    if (s.value >= 5.0 || s.status === 'PASSED') {
-      totalEarnedCredits += getCourseCredits(s.courseId || s.course?.name);
+    if (s.value >= 5.0 || s.value === 1.0 || s.status === 'PASSED') {
+      totalEarnedCredits += s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
     }
   });
 
-  const gpa10 = totalAcademicCredits === 0 ? 0.0 : parseFloat((Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1));
-  const gpa4 = totalAcademicCredits === 0 ? 0.0 : parseFloat((Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2));
+  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
+  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
 
   return {
     gpa10,

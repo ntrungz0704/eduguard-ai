@@ -4,8 +4,18 @@ const logger = require('../../infrastructure/logger');
 
 // Helper to calculate final score if quiz/asm/final provided
 const calculateScore = (row) => {
-  if (row.score !== undefined) return parseFloat(row.score);
-  if (row.value !== undefined) return parseFloat(row.value);
+  const parseVal = (val) => {
+    if (val === undefined || val === null || val === '') return null;
+    const s = String(val).trim();
+    if (s === '*' || s === 'X' || s === '-' || s === 'F') return null;
+    const lower = s.toLowerCase();
+    if (lower === 'đạt' || lower === 'passed' || lower === 'miễn') return 1.0;
+    const n = parseFloat(s);
+    return isNaN(n) ? null : n;
+  };
+
+  if (row.score !== undefined) return parseVal(row.score);
+  if (row.value !== undefined) return parseVal(row.value);
   
   const quiz = parseFloat(row.quiz) || 0;
   const asm = parseFloat(row.asm) || 0;
@@ -66,18 +76,14 @@ exports.previewData = async (req, res) => {
       
       // Auto-detect columns for flexibility
       const mssv = row.student_code || row.mssv || row['MSSV'] || row['Mã sinh viên'] || defaultMssv;
+      const rawName = row.name || row.fullname || row.student_name || row['Họ Tên'] || row['Họ tên'] || row['Tên sinh viên'] || row['Tên Sinh Viên'];
+      const name = rawName ? String(rawName).trim() : null;
       const rawCourse = row.course || row.courseId || row['Mã chuyển đổi'] || row['Mã môn'] || row['Môn học'];
       const course = typeof rawCourse === 'string' ? rawCourse.trim().toUpperCase() : rawCourse;
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
       let calculatedScore = calculateScore(row);
-      // FPT format fallback
-      if (calculatedScore === null) {
-        if (row['Thang điểm 10'] !== undefined && row['Thang điểm 10'] !== '') {
-          calculatedScore = parseFloat(row['Thang điểm 10']);
-        }
-      }
-
+      
       // Trạng thái parsing
       let rowStatus = null;
       const trangThai = row['Trạng thái'] || row['Trạng Thái'] || row.status;
@@ -87,6 +93,20 @@ exports.previewData = async (req, res) => {
         else if (t === 'not started' || t === 'chưa học') rowStatus = 'NOT_STARTED';
         else if (t === 'passed' || t === 'đạt') rowStatus = 'PASSED';
         else if (t === 'failed' || t === 'trượt') rowStatus = 'FAILED';
+      }
+
+      // FPT format fallback
+      if (calculatedScore === null) {
+        if (row['Thang điểm 10'] !== undefined && row['Thang điểm 10'] !== '') {
+          const rawVal = row['Thang điểm 10'];
+          const s = String(rawVal).trim().toLowerCase();
+          if (s === 'đạt' || s === 'passed' || s === 'miễn') {
+            calculatedScore = 1.0;
+            rowStatus = 'PASSED';
+          } else {
+            calculatedScore = parseFloat(rawVal);
+          }
+        }
       }
 
       // If studying or not started, we don't strictly require a score and score should be null
@@ -110,6 +130,7 @@ exports.previewData = async (req, res) => {
       previewData.push({
         _row: rowNum,
         mssv: mssv ? String(mssv).toUpperCase() : 'N/A',
+        name,
         course: course || 'N/A',
         quiz: row.quiz,
         asm: row.asm,
@@ -169,13 +190,16 @@ exports.publishData = async (req, res) => {
     for (const row of validData) {
       uniqueStudents.add(row.mssv);
       
-      // Upsert Student (assuming basic name if not exists)
+      // Upsert Student (with parsed name if available)
       await prisma.student.upsert({
         where: { mssv: row.mssv },
-        update: classCode ? { classCode } : {},
+        update: {
+          ...(row.name ? { name: row.name } : {}),
+          ...(classCode ? { classCode } : {})
+        },
         create: {
           mssv: row.mssv,
-          name: `Sinh viên ${row.mssv}`,
+          name: row.name || `Sinh viên ${row.mssv}`,
           classCode: classCode || 'UNKNOWN'
         }
       });
@@ -194,7 +218,7 @@ exports.publishData = async (req, res) => {
       // Insert/Update Score
       let status = row.rowStatus;
       if (!status) {
-        status = row.score >= 5 ? 'PASSED' : 'FAILED';
+        status = (row.score >= 5 || row.score === 1.0) ? 'PASSED' : 'FAILED';
       }
       
       // Since MSSV, CourseId, Semester is unique constraint in DB

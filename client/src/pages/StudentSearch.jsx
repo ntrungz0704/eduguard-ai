@@ -19,21 +19,23 @@ const getCourseCredits = (courseNameOrId) => {
   const lower = name.toLowerCase();
   const code = name.toUpperCase();
 
-  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 3;
   if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
   if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
   if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
 
   if (
-    lower.includes('tiếng anh 1.1') || code.includes('ENT112') || code.includes('ENT111') ||
-    lower.includes('tiếng anh 1.2') || code.includes('ENT123') ||
-    lower.includes('tiếng anh 2.1') || code.includes('ENT213') ||
-    lower.includes('tiếng anh 2.2') || code.includes('ENT223') ||
+    lower.includes('tiếng anh') || lower.includes('tieng anh') || code.includes('ENT')
+  ) {
+    return 3;
+  }
+
+  if (
     lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
     lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
     lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE102')
+    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE1026') || code.includes('VIE102')
   ) {
     return 2;
   }
@@ -50,26 +52,29 @@ const isConditionalCourse = (courseName, courseId) => {
     name.includes('thực tập tốt nghiệp') ||
     name.includes('vovinam') ||
     name.includes('gdqp') ||
+    name.includes('chính trị') ||
     cid.includes('VIE103') ||
     cid.includes('VIE104') ||
+    cid.includes('VIE108') ||
     cid.includes('PRO110') ||
     cid.includes('PRO115') ||
     cid.includes('PRO116')
   );
 };
 
+const isEnglishCourse = (courseName, courseId) => {
+  const name = (courseName || '').toLowerCase();
+  const cid = (courseId || '').toUpperCase();
+  return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
+};
+
 const get40Scale = (val) => {
   if (val === null || val === undefined) return 0.0;
   if (val >= 9.0) return 4.0;
-  if (val >= 8.5) return 3.75;
   if (val >= 8.0) return 3.5;
-  if (val >= 7.5) return 3.25;
   if (val >= 7.0) return 3.0;
-  if (val >= 6.5) return 2.75;
   if (val >= 6.0) return 2.5;
-  if (val >= 5.5) return 2.0;
-  if (val >= 5.0) return 1.5;
-  if (val >= 4.0) return 1.0;
+  if (val >= 5.0) return 2.0;
   return 0.0;
 };
 
@@ -653,7 +658,7 @@ export default function StudentSearch() {
               {(() => {
                 const calculateFptStats = (scores) => {
                   const validScores = (scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
-                  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+                  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglishCourse(s.course?.name || s.courseId, s.courseId) && s.value > 1.0);
 
                   let totalScoreWeight10 = 0;
                   let totalScoreWeight4 = 0;
@@ -668,24 +673,13 @@ export default function StudentSearch() {
 
                   let totalEarnedCredits = 0;
                   validScores.forEach(s => {
-                    if (s.value >= 5.0 || s.status === 'PASSED') {
+                    if (s.value >= 5.0 || s.value === 1.0 || s.status === 'PASSED') {
                       totalEarnedCredits += s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
                     }
                   });
 
-                  // If student is PS47261, strictly enforce imported Excel truth data
-                  if (selectedStudent.mssv === 'PS47261') {
-                    return {
-                      gpa10: '8.7',
-                      gpa4: '3.67',
-                      totalEarnedCredits: 56,
-                      academicScoresCount: 20,
-                      totalScoresCount: 20
-                    };
-                  }
-
-                  const gpa10 = totalAcademicCredits === 0 ? 0.0 : parseFloat((Math.round(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10).toFixed(1));
-                  const gpa4 = totalAcademicCredits === 0 ? 0.0 : parseFloat((Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100).toFixed(2));
+                  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
+                  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
 
                   return {
                     gpa10,
@@ -1341,12 +1335,25 @@ export default function StudentSearch() {
       </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-4 rounded-2xl border border-slate-200 dark:border-white/10">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 glass-card p-4 rounded-2xl border border-slate-200 dark:border-white/10">
                 <div>
                   <h4 className="text-lg font-bold text-slate-900 dark:text-white">Danh sách Sinh viên</h4>
                   <p className="text-xs text-slate-600 dark:text-slate-400">Chọn sinh viên để xem chi tiết học bạ và tư vấn AI.</p>
                 </div>
-                 <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+                
+                {/* Search input for list view */}
+                <div className="relative max-w-xs w-full lg:mx-4">
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Tìm kiếm MSSV hoặc tên..."
+                    className="w-full bg-slate-100 dark:bg-white/5 focus:bg-slate-200 dark:focus:bg-white/10 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 focus:border-blue-500/50 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 outline-none transition-all"
+                  />
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400" />
+                </div>
+
+                <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
                   <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-pointer">
                     <input
                       type="checkbox"
@@ -1371,7 +1378,7 @@ export default function StudentSearch() {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {[...allStudents]
+                {[...(query.trim() ? results : allStudents)]
                   .filter(st => {
                     if (!onlyShowAtRisk) return true;
                     const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
