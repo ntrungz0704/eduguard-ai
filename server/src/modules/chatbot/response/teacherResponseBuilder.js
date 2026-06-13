@@ -10,12 +10,14 @@ function generateDynamicStudentInsight(student, riskData) {
   const name = student.name || student.mssv;
   
   let insight = '';
+  const hasAttendance = avgAttendance !== null;
+  const ccVal = hasAttendance ? (avgAttendance <= 1.0 ? avgAttendance * 100 : avgAttendance) : null;
   
   if (level === 'CRITICAL' || level === 'HIGH') {
     insight += `⚠️ **Nhận định rủi ro:** Sinh viên **${name}** đang nằm trong nhóm báo động **${level}** (Risk Score: ${riskScore}/100).\n`;
     
-    if (avgAttendance < 75) {
-      insight += `- **Vấn đề chuyên cần:** Tỉ lệ chuyên cần ở mức đáng báo động (**${Math.round(avgAttendance)}%**). Đây là nguyên nhân trực tiếp làm giảm kết quả học tập và tạo nguy cơ cấm thi môn đang học.\n`;
+    if (hasAttendance && ccVal < 75) {
+      insight += `- **Vấn đề chuyên cần:** Tỉ lệ chuyên cần ở mức đáng báo động (**${Math.round(ccVal)}%**). Đây là nguyên nhân trực tiếp làm giảm kết quả học tập và tạo nguy cơ cấm thi môn đang học.\n`;
     }
     
     if (failedCourses && failedCourses.length > 0) {
@@ -28,11 +30,19 @@ function generateDynamicStudentInsight(student, riskData) {
     insight += `\n🎯 **Đề xuất can thiệp:** Đề xuất Cố vấn học tập (CVHT) liên hệ trực tiếp trong tuần này, bố trí nhóm phụ đạo môn học và kiểm soát chuyên cần nghiêm ngặt.`;
   } else if (level === 'MEDIUM') {
     insight += `🟡 **Nhận định rủi ro:** Sinh viên **${name}** thuộc nhóm rủi ro trung bình (Risk Score: ${riskScore}/100).\n`;
-    insight += `- Tỷ lệ chuyên cần tạm ổn định (**${Math.round(avgAttendance)}%**). Sinh viên cần chú ý tập trung ở giai đoạn thi cử/nộp Assignment cuối kỳ để cải thiện điểm số.\n`;
+    if (hasAttendance) {
+      insight += `- Tỷ lệ chuyên cần tạm ổn định (**${Math.round(ccVal)}%**). Sinh viên cần chú ý tập trung ở giai đoạn thi cử/nộp Assignment cuối kỳ để cải thiện điểm số.\n`;
+    } else {
+      insight += `- Hệ thống hiện tại chưa tích hợp dữ liệu chuyên cần (Attendance) của sinh viên này.\n`;
+    }
     insight += `\n🎯 **Đề xuất can thiệp:** Cố vấn học tập nên nhắc nhở nhẹ nhàng để sinh viên tập trung hơn ở các học phần quan trọng.`;
   } else {
     insight += `🟢 **Nhận định rủi ro:** Sinh viên **${name}** học tập rất ổn định và an toàn (Risk Score: ${riskScore}/100).\n`;
-    insight += `- Các chỉ số đi học (**${Math.round(avgAttendance)}%**) và điểm số các môn đều đạt kết quả tốt.\n`;
+    if (hasAttendance) {
+      insight += `- Các chỉ số đi học (**${Math.round(ccVal)}%**) và điểm số các môn đều đạt kết quả tốt.\n`;
+    } else {
+      insight += `- Điểm số các môn đều đạt kết quả tốt (Chưa tích hợp dữ liệu chuyên cần).\n`;
+    }
     insight += `\n🎯 **Đề xuất can thiệp:** Không cần can thiệp học vụ. Khích lệ sinh viên tiếp tục phát huy phong độ học tập tốt.`;
   }
   
@@ -306,12 +316,16 @@ function buildGenerateMessageResponse(data) {
   let text = `📩 **Tin nhắn đề xuất:**\n\n`;
   if (student) {
     const name = student.name || `Sinh viên ${student.mssv}`;
-    const firstFailed = student.scores?.find(s => s.value < 5.0)?.courseId || 'môn học';
-    const cc = student.scores?.[0]?.attendance || 75;
+    const firstFailed = student.scores?.find(s => s.value !== null && s.value < 5.0)?.courseId || 'môn học';
+    
+    const hasCc = student.scores?.some(s => s.attendance !== null);
+    const ccVal = hasCc ? student.scores.find(s => s.attendance !== null).attendance : null;
+    const ccText = ccVal !== null ? ` và chuyên cần đang ở mức ${Math.round(ccVal <= 1.0 ? ccVal * 100 : ccVal)}%` : ``;
+    const failedText = firstFailed ? `gặp một số khó khăn, đặc biệt là nợ môn nền tảng ${firstFailed}` : `có dấu hiệu sụt giảm học vụ`;
     
     text += `\`\`\`
 Chào em ${name},
-Thầy/cô nhận thấy kết quả học tập gần đây của em đang gặp một số khó khăn, đặc biệt là nợ môn nền tảng ${firstFailed} và chuyên cần đang ở mức ${cc}%. 
+Thầy/cô nhận thấy kết quả học tập gần đây của em đang ${failedText}${ccText}. 
 
 Em hãy liên hệ ngay với Cố vấn học tập (CVHT) trong tuần này để lập lộ trình phụ đạo và nhận sự hỗ trợ tốt nhất nhé! Chúc em học tốt.
 \`\`\``;
@@ -590,7 +604,21 @@ ${chartStr}`,
     }
 
     case 'ATTENDANCE': {
-      const cc = Math.round(riskData.avgAttendance);
+      if (riskData.avgAttendance === null) {
+        return {
+          text: `# 📅 PHÂN TÍCH CHUYÊN CẦN
+👤 **Sinh viên:** ${studentName}
+
+⚠️ **Trạng thái học vụ:** Chưa tích hợp dữ liệu chuyên cần (Attendance).
+Hiện tại hệ thống EduGuard chưa kết nối dữ liệu điểm danh thực tế cho sinh viên này do nhà trường chưa cung cấp API/bảng điểm danh. 
+
+Vì vậy, mọi phân tích rủi ro học thuật hiện tại của EduGuard đều dựa trên **Bảng điểm**, **Đề cương (Syllabus)** và **Đồ thị tri thức kiến thức (Knowledge Graph)**.`,
+          chartData: null,
+          actions: ['nguyên nhân cốt lõi', 'đề xuất can thiệp']
+        };
+      }
+      const ccRaw = riskData.avgAttendance;
+      const cc = Math.round(ccRaw <= 1.0 ? ccRaw * 100 : ccRaw);
       const status = cc < 60 ? '🔴 Nguy cơ cấm thi' : cc < 75 ? '🟠 Yếu' : cc < 85 ? '🟡 Trung bình' : '🟢 Ổn định';
       let ccAdvice = '';
       if (cc < 60) {
@@ -645,21 +673,24 @@ ${chartStr}`,
 
 function buildExplainModelResponse() {
   return {
-    text: `# 🧠 Mô hình Dự báo Học tập HK-Pearson V2.1
+    text: `# 🧠 Mô hình Dự báo Học tập EduGuard — Early Academic Risk Assessment based on Knowledge Graph
 
-Hệ thống EduGuard sử dụng thuật toán **HK-Pearson V2.1** cải tiến để dự báo rủi ro học tập của sinh viên. Dưới đây là chi tiết nguyên lý hoạt động của mô hình:
+Hệ thống EduGuard dự báo rủi ro học tập của sinh viên dựa trên phân tích tương quan chuỗi kiến thức học thuật sẵn có. Dưới đây là chi tiết nguyên lý hoạt động của mô hình:
 
-### 1. Phân tích Tương quan Pearson
-- **Nguyên lý**: Thuật toán đo lường mức độ tương quan tuyến tính giữa điểm số các môn cơ sở/tiền quyết (ví dụ: điểm toán, lập trình cơ bản) với các môn chuyên ngành tiếp theo.
-- **Hệ số tương quan (r)**: Dao động từ \`-1\` đến \`1\`. Giá trị gần \`1\` thể hiện sự tương quan thuận mạnh mẽ (ví dụ: học tốt môn Database sẽ có xu hướng học tốt môn Java Web).
+### 1. Cơ sở Dự báo Học thuật (Academic Data-Driven Model)
+Dữ liệu đầu vào và các ràng buộc được sử dụng để tính toán bao gồm:
+- **Bảng điểm lịch sử (Student Transcript)**: Toàn bộ quá trình tích lũy điểm số thực tế của sinh viên tại trường.
+- **Chuỗi môn tiên quyết (Prerequisite Graph)**: Ràng buộc môn trước ảnh hưởng trực tiếp đến khả năng tiếp thu của các môn sau (ví dụ: WEB2063 → WEB502 → WEB2091).
+- **Chuẩn đầu ra môn học (CLO Mapping & Syllabus)**: Đánh giá dựa trên phân rã kỹ năng yêu cầu trong Đề cương chi tiết của 34 môn học.
+- **Biểu đồ phụ thuộc môn học (Subject Dependency Graph)**: Phân tích các nút thắt cổ chai kiến thức (Knowledge Bottleneck) toàn chương trình.
 
-### 2. Bộ lọc Outlier IQR (Interquartile Range)
-- **Mục đích**: Loại bỏ các điểm số dị biệt (outliers) làm sai lệch mô hình (ví dụ: sinh viên bỏ học đột ngột hoặc các trường hợp đặc biệt khác).
-- **Cách hoạt động**: Xác định phân vị \`Q1\` (25%) và \`Q3\` (75%). Tính \`IQR = Q3 - Q1\`. Mọi điểm nằm ngoài khoảng \`[Q1 - 1.5 * IQR, Q3 + 1.5 * IQR]\` sẽ bị loại bỏ để đảm bảo dữ liệu huấn luyện sạch và chính xác.
+### 2. Các chỉ số CHƯA sử dụng (Hội đồng lưu ý)
+- **Hệ thống chưa sử dụng dữ liệu LMS và Attendance (điểm danh)** do nhà trường chưa kết nối hoặc cung cấp API dữ liệu thực tế này.
+- Vì vậy, kết quả hiện tại là **Early Academic Risk Assessment (Đánh giá Rủi ro Học thuật Sớm)** dựa trên **Knowledge Graph (Đồ thị tri thức)**, hoàn toàn khách quan, có cơ sở chứng minh và không giả định các con số hành vi (Burnout, Motivation) khi không có dữ liệu thực tế.
 
-### 3. Hiệu chuẩn Thống kê (Statistical Calibration)
-- **Điều chỉnh**: Điểm số dự báo được hiệu chuẩn dựa trên trọng số chuyên cần (Attendance), điểm Lab/Thực hành, và xu hướng học tập gần đây.
-- **Độ tin cậy**: Hệ thống liên tục cập nhật và hiệu chuẩn lại các tham số tương quan mỗi khi có dữ liệu điểm mới từ LMS để tăng độ chính xác dự báo thực tế.
+### 3. Phân tích Tương quan Pearson & Bộ lọc Outlier IQR
+- **Hệ số tương quan Pearson (r)**: Đo lường mức độ ảnh hưởng của điểm số môn nền tảng đối với môn chuyên ngành.
+- **Bộ lọc IQR (Interquartile Range)**: Loại bỏ các điểm số dị biệt (outliers) để đảm bảo độ tin cậy khi phân tích xu hướng học tập.
 
 💡 *Bạn có thể mô phỏng điểm số bằng tính năng 'What-If GPA Simulation' để xem dự báo rủi ro thay đổi thế nào dưới các kịch bản học tập khác nhau!*`,
     chartData: null,

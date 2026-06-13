@@ -31,18 +31,28 @@ function calculateBaseRisk(student) {
   totalScore += factors.LOW_GPA;
 
   // 2. ATTENDANCE
-  const studyingCourses = student.scores.filter(s => s.status === 'STUDYING' || s.status === 'FAILED');
-  const avgAttendance = studyingCourses.length > 0
-    ? studyingCourses.reduce((sum, s) => sum + (s.attendance || 100), 0) / studyingCourses.length
-    : 100;
+  const hasRealAttendance = student.scores.some(s => s.attendance !== null);
+  let avgAttendance = null;
   let attendanceScore = 0;
-  if (avgAttendance < RISK_THRESHOLDS.ATTENDANCE_CRITICAL) attendanceScore = 100;
-  else if (avgAttendance < RISK_THRESHOLDS.ATTENDANCE_WARNING) attendanceScore = 80;
-  else if (avgAttendance < RISK_THRESHOLDS.ATTENDANCE_NOTICE) attendanceScore = 55;
-  else if (avgAttendance < 90) attendanceScore = 20;
-
-  factors.ATTENDANCE_DROP = Math.round(attendanceScore * RISK_WEIGHTS.ATTENDANCE_DROP);
-  totalScore += factors.ATTENDANCE_DROP;
+  
+  if (hasRealAttendance) {
+    const studyingCourses = student.scores.filter(s => s.status === 'STUDYING' || s.status === 'FAILED');
+    avgAttendance = studyingCourses.length > 0
+      ? studyingCourses.reduce((sum, s) => sum + (s.attendance || 100), 0) / studyingCourses.length
+      : 100;
+      
+    const ccPercentage = avgAttendance <= 1.0 ? avgAttendance * 100 : avgAttendance;
+    
+    if (ccPercentage < RISK_THRESHOLDS.ATTENDANCE_CRITICAL) attendanceScore = 100;
+    else if (ccPercentage < RISK_THRESHOLDS.ATTENDANCE_WARNING) attendanceScore = 80;
+    else if (ccPercentage < RISK_THRESHOLDS.ATTENDANCE_NOTICE) attendanceScore = 55;
+    else if (ccPercentage < 90) attendanceScore = 20;
+    
+    factors.ATTENDANCE_DROP = Math.round(attendanceScore * RISK_WEIGHTS.ATTENDANCE_DROP);
+    totalScore += factors.ATTENDANCE_DROP;
+  } else {
+    factors.ATTENDANCE_DROP = 0;
+  }
 
   // 3. BEHAVIOR ANOMALY
   // Phân tích hành vi: nộp bài muộn, vi phạm nội quy, v.v. (tạm tính dựa trên số môn rớt hoặc điểm 0)

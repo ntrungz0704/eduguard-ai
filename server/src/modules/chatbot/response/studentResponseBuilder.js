@@ -583,21 +583,24 @@ ${fText}
 
 function buildExplainModelResponse() {
   return {
-    text: `# 🧠 Mô hình Dự báo Học tập HK-Pearson V2.1
+    text: `# 🧠 Mô hình Dự báo Học tập EduGuard — Early Academic Risk Assessment based on Knowledge Graph
 
-Hệ thống EduGuard sử dụng thuật toán **HK-Pearson V2.1** cải tiến để dự báo rủi ro học tập của sinh viên. Dưới đây là chi tiết nguyên lý hoạt động của mô hình:
+Hệ thống EduGuard dự báo rủi ro học tập của sinh viên dựa trên phân tích tương quan chuỗi kiến thức học thuật sẵn có. Dưới đây là chi tiết nguyên lý hoạt động của mô hình:
 
-### 1. Phân tích Tương quan Pearson
-- **Nguyên lý**: Thuật toán đo lường mức độ tương quan tuyến tính giữa điểm số các môn cơ sở/tiền quyết (ví dụ: điểm toán, lập trình cơ bản) với các môn chuyên ngành tiếp theo.
-- **Hệ số tương quan (r)**: Dao động từ \`-1\` đến \`1\`. Giá trị gần \`1\` thể hiện sự tương quan thuận mạnh mẽ (ví dụ: học tốt môn Database sẽ có xu hướng học tốt môn Java Web).
+### 1. Cơ sở Dự báo Học thuật (Academic Data-Driven Model)
+Dữ liệu đầu vào và các ràng buộc được sử dụng để tính toán bao gồm:
+- **Bảng điểm lịch sử (Student Transcript)**: Toàn bộ quá trình tích lũy điểm số thực tế của sinh viên tại trường.
+- **Chuỗi môn tiên quyết (Prerequisite Graph)**: Ràng buộc môn trước ảnh hưởng trực tiếp đến khả năng tiếp thu của các môn sau (ví dụ: WEB2063 → WEB502 → WEB2091).
+- **Chuẩn đầu ra môn học (CLO Mapping & Syllabus)**: Đánh giá dựa trên phân rã kỹ năng yêu cầu trong Đề cương chi tiết của 34 môn học.
+- **Biểu đồ phụ thuộc môn học (Subject Dependency Graph)**: Phân tích các nút thắt cổ chai kiến thức (Knowledge Bottleneck) toàn chương trình.
 
-### 2. Bộ lọc Outlier IQR (Interquartile Range)
-- **Mục đích**: Loại bỏ các điểm số dị biệt (outliers) làm sai lệch mô hình (ví dụ: sinh viên bỏ học đột ngột hoặc các trường hợp đặc biệt khác).
-- **Cách hoạt động**: Xác định phân vị \`Q1\` (25%) và \`Q3\` (75%). Tính \`IQR = Q3 - Q1\`. Mọi điểm nằm ngoài khoảng \`[Q1 - 1.5 * IQR, Q3 + 1.5 * IQR]\` sẽ bị loại bỏ để đảm bảo dữ liệu huấn luyện sạch và chính xác.
+### 2. Các chỉ số CHƯA sử dụng (Hội đồng lưu ý)
+- **Hệ thống chưa sử dụng dữ liệu LMS và Attendance (điểm danh)** do nhà trường chưa kết nối hoặc cung cấp API dữ liệu thực tế này.
+- Vì vậy, kết quả hiện tại là **Early Academic Risk Assessment (Đánh giá Rủi ro Học thuật Sớm)** dựa trên **Knowledge Graph (Đồ thị tri thức)**, hoàn toàn khách quan, có cơ sở chứng minh và không giả định các con số hành vi (Burnout, Motivation) khi không có dữ liệu thực tế.
 
-### 3. Hiệu chuẩn Thống kê (Statistical Calibration)
-- **Điều chỉnh**: Điểm số dự báo được hiệu chuẩn dựa trên trọng số chuyên cần (Attendance), điểm Lab/Thực hành, và xu hướng học tập gần đây.
-- **Độ tin cậy**: Hệ thống liên tục cập nhật và hiệu chuẩn lại các tham số tương quan mỗi khi có dữ liệu điểm mới từ LMS để tăng độ chính xác dự báo thực tế.
+### 3. Phân tích Tương quan Pearson & Bộ lọc Outlier IQR
+- **Hệ số tương quan Pearson (r)**: Đo lường mức độ ảnh hưởng của điểm số môn nền tảng đối với môn chuyên ngành.
+- **Bộ lọc IQR (Interquartile Range)**: Loại bỏ các điểm số dị biệt (outliers) để đảm bảo độ tin cậy khi phân tích xu hướng học tập.
 
 💡 *Bạn có thể mô phỏng điểm số bằng tính năng 'What-If GPA Simulation' để xem dự báo rủi ro thay đổi thế nào dưới các kịch bản học tập khác nhau!*`,
     chartData: null,

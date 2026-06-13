@@ -16,11 +16,12 @@ function explainRisk(student) {
     });
   }
 
-  if (baseRisk.factors.ATTENDANCE_DROP > 0) {
+  if (baseRisk.factors.ATTENDANCE_DROP > 0 && baseRisk.avgAttendance !== null) {
+    const ccVal = baseRisk.avgAttendance <= 1.0 ? baseRisk.avgAttendance * 100 : baseRisk.avgAttendance;
     reasons.push({
       factor: 'Chuyên cần',
       impact: baseRisk.factors.ATTENDANCE_DROP,
-      detail: `Chuyên cần trung bình: ${Math.round(baseRisk.avgAttendance)}%`
+      detail: `Chuyên cần trung bình: ${Math.round(ccVal)}%`
     });
   }
 
