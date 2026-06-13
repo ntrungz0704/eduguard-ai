@@ -529,7 +529,7 @@ function OverviewTab({ data, curriculumCourses, stats }) {
 // ─────────────────────────────────────────────
 //  Grades Tab
 // ─────────────────────────────────────────────
-function GradesTab({ curriculumCourses }) {
+function GradesTab({ curriculumCourses, courseDependencies }) {
   const [filter, setFilter] = useState('all');
 
   const stats = calculateFptStats(curriculumCourses);
@@ -571,12 +571,13 @@ function GradesTab({ curriculumCourses }) {
       <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl">
         <div className="grid grid-cols-12 px-6 py-4 border-b border-slate-200 dark:border-white/5 text-[11px] text-slate-500 font-bold uppercase tracking-wider bg-slate-950/20">
           <span className="col-span-3">Môn học</span>
-          <span className="col-span-2 text-center">Học kỳ</span>
+          <span className="col-span-1 text-center">Học kỳ</span>
           <span className="col-span-1 text-center">Tín chỉ</span>
-          <span className="col-span-2 text-center">Điểm hệ 10</span>
+          <span className="col-span-1 text-center">Điểm hệ 10</span>
           <span className="col-span-1 text-center">Điểm hệ 4</span>
           <span className="col-span-1 text-center">Điểm chữ</span>
-          <span className="col-span-2 text-center">Trạng thái</span>
+          <span className="col-span-1 text-center">Trạng thái</span>
+          <span className="col-span-3">Cảnh báo nguy cơ</span>
         </div>
 
         {filteredCourses.length === 0 ? (
@@ -588,6 +589,7 @@ function GradesTab({ curriculumCourses }) {
           <div className="divide-y divide-white/5">
             {filteredCourses.map((c, i) => (
               <div key={i} className="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/2 transition-colors">
+                {/* Course name - col-span-3 */}
                 <div className="col-span-3 flex items-center gap-3">
                   {c.status === 'PASSED' && <CheckCircle size={15} className="text-emerald-500 shrink-0" />}
                   {c.status === 'FAILED' && <AlertCircle size={15} className="text-rose-500 shrink-0" />}
@@ -597,15 +599,18 @@ function GradesTab({ curriculumCourses }) {
                   <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{c.courseId}</span>
                 </div>
                 
-                <div className="col-span-2 text-center text-xs font-semibold text-slate-600 dark:text-slate-400">
+                {/* Semester - col-span-1 */}
+                <div className="col-span-1 text-center text-xs font-semibold text-slate-600 dark:text-slate-400">
                   {c.semester || '—'}
                 </div>
 
+                {/* Credits - col-span-1 */}
                 <div className="col-span-1 text-center text-xs font-bold text-slate-600 dark:text-slate-400">
                   {c.credits}
                 </div>
 
-                <div className="col-span-2 flex justify-center items-center gap-1.5">
+                {/* Score 10 - col-span-1 */}
+                <div className="col-span-1 flex justify-center items-center gap-1.5">
                   {c.value !== null ? (
                     <>
                       <span className="text-sm font-black" style={{ color: scoreColor(c.value) }}>
@@ -620,10 +625,12 @@ function GradesTab({ curriculumCourses }) {
                   )}
                 </div>
 
+                {/* Score 4 - col-span-1 */}
                 <div className="col-span-1 text-center text-xs font-bold text-slate-700 dark:text-slate-300">
                   {c.value !== null ? get40Scale(c.value).toFixed(2) : '—'}
                 </div>
 
+                {/* Letter - col-span-1 */}
                 <div className="col-span-1 text-center text-xs font-black text-slate-900 dark:text-white">
                   {c.value !== null ? (
                     <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block min-w-[32px] text-center">
@@ -632,7 +639,8 @@ function GradesTab({ curriculumCourses }) {
                   ) : '—'}
                 </div>
 
-                <div className="col-span-2 flex justify-center">
+                {/* Status - col-span-1 */}
+                <div className="col-span-1 flex justify-center">
                   <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border uppercase ${
                     c.status === 'PASSED' ? 'bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-400' :
                     c.status === 'FAILED' ? 'bg-rose-500/10 border-rose-200 dark:border-rose-500/20 text-rose-400' :
@@ -643,6 +651,60 @@ function GradesTab({ curriculumCourses }) {
                      c.status === 'FAILED' ? 'Học lại' :
                      c.status === 'STUDYING' ? 'Đang học' : 'Chưa học'}
                   </span>
+                </div>
+
+                {/* Risk Warning - col-span-3 - NEW */}
+                <div className="col-span-3">
+                  {(() => {
+                    // Look up course dependencies
+                    const cleanId = c.courseId.toLowerCase().replace(/\s+/g, '');
+                    const dep = courseDependencies ? Object.entries(courseDependencies).find(([key]) => {
+                      const cleanKey = key.toLowerCase().replace(/\s+/g, '');
+                      return cleanKey === cleanId || cleanId.includes(cleanKey) || cleanKey.includes(cleanId);
+                    }) : null;
+                    const depData = dep ? dep[1] : null;
+                    const affects = depData?.affects || [];
+                    
+                    if (c.status === 'NOT_STARTED' || c.value === null) {
+                      return <span className="text-[10px] text-slate-500 italic">Chưa có dữ liệu</span>;
+                    }
+                    
+                    if (c.status === 'FAILED' && affects.length > 0) {
+                      return (
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black text-rose-400 flex items-center gap-1">
+                            <AlertCircle size={12} /> Chặn tiến độ
+                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {affects.map((aff, j) => (
+                              <span key={j} className="text-[9px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded">{aff}</span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    
+                    if (c.value < 7.0 && affects.length > 0) {
+                      return (
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-black text-amber-400 flex items-center gap-1">
+                            <AlertCircle size={12} /> Có thể ảnh hưởng
+                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {affects.map((aff, j) => (
+                              <span key={j} className="text-[9px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">{aff}</span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    }
+                    
+                    if (c.value >= 7.0) {
+                      return <span className="text-[10px] font-bold text-emerald-400 flex items-center gap-1"><CheckCircle size={12} /> An toàn</span>;
+                    }
+                    
+                    return <span className="text-[10px] text-slate-500">—</span>;
+                  })()}
                 </div>
               </div>
             ))}
@@ -1768,7 +1830,7 @@ export default function StudentDashboard() {
 
       {/* ── Dynamic Tab Content Render ── */}
       {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} stats={stats} />}
-      {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} />}
+      {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}
 

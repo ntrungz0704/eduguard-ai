@@ -179,6 +179,22 @@ function saveIntervention(studentId, subject, intervened) {
 }
 
 // ============================================================
+// API: Get course dependency knowledge graph
+// ============================================================
+router.get('/knowledge/dependencies', (req, res) => {
+  try {
+    const depPath = path.join(__dirname, '..', '..', 'data', 'knowledge', 'course_dependency.json');
+    if (fs.existsSync(depPath)) {
+      const data = JSON.parse(fs.readFileSync(depPath, 'utf8'));
+      return res.json({ data });
+    }
+    res.json({ data: {} });
+  } catch (e) {
+    res.json({ data: {} });
+  }
+});
+
+// ============================================================
 // API: Get pre-trained data info
 // ============================================================
 router.get('/training-info', (req, res) => {

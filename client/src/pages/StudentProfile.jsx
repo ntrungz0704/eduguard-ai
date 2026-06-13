@@ -109,6 +109,8 @@ export default function StudentProfile() {
   const [dssReport, setDssReport] = useState(null);
   const [loadingDss, setLoadingDss] = useState(false);
   const [activeTab, setActiveTab] = useState('transcript');
+  const [curriculum, setCurriculum] = useState([]);
+  const [courseDependencies, setCourseDependencies] = useState({});
 
   const fetchStudentProfile = async () => {
     setLoading(true);
@@ -126,6 +128,15 @@ export default function StudentProfile() {
       } catch (dssErr) {
         console.error('Failed to fetch DSS report:', dssErr);
       }
+      // Fetch curriculum order & course dependencies for risk correlation
+      try {
+        const currRes = await api.get('/training-info');
+        setCurriculum(currRes.data.curriculumOrder || []);
+      } catch (_) { console.warn('Failed to fetch curriculum'); }
+      try {
+        const depRes = await api.get('/knowledge/dependencies');
+        setCourseDependencies(depRes.data.data || {});
+      } catch (_) { console.warn('Failed to fetch course dependencies'); }
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.error || 'Không thể lấy thông tin sinh viên');
@@ -421,6 +432,98 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
       name: s.courseId,
       score: s.value
     }));
+
+  // ── Build allCourses: merge curriculum (34 courses) + student scores ──
+  const buildAllCourses = () => {
+    const scoreMap = {};
+    scoreEntries.forEach(s => { scoreMap[s.courseId] = s; });
+    const usedIds = new Set();
+    
+    // Soft match: find a score entry that matches the curriculum course ID
+    const findScore = (currId) => {
+      if (scoreMap[currId]) { usedIds.add(currId); return scoreMap[currId]; }
+      const clean = currId.toLowerCase().replace(/\s+/g, '');
+      const found = scoreEntries.find(s => {
+        if (usedIds.has(s.courseId)) return false;
+        const cs = s.courseId.toLowerCase().replace(/\s+/g, '');
+        const cn = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
+        return cs === clean || cs.includes(clean) || clean.includes(cs) || cn === clean || cn.includes(clean) || clean.includes(cn);
+      });
+      if (found) usedIds.add(found.courseId);
+      return found;
+    };
+
+    const result = curriculum.map(courseId => {
+      const scoreObj = findScore(courseId);
+      return {
+        courseId,
+        courseName: scoreObj?.course?.name || courseId,
+        value: scoreObj?.value ?? null,
+        status: scoreObj?.status || 'NOT_STARTED',
+        semester: scoreObj?.semester || '',
+        credits: scoreObj?.course?.credits || getCourseCredits(courseId),
+        courseData: scoreObj?.course || null,
+        prediction: student.predictions?.find(p => p.courseId === (scoreObj?.courseId || courseId))
+      };
+    });
+
+    // Append any student scores that weren't matched to the curriculum
+    scoreEntries.forEach(s => {
+      if (!usedIds.has(s.courseId)) {
+        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+        const already = result.some(r => {
+          const cleanR = r.courseId.toLowerCase().replace(/\s+/g, '');
+          return cleanR === cleanS || cleanR.includes(cleanS) || cleanS.includes(cleanR);
+        });
+        if (!already) {
+          result.push({
+            courseId: s.course?.name || s.courseId,
+            courseName: s.course?.name || s.courseId,
+            value: s.value,
+            status: s.status,
+            semester: s.semester || '',
+            credits: s.course?.credits || getCourseCredits(s.courseId),
+            courseData: s.course || null,
+            prediction: student.predictions?.find(p => p.courseId === s.courseId)
+          });
+        }
+      }
+    });
+
+    return result;
+  };
+  const allCourses = curriculum.length > 0 ? buildAllCourses() : scoreEntries.map(s => ({
+    courseId: s.courseId,
+    courseName: s.course?.name || s.courseId,
+    value: s.value,
+    status: s.status,
+    semester: s.semester || '',
+    credits: s.course?.credits || getCourseCredits(s.courseId),
+    courseData: s.course || null,
+    prediction: student.predictions?.find(p => p.courseId === s.courseId)
+  }));
+
+  // ── Helper: look up course dependency data for risk warnings ──
+  const findDependency = (courseId) => {
+    if (!courseDependencies || Object.keys(courseDependencies).length === 0) return null;
+    const clean = courseId.toLowerCase().replace(/\s+/g, '');
+    const entry = Object.entries(courseDependencies).find(([key]) => {
+      const k = key.toLowerCase().replace(/\s+/g, '');
+      return k === clean || clean.includes(k) || k.includes(clean);
+    });
+    return entry ? entry[1] : null;
+  };
+
+  // ── Filter state for grade table ──
+  const [semesterFilter, setSemesterFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  
+  const semesters = [...new Set(allCourses.filter(c => c.semester).map(c => c.semester))];
+  const filteredAllCourses = allCourses.filter(c => {
+    if (semesterFilter !== 'all' && c.semester !== semesterFilter) return false;
+    if (statusFilter !== 'all' && c.status !== statusFilter) return false;
+    return true;
+  });
 
   const renderDssReport = () => {
     if (loadingDss || !dssReport) {
@@ -892,60 +995,154 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 </div>
               )}
 
-              {/* Academic Transcripts */}
+              {/* Academic Transcripts - BẢNG ĐIỂM & CẢNH BÁO NGUY CƠ */}
               <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                  <BookOpen size={20} className="text-purple-400"/> Lịch sử Điểm số Học thuật Chi Tiết
-                </h3>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <BookOpen size={20} className="text-purple-400"/> BẢNG ĐIỂM & CẢNH BÁO NGUY CƠ
+                  </h3>
+                  <div className="flex items-center gap-3">
+                    <select value={semesterFilter} onChange={e => setSemesterFilter(e.target.value)}
+                      className="px-3 py-2 bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none">
+                      <option value="all">Tất cả các học kỳ</option>
+                      {semesters.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                    <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
+                      className="px-3 py-2 bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 outline-none">
+                      <option value="all">Tất cả trạng thái</option>
+                      <option value="PASSED">Đạt</option>
+                      <option value="FAILED">Không đạt</option>
+                      <option value="STUDYING">Đang học</option>
+                      <option value="NOT_STARTED">Chưa học</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full text-left border-collapse min-w-[900px]">
                     <thead>
                       <tr className="text-slate-600 dark:text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-white/10">
-                        <th className="p-4 font-semibold">Mã môn</th>
-                        <th className="p-4 font-semibold">Tên Môn học</th>
-                        <th className="p-4 font-semibold">Tín chỉ</th>
-                        <th className="p-4 font-semibold">Kỳ học</th>
-                        <th className="p-4 font-semibold">Điểm hệ 10</th>
-                        <th className="p-4 font-semibold">Điểm hệ 4</th>
-                        <th className="p-4 font-semibold">Điểm chữ</th>
-                        <th className="p-4 font-semibold">Trạng thái</th>
+                        <th className="p-3 font-semibold">Mã môn</th>
+                        <th className="p-3 font-semibold">Tên Môn học</th>
+                        <th className="p-3 font-semibold text-center">Số tín chỉ</th>
+                        <th className="p-3 font-semibold text-center">Điểm quá trình</th>
+                        <th className="p-3 font-semibold text-center">Điểm thi</th>
+                        <th className="p-3 font-semibold text-center">Tổng kết</th>
+                        <th className="p-3 font-semibold text-center">Hệ chữ (4)</th>
+                        <th className="p-3 font-semibold text-center">Trạng thái</th>
+                        <th className="p-3 font-semibold">Hành động</th>
                       </tr>
                     </thead>
                     <tbody className="text-sm">
-                      {scoreEntries.map((score, i) => (
-                        <tr key={i} className="border-b border-slate-200 dark:border-white/5 hover:bg-white/5 transition-colors">
-                          <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{score.courseId}</td>
-                          <td className="p-4 text-slate-900 dark:text-white font-medium">{score.course?.name || score.courseId}</td>
-                          <td className="p-4 text-slate-600 dark:text-slate-400">{getCourseCredits(score.courseId)} TC</td>
-                          <td className="p-4 text-slate-500">{score.semester || 'Summer 2025'}</td>
-                          <td className="p-4">
-                            <span className={`text-base font-black ${score.value >= 8 ? 'text-emerald-400' : score.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
-                              {score.value !== null ? score.value.toFixed(1) : '—'}
-                            </span>
-                          </td>
-                          <td className="p-4 text-slate-700 dark:text-slate-300 font-bold">
-                            {score.value !== null ? get40Scale(score.value).toFixed(2) : '—'}
-                          </td>
-                          <td className="p-4">
-                            {score.value !== null ? (
-                              <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block text-xs font-black text-slate-900 dark:text-white">
-                                {getLetterGrade(score.value)}
-                              </span>
-                            ) : '—'}
-                          </td>
-                          <td className="p-4">
-                            {score.status === 'PASSED' ? (
-                              <span className="bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><CheckCircle2 size={12}/> Đạt</span>
-                            ) : score.status === 'FAILED' ? (
-                              <span className="bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><XCircle size={12}/> Không đạt</span>
-                            ) : (
-                              <span className="bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full text-xs font-bold inline-flex items-center gap-1"><Clock size={12}/> Đang học</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
+                      {filteredAllCourses.map((c, i) => {
+                        const dep = findDependency(c.courseId);
+                        const affects = dep?.affects || [];
+                        const hasLowScore = c.value !== null && c.value < 7.0 && c.status !== 'NOT_STARTED';
+                        const isFailed = c.status === 'FAILED';
+                        const isNotStarted = c.status === 'NOT_STARTED';
+                        
+                        // Find corresponding score entry for quiz/assignment/final breakdown
+                        const scoreObj = scoreEntries.find(s => {
+                          const cleanC = c.courseId.toLowerCase().replace(/\s+/g, '');
+                          const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+                          const cleanN = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
+                          return cleanS === cleanC || cleanS.includes(cleanC) || cleanC.includes(cleanS) || cleanN === cleanC;
+                        });
+                        const processScore = scoreObj ? (
+                          scoreObj.quiz != null ? scoreObj.quiz :
+                          scoreObj.assignment != null ? scoreObj.assignment :
+                          scoreObj.asm1 != null ? scoreObj.asm1 : null
+                        ) : null;
+                        const examScore = scoreObj?.final ?? null;
+                        
+                        return (
+                          <tr key={i} className={`border-b border-slate-200 dark:border-white/5 hover:bg-white/5 transition-colors ${isNotStarted ? 'opacity-50' : ''}`}>
+                            <td className="p-3 font-bold text-slate-700 dark:text-slate-300 text-xs">{c.courseId}</td>
+                            <td className="p-3 text-slate-900 dark:text-white font-medium text-xs max-w-[160px] truncate" title={c.courseName}>{c.courseName}</td>
+                            <td className="p-3 text-slate-600 dark:text-slate-400 text-center text-xs">{c.credits}</td>
+                            <td className="p-3 text-center">
+                              {processScore !== null ? (
+                                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{processScore.toFixed(1)}</span>
+                              ) : <span className="text-xs text-slate-500">—</span>}
+                            </td>
+                            <td className="p-3 text-center">
+                              {examScore !== null ? (
+                                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{examScore.toFixed(1)}</span>
+                              ) : <span className="text-xs text-slate-500">—</span>}
+                            </td>
+                            <td className="p-3 text-center">
+                              {c.value !== null ? (
+                                <span className={`text-sm font-black ${c.value >= 8 ? 'text-emerald-400' : c.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
+                                  {c.value.toFixed(1)}
+                                </span>
+                              ) : <span className="text-xs text-slate-500">—</span>}
+                            </td>
+                            <td className="p-3 text-center">
+                              {c.value !== null ? (
+                                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{getLetterGrade(c.value)}</span>
+                              ) : <span className="text-xs text-slate-500">—</span>}
+                            </td>
+                            <td className="p-3 text-center">
+                              {c.status === 'PASSED' ? (
+                                <span className="bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full text-[10px] font-bold inline-flex items-center gap-1"><CheckCircle2 size={10}/> Đạt</span>
+                              ) : c.status === 'FAILED' ? (
+                                <span className="bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-400 px-2 py-0.5 rounded-full text-[10px] font-bold inline-flex items-center gap-1"><XCircle size={10}/> Trượt</span>
+                              ) : c.status === 'NOT_STARTED' ? (
+                                <span className="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 text-slate-500 px-2 py-0.5 rounded-full text-[10px] font-bold">Chưa học</span>
+                              ) : (
+                                <span className="bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full text-[10px] font-bold inline-flex items-center gap-1"><Clock size={10}/> Đang học</span>
+                              )}
+                            </td>
+                            <td className="p-3">
+                              {(() => {
+                                if (isNotStarted) {
+                                  return affects.length > 0 ? (
+                                    <span className="text-[9px] text-slate-500 italic">Tiên quyết cho: {affects.slice(0, 2).join(', ')}</span>
+                                  ) : null;
+                                }
+                                if (isFailed && affects.length > 0) {
+                                  return (
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] font-black text-rose-400 flex items-center gap-1">
+                                        <AlertTriangle size={11} /> Chặn tiến độ
+                                      </span>
+                                      <div className="flex flex-wrap gap-1">
+                                        {affects.map((aff, j) => (
+                                          <span key={j} className="text-[9px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded">{aff}</span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                                if (hasLowScore && affects.length > 0) {
+                                  return (
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] font-black text-amber-400 flex items-center gap-1">
+                                        <AlertTriangle size={11} /> Ảnh hưởng
+                                      </span>
+                                      <div className="flex flex-wrap gap-1">
+                                        {affects.map((aff, j) => (
+                                          <span key={j} className="text-[9px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">{aff}</span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                                if (c.value !== null && c.value >= 7.0) {
+                                  return <span className="text-[10px] font-bold text-emerald-400 flex items-center gap-1"><CheckCircle2 size={11}/> An toàn</span>;
+                                }
+                                return null;
+                              })()}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
+                </div>
+                <div className="mt-4 text-[10px] text-slate-500 italic flex items-center gap-2">
+                  <span>Hiển thị {filteredAllCourses.length}/{allCourses.length} môn học</span>
+                  <span className="w-1 h-1 rounded-full bg-slate-600"></span>
+                  <span>Chưa có điểm: không tính vào GPA trung bình</span>
                 </div>
               </div>
             </>
