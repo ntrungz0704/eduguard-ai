@@ -65,7 +65,7 @@ const getCourseName = (courseNameOrId) => {
 };
 
 async function main() {
-  console.log('🌱 Start seeding historical training data...');
+  console.log('🌱 Start seeding historical training data (upsert mode - preserves new data)...');
   
   // Read training_data.json
   const dataPath = path.join(__dirname, '..', 'server', 'src', 'datasets', 'training_data.json');
@@ -80,28 +80,27 @@ async function main() {
   
   console.log(`📊 Found ${subjects.length} curriculum subjects and ${students.length} students in JSON.`);
   
-  // 1. Clean existing records first
-  console.log('🧹 Cleaning up database tables...');
-  await prisma.learningTask.deleteMany({});
-  await prisma.learningBoard.deleteMany({});
-  await prisma.prediction.deleteMany({});
-  await prisma.intervention.deleteMany({});
-  await prisma.score.deleteMany({});
-  await prisma.student.deleteMany({});
-  await prisma.course.deleteMany({});
-  await prisma.user.deleteMany({});
-  console.log('✅ Database cleaned.');
+  // =====================================================
+  // UPSERT MODE: Không xóa DB, chỉ thêm/cập nhật dữ liệu gốc
+  // SV mới thêm qua app sẽ được GIỮ NGUYÊN
+  // =====================================================
 
-  // 1.5. Seed Demo Users (SQLite doesn't support createMany, use transaction with create)
-  console.log('👤 Seeding Demo Users...');
-  await prisma.$transaction([
-    prisma.user.create({ data: { email: 'admin@eduguard.ai', name: 'Admin EduGuard', role: 'ADMIN' } }),
-    prisma.user.create({ data: { email: 'advisor@eduguard.ai', name: 'Advisor Demo', role: 'ADVISOR' } })
-  ]);
-  console.log('✅ Demo users seeded.');
+  // 1. Upsert Demo Users
+  console.log('👤 Upserting Demo Users...');
+  await prisma.user.upsert({
+    where: { email: 'admin@eduguard.ai' },
+    update: { name: 'Admin EduGuard', role: 'ADMIN' },
+    create: { email: 'admin@eduguard.ai', name: 'Admin EduGuard', role: 'ADMIN' }
+  });
+  await prisma.user.upsert({
+    where: { email: 'advisor@eduguard.ai' },
+    update: { name: 'Advisor Demo', role: 'ADVISOR' },
+    create: { email: 'advisor@eduguard.ai', name: 'Advisor Demo', role: 'ADVISOR' }
+  });
+  console.log('✅ Demo users ready.');
   
-  // 2. Extract and Seed all unique Courses
-  console.log('📚 Scanning and Seeding Courses dynamically...');
+  // 2. Extract and Upsert all unique Courses
+  console.log('📚 Scanning and Upserting Courses dynamically...');
   const courseIds = new Map();
   subjects.forEach(subject => courseIds.set(normalizeCourseId(subject), getCourseName(subject)));
   for (const s of students) {
@@ -114,7 +113,6 @@ async function main() {
   
   const { getCourseCredits } = require('../server/src/utils/dataService');
 
-  // Use upsert for courses sequentially (works on SQLite, avoids Prisma Rust Engine panic)
   for (const [id, name] of courseIds.entries()) {
     const credits = getCourseCredits(id);
     await prisma.course.upsert({
@@ -128,57 +126,69 @@ async function main() {
       },
     });
   }
-  console.log(`✅ ${courseIds.size} unique courses seeded successfully.`);
+  console.log(`✅ ${courseIds.size} unique courses ready.`);
   
-  // 3. Batch Seed Students using $transaction (SQLite compatible)
-  console.log('👥 Batching student profiles...');
-  const studentData = students.map((s) => ({
-    mssv: s.id,
-    name: s.name || `Sinh viên ${s.id}`,
-    classCode: 'WD18301',
-  }));
+  // 3. Upsert Students (giữ nguyên SV mới thêm qua app)
+  console.log('👥 Upserting student profiles...');
+  const BATCH_SIZE = 50; // Smaller batch for upsert operations
+  let upsertedCount = 0;
+  let skippedCount = 0;
   
-  console.log(`🚀 Inserting ${studentData.length} students...`);
-  // Batch in chunks to avoid SQLite variables limits
-  const BATCH_SIZE = 500;
-  for (let i = 0; i < studentData.length; i += BATCH_SIZE) {
-    const batch = studentData.slice(i, i + BATCH_SIZE);
+  for (let i = 0; i < students.length; i += BATCH_SIZE) {
+    const batch = students.slice(i, i + BATCH_SIZE);
     await prisma.$transaction(
-      batch.map(s => prisma.student.create({ data: s }))
+      batch.map(s => prisma.student.upsert({
+        where: { mssv: s.id },
+        update: {}, // Không ghi đè name/classCode nếu đã tồn tại (có thể đã được sửa qua app)
+        create: {
+          mssv: s.id,
+          name: s.name || `Sinh viên ${s.id}`,
+          classCode: 'WD18301',
+        }
+      }))
     );
+    upsertedCount += batch.length;
   }
-  console.log('✅ Student profiles seeded.');
+  console.log(`✅ ${upsertedCount} student profiles ready (existing students preserved).`);
   
-  // 4. Batch Seed Scores
-  console.log('✍️ Batching student score history...');
-  const scoreCreates = [];
+  // 4. Upsert Scores (chỉ chèn điểm gốc nếu chưa có, không ghi đè điểm mới)
+  console.log('✍️ Upserting student score history...');
+  let scoreCount = 0;
+  
   for (const s of students) {
     const mssv = s.id;
-    for (const [subName, scoreVal] of Object.entries(s.scores || {})) {
-      if (scoreVal === null) continue;
-      
-      const status = (scoreVal >= 5 || scoreVal === 1.0) ? 'PASSED' : 'FAILED';
-      scoreCreates.push({
-        mssv,
-        courseId: normalizeCourseId(subName),
-        value: scoreVal,
-        semester: 'Summer 2025',
-        status,
-      });
+    const scoreEntries = Object.entries(s.scores || {}).filter(([, v]) => v !== null);
+    
+    for (let i = 0; i < scoreEntries.length; i += BATCH_SIZE) {
+      const batch = scoreEntries.slice(i, i + BATCH_SIZE);
+      for (const [subName, scoreVal] of batch) {
+        const courseId = normalizeCourseId(subName);
+        const status = (scoreVal >= 5 || scoreVal === 1.0) ? 'PASSED' : 'FAILED';
+        
+        // Kiểm tra xem điểm đã tồn tại chưa (theo mssv + courseId)
+        const existing = await prisma.score.findFirst({
+          where: { mssv, courseId }
+        });
+        
+        if (!existing) {
+          await prisma.score.create({
+            data: {
+              mssv,
+              courseId,
+              value: scoreVal,
+              semester: 'Summer 2025',
+              status,
+            }
+          });
+          scoreCount++;
+        }
+      }
     }
   }
-  
-  console.log(`🚀 Inserting ${scoreCreates.length} score records...`);
-  for (let i = 0; i < scoreCreates.length; i += BATCH_SIZE) {
-    const batch = scoreCreates.slice(i, i + BATCH_SIZE);
-    await prisma.$transaction(
-      batch.map(s => prisma.score.create({ data: s }))
-    );
-  }
-  console.log('✅ Grade history seeded.');
+  console.log(`✅ Score history ready (${scoreCount} new records inserted, existing scores preserved).`);
 
-  // 5. Insert Special Demo Cases (For Demo / UI)
-  console.log('🎭 Inserting Special Demo Cases...');
+  // 5. Upsert Special Demo Cases
+  console.log('🎭 Upserting Special Demo Cases...');
   const demoStudents = [
     {
       mssv: 'PS21034',
@@ -214,29 +224,38 @@ async function main() {
     }
   ];
 
-  await prisma.$transaction(
-    demoStudents.map(s => prisma.student.create({ data: { mssv: s.mssv, name: s.name, classCode: s.classCode } }))
-  );
+  for (const s of demoStudents) {
+    await prisma.student.upsert({
+      where: { mssv: s.mssv },
+      update: {},
+      create: { mssv: s.mssv, name: s.name, classCode: s.classCode }
+    });
+  }
 
-  const demoScores = [];
   for (const s of demoStudents) {
     for (const [courseId, scoreData] of Object.entries(s.scores)) {
-      demoScores.push({
-        mssv: s.mssv,
-        courseId: normalizeCourseId(courseId),
-        value: scoreData.value,
-        status: scoreData.status,
-        attendance: scoreData.attendance,
-        semester: 'Fall 2025'
+      if (scoreData.value === null) continue;
+      const cId = normalizeCourseId(courseId);
+      const existing = await prisma.score.findFirst({
+        where: { mssv: s.mssv, courseId: cId }
       });
+      if (!existing) {
+        await prisma.score.create({
+          data: {
+            mssv: s.mssv,
+            courseId: cId,
+            value: scoreData.value,
+            status: scoreData.status,
+            attendance: scoreData.attendance,
+            semester: 'Fall 2025'
+          }
+        });
+      }
     }
   }
-  await prisma.$transaction(
-    demoScores.map(s => prisma.score.create({ data: s }))
-  );
   
-  // 6. Generate Predictions for Demo Cases
-  console.log('🔮 Generating AI Predictions for Demo Cases...');
+  // 6. Upsert Predictions for Demo Cases
+  console.log('🔮 Upserting AI Predictions for Demo Cases...');
   const demoPredictions = [
     {
       mssv: 'PS21034',
@@ -277,13 +296,18 @@ async function main() {
     }
   ];
 
-  await prisma.$transaction(
-    demoPredictions.map(p => prisma.prediction.create({ data: p }))
-  );
-  console.log('✅ AI Predictions seeded.');
+  for (const p of demoPredictions) {
+    const existing = await prisma.prediction.findFirst({
+      where: { mssv: p.mssv, courseId: p.courseId }
+    });
+    if (!existing) {
+      await prisma.prediction.create({ data: p });
+    }
+  }
+  console.log('✅ AI Predictions ready.');
 
-  // 7. Seed Learning Boards and Tasks for Career Distribution Demo
-  console.log('📋 Seeding Learning Boards and Tasks for Career Distribution Dashboard...');
+  // 7. Upsert Learning Boards and Tasks for Career Distribution Demo
+  console.log('📋 Upserting Learning Boards and Tasks for Career Distribution Dashboard...');
   
   const frontendCount = 35;
   const backendCount = 20;
@@ -384,24 +408,31 @@ async function main() {
   backendStudents.forEach(id => createBoardWithTasks(id, 'backend-developer', backendSkills));
   aiStudents.forEach(id => createBoardWithTasks(id, 'ai-engineer', aiSkills));
   
-  console.log(`🚀 Inserting ${boardsToCreate.length} Learning Boards...`);
-  for (let i = 0; i < boardsToCreate.length; i += BATCH_SIZE) {
-    const batch = boardsToCreate.slice(i, i + BATCH_SIZE);
-    await prisma.$transaction(
-      batch.map(b => prisma.learningBoard.create({ data: b }))
-    );
+  console.log(`🚀 Upserting ${boardsToCreate.length} Learning Boards...`);
+  for (const b of boardsToCreate) {
+    await prisma.learningBoard.upsert({
+      where: { id: b.id },
+      update: {},
+      create: b
+    });
   }
   
-  console.log(`🚀 Inserting ${tasksToCreate.length} Learning Tasks...`);
-  for (let i = 0; i < tasksToCreate.length; i += BATCH_SIZE) {
-    const batch = tasksToCreate.slice(i, i + BATCH_SIZE);
-    await prisma.$transaction(
-      batch.map(t => prisma.learningTask.create({ data: t }))
-    );
+  console.log(`🚀 Upserting ${tasksToCreate.length} Learning Tasks...`);
+  for (const t of tasksToCreate) {
+    const existing = await prisma.learningTask.findFirst({
+      where: { boardId: t.boardId, taskId: t.taskId }
+    });
+    if (!existing) {
+      await prisma.learningTask.create({ data: t });
+    }
   }
-  console.log('✅ Learning Boards and Tasks seeded.');
+  console.log('✅ Learning Boards and Tasks ready.');
 
-  console.log('🎉 Seeding completed successfully!');
+  // 8. Thống kê cuối cùng
+  const totalStudents = await prisma.student.count();
+  const totalScores = await prisma.score.count();
+  console.log(`\n📊 Database Summary: ${totalStudents} students, ${totalScores} scores in DB.`);
+  console.log('🎉 Seeding completed successfully! (All existing data preserved)');
 }
 
 main()
