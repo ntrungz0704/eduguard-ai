@@ -3,10 +3,11 @@ import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 're
 import { useStore } from './store';
 import { api } from './lib/api';
 import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap, Briefcase, KanbanSquare } from 'lucide-react';
-import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2 } from 'lucide-react';
+import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2, Layers } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
 import Dashboard from './pages/Dashboard';
+import ProgramAnalytics from './pages/ProgramAnalytics';
 import Predict from './pages/Predict';
 import GPA from './pages/GPA';
 import StudentSearch from './pages/StudentSearch';
@@ -29,6 +30,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const advisorNavItems = [
     { path: '/', icon: <LayoutDashboard size={20} />, label: 'Tổng quan (Dashboard)' },
     { path: '/search', icon: <Search size={20} />, label: 'Tra cứu học vụ' },
+    { path: '/program-analytics', icon: <Layers size={20} />, label: 'Thống kê Chương trình (DSS)' },
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/ai-metrics', icon: <BarChart2 size={20} />, label: 'Đánh giá AI (LOOCV)' },
@@ -332,6 +334,7 @@ function App() {
                   <>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/search" element={<StudentSearch />} />
+                    <Route path="/program-analytics" element={<ProgramAnalytics />} />
                     <Route path="/predict" element={<Predict />} />
                     <Route path="/ai-metrics" element={<AIMetrics />} />
                     <Route path="/import-data" element={<DataImport />} />

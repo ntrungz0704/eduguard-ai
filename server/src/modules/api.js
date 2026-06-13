@@ -1417,6 +1417,20 @@ router.get('/students-search', async (req, res) => {
 // ============================================================
 async function smartLocalReply(msg, student, isStudent, userId, nlpIntent = 'None') {
   const msgLower = (msg || '').toLowerCase().trim();
+  const { explainRisk, generateAcademicTimeline } = require('../ai/engines/index');
+  function calculateExplainableRisk(st) {
+    const explained = explainRisk(st);
+    return {
+      riskScore: explained.riskScore,
+      riskLevel: explained.level,
+      failedCourses: explained.failedCourses || [],
+      avgAttendance: explained.avgAttendance || 100,
+      explanations: (explained.explanations || []).map(e => ({
+        text: `${e.factor}: ${e.detail}`,
+        impact: e.impact
+      }))
+    };
+  }
 
   // Helper function for normalizing MSSV inside replies
   function normalizeMssv(input) {
@@ -1497,8 +1511,6 @@ async function smartLocalReply(msg, student, isStudent, userId, nlpIntent = 'Non
       allStudents = cache.trainingData.students || [];
     }
 
-    const { calculateExplainableRisk } = require('../../src/ai/dssEngine');
-
     const riskStats = allStudents.map(s => {
       const risk = calculateExplainableRisk(s);
       return { mssv: s.mssv || s.id, riskScore: risk.riskScore, level: risk.riskLevel, failed: risk.failedCourses.length, att: risk.avgAttendance };
@@ -1554,7 +1566,6 @@ Hệ thống hoạt động hoàn toàn bảo mật và chính xác cho môi tr�
       return `🔒 BẢO MẬT HỆ THỐNG\n\nXin lỗi, bạn không có quyền xem dữ liệu phân tích của sinh viên khác. Bạn chỉ có thể tự tra cứu cho chính mình.`;
     }
 
-    const { calculateExplainableRisk, generateAcademicTimeline } = require('../../src/ai/dssEngine');
     const riskData = calculateExplainableRisk(student);
     const timeline = generateAcademicTimeline(student, riskData);
 
@@ -1930,6 +1941,57 @@ router.get('/students/:mssv', async (req, res) => {
     res.json(student);
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+// ============================================================
+// API: Get detailed 9-part AI DSS Report for a student
+// ============================================================
+router.get('/students/:mssv/dss-report', async (req, res) => {
+  try {
+    const mssv = req.params.mssv;
+    
+    // Security check: Students can only view their own DSS report!
+    const userRole = req.headers['x-user-role'];
+    const userId = req.headers['x-user-id'];
+    if (userRole === 'STUDENT' && String(mssv).toUpperCase() !== String(userId).toUpperCase()) {
+      return res.status(403).json({ error: 'Bạn không có quyền truy cập báo cáo DSS của sinh viên khác.' });
+    }
+
+    const student = await prisma.student.findUnique({
+      where: { mssv },
+      include: {
+        scores: {
+          include: {
+            course: true
+          }
+        },
+        predictions: true
+      }
+    });
+
+    if (!student) {
+      return res.status(404).json({ error: 'Không tìm thấy sinh viên.' });
+    }
+
+    const { generateDetailedDSSReport } = require('../ai/engines/dssReportEngine');
+    const dssReport = await generateDetailedDSSReport(student);
+    res.json(dssReport);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
+// API: Get aggregated program analytics for all students (DSS)
+// ============================================================
+router.get('/program-analytics', async (req, res) => {
+  try {
+    const { computeProgramAnalytics } = require('../ai/engines/dssReportEngine');
+    const analytics = await computeProgramAnalytics();
+    res.json(analytics);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
