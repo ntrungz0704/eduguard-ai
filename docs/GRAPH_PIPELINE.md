@@ -76,7 +76,7 @@ Response shape:
 ```
 
 ## Frontend Rendering Architecture
-Implemented in `client/src/pages/AcademicRiskMap.jsx`.
+*(Note: The `client/src/pages/AcademicRiskMap.jsx` frontend interface has been deprecated and removed to simplify the advisor dashboard.)*
 
 1. Left panel renders:
    - student search
