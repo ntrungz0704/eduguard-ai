@@ -23,15 +23,6 @@ const jwtMiddleware = (req, res, next) => {
   const authHeader = req.headers['authorization'];
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    // Fall back to legacy header auth for backwards compatibility
-    const legacyRole = req.headers['x-user-role'];
-    const legacyId = req.headers['x-user-id'];
-
-    if (legacyRole && legacyId) {
-      req.user = { id: legacyId, role: legacyRole.toUpperCase() };
-      return next();
-    }
-
     return next(new AppError('No authentication token provided. Please log in.', 401));
   }
 

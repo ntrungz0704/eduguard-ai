@@ -19,6 +19,10 @@ const { NlpManager } = require('node-nlp');
 const { getStudentContext } = require('../ai/ragService');
 const { buildPrompt } = require('../ai/promptService');
 const { predictRisk } = require('../ai/inference/riskPredictor');
+const { jwtMiddleware } = require('./auth/middleware');
+
+// Protect all dashboard/chatbot APIs using JWT authentication
+router.use(jwtMiddleware);
 
 // Setup upload
 const upload = multer({ storage: multer.memoryStorage() });

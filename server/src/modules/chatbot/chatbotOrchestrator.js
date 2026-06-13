@@ -46,8 +46,8 @@ const appLogger = require('../../infrastructure/logger');
 async function orchestrateChatbot(req, sessionId) {
   const startTime = Date.now();
   const message = req.body?.message || '';
-  const userRole = req.headers['x-user-role'] || 'TEACHER';
-  const userId = req.headers['x-user-id'];
+  const userRole = req.user?.role || req.headers['x-user-role'] || 'TEACHER';
+  const userId = req.user?.id || req.headers['x-user-id'];
 
   // ─── Step 1: Get/Create Session ──────────────────────────
   const session = getSession(sessionId, userRole);

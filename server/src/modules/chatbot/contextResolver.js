@@ -12,8 +12,8 @@ const { extractMssv, detectListPosition } = require('./entityExtractor');
  */
 function resolveContext(req, session) {
   const { message, mssv, studentContext } = req.body;
-  const userRole = req.headers['x-user-role'] || 'TEACHER';
-  const userId = req.headers['x-user-id'];
+  const userRole = req.user?.role || req.headers['x-user-role'] || 'TEACHER';
+  const userId = req.user?.id || req.headers['x-user-id'];
   const isStudent = userRole === 'STUDENT';
   
   const msgLower = (message || '').toLowerCase().trim();
