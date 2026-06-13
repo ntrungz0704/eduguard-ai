@@ -793,7 +793,7 @@ function GradesTab({ curriculumCourses, courseDependencies }) {
           <div className="divide-y divide-white/5">
             {(() => {
               return [1, 2, 3, 4, 5, 6].map(semNum => {
-                const coursesInSem = filteredCourses.filter(c => getCurriculumSemester(c.courseId, c.courseId) === semNum);
+                const coursesInSem = filteredCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === semNum);
                 if (coursesInSem.length === 0) return null;
                 
                 return (
@@ -1861,86 +1861,61 @@ export default function StudentDashboard() {
   });
 
   const buildCurriculumCourses = () => {
-    const names = (curriculum && curriculum.length > 0)
-      ? curriculum
-      : DEFAULT_CURRICULUM.map(c => c.name);
-
-    const usedScoreIds = new Set();
-    const findMatchingScore = (currId) => {
-      if (scoreMap[currId] && !usedScoreIds.has(scoreMap[currId].id || scoreMap[currId].courseId)) {
-        usedScoreIds.add(scoreMap[currId].id || scoreMap[currId].courseId);
-        return scoreMap[currId];
-      }
-      const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
-      
-      // Try direct match in scoreMap by code
-      const directCode = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === cleanCurr || c.id.toLowerCase().replace(/\s+/g, '') === cleanCurr);
-      if (directCode && scoreMap[directCode.id] && !usedScoreIds.has(directCode.id)) {
-        usedScoreIds.add(directCode.id);
-        return scoreMap[directCode.id];
-      }
-
-      const found = studentScores.find(s => {
-        if (usedScoreIds.has(s.id || s.courseId)) return false;
-        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-        const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
-        return (
-          cleanS.includes(cleanCurr) ||
-          cleanCurr.includes(cleanS) ||
-          cleanName === cleanCurr ||
-          cleanName.includes(cleanCurr) ||
-          cleanCurr.includes(cleanName) ||
-          (cleanCurr.includes('thểchất') && (cleanS.includes('thểchất') || cleanName.includes('thểchất'))) ||
-          (cleanCurr.includes('dựánmẫu') && (cleanS.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
-        );
+    return DEFAULT_CURRICULUM.map(currCourse => {
+      // Find matching score entry from database
+      const scoreObj = studentScores.find(s => {
+        const cleanCurrId = String(currCourse.id || '').toUpperCase().trim();
+        const cleanDbId = String(s.courseId || '').toUpperCase().trim();
+        
+        if (cleanDbId.startsWith(cleanCurrId)) {
+          return true;
+        }
+        
+        const cleanCurrName = String(currCourse.name || '').toLowerCase().replace(/\s+/g, '');
+        const cleanDbName = String(s.course?.name || s.courseId || '').toLowerCase().replace(/\s+/g, '');
+        
+        if (cleanCurrName && cleanDbName) {
+          if (cleanCurrName === cleanDbName) return true;
+          if (cleanCurrName.includes('thểchất') && cleanDbName.includes('thểchất')) return true;
+          if (cleanCurrName.includes('vovinam') && cleanDbName.includes('vovinam')) return true;
+          if (cleanCurrName.includes('dựánmẫu') && cleanDbName.includes('dựánmẫu')) return true;
+        }
+        return false;
       });
-      if (found) usedScoreIds.add(found.id || found.courseId);
-      return found;
-    };
 
-    const findMatchingPrediction = (currId) => {
-      if (predictionMap[currId]) return predictionMap[currId];
-      const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
-      
-      // Try direct match in predictionMap by code
-      const directCode = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === cleanCurr || c.id.toLowerCase().replace(/\s+/g, '') === cleanCurr);
-      if (directCode && predictionMap[directCode.id]) {
-        return predictionMap[directCode.id];
-      }
-
-      return predictions.find(p => {
-        const cleanP = p.courseId.toLowerCase().replace(/\s+/g, '');
-        const cleanName = (p.course?.name || '').toLowerCase().replace(/\s+/g, '');
-        return (
-          cleanP.includes(cleanCurr) ||
-          cleanCurr.includes(cleanP) ||
-          cleanName === cleanCurr ||
-          cleanName.includes(cleanCurr) ||
-          cleanCurr.includes(cleanName) ||
-          (cleanCurr.includes('thểchất') && (cleanP.includes('thểchất') || cleanName.includes('thểchất'))) ||
-          (cleanCurr.includes('dựánmẫu') && (cleanP.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
-        );
+      // Find matching prediction entry from database
+      const predObj = predictions.find(p => {
+        const cleanCurrId = String(currCourse.id || '').toUpperCase().trim();
+        const cleanDbId = String(p.courseId || '').toUpperCase().trim();
+        
+        if (cleanDbId.startsWith(cleanCurrId)) {
+          return true;
+        }
+        
+        const cleanCurrName = String(currCourse.name || '').toLowerCase().replace(/\s+/g, '');
+        const cleanDbName = String(p.course?.name || p.courseId || '').toLowerCase().replace(/\s+/g, '');
+        
+        if (cleanCurrName && cleanDbName) {
+          if (cleanCurrName === cleanDbName) return true;
+          if (cleanCurrName.includes('thểchất') && cleanDbName.includes('thểchất')) return true;
+          if (cleanCurrName.includes('vovinam') && cleanDbName.includes('vovinam')) return true;
+          if (cleanCurrName.includes('dựánmẫu') && cleanDbName.includes('dựánmẫu')) return true;
+        }
+        return false;
       });
-    };
 
-    const result = names.map(courseId => {
-      const scoreObj = findMatchingScore(courseId);
-      const predObj = findMatchingPrediction(courseId);
-      const matchedConfig = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === courseId.toLowerCase().replace(/\s+/g, ''));
-      
-      const displayCourseId = scoreObj?.courseId || matchedConfig?.id || courseId;
-      const displayCourseName = scoreObj?.course?.name || matchedConfig?.name || courseId;
+      const displayCourseId = scoreObj?.courseId || predObj?.courseId || currCourse.id;
+      const displayCourseName = scoreObj?.course?.name || currCourse.name;
 
       let status = 'NOT_STARTED'; // NOT_STARTED, STUDYING, PASSED, FAILED
       let value = null;
       let isPredicted = false;
-      let credits = scoreObj?.course?.credits || matchedConfig?.credits || getCourseCredits(displayCourseId);
-      let semester = '';
+      let credits = scoreObj?.course?.credits || currCourse.credits;
+      let semester = scoreObj?.semester || '';
 
       if (scoreObj) {
         value = scoreObj.value;
         status = scoreObj.status; // 'PASSED', 'FAILED', 'STUDYING'
-        semester = scoreObj.semester;
       }
 
       if (predObj) {
@@ -1967,30 +1942,6 @@ export default function StudentDashboard() {
         semester: semester || (predObj ? 'Kỳ hiện tại' : '')
       };
     });
-
-    // Append any student scores that weren't matched
-    studentScores.forEach(s => {
-      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-      const already = result.some(r => {
-        const cleanR = r.courseId.toLowerCase().replace(/\s+/g, '');
-        return cleanR === cleanS || cleanR.includes(cleanS) || cleanS.includes(cleanR);
-      });
-      if (!already) {
-        const predObj = predictionMap[s.courseId];
-        result.push({
-          courseId: s.courseId,
-          courseName: s.course?.name || s.courseId,
-          value: s.value,
-          status: s.status,
-          credits: s.course?.credits || getCourseCredits(s.courseId),
-          isPredicted: false,
-          prediction: predObj,
-          semester: s.semester || 'Tự chọn/Học lại'
-        });
-      }
-    });
-
-    return result;
   };
   const curriculumCourses = buildCurriculumCourses();
 

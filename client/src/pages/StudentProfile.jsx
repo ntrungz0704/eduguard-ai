@@ -539,81 +539,88 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
 
   // ── Build allCourses: merge curriculum (34 courses) + student scores ──
   const buildAllCourses = () => {
-    const scoreMap = {};
-    scoreEntries.forEach(s => { scoreMap[s.courseId] = s; });
-    const usedIds = new Set();
-    
-    const names = (curriculum && curriculum.length > 0)
-      ? curriculum
-      : DEFAULT_CURRICULUM.map(c => c.name);
-
-    // Soft match: find a score entry that matches the curriculum course ID
-    const findScore = (currId) => {
-      if (scoreMap[currId] && !usedIds.has(scoreMap[currId].courseId)) {
-        usedIds.add(scoreMap[currId].courseId);
-        return scoreMap[currId];
-      }
-      const clean = currId.toLowerCase().replace(/\s+/g, '');
-      
-      // Try direct match in scoreMap by code
-      const directCode = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === clean || c.id.toLowerCase().replace(/\s+/g, '') === clean);
-      if (directCode && scoreMap[directCode.id] && !usedIds.has(directCode.id)) {
-        usedIds.add(directCode.id);
-        return scoreMap[directCode.id];
-      }
-
-      const found = scoreEntries.find(s => {
-        if (usedIds.has(s.courseId)) return false;
-        const cs = s.courseId.toLowerCase().replace(/\s+/g, '');
-        const cn = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
-        return cs === clean || cs.includes(clean) || clean.includes(cs) || cn === clean || cn.includes(clean) || clean.includes(cn);
+    return DEFAULT_CURRICULUM.map(currCourse => {
+      // Find matching score entry from database
+      const scoreObj = scoreEntries.find(s => {
+        const cleanCurrId = String(currCourse.id || '').toUpperCase().trim();
+        const cleanDbId = String(s.courseId || '').toUpperCase().trim();
+        
+        if (cleanDbId.startsWith(cleanCurrId)) {
+          return true;
+        }
+        
+        const cleanCurrName = String(currCourse.name || '').toLowerCase().replace(/\s+/g, '');
+        const cleanDbName = String(s.course?.name || s.courseId || '').toLowerCase().replace(/\s+/g, '');
+        
+        if (cleanCurrName && cleanDbName) {
+          if (cleanCurrName === cleanDbName) return true;
+          if (cleanCurrName.includes('thểchất') && cleanDbName.includes('thểchất')) return true;
+          if (cleanCurrName.includes('vovinam') && cleanDbName.includes('vovinam')) return true;
+          if (cleanCurrName.includes('dựánmẫu') && cleanDbName.includes('dựánmẫu')) return true;
+        }
+        return false;
       });
-      if (found) usedIds.add(found.courseId);
-      return found;
-    };
 
-    const result = names.map(name => {
-      const scoreObj = findScore(name);
-      const matchedConfig = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === name.toLowerCase().replace(/\s+/g, ''));
-      const courseId = scoreObj?.courseId || matchedConfig?.id || name;
-      const courseName = scoreObj?.course?.name || matchedConfig?.name || name;
+      // Find matching prediction entry from database
+      const predObj = student.predictions?.find(p => {
+        const cleanCurrId = String(currCourse.id || '').toUpperCase().trim();
+        const cleanDbId = String(p.courseId || '').toUpperCase().trim();
+        
+        if (cleanDbId.startsWith(cleanCurrId)) {
+          return true;
+        }
+        
+        const cleanCurrName = String(currCourse.name || '').toLowerCase().replace(/\s+/g, '');
+        const cleanDbName = String(p.course?.name || p.courseId || '').toLowerCase().replace(/\s+/g, '');
+        
+        if (cleanCurrName && cleanDbName) {
+          if (cleanCurrName === cleanDbName) return true;
+          if (cleanCurrName.includes('thểchất') && cleanDbName.includes('thểchất')) return true;
+          if (cleanCurrName.includes('vovinam') && cleanDbName.includes('vovinam')) return true;
+          if (cleanCurrName.includes('dựánmẫu') && cleanDbName.includes('dựánmẫu')) return true;
+        }
+        return false;
+      });
 
-      return {
-        courseId,
-        courseName,
-        value: scoreObj?.value ?? null,
-        status: scoreObj?.status || 'NOT_STARTED',
-        semester: scoreObj?.semester || '',
-        credits: scoreObj?.course?.credits || matchedConfig?.credits || getCourseCredits(courseId),
-        courseData: scoreObj?.course || null,
-        prediction: student.predictions?.find(p => p.courseId === courseId)
-      };
-    });
+      const displayCourseId = scoreObj?.courseId || predObj?.courseId || currCourse.id;
+      const displayCourseName = scoreObj?.course?.name || currCourse.name;
 
-    // Append any student scores that weren't matched to the curriculum
-    scoreEntries.forEach(s => {
-      if (!usedIds.has(s.courseId)) {
-        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-        const already = result.some(r => {
-          const cleanR = r.courseId.toLowerCase().replace(/\s+/g, '');
-          return cleanR === cleanS || cleanR.includes(cleanS) || cleanS.includes(cleanR);
-        });
-        if (!already) {
-          result.push({
-            courseId: s.courseId,
-            courseName: s.course?.name || s.courseId,
-            value: s.value,
-            status: s.status,
-            semester: s.semester || '',
-            credits: s.course?.credits || getCourseCredits(s.courseId),
-            courseData: s.course || null,
-            prediction: student.predictions?.find(p => p.courseId === s.courseId)
-          });
+      let status = 'NOT_STARTED'; // NOT_STARTED, STUDYING, PASSED, FAILED
+      let value = null;
+      let isPredicted = false;
+      let credits = scoreObj?.course?.credits || currCourse.credits;
+      let semester = scoreObj?.semester || '';
+
+      if (scoreObj) {
+        value = scoreObj.value;
+        status = scoreObj.status; // 'PASSED', 'FAILED', 'STUDYING'
+      }
+
+      if (predObj) {
+        status = 'STUDYING';
+        value = predObj.predictedScore;
+        isPredicted = true;
+      }
+
+      if (value === null && status === 'STUDYING') {
+        if (predObj) {
+          value = predObj.predictedScore;
+          isPredicted = true;
         }
       }
-    });
 
-    return result;
+      return {
+        courseId: displayCourseId,
+        courseName: displayCourseName,
+        value,
+        status,
+        credits,
+        isPredicted,
+        prediction: predObj,
+        semester: semester || (predObj ? 'Kỳ hiện tại' : ''),
+        courseData: scoreObj?.course || null
+      };
+    });
   };
   const allCourses = buildAllCourses();
 
