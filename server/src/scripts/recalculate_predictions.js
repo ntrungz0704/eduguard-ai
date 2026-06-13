@@ -56,6 +56,7 @@ async function recalculateAllPredictions(shouldExit = false) {
     };
 
     let count = 0;
+    const operations = [];
 
     for (const student of students) {
         const mssv = student.mssv;
@@ -167,15 +168,25 @@ async function recalculateAllPredictions(shouldExit = false) {
                 predicted = Math.round(predicted * 10) / 10;
                 const risk = predicted < 5 ? 'HIGH' : predicted < 6.5 ? 'MEDIUM' : 'LOW';
 
-                await prisma.prediction.upsert({
+                operations.push(prisma.prediction.upsert({
                     where: { mssv_courseId: { mssv, courseId: courseId } },
                     update: { predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) },
                     create: { mssv, courseId: courseId, predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) }
-                });
+                }));
                 count++;
+
+                if (operations.length >= 200) {
+                    await prisma.$transaction(operations);
+                    operations.length = 0;
+                }
             }
         }
     }
+
+    if (operations.length > 0) {
+        await prisma.$transaction(operations);
+    }
+
     console.log(`✅ Đã tính toán và lưu ${count} dự báo vào Database.`);
     if (shouldExit) {
         process.exit(0);

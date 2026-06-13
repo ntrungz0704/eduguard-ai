@@ -87,11 +87,11 @@ async function fetchAndParse() {
             students.push({ id: mssv, scores });
           }
           
-          // Hardcode patch for PS47261 because the Google Sheet class dataset is missing their GDQP score
-          // but their personal transcript has it as 6.0
+          // Hardcode patch for PS47261 because the Google Sheet class dataset is missing/incorrect for some scores
           const ps47261 = students.find(s => s.id === 'PS47261');
           if (ps47261) {
             ps47261.scores['Giáo dục quốc phòng'] = 6.0;
+            ps47261.scores['Chính trị'] = 10.0;
           }
           
           console.log(`👥 Parsed ${students.length} unique students successfully`);
@@ -147,8 +147,10 @@ async function fetchAndParse() {
           });
           
           const cachePath = path.join(__dirname, 'model_cache.json');
+          const trainedModelPath = path.join(__dirname, '..', 'ai', 'models', 'regression', 'trained_model.json');
           fs.writeFileSync(cachePath, JSON.stringify(modelCache, null, 2), 'utf8');
-          console.log(`⚡ Pre-trained cache saved to model_cache.json (${Object.keys(modelCache).length} models)`);
+          fs.writeFileSync(trainedModelPath, JSON.stringify(modelCache, null, 2), 'utf8');
+          console.log(`⚡ Pre-trained cache saved to model_cache.json and trained_model.json (${Object.keys(modelCache).length} models)`);
           
           resolve();
         } catch (err) {
