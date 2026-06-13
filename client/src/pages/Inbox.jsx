@@ -363,7 +363,8 @@ export default function Inbox() {
                     <div 
                       key={item.id}
                       onClick={() => {
-                        handlePartnerSelect(item.id);
+                        const targetId = currentUser.role === 'STUDENT' ? 'advisor-group' : item.id;
+                        handlePartnerSelect(targetId);
                         setSearchQuery('');
                         setSearchResults([]);
                       }}
@@ -455,7 +456,10 @@ export default function Inbox() {
               {messages.map(msg => {
                 const isMe = msg.senderId === currentUser.id;
                 return (
-                  <div key={msg.id} className={`flex max-w-[80%] ${isMe ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}>
+                  <div key={msg.id} className={`flex flex-col max-w-[80%] ${isMe ? 'ml-auto items-end' : 'mr-auto items-start'}`}>
+                    {!isMe && msg.senderName && (
+                      <span className="text-[10px] text-slate-500 mb-1 font-extrabold px-1">{msg.senderName}</span>
+                    )}
                     <div className={`p-4 rounded-2xl text-sm shadow-sm ${
                       isMe 
                         ? 'bg-[#4169E1] text-white font-semibold rounded-tr-none' 
