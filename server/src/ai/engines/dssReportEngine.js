@@ -160,7 +160,8 @@ async function generateDetailedDSSReport(student) {
   });
 
   // 4. Root Cause Analysis (Prerequisite Failure Chain Traversal)
-  // Recursive function to trace the earliest prerequisite failure or weak score (< 7.0)
+  // Algorithm: DFS-based recursive graph traversal on the prerequisite knowledge graph (via syllabus_graph.json).
+  // Traces back to the earliest prerequisite ancestor where the student got < 7.0 (weak foundation) or failed.
   const findRootCauseForCourse = (courseId) => {
     const node = syllabusGraph[courseId];
     if (!node || !node.prerequisites || node.prerequisites.length === 0) {
@@ -213,15 +214,15 @@ async function generateDetailedDSSReport(student) {
   }
 
   // 5. Risk Contributors
+  // Note: Factors are derived exclusively from actual database attributes.
+  // Attendance and Behavior anomalies are excluded as they are not present in the database.
   const factorsSum = Object.values(baseRisk.factors).reduce((a, b) => a + b, 0);
   const riskContributors = [];
   const factorLabels = {
-    LOW_GPA: 'GPA nền tảng yếu',
-    ATTENDANCE_DROP: 'Chuyên cần dưới ngưỡng',
-    PREREQUISITE_BREAK: failedCourses.length > 0 ? `Nền tảng yếu môn ${failedCourses.slice(0, 2).join(', ')}` : 'Hổng môn tiên quyết',
-    TREND_DECLINE: 'GPA giảm liên tục',
-    BEHAVIOR_ANOMALY: 'Chuỗi môn fail gần đây',
-    LEARNING_STYLE_MISMATCH: 'Lệch pha phong cách học & ngành'
+    LOW_GPA: 'GPA nền tảng thấp',
+    PREREQUISITE_BREAK: failedCourses.length > 0 ? `Kiến thức yếu môn tiên quyết ${failedCourses.slice(0, 2).join(', ')}` : 'Hổng môn tiên quyết',
+    TREND_DECLINE: 'GPA suy giảm qua các học kỳ',
+    DELAY_RISK: 'Chỉ số trễ tiến độ tốt nghiệp (Heuristic Delay)'
   };
 
   Object.entries(baseRisk.factors).forEach(([key, val]) => {
@@ -265,6 +266,8 @@ async function generateDetailedDSSReport(student) {
   });
 
   // 7. Graduation Risk & Delay Index Engine
+  // Heuristic Index: Trị số trễ tốt nghiệp này được thiết lập theo luật chuyên gia học vụ (Expert Heuristic Rules) 
+  // dựa trên cấu trúc tín chỉ và chuỗi ràng buộc tiên quyết, không phải mô hình thống kê học máy thuần túy.
   const failedCredits = completedScores.filter(s => s.status === 'FAILED').reduce((sum, s) => sum + getCourseCredits(s.courseId), 0);
   const blockedCount = blockedCourses.length;
   

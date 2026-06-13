@@ -1,5 +1,23 @@
+const fs = require('fs');
+const path = require('path');
 const { calculateFptGPA } = require('../../utils/dataService');
 const { RISK_WEIGHTS, RISK_LEVELS, RISK_THRESHOLDS } = require('../config/riskRules');
+
+function loadKnowledgeJson(filename) {
+  try {
+    const p = path.join(__dirname, '..', '..', '..', 'data', 'knowledge', filename);
+    if (fs.existsSync(p)) {
+      return JSON.parse(fs.readFileSync(p, 'utf8'));
+    }
+  } catch (e) {
+    console.warn(`[riskEngine] Failed to load ${filename}:`, e.message);
+  }
+  return {};
+}
+
+// Load static graphs to calculate true prerequisite and delay indicators
+const syllabusGraph = loadKnowledgeJson('syllabus_graph.json');
+const courseDependency = loadKnowledgeJson('course_dependency.json');
 
 function getRiskLevel(score) {
   if (score >= 76) return RISK_LEVELS.CRITICAL;
@@ -9,214 +27,154 @@ function getRiskLevel(score) {
 }
 
 /**
- * Calculates raw base risk score using Configuration Rules.
+ * Calculates raw base risk score using Configuration Rules based ONLY on real database facts.
+ * Features: low GPA, prerequisite failures, negative academic trends, and graduation delay scores.
  */
 function calculateBaseRisk(student) {
   if (!student || !student.scores || student.scores.length === 0) {
-    return { riskScore: 0, level: 'LOW', gpa: 0, avgAttendance: 100, failedCourses: [], labCourses: [], factors: {} };
+    return { 
+      riskScore: 0, 
+      level: 'LOW', 
+      gpa: 0, 
+      avgAttendance: 100, 
+      failedCourses: [], 
+      zeroScores: [], 
+      factors: {} 
+    };
   }
 
   let totalScore = 0;
   const factors = {};
+  const scores = student.scores || [];
 
   // 1. LOW GPA
-  const gpaData = calculateFptGPA(student.scores);
+  const gpaData = calculateFptGPA(scores);
   const gpa = gpaData.gpa;
   let gpaScore = 0;
-  if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && student.scores.length > 5) gpaScore = 100;
-  else if (gpa < 6.0) gpaScore = 70;
-  else if (gpa < 7.0) gpaScore = 30;
+  if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && scores.length > 5) gpaScore = 100;
+  else if (gpa < 6.0) gpaScore = 75;
+  else if (gpa < 7.0) gpaScore = 40;
+  else if (gpa < 8.0) gpaScore = 10;
   
   factors.LOW_GPA = Math.round(gpaScore * RISK_WEIGHTS.LOW_GPA);
   totalScore += factors.LOW_GPA;
 
-  // 2. ATTENDANCE
-  const hasRealAttendance = student.scores.some(s => s.attendance !== null);
-  let avgAttendance = null;
-  let attendanceScore = 0;
-  
-  if (hasRealAttendance) {
-    const studyingCourses = student.scores.filter(s => s.status === 'STUDYING' || s.status === 'FAILED');
-    avgAttendance = studyingCourses.length > 0
-      ? studyingCourses.reduce((sum, s) => sum + (s.attendance || 100), 0) / studyingCourses.length
-      : 100;
-      
-    const ccPercentage = avgAttendance <= 1.0 ? avgAttendance * 100 : avgAttendance;
-    
-    if (ccPercentage < RISK_THRESHOLDS.ATTENDANCE_CRITICAL) attendanceScore = 100;
-    else if (ccPercentage < RISK_THRESHOLDS.ATTENDANCE_WARNING) attendanceScore = 80;
-    else if (ccPercentage < RISK_THRESHOLDS.ATTENDANCE_NOTICE) attendanceScore = 55;
-    else if (ccPercentage < 90) attendanceScore = 20;
-    
-    factors.ATTENDANCE_DROP = Math.round(attendanceScore * RISK_WEIGHTS.ATTENDANCE_DROP);
-    totalScore += factors.ATTENDANCE_DROP;
-  } else {
-    factors.ATTENDANCE_DROP = 0;
-  }
-
-  // 3. BEHAVIOR ANOMALY
-  // Phân tích hành vi: nộp bài muộn, vi phạm nội quy, v.v. (tạm tính dựa trên số môn rớt hoặc điểm 0)
-  const failedCourses = student.scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < RISK_THRESHOLDS.MIN_PASS_SCORE));
-  const zeroScores = student.scores.filter(s => s.value === 0);
-  let behaviorScore = 0;
-  if (zeroScores.length >= 2) behaviorScore = 100;
-  else if (zeroScores.length === 1) behaviorScore = 60;
-  else if (failedCourses.length > 3) behaviorScore = 80;
-  
-  factors.BEHAVIOR_ANOMALY = Math.round(behaviorScore * RISK_WEIGHTS.BEHAVIOR_ANOMALY);
-  totalScore += factors.BEHAVIOR_ANOMALY;
-
-  // 4. PREREQUISITE BREAK
-  const prereqFailed = failedCourses.filter(s => {
-    const match = (s.courseId || '').match(/\d+/);
-    return match && parseInt(match[0]) <= 200;
-  });
+  // 2. PREREQUISITE BREAK
+  const failedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5.0)).map(s => s.courseId);
   let prereqScore = 0;
-  if (prereqFailed.length > 0) prereqScore = prereqFailed.length >= 2 ? 100 : 60;
-  
+  if (failedCourses.length > 0) {
+    const hasPrereqFail = failedCourses.some(fc => {
+      const node = syllabusGraph[fc];
+      return node && node.unlocks && node.unlocks.length > 0;
+    });
+    if (hasPrereqFail) {
+      prereqScore = failedCourses.length >= 2 ? 100 : 70;
+    } else {
+      prereqScore = 40;
+    }
+  }
   factors.PREREQUISITE_BREAK = Math.round(prereqScore * RISK_WEIGHTS.PREREQUISITE_BREAK);
   totalScore += factors.PREREQUISITE_BREAK;
 
-  // 5. TREND DECLINE
-  const scoredSubjects = student.scores.filter(s => s.value !== null && s.status !== 'STUDYING');
+  // 3. TREND DECLINE
+  const completedScores = scores.filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
+  const semesterGroups = {};
+  completedScores.forEach(s => {
+    const sem = s.semester || 'Summer 2025';
+    if (!semesterGroups[sem]) semesterGroups[sem] = [];
+    semesterGroups[sem].push(s);
+  });
+  
+  const getSemesterVal = (semStr) => {
+    const lower = (semStr || '').toLowerCase();
+    const match = lower.match(/\d+/);
+    const year = match ? parseInt(match[0]) : 2025;
+    let term = 0.2;
+    if (lower.includes('summer')) term = 0.5;
+    if (lower.includes('fall')) term = 0.8;
+    return year + term;
+  };
+
+  const sortedSemesters = Object.keys(semesterGroups).sort((a, b) => getSemesterVal(a) - getSemesterVal(b));
   let trendScore = 0;
-  if (scoredSubjects.length >= 4) {
-    const half = Math.floor(scoredSubjects.length / 2);
-    const earlyAvg = scoredSubjects.slice(0, half).reduce((s, c) => s + c.value, 0) / half;
-    const lateAvg = scoredSubjects.slice(half).reduce((s, c) => s + c.value, 0) / (scoredSubjects.length - half);
-    if ((earlyAvg - lateAvg) > RISK_THRESHOLDS.GPA_CRITICAL_DROP) trendScore = 100;
-    else if ((earlyAvg - lateAvg) > RISK_THRESHOLDS.GPA_WARNING_DROP) trendScore = 50;
-  } else if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && scoredSubjects.length > 0) {
-    trendScore = 60;
+  if (sortedSemesters.length >= 2) {
+    const trendData = sortedSemesters.map(sem => {
+      const stats = calculateFptGPA(semesterGroups[sem]);
+      return stats.gpa;
+    });
+    const lastGpa = trendData[trendData.length - 1];
+    const prevGpa = trendData[trendData.length - 2];
+    const diff = lastGpa - prevGpa;
+    
+    if (trendData.length >= 3) {
+      const gpa3 = trendData[trendData.length - 3];
+      if (lastGpa < prevGpa && prevGpa < gpa3) {
+        trendScore = 100; // Continuous decline
+      }
+    }
+    
+    if (trendScore === 0) {
+      if (diff < -1.0) trendScore = 80;
+      else if (diff < -0.5) trendScore = 50;
+      else if (diff > 0.5) trendScore = 0;
+    }
+  } else if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && completedScores.length > 0) {
+    trendScore = 50;
   }
+
   factors.TREND_DECLINE = Math.round(trendScore * RISK_WEIGHTS.TREND_DECLINE);
   totalScore += factors.TREND_DECLINE;
 
-  // 6. LEARNING STYLE & CAREER GOAL MISMATCH
-  let mismatchScore = 0;
-  const learningStyle = student.learningStyle;
-  const careerGoal = student.careerGoal;
+  // 4. DELAY RISK (Based on Expert Heuristic Delay Index)
+  let delayScoreVal = 0;
+  if (failedCourses.length > 0) {
+    const blockedCount = failedCourses.reduce((sum, fc) => {
+      const node = syllabusGraph[fc];
+      const unlocksCount = node && node.unlocks ? node.unlocks.length : 0;
+      const depNode = courseDependency[fc];
+      const affectsCount = depNode && depNode.affects ? depNode.affects.length : 0;
+      return sum + Math.max(unlocksCount, affectsCount);
+    }, 0);
 
-  if (learningStyle && careerGoal) {
-    const style = String(learningStyle).toLowerCase().trim();
-    const career = String(careerGoal).toLowerCase().trim();
+    let maxChainDepth = 0;
+    failedCourses.forEach(fc => {
+      let depth = 0;
+      let current = fc;
+      while (depth < 6) {
+        const nextNode = Object.entries(syllabusGraph).find(([key, val]) => val.prerequisites.includes(current));
+        if (nextNode) {
+          depth++;
+          current = nextNode[0];
+        } else {
+          break;
+        }
+      }
+      maxChainDepth = Math.max(maxChainDepth, depth);
+    });
+
+    const creditsFailed = failedCourses.length * 3;
+    const delayScore = creditsFailed + (blockedCount * 3) + (maxChainDepth * 5);
     
-    let baseMismatch = 0;
-
-    if (career.includes('ai') || career.includes('data') || career.includes('machine learning')) {
-      if (style.includes('analytical') || style.includes('logic') || style.includes('self-taught') || style.includes('tự học')) {
-        baseMismatch = 0;
-      } else if (style.includes('hands-on') || style.includes('thực hành') || style.includes('social') || style.includes('nhóm')) {
-        baseMismatch = 30;
-      } else if (style.includes('theory') || style.includes('lý thuyết')) {
-        baseMismatch = 55;
-      } else if (style.includes('rote') || style.includes('vẹt')) {
-        baseMismatch = 90;
-      } else {
-        baseMismatch = 40;
-      }
-    } else if (career.includes('backend') || career.includes('back-end') || career.includes('architect') || career.includes('solutions')) {
-      if (style.includes('analytical') || style.includes('logic') || style.includes('self-taught') || style.includes('tự học')) {
-        baseMismatch = 0;
-      } else if (style.includes('hands-on') || style.includes('thực hành')) {
-        baseMismatch = 20;
-      } else if (style.includes('social') || style.includes('nhóm')) {
-        baseMismatch = 30;
-      } else if (style.includes('theory') || style.includes('lý thuyết')) {
-        baseMismatch = 50;
-      } else if (style.includes('rote') || style.includes('vẹt')) {
-        baseMismatch = 80;
-      } else {
-        baseMismatch = 35;
-      }
-    } else if (career.includes('frontend') || career.includes('front-end') || career.includes('ui') || career.includes('ux')) {
-      if (style.includes('hands-on') || style.includes('thực hành') || style.includes('visual') || style.includes('trực quan')) {
-        baseMismatch = 0;
-      } else if (style.includes('self-taught') || style.includes('tự học')) {
-        baseMismatch = 15;
-      } else if (style.includes('social') || style.includes('nhóm')) {
-        baseMismatch = 20;
-      } else if (style.includes('analytical') || style.includes('logic')) {
-        baseMismatch = 30;
-      } else if (style.includes('rote') || style.includes('vẹt')) {
-        baseMismatch = 60;
-      } else if (style.includes('theory') || style.includes('lý thuyết')) {
-        baseMismatch = 80;
-      } else {
-        baseMismatch = 40;
-      }
-    } else if (career.includes('mobile') || career.includes('flutter') || career.includes('react native') || career.includes('ios') || career.includes('android')) {
-      if (style.includes('hands-on') || style.includes('thực hành')) {
-        baseMismatch = 0;
-      } else if (style.includes('self-taught') || style.includes('tự học')) {
-        baseMismatch = 10;
-      } else if (style.includes('social') || style.includes('nhóm')) {
-        baseMismatch = 25;
-      } else if (style.includes('analytical') || style.includes('logic')) {
-        baseMismatch = 30;
-      } else if (style.includes('rote') || style.includes('vẹt')) {
-        baseMismatch = 70;
-      } else if (style.includes('theory') || style.includes('lý thuyết')) {
-        baseMismatch = 85;
-      } else {
-        baseMismatch = 40;
-      }
-    } else if (career.includes('qa') || career.includes('test') || career.includes('automation')) {
-      if (style.includes('analytical') || style.includes('logic') || style.includes('hands-on') || style.includes('thực hành')) {
-        baseMismatch = 0;
-      } else if (style.includes('social') || style.includes('nhóm') || style.includes('self-taught') || style.includes('tự học')) {
-        baseMismatch = 20;
-      } else if (style.includes('theory') || style.includes('lý thuyết')) {
-        baseMismatch = 40;
-      } else if (style.includes('rote') || style.includes('vẹt')) {
-        baseMismatch = 70;
-      } else {
-        baseMismatch = 30;
-      }
-    } else {
-      baseMismatch = 30;
-    }
-
-    const strengths = student.strengths || [];
-    const weaknesses = student.weaknesses || [];
-    const lowerStrengths = strengths.map(s => String(s || '').toLowerCase());
-    const lowerWeaknesses = weaknesses.map(w => String(w || '').toLowerCase());
-
-    const isAIOruBackend = career.includes('ai') || career.includes('data') || career.includes('backend') || career.includes('back-end');
-    const isFrontendOrMobile = career.includes('frontend') || career.includes('front-end') || career.includes('mobile') || career.includes('ui');
-
-    if (isAIOruBackend) {
-      if (lowerWeaknesses.some(w => w.includes('logic') || w.includes('math') || w.includes('algorithm') || w.includes('tư duy'))) {
-        baseMismatch += 20;
-      }
-      if (lowerStrengths.some(s => s.includes('logic') || s.includes('math') || s.includes('algorithm') || s.includes('tư duy'))) {
-        baseMismatch -= 15;
-      }
-    } else if (isFrontendOrMobile) {
-      if (lowerWeaknesses.some(w => w.includes('coding') || w.includes('practice') || w.includes('thực hành'))) {
-        baseMismatch += 20;
-      }
-      if (lowerStrengths.some(s => s.includes('html') || s.includes('css') || s.includes('design') || s.includes('visual'))) {
-        baseMismatch -= 15;
-      }
-    }
-
-    mismatchScore = Math.max(0, Math.min(100, baseMismatch));
+    if (delayScore >= 35) delayScoreVal = 100;
+    else if (delayScore >= 20) delayScoreVal = 80;
+    else if (delayScore >= 5) delayScoreVal = 50;
+    else if (delayScore > 0) delayScoreVal = 20;
   }
 
-  factors.LEARNING_STYLE_MISMATCH = Math.round(mismatchScore * RISK_WEIGHTS.LEARNING_STYLE_MISMATCH);
-  totalScore += factors.LEARNING_STYLE_MISMATCH;
+  factors.DELAY_RISK = Math.round(delayScoreVal * RISK_WEIGHTS.DELAY_RISK);
+  totalScore += factors.DELAY_RISK;
 
   const riskScore = Math.min(100, Math.round(totalScore));
-  const confidenceScore = Math.min(99, Math.round(80 + (scoredSubjects.length * 1.5))); // Confidence based on data points
+  const confidenceScore = Math.min(99, Math.round(80 + (completedScores.length * 1.5)));
+
   return {
     riskScore,
     level: getRiskLevel(riskScore).label,
     confidenceScore,
     gpa,
-    avgAttendance,
-    failedCourses,
-    zeroScores,
+    avgAttendance: 100, // Kept for API interface compatibility
+    failedCourses: scores.filter(s => s.status === 'FAILED'),
+    zeroScores: scores.filter(s => s.value === 0), // Kept for API interface compatibility
     factors
   };
 }

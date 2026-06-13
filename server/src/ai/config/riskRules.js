@@ -1,15 +1,13 @@
 /**
  * Risk Rules Registry
  * Cấu hình trọng số tính toán Rủi ro. 
- * Engine chỉ đọc Config, không chứa Hardcode.
+ * Chỉ sử dụng dữ liệu thực tế tồn tại trong cơ sở dữ liệu.
  */
 const RISK_WEIGHTS = {
-  LOW_GPA: 0.25,              // GPA 25%
-  ATTENDANCE_DROP: 0.20,      // CC 20%
-  PREREQUISITE_BREAK: 0.15,   // Môn TQ 15%
-  TREND_DECLINE: 0.15,        // Trend 15%
-  BEHAVIOR_ANOMALY: 0.10,     // Behavior 10%
-  LEARNING_STYLE_MISMATCH: 0.15 // Lệch pha phong cách học & Ngành học 15%
+  LOW_GPA: 0.35,              // GPA 35%
+  PREREQUISITE_BREAK: 0.25,   // Hổng môn tiên quyết 25%
+  TREND_DECLINE: 0.20,        // Suy thoái GPA 20%
+  DELAY_RISK: 0.20            // Chỉ số trễ tiến độ 20%
 };
 
 const RISK_LEVELS = {
@@ -20,13 +18,8 @@ const RISK_LEVELS = {
 };
 
 const RISK_THRESHOLDS = {
-  ATTENDANCE_CRITICAL: 60,
-  ATTENDANCE_WARNING: 70,
-  ATTENDANCE_NOTICE: 80,
-  
   GPA_CRITICAL_DROP: 1.5,
   GPA_WARNING_DROP: 0.5,
-  
   MIN_PASS_SCORE: 5.0
 };
 

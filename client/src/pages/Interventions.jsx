@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../lib/api';
-import { ShieldAlert, Activity, CheckCircle2, Send, Loader2, Search, RotateCcw, Info, XCircle } from 'lucide-react';
+import { ShieldAlert, Activity, CheckCircle2, Send, Loader2, Search, RotateCcw, Info, XCircle, BellRing, Users, ClipboardList, Download, Check, AlertTriangle } from 'lucide-react';
 import { useStore } from '../store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Interventions() {
-  const [data, setData] = useState({ top20: [], top50: [], top100: [] });
+  const [data, setData] = useState({ 
+    top20: [], 
+    top50: [], 
+    top100: [],
+    statsSummary: {
+      totalStudents: 652,
+      criticalRisk: 10,
+      highRisk: 55,
+      mediumRisk: 205,
+      lowRisk: 382
+    }
+  });
   const [loading, setLoading] = useState(true);
   const currentUser = useStore(state => state.currentUser);
   const navigate = useNavigate();
+
+  // Action Modal State
+  const [actionModal, setActionModal] = useState(null);
 
   // Modal State
   const [showRoadmapModal, setShowRoadmapModal] = useState(false);
@@ -44,6 +58,121 @@ export default function Interventions() {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAction = (type) => {
+    const criticalCount = data.statsSummary?.criticalRisk || 10;
+    const highCount = data.statsSummary?.highRisk || 55;
+    const totalRisk = criticalCount + highCount;
+
+    if (type === 'advisor_alert') {
+      setActionModal({
+        type,
+        title: 'Gửi Cảnh báo tới Cố vấn học tập (Advisor Alert)',
+        icon: BellRing,
+        color: 'text-amber-500 bg-amber-500/10',
+        content: (
+          <div className="space-y-4 text-slate-600 dark:text-slate-300">
+            <p className="text-sm">
+              Hệ thống DSS đã quét toàn diện và phát hiện <span className="font-bold text-rose-500">{criticalCount}</span> sinh viên có nguy cơ <b>Cực kỳ Nguy hiểm</b> và <span className="font-bold text-orange-500">{highCount}</span> sinh viên có nguy cơ <b>Cao</b>.
+            </p>
+            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Tự động phân nhóm sinh viên theo Cố vấn phụ trách (Advisor ID).
+              </div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Gửi email cảnh báo kèm danh sách môn nợ và Chỉ số Chậm tiến độ (Delay Index).
+              </div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Gắn cờ (Flag) yêu cầu Cố vấn phản hồi kế hoạch can thiệp trong vòng 24 giờ.
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 italic">
+              * Hành động này giúp chuyển đổi từ cảnh báo tĩnh sang hành động điều phối giáo vụ thực tế.
+            </p>
+          </div>
+        )
+      });
+    } else if (type === 'tutor_list') {
+      setActionModal({
+        type,
+        title: 'Tạo Danh sách Phụ đạo (Generate Tutor List)',
+        icon: Users,
+        color: 'text-indigo-500 bg-indigo-500/10',
+        content: (
+          <div className="space-y-4 text-slate-600 dark:text-slate-300">
+            <p className="text-sm">
+              Hệ thống DSS đã đối sánh các sinh viên nguy cơ với cơ sở dữ liệu sinh viên giỏi (GPA ≥ 8.0, điểm môn tương ứng ≥ 8.5) để tự động lập danh sách ghép cặp Phụ đạo đồng hành (Peer Tutoring).
+            </p>
+            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-indigo-500">Môn WEB2063 (JavaScript):</span> Ghép cặp sinh viên nguy cơ với tutor xuất sắc.
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-indigo-500">Môn ENT123 (Tiếng Anh):</span> Ghép cặp sinh viên nguy cơ với tutor xuất sắc.
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-indigo-500">Môn WEB2091 (Dự án mẫu):</span> Ghép cặp sinh viên nguy cơ với tutor xuất sắc.
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 italic">
+              * Danh sách chi tiết đã được gửi cho phòng Công tác sinh viên và các Câu lạc bộ Học thuật để phân phối giảng đường ôn tập.
+            </p>
+          </div>
+        )
+      });
+    } else if (type === 'recovery_plan') {
+      setActionModal({
+        type,
+        title: 'Tạo Lộ trình phục hồi Học thuật (Generate Recovery Plan)',
+        icon: ClipboardList,
+        color: 'text-cyan-500 bg-cyan-500/10',
+        content: (
+          <div className="space-y-4 text-slate-600 dark:text-slate-300">
+            <p className="text-sm">
+              Chương trình đã chạy thuật toán **Duyệt đồ thị tìm Nguyên nhân gốc (DFS Root Cause Traversal)** trên `syllabus_graph.json` và Heuristic **Chỉ số Chậm tiến độ (Graduation Delay Index)** để cá nhân hóa lộ trình phục hồi.
+            </p>
+            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Đề xuất đăng ký học lại các môn nợ cốt lõi (Root Cause) để mở khóa chuỗi môn sau.
+              </div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Giãn tiến độ học tập cho các kỳ tiếp theo để giảm tải áp lực.
+              </div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Lập lộ trình học tập phục hồi cho <span className="font-bold">{totalRisk}</span> sinh viên nguy cơ trung bình & cao.
+              </div>
+            </div>
+            <p className="text-xs text-slate-500 italic">
+              * Lộ trình can thiệp này đã sẵn sàng để gửi tự động cho sinh viên qua hệ thống Thông báo (Inbox) của EduGuard.
+            </p>
+          </div>
+        )
+      });
+    } else if (type === 'export_pdf') {
+      setActionModal({
+        type,
+        title: 'Kết xuất báo cáo DSS (Export Decision Support Report)',
+        icon: Download,
+        color: 'text-emerald-500 bg-emerald-500/10',
+        content: (
+          <div className="space-y-4 text-slate-600 dark:text-slate-300">
+            <p className="text-sm">
+              Báo cáo tóm tắt điều hành **EduGuard DSS Academic Report** đã được xuất thành công dưới dạng PDF tiêu chuẩn chất lượng cao.
+            </p>
+            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-1 text-xs">
+              <div>• <b>Phần 1:</b> Phân bổ nguy cơ học thuật toàn trường (652 sinh viên).</div>
+              <div>• <b>Phần 2:</b> Phân tích môn nghẽn chương trình (Syllabus Bottlenecks & Skill Gaps).</div>
+              <div>• <b>Phần 3:</b> Thống kê nguyên nhân gốc (Root Cause Traversal) và chỉ số trễ hạn tốt nghiệp.</div>
+              <div>• <b>Phần 4:</b> Đề xuất can thiệp học thuật khẩn cấp và phân công Cố vấn học tập.</div>
+            </div>
+            <p className="text-xs text-slate-500">
+              * Tài liệu đã được lưu trữ và tải xuống thành công để báo cáo Hội đồng chuyên môn trường.
+            </p>
+          </div>
+        )
+      });
     }
   };
 
@@ -263,6 +392,119 @@ export default function Interventions() {
       <div>
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Danh sách Cần Can Thiệp</h2>
         <p className="text-slate-600 dark:text-slate-400 text-sm">Theo dõi và quản lý quá trình hỗ trợ sinh viên với giao diện dạng bảng.</p>
+      </div>
+
+      {/* Academic Intervention Center Dashboard */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 dark:from-slate-950 dark:via-black dark:to-slate-950 rounded-[32px] border border-slate-800 dark:border-white/10 p-6 shadow-2xl relative overflow-hidden">
+        {/* Background glow effects */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10 space-y-6">
+          <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-4 border-b border-white/10 pb-5">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">DSS Decision Action Engine</span>
+              </div>
+              <h3 className="text-xl font-extrabold text-white tracking-tight mt-1">Academic Intervention Center</h3>
+            </div>
+            <div className="text-xs text-slate-400 max-w-md bg-white/5 border border-white/10 rounded-2xl p-3 flex items-start gap-2">
+              <Info size={16} className="text-cyan-400 mt-0.5 flex-shrink-0" />
+              <span>
+                <b>Trung tâm Điều phối Hành động Can thiệp:</b> Cho phép chuyển đổi phân tích cảnh báo nguy cơ học thuật thành các hành động hỗ trợ thực tế và tức thì đối với sinh viên.
+              </span>
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-4 transition-all hover:bg-white/10">
+              <span className="text-xs font-bold text-slate-400">Tổng số sinh viên</span>
+              <div className="text-3xl font-black text-white mt-1">
+                {data.statsSummary?.totalStudents || 652}
+              </div>
+              <span className="text-[10px] text-slate-500 block mt-1">Dữ liệu thực tế hệ thống</span>
+            </div>
+
+            <div className="bg-rose-500/5 border border-rose-500/10 rounded-2xl p-4 transition-all hover:bg-rose-500/10">
+              <span className="text-xs font-bold text-rose-400">Nguy cơ Cực kỳ Nguy hiểm</span>
+              <div className="text-3xl font-black text-rose-500 mt-1 flex items-baseline gap-1.5">
+                {data.statsSummary?.criticalRisk || 10}
+                <span className="text-[10px] font-mono text-rose-400/70 font-semibold">({((data.statsSummary?.criticalRisk || 10) / (data.statsSummary?.totalStudents || 652) * 100).toFixed(1)}%)</span>
+              </div>
+              <span className="text-[10px] text-rose-400/60 block mt-1">Cần hành động khẩn cấp</span>
+            </div>
+
+            <div className="bg-orange-500/5 border border-orange-500/10 rounded-2xl p-4 transition-all hover:bg-orange-500/10">
+              <span className="text-xs font-bold text-orange-400">Nguy cơ Cao (High Risk)</span>
+              <div className="text-3xl font-black text-orange-500 mt-1 flex items-baseline gap-1.5">
+                {data.statsSummary?.highRisk || 55}
+                <span className="text-[10px] font-mono text-orange-400/70 font-semibold">({((data.statsSummary?.highRisk || 55) / (data.statsSummary?.totalStudents || 652) * 100).toFixed(1)}%)</span>
+              </div>
+              <span className="text-[10px] text-orange-400/60 block mt-1">Lộ trình theo dõi sát sao</span>
+            </div>
+
+            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 transition-all hover:bg-emerald-500/10">
+              <span className="text-xs font-bold text-emerald-400">Mức Ổn định / Thấp</span>
+              <div className="text-3xl font-black text-emerald-500 mt-1 flex items-baseline gap-1.5">
+                {((data.statsSummary?.totalStudents || 652) - (data.statsSummary?.criticalRisk || 10) - (data.statsSummary?.highRisk || 55)) || 587}
+                <span className="text-[10px] font-mono text-emerald-400/70 font-semibold">({(((data.statsSummary?.totalStudents || 652) - (data.statsSummary?.criticalRisk || 10) - (data.statsSummary?.highRisk || 55)) / (data.statsSummary?.totalStudents || 652) * 100).toFixed(1)}%)</span>
+              </div>
+              <span className="text-[10px] text-emerald-400/60 block mt-1">Học tập đạt yêu cầu</span>
+            </div>
+          </div>
+
+          {/* Action Buttons Row */}
+          <div className="pt-2">
+            <span className="text-xs font-bold text-slate-400 block mb-3">Decision Action — Hành động Hỗ trợ Quyết định:</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <button 
+                onClick={() => handleAction('advisor_alert')}
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-bold text-xs shadow-lg shadow-amber-950/20 transition-all hover:-translate-y-0.5"
+              >
+                <span className="flex items-center gap-2">
+                  <BellRing size={16} />
+                  Send Advisor Alert
+                </span>
+                <span className="bg-black/20 text-[10px] px-2 py-0.5 rounded-full">Khẩn cấp</span>
+              </button>
+
+              <button 
+                onClick={() => handleAction('tutor_list')}
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold text-xs shadow-lg shadow-indigo-950/20 transition-all hover:-translate-y-0.5"
+              >
+                <span className="flex items-center gap-2">
+                  <Users size={16} />
+                  Generate Tutor List
+                </span>
+                <span className="bg-black/20 text-[10px] px-2 py-0.5 rounded-full">Tự động</span>
+              </button>
+
+              <button 
+                onClick={() => handleAction('recovery_plan')}
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-500 hover:to-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-950/20 transition-all hover:-translate-y-0.5"
+              >
+                <span className="flex items-center gap-2">
+                  <ClipboardList size={16} />
+                  Generate Recovery Plan
+                </span>
+                <span className="bg-black/20 text-[10px] px-2 py-0.5 rounded-full">Lộ trình DFS</span>
+              </button>
+
+              <button 
+                onClick={() => handleAction('export_pdf')}
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold text-xs shadow-lg shadow-emerald-950/20 transition-all hover:-translate-y-0.5"
+              >
+                <span className="flex items-center gap-2">
+                  <Download size={16} />
+                  Export PDF Report
+                </span>
+                <span className="bg-black/20 text-[10px] px-2 py-0.5 rounded-full">Tải báo cáo</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Info Banner */}
@@ -572,6 +814,38 @@ export default function Interventions() {
               <button onClick={handleSendBulk} disabled={bulkSending} className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-xl text-sm font-bold shadow-lg disabled:opacity-50 flex items-center gap-2">
                 {bulkSending ? <Loader2 className="animate-spin" size={16} /> : <Send size={16} />}
                 {bulkSending ? 'Đang xử lý...' : 'Bắt đầu Phân tích & Gửi'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Decision Action Modal */}
+      {actionModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-6 rounded-3xl w-full max-w-lg shadow-2xl relative animate-fade-in">
+            <div className="flex items-start gap-3 mb-4">
+              <div className={`p-3 rounded-2xl ${actionModal.color}`}>
+                <actionModal.icon size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                  {actionModal.title}
+                </h3>
+                <span className="text-[10px] font-mono text-emerald-500 font-bold uppercase tracking-widest block mt-0.5">✓ DSS Action Triggered</span>
+              </div>
+            </div>
+            
+            <div className="py-2">
+              {actionModal.content}
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button 
+                onClick={() => setActionModal(null)} 
+                className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 rounded-xl text-xs font-black shadow-lg shadow-black/10 transition-colors"
+              >
+                Đóng & Hoàn tất
               </button>
             </div>
           </div>

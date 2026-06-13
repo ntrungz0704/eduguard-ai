@@ -2127,7 +2127,36 @@ router.get('/interventions-management', async (req, res) => {
     // Top 100 Ổn định (Resolved/Completed)
     const top100 = resolvedRoadmaps.slice(0, 100);
 
-    res.json({ top20, top50, top100 });
+    // Calculate full database counts for the Intervention Center panel using calculateBaseRisk
+    let statsSummary = {
+      totalStudents: 0,
+      criticalRisk: 0,
+      highRisk: 0,
+      mediumRisk: 0,
+      lowRisk: 0
+    };
+    try {
+      const students = await prisma.student.findMany({
+        include: { scores: true }
+      });
+      const dist = { CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0 };
+      const { calculateBaseRisk } = require('../ai/engines/riskEngine');
+      for (const s of students) {
+        const risk = calculateBaseRisk(s);
+        dist[risk.level]++;
+      }
+      statsSummary = {
+        totalStudents: students.length,
+        criticalRisk: dist.CRITICAL,
+        highRisk: dist.HIGH,
+        mediumRisk: dist.MEDIUM,
+        lowRisk: dist.LOW
+      };
+    } catch (e) {
+      console.error('[Interventions API] Lỗi tính toán statsSummary:', e);
+    }
+
+    res.json({ top20, top50, top100, statsSummary });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

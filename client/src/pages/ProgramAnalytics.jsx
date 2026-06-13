@@ -297,12 +297,12 @@ export default function ProgramAnalytics() {
           </div>
         </div>
 
-        {/* Top 10 Weakest CLOs */}
+        {/* Top 10 Inferred CLO Risks */}
         <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-            <Award className="text-purple-400" size={18} /> Top 10 Chuẩn Đầu Ra (CLO) Yếu Nhất
+            <Award className="text-purple-400" size={18} /> Top 10 Rủi Ro CLO Suy Diễn (Inferred CLO Risk)
           </h3>
-          <p className="text-xs text-slate-500 mb-6 font-semibold">Chỉ số điểm yếu CLO tính toán dựa trên mức độ trượt của các học phần ánh xạ tương ứng</p>
+          <p className="text-xs text-slate-500 mb-6 font-semibold">Ước lượng lỗ hổng CLO (Estimated CLO Gap) suy diễn gián tiếp từ kết quả điểm học phần ánh xạ tương ứng</p>
 
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -313,7 +313,7 @@ export default function ProgramAnalytics() {
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
                 />
-                <Bar dataKey="count" name="Điểm phạt CLO yếu" radius={[0, 4, 4, 0]}>
+                <Bar dataKey="count" name="Ước lượng Lỗ hổng CLO" radius={[0, 4, 4, 0]}>
                   {topWeakestCLOs.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill="#818cf8" />
                   ))}
@@ -326,9 +326,9 @@ export default function ProgramAnalytics() {
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-white/10 text-slate-500 font-bold uppercase">
-                  <th className="pb-2">Chuẩn đầu ra (CLO)</th>
+                  <th className="pb-2">Rủi ro CLO Suy Diễn (Inferred CLO)</th>
                   <th className="pb-2">Môn học gốc</th>
-                  <th className="pb-2 text-right">Mức độ yếu kém</th>
+                  <th className="pb-2 text-right">Điểm rủi ro (Heuristic)</th>
                 </tr>
               </thead>
               <tbody>
