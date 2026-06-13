@@ -640,7 +640,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
             </div>
             
             <div className="flex-1 space-y-2">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">Phân loại:</span>
                 <span className={`text-xs font-black px-2.5 py-1 rounded-full border ${
                   academicHealth.score >= 75 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
@@ -649,6 +649,11 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 }`}>
                   {academicHealth.rating}
                 </span>
+                {academicHealth.cohortPercentile !== undefined && (
+                  <span className="text-xs font-black px-2.5 py-1 rounded-full border bg-blue-500/10 border-blue-500/20 text-blue-400">
+                    Xếp hạng: Top {academicHealth.cohortPercentile}% ({academicHealth.cohortRank}/{academicHealth.totalCohort} SV)
+                  </span>
+                )}
               </div>
               <p className="text-sm text-slate-700 dark:text-slate-350 font-medium leading-relaxed font-sans">
                 {academicHealth.description}
@@ -985,6 +990,12 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 <span>Lớp: <strong className="text-slate-800 dark:text-slate-200">{student.classCode || 'WD18301'}</strong></span>
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
                 <span>Chuyên ngành: <strong className="text-blue-400">Thiết kế & Lập trình Web</strong></span>
+                {dssReport?.academicHealth?.cohortPercentile !== undefined && (
+                  <>
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
+                    <span>Xếp hạng khóa: <strong className="text-emerald-400">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</strong></span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -1250,6 +1261,68 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
         {/* Right column: Action panel & History & AI Forecast */}
         <div className="space-y-8">
           
+          {/* AI Decision Support - Prescription Intervention Recommendation Card */}
+          {dssReport && dssReport.interventionRecommendation && (
+            <div className={`glass-card p-6 rounded-3xl border ${
+              dssReport.interventionRecommendation.colorClass === 'rose' ? 'border-rose-500/20 bg-rose-500/5' :
+              dssReport.interventionRecommendation.colorClass === 'amber' ? 'border-amber-500/20 bg-amber-500/5' :
+              dssReport.interventionRecommendation.colorClass === 'blue' ? 'border-blue-500/20 bg-blue-500/5' :
+              'border-emerald-500/20 bg-emerald-500/5'
+            } relative overflow-hidden`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                <HeartHandshake className={
+                  dssReport.interventionRecommendation.colorClass === 'rose' ? 'text-rose-400' :
+                  dssReport.interventionRecommendation.colorClass === 'amber' ? 'text-amber-400' :
+                  dssReport.interventionRecommendation.colorClass === 'blue' ? 'text-blue-400' :
+                  'text-emerald-400'
+                } size={20} /> Đề Xuất Can Thiệp Học Vụ (Prescriptive Advisory)
+              </h3>
+              <p className="text-[10px] text-slate-500 mb-6 font-semibold">Khuyến nghị hành động tự động từ Động cơ DSS của EduGuard</p>
+              
+              <div className="space-y-4">
+                <div className={`p-4 rounded-2xl border ${
+                  dssReport.interventionRecommendation.colorClass === 'rose' ? 'bg-rose-500/10 border-rose-500/25 text-rose-300' :
+                  dssReport.interventionRecommendation.colorClass === 'amber' ? 'bg-amber-500/10 border-amber-500/25 text-amber-300' :
+                  dssReport.interventionRecommendation.colorClass === 'blue' ? 'bg-blue-500/10 border-blue-500/25 text-blue-300' :
+                  'bg-emerald-500/10 border-emerald-500/25 text-emerald-300'
+                }`}>
+                  <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80">Mức Can Thiệp:</span>
+                  <span className="text-base font-black block mt-1">{dssReport.interventionRecommendation.actionTitle}</span>
+                  <p className="text-xs mt-2 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200">
+                    {dssReport.interventionRecommendation.description}
+                  </p>
+                </div>
+                
+                {/* Quick Action Button mapping to workflow */}
+                {dssReport.interventionRecommendation.actionCode === 'EMAIL_ADVISOR' && (
+                  <button 
+                    onClick={() => handleOpenWorkflow('email', { courseId: dssReport.rootCauseAnalysis?.courseId || 'N/A', risk: 'CRITICAL', explanation: dssReport.rootCauseAnalysis?.explanation })}
+                    className="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail size={14} /> Gửi Email Cảnh báo Học vụ
+                  </button>
+                )}
+                {dssReport.interventionRecommendation.actionCode === 'INVITE_TUTOR' && (
+                  <button 
+                    onClick={() => handleOpenWorkflow('tutor', { courseId: dssReport.rootCauseAnalysis?.courseId || 'N/A', risk: 'HIGH', explanation: dssReport.rootCauseAnalysis?.explanation })}
+                    className="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <BookOpen size={14} /> Đăng ký Lớp Tutor phụ đạo 1 kèm 1
+                  </button>
+                )}
+                {dssReport.interventionRecommendation.actionCode === 'SELF_STUDY_ROADMAP' && (
+                  <button 
+                    onClick={() => setActiveTab('dss')}
+                    className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Sparkles size={14} /> Xem chi tiết lộ trình tự học 12 tuần
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Risk Contributors Card */}
           {dssReport && dssReport.riskContributors && dssReport.riskContributors.length > 0 && (
             <div className="glass-card p-6 rounded-3xl border border-rose-200 dark:border-rose-500/20 bg-white dark:bg-gradient-to-b dark:from-rose-950/20 dark:to-slate-900/40 relative overflow-hidden">

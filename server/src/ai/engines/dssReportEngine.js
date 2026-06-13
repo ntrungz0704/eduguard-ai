@@ -22,6 +22,13 @@ const syllabusGraph = loadKnowledgeJson('syllabus_graph.json');
 const courseDependency = loadKnowledgeJson('course_dependency.json');
 const coursesJson = loadKnowledgeJson('courses.json');
 
+// Module-level caches to prevent O(N^2) DB bottlenecks during batch queries
+let cachedStudentGpas = null;
+let lastCacheTime = 0;
+let cachedCourseStats = null;
+let lastCourseStatsTime = 0;
+const CACHE_DURATION = 60000; // 1 minute cache
+
 // Helper to convert semester name to sortable float
 function getSemesterVal(semStr) {
   const lower = (semStr || '').toLowerCase();
@@ -44,19 +51,30 @@ async function generateDetailedDSSReport(student) {
   // Calculate Base Risk
   const baseRisk = calculateBaseRisk(student);
 
-  // 1. Academic Health Score
-  const healthScore = Math.max(0, 100 - baseRisk.riskScore);
-  let healthRating = 'KHỎE MẠNH 🟢';
-  let healthDesc = 'Học lực ổn định, chuyên cần tốt, không có rủi ro lớn hiện hữu.';
-  if (healthScore < 25) {
-    healthRating = 'NGUY CẤP 🔴';
-    healthDesc = 'Cảnh báo đỏ! Sinh viên trượt nhiều môn tiên quyết cốt lõi và GPA tụt dốc nghiêm trọng. Cần can thiệp khẩn cấp từ Cố vấn.';
-  } else if (healthScore < 50) {
-    healthRating = 'RỦI RO CAO 🟠';
-    healthDesc = 'Có dấu hiệu đứt gãy kiến thức nền tảng và GPA dưới mức trung bình. Cần kế hoạch phụ đạo cụ thể.';
-  } else if (healthScore < 76) {
-    healthRating = 'CẦN CHÚ Ý 🟡';
-    healthDesc = 'Phong độ học tập có sự suy giảm nhẹ hoặc có 1 môn học nguy cơ. Khuyến khích cải thiện chuyên cần.';
+  // 1. Calculate Cohort Percentile (Rank across all 652 students in DB)
+  let rank = 1;
+  let totalCohort = 1;
+  let cohortPercentile = 100.0;
+  try {
+    const now = Date.now();
+    let studentGpas = cachedStudentGpas;
+    if (!studentGpas || now - lastCacheTime > CACHE_DURATION) {
+      const allStudents = await prisma.student.findMany({ include: { scores: true } });
+      studentGpas = allStudents.map(st => {
+        const stScores = st.scores || [];
+        const stats = calculateFptGPA(stScores);
+        return { mssv: st.mssv, gpa: stats.gpa };
+      });
+      studentGpas.sort((a, b) => b.gpa - a.gpa);
+      cachedStudentGpas = studentGpas;
+      lastCacheTime = now;
+    }
+    totalCohort = studentGpas.length;
+    const foundIdx = studentGpas.findIndex(s => s.mssv === student.mssv);
+    rank = foundIdx !== -1 ? foundIdx + 1 : 1;
+    cohortPercentile = totalCohort > 0 ? Math.round((rank / totalCohort) * 100 * 10) / 10 : 100.0;
+  } catch (err) {
+    console.error('[dssReportEngine] Failed to calculate cohort rank:', err);
   }
 
   // 2. Trend Analysis (GPA over semesters)
@@ -141,24 +159,55 @@ async function generateDetailedDSSReport(student) {
     }
   });
 
-  // 4. Root Cause Analysis
+  // 4. Root Cause Analysis (Prerequisite Failure Chain Traversal)
+  // Recursive function to trace the earliest prerequisite failure or weak score (< 7.0)
+  const findRootCauseForCourse = (courseId) => {
+    const node = syllabusGraph[courseId];
+    if (!node || !node.prerequisites || node.prerequisites.length === 0) {
+      return courseId;
+    }
+    
+    // Check if any prerequisite has a weak score (< 7.0) or is failed
+    for (const prereq of node.prerequisites) {
+      const scoreObj = scores.find(s => {
+        const cleanP = prereq.toLowerCase().replace(/\s+/g, '');
+        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+        return cleanS === cleanP || cleanS.includes(cleanP) || cleanP.includes(cleanS);
+      });
+      
+      if (scoreObj && (scoreObj.status === 'FAILED' || (scoreObj.value !== null && scoreObj.value < 7.0))) {
+        return findRootCauseForCourse(prereq);
+      }
+    }
+    return courseId;
+  };
+
   let rootCause = null;
   if (failedCourses.length > 0) {
-    // Find failed course that is a prerequisite to other failed/predicted courses
-    // and doesn't have its own prerequisite failed
-    const candidates = failedCourses.filter(fc => {
-      const node = syllabusGraph[fc];
-      if (!node) return true;
-      // If none of its prerequisites are failed, it is a root cause
-      return !node.prerequisites.some(prereq => failedCourses.includes(prereq));
+    const rcList = [];
+    failedCourses.forEach(fc => {
+      const rcId = findRootCauseForCourse(fc);
+      if (!rcList.includes(rcId)) {
+        rcList.push(rcId);
+      }
     });
     
-    if (candidates.length > 0) {
-      const rcCode = candidates[0];
+    if (rcList.length > 0) {
+      const rcCode = rcList[0];
+      const rcScoreObj = scores.find(s => s.courseId === rcCode);
+      const isWeakPassed = rcScoreObj && rcScoreObj.status !== 'FAILED' && rcScoreObj.value !== null && rcScoreObj.value < 7.0;
+      
+      let explanation = '';
+      if (isWeakPassed) {
+        explanation = `Điểm gãy nền tảng xuất phát từ môn ${rcCode} (${syllabusGraph[rcCode]?.name || rcCode}). Sinh viên tuy đã thi đỗ môn này nhưng chỉ đạt điểm số yếu (${rcScoreObj.value.toFixed(1)}/10), trực tiếp gây thiếu hụt kỹ năng và làm trượt chuỗi môn học kế thừa tiếp theo.`;
+      } else {
+        explanation = `Điểm gãy học thuật nghiêm trọng nhất xuất hiện sớm nhất tại môn ${rcCode} (${syllabusGraph[rcCode]?.name || rcCode}). Việc trượt môn này đã làm gián đoạn dây chuyền tiến độ học tập và chặn đứng các môn chuyên ngành phía sau.`;
+      }
+      
       rootCause = {
         courseId: rcCode,
         name: syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode,
-        explanation: `Điểm gãy học thuật xuất hiện sớm nhất tại môn ${rcCode}. Việc trượt môn này đã làm mất gốc kiến thức nền tảng, gây hiệu ứng Domino làm hỏng các môn phía sau.`
+        explanation
       };
     }
   }
@@ -215,19 +264,79 @@ async function generateDetailedDSSReport(student) {
     }
   });
 
-  // 7. Graduation Risk
+  // 7. Graduation Risk & Delay Index Engine
+  const failedCredits = completedScores.filter(s => s.status === 'FAILED').reduce((sum, s) => sum + getCourseCredits(s.courseId), 0);
+  const blockedCount = blockedCourses.length;
+  
+  // Calculate Bottleneck Weight & Max Chain Depth
+  let bottleneckWeight = 0;
+  let maxChainDepth = 0;
+  
+  failedCourses.forEach(fc => {
+    const directBlocked = blockedCourses.filter(bc => bc.failedCourse === fc);
+    if (directBlocked.length >= 3) {
+      bottleneckWeight += 15;
+    } else if (directBlocked.length > 0) {
+      bottleneckWeight += 8;
+    }
+    
+    let depth = 0;
+    let current = fc;
+    while (depth < 6) { // Safety bound
+      const nextNode = Object.entries(syllabusGraph).find(([key, val]) => val.prerequisites.includes(current));
+      if (nextNode) {
+        depth++;
+        current = nextNode[0];
+      } else {
+        break;
+      }
+    }
+    maxChainDepth = Math.max(maxChainDepth, depth);
+  });
+
+  const delayScore = failedCredits + (blockedCount * 3) + (maxChainDepth * 5) + bottleneckWeight;
+
   let gradRiskLevel = 'LOW';
   let gradRiskDesc = 'Tiến độ học tập bình thường. Đủ điều kiện ra trường đúng hạn.';
   let delaySemesters = 0;
 
-  if (failedCourses.length > 3 || blockedCourses.length > 2) {
+  if (delayScore >= 35) {
+    gradRiskLevel = 'CRITICAL';
+    delaySemesters = 2;
+    gradRiskDesc = `Nguy cơ chậm tốt nghiệp cực kỳ nghiêm trọng (Delay Score: ${delayScore}). Nợ ${failedCourses.length} môn học (gồm các tiên quyết then chốt), chặn dây chuyền ${blockedCount} môn chuyên ngành tiếp theo. Dự kiến ra trường trễ ít nhất 2 học kỳ chính.`;
+  } else if (delayScore >= 20) {
     gradRiskLevel = 'HIGH';
-    delaySemesters = Math.max(1, Math.ceil(failedCourses.length / 3));
-    gradRiskDesc = `Nguy cơ chậm tốt nghiệp rất cao! Hiện tại đang nợ ${failedCourses.length} môn học (trong đó có các môn tiên quyết then chốt). Dự kiến thời gian ra trường bị trễ từ ${delaySemesters} đến ${delaySemesters + 1} học kỳ.`;
-  } else if (failedCourses.length > 0) {
+    delaySemesters = 1.5;
+    gradRiskDesc = `Nguy cơ chậm tốt nghiệp cao (Delay Score: ${delayScore}). Thất bại ở môn tiên quyết cốt lõi gây tắc nghẽn chuỗi, chặn đứng ${blockedCount} học phần phía sau. Dự kiến chậm ra trường từ 1 đến 2 học kỳ chính.`;
+  } else if (delayScore >= 5) {
     gradRiskLevel = 'MEDIUM';
     delaySemesters = 1;
-    gradRiskDesc = `Rủi ro chậm tốt nghiệp trung bình. Nợ ${failedCourses.length} môn có thể học bù trong kỳ hè để kịp tiến độ.`;
+    gradRiskDesc = `Nguy cơ chậm tốt nghiệp trung bình (Delay Score: ${delayScore}). Nợ ${failedCourses.length} môn. Hệ thống đề xuất đăng ký học bù học kỳ hè (Summer Term) để đuổi kịp tiến độ đúng hạn.`;
+  } else if (delayScore > 0) {
+    gradRiskLevel = 'LOW';
+    delaySemesters = 0.5;
+    gradRiskDesc = `Rủi ro chậm tốt nghiệp thấp (Delay Score: ${delayScore}). Sinh viên chỉ nợ nhẹ 1 môn không tiên quyết chính, có thể trả nợ dễ dàng trong kỳ học hè kế tiếp.`;
+  }
+
+  // 7.5. Align Health Score with Graduation Risk
+  let healthScore = Math.max(0, 100 - baseRisk.riskScore);
+  let healthRating = 'KHỎE MẠNH 🟢';
+  let healthDesc = 'Học lực ổn định, chuyên cần tốt, không có rủi ro lớn hiện hữu.';
+  
+  if (gradRiskLevel === 'CRITICAL') {
+    healthRating = 'NGUY CẤP 🔴';
+    healthDesc = 'Cảnh báo đỏ! Sinh viên trượt nhiều môn tiên quyết cốt lõi và gặp tắc nghẽn chuỗi môn học nghiêm trọng. Cần can thiệp khẩn cấp từ Cố vấn.';
+    if (healthScore >= 40) healthScore = 35; 
+  } else if (gradRiskLevel === 'HIGH') {
+    healthRating = 'RỦI RO CAO 🟠';
+    healthDesc = 'Có dấu hiệu đứt gãy kiến thức nền tảng và nợ môn tiên quyết làm chậm tiến độ tốt nghiệp. Cần kế hoạch can thiệp cụ thể.';
+    if (healthScore >= 60 || healthScore < 40) healthScore = 52; 
+  } else if (gradRiskLevel === 'MEDIUM') {
+    healthRating = 'CẦN CHÚ Ý 🟡';
+    healthDesc = 'Phong độ học tập có sự suy giảm nhẹ hoặc đang nợ một vài môn học có thể cải thiện được trong học kỳ hè.';
+    if (healthScore >= 80 || healthScore < 60) healthScore = 72; 
+  } else {
+    if (healthScore < 80) healthScore = 85; 
   }
 
   // 8. Recovery Roadmap
@@ -236,7 +345,7 @@ async function generateDetailedDSSReport(student) {
     recoveryRoadmap.push({
       phase: 'Giai đoạn 1 (Tuần 1 - 4)',
       title: `Lấp lỗ hổng gốc rễ: ${rootCause.courseId}`,
-      focus: `Học lại lý thuyết và tự làm lại các bài lab thực hành của môn ${rootCause.courseId} (${rootCause.name}). Tập trung vào các kỹ năng: ${syllabusGraph[rootCause.courseId]?.core_skills?.join(', ') || 'kiến thức nền tảng'}.`
+      focus: `Học lại lý thuyết và tự làm lại các bài lab thực hành của môn ${rootCause.courseId} (${rootCause.name}). Tập trung vào các kiến thức nền tảng và CLO thiếu hụt.`
     });
     
     // Find intermediate blocked courses
@@ -284,30 +393,86 @@ async function generateDetailedDSSReport(student) {
     });
   }
 
+  // 8.5. Intervention Recommendation Engine
+  let interventionRec = {
+    riskLevel: gradRiskLevel, 
+    actionCode: 'PERIODIC_MONITORING',
+    actionTitle: 'Theo dõi định kỳ & Duy trì phong độ',
+    description: 'Sinh viên đang có tiến độ học tập tốt và an toàn. Hệ thống khuyến nghị tiếp tục theo dõi định kỳ, khuyến khích sinh viên duy trì phong độ hiện tại để chuẩn bị tốt cho dự án tốt nghiệp.',
+    colorClass: 'emerald'
+  };
+
+  if (gradRiskLevel === 'CRITICAL') {
+    interventionRec = {
+      riskLevel: 'CRITICAL',
+      actionCode: 'EMAIL_ADVISOR',
+      actionTitle: 'Gửi Email khẩn cấp cho Cố vấn học tập & Phụ huynh',
+      description: 'Mức độ rủi ro NGUY CẤP. Hệ thống tự động kích hoạt luồng đề xuất gửi thông báo khẩn cho Cố vấn học tập và phụ huynh qua email/SMS để phối hợp gặp mặt trực tiếp, thảo luận phương án can thiệp khẩn cấp tránh bị buộc thôi học.',
+      colorClass: 'rose'
+    };
+  } else if (gradRiskLevel === 'HIGH') {
+    interventionRec = {
+      riskLevel: 'HIGH',
+      actionCode: 'INVITE_TUTOR',
+      actionTitle: 'Mời tham gia Lớp Tutor & Mentorship cá nhân (1 kèm 1)',
+      description: 'Mức độ rủi ro CAO. Hệ thống đề xuất ghi danh tự động sinh viên vào danh sách chờ xếp lớp học nhóm Tutor cấp tốc buổi tối (miễn phí) và ghép cặp với Mentor học tập (sinh viên giỏi khóa trên) để lấp lỗ hổng kiến thức nền tảng.',
+      colorClass: 'rose'
+    };
+  } else if (gradRiskLevel === 'MEDIUM') {
+    interventionRec = {
+      riskLevel: 'MEDIUM',
+      actionCode: 'SELF_STUDY_ROADMAP',
+      actionTitle: 'Đề xuất Lộ trình Tự học cải thiện 12 tuần',
+      description: 'Mức độ rủi ro TRUNG BÌNH. Hệ thống tự động biên soạn một lộ trình tự học cá nhân hóa 12 tuần (chia làm 3 giai đoạn) tập trung giải quyết lỗ hổng kiến thức của các môn học tiên quyết. Sinh viên cần hoàn thành các cột mốc tự học theo kế hoạch.',
+      colorClass: 'amber'
+    };
+  } else if (gradRiskLevel === 'LOW' && delaySemesters > 0) {
+    interventionRec = {
+      riskLevel: 'LOW_WARNING',
+      actionCode: 'SELF_STUDY_ROADMAP',
+      actionTitle: 'Đề xuất Đăng ký học kỳ hè (Summer Term)',
+      description: 'Mức độ rủi ro nhẹ. Sinh viên chỉ cần đăng ký học bù môn đang nợ trong học kỳ hè sắp tới để đảm bảo không bị chậm tiến độ tốt nghiệp của cả khóa.',
+      colorClass: 'blue'
+    };
+  }
+
   // 9. Program-Level Comparison
   const courseIds = scores.filter(s => s.value !== null).map(s => s.courseId);
   const programComparison = [];
 
   if (courseIds.length > 0) {
-    const courseStatsList = await Promise.all(courseIds.map(async (cid) => {
-      const allCourseScores = await prisma.score.findMany({
-        where: { courseId: cid, value: { not: null } }
+    const now = Date.now();
+    let courseStats = cachedCourseStats;
+    if (!courseStats || now - lastCourseStatsTime > CACHE_DURATION) {
+      const allScores = await prisma.score.findMany({
+        where: { value: { not: null } }
       });
-      const validVals = allCourseScores.map(s => s.value).filter(v => v !== null);
-      const avg = validVals.length > 0 ? validVals.reduce((sum, v) => sum + v, 0) / validVals.length : 0.0;
-      const passedCount = allCourseScores.filter(s => s.status === 'PASSED' || s.value >= 5.0).length;
-      const passRate = allCourseScores.length > 0 ? (passedCount / allCourseScores.length) * 100 : 100.0;
-
-      return {
-        courseId: cid,
-        avg: Math.round(avg * 10) / 10,
-        passRate: Math.round(passRate * 10) / 10
-      };
-    }));
+      const statsMap = {};
+      allScores.forEach(s => {
+        if (!statsMap[s.courseId]) {
+          statsMap[s.courseId] = [];
+        }
+        statsMap[s.courseId].push(s);
+      });
+      
+      courseStats = {};
+      Object.entries(statsMap).forEach(([cid, scoresList]) => {
+        const vals = scoresList.map(s => s.value);
+        const avg = vals.reduce((sum, v) => sum + v, 0) / vals.length;
+        const passedCount = scoresList.filter(s => s.status === 'PASSED' || s.value >= 5.0).length;
+        const passRate = (passedCount / scoresList.length) * 100;
+        courseStats[cid] = {
+          avg: Math.round(avg * 10) / 10,
+          passRate: Math.round(passRate * 10) / 10
+        };
+      });
+      cachedCourseStats = courseStats;
+      lastCourseStatsTime = now;
+    }
 
     scores.forEach(s => {
       if (s.value === null) return;
-      const stat = courseStatsList.find(c => c.courseId === s.courseId);
+      const stat = courseStats[s.courseId];
       if (stat) {
         programComparison.push({
           courseId: s.courseId,
@@ -325,7 +490,10 @@ async function generateDetailedDSSReport(student) {
     academicHealth: {
       score: healthScore,
       rating: healthRating,
-      description: healthDesc
+      description: healthDesc,
+      cohortRank: rank,
+      totalCohort,
+      cohortPercentile
     },
     trendAnalysis: {
       trendData,
@@ -342,10 +510,11 @@ async function generateDetailedDSSReport(student) {
     graduationRisk: {
       level: gradRiskLevel,
       description: gradRiskDesc,
-      delaySemesters
+      delaySemesters,
+      delayScore
     },
     recoveryRoadmap,
-    programLevelComparison: programComparison
+    interventionRecommendation: interventionRec
   };
 }
 

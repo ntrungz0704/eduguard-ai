@@ -7,7 +7,8 @@ import {
   LayoutDashboard, BookOpen, MessageSquare, Map,
   TrendingUp, TrendingDown, ChevronRight,
   AlertCircle, CheckCircle, Clock, Award,
-  GraduationCap, BarChart2, Send, Paperclip, User, Loader2, Sparkles, HelpCircle, Activity, Check, Bot
+  GraduationCap, BarChart2, Send, Paperclip, User, Loader2, Sparkles, HelpCircle, Activity, Check, Bot,
+  Target, HeartHandshake
 } from 'lucide-react';
 
 
@@ -247,7 +248,7 @@ const calculateFptStats = (scores) => {
 // ─────────────────────────────────────────────
 //  Overview Tab
 // ─────────────────────────────────────────────
-function OverviewTab({ data, curriculumCourses, stats }) {
+function OverviewTab({ data, curriculumCourses, stats, dssReport, handleTabChange }) {
   const predictions = Array.isArray(data?.predictions) ? data.predictions : [];
   
   const gpa = stats.gpa10;
@@ -378,6 +379,107 @@ function OverviewTab({ data, curriculumCourses, stats }) {
           </div>
         </div>
       </div>
+
+      {/* ── AI Decision Support System (DSS) Insights ── */}
+      {dssReport && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* Health & Graduation Risk Card */}
+          <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900/10 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-4 flex items-center gap-1.5">
+                <Activity size={14} className="text-emerald-400" /> Chỉ số Sức khỏe Học tập & Tiến độ Tốt nghiệp
+              </h4>
+              
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-center">
+                  <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1 font-mono">Health Score</span>
+                  <span className={`text-2xl font-black ${
+                    dssReport.academicHealth.score >= 80 ? 'text-emerald-400' :
+                    dssReport.academicHealth.score >= 60 ? 'text-amber-400' :
+                    dssReport.academicHealth.score >= 40 ? 'text-orange-400' : 'text-rose-500'
+                  }`}>
+                    {dssReport.academicHealth.score}/100
+                  </span>
+                  <span className="block text-[9px] text-slate-400 mt-1 font-bold">{dssReport.academicHealth.rating}</span>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-center">
+                  <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1 font-mono">Rủi ro Tốt nghiệp</span>
+                  <span className={`text-2xl font-black ${
+                    dssReport.graduationRisk.level === 'CRITICAL' ? 'text-rose-500' :
+                    dssReport.graduationRisk.level === 'HIGH' ? 'text-orange-400' :
+                    dssReport.graduationRisk.level === 'MEDIUM' ? 'text-amber-400' : 'text-emerald-400'
+                  }`}>
+                    {dssReport.graduationRisk.level}
+                  </span>
+                  <span className="block text-[9px] text-slate-400 mt-1 font-bold">
+                    {dssReport.graduationRisk.delaySemesters > 0 ? `Trễ +${dssReport.graduationRisk.delaySemesters} kỳ` : 'Đúng hạn'}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-700 dark:text-slate-355 leading-relaxed font-medium bg-slate-950/20 p-3.5 rounded-xl border border-white/5">
+                {dssReport.graduationRisk.description}
+              </p>
+            </div>
+            
+            {dssReport.graduationRisk.delayScore > 0 && (
+              <div className="mt-4 text-[10px] text-slate-500 font-bold font-mono">
+                Graduation Delay Index (Delay Score): {dssReport.graduationRisk.delayScore}
+              </div>
+            )}
+          </div>
+
+          {/* Intervention Recommendation Card */}
+          {dssReport.interventionRecommendation && (
+            <div className={`glass-card p-6 rounded-2xl border flex flex-col justify-between relative overflow-hidden ${
+              dssReport.interventionRecommendation.colorClass === 'rose' ? 'border-rose-500/20 bg-rose-500/5 text-rose-300' :
+              dssReport.interventionRecommendation.colorClass === 'amber' ? 'border-amber-500/20 bg-amber-500/5 text-amber-300' :
+              dssReport.interventionRecommendation.colorClass === 'blue' ? 'border-blue-500/20 bg-blue-500/5 text-blue-300' :
+              'border-emerald-500/20 bg-emerald-500/5 text-emerald-300'
+            }`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-4 flex items-center gap-1.5">
+                  <HeartHandshake size={14} /> Khuyến nghị Hành động (Prescriptive Recommendation)
+                </h4>
+                
+                <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80 mb-1">Hành động can thiệp:</span>
+                <span className="text-lg font-black block leading-snug">{dssReport.interventionRecommendation.actionTitle}</span>
+                
+                <p className="text-xs mt-3 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200 bg-slate-950/20 p-3.5 rounded-xl border border-white/5">
+                  {dssReport.interventionRecommendation.description}
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex gap-2">
+                {dssReport.interventionRecommendation.actionCode === 'INVITE_TUTOR' && (
+                  <button 
+                    onClick={() => handleTabChange('chat')}
+                    className="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <MessageSquare size={13} /> Chat với cố vấn để ghép lớp Tutor
+                  </button>
+                )}
+                {dssReport.interventionRecommendation.actionCode === 'SELF_STUDY_ROADMAP' && (
+                  <button 
+                    onClick={() => handleTabChange('roadmap')}
+                    className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Sparkles size={13} /> Xem Lộ trình 12 Tuần
+                  </button>
+                )}
+                {dssReport.interventionRecommendation.actionCode === 'PERIODIC_MONITORING' && (
+                  <div className="text-[10px] text-emerald-400 font-bold italic">
+                    🎉 Tiến độ học tập của bạn rất tốt! Hãy tiếp tục duy trì nhé.
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Auto AI Analytics Summary */}
       <div className="glass-card p-6 rounded-2xl border border-blue-200 dark:border-blue-500/20 bg-white dark:bg-gradient-to-br dark:from-blue-950/20 dark:to-indigo-950/10 relative overflow-hidden">
@@ -1652,6 +1754,7 @@ export default function StudentDashboard() {
     setSearchParams({ tab: tabId });
   };
   const [courseDependencies, setCourseDependencies] = useState({});
+  const [dssReport, setDssReport] = useState(null);
 
   useEffect(() => {
     const fetch = async () => {
@@ -1668,10 +1771,18 @@ export default function StudentDashboard() {
           const depRes = await api.get('/knowledge/dependencies');
           depData = depRes.data.data || {};
         } catch(e) { console.warn("Failed to load dependencies"); }
+
+        // 4. Fetch DSS Report
+        let dssData = null;
+        try {
+          const dssRes = await api.get(`/students/${currentUser.id}/dss-report`);
+          dssData = dssRes.data;
+        } catch(e) { console.warn("Failed to load DSS report"); }
         
         setData(studentRes.data);
         setCurriculum(currRes.data.curriculumOrder || []);
         setCourseDependencies(depData);
+        setDssReport(dssData);
       } catch (err) {
         console.error('Error fetching student dashboard details:', err);
         // Fallback placeholder data
@@ -1866,10 +1977,13 @@ export default function StudentDashboard() {
               <span>MSSV: <span className="text-slate-800 dark:text-slate-200 font-bold">{currentUser.id}</span></span>
               <span>Lớp: <span className="text-slate-800 dark:text-slate-200 font-bold">{data?.classCode || 'WD18301'}</span></span>
               <span>Học kỳ khung: <span className="text-amber-400 font-bold">Kỳ {detectedSemester}</span></span>
+              {dssReport?.academicHealth?.cohortPercentile !== undefined && (
+                <span>Xếp hạng khóa: <span className="text-emerald-400 font-bold">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</span></span>
+              )}
               <span>Hệ đào tạo: <span className="text-slate-800 dark:text-slate-200 font-bold">Cao đẳng (FPT Poly)</span></span>
             </p>
           </div>
-
+ 
           {/* GPA Luxury circle */}
           {gpa !== null && (
             <div className="shrink-0 text-center bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 p-4 rounded-2xl w-44 shadow-inner">
@@ -1894,7 +2008,7 @@ export default function StudentDashboard() {
           )}
         </div>
       </div>
-
+ 
       {/* ── Sleek Premium Navigation Tabs ── */}
       <div className="glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-2 shadow-lg">
         <div className="flex gap-2 overflow-x-auto scrollbar-none">
@@ -1909,9 +2023,9 @@ export default function StudentDashboard() {
           ))}
         </div>
       </div>
-
+ 
       {/* ── Dynamic Tab Content Render ── */}
-      {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} stats={stats} />}
+      {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} stats={stats} dssReport={dssReport} handleTabChange={handleTabChange} />}
       {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}
