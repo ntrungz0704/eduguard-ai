@@ -249,6 +249,16 @@ router.get('/messages/:userId', async (req, res) => {
   const { role } = req.query; // 'ADVISOR' or 'STUDENT'
   
   try {
+    // Fetch all student IDs to identify who is a student
+    const allStudents = await prisma.student.findMany({
+      select: { mssv: true, name: true }
+    });
+    const studentIds = allStudents.map(s => s.mssv);
+    const studentMap = {};
+    for (const s of allStudents) {
+      studentMap[s.mssv] = s.name;
+    }
+
     // Fetch all advisors to build advisor list
     const advisors = await prisma.user.findMany({
       where: {
@@ -280,12 +290,25 @@ router.get('/messages/:userId', async (req, res) => {
         orderBy: { createdAt: 'desc' }
       });
     } else {
-      // Fetch ALL messages where sender or receiver is in advisorIds (student-advisor chats)
+      // Fetch ALL messages where sender or receiver is in advisorIds OR not in studentIds (student-advisor chats)
+      // This is extremely robust in case some old advisor IDs are no longer in the User table due to re-seeding
       messages = await prisma.message.findMany({
         where: {
           OR: [
             { senderId: { in: advisorIds } },
-            { receiverId: { in: advisorIds } }
+            { receiverId: { in: advisorIds } },
+            {
+              AND: [
+                { senderId: { notIn: studentIds } },
+                { receiverId: { in: studentIds } }
+              ]
+            },
+            {
+              AND: [
+                { senderId: { in: studentIds } },
+                { receiverId: { notIn: studentIds } }
+              ]
+            }
           ]
         },
         include: { attachments: true },
@@ -293,24 +316,10 @@ router.get('/messages/:userId', async (req, res) => {
       });
     }
     
-    // Find names for students in the messages
-    const studentIds = [...new Set(messages.flatMap(m => [m.senderId, m.receiverId]))]
-      .filter(id => !advisorMap[id]);
-    
-    const students = await prisma.student.findMany({
-      where: { mssv: { in: studentIds } },
-      select: { mssv: true, name: true }
-    });
-    
-    const studentMap = {};
-    for (const s of students) {
-      studentMap[s.mssv] = s.name;
-    }
-    
     // Map names on each message
     for (const msg of messages) {
-      msg.senderName = advisorMap[msg.senderId] || studentMap[msg.senderId] || msg.senderId;
-      msg.receiverName = advisorMap[msg.receiverId] || studentMap[msg.receiverId] || msg.receiverId;
+      msg.senderName = advisorMap[msg.senderId] || studentMap[msg.senderId] || (studentIds.includes(msg.senderId) ? msg.senderId : 'Cố vấn Học vụ');
+      msg.receiverName = advisorMap[msg.receiverId] || studentMap[msg.receiverId] || (studentIds.includes(msg.receiverId) ? msg.receiverId : 'Cố vấn Học vụ');
     }
     
     // Group by conversation partner
@@ -318,22 +327,16 @@ router.get('/messages/:userId', async (req, res) => {
     for (const msg of messages) {
       let partnerId;
       if (role === 'STUDENT') {
-        // For student, group all advisor messages under the virtual advisor-group
-        const isSenderAdvisor = advisorIds.includes(msg.senderId);
-        const isReceiverAdvisor = advisorIds.includes(msg.receiverId);
-        if (isSenderAdvisor || isReceiverAdvisor) {
-          partnerId = 'advisor-group';
-        } else {
-          partnerId = msg.senderId === userId ? msg.receiverId : msg.senderId;
-        }
+        // For student, group ALL advisor messages under the virtual advisor-group
+        partnerId = 'advisor-group';
       } else {
         // For advisor, group by student MSSV
-        const isSenderAdvisor = advisorIds.includes(msg.senderId);
-        const isReceiverAdvisor = advisorIds.includes(msg.receiverId);
-        if (isSenderAdvisor && !isReceiverAdvisor) {
-          partnerId = msg.receiverId;
-        } else if (!isSenderAdvisor && isReceiverAdvisor) {
+        const isSenderStudent = studentIds.includes(msg.senderId);
+        const isReceiverStudent = studentIds.includes(msg.receiverId);
+        if (isSenderStudent) {
           partnerId = msg.senderId;
+        } else if (isReceiverStudent) {
+          partnerId = msg.receiverId;
         } else {
           partnerId = msg.senderId === userId ? msg.receiverId : msg.senderId;
         }
@@ -517,17 +520,6 @@ router.get('/advisors', async (req, res) => {
       email: 'support@eduguard.ai'
     };
     res.json([virtualAdvisor, ...advisors]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-router.get('/debug-db', async (req, res) => {
-  try {
-    const users = await prisma.user.findMany();
-    const messages = await prisma.message.findMany();
-    const students = await prisma.student.findMany({ select: { mssv: true, name: true } });
-    res.json({ users, messages, students });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
