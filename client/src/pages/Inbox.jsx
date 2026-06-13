@@ -406,7 +406,7 @@ export default function Inbox() {
               >
                 <div className="flex justify-between items-start mb-1">
                   <h4 className="font-extrabold text-[#0F172A] dark:text-slate-200 text-sm truncate">{conv.partnerName}</h4>
-                  {conv.unreadCount > 0 && (
+                  {conv.unreadCount > 0 && conv.partnerId !== activePartnerId && (
                     <span className="bg-rose-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-sm">
                       {conv.unreadCount}
                     </span>
