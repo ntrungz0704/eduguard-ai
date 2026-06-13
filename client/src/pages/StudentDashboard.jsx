@@ -65,6 +65,43 @@ const TabBtn = ({ active, onClick, icon, label, badge = null }) => (
   </button>
 );
 
+const DEFAULT_CURRICULUM = [
+  { id: 'COM107', name: 'Tin học', credits: 3 },
+  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 3 },
+  { id: 'PDP102', name: 'Kỹ năng học tập', credits: 2 },
+  { id: 'COM108', name: 'Nhập môn lập trình', credits: 3 },
+  { id: 'ITI101', name: 'Nhập môn Công nghệ thông tin', credits: 3 },
+  { id: 'VIE104', name: 'Giáo dục quốc phòng', credits: 4 },
+  { id: 'ENT112', name: 'Tiếng Anh 1.1', credits: 3 },
+  { id: 'COM201', name: 'Cơ sở dữ liệu', credits: 3 },
+  { id: 'WEB101', name: 'Xây dựng trang Web', credits: 3 },
+  { id: 'ENT12', name: 'Tiếng Anh 1.2', credits: 3 },
+  { id: 'WEB104', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
+  { id: 'WEB108', name: 'Lập trình PHP cơ bản', credits: 3 },
+  { id: 'ENT21', name: 'Tiếng Anh 2.1', credits: 3 },
+  { id: 'VIE108', name: 'Chính trị', credits: 5 },
+  { id: 'WEB302', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
+  { id: 'WEB201', name: 'Lập trình PHP 1', credits: 3 },
+  { id: 'VIE102', name: 'Pháp luật', credits: 2 },
+  { id: 'PDP103', name: 'Kỹ năng phát triển bản thân', credits: 2 },
+  { id: 'WEB105', name: 'Thiết kế UI/UX', credits: 3 },
+  { id: 'WEB204', name: 'Dự án mẫu', credits: 3 },
+  { id: 'ENT22', name: 'Tiếng Anh 2.2', credits: 3 },
+  { id: 'WEB102', name: 'Quản trị website', credits: 3 },
+  { id: 'WEB205', name: 'Marketing trên Internet', credits: 3 },
+  { id: 'WEB501', name: 'Lập trình ECMAScript', credits: 3 },
+  { id: 'WEB206', name: 'Lập trình Javascript nâng cao', credits: 3 },
+  { id: 'PRO101', name: 'Dự án 1', credits: 3 },
+  { id: 'WEB503', name: 'NodeJS & Restful Web Service', credits: 3 },
+  { id: 'WEB502', name: 'Lập trình TypeScript', credits: 3 },
+  { id: 'PDP104', name: 'Kỹ năng làm việc', credits: 2 },
+  { id: 'SYB301', name: 'Khởi sự doanh nghiệp', credits: 3 },
+  { id: 'WEB208', name: 'Lập trình Front-End Framework 1', credits: 3 },
+  { id: 'WEB209', name: 'Lập trình Front-End Framework 2', credits: 3 },
+  { id: 'PRO11', name: 'Thực tập tốt nghiệp', credits: 5 },
+  { id: 'PRO22', name: 'Dự án tốt nghiệp', credits: 5 }
+];
+
 function getCourseCredits(courseNameOrId) {
   const name = String(courseNameOrId || '').trim();
   const lower = name.toLowerCase();
@@ -302,12 +339,12 @@ function OverviewTab({ data, curriculumCourses, stats, dssReport, handleTabChang
   // Data for Charts
   const chartData = useMemo(() => {
     const sems = [
-      { name: 'Kỳ 1', courses: curriculumCourses.slice(0, 7) },
-      { name: 'Kỳ 2', courses: curriculumCourses.slice(7, 12) },
-      { name: 'Kỳ 3', courses: curriculumCourses.slice(12, 20) },
-      { name: 'Kỳ 4', courses: curriculumCourses.slice(20, 26) },
-      { name: 'Kỳ 5', courses: curriculumCourses.slice(26, 32) },
-      { name: 'Kỳ 6', courses: curriculumCourses.slice(32, curriculumCourses.length) }
+      { name: 'Kỳ 1', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 1) },
+      { name: 'Kỳ 2', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 2) },
+      { name: 'Kỳ 3', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 3) },
+      { name: 'Kỳ 4', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 4) },
+      { name: 'Kỳ 5', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 5) },
+      { name: 'Kỳ 6', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 6) }
     ];
     let cumTotal = 0;
     let cumCount = 0;
@@ -798,13 +835,13 @@ function GradesTab({ curriculumCourses, courseDependencies }) {
                               )}
                             </>
                           ) : (
-                            <span className="text-xs text-slate-600">—</span>
+                            <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>
                           )}
                         </div>
 
                         {/* Score 4 - col-span-1 */}
                         <div className="col-span-1 text-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                          {c.value !== null ? get40Scale(c.value).toFixed(2) : '—'}
+                          {c.value !== null ? get40Scale(c.value).toFixed(2) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.00</span>}
                         </div>
 
                         {/* Letter - col-span-1 */}
@@ -813,7 +850,7 @@ function GradesTab({ curriculumCourses, courseDependencies }) {
                             <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block min-w-[32px] text-center">
                               {getLetterGrade(c.value)}
                             </span>
-                          ) : '—'}
+                          ) : <span className="text-xs text-slate-400 dark:text-slate-600">—</span>}
                         </div>
 
                         {/* Status - col-span-1 */}
@@ -1072,14 +1109,13 @@ function CourseInsightModal({ course, dependencies, onClose }) {
 function RoadmapTab({ curriculumCourses, courseDependencies }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
   
-  // Let's divide curriculum courses into 6 semesters dynamically
-  const totalCourses = curriculumCourses.length;
-  const sem1 = curriculumCourses.slice(0, 7);
-  const sem2 = curriculumCourses.slice(7, 12);
-  const sem3 = curriculumCourses.slice(12, 20);
-  const sem4 = curriculumCourses.slice(20, 26);
-  const sem5 = curriculumCourses.slice(26, 32);
-  const sem6 = curriculumCourses.slice(32, totalCourses);
+  // Let's divide curriculum courses into 6 semesters dynamically using getCurriculumSemester
+  const sem1 = curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 1);
+  const sem2 = curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 2);
+  const sem3 = curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 3);
+  const sem4 = curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 4);
+  const sem5 = curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 5);
+  const sem6 = curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 6);
 
   const semesters = [
     { name: 'Học kỳ 1 (Cơ bản)', courses: sem1 },
@@ -1824,118 +1860,141 @@ export default function StudentDashboard() {
     predictionMap[p.courseId] = p;
   });
 
-  const usedScoreIds = new Set();
-  // Soft-matching helpers to handle suffixes like (TKTW) or - Vovinam
-  const findMatchingScore = (currId) => {
-    if (scoreMap[currId] && !usedScoreIds.has(scoreMap[currId].id || scoreMap[currId].courseId)) {
-      usedScoreIds.add(scoreMap[currId].id || scoreMap[currId].courseId);
-      return scoreMap[currId];
-    }
-    const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
-    const found = studentScores.find(s => {
-      if (usedScoreIds.has(s.id || s.courseId)) return false;
-      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-      const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
-      return (
-        cleanS.includes(cleanCurr) ||
-        cleanCurr.includes(cleanS) ||
-        cleanName === cleanCurr ||
-        cleanName.includes(cleanCurr) ||
-        cleanCurr.includes(cleanName) ||
-        (cleanCurr.includes('thểchất') && (cleanS.includes('thểchất') || cleanName.includes('thểchất'))) ||
-        (cleanCurr.includes('dựánmẫu') && (cleanS.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
-      );
-    });
-    if (found) usedScoreIds.add(found.id || found.courseId);
-    return found;
-  };
+  const buildCurriculumCourses = () => {
+    const names = (curriculum && curriculum.length > 0)
+      ? curriculum
+      : DEFAULT_CURRICULUM.map(c => c.name);
 
-  const findMatchingPrediction = (currId) => {
-    if (predictionMap[currId]) return predictionMap[currId];
-    const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
-    return predictions.find(p => {
-      const cleanP = p.courseId.toLowerCase().replace(/\s+/g, '');
-      const cleanName = (p.course?.name || '').toLowerCase().replace(/\s+/g, '');
-      return (
-        cleanP.includes(cleanCurr) ||
-        cleanCurr.includes(cleanP) ||
-        cleanName === cleanCurr ||
-        cleanName.includes(cleanCurr) ||
-        cleanCurr.includes(cleanName) ||
-        (cleanCurr.includes('thểchất') && (cleanP.includes('thểchất') || cleanName.includes('thểchất'))) ||
-        (cleanCurr.includes('dựánmẫu') && (cleanP.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
-      );
-    });
-  };
+    const usedScoreIds = new Set();
+    const findMatchingScore = (currId) => {
+      if (scoreMap[currId] && !usedScoreIds.has(scoreMap[currId].id || scoreMap[currId].courseId)) {
+        usedScoreIds.add(scoreMap[currId].id || scoreMap[currId].courseId);
+        return scoreMap[currId];
+      }
+      const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
+      
+      // Try direct match in scoreMap by code
+      const directCode = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === cleanCurr || c.id.toLowerCase().replace(/\s+/g, '') === cleanCurr);
+      if (directCode && scoreMap[directCode.id] && !usedScoreIds.has(directCode.id)) {
+        usedScoreIds.add(directCode.id);
+        return scoreMap[directCode.id];
+      }
 
-  // Dynamic mapping
-  const curriculumCourses = curriculum.map(courseId => {
-    const scoreObj = findMatchingScore(courseId);
-    const predObj = findMatchingPrediction(courseId);
-    
-    let status = 'NOT_STARTED'; // NOT_STARTED, STUDYING, PASSED, FAILED
-    let value = null;
-    let isPredicted = false;
-    let credits = getCourseCredits(courseId);
-    let semester = '';
+      const found = studentScores.find(s => {
+        if (usedScoreIds.has(s.id || s.courseId)) return false;
+        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+        const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
+        return (
+          cleanS.includes(cleanCurr) ||
+          cleanCurr.includes(cleanS) ||
+          cleanName === cleanCurr ||
+          cleanName.includes(cleanCurr) ||
+          cleanCurr.includes(cleanName) ||
+          (cleanCurr.includes('thểchất') && (cleanS.includes('thểchất') || cleanName.includes('thểchất'))) ||
+          (cleanCurr.includes('dựánmẫu') && (cleanS.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
+        );
+      });
+      if (found) usedScoreIds.add(found.id || found.courseId);
+      return found;
+    };
 
-    if (scoreObj) {
-      value = scoreObj.value;
-      status = scoreObj.status; // 'PASSED', 'FAILED', 'STUDYING'
-      credits = getCourseCredits(scoreObj.courseId || courseId);
-      semester = scoreObj.semester;
-    }
+    const findMatchingPrediction = (currId) => {
+      if (predictionMap[currId]) return predictionMap[currId];
+      const cleanCurr = currId.toLowerCase().replace(/\s+/g, '');
+      
+      // Try direct match in predictionMap by code
+      const directCode = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === cleanCurr || c.id.toLowerCase().replace(/\s+/g, '') === cleanCurr);
+      if (directCode && predictionMap[directCode.id]) {
+        return predictionMap[directCode.id];
+      }
 
-    if (predObj) {
-      status = 'STUDYING';
-      value = predObj.predictedScore;
-      isPredicted = true;
-    }
+      return predictions.find(p => {
+        const cleanP = p.courseId.toLowerCase().replace(/\s+/g, '');
+        const cleanName = (p.course?.name || '').toLowerCase().replace(/\s+/g, '');
+        return (
+          cleanP.includes(cleanCurr) ||
+          cleanCurr.includes(cleanP) ||
+          cleanName === cleanCurr ||
+          cleanName.includes(cleanCurr) ||
+          cleanCurr.includes(cleanName) ||
+          (cleanCurr.includes('thểchất') && (cleanP.includes('thểchất') || cleanName.includes('thểchất'))) ||
+          (cleanCurr.includes('dựánmẫu') && (cleanP.includes('dựánmẫu') || cleanName.includes('dựánmẫu')))
+        );
+      });
+    };
 
-    if (value === null && status === 'STUDYING') {
+    const result = names.map(courseId => {
+      const scoreObj = findMatchingScore(courseId);
+      const predObj = findMatchingPrediction(courseId);
+      const matchedConfig = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === courseId.toLowerCase().replace(/\s+/g, ''));
+      
+      const displayCourseId = scoreObj?.courseId || matchedConfig?.id || courseId;
+      const displayCourseName = scoreObj?.course?.name || matchedConfig?.name || courseId;
+
+      let status = 'NOT_STARTED'; // NOT_STARTED, STUDYING, PASSED, FAILED
+      let value = null;
+      let isPredicted = false;
+      let credits = scoreObj?.course?.credits || matchedConfig?.credits || getCourseCredits(displayCourseId);
+      let semester = '';
+
+      if (scoreObj) {
+        value = scoreObj.value;
+        status = scoreObj.status; // 'PASSED', 'FAILED', 'STUDYING'
+        semester = scoreObj.semester;
+      }
+
       if (predObj) {
+        status = 'STUDYING';
         value = predObj.predictedScore;
         isPredicted = true;
       }
-    }
 
-    return {
-      courseId,
-      value,
-      status,
-      credits,
-      isPredicted,
-      prediction: predObj,
-      semester: semester || (predObj ? 'Kỳ hiện tại' : '')
-    };
-  });
+      if (value === null && status === 'STUDYING') {
+        if (predObj) {
+          value = predObj.predictedScore;
+          isPredicted = true;
+        }
+      }
 
-  // Append any courses that the student took but are not in the curriculumOrder list
-  const matchedCourseIds = curriculumCourses.map(c => c.courseId);
-  studentScores.forEach(s => {
-    // Check if this student score was matched by findMatchingScore
-    // We can do this by checking if s.courseId is not mapped?
-    // Actually, findMatchingScore maps using soft-match. Let's just find if s.courseId or s.course.name is in the matched ones.
-    const isMatched = curriculumCourses.some(c => {
-      const cleanC = c.courseId.toLowerCase().replace(/\s+/g, '');
-      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-      const cleanName = (s.course?.name || '').toLowerCase().replace(/\s+/g, '');
-      return cleanC === cleanS || cleanC === cleanName || cleanC.includes(cleanS) || cleanS.includes(cleanC);
+      return {
+        courseId: displayCourseId,
+        courseName: displayCourseName,
+        value,
+        status,
+        credits,
+        isPredicted,
+        prediction: predObj,
+        semester: semester || (predObj ? 'Kỳ hiện tại' : '')
+      };
     });
 
-    if (!isMatched) {
-      const predObj = predictionMap[s.courseId];
-      curriculumCourses.push({
-        courseId: s.course?.name || s.courseId,
-        value: s.value,
-        status: s.status,
-        credits: getCourseCredits(s.courseId),
-        isPredicted: false,
-        prediction: predObj,
-        semester: s.semester || 'Tự chọn/Học lại'
+    // Append any student scores that weren't matched
+    studentScores.forEach(s => {
+      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+      const already = result.some(r => {
+        const cleanR = r.courseId.toLowerCase().replace(/\s+/g, '');
+        return cleanR === cleanS || cleanR.includes(cleanS) || cleanS.includes(cleanR);
       });
-    }
-  });
+      if (!already) {
+        const predObj = predictionMap[s.courseId];
+        result.push({
+          courseId: s.courseId,
+          courseName: s.course?.name || s.courseId,
+          value: s.value,
+          status: s.status,
+          credits: s.course?.credits || getCourseCredits(s.courseId),
+          isPredicted: false,
+          prediction: predObj,
+          semester: s.semester || 'Tự chọn/Học lại'
+        });
+      }
+    });
+
+    return result;
+  };
+  const curriculumCourses = buildCurriculumCourses();
+
+  // Redundant mapping cleaned up
 
   // Calculate actual completed GPA using unified FPT Polytechnic logic on raw scores
   const stats = calculateFptStats(studentScores);

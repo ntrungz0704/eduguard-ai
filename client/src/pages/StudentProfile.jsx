@@ -9,6 +9,43 @@ import {
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
+const DEFAULT_CURRICULUM = [
+  { id: 'COM107', name: 'Tin học', credits: 3 },
+  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 3 },
+  { id: 'PDP102', name: 'Kỹ năng học tập', credits: 2 },
+  { id: 'COM108', name: 'Nhập môn lập trình', credits: 3 },
+  { id: 'ITI101', name: 'Nhập môn Công nghệ thông tin', credits: 3 },
+  { id: 'VIE104', name: 'Giáo dục quốc phòng', credits: 4 },
+  { id: 'ENT112', name: 'Tiếng Anh 1.1', credits: 3 },
+  { id: 'COM201', name: 'Cơ sở dữ liệu', credits: 3 },
+  { id: 'WEB101', name: 'Xây dựng trang Web', credits: 3 },
+  { id: 'ENT12', name: 'Tiếng Anh 1.2', credits: 3 },
+  { id: 'WEB104', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
+  { id: 'WEB108', name: 'Lập trình PHP cơ bản', credits: 3 },
+  { id: 'ENT21', name: 'Tiếng Anh 2.1', credits: 3 },
+  { id: 'VIE108', name: 'Chính trị', credits: 5 },
+  { id: 'WEB302', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
+  { id: 'WEB201', name: 'Lập trình PHP 1', credits: 3 },
+  { id: 'VIE102', name: 'Pháp luật', credits: 2 },
+  { id: 'PDP103', name: 'Kỹ năng phát triển bản thân', credits: 2 },
+  { id: 'WEB105', name: 'Thiết kế UI/UX', credits: 3 },
+  { id: 'WEB204', name: 'Dự án mẫu', credits: 3 },
+  { id: 'ENT22', name: 'Tiếng Anh 2.2', credits: 3 },
+  { id: 'WEB102', name: 'Quản trị website', credits: 3 },
+  { id: 'WEB205', name: 'Marketing trên Internet', credits: 3 },
+  { id: 'WEB501', name: 'Lập trình ECMAScript', credits: 3 },
+  { id: 'WEB206', name: 'Lập trình Javascript nâng cao', credits: 3 },
+  { id: 'PRO101', name: 'Dự án 1', credits: 3 },
+  { id: 'WEB503', name: 'NodeJS & Restful Web Service', credits: 3 },
+  { id: 'WEB502', name: 'Lập trình TypeScript', credits: 3 },
+  { id: 'PDP104', name: 'Kỹ năng làm việc', credits: 2 },
+  { id: 'SYB301', name: 'Khởi sự doanh nghiệp', credits: 3 },
+  { id: 'WEB208', name: 'Lập trình Front-End Framework 1', credits: 3 },
+  { id: 'WEB209', name: 'Lập trình Front-End Framework 2', credits: 3 },
+  { id: 'PRO11', name: 'Thực tập tốt nghiệp', credits: 5 },
+  { id: 'PRO22', name: 'Dự án tốt nghiệp', credits: 5 }
+];
+
 const getCourseCredits = (courseNameOrId) => {
   const name = String(courseNameOrId || '').trim();
   const lower = name.toLowerCase();
@@ -506,10 +543,25 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     scoreEntries.forEach(s => { scoreMap[s.courseId] = s; });
     const usedIds = new Set();
     
+    const names = (curriculum && curriculum.length > 0)
+      ? curriculum
+      : DEFAULT_CURRICULUM.map(c => c.name);
+
     // Soft match: find a score entry that matches the curriculum course ID
     const findScore = (currId) => {
-      if (scoreMap[currId]) { usedIds.add(currId); return scoreMap[currId]; }
+      if (scoreMap[currId] && !usedIds.has(scoreMap[currId].courseId)) {
+        usedIds.add(scoreMap[currId].courseId);
+        return scoreMap[currId];
+      }
       const clean = currId.toLowerCase().replace(/\s+/g, '');
+      
+      // Try direct match in scoreMap by code
+      const directCode = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === clean || c.id.toLowerCase().replace(/\s+/g, '') === clean);
+      if (directCode && scoreMap[directCode.id] && !usedIds.has(directCode.id)) {
+        usedIds.add(directCode.id);
+        return scoreMap[directCode.id];
+      }
+
       const found = scoreEntries.find(s => {
         if (usedIds.has(s.courseId)) return false;
         const cs = s.courseId.toLowerCase().replace(/\s+/g, '');
@@ -520,17 +572,21 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
       return found;
     };
 
-    const result = curriculum.map(courseId => {
-      const scoreObj = findScore(courseId);
+    const result = names.map(name => {
+      const scoreObj = findScore(name);
+      const matchedConfig = DEFAULT_CURRICULUM.find(c => c.name.toLowerCase().replace(/\s+/g, '') === name.toLowerCase().replace(/\s+/g, ''));
+      const courseId = scoreObj?.courseId || matchedConfig?.id || name;
+      const courseName = scoreObj?.course?.name || matchedConfig?.name || name;
+
       return {
         courseId,
-        courseName: scoreObj?.course?.name || courseId,
+        courseName,
         value: scoreObj?.value ?? null,
         status: scoreObj?.status || 'NOT_STARTED',
         semester: scoreObj?.semester || '',
-        credits: scoreObj?.course?.credits || getCourseCredits(courseId),
+        credits: scoreObj?.course?.credits || matchedConfig?.credits || getCourseCredits(courseId),
         courseData: scoreObj?.course || null,
-        prediction: student.predictions?.find(p => p.courseId === (scoreObj?.courseId || courseId))
+        prediction: student.predictions?.find(p => p.courseId === courseId)
       };
     });
 
@@ -544,7 +600,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
         });
         if (!already) {
           result.push({
-            courseId: s.course?.name || s.courseId,
+            courseId: s.courseId,
             courseName: s.course?.name || s.courseId,
             value: s.value,
             status: s.status,
@@ -559,16 +615,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
 
     return result;
   };
-  const allCourses = curriculum.length > 0 ? buildAllCourses() : scoreEntries.map(s => ({
-    courseId: s.courseId,
-    courseName: s.course?.name || s.courseId,
-    value: s.value,
-    status: s.status,
-    semester: s.semester || '',
-    credits: s.course?.credits || getCourseCredits(s.courseId),
-    courseData: s.course || null,
-    prediction: student.predictions?.find(p => p.courseId === s.courseId)
-  }));
+  const allCourses = buildAllCourses();
 
   // ── Helper: look up course dependency data for risk warnings ──
   const findDependency = (courseId) => {
@@ -1165,24 +1212,24 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                     <td className="p-3 text-center">
                                       {processScore !== null ? (
                                         <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{processScore.toFixed(1)}</span>
-                                      ) : <span className="text-xs text-slate-500">—</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {examScore !== null ? (
                                         <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{examScore.toFixed(1)}</span>
-                                      ) : <span className="text-xs text-slate-500">—</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.value !== null ? (
                                         <span className={`text-sm font-black ${c.value >= 8 ? 'text-emerald-400' : c.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
                                           {c.value.toFixed(1)}
                                         </span>
-                                      ) : <span className="text-xs text-slate-500">—</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.value !== null ? (
                                         <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{getLetterGrade(c.value)}</span>
-                                      ) : <span className="text-xs text-slate-500">—</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600">—</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.status === 'PASSED' ? (
