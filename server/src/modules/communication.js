@@ -522,4 +522,15 @@ router.get('/advisors', async (req, res) => {
   }
 });
 
+router.get('/debug-db', async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    const messages = await prisma.message.findMany();
+    const students = await prisma.student.findMany({ select: { mssv: true, name: true } });
+    res.json({ users, messages, students });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
