@@ -1706,6 +1706,7 @@ router.get('/chat/teacher-history/:mssv', async (req, res) => {
     });
     
     let formatted = history.map(h => ({
+      sender: h.role === 'TEACHER_BOT' ? 'ai' : 'user',
       role: h.role === 'TEACHER_BOT' ? 'ai' : 'user',
       text: h.message,
       time: new Date(h.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
@@ -1970,6 +1971,23 @@ router.post('/students/:mssv/flag', async (req, res) => {
     // Also sync to interventions.json for double compatibility
     saveIntervention(mssv, courseId, true);
 
+    // Automatically generate an InterventionRoadmap if not exists
+    try {
+      const existingRoadmap = await prisma.interventionRoadmap.findFirst({
+        where: { studentId: mssv, targetCourseId: courseId }
+      });
+      if (!existingRoadmap) {
+        const { sendAutomatedRoadmap } = require('./intervention/interventionEngine');
+        const { fetchStudentByMssv } = require('../../src/repositories/studentRepository');
+        const studentData = await fetchStudentByMssv(mssv);
+        if (studentData) {
+          await sendAutomatedRoadmap(mssv, courseId, 'HIGH', studentData);
+        }
+      }
+    } catch (roadmapErr) {
+      console.warn('[Flag Sync] Không thể tự động tạo InterventionRoadmap:', roadmapErr.message);
+    }
+
     // Sync state to memory arrays if student exists in RAM cache
     const memStudent = (cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students).find(st => st.id === mssv);
     if (memStudent) {
@@ -2086,12 +2104,35 @@ router.post('/intervention-roadmap/:id/status', async (req, res) => {
   }
 });
 
-// ============================================================
-// API: Delete InterventionRoadmap
-// ============================================================
 router.delete('/intervention-roadmap/:id', async (req, res) => {
   try {
     const { id } = req.params;
+    
+    // Find the roadmap first to get studentId and targetCourseId
+    const roadmap = await prisma.interventionRoadmap.findUnique({
+      where: { id: id }
+    });
+    
+    if (roadmap) {
+      // Delete corresponding Intervention record
+      try {
+        await prisma.intervention.deleteMany({
+          where: {
+            mssv: roadmap.studentId,
+            courseId: roadmap.targetCourseId
+          }
+        });
+        
+        // Also sync local file if necessary
+        const courseObj = await prisma.course.findUnique({ where: { id: roadmap.targetCourseId } });
+        if (courseObj) {
+          saveIntervention(roadmap.studentId, courseObj.name, false);
+        }
+      } catch (syncErr) {
+        console.warn('[Sync] Failed to delete Intervention record:', syncErr.message);
+      }
+    }
+
     await prisma.interventionRoadmap.delete({
       where: { id: id }
     });
@@ -2147,6 +2188,13 @@ router.post('/students/update-score', async (req, res) => {
           where: { mssv, courseId },
           data: { status: 'RESOLVED' }
         });
+
+        // Sync: also update InterventionRoadmap status to COMPLETED
+        await prisma.interventionRoadmap.updateMany({
+          where: { studentId: mssv, targetCourseId: courseId },
+          data: { status: 'COMPLETED', completedAt: new Date() }
+        });
+
         const courseObj = await prisma.course.findUnique({ where: { id: courseId } });
         if (courseObj) {
           saveIntervention(mssv, courseObj.name, false);

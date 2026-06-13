@@ -8,11 +8,11 @@ function explainRisk(student) {
   const baseRisk = calculateBaseRisk(student);
   const reasons = [];
 
-  if (baseRisk.factors.FAILED_SUBJECTS > 0) {
+  if (baseRisk.factors.LOW_GPA > 0) {
     reasons.push({
-      factor: 'Nợ môn / Điểm yếu',
-      impact: baseRisk.factors.FAILED_SUBJECTS,
-      detail: `${baseRisk.failedCourses.length} môn dưới 5.0 (${baseRisk.failedCourses.slice(0, 2).map(c => c.courseId).join(', ')}...)`
+      factor: 'GPA thấp',
+      impact: baseRisk.factors.LOW_GPA,
+      detail: `GPA hiện tại: ${baseRisk.gpa.toFixed(2)}`
     });
   }
 
@@ -24,11 +24,11 @@ function explainRisk(student) {
     });
   }
 
-  if (baseRisk.factors.LOW_LAB_SCORE > 0) {
+  if (baseRisk.factors.BEHAVIOR_ANOMALY > 0) {
     reasons.push({
-      factor: 'Điểm Lab/Thực hành thấp',
-      impact: baseRisk.factors.LOW_LAB_SCORE,
-      detail: `Kết quả thực hành không đạt chuẩn an toàn.`
+      factor: 'Bất thường hành vi',
+      impact: baseRisk.factors.BEHAVIOR_ANOMALY,
+      detail: `Kết quả thi cử bất thường hoặc rớt nhiều môn.`
     });
   }
 
@@ -45,6 +45,23 @@ function explainRisk(student) {
       factor: 'Xu hướng giảm sút',
       impact: baseRisk.factors.TREND_DECLINE,
       detail: `GPA có dấu hiệu đi xuống so với nửa đầu kỳ.`
+    });
+  }
+
+  if (baseRisk.factors.LEARNING_STYLE_MISMATCH > 0) {
+    const styleMap = {
+      'Hands-on': 'Thực hành / Trực quan',
+      'Analytical': 'Tư duy logic / Phân tích',
+      'Social': 'Học nhóm / Tương tác',
+      'Self-taught': 'Tự học / Khám phá',
+      'Rote learning': 'Học vẹt / Thuộc lòng',
+      'Theory-only': 'Chỉ lý thuyết'
+    };
+    const styleVN = styleMap[student.learningStyle] || student.learningStyle || 'chưa xác định';
+    reasons.push({
+      factor: 'Lệch pha Phong cách học & Ngành',
+      impact: baseRisk.factors.LEARNING_STYLE_MISMATCH,
+      detail: `Phong cách học "${styleVN}" chưa tương thích tốt với đặc thù ngành "${student.careerGoal}".`
     });
   }
 

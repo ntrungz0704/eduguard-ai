@@ -11,7 +11,7 @@ const advisorService = require('../../modules/advisor/service');
 const syllabusEngine = require('./syllabusEngine');
 const interventionEngine = require('./interventionEngine');
 const careerEngine = require('../../modules/advisor/career-engine');
-const { explainRisk, generateAcademicTimeline } = require('../../ai/engines/index');
+const { explainRisk, generateAcademicTimeline, generateRecommendations } = require('../../ai/engines/index');
 const knowledgeCache = require('../../modules/knowledge/cache');
 
 function getGraphDataForCourse(courseId) {
@@ -77,6 +77,7 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
 
   let riskData = null;
   let timeline = null;
+  let recommendations = null;
   if (student) {
     const explained = explainRisk(student);
     const criticalFailures = (explained.failedCourses || []).map(c => c.courseId || c);
@@ -96,6 +97,7 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
       events: timelineArray,
       forecastText: timelineArray.map(t => `- Tuần ${t.week}: ${t.event || t.type}`).join('\n') || 'Tiến độ học tập ổn định.'
     };
+    recommendations = generateRecommendations(student);
   }
   
   // Resolve courseCode from entities (e.g. %WEB101%) or session history
@@ -171,7 +173,8 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
         type: 'STUDENT_RECOMMENDATION',
         student,
         riskData,
-        timeline
+        timeline,
+        recommendations
       };
 
     case 'STUDENT_MOTIVATION_INTENT':

@@ -1,5 +1,51 @@
 const knowledgeCache = require('../../knowledge/cache');
 
+function getDynamicActionsForCareer(careerGoal) {
+  const goal = String(careerGoal || 'Backend Developer').toLowerCase();
+  
+  if (goal.includes('ai') || goal.includes('data')) {
+    return [
+      'Lộ trình học Python & AI',
+      'Làm sao học RAG & LLM?',
+      'Gợi ý dự án AI Agent',
+      'Kế hoạch 90 ngày học AI'
+    ];
+  } else if (goal.includes('frontend') || goal.includes('front-end') || goal.includes('ui') || goal.includes('ux')) {
+    return [
+      'Lộ trình học React/Next.js',
+      'Cách làm Portfolio Frontend đẹp?',
+      'Dự án Landing Page mẫu',
+      'Luyện kỹ năng Responsive'
+    ];
+  } else if (goal.includes('backend') || goal.includes('back-end')) {
+    return [
+      'Lộ trình học Node.js & Database',
+      'Cách thiết kế RESTful API?',
+      'Dự án Web Server NodeJS',
+      'Tối ưu câu lệnh SQL'
+    ];
+  } else if (goal.includes('mobile') || goal.includes('flutter') || goal.includes('react native') || goal.includes('ios') || goal.includes('android')) {
+    return [
+      'Lộ trình học Flutter/React Native',
+      'Cách build app lên App Store?',
+      'Dự án App Mobile thực tế'
+    ];
+  } else if (goal.includes('qa') || goal.includes('test') || goal.includes('automation')) {
+    return [
+      'Lộ trình Selenium & Cypress',
+      'Cách viết test case tự động?',
+      'Dự án Auto Test mẫu'
+    ];
+  }
+  
+  return [
+    'Tình hình học tập của em?',
+    'Nghề nào phù hợp với em?',
+    'Lên kế hoạch 90 ngày cho em'
+  ];
+}
+
+
 function buildSyllabusResponse(courseId) {
   const coursesDb = knowledgeCache.get('courses') || [];
   const course = coursesDb.find(c => c.courseCode === courseId);
@@ -192,7 +238,7 @@ Level: ${careerAnalysis.readinessLevel}
 
 ${breakdownMarkdown}`,
     chartData: null,
-    actions: ['Gợi ý nghề nghiệp phù hợp', 'Lên kế hoạch 90 ngày cho em']
+    actions: getDynamicActionsForCareer(careerAnalysis.careerGoal)
   };
 }
 
@@ -245,6 +291,9 @@ function buildStudentAnalysisResponse(decisionData) {
       (r.internshipImpact ? `- **Cảnh báo Thực tập**: ${r.internshipImpact}\n` : '');
   }
 
+  const studentCareerGoal = student.careerGoal || 'Backend Developer';
+  const dynamicActions = getDynamicActionsForCareer(studentCareerGoal).slice(0, 2);
+
   return {
     text: `📊 **Phân tích rủi ro học tập - Sinh viên: ${student.mssv}**
     
@@ -258,7 +307,7 @@ ${fText}
 
 💡 **Lời khuyên**: ${cFailures.length > 0 ? `Cần ưu tiên qua môn ${cFailures[0]} để không bị chậm tiến độ.` : 'Tiến độ học tập rất tốt, hãy duy trì phong độ này nhé!'}`,
     chartData: null,
-    actions: ['Hỏi nguyên nhân gốc rễ', 'Mô phỏng điểm GPA']
+    actions: ['Hỏi nguyên nhân gốc rễ', 'Mô phỏng điểm GPA', ...dynamicActions]
   };
 }
 
@@ -610,6 +659,59 @@ ${roadmapText}
   };
 }
 
+function buildStudentRecommendationResponse(decisionData) {
+  const { student, riskData, recommendations } = decisionData;
+  if (!student) {
+    return {
+      text: "🤖 Xin lỗi, mình cần thông tin sinh viên để đưa ra đề xuất học tập.",
+      chartData: null,
+      actions: null
+    };
+  }
+
+  const recs = recommendations || { advisorActions: [], studentActions: [] };
+  const advisorList = recs.advisorActions && recs.advisorActions.length > 0
+    ? recs.advisorActions.map(a => `- **GV/Cố vấn khuyên:** ${a}`).join('\n')
+    : '- 🟢 Không có hành động đặc biệt nào từ cố vấn.';
+
+  const studentList = recs.studentActions && recs.studentActions.length > 0
+    ? recs.studentActions.map(s => `- **Hành động cho bạn:** ${s}`).join('\n')
+    : '- 🟢 Tiếp tục duy trì phong độ hiện tại.';
+
+  const styleVN = {
+    'Hands-on': 'Thực hành / Trực quan',
+    'Analytical': 'Tư duy logic / Phân tích',
+    'Social': 'Học nhóm / Tương tác',
+    'Self-taught': 'Tự học / Khám phá',
+    'Rote learning': 'Học vẹt / Thuộc lòng',
+    'Theory-only': 'Chỉ lý thuyết'
+  }[student.learningStyle] || student.learningStyle || 'Chưa xác định';
+
+  return {
+    text: `# 💡 Đề xuất Hành động Học tập Cá nhân hóa
+    
+**Sinh viên:** ${student.name} (${student.mssv})
+**Phong cách học tập:** ${styleVN}
+**Định hướng nghề nghiệp:** ${student.careerGoal || 'Chưa định hướng'}
+
+━━━━━━━━━━━━━━
+
+### 👨‍🏫 Giảng viên / Cố vấn cần làm gì:
+${advisorList}
+
+━━━━━━━━━━━━━━
+
+### 🎯 Bạn (Sinh viên) cần làm gì:
+${studentList}
+
+━━━━━━━━━━━━━━
+
+💡 *Lời khuyên: Hãy thực hiện theo các bước hành động trên để khắc phục các lỗ hổng học tập và lệch pha phong cách học tập.*`,
+    chartData: null,
+    actions: [`Lộ trình ${student.careerGoal || 'Frontend Developer'}`, 'Tình hình học tập của em']
+  };
+}
+
 function buildStudentResponse(decisionData) {
   if (!decisionData || !decisionData.type) {
     return buildFallbackResponse();
@@ -618,8 +720,9 @@ function buildStudentResponse(decisionData) {
   switch (decisionData.type) {
     case 'STUDENT_OVERVIEW':
     case 'STUDENT_RISK':
-    case 'STUDENT_RECOMMENDATION':
       return buildStudentAnalysisResponse(decisionData);
+    case 'STUDENT_RECOMMENDATION':
+      return buildStudentRecommendationResponse(decisionData);
     case 'STUDENT_TIMELINE':
       return buildStudentTimelineResponse(decisionData);
     case 'EXPLAIN_MODEL':

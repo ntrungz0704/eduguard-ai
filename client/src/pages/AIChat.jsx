@@ -106,7 +106,7 @@ export default function AIChat() {
   
   const messagesEndRef = useRef(null);
   const inlineSearchRef = useRef(null);
-  const prevActiveStudentRef = useRef(activeStudent);
+  const prevActiveStudentRef = useRef(null);
 
   // Derived Active Session Values
   const activeSession = sessions.find(s => s.id === currentSessionId) || sessions[0] || {};
@@ -241,28 +241,117 @@ export default function AIChat() {
     }
   }, [currentUser, sessions]);
 
-  // Track global activeStudent store updates (e.g. from header search or inline click)
+  // Effect to load/sync sessions from localStorage when currentUser changes (login/logout/switch user)
   useEffect(() => {
-    if (activeStudent && activeStudent?.id !== prevActiveStudentRef.current?.id) {
+    const userId = currentUser?.id || 'guest';
+    const saved = localStorage.getItem(`eduguard_chat_sessions_${userId}`);
+    let loadedSessions = [];
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          loadedSessions = parsed;
+        }
+      } catch (e) {
+        console.error('Error parsing chat sessions:', e);
+      }
+    }
+    
+    const isStudent = currentUser?.role === 'STUDENT';
+    if (loadedSessions.length === 0) {
+      const defaultSessionId = 'session_' + Date.now();
+      const defaultWelcomeText = isStudent
+        ? `👋 Xin chào ${currentUser?.name || 'bạn'}! Tôi là Academic NLP Assistant của hệ thống EduGuard, được phân quyền truy cập trên dữ liệu học thuật của riêng bạn.\n\nTôi đã kết nối trực tiếp với học bạ của bạn. Bạn có thể đặt câu hỏi về điểm số, môn học rủi ro, hoặc yêu cầu hệ thống xuất báo cáo phương pháp, lộ trình cải thiện kết quả học tập nhé!`
+        : '👋 Xin chào! Tôi là NLP Assistant của hệ thống EduGuard, được kết nối với cơ sở dữ liệu học thuật của nhà trường.\n\nTôi có thể hỗ trợ gì cho giảng viên hôm nay? Bạn có thể nhập truy vấn tự do hoặc nhấn chọn các phím tắt phân tích nhanh ở cột bên dưới nhé!';
+
+      loadedSessions = [
+        {
+          id: defaultSessionId,
+          title: 'Hội thoại mới',
+          activeStudent: isStudent ? activeStudent : null,
+          messages: [
+            {
+              sender: 'ai',
+              text: defaultWelcomeText,
+              time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              actions: isStudent 
+                ? ['Tình hình học lực', 'Môn nào dễ rớt', 'Đề xuất lộ trình']
+                : ['Xem Risk Score', 'Phân tích môn yếu', 'Đề xuất lộ trình', 'Chuyên cần']
+            }
+          ],
+          provider: 'gemini',
+          proMode: false,
+          bookmarked: false,
+          createdAt: new Date().toISOString()
+        }
+      ];
+    }
+    setSessions(loadedSessions);
+
+    const savedActive = localStorage.getItem(`eduguard_active_session_id_${userId}`);
+    if (savedActive && loadedSessions.some(s => s.id === savedActive)) {
+      setCurrentSessionId(savedActive);
+    } else {
+      const firstId = loadedSessions[0]?.id || '';
+      setCurrentSessionId(firstId);
+      if (firstId) {
+        localStorage.setItem(`eduguard_active_session_id_${userId}`, firstId);
+      }
+    }
+  }, [currentUser?.id]);
+
+  // Track global activeStudent store updates and load chat history from database
+  useEffect(() => {
+    const loadChatHistoryFromDB = async () => {
+      if (!activeStudent) return;
+      const studentId = activeStudent.id || activeStudent.mssv;
       const isStudent = currentUser?.role === 'STUDENT';
-      const welcomeContext = {
-        sender: 'ai',
-        text: isStudent
-          ? `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ cá nhân của bạn**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Bạn có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của tôi?*\n• *Lộ trình cải thiện GPA và môn có nguy cơ trượt của tôi?*\n• *Đề xuất phương pháp học tập hiệu quả giúp tôi nâng cao kết quả?*`
-          : `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ sinh viên ${activeStudent.name} (${activeStudent.mssv || activeStudent.id})**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Giảng viên có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của em ấy?*\n• *Môn học kỳ mới dự báo trượt cao và đề xuất phụ đạo?*\n• *Soạn tin nhắn Zalo gửi sinh viên cảnh báo nhẹ nhàng?*`,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        actions: isStudent 
-          ? ['Đánh giá học lực', 'Môn dễ trượt', 'Phương pháp học']
-          : ['Đánh giá sinh viên', 'Dự báo trượt', 'Soạn tin cảnh báo']
-      };
       
-      const alreadyLinked = sessionActiveStudent?.id === activeStudent.id || sessionActiveStudent?.mssv === activeStudent.id;
-      if (!alreadyLinked) {
+      try {
+        setLoading(true);
+        const endpoint = isStudent 
+          ? `/chat/history/${studentId}`
+          : `/chat/teacher-history/${studentId}`;
+          
+        const res = await api.get(endpoint);
+        let dbHistory = [];
+        
+        if (res.data && res.data.history) {
+          dbHistory = res.data.history.map(h => ({
+            sender: h.sender || h.role || 'user',
+            text: h.text || h.message,
+            time: h.time || 'Bây giờ'
+          }));
+        }
+        
+        const welcomeText = isStudent
+          ? `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ cá nhân của bạn**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Bạn có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của tôi?*\n• *Lộ trình cải thiện GPA và môn có nguy cơ trượt của tôi?*\n• *Đề xuất phương pháp học tập hiệu quả giúp tôi nâng cao kết quả?*`
+          : `🔮 **ĐÃ LIÊN KẾT: Đang mở học bạ sinh viên ${activeStudent.name} (${studentId})**\n\nTôi đã nạp toàn bộ lịch sử điểm số thực tế từ cơ sở dữ liệu. Giảng viên có thể hỏi tôi:\n• *Đánh giá chi tiết năng lực học thuật của em ấy?*\n• *Môn học kỳ mới dự báo trượt cao và đề xuất phụ đạo?*\n• *Soạn tin nhắn Zalo gửi sinh viên cảnh báo nhẹ nhàng?*`;
+          
+        const welcomeContext = {
+          sender: 'ai',
+          text: welcomeText,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          actions: isStudent 
+            ? ['Đánh giá học lực', 'Môn dễ trượt', 'Phương pháp học']
+            : ['Đánh giá sinh viên', 'Dự báo trượt', 'Soạn tin cảnh báo']
+        };
+
+        const finalMessages = dbHistory.length > 0 ? dbHistory : [welcomeContext];
+        
         updateActiveSession({
           activeStudent: activeStudent,
-          messages: [...messages, welcomeContext]
+          messages: finalMessages
         });
+      } catch (err) {
+        console.error("Lỗi khi tải lịch sử chat từ DB:", err);
+      } finally {
+        setLoading(false);
       }
+    };
+
+    if (activeStudent && activeStudent?.id !== prevActiveStudentRef.current?.id) {
+      loadChatHistoryFromDB();
     }
     prevActiveStudentRef.current = activeStudent;
   }, [activeStudent, currentUser]);
@@ -352,7 +441,40 @@ export default function AIChat() {
         receiverId: sessionActiveStudent.mssv || sessionActiveStudent.id,
         content: text
       });
-      showToast('📤 Đã gửi lộ trình trực tiếp vào Hộp thư của Sinh viên thành công!', 'success');
+      
+      // Auto-flag student's intervention status for course IDs found in the text
+      const studentId = sessionActiveStudent.mssv || sessionActiveStudent.id;
+      const courseRegex = /[A-Z]{3,4}\d{3}/g;
+      const foundCourses = [...new Set(text.toUpperCase().match(courseRegex) || [])];
+      
+      if (foundCourses.length > 0) {
+        for (const courseId of foundCourses) {
+          try {
+            await api.post(`/students/${studentId}/flag`, {
+              courseId,
+              action: 'Gửi lộ trình qua Chatbot',
+              status: 'ACTIVE'
+            });
+          } catch (flagErr) {
+            console.warn(`Lỗi đánh dấu can thiệp cho môn ${courseId}:`, flagErr);
+          }
+        }
+      } else {
+        // Fallback: flag the first high-risk course from student predictions if available
+        const predictions = sessionActiveStudent.predictions || [];
+        const highRiskPred = predictions.find(p => p.risk === 'HIGH' || p.risk === 'CRITICAL');
+        if (highRiskPred) {
+          try {
+            await api.post(`/students/${studentId}/flag`, {
+              courseId: highRiskPred.courseId,
+              action: 'Gửi lộ trình qua Chatbot (Tự động chọn môn rủi ro)',
+              status: 'ACTIVE'
+            });
+          } catch (flagErr) {}
+        }
+      }
+
+      showToast('📤 Đã gửi lộ trình trực tiếp vào Hộp thư và tự động cập nhật Can thiệp thành công!', 'success');
     } catch (err) {
       alert("Lỗi khi gửi tin nhắn: " + err.message);
     }
@@ -423,7 +545,26 @@ export default function AIChat() {
         receiverId: sv.mssv || sv.id,
         content: roadmapText
       });
-      showToast('🚀 Đã tạo & gửi lộ trình đầy đủ vào Hộp thư Sinh viên!', 'success');
+
+      // Auto-flag all high-risk and failed courses in DB to sync with Intervention lists
+      try {
+        const studentId = sv.mssv || sv.id;
+        const coursesToFlag = new Set();
+        failedCourses.forEach(s => coursesToFlag.add(s.courseId));
+        highRisk.forEach(p => coursesToFlag.add(p.courseId));
+        
+        for (const courseId of coursesToFlag) {
+          await api.post(`/students/${studentId}/flag`, {
+            courseId,
+            action: 'Gửi Lộ trình cải thiện đầy đủ qua Chatbot',
+            status: 'ACTIVE'
+          });
+        }
+      } catch (flagErr) {
+        console.warn('Lỗi tự động cắm cờ can thiệp khi gửi full roadmap:', flagErr);
+      }
+
+      showToast('🚀 Đã tạo & gửi lộ trình đầy đủ và tự động cập nhật Can thiệp thành công!', 'success');
     } catch (err) {
       console.error('Lỗi gửi lộ trình:', err);
       alert('Lỗi khi tạo lộ trình: ' + (err.response?.data?.error || err.message));

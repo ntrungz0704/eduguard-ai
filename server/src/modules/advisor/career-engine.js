@@ -400,6 +400,90 @@ exports.analyzeStudentCareer = async (goalSlug, mssv) => {
   return analyzeCareer(student, careerKey);
 };
 
+function calculateStyleMatch(learningStyle, strengths = [], weaknesses = [], careerName) {
+  const style = String(learningStyle || '').toLowerCase().trim();
+  const career = String(careerName || '').toLowerCase().trim();
+  
+  let score = 50; // Default baseline compatibility
+
+  // 1. Learning Style Match
+  if (career.includes('ai') || career.includes('data') || career.includes('machine learning')) {
+    if (style.includes('analytical') || style.includes('logic')) score = 95;
+    else if (style.includes('self-taught') || style.includes('tự học')) score = 85;
+    else if (style.includes('hands-on') || style.includes('thực hành')) score = 70;
+    else if (style.includes('social') || style.includes('nhóm')) score = 60;
+    else if (style.includes('theory') || style.includes('lý thuyết')) score = 40;
+    else if (style.includes('rote') || style.includes('vẹt')) score = 15;
+  } else if (career.includes('backend') || career.includes('back-end') || career.includes('architect') || career.includes('solutions')) {
+    if (style.includes('analytical') || style.includes('logic')) score = 95;
+    else if (style.includes('self-taught') || style.includes('tự học')) score = 80;
+    else if (style.includes('hands-on') || style.includes('thực hành')) score = 75;
+    else if (style.includes('social') || style.includes('nhóm')) score = 65;
+    else if (style.includes('theory') || style.includes('lý thuyết')) score = 45;
+    else if (style.includes('rote') || style.includes('vẹt')) score = 20;
+  } else if (career.includes('frontend') || career.includes('front-end') || career.includes('ui') || career.includes('ux')) {
+    if (style.includes('hands-on') || style.includes('thực hành')) score = 95;
+    else if (style.includes('visual') || style.includes('trực quan')) score = 95;
+    else if (style.includes('self-taught') || style.includes('tự học')) score = 80;
+    else if (style.includes('social') || style.includes('nhóm')) score = 75;
+    else if (style.includes('analytical') || style.includes('logic')) score = 60;
+    else if (style.includes('rote') || style.includes('vẹt')) score = 35;
+    else if (style.includes('theory') || style.includes('lý thuyết')) score = 20;
+  } else if (career.includes('mobile') || career.includes('flutter') || career.includes('react native') || career.includes('ios') || career.includes('android')) {
+    if (style.includes('hands-on') || style.includes('thực hành')) score = 95;
+    else if (style.includes('self-taught') || style.includes('tự học')) score = 85;
+    else if (style.includes('social') || style.includes('nhóm')) score = 75;
+    else if (style.includes('analytical') || style.includes('logic')) score = 65;
+    else if (style.includes('rote') || style.includes('vẹt')) score = 30;
+    else if (style.includes('theory') || style.includes('lý thuyết')) score = 15;
+  } else if (career.includes('qa') || career.includes('test') || career.includes('automation')) {
+    if (style.includes('analytical') || style.includes('logic')) score = 90;
+    else if (style.includes('hands-on') || style.includes('thực hành')) score = 85;
+    else if (style.includes('social') || style.includes('nhóm')) score = 80;
+    else if (style.includes('theory') || style.includes('lý thuyết')) score = 50;
+    else if (style.includes('rote') || style.includes('vẹt')) score = 30;
+  }
+
+  // 2. Strengths Match (Core alignment boost)
+  const strengthKeywords = {
+    ai: ['logic', 'math', 'python', 'analysis', 'algorithms', 'ai', 'data'],
+    backend: ['logic', 'database', 'sql', 'system', 'api', 'back-end', 'backend', 'java', 'node'],
+    frontend: ['html', 'css', 'design', 'ui', 'ux', 'javascript', 'react', 'visual', 'responsive'],
+    mobile: ['flutter', 'react native', 'mobile', 'hands-on', 'javascript', 'dart'],
+    qa: ['detail', 'process', 'testing', 'quality', 'bug', 'automation']
+  };
+
+  const lowerStrengths = strengths.map(s => String(s || '').toLowerCase());
+  const lowerWeaknesses = weaknesses.map(w => String(w || '').toLowerCase());
+
+  let targetKeywords = [];
+  if (career.includes('ai') || career.includes('data')) targetKeywords = strengthKeywords.ai;
+  else if (career.includes('backend') || career.includes('back-end')) targetKeywords = strengthKeywords.backend;
+  else if (career.includes('frontend') || career.includes('front-end') || career.includes('ui')) targetKeywords = strengthKeywords.frontend;
+  else if (career.includes('mobile')) targetKeywords = strengthKeywords.mobile;
+  else if (career.includes('qa') || career.includes('test')) targetKeywords = strengthKeywords.qa;
+
+  // Add points for matching strengths
+  let matchedStrengthsCount = 0;
+  lowerStrengths.forEach(st => {
+    if (targetKeywords.some(kw => st.includes(kw))) {
+      matchedStrengthsCount++;
+    }
+  });
+  score += matchedStrengthsCount * 10;
+
+  // Deduct points for matching weaknesses
+  let matchedWeaknessesCount = 0;
+  lowerWeaknesses.forEach(we => {
+    if (targetKeywords.some(kw => we.includes(kw))) {
+      matchedWeaknessesCount++;
+    }
+  });
+  score -= matchedWeaknessesCount * 15;
+
+  return Math.max(0, Math.min(100, score));
+}
+
 exports.suggestBestCareers = (student) => {
   const careerRoadmaps = knowledgeCache.get('careerRoadmaps') || {};
   if (!student) return [];
@@ -408,12 +492,25 @@ exports.suggestBestCareers = (student) => {
   
   for (const careerGoal of Object.keys(careerRoadmaps)) {
     const analysis = exports.analyzeCareer(student, careerGoal);
+    
+    // Calculate suitability match score based on student's learning style & profile
+    const styleMatchScore = calculateStyleMatch(student.learningStyle, student.strengths, student.weaknesses, careerGoal);
+    
+    // For freshman / new student, we orient based on learningStyle compatibility
+    const scores = student.scores || [];
+    const gradedScores = scores.filter(s => s.value !== null && s.status !== 'STUDYING');
+    let finalScore = styleMatchScore;
+    
+    if (gradedScores.length > 2) {
+      finalScore = Math.round(styleMatchScore * 0.4 + analysis.readinessScore * 0.6);
+    }
+    
     results.push({
       id: careerGoal === 'AI Fullstack Engineer' ? 'ai-engineer' : slugify(careerGoal),
       careerName: careerGoal,
-      matchScore: analysis.readinessScore,
+      matchScore: finalScore,
       readinessScore: analysis.readinessScore,
-      score: analysis.readinessScore,
+      score: finalScore,
       matchCount: analysis.skillGap.core.have.length + analysis.skillGap.advanced.have.length,
       totalRequired: analysis.industryRequirements.core.length + analysis.industryRequirements.advanced.length
     });

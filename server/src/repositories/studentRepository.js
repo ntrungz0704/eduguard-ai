@@ -47,6 +47,62 @@ function findCourseInfo(coursesDb, courseId) {
   }) || null;
 }
 
+function getMockMemoryForMssv(mssv) {
+  const cleanMssv = String(mssv || '').toUpperCase().trim();
+  const mssvNum = parseInt(cleanMssv.replace(/\D/g, '')) || 0;
+  
+  if (cleanMssv === 'PS21034') {
+    return {
+      learningStyle: 'Rote learning',
+      careerGoal: 'AI Fullstack Engineer',
+      strengths: ['HTML', 'CSS', 'Design'],
+      weaknesses: ['Programming Logic', 'Advanced Math', 'Self-study']
+    };
+  }
+  if (cleanMssv === 'PS21502') {
+    return {
+      learningStyle: 'Hands-on',
+      careerGoal: 'Frontend Developer',
+      strengths: ['HTML', 'CSS', 'Hard-working', 'Responsiveness'],
+      weaknesses: ['Algorithms', 'System Design']
+    };
+  }
+  if (cleanMssv === 'PS20788') {
+    return {
+      learningStyle: 'Theory-only',
+      careerGoal: 'Backend Developer',
+      strengths: ['Reading', 'Technical Documentation', 'SQL Theory'],
+      weaknesses: ['Practical Coding', 'Debugging', 'Teamwork']
+    };
+  }
+
+  // General deterministic generation based on mssv hash
+  const learningStyles = ['Hands-on', 'Analytical', 'Social', 'Self-taught', 'Rote learning', 'Theory-only'];
+  const careerGoals = ['Frontend Developer', 'Backend Developer', 'AI Fullstack Engineer', 'Mobile Developer', 'QA Automation'];
+  const allStrengths = ['HTML/CSS', 'Javascript', 'SQL', 'Logical Thinking', 'English', 'UI Design', 'Problem Solving'];
+  const allWeaknesses = ['Algorithms', 'Teamwork', 'Self-study', 'System Design', 'Communication', 'Debugging'];
+
+  const styleIdx = mssvNum % learningStyles.length;
+  const careerIdx = (mssvNum + 1) % careerGoals.length;
+  const strengthIdx1 = (mssvNum + 2) % allStrengths.length;
+  const strengthIdx2 = (mssvNum + 3) % allStrengths.length;
+  const weaknessIdx1 = (mssvNum + 4) % allWeaknesses.length;
+  const weaknessIdx2 = (mssvNum + 5) % allWeaknesses.length;
+
+  const strengths = [allStrengths[strengthIdx1]];
+  if (strengthIdx1 !== strengthIdx2) strengths.push(allStrengths[strengthIdx2]);
+  
+  const weaknesses = [allWeaknesses[weaknessIdx1]];
+  if (weaknessIdx1 !== weaknessIdx2) weaknesses.push(allWeaknesses[weaknessIdx2]);
+
+  return {
+    learningStyle: learningStyles[styleIdx],
+    careerGoal: careerGoals[careerIdx],
+    strengths,
+    weaknesses
+  };
+}
+
 function enrichStudentData(student) {
   if (!student) return null;
   
@@ -173,6 +229,33 @@ function enrichStudentData(student) {
     labCompletion: 90,
     lateAssignments: 0
   };
+
+  // 6. Extracted memory fields
+  const mockMem = getMockMemoryForMssv(student.mssv);
+  const dbStyle = student.studentMemory?.learningStyle || student.learningStyle;
+  const dbGoal = student.studentMemory?.careerGoal || student.careerGoal;
+  
+  let strengths = [];
+  if (student.studentMemory?.strengths) {
+    try { strengths = JSON.parse(student.studentMemory.strengths); } catch (e) {}
+  } else if (student.strengths) {
+    strengths = student.strengths;
+  } else if (mockData.strengths) {
+    strengths = mockData.strengths;
+  } else {
+    strengths = mockMem.strengths;
+  }
+
+  let weaknesses = [];
+  if (student.studentMemory?.weaknesses) {
+    try { weaknesses = JSON.parse(student.studentMemory.weaknesses); } catch (e) {}
+  } else if (student.weaknesses) {
+    weaknesses = student.weaknesses;
+  } else if (mockData.weaknesses) {
+    weaknesses = mockData.weaknesses;
+  } else {
+    weaknesses = mockMem.weaknesses;
+  }
   
   return {
     mssv: student.mssv,
@@ -182,7 +265,11 @@ function enrichStudentData(student) {
     skills,
     projects,
     behavior,
-    scores: student.scores
+    scores: student.scores,
+    learningStyle: dbStyle || mockData.learningStyle || mockMem.learningStyle,
+    careerGoal: dbGoal || mockData.careerGoal || mockMem.careerGoal,
+    strengths,
+    weaknesses
   };
 }
 
@@ -196,10 +283,29 @@ async function fetchStudentByMssv(mssv) {
       include: { 
         scores: {
           include: { course: true }
-        }
+        },
+        studentMemory: true
       }
     });
     if (dbStudent) {
+      // Auto-seed studentMemory in DB if missing (for demo completeness)
+      if (!dbStudent.studentMemory) {
+        try {
+          const mockMem = getMockMemoryForMssv(upperMssv);
+          const createdMem = await prisma.studentMemory.create({
+            data: {
+              studentId: upperMssv,
+              learningStyle: mockMem.learningStyle,
+              careerGoal: mockMem.careerGoal,
+              strengths: JSON.stringify(mockMem.strengths),
+              weaknesses: JSON.stringify(mockMem.weaknesses),
+            }
+          });
+          dbStudent.studentMemory = createdMem;
+        } catch (dbErr) {
+          console.warn(`[DB_SEED] Failed to seed memory for ${upperMssv}:`, dbErr.message);
+        }
+      }
       return enrichStudentData(dbStudent);
     }
   } catch (e) {
@@ -295,6 +401,24 @@ async function fetchStudentByMssv(mssv) {
           });
         }
       }
+
+      // 3. Upsert StudentMemory
+      await prisma.studentMemory.upsert({
+        where: { studentId: mssv },
+        update: {
+          learningStyle: enriched.learningStyle,
+          careerGoal: enriched.careerGoal,
+          strengths: JSON.stringify(enriched.strengths),
+          weaknesses: JSON.stringify(enriched.weaknesses)
+        },
+        create: {
+          studentId: mssv,
+          learningStyle: enriched.learningStyle,
+          careerGoal: enriched.careerGoal,
+          strengths: JSON.stringify(enriched.strengths),
+          weaknesses: JSON.stringify(enriched.weaknesses)
+        }
+      });
     } catch (dbErr) {
       console.warn('[DB_SYNC] Failed to auto-persist mock student to SQLite:', dbErr.message);
     }
@@ -306,7 +430,12 @@ async function fetchStudentByMssv(mssv) {
 async function fetchAllStudents() {
   let students = [];
   try {
-    const dbStudents = await prisma.student.findMany({ include: { scores: true } });
+    const dbStudents = await prisma.student.findMany({ 
+      include: { 
+        scores: true,
+        studentMemory: true
+      } 
+    });
     if (dbStudents && dbStudents.length > 0) {
       return dbStudents.map(enrichStudentData);
     }
@@ -321,5 +450,6 @@ async function fetchAllStudents() {
 
 module.exports = {
   fetchStudentByMssv,
-  fetchAllStudents
+  fetchAllStudents,
+  getMockMemoryForMssv
 };

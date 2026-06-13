@@ -215,6 +215,18 @@ node prisma/seed.js
 - Nguyễn Minh Hiếu
 - Mai Thị Vỹ An
 
+---
+
+## 🔗 12. Hệ Thống Đồng Bộ Hóa Học Vụ & Tự Động Kết Nối (Cohesive Sync)
+
+Để đảm bảo tính logic và nhất quán giữa các vai trò và giao diện, hệ thống EduGuard AI đã tích hợp cơ chế đồng bộ hóa dữ liệu học vụ thời gian thực:
+
+*   **Tải & Khôi Phục Lịch Sử Chat**: Chatbot tự động truy vấn dữ liệu `ConversationHistory` từ database để nạp lại toàn bộ cuộc hội thoại cũ của sinh viên/giảng viên khi đăng nhập lại hoặc chuyển thiết bị.
+*   **Liên Kết Dashboard → Quản Lý Can Thiệp**: Kích hoạt "Can thiệp" từ Dashboard (Tổng quan) sẽ tạo đồng thời `Intervention` và `InterventionRoadmap`, tự động đẩy sinh viên vào danh sách **Theo dõi** (Top 50) trong trang Can thiệp.
+*   **Hoàn Tác Đồng Bộ (Undo)**: Khi xóa lộ trình học tập trong trang Can thiệp để chuyển lại về "Nguy hiểm", hệ thống sẽ tự động xóa cắm cờ tương ứng để sinh viên xuất hiện lại trong cảnh báo đỏ của Dashboard.
+*   **Đồng Bộ Điểm Số & Trạng Thái Ổn Định**: Khi điểm số thực tế của sinh viên được cập nhật $\ge 5.0$ (Đạt), hệ thống tự động đổi trạng thái can thiệp thành `RESOLVED` và đóng lộ trình `COMPLETED` để đưa sinh viên vào nhóm **Ổn định** (Top 100).
+*   **Gửi Lộ Trình Từ AI Chatbot → Tự Động Can Thiệp**: Khi Cố vấn bấm nút "Gửi cho SV" hoặc "Gửi lộ trình đầy đủ" trong Chatbot AI, hệ thống tự động phân tích mã môn học trong tin nhắn để cắm cờ can thiệp mà giảng viên không cần thực hiện thủ công lại ở giao diện khác.
+
 <br>
 <div align="center">
   <i>"Explain Risk. Support Students. Improve Outcomes."</i>
