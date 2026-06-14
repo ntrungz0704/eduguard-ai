@@ -597,24 +597,22 @@ async function computeProgramAnalytics() {
   const cloWeakness = {};
   allScores.forEach(s => {
     if (s.value !== null && s.value < 5.5) {
-      const clos = cloMap[s.courseId] || [
-        `Kỹ năng thực hành ${s.courseId}`,
-        `Tư duy logic môn ${s.courseId}`,
-        `Ứng dụng chuẩn đầu ra ${s.courseId}`
-      ];
-      clos.forEach(clo => {
-        if (!cloWeakness[clo]) {
-          cloWeakness[clo] = { cloName: clo, courseId: s.courseId, count: 0 };
-        }
-        cloWeakness[clo].count += (6.0 - s.value); // Higher weight for lower score
-      });
+      const clos = cloMap[s.courseId];
+      if (clos) {
+        clos.forEach(clo => {
+          if (!cloWeakness[clo]) {
+            cloWeakness[clo] = { cloName: clo, courseId: s.courseId, score: 0 };
+          }
+          cloWeakness[clo].score += (6.0 - s.value); // Higher weight for lower score
+        });
+      }
     }
   });
 
   const topWeakestCLOs = Object.values(cloWeakness)
     .map(c => ({
       ...c,
-      count: Math.round(c.count)
+      count: Math.round(c.score)
     }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
@@ -633,13 +631,15 @@ async function computeProgramAnalytics() {
   const skillGaps = {};
   allScores.forEach(s => {
     if (s.status === 'FAILED' || (s.value !== null && s.value < 5.5)) {
-      const skills = courseSkillsMap[s.courseId] || ['Logic lập trình', 'Thực hành kỹ thuật'];
-      skills.forEach(skill => {
-        if (!skillGaps[skill]) {
-          skillGaps[skill] = { skillName: skill, count: 0 };
-        }
-        skillGaps[skill].count++;
-      });
+      const skills = courseSkillsMap[s.courseId];
+      if (skills) {
+        skills.forEach(skill => {
+          if (!skillGaps[skill]) {
+            skillGaps[skill] = { skillName: skill, count: 0 };
+          }
+          skillGaps[skill].count++;
+        });
+      }
     }
   });
 
