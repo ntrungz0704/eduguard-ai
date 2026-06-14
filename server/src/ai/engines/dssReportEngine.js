@@ -52,13 +52,13 @@ function getSemesterVal(semStr) {
 async function generateDetailedDSSReport(student) {
   if (!student) return null;
   const scores = student.scores || [];
-
-  if (scores.length === 0) {
+  const gradedScores = scores.filter(s => s.value !== null);
+  if (gradedScores.length === 0) {
     return {
       academicHealth: {
         score: 'N/A',
-        rating: 'Chưa có dữ liệu',
-        description: 'Sinh viên chưa có điểm trong hệ thống để tính toán chỉ số sức khỏe học tập.',
+        rating: 'Chưa đủ dữ liệu để đánh giá',
+        description: 'Sinh viên chưa có điểm môn học nào trong hệ thống để tính toán chỉ số sức khỏe học tập.',
         cohortRank: '—',
         totalCohort: '—',
         cohortPercentile: '—'
@@ -283,10 +283,53 @@ async function generateDetailedDSSReport(student) {
       const courseNameStr = kbCourse ? kbCourse.courseName : (syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode);
 
       let explanation = '';
+      const missingSkillsFormatted = kbCourse && kbCourse.coreSkills ? kbCourse.coreSkills.map(s => `• ${s}`).join('\n') : '';
+      const affectedClosFormatted = kbCourse && kbCourse.learningOutcomes ? kbCourse.learningOutcomes.map(c => `• ${c.split(':')[0]}`).join('\n') : '';
+      const affectedCareersFormatted = kbCourse && kbCourse.careerRelevance ? kbCourse.careerRelevance.map(c => `• ${c}`).join('\n') : '';
+      
+      const nextCourses = blockedCourses.filter(bc => bc.failedCourse === rcCode);
+      const affectedCoursesFormatted = nextCourses.length > 0 ? nextCourses.map(c => `• ${c.blockedCourse} (${c.blockedCourseName})`).join('\n') : '';
+
+      const priorityLabel = kbCourse ? (
+        kbCourse.academicImportanceLevel === 'CRITICAL' ? '🔴 Rất cao (Critical)' :
+        kbCourse.academicImportanceLevel === 'HIGH' ? '🔴 Cao (High)' :
+        kbCourse.academicImportanceLevel === 'MEDIUM' ? '🟡 Trung bình (Medium)' : '🔵 Thấp (Low)'
+      ) : '🟡 Trung bình (Medium)';
+
       if (isWeakPassed) {
-        explanation = `Điểm gãy nền tảng xuất phát từ môn ${rcCode} (${courseNameStr}). Sinh viên tuy đã thi đỗ môn này nhưng chỉ đạt điểm số yếu (${rcScoreObj.value.toFixed(1)}/10), trực tiếp gây thiếu hụt kỹ năng và làm trượt chuỗi môn học kế thừa tiếp theo.`;
+        explanation = `Sinh viên đạt điểm số yếu ở môn ${rcCode} (${courseNameStr}) với điểm số: ${rcScoreObj.value.toFixed(1)}/10.\n\n`;
+        
+        if (affectedCoursesFormatted) {
+          explanation += `Môn học bị ảnh hưởng trực tiếp (nguy cơ do nền tảng yếu):\n${affectedCoursesFormatted}\n\n`;
+        }
+        if (missingSkillsFormatted) {
+          explanation += `Kỹ năng còn thiếu/yếu:\n${missingSkillsFormatted}\n\n`;
+        }
+        if (affectedClosFormatted) {
+          explanation += `Chuẩn đầu ra bị ảnh hưởng:\n${affectedClosFormatted}\n\n`;
+        }
+        if (affectedCareersFormatted) {
+          explanation += `Nghề nghiệp bị ảnh hưởng:\n${affectedCareersFormatted}\n\n`;
+        }
+        explanation += `Mức độ tác động: ${priorityLabel}`;
       } else {
-        explanation = `Điểm gãy học thuật nghiêm trọng nhất xuất hiện sớm nhất tại môn ${rcCode} (${courseNameStr}). Việc trượt môn này đã làm gián đoạn dây chuyền tiến độ học tập và chặn đứng các môn chuyên ngành phía sau.`;
+        explanation = `Môn ${rcCode} (${courseNameStr}) chưa đạt.\n\n`;
+        
+        if (affectedCoursesFormatted) {
+          explanation += `Môn học bị ảnh hưởng trực tiếp:\n${affectedCoursesFormatted}\n\n`;
+        } else {
+          explanation += `Môn học bị ảnh hưởng: Không trực tiếp chặn môn chuyên ngành tiếp theo.\n\n`;
+        }
+        if (missingSkillsFormatted) {
+          explanation += `Kỹ năng còn thiếu:\n${missingSkillsFormatted}\n\n`;
+        }
+        if (affectedClosFormatted) {
+          explanation += `Chuẩn đầu ra bị ảnh hưởng:\n${affectedClosFormatted}\n\n`;
+        }
+        if (affectedCareersFormatted) {
+          explanation += `Nghề nghiệp bị ảnh hưởng:\n${affectedCareersFormatted}\n\n`;
+        }
+        explanation += `Mức độ tác động: ${priorityLabel}`;
       }
       
       rootCause = {
@@ -596,7 +639,9 @@ async function generateDetailedDSSReport(student) {
           const parts = rec.split(':');
           const weekStr = parts[0].trim();
           phase = `Giai đoạn ${rIdx + 1} (${weekStr})`;
-          title = parts.slice(1).join(':').trim();
+          title = `[Môn gốc ${rootCause.courseId}] ` + parts.slice(1).join(':').trim();
+        } else {
+          title = `[Môn gốc ${rootCause.courseId}] ` + rec;
         }
         
         if (rIdx === 0) {
@@ -619,7 +664,7 @@ async function generateDetailedDSSReport(student) {
       let phase1Title = `Lập kế hoạch ôn tập: ${rootCause.courseId} - ${rootCause.name}`;
       let phase1Focus = `Học lại lý thuyết cơ bản và hoàn thành các bài lab của môn học.`;
       if (recs.length > 0) {
-        phase1Title = `Nhiệm vụ can thiệp 1: ${recs[0]}`;
+        phase1Title = `Can thiệp ${rootCause.courseId}: ${recs[0]}`;
         const firstSkill = rootCause.missingSkills && rootCause.missingSkills[0];
         const skillEv = firstSkill && rootCause.technologiesTools ? ` (Kỹ năng: ${firstSkill}, Công cụ: ${rootCause.technologiesTools.slice(0, 2).join(', ')})` : '';
         phase1Focus = `Tập trung hoàn thành nội dung thực hành môn ${rootCause.courseId}${skillEv}. Bám sát đề cương chi tiết học phần để khắc phục lỗ hổng kiến thức gốc rễ sớm nhất.`;

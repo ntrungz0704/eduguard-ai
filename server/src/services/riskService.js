@@ -24,10 +24,10 @@ const courseDependency = loadKnowledgeJson('course_dependency.json');
  * Ensures 100% database-driven Single Source of Truth for Risk metrics.
  */
 function getStudentRisk(student) {
-  if (!student) {
+  if (!student || !student.scores || student.scores.filter(s => s.value !== null).length === 0) {
     return {
       riskScore: 0,
-      riskLevel: 'LOW',
+      riskLevel: 'INSUFFICIENT_DATA',
       delayScore: 0,
       delayStats: {
         failedCredits: 0,

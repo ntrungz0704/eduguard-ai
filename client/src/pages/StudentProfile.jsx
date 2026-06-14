@@ -649,6 +649,18 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
 
     return (
       <div className="space-y-8">
+        {/* DSS Verification Badges */}
+        <div className="flex flex-wrap gap-2 pb-2">
+          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-1">
+            ✓ Evidence-based
+          </span>
+          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center gap-1">
+            ✓ Derived from Syllabus
+          </span>
+          <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center gap-1">
+            ✓ Derived from Passed Courses
+          </span>
+        </div>
         
         {/* 1. Academic Health Score */}
         <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 relative overflow-hidden">
@@ -821,7 +833,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 </div>
               </div>
 
-              <p className="text-sm text-slate-700 dark:text-slate-350 font-medium leading-relaxed bg-white/5 p-4 rounded-xl border border-white/5">
+              <p className="text-sm text-slate-700 dark:text-slate-350 font-medium leading-relaxed bg-white/5 p-4 rounded-xl border border-white/5 whitespace-pre-wrap">
                 {rootCauseAnalysis.explanation}
               </p>
 

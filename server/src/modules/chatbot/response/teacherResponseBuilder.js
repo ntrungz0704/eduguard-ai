@@ -4,6 +4,11 @@ const { generateInterventionRoadmap } = require('../recommendationEngine');
 const syllabusEngine = require('../syllabusEngine');
 const knowledgeCache = require('../../knowledge/cache');
 const graphEngine = require('../../advisor/graph-engine');
+const path = require('path');
+const fs = require('fs');
+
+const curriculumKbPath = path.join(__dirname, '../../../../data/knowledge/curriculum_knowledge_base.json');
+const curriculumKb = fs.existsSync(curriculumKbPath) ? JSON.parse(fs.readFileSync(curriculumKbPath, 'utf8')) : [];
 
 function generateDynamicStudentInsight(student, riskData) {
   const { avgAttendance, failedCourses, riskScore, level } = riskData;
@@ -863,25 +868,42 @@ Vị trí này đang có **Nhu cầu tuyển dụng: ${marketInsights.marketDema
       const courseId = decisionData.courseId || 'COM108';
       const impacts = graphEngine.getImpactedCourses([courseId]);
       
-      if (!impacts || impacts.length === 0 || impacts[0].impactedCourses.length === 0) {
-        return {
-          text: `✅ Môn **${courseId}** hiện không có tác động chặn học phần nào trong sơ đồ đồ thị.`,
-          chartData: null,
-          actions: ['Tình hình lớp']
-        };
+      const kbCourse = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === courseId.toLowerCase().replace(/\s+/g, ''));
+      const courseName = kbCourse ? kbCourse.courseName : courseId;
+      
+      let text = `# 🚨 Phân tích Tác động (Risk Chain): ${courseId} - ${courseName}\n\n`;
+      text += `Sinh viên chưa đạt môn **${courseId}**.\n\n`;
+
+      if (impacts && impacts.length > 0 && impacts[0].impactedCourses.length > 0) {
+        const impactedList = impacts[0].impactedCourses.map(c => `• **${c}**`).join('\n');
+        text += `**Môn học bị ảnh hưởng trực tiếp (bị khóa tiên quyết):**\n${impactedList}\n\n`;
+      } else {
+        text += `**Môn học bị ảnh hưởng:** Hiện tại học phần này không chặn trực tiếp môn chuyên ngành tiếp theo.\n\n`;
       }
 
-      const impactedList = impacts[0].impactedCourses.map(c => `- ${c}`).join('\n');
+      if (kbCourse) {
+        if (kbCourse.coreSkills && kbCourse.coreSkills.length > 0) {
+          text += `**Các kỹ năng còn thiếu:**\n${kbCourse.coreSkills.map(s => `• ${s}`).join('\n')}\n\n`;
+        }
+        if (kbCourse.learningOutcomes && kbCourse.learningOutcomes.length > 0) {
+          text += `**Chuẩn đầu ra bị ảnh hưởng:**\n${kbCourse.learningOutcomes.map(c => `• ${c.split(':')[0]}`).join('\n')}\n\n`;
+        }
+        if (kbCourse.careerRelevance && kbCourse.careerRelevance.length > 0) {
+          text += `**Nghề nghiệp bị ảnh hưởng:**\n${kbCourse.careerRelevance.map(c => `• ${c}`).join('\n')}\n\n`;
+        }
+        
+        const priorityLabel = kbCourse.academicImportanceLevel === 'CRITICAL' ? '🔴 Rất cao (Critical)' :
+                              kbCourse.academicImportanceLevel === 'HIGH' ? '🔴 Cao (High)' :
+                              kbCourse.academicImportanceLevel === 'MEDIUM' ? '🟡 Trung bình (Medium)' : '🔵 Thấp (Low)';
+        text += `**Mức độ tác động:** ${priorityLabel}\n\n`;
+
+        if (kbCourse.remediationRecommendations && kbCourse.remediationRecommendations.length > 0) {
+          text += `**Khuyến nghị:**\n${kbCourse.remediationRecommendations.map(r => `• ${r}`).join('\n')}\n\n`;
+        }
+      }
+
       return {
-        text: `# 🚨 Phân tích Risk Chain: ${courseId}
-    
-Hệ quả dây chuyền nếu sinh viên nợ học phần **${courseId}**:
-
-${impactedList}
-
----
-🧠 **Nhận định AI**:
-Đây là những học phần bị khóa điều kiện tiên quyết nếu sinh viên chưa hoàn thành **${courseId}**. Giảng viên cần đặc biệt lưu ý hỗ trợ các nhóm sinh viên nợ môn này.`,
+        text: text.trim(),
         chartData: null,
         actions: ['Môn dễ rớt', 'Top sinh viên rủi ro']
       };

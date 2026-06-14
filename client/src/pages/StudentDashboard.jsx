@@ -387,7 +387,20 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
 
       {/* ── AI Decision Support System (DSS) Insights ── */}
       {dssReport && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            <span className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-1">
+              ✓ Evidence-based
+            </span>
+            <span className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center gap-1">
+              ✓ Derived from Syllabus
+            </span>
+            <span className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center gap-1">
+              ✓ Derived from Passed Courses
+            </span>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Health & Graduation Risk Card */}
           <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900/10 flex flex-col justify-between relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
@@ -485,7 +498,8 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
             </div>
           )}
         </div>
-      )}
+      </div>
+    )}
 
       {/* Auto AI Analytics Summary */}
       <div className="glass-card p-6 rounded-2xl border border-blue-200 dark:border-blue-500/20 bg-white dark:bg-gradient-to-br dark:from-blue-950/20 dark:to-indigo-950/10 relative overflow-hidden">

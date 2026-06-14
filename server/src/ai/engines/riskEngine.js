@@ -31,10 +31,10 @@ function getRiskLevel(score) {
  * Features: low GPA, prerequisite failures, negative academic trends, and graduation delay scores.
  */
 function calculateBaseRisk(student) {
-  if (!student || !student.scores || student.scores.length === 0) {
+  if (!student || !student.scores || student.scores.filter(s => s.value !== null).length === 0) {
     return { 
       riskScore: 0, 
-      level: 'LOW', 
+      level: 'INSUFFICIENT_DATA', 
       gpa: 0, 
       avgAttendance: 100, 
       failedCourses: [], 
