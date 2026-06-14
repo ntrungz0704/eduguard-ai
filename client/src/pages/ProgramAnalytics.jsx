@@ -306,9 +306,17 @@ export default function ProgramAnalytics() {
 
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart layout="vertical" data={topWeakestCLOs} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+              <BarChart layout="vertical" data={topWeakestCLOs} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
                 <XAxis type="number" tick={{fill: '#94a3b8', fontSize: 10}} stroke="#334155" />
-                <YAxis type="category" dataKey="courseId" tick={{fill: '#94a3b8', fontSize: 10}} stroke="#334155" width={60} />
+                <YAxis 
+                  type="category" 
+                  dataKey="cloName" 
+                  tick={{fill: '#94a3b8', fontSize: 10}} 
+                  stroke="#334155" 
+                  width={150}
+                  interval={0}
+                  tickFormatter={(val) => val.length > 22 ? val.substring(0, 22) + '...' : val}
+                />
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
@@ -353,8 +361,17 @@ export default function ProgramAnalytics() {
 
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topSkillGaps} margin={{ top: 10, right: 10, left: -25, bottom: 20 }}>
-                <XAxis dataKey="skillName" tick={{fill: '#94a3b8', fontSize: 10}} stroke="#334155" />
+              <BarChart data={topSkillGaps} margin={{ top: 10, right: 10, left: -15, bottom: 10 }}>
+                <XAxis 
+                  dataKey="skillName" 
+                  tick={{fill: '#94a3b8', fontSize: 10}} 
+                  stroke="#334155" 
+                  interval={0}
+                  angle={-20}
+                  textAnchor="end"
+                  height={50}
+                  tickFormatter={(val) => val.length > 18 ? val.substring(0, 18) + '...' : val}
+                />
                 <YAxis tick={{fill: '#94a3b8', fontSize: 10}} stroke="#334155" />
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
