@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { calculateFptGPA } = require('../../utils/dataService');
+const { calculateFptGPA, calculateDelayScore } = require('../../utils/dataService');
 const { RISK_WEIGHTS, RISK_LEVELS, RISK_THRESHOLDS } = require('../config/riskRules');
 
 function loadKnowledgeJson(filename) {
@@ -128,32 +128,7 @@ function calculateBaseRisk(student) {
   // 4. DELAY RISK (Based on Expert Heuristic Delay Index)
   let delayScoreVal = 0;
   if (failedCourses.length > 0) {
-    const blockedCount = failedCourses.reduce((sum, fc) => {
-      const node = syllabusGraph[fc];
-      const unlocksCount = node && node.unlocks ? node.unlocks.length : 0;
-      const depNode = courseDependency[fc];
-      const affectsCount = depNode && depNode.affects ? depNode.affects.length : 0;
-      return sum + Math.max(unlocksCount, affectsCount);
-    }, 0);
-
-    let maxChainDepth = 0;
-    failedCourses.forEach(fc => {
-      let depth = 0;
-      let current = fc;
-      while (depth < 6) {
-        const nextNode = Object.entries(syllabusGraph).find(([key, val]) => val.prerequisites.includes(current));
-        if (nextNode) {
-          depth++;
-          current = nextNode[0];
-        } else {
-          break;
-        }
-      }
-      maxChainDepth = Math.max(maxChainDepth, depth);
-    });
-
-    const creditsFailed = failedCourses.length * 3;
-    const delayScore = creditsFailed + (blockedCount * 3) + (maxChainDepth * 5);
+    const { delayScore } = calculateDelayScore(scores, syllabusGraph, courseDependency);
     
     if (delayScore >= 35) delayScoreVal = 100;
     else if (delayScore >= 20) delayScoreVal = 80;

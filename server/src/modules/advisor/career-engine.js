@@ -342,6 +342,15 @@ exports.analyzeCareer = (student, careerGoal) => {
     };
   });
 
+  const matchedSkills = [...haveCore, ...haveAdvanced];
+  const missingSkills = [...missingCore, ...missingAdvanced];
+  const evidence = courseDetails.filter(c => c.status === 'PASSED').map(c => ({
+    courseId: c.courseId,
+    courseName: c.courseName,
+    skills: c.skills
+  }));
+  const insufficientEvidence = matchedSkills.length === 0 && evidence.length === 0;
+
   return {
     mode,
     careerGoal: industryData.careerName || careerGoal,
@@ -377,7 +386,11 @@ exports.analyzeCareer = (student, careerGoal) => {
       marketDemand: industryData.marketDemand,
       futureTrend: industryData.futureTrend
     },
-    roadmap: dynamicRoadmap
+    roadmap: dynamicRoadmap,
+    matchedSkills,
+    missingSkills,
+    evidence,
+    insufficientEvidence
   };
 };
 
@@ -504,7 +517,11 @@ exports.suggestBestCareers = (student) => {
       readinessScore: analysis.readinessScore,
       score: finalScore,
       matchCount: analysis.skillGap.core.have.length + analysis.skillGap.advanced.have.length,
-      totalRequired: analysis.industryRequirements.core.length + analysis.industryRequirements.advanced.length
+      totalRequired: analysis.industryRequirements.core.length + analysis.industryRequirements.advanced.length,
+      insufficientEvidence: analysis.insufficientEvidence,
+      matchedSkills: analysis.matchedSkills,
+      missingSkills: analysis.missingSkills,
+      evidence: analysis.evidence
     });
   }
 

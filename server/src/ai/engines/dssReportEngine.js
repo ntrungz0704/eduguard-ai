@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { prisma } = require('../../infrastructure/database/prisma');
 const { calculateBaseRisk, getRiskLevel } = require('./riskEngine');
-const { calculateFptGPA, getCourseCredits } = require('../../utils/dataService');
+const { calculateFptGPA, getCourseCredits, calculateDelayScore } = require('../../utils/dataService');
 
 // Helper to load JSON from server/data/knowledge
 function loadKnowledgeJson(filename) {
@@ -46,6 +46,47 @@ function getSemesterVal(semStr) {
 async function generateDetailedDSSReport(student) {
   if (!student) return null;
   const scores = student.scores || [];
+
+  if (scores.length === 0) {
+    return {
+      academicHealth: {
+        score: 'N/A',
+        rating: 'Chưa có dữ liệu',
+        description: 'Sinh viên chưa có điểm trong hệ thống để tính toán chỉ số sức khỏe học tập.',
+        cohortRank: '—',
+        totalCohort: '—',
+        cohortPercentile: '—'
+      },
+      trendAnalysis: {
+        trendData: [],
+        status: 'Không khả dụng',
+        explanation: 'Chưa có dữ liệu điểm để phân tích xu hướng học tập.'
+      },
+      knowledgeDependency: {
+        failedCourses: [],
+        blockedCourses: []
+      },
+      rootCauseAnalysis: null,
+      riskContributors: [],
+      futureCourseImpact: [],
+      graduationRisk: {
+        level: 'Chưa khả dụng',
+        description: 'Chưa có dữ liệu học tập để đánh giá nguy cơ chậm tốt nghiệp.',
+        delaySemesters: 0,
+        delayScore: 0
+      },
+      recoveryRoadmap: [],
+      interventionRecommendation: {
+        riskLevel: 'N/A',
+        actionCode: 'NO_DATA',
+        actionTitle: 'Chưa khả dụng',
+        description: 'Chưa có dữ liệu điểm để đưa ra đề xuất can thiệp.',
+        colorClass: 'slate'
+      },
+      programLevelComparison: []
+    };
+  }
+
   const predictions = student.predictions || [];
 
   // Calculate Base Risk
@@ -268,36 +309,7 @@ async function generateDetailedDSSReport(student) {
   // 7. Graduation Risk & Delay Index Engine
   // Heuristic Index: Trị số trễ tốt nghiệp này được thiết lập theo luật chuyên gia học vụ (Expert Heuristic Rules) 
   // dựa trên cấu trúc tín chỉ và chuỗi ràng buộc tiên quyết, không phải mô hình thống kê học máy thuần túy.
-  const failedCredits = completedScores.filter(s => s.status === 'FAILED').reduce((sum, s) => sum + getCourseCredits(s.courseId), 0);
-  const blockedCount = blockedCourses.length;
-  
-  // Calculate Bottleneck Weight & Max Chain Depth
-  let bottleneckWeight = 0;
-  let maxChainDepth = 0;
-  
-  failedCourses.forEach(fc => {
-    const directBlocked = blockedCourses.filter(bc => bc.failedCourse === fc);
-    if (directBlocked.length >= 3) {
-      bottleneckWeight += 15;
-    } else if (directBlocked.length > 0) {
-      bottleneckWeight += 8;
-    }
-    
-    let depth = 0;
-    let current = fc;
-    while (depth < 6) { // Safety bound
-      const nextNode = Object.entries(syllabusGraph).find(([key, val]) => val.prerequisites.includes(current));
-      if (nextNode) {
-        depth++;
-        current = nextNode[0];
-      } else {
-        break;
-      }
-    }
-    maxChainDepth = Math.max(maxChainDepth, depth);
-  });
-
-  const delayScore = failedCredits + (blockedCount * 3) + (maxChainDepth * 5) + bottleneckWeight;
+  const { delayScore, failedCredits, blockedCount, maxChainDepth, bottleneckWeight } = calculateDelayScore(scores, syllabusGraph, courseDependency);
 
   let gradRiskLevel = 'LOW';
   let gradRiskDesc = 'Tiến độ học tập bình thường. Đủ điều kiện ra trường đúng hạn.';

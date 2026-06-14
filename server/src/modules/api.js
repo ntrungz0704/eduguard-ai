@@ -20,6 +20,7 @@ const { getStudentContext } = require('../ai/ragService');
 const { buildPrompt } = require('../ai/promptService');
 const { predictRisk } = require('../ai/inference/riskPredictor');
 const { jwtMiddleware } = require('./auth/middleware');
+const { calculateBaseRisk } = require('../ai/engines/riskEngine');
 
 // Protect all dashboard/chatbot APIs using JWT authentication
 router.use(jwtMiddleware);
@@ -495,7 +496,8 @@ router.get('/red-alerts', async (req, res) => {
           name: student.name,
           classCode: student.classCode || 'WD18301',
           predictions: [predictionItem],
-          studentScores: student.scores
+          studentScores: student.scores,
+          studentObj: student
         });
       } else {
         studentAlertsMap.get(mssv).predictions.push(predictionItem);
@@ -528,7 +530,8 @@ router.get('/red-alerts', async (req, res) => {
             name: student.name,
             classCode: student.classCode || 'WD18301',
             predictions: [],
-            studentScores: student.scores
+            studentScores: student.scores,
+            studentObj: student
           });
         }
       }
@@ -586,6 +589,9 @@ router.get('/red-alerts', async (req, res) => {
       const primaryInterventionStatus = interventionStatusMap.get(`${mssv}_${primary.courseId}`);
       const isIntervened = primaryInterventionStatus === 'PENDING' || primaryInterventionStatus === 'ACTIVE' || primary.intervened;
 
+      // Unify Risk & Priority Level using calculateBaseRisk
+      const baseRiskObj = calculateBaseRisk(data.studentObj);
+
       alerts.push({
         mssv: data.mssv,
         name: data.name,
@@ -594,8 +600,10 @@ router.get('/red-alerts', async (req, res) => {
         targetCourseId: primary.courseId,
         predictedScore: primary.predictedScore,
         risk: primary.risk,
-        priorityLevel: primary.priorityLevel,
-        riskScore: primary.riskScore,
+        priorityLevel: baseRiskObj.level,
+        riskScore: baseRiskObj.riskScore,
+        gpa: baseRiskObj.gpa,
+        avgAttendance: baseRiskObj.avgAttendance,
         weakPrereqs: primary.weakPrereqs,
         isEarlyWarning: primary.isEarlyWarning,
         intervened: isIntervened,
@@ -962,25 +970,36 @@ router.all('/predict/:subject', async (req, res) => {
             explanation: 'Điểm thực tế đã ghi nhận trong cơ sở dữ liệu'
           }];
         } else {
-          // Fast O(1) prediction: sum(weight * (a + b * score)) / sum(weights)
-          const activeFeatures = topFeatures.filter(f => s.scores[f.subject] != null);
+          const otherScores = Object.values(s.scores).filter(v => v !== null && typeof v === 'number');
+          
+          if (otherScores.length === 0) {
+            predicted = null;
+            risk = 'insufficient_data';
+            reasons = [{
+              subject: 'Không có dữ liệu',
+              score: null,
+              r: 0,
+              impact: 'neutral',
+              explanation: 'Sinh viên chưa có lịch sử học tập để dự báo.'
+            }];
+          } else {
+            // Fast O(1) prediction: sum(weight * (a + b * score)) / sum(weights)
+            const activeFeatures = topFeatures.filter(f => s.scores[f.subject] != null);
 
-          if (activeFeatures.length > 0) {
-            const activeTotalScore = activeFeatures.reduce((sum, f) => sum + f.hybridScore, 0) || 1;
-            let predSum = 0;
-            activeFeatures.forEach(f => {
-              const x = s.scores[f.subject];
-              const val = Math.min(10, Math.max(0, f.a + f.b * x));
-              predSum += (f.hybridScore / activeTotalScore) * val;
-            });
-            const rawPredicted = Math.round(predSum * 10) / 10;
-            predicted = calibrate(rawPredicted, trainScores);
-          }
+            if (activeFeatures.length > 0) {
+              const activeTotalScore = activeFeatures.reduce((sum, f) => sum + f.hybridScore, 0) || 1;
+              let predSum = 0;
+              activeFeatures.forEach(f => {
+                const x = s.scores[f.subject];
+                const val = Math.min(10, Math.max(0, f.a + f.b * x));
+                predSum += (f.hybridScore / activeTotalScore) * val;
+              });
+              const rawPredicted = Math.round(predSum * 10) / 10;
+              predicted = calibrate(rawPredicted, trainScores);
+            }
 
-          if (predicted == null) {
-            // Robust Fallback 1: Use student's overall GPA
-            const otherScores = Object.values(s.scores).filter(v => v !== null && typeof v === 'number');
-            if (otherScores.length > 0) {
+            if (predicted == null) {
+              // Robust Fallback 1: Use student's overall GPA
               const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
               predicted = Math.round(avgOther * 10) / 10;
               reasons = [{
@@ -991,65 +1010,55 @@ router.all('/predict/:subject', async (req, res) => {
                 explanation: `Dự báo dựa trên điểm trung bình các môn khác (${predicted}đ)`
               }];
             } else {
-              // Robust Fallback 2: Use training average
-              const trainAvg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 7.2;
-              predicted = Math.round(trainAvg * 10) / 10;
-              reasons = [{
-                subject: 'Trung bình môn học',
-                score: predicted,
-                r: 0.1,
-                impact: 'neutral',
-                explanation: `Dự báo dựa trên điểm trung bình môn của khóa trước (${predicted}đ)`
-              }];
-            }
-          } else {
-            // Explainable AI (XAI) Reasons
-            topFeatures.forEach(f => {
-              const score = s.scores[f.subject];
-              if (score != null) {
-                const impact = f.r > 0 ? (score < 5 ? 'kéo xuống' : 'nâng lên') : (score < 5 ? 'nâng lên' : 'kéo xuống');
-                reasons.push({
-                  subject: f.subject,
-                  score,
-                  r: Math.round(f.r * 100) / 100,
-                  impact: score < 5 ? 'negative' : score >= 7 ? 'positive' : 'neutral',
-                  explanation: `${f.subject} = ${score} (r=${Math.round(f.r * 100) / 100}) → ${impact}`
-                });
-              }
-            });
-          }
-
-          // CASCADING RISK PROPAGATION
-          const dependencies = getSubjectDependencies().find(d => d.target === target);
-          if (dependencies && dependencies.prerequisites.length > 0) {
-            let cascadePenalty = 0;
-            let rootCauses = [];
-            dependencies.prerequisites.forEach(prereq => {
-              if (s.scores[prereq] !== undefined && s.scores[prereq] !== null) {
-                if (s.scores[prereq] < 5.0) {
-                  cascadePenalty += 2.0; // Phạt rất nặng nếu môn gốc rớt
-                  rootCauses.push(`Hổng kiến thức nền tảng do rớt môn tiên quyết "${prereq}" (${s.scores[prereq]}đ).`);
-                } else if (s.scores[prereq] < 6.5) {
-                  cascadePenalty += 0.5; // Phạt nhẹ nếu môn gốc kém
-                  rootCauses.push(`Kiến thức nền tảng chưa vững ở môn tiên quyết "${prereq}" (${s.scores[prereq]}đ).`);
+              // Explainable AI (XAI) Reasons
+              topFeatures.forEach(f => {
+                const score = s.scores[f.subject];
+                if (score != null) {
+                  const impact = f.r > 0 ? (score < 5 ? 'kéo xuống' : 'nâng lên') : (score < 5 ? 'nâng lên' : 'kéo xuống');
+                  reasons.push({
+                    subject: f.subject,
+                    score,
+                    r: Math.round(f.r * 100) / 100,
+                    impact: score < 5 ? 'negative' : score >= 7 ? 'positive' : 'neutral',
+                    explanation: `${f.subject} = ${score} (r=${Math.round(f.r * 100) / 100}) → ${impact}`
+                  });
                 }
-              }
-            });
-
-            if (cascadePenalty > 0) {
-              predicted = Math.max(0, predicted - cascadePenalty);
-              reasons.unshift({
-                subject: 'Cascading Risk (Rủi ro lan truyền)',
-                score: null,
-                r: 1.0,
-                impact: 'negative',
-                explanation: rootCauses.join(' ')
               });
             }
-          }
 
+            // CASCADING RISK PROPAGATION
+            const dependencies = getSubjectDependencies().find(d => d.target === target);
+            if (dependencies && dependencies.prerequisites.length > 0 && predicted !== null) {
+              let cascadePenalty = 0;
+              let rootCauses = [];
+              dependencies.prerequisites.forEach(prereq => {
+                if (s.scores[prereq] !== undefined && s.scores[prereq] !== null) {
+                  if (s.scores[prereq] < 5.0) {
+                    cascadePenalty += 2.0; // Phạt rất nặng nếu môn gốc rớt
+                    rootCauses.push(`Hổng kiến thức nền tảng do rớt môn tiên quyết "${prereq}" (${s.scores[prereq]}đ).`);
+                  } else if (s.scores[prereq] < 6.5) {
+                    cascadePenalty += 0.5; // Phạt nhẹ nếu môn gốc kém
+                    rootCauses.push(`Kiến thức nền tảng chưa vững ở môn tiên quyết "${prereq}" (${s.scores[prereq]}đ).`);
+                  }
+                }
+              });
+
+              if (cascadePenalty > 0) {
+                predicted = Math.max(0, predicted - cascadePenalty);
+                reasons.unshift({
+                  subject: 'Cascading Risk (Rủi ro lan truyền)',
+                  score: null,
+                  r: 1.0,
+                  impact: 'negative',
+                  explanation: rootCauses.join(' ')
+                });
+              }
+            }
+
+            risk = predicted < 5 ? 'high' : predicted < 6.5 ? 'medium' : 'low';
+          }
+          
           isPredicted = true;
-          risk = predicted < 5 ? 'high' : predicted < 6.5 ? 'medium' : 'low';
         }
 
         const prereqs = ACADEMIC_PREREQUISITES[target] || [];
@@ -1145,11 +1154,21 @@ router.all('/predict/:subject', async (req, res) => {
           explanation: 'Điểm thực tế đã ghi nhận trong cơ sở dữ liệu'
         }];
       } else {
-        predicted = model.predict(s.scores);
-        if (predicted == null) {
-          // Robust Fallback 1: Use student's overall GPA
-          const otherScores = Object.values(s.scores).filter(v => v !== null && typeof v === 'number');
-          if (otherScores.length > 0) {
+        const otherScores = Object.values(s.scores).filter(v => v !== null && typeof v === 'number');
+        if (otherScores.length === 0) {
+          predicted = null;
+          risk = 'insufficient_data';
+          reasons = [{
+            subject: 'Không có dữ liệu',
+            score: null,
+            r: 0,
+            impact: 'neutral',
+            explanation: 'Sinh viên chưa có lịch sử học tập để dự báo.'
+          }];
+        } else {
+          predicted = model.predict(s.scores);
+          if (predicted == null) {
+            // Robust Fallback 1: Use student's overall GPA
             const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
             predicted = Math.round(avgOther * 10) / 10;
             reasons = [{
@@ -1160,35 +1179,23 @@ router.all('/predict/:subject', async (req, res) => {
               explanation: `Dự báo dựa trên điểm trung bình các môn khác (${predicted}đ)`
             }];
           } else {
-            // Robust Fallback 2: Use training average
-            const trainAvg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 7.2;
-            predicted = Math.round(trainAvg * 10) / 10;
-            reasons = [{
-              subject: 'Trung bình môn học',
-              score: predicted,
-              r: 0.1,
-              impact: 'neutral',
-              explanation: `Dự báo dựa trên điểm trung bình môn của khóa trước (${predicted}đ)`
-            }];
+            model.topFeatures.forEach(f => {
+              const score = s.scores[f.feature];
+              if (score != null) {
+                const impact = f.r > 0 ? (score < 5 ? 'kéo xuống' : 'nâng lên') : (score < 5 ? 'nâng lên' : 'kéo xuống');
+                reasons.push({
+                  subject: f.feature,
+                  score,
+                  r: Math.round(f.r * 100) / 100,
+                  impact: score < 5 ? 'negative' : score >= 7 ? 'positive' : 'neutral',
+                  explanation: `${f.feature} = ${score} (r=${Math.round(f.r * 100) / 100}) → ${impact}`
+                });
+              }
+            });
           }
-        } else {
-          model.topFeatures.forEach(f => {
-            const score = s.scores[f.feature];
-            if (score != null) {
-              const impact = f.r > 0 ? (score < 5 ? 'kéo xuống' : 'nâng lên') : (score < 5 ? 'nâng lên' : 'kéo xuống');
-              reasons.push({
-                subject: f.feature,
-                score,
-                r: Math.round(f.r * 100) / 100,
-                impact: score < 5 ? 'negative' : score >= 7 ? 'positive' : 'neutral',
-                explanation: `${f.feature} = ${score} (r=${Math.round(f.r * 100) / 100}) → ${impact}`
-              });
-            }
-          });
+          risk = predicted < 5 ? 'high' : predicted < 6.5 ? 'medium' : 'low';
         }
-
         isPredicted = true;
-        risk = predicted < 5 ? 'high' : predicted < 6.5 ? 'medium' : 'low';
       }
 
       predictions.push({
@@ -2339,83 +2346,12 @@ router.post('/students/update-score', async (req, res) => {
       }
     }
 
-    // Trigger dynamic prediction recalibration for this student
+    // Trigger dynamic prediction recalibration in background
     try {
-      // Get the student's scores to recalculate risk predictions
-      const studentAfterUpdate = await prisma.student.findUnique({
-        where: { mssv },
-        include: { scores: true }
+      const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+      recalculateAllPredictions(false).catch(err => {
+        console.error(`[Grade Editor recalibration] Lỗi khi chạy nền dự đoán cho MSSV ${mssv}:`, err);
       });
-
-      const trainingData = cache.trainingData;
-      const getTrainingName = (id) => {
-          const dbCoursesLocal = cache.courses || []; 
-          const c = dbCoursesLocal.find(x => x.courseCode === id);
-          if (!c) return null;
-          const exact = trainingData.subjects.find(s => s === c.courseName);
-          if (exact) return exact;
-          const lower = trainingData.subjects.find(s => s.toLowerCase() === c.courseName.toLowerCase());
-          if (lower) return lower;
-          if (id === 'WEB3023') return 'Thiết kế Web với HTML5 & CSS3';
-          if (id === 'PRO2201') return 'Dự án tốt nghiệp';
-          return c.courseName;
-      };
-
-      // Convert scores back to simple map for prediction
-      const scoresMap = {};
-      studentAfterUpdate.scores.forEach(s => {
-        scoresMap[s.courseId] = s.value;
-        const cName = getTrainingName(s.courseId);
-        if (cName) scoresMap[cName] = s.value;
-      });
-
-      // Recalculate linear regression forecast for each predicted subject
-      const subjects = cache.trainingData.subjects || [];
-      const dbCourses = await prisma.course.findMany();
-      const getCourseId = (name) => {
-        const exact = dbCourses.find(c => c.name === name);
-        if (exact) return exact.id;
-        const lower = dbCourses.find(c => c.name.toLowerCase() === name.toLowerCase());
-        if (lower) return lower.id;
-        if (name === "Thiết kế Web với HTML5 & CSS3") return "WEB3023";
-        if (name === "Dự án tốt nghiệp") return "PRO2201";
-        return null;
-      };
-
-      for (const course of subjects) {
-        const cId = getCourseId(course);
-        if (!cId) continue;
-        
-        if (scoresMap[course] === undefined && scoresMap[cId] === undefined) {
-          const predObj = weightedPrediction({ scores: scoresMap }, course, cache.modelCache);
-          if (predObj) {
-            await prisma.prediction.upsert({
-              where: {
-                mssv_courseId: {
-                  mssv,
-                  courseId: cId
-                }
-              },
-              update: {
-                predictedScore: predObj.predictedScore,
-                risk: predObj.risk,
-                confidence: 0.85,
-                explanation: 'Tính toán lại dựa trên điểm mới cập nhật',
-                reasons: predObj.reasons.join(', ')
-              },
-              create: {
-                mssv,
-                courseId: cId,
-                predictedScore: predObj.predictedScore,
-                risk: predObj.risk,
-                confidence: 0.85,
-                explanation: 'Tính toán dựa trên điểm mới cập nhật',
-                reasons: predObj.reasons.join(', ')
-              }
-            });
-          }
-        }
-      }
     } catch (predErr) {
       console.warn(`[Grade Editor recalibration] Không thể tự động chạy lại dự đoán AI cho MSSV ${mssv}:`, predErr.message);
     }

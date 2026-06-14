@@ -877,17 +877,27 @@ export default function Predict() {
                     <div>
                       <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-bold">Điểm số mục tiêu</span>
                       <div className="flex items-baseline gap-1 mt-1">
-                        <span className={`text-5xl font-black tracking-tight text-glow-green ${singleStudent.predicted >= 6.5 ? 'text-emerald-400 text-glow-green' : singleStudent.predicted >= 5 ? 'text-amber-400' : 'text-rose-500 text-glow-red'}`}>
-                          {typeof singleStudent.predicted === 'number' ? singleStudent.predicted.toFixed(1) : singleStudent.predicted}
-                        </span>
-                        <span className="text-lg font-bold text-slate-600 dark:text-slate-400">đ</span>
+                        {singleStudent.risk === 'insufficient_data' ? (
+                          <span className="text-5xl font-black tracking-tight text-slate-500">
+                            —
+                          </span>
+                        ) : (
+                          <>
+                            <span className={`text-5xl font-black tracking-tight text-glow-green ${singleStudent.predicted >= 6.5 ? 'text-emerald-400 text-glow-green' : singleStudent.predicted >= 5 ? 'text-amber-400' : 'text-rose-500 text-glow-red'}`}>
+                              {typeof singleStudent.predicted === 'number' ? singleStudent.predicted.toFixed(1) : singleStudent.predicted}
+                            </span>
+                            <span className="text-lg font-bold text-slate-600 dark:text-slate-400">đ</span>
+                          </>
+                        )}
                       </div>
                     </div>
 
                     <div className="text-right">
                       <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-bold">Cảnh báo rủi ro</span>
                       <div className="mt-1.5">
-                        {singleStudent.risk === 'high' ? (
+                        {singleStudent.risk === 'insufficient_data' ? (
+                          <span className="bg-slate-500/20 border border-slate-200 dark:border-white/10 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5"><Info size={14}/> CHƯA ĐỦ DỮ LIỆU</span>
+                        ) : singleStudent.risk === 'high' ? (
                           <span className="bg-rose-500/20 border border-rose-200 dark:border-rose-500/30 text-rose-400 px-3.5 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(239,68,68,0.15)]"><AlertTriangle size={14}/> NGUY CƠ CAO</span>
                         ) : singleStudent.risk === 'medium' ? (
                           <span className="bg-amber-500/20 border border-amber-200 dark:border-amber-500/30 text-amber-400 px-3.5 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.15)]"><Info size={14}/> THEO DÕI</span>
@@ -1091,9 +1101,15 @@ export default function Predict() {
                           </td>
                           <td className="p-4">
                             <div className="flex flex-col gap-1.5">
-                              <span className={`text-lg font-black ${p.predicted >= 6.5 ? 'text-emerald-400 text-glow-green' : p.predicted >= 5 ? 'text-amber-400' : 'text-rose-500 text-glow-red'}`}>
-                                {typeof p.predicted === 'number' ? p.predicted.toFixed(1) : p.predicted}đ
-                              </span>
+                              {p.risk === 'insufficient_data' ? (
+                                <span className="text-lg font-black text-slate-500">
+                                  —
+                                </span>
+                              ) : (
+                                <span className={`text-lg font-black ${p.predicted >= 6.5 ? 'text-emerald-400 text-glow-green' : p.predicted >= 5 ? 'text-amber-400' : 'text-rose-500 text-glow-red'}`}>
+                                  {typeof p.predicted === 'number' ? p.predicted.toFixed(1) : p.predicted}đ
+                                </span>
+                              )}
                               {p.isPredicted ? (
                                 <span className="text-[9px] bg-purple-500/15 border border-purple-200 dark:border-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded-md font-extrabold w-max tracking-wide uppercase">Ước lượng</span>
                               ) : (
@@ -1102,7 +1118,8 @@ export default function Predict() {
                             </div>
                           </td>
                           <td className="p-4">
-                            {p.risk === 'high' ? <span className="bg-rose-500/20 border border-rose-200 dark:border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><AlertTriangle size={12}/> Nguy cơ</span> :
+                            {p.risk === 'insufficient_data' ? <span className="bg-slate-500/20 border border-slate-200 dark:border-white/10 text-slate-400 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><Info size={12}/> Chưa đủ dữ liệu</span> :
+                             p.risk === 'high' ? <span className="bg-rose-500/20 border border-rose-200 dark:border-rose-500/30 text-rose-400 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><AlertTriangle size={12}/> Nguy cơ</span> :
                              p.risk === 'medium' ? <span className="bg-amber-500/20 border border-amber-200 dark:border-amber-500/30 text-amber-400 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><Info size={12}/> Theo dõi</span> :
                              <span className="bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1"><CheckCircle size={12}/> Ổn định</span>}
                           </td>

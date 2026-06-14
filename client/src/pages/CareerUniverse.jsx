@@ -88,12 +88,18 @@ function TopMatchCard({ career, rank, onClick }) {
       <div className="absolute top-3 right-3 text-2xl">{medals[rank] || '⭐'}</div>
       <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">#{rank + 1} Phù hợp nhất</p>
       <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{career.careerName}</h3>
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${career.readinessScore || 0}%` }} />
+      {career.insufficientEvidence ? (
+        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded inline-block">
+          ⚠️ Chưa đủ căn cứ đề xuất
+        </span>
+      ) : (
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${career.readinessScore || 0}%` }} />
+          </div>
+          <span className="text-sm font-black text-amber-600 dark:text-amber-400">{career.readinessScore || 0}% Match</span>
         </div>
-        <span className="text-sm font-black text-amber-600 dark:text-amber-400">{career.readinessScore || 0}% Match</span>
-      </div>
+      )}
     </button>
   );
 }
@@ -124,16 +130,24 @@ function CareerCard({ career, onClick }) {
       {/* Readiness score for students */}
       {career.readinessScore !== undefined && career.readinessScore !== null && (
         <div className="mb-3">
-          <div className="flex justify-between text-[10px] font-bold mb-1">
-            <span className="text-slate-500 uppercase tracking-wider">Mức độ phù hợp</span>
-            <span className="text-blue-600 dark:text-blue-400">{career.readinessScore}% Match</span>
-          </div>
-          <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
-              style={{ width: `${career.readinessScore}%` }}
-            />
-          </div>
+          {career.insufficientEvidence ? (
+            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded-lg">
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">⚠️ Chưa đủ căn cứ đề xuất</span>
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-between text-[10px] font-bold mb-1">
+                <span className="text-slate-500 uppercase tracking-wider">Mức độ phù hợp</span>
+                <span className="text-blue-600 dark:text-blue-400">{career.readinessScore}% Match</span>
+              </div>
+              <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
+                  style={{ width: `${career.readinessScore}%` }}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
 

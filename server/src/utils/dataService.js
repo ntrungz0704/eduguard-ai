@@ -352,10 +352,97 @@ function calculateFptGPA(scores) {
   };
 }
 
+function calculateDelayScore(scores, syllabusGraph, courseDependency) {
+  const completedScores = scores.filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
+  const failedCourses = completedScores.filter(s => s.status === 'FAILED' || s.value < 5.0).map(s => s.courseId);
+  
+  if (failedCourses.length === 0) {
+    return {
+      delayScore: 0,
+      failedCredits: 0,
+      blockedCount: 0,
+      maxChainDepth: 0,
+      bottleneckWeight: 0
+    };
+  }
+
+  // 1. Calculate failed credits
+  const failedCredits = completedScores.filter(s => s.status === 'FAILED').reduce((sum, s) => {
+    return sum + getCourseCredits(s.courseId);
+  }, 0);
+
+  // 2. Calculate blocked courses
+  const blockedCourses = [];
+  failedCourses.forEach(fc => {
+    const node = syllabusGraph[fc];
+    if (node && node.unlocks) {
+      node.unlocks.forEach(unlock => {
+        if (!blockedCourses.includes(unlock)) {
+          blockedCourses.push(unlock);
+        }
+      });
+    }
+    const depNode = courseDependency[fc];
+    if (depNode && depNode.affects) {
+      depNode.affects.forEach(affect => {
+        if (!blockedCourses.includes(affect)) {
+          blockedCourses.push(affect);
+        }
+      });
+    }
+  });
+  const blockedCount = blockedCourses.length;
+
+  // 3. Calculate max chain depth & bottleneck weight
+  let bottleneckWeight = 0;
+  let maxChainDepth = 0;
+
+  failedCourses.forEach(fc => {
+    // Bottleneck weight
+    const node = syllabusGraph[fc];
+    const unlocksCount = node && node.unlocks ? node.unlocks.length : 0;
+    const depNode = courseDependency[fc];
+    const affectsCount = depNode && depNode.affects ? depNode.affects.length : 0;
+    const directBlockedCount = Math.max(unlocksCount, affectsCount);
+
+    if (directBlockedCount >= 3) {
+      bottleneckWeight += 15;
+    } else if (directBlockedCount > 0) {
+      bottleneckWeight += 8;
+    }
+
+    // Max chain depth
+    let depth = 0;
+    let current = fc;
+    while (depth < 6) { // safety limit
+      const nextNode = Object.entries(syllabusGraph).find(([key, val]) => val.prerequisites && val.prerequisites.includes(current));
+      if (nextNode) {
+        depth++;
+        current = nextNode[0];
+      } else {
+        break;
+      }
+    }
+    maxChainDepth = Math.max(maxChainDepth, depth);
+  });
+
+  const delayScore = failedCredits + (blockedCount * 3) + (maxChainDepth * 5) + bottleneckWeight;
+
+  return {
+    delayScore,
+    failedCredits,
+    blockedCount,
+    maxChainDepth,
+    bottleneckWeight
+  };
+}
+
 module.exports = {
   parseScore,
   mapToPretrainedSubject,
   validateAndCleanData,
   getCourseCredits,
-  calculateFptGPA
+  calculateFptGPA,
+  calculateDelayScore
 };
+

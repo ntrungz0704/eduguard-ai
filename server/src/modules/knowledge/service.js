@@ -105,9 +105,19 @@ exports.getAllCareers = async (mssv) => {
     let readinessScore = 0;
     const isAiFullstack = key === 'AI Fullstack Engineer';
     const careerId = isAiFullstack ? 'ai-engineer' : slugify(key);
+    let insufficientEvidence = false;
+    let matchedSkills = [];
+    let missingSkills = [];
+    let evidence = [];
 
     if (student) {
       try {
+        const analysis = analyzeCareer(student, key);
+        insufficientEvidence = analysis.insufficientEvidence;
+        matchedSkills = analysis.matchedSkills;
+        missingSkills = analysis.missingSkills;
+        evidence = analysis.evidence;
+
         const board = allBoards.find(b => b.careerId === careerId);
 
         if (board) {
@@ -116,7 +126,6 @@ exports.getAllCareers = async (mssv) => {
           readinessScore = realMetrics.readinessScore;
         } else {
           // Otherwise, simulate based on academic mapping
-          const analysis = analyzeCareer(student, key);
           readinessScore = analysis.readinessScore || 0;
         }
       } catch (e) {
@@ -138,7 +147,11 @@ exports.getAllCareers = async (mssv) => {
       portfolios: data.portfolios || [],
       category: CATEGORY_MAP[key] || 'Other',
       readinessScore,
-      roadmap: data.roadmap || []
+      roadmap: data.roadmap || [],
+      insufficientEvidence,
+      matchedSkills,
+      missingSkills,
+      evidence
     };
   }));
   return results;
@@ -173,8 +186,12 @@ exports.suggestCareers = async (mssv) => {
     matchScore: c.readinessScore || 0,
     readinessScore: c.readinessScore || 0,
     score: c.readinessScore || 0,
-    matchCount: 0, // Fallbacks for legacy UI
-    totalRequired: 0
+    matchCount: c.matchedSkills ? c.matchedSkills.length : 0,
+    totalRequired: (c.coreSkills ? c.coreSkills.length : 0) + (c.advancedSkills ? c.advancedSkills.length : 0),
+    insufficientEvidence: c.insufficientEvidence,
+    matchedSkills: c.matchedSkills,
+    missingSkills: c.missingSkills,
+    evidence: c.evidence
   }));
 
   results.sort((a, b) => b.score - a.score);

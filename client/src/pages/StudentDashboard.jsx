@@ -432,11 +432,12 @@ function OverviewTab({ data, curriculumCourses, stats, dssReport, handleTabChang
                 <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-center">
                   <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1 font-mono">Health Score</span>
                   <span className={`text-2xl font-black ${
+                    dssReport.academicHealth.score === 'N/A' ? 'text-slate-500' :
                     dssReport.academicHealth.score >= 80 ? 'text-emerald-400' :
                     dssReport.academicHealth.score >= 60 ? 'text-amber-400' :
                     dssReport.academicHealth.score >= 40 ? 'text-orange-400' : 'text-rose-500'
                   }`}>
-                    {dssReport.academicHealth.score}/100
+                    {dssReport.academicHealth.score}{dssReport.academicHealth.score !== 'N/A' ? '/100' : ''}
                   </span>
                   <span className="block text-[9px] text-slate-400 mt-1 font-bold">{dssReport.academicHealth.rating}</span>
                 </div>
@@ -1987,7 +1988,7 @@ export default function StudentDashboard() {
               <span>MSSV: <span className="text-slate-800 dark:text-slate-200 font-bold">{currentUser.id}</span></span>
               <span>Lớp: <span className="text-slate-800 dark:text-slate-200 font-bold">{data?.classCode || 'WD18301'}</span></span>
               <span>Học kỳ khung: <span className="text-amber-400 font-bold">Kỳ {detectedSemester}</span></span>
-              {dssReport?.academicHealth?.cohortPercentile !== undefined && (
+              {dssReport?.academicHealth?.score !== 'N/A' && dssReport?.academicHealth?.cohortPercentile !== undefined && (
                 <span>Xếp hạng khóa: <span className="text-emerald-400 font-bold">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</span></span>
               )}
               <span>Hệ đào tạo: <span className="text-slate-800 dark:text-slate-200 font-bold">Cao đẳng (FPT Poly)</span></span>

@@ -687,7 +687,11 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
 
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative w-28 h-28 flex items-center justify-center rounded-full border-4 border-slate-200 dark:border-white/15 bg-white/5 shadow-inner">
-              <span className={`text-3xl font-black ${academicHealth.score >= 75 ? 'text-emerald-400' : academicHealth.score >= 50 ? 'text-amber-400' : 'text-rose-500'}`}>
+              <span className={`text-3xl font-black ${
+                academicHealth.score === 'N/A' ? 'text-slate-400' :
+                academicHealth.score >= 75 ? 'text-emerald-400' : 
+                academicHealth.score >= 50 ? 'text-amber-400' : 
+                'text-rose-500'}`}>
                 {academicHealth.score}
               </span>
               <span className="text-[10px] text-slate-500 font-bold absolute bottom-4 uppercase font-mono">/ 100đ</span>
@@ -697,13 +701,14 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">Phân loại:</span>
                 <span className={`text-xs font-black px-2.5 py-1 rounded-full border ${
+                  academicHealth.score === 'N/A' ? 'bg-slate-500/10 border-slate-500/20 text-slate-400' :
                   academicHealth.score >= 75 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
                   academicHealth.score >= 50 ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
                   'bg-rose-500/10 border-rose-500/20 text-rose-500'
                 }`}>
                   {academicHealth.rating}
                 </span>
-                {academicHealth.cohortPercentile !== undefined && (
+                {academicHealth.score !== 'N/A' && academicHealth.cohortPercentile !== undefined && (
                   <span className="text-xs font-black px-2.5 py-1 rounded-full border bg-blue-500/10 border-blue-500/20 text-blue-400">
                     Xếp hạng: Top {academicHealth.cohortPercentile}% ({academicHealth.cohortRank}/{academicHealth.totalCohort} SV)
                   </span>
@@ -1044,7 +1049,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 <span>Lớp: <strong className="text-slate-800 dark:text-slate-200">{student.classCode || 'WD18301'}</strong></span>
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
                 <span>Chuyên ngành: <strong className="text-blue-400">Thiết kế & Lập trình Web</strong></span>
-                {dssReport?.academicHealth?.cohortPercentile !== undefined && (
+                {dssReport?.academicHealth?.score !== 'N/A' && dssReport?.academicHealth?.cohortPercentile !== undefined && (
                   <>
                     <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
                     <span>Xếp hạng khóa: <strong className="text-emerald-400">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</strong></span>
@@ -1389,12 +1394,12 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
               <div className="space-y-4">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Điểm Rủi ro Tổng thể</span>
-                  <span className="text-sm font-black text-rose-500">{dssReport.academicHealth ? 100 - dssReport.academicHealth.score : 0}/100</span>
+                  <span className="text-sm font-black text-rose-500">{dssReport.academicHealth && dssReport.academicHealth.score !== 'N/A' ? `${100 - dssReport.academicHealth.score}/100` : 'N/A'}</span>
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-white/10 h-2 rounded-full overflow-hidden mb-6">
                   <div 
                     className="h-full bg-gradient-to-r from-amber-500 to-rose-600 rounded-full" 
-                    style={{ width: `${dssReport.academicHealth ? 100 - dssReport.academicHealth.score : 0}%` }}
+                    style={{ width: `${dssReport.academicHealth && dssReport.academicHealth.score !== 'N/A' ? 100 - dssReport.academicHealth.score : 0}%` }}
                   ></div>
                 </div>
 
