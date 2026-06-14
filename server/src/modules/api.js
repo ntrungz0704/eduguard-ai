@@ -197,33 +197,61 @@ router.get('/knowledge/dependencies', (req, res) => {
 // ============================================================
 // API: Get pre-trained data info
 // ============================================================
-router.get('/training-info', (req, res) => {
-  const subjects = cache.trainingData.subjects || [];
-  const students = cache.trainingData.students || [];
+router.get('/training-info', async (req, res) => {
+  try {
+    const subjects = cache.trainingData.subjects || [];
+    const jsonStudents = cache.trainingData.students || [];
 
-  const stats = subjects.map(sub => {
-    const scored = students.filter(s => s.scores[sub] != null);
-    const avg = scored.length ? scored.map(s => s.scores[sub]).reduce((a, b) => a + b, 0) / scored.length : 0;
-    const atRisk = scored.filter(s => s.scores[sub] < 5).length;
-    return {
-      subject: sub,
-      scored: scored.length,
-      total: students.length,
-      missing: students.length - scored.length,
-      avg: Math.round(avg * 10) / 10,
-      atRisk
-    };
-  });
+    // Merge with database students to include newly-added students
+    const dbStudentsRaw = await prisma.student.findMany({
+      include: { scores: true }
+    });
 
-  res.json({
-    totalStudents: students.length,
-    totalSubjects: subjects.length,
-    displaySubjects: stats.length,
-    source: cache.trainingData.source || 'Pre-trained',
-    lastUpdated: cache.trainingData.lastUpdated,
-    stats,
-    curriculumOrder: cache.trainingData.curriculumOrder || []
-  });
+    const allStudentsMap = {};
+    // Load JSON students first
+    jsonStudents.forEach(s => {
+      allStudentsMap[s.id] = { id: s.id, scores: { ...s.scores } };
+    });
+    // Overlay/add DB students (new students from app will be added here)
+    dbStudentsRaw.forEach(s => {
+      const scoresObj = {};
+      s.scores.forEach(sc => { scoresObj[sc.courseId] = sc.value; });
+      if (allStudentsMap[s.mssv]) {
+        allStudentsMap[s.mssv].scores = { ...allStudentsMap[s.mssv].scores, ...scoresObj };
+      } else {
+        allStudentsMap[s.mssv] = { id: s.mssv, scores: scoresObj };
+      }
+    });
+
+    const students = Object.values(allStudentsMap);
+
+    const stats = subjects.map(sub => {
+      const scored = students.filter(s => s.scores[sub] != null);
+      const avg = scored.length ? scored.map(s => s.scores[sub]).reduce((a, b) => a + b, 0) / scored.length : 0;
+      const atRisk = scored.filter(s => s.scores[sub] < 5).length;
+      return {
+        subject: sub,
+        scored: scored.length,
+        total: students.length,
+        missing: students.length - scored.length,
+        avg: Math.round(avg * 10) / 10,
+        atRisk
+      };
+    });
+
+    res.json({
+      totalStudents: students.length,
+      totalSubjects: subjects.length,
+      displaySubjects: stats.length,
+      source: cache.trainingData.source || 'Pre-trained',
+      lastUpdated: cache.trainingData.lastUpdated,
+      stats,
+      curriculumOrder: cache.trainingData.curriculumOrder || []
+    });
+  } catch (err) {
+    console.error('Error in /training-info:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ============================================================
@@ -2431,11 +2459,17 @@ router.post('/intervention/send-roadmap', async (req, res) => {
   }
 });
 
-// ============================================================
-// API: Pearson Correlation Matrix across all curriculum subjects
-// ============================================================
+// In-memory cache for Pearson Matrix (heavy computation, cache 5 minutes)
+let pearsonCache = { data: null, timestamp: 0 };
+const PEARSON_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 router.get('/pearson-matrix', async (req, res) => {
   try {
+    // Return cached result if still valid
+    if (pearsonCache.data && (Date.now() - pearsonCache.timestamp) < PEARSON_CACHE_TTL) {
+      return res.json(pearsonCache.data);
+    }
+
     const subjects = cache.trainingData.subjects || [];
 
     // Use the curriculum order for core subjects to display sequential dependency
@@ -2515,10 +2549,15 @@ router.get('/pearson-matrix', async (req, res) => {
       matrix.push(row);
     }
 
-    res.json({
+    const result = {
       subjects: coreSubjects,
       matrix
-    });
+    };
+
+    // Cache the result
+    pearsonCache = { data: result, timestamp: Date.now() };
+
+    res.json(result);
   } catch (err) {
     console.error("Lỗi tính Pearson Matrix:", err);
     res.status(500).json({ error: err.message });

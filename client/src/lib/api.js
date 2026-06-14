@@ -17,7 +17,7 @@ export const STORAGE_KEYS = {
 
 export const api = axios.create({
   baseURL: import.meta.env.DEV ? DEV_API_BASE_URL : '/api',
-  timeout: 10000,
+  timeout: 60000,
   withCredentials: false,
 });
 
