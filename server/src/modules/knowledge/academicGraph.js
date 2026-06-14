@@ -18,21 +18,21 @@ const academicGraph = {
     courseCode: "COM108",
     courseName: "Nhập môn lập trình",
     skills: strategiesDb?.COM108?.skills || ["Biến và Kiểu dữ liệu", "Câu lệnh điều kiện (if/else)", "Vòng lặp (for, while)", "Hàm và truyền tham số"],
-    affects: ["WEB104", "PRO1014"],
+    affects: ["WEB1013", "PRO1014"],
     careers: ["Software Developer", "Backend Developer"]
   },
-  "WEB104": {
-    courseCode: "WEB104",
-    courseName: "Xây dựng trang web",
-    skills: strategiesDb?.WEB104?.skills || ["Cấu trúc Semantic HTML5", "CSS Selectors", "CSS Flexbox", "CSS Grid cơ bản"],
-    affects: ["WEB206", "WEB108"],
+  "WEB1013": {
+    courseCode: "WEB1013",
+    courseName: "Xây dựng trang Web",
+    skills: strategiesDb?.WEB1013?.skills || ["Cấu trúc Semantic HTML5", "CSS Selectors", "CSS Flexbox", "CSS Grid cơ bản"],
+    affects: ["WEB2063", "WEB108"],
     careers: ["Frontend Developer"]
   },
-  "WEB206": {
-    courseCode: "WEB206",
-    courseName: "Lập trình Web Front-End với React",
-    skills: strategiesDb?.WEB206?.skills || ["JSX Syntax", "Components (Functional)", "Props và State", "React Hooks (useState, useEffect)"],
-    affects: ["DATN"],
+  "WEB2063": {
+    courseCode: "WEB2063",
+    courseName: "Lập trình JavaScript nâng cao",
+    skills: strategiesDb?.WEB2063?.skills || ["JSX Syntax", "Components (Functional)", "Props và State", "React Hooks (useState, useEffect)"],
+    affects: ["PRO2201"],
     careers: ["Frontend Developer", "Fullstack Developer"]
   }
 };
@@ -46,7 +46,7 @@ function traceImpact(courseId) {
   if (!node) return [];
 
   // BFS or simple array to find impacted courses down the line
-  let impacted = [...node.nextCourses];
+  let impacted = [...(node.affects || [])];
   let result = [];
   
   while(impacted.length > 0) {
@@ -54,7 +54,7 @@ function traceImpact(courseId) {
     if (!result.includes(current)) {
       result.push(current);
       if (academicGraph[current]) {
-        impacted.push(...academicGraph[current].nextCourses);
+        impacted.push(...(academicGraph[current].affects || []));
       }
     }
   }

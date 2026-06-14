@@ -116,7 +116,7 @@ function routeStudentIntent(msg, nlpIntent = 'None', sessionId = null) {
     }
 
     // Tech/Skill Explain intent
-    const technologies = require('../../data/knowledge/technologies.json');
+    const technologies = require('../../../data/knowledge/technologies.json');
     const hasTechKeyword = technologies.some(tech => 
       tech.aliases.some(alias => msgLower.includes(alias)) || msgLower.includes(tech.name.toLowerCase())
     );

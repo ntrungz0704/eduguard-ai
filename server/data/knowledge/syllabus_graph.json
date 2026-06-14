@@ -2,11 +2,11 @@
   "COM108": {
     "name": "Nhập môn lập trình",
     "core_skills": ["Programming Logic", "Variables", "Loops", "Functions"],
-    "unlocks": ["WEB104", "WEB1043", "WEB2063"],
+    "unlocks": ["WEB1013", "WEB1043", "WEB2063"],
     "prerequisites": []
   },
-  "WEB104": {
-    "name": "Xây dựng trang web",
+  "WEB1013": {
+    "name": "Xây dựng trang Web",
     "core_skills": ["HTML", "CSS", "Responsive Design"],
     "unlocks": ["WEB3023", "PRO1014"],
     "prerequisites": ["COM108"]
@@ -15,7 +15,7 @@
     "name": "Lập trình cơ sở với JavaScript",
     "core_skills": ["JavaScript", "BOM/DOM", "Events"],
     "unlocks": ["WEB2063", "WEB2081", "PRO1014"],
-    "prerequisites": ["COM108", "WEB104"]
+    "prerequisites": ["COM108", "WEB1013"]
   },
   "WEB2063": {
     "name": "Lập trình Javascript nâng cao",
@@ -33,6 +33,36 @@
     "name": "Dự án 1",
     "core_skills": ["Project Management", "Teamwork", "Integration"],
     "unlocks": ["PRO2201", "PRO116"],
-    "prerequisites": ["WEB104", "WEB1043"]
+    "prerequisites": ["WEB1013", "WEB1043"]
+  },
+  "WEB3023": {
+    "name": "Thiết kế Web với HTML5&CSS3",
+    "core_skills": ["HTML5", "CSS3", "Responsive Design", "Bootstrap"],
+    "unlocks": [],
+    "prerequisites": ["WEB1013"]
+  },
+  "WEB2091": {
+    "name": "Lập trình Front-End Framework 2",
+    "core_skills": ["React Hooks", "Redux", "API Integration", "Routing"],
+    "unlocks": [],
+    "prerequisites": ["WEB2063", "WEB2081"]
+  },
+  "WEB503": {
+    "name": "NodeJS & Restful Web Service",
+    "core_skills": ["Node.js", "Express", "MongoDB", "RESTful API"],
+    "unlocks": [],
+    "prerequisites": ["WEB2063"]
+  },
+  "PRO2201": {
+    "name": "Dự án tốt nghiệp (TKTW-Single page Application)",
+    "core_skills": ["React/Next.js", "Node.js API", "Authentication", "Full Stack Project"],
+    "unlocks": [],
+    "prerequisites": ["PRO1014", "WEB2063", "WEB2081"]
+  },
+  "PRO116": {
+    "name": "Thực tập tốt nghiệp (TKTW)",
+    "core_skills": ["Industry Experience", "Professional Practice", "Web Development Work"],
+    "unlocks": [],
+    "prerequisites": ["PRO1014"]
   }
 }

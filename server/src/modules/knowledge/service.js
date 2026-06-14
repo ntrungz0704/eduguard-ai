@@ -47,7 +47,7 @@ exports.getDependencies = () => {
   try {
     const fs = require('fs');
     const path = require('path');
-    const dataPath = path.join(__dirname, '../../data/knowledge/course_dependency.json');
+    const dataPath = path.join(__dirname, '../../../data/knowledge/course_dependency.json');
     const raw = fs.readFileSync(dataPath, 'utf8');
     return JSON.parse(raw);
   } catch (err) {

@@ -6,7 +6,7 @@ const path = require('path');
 // Helper to load JSON from server/data/knowledge
 function loadKnowledgeJson(filename) {
   try {
-    const p = path.join(__dirname, '..', '..', '..', 'data', 'knowledge', filename);
+    const p = path.join(__dirname, '..', '..', 'data', 'knowledge', filename);
     if (fs.existsSync(p)) {
       return JSON.parse(fs.readFileSync(p, 'utf8'));
     }
