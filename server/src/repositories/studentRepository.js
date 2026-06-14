@@ -449,6 +449,7 @@ async function fetchAllStudents() {
 }
 
 module.exports = {
+  enrichStudentData,
   fetchStudentByMssv,
   fetchAllStudents,
   getMockMemoryForMssv
