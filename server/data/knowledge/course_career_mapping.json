@@ -1,0 +1,124 @@
+{
+  "careers": {
+    "Frontend Developer": {
+      "requiredCourses": [
+        "WEB1013",
+        "WEB1043",
+        "WEB3023",
+        "WEB105",
+        "WEB2063",
+        "WEB2081",
+        "WEB2091"
+      ],
+      "recommendedCourses": [
+        "COM108",
+        "COM2012",
+        "PRO1014",
+        "PRO2201"
+      ],
+      "requiredSkills": [
+        "HTML layout",
+        "CSS styling",
+        "Responsive Design",
+        "JavaScript syntax",
+        "DOM manipulation",
+        "ReactJS component design",
+        "Global State Management"
+      ]
+    },
+    "Backend Developer": {
+      "requiredCourses": [
+        "COM108",
+        "COM2012",
+        "WEB108",
+        "WEB2014",
+        "WEB503"
+      ],
+      "recommendedCourses": [
+        "WEB2063",
+        "WEB501",
+        "WEB502",
+        "PRO1014",
+        "PRO2201"
+      ],
+      "requiredSkills": [
+        "Programming Logic",
+        "SQL querying",
+        "Database Design",
+        "Server-side programming",
+        "NodeJS development",
+        "Restful API Design"
+      ]
+    },
+    "Fullstack Developer": {
+      "requiredCourses": [
+        "WEB1013",
+        "WEB1043",
+        "COM2012",
+        "WEB108",
+        "WEB2014",
+        "WEB2063",
+        "WEB2081",
+        "WEB2091",
+        "WEB503",
+        "PRO2201"
+      ],
+      "recommendedCourses": [
+        "COM108",
+        "WEB105",
+        "WEB2041",
+        "PRO1014",
+        "PRO116"
+      ],
+      "requiredSkills": [
+        "HTML layout",
+        "CSS styling",
+        "JavaScript syntax",
+        "DOM manipulation",
+        "SQL querying",
+        "Database Design",
+        "Server-side programming",
+        "ReactJS component design",
+        "NodeJS development",
+        "Restful API Design"
+      ]
+    },
+    "UI/UX Designer": {
+      "requiredCourses": [
+        "WEB1013",
+        "WEB105",
+        "WEB3023"
+      ],
+      "recommendedCourses": [
+        "WEB1023",
+        "WEB2055",
+        "PRO2201"
+      ],
+      "requiredSkills": [
+        "User Research",
+        "Wireframing",
+        "Figma Prototyping",
+        "Design Thinking",
+        "HTML layout",
+        "CSS styling"
+      ]
+    },
+    "SEO/WordPress Admin": {
+      "requiredCourses": [
+        "WEB1023",
+        "WEB2055"
+      ],
+      "recommendedCourses": [
+        "COM1071",
+        "PDP103"
+      ],
+      "requiredSkills": [
+        "Keyword research",
+        "Ad campaign setup",
+        "Analytics interpretation",
+        "Copywriting",
+        "WordPress management"
+      ]
+    }
+  }
+}

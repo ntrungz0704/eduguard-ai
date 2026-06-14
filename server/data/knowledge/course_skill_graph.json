@@ -1,0 +1,1103 @@
+{
+  "courses": {
+    "COM1071": [
+      "Word processing",
+      "Excel spreadsheet calculation",
+      "PowerPoint presentation",
+      "Information search"
+    ],
+    "VIE103": [
+      "Physical fitness",
+      "Self defense",
+      "Team discipline"
+    ],
+    "PDP102": [
+      "Time management",
+      "Active learning",
+      "Mindmapping",
+      "Presentation skills"
+    ],
+    "COM108": [
+      "Programming Logic",
+      "Algorithmic thinking",
+      "C syntax",
+      "Debugging basics"
+    ],
+    "ITI101": [
+      "Hardware knowledge",
+      "Networking basics",
+      "Career planning"
+    ],
+    "VIE104": [
+      "Military discipline",
+      "Team cohesion",
+      "National security awareness"
+    ],
+    "ENT1128": [
+      "English pronunciation",
+      "Basic vocabulary",
+      "Listening and speaking"
+    ],
+    "COM2012": [
+      "Database Design",
+      "SQL querying",
+      "Entity Relationship Modeling",
+      "Normalization"
+    ],
+    "WEB1013": [
+      "HTML layout",
+      "CSS styling",
+      "Responsive Design",
+      "Flexbox/Grid layout"
+    ],
+    "ENT123": [
+      "Technical vocabulary",
+      "Professional communication",
+      "Reading comprehension"
+    ],
+    "WEB1043": [
+      "JavaScript syntax",
+      "DOM manipulation",
+      "Event handling",
+      "Form validation"
+    ],
+    "WEB108": [
+      "Server-side programming",
+      "PHP syntax",
+      "Form handling",
+      "Session management"
+    ],
+    "ENT213": [
+      "Technical reading",
+      "Business emailing",
+      "Professional collaboration"
+    ],
+    "VIE108": [
+      "Critical thinking",
+      "Social responsibility",
+      "Dialectical analysis"
+    ],
+    "WEB3023": [
+      "Advanced CSS3",
+      "Bootstrap integration",
+      "CSS Animations",
+      "HTML5 semantic markup"
+    ],
+    "WEB2014": [
+      "Object-Oriented Programming (OOP)",
+      "MVC Architecture",
+      "Database connection with PDO",
+      "PHP Routing"
+    ],
+    "VIE1026": [
+      "Contract comprehension",
+      "Intellectual Property knowledge",
+      "Legal compliance"
+    ],
+    "PDP103": [
+      "SWOT analysis",
+      "SMART goal setting",
+      "Emotional intelligence",
+      "Self reflection"
+    ],
+    "WEB105": [
+      "User Research",
+      "Wireframing",
+      "Figma Prototyping",
+      "Design Thinking"
+    ],
+    "WEB2041": [
+      "Project planning",
+      "Full stack development",
+      "CRUD implementation",
+      "Deployment basics"
+    ],
+    "ENT223": [
+      "Interview preparation",
+      "CV writing",
+      "Technical reading comprehension"
+    ],
+    "WEB1023": [
+      "WordPress management",
+      "Domain & Hosting config",
+      "Backup/Restore",
+      "SEO optimization"
+    ],
+    "WEB2055": [
+      "Keyword research",
+      "Ad campaign setup",
+      "Analytics interpretation",
+      "Copywriting"
+    ],
+    "WEB501": [
+      "ES6+ Javascript",
+      "Asynchronous programming",
+      "Modules and classes",
+      "Functional programming methods"
+    ],
+    "WEB2063": [
+      "API Integration",
+      "HTTP client (Axios/Fetch)",
+      "Client-side storage",
+      "JS security (XSS prevention)"
+    ],
+    "PRO1014": [
+      "Agile/Scrum",
+      "Git collaboration",
+      "Fullstack project integration",
+      "Team communication"
+    ],
+    "WEB503": [
+      "NodeJS development",
+      "ExpressJS framework",
+      "Restful API Design",
+      "NoSQL database (MongoDB)"
+    ],
+    "WEB502": [
+      "TypeScript syntax",
+      "Static typing",
+      "Generics and interfaces",
+      "TS compilation config"
+    ],
+    "PDP104": [
+      "Job interview skills",
+      "Professional ethics",
+      "LinkedIn branding",
+      "Workplace communication"
+    ],
+    "SYB3013": [
+      "Business model canvas",
+      "Financial forecasting",
+      "Project Pitching",
+      "Market research"
+    ],
+    "WEB2081": [
+      "ReactJS component design",
+      "React state and props",
+      "Basic React Hooks (useState/useEffect)",
+      "Vite build tool"
+    ],
+    "WEB2091": [
+      "Global State Management (Redux Toolkit/Context)",
+      "React Routing",
+      "Performance optimization (useMemo/useCallback)",
+      "NextJS fundamentals"
+    ],
+    "PRO116": [
+      "Industry experience",
+      "Workplace professional communication",
+      "Task completion",
+      "Report writing"
+    ],
+    "PRO2201": [
+      "Agile/Scrum Project Management",
+      "Full Stack Development",
+      "System Architecture Design",
+      "Technical Presentation"
+    ]
+  },
+  "skills": {
+    "Word processing": {
+      "level": "Supplementary",
+      "courses": [
+        "COM1071"
+      ],
+      "dependentSkills": []
+    },
+    "Excel spreadsheet calculation": {
+      "level": "Supplementary",
+      "courses": [
+        "COM1071"
+      ],
+      "dependentSkills": []
+    },
+    "PowerPoint presentation": {
+      "level": "Supplementary",
+      "courses": [
+        "COM1071"
+      ],
+      "dependentSkills": []
+    },
+    "Information search": {
+      "level": "Supplementary",
+      "courses": [
+        "COM1071"
+      ],
+      "dependentSkills": []
+    },
+    "Physical fitness": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE103"
+      ],
+      "dependentSkills": []
+    },
+    "Self defense": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE103"
+      ],
+      "dependentSkills": []
+    },
+    "Team discipline": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE103"
+      ],
+      "dependentSkills": []
+    },
+    "Time management": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP102"
+      ],
+      "dependentSkills": []
+    },
+    "Active learning": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP102"
+      ],
+      "dependentSkills": []
+    },
+    "Mindmapping": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP102"
+      ],
+      "dependentSkills": []
+    },
+    "Presentation skills": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP102"
+      ],
+      "dependentSkills": []
+    },
+    "Programming Logic": {
+      "level": "Core",
+      "courses": [
+        "COM108"
+      ],
+      "dependentSkills": [
+        "JavaScript syntax",
+        "Server-side programming",
+        "NodeJS development"
+      ]
+    },
+    "Algorithmic thinking": {
+      "level": "Core",
+      "courses": [
+        "COM108"
+      ],
+      "dependentSkills": []
+    },
+    "C syntax": {
+      "level": "Core",
+      "courses": [
+        "COM108"
+      ],
+      "dependentSkills": []
+    },
+    "Debugging basics": {
+      "level": "Core",
+      "courses": [
+        "COM108"
+      ],
+      "dependentSkills": []
+    },
+    "Hardware knowledge": {
+      "level": "Supplementary",
+      "courses": [
+        "ITI101"
+      ],
+      "dependentSkills": []
+    },
+    "Networking basics": {
+      "level": "Supplementary",
+      "courses": [
+        "ITI101"
+      ],
+      "dependentSkills": []
+    },
+    "Career planning": {
+      "level": "Supplementary",
+      "courses": [
+        "ITI101"
+      ],
+      "dependentSkills": []
+    },
+    "Military discipline": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE104"
+      ],
+      "dependentSkills": []
+    },
+    "Team cohesion": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE104"
+      ],
+      "dependentSkills": []
+    },
+    "National security awareness": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE104"
+      ],
+      "dependentSkills": []
+    },
+    "English pronunciation": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT1128"
+      ],
+      "dependentSkills": []
+    },
+    "Basic vocabulary": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT1128"
+      ],
+      "dependentSkills": []
+    },
+    "Listening and speaking": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT1128"
+      ],
+      "dependentSkills": []
+    },
+    "Database Design": {
+      "level": "Core",
+      "courses": [
+        "COM2012"
+      ],
+      "dependentSkills": []
+    },
+    "SQL querying": {
+      "level": "Core",
+      "courses": [
+        "COM2012"
+      ],
+      "dependentSkills": []
+    },
+    "Entity Relationship Modeling": {
+      "level": "Core",
+      "courses": [
+        "COM2012"
+      ],
+      "dependentSkills": []
+    },
+    "Normalization": {
+      "level": "Core",
+      "courses": [
+        "COM2012"
+      ],
+      "dependentSkills": []
+    },
+    "HTML layout": {
+      "level": "Core",
+      "courses": [
+        "WEB1013"
+      ],
+      "dependentSkills": [
+        "CSS styling",
+        "Responsive Design",
+        "ReactJS component design"
+      ]
+    },
+    "CSS styling": {
+      "level": "Core",
+      "courses": [
+        "WEB1013"
+      ],
+      "dependentSkills": []
+    },
+    "Responsive Design": {
+      "level": "Core",
+      "courses": [
+        "WEB1013"
+      ],
+      "dependentSkills": []
+    },
+    "Flexbox/Grid layout": {
+      "level": "Core",
+      "courses": [
+        "WEB1013"
+      ],
+      "dependentSkills": []
+    },
+    "Technical vocabulary": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT123"
+      ],
+      "dependentSkills": []
+    },
+    "Professional communication": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT123"
+      ],
+      "dependentSkills": []
+    },
+    "Reading comprehension": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT123"
+      ],
+      "dependentSkills": []
+    },
+    "JavaScript syntax": {
+      "level": "Core",
+      "courses": [
+        "WEB1043"
+      ],
+      "dependentSkills": [
+        "DOM manipulation",
+        "ES6+ Javascript",
+        "ReactJS component design",
+        "NodeJS development"
+      ]
+    },
+    "DOM manipulation": {
+      "level": "Core",
+      "courses": [
+        "WEB1043"
+      ],
+      "dependentSkills": []
+    },
+    "Event handling": {
+      "level": "Core",
+      "courses": [
+        "WEB1043"
+      ],
+      "dependentSkills": []
+    },
+    "Form validation": {
+      "level": "Core",
+      "courses": [
+        "WEB1043"
+      ],
+      "dependentSkills": []
+    },
+    "Server-side programming": {
+      "level": "Core",
+      "courses": [
+        "WEB108"
+      ],
+      "dependentSkills": []
+    },
+    "PHP syntax": {
+      "level": "Core",
+      "courses": [
+        "WEB108"
+      ],
+      "dependentSkills": []
+    },
+    "Form handling": {
+      "level": "Core",
+      "courses": [
+        "WEB108"
+      ],
+      "dependentSkills": []
+    },
+    "Session management": {
+      "level": "Core",
+      "courses": [
+        "WEB108"
+      ],
+      "dependentSkills": []
+    },
+    "Technical reading": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT213"
+      ],
+      "dependentSkills": []
+    },
+    "Business emailing": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT213"
+      ],
+      "dependentSkills": []
+    },
+    "Professional collaboration": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT213"
+      ],
+      "dependentSkills": []
+    },
+    "Critical thinking": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE108"
+      ],
+      "dependentSkills": []
+    },
+    "Social responsibility": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE108"
+      ],
+      "dependentSkills": []
+    },
+    "Dialectical analysis": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE108"
+      ],
+      "dependentSkills": []
+    },
+    "Advanced CSS3": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB3023"
+      ],
+      "dependentSkills": []
+    },
+    "Bootstrap integration": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB3023"
+      ],
+      "dependentSkills": []
+    },
+    "CSS Animations": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB3023"
+      ],
+      "dependentSkills": []
+    },
+    "HTML5 semantic markup": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB3023"
+      ],
+      "dependentSkills": []
+    },
+    "Object-Oriented Programming (OOP)": {
+      "level": "Core",
+      "courses": [
+        "WEB2014"
+      ],
+      "dependentSkills": []
+    },
+    "MVC Architecture": {
+      "level": "Core",
+      "courses": [
+        "WEB2014"
+      ],
+      "dependentSkills": []
+    },
+    "Database connection with PDO": {
+      "level": "Core",
+      "courses": [
+        "WEB2014"
+      ],
+      "dependentSkills": []
+    },
+    "PHP Routing": {
+      "level": "Core",
+      "courses": [
+        "WEB2014"
+      ],
+      "dependentSkills": []
+    },
+    "Contract comprehension": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE1026"
+      ],
+      "dependentSkills": []
+    },
+    "Intellectual Property knowledge": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE1026"
+      ],
+      "dependentSkills": []
+    },
+    "Legal compliance": {
+      "level": "Supplementary",
+      "courses": [
+        "VIE1026"
+      ],
+      "dependentSkills": []
+    },
+    "SWOT analysis": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP103"
+      ],
+      "dependentSkills": []
+    },
+    "SMART goal setting": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP103"
+      ],
+      "dependentSkills": []
+    },
+    "Emotional intelligence": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP103"
+      ],
+      "dependentSkills": []
+    },
+    "Self reflection": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP103"
+      ],
+      "dependentSkills": []
+    },
+    "User Research": {
+      "level": "Core",
+      "courses": [
+        "WEB105"
+      ],
+      "dependentSkills": []
+    },
+    "Wireframing": {
+      "level": "Core",
+      "courses": [
+        "WEB105"
+      ],
+      "dependentSkills": []
+    },
+    "Figma Prototyping": {
+      "level": "Core",
+      "courses": [
+        "WEB105"
+      ],
+      "dependentSkills": []
+    },
+    "Design Thinking": {
+      "level": "Core",
+      "courses": [
+        "WEB105"
+      ],
+      "dependentSkills": []
+    },
+    "Project planning": {
+      "level": "Core",
+      "courses": [
+        "WEB2041"
+      ],
+      "dependentSkills": []
+    },
+    "Full stack development": {
+      "level": "Core",
+      "courses": [
+        "WEB2041"
+      ],
+      "dependentSkills": []
+    },
+    "CRUD implementation": {
+      "level": "Core",
+      "courses": [
+        "WEB2041"
+      ],
+      "dependentSkills": []
+    },
+    "Deployment basics": {
+      "level": "Core",
+      "courses": [
+        "WEB2041"
+      ],
+      "dependentSkills": []
+    },
+    "Interview preparation": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT223"
+      ],
+      "dependentSkills": []
+    },
+    "CV writing": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT223"
+      ],
+      "dependentSkills": []
+    },
+    "Technical reading comprehension": {
+      "level": "Supplementary",
+      "courses": [
+        "ENT223"
+      ],
+      "dependentSkills": []
+    },
+    "WordPress management": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB1023"
+      ],
+      "dependentSkills": []
+    },
+    "Domain & Hosting config": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB1023"
+      ],
+      "dependentSkills": []
+    },
+    "Backup/Restore": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB1023"
+      ],
+      "dependentSkills": []
+    },
+    "SEO optimization": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB1023"
+      ],
+      "dependentSkills": []
+    },
+    "Keyword research": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB2055"
+      ],
+      "dependentSkills": []
+    },
+    "Ad campaign setup": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB2055"
+      ],
+      "dependentSkills": []
+    },
+    "Analytics interpretation": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB2055"
+      ],
+      "dependentSkills": []
+    },
+    "Copywriting": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB2055"
+      ],
+      "dependentSkills": []
+    },
+    "ES6+ Javascript": {
+      "level": "Core",
+      "courses": [
+        "WEB501"
+      ],
+      "dependentSkills": []
+    },
+    "Asynchronous programming": {
+      "level": "Core",
+      "courses": [
+        "WEB501"
+      ],
+      "dependentSkills": []
+    },
+    "Modules and classes": {
+      "level": "Core",
+      "courses": [
+        "WEB501"
+      ],
+      "dependentSkills": []
+    },
+    "Functional programming methods": {
+      "level": "Core",
+      "courses": [
+        "WEB501"
+      ],
+      "dependentSkills": []
+    },
+    "API Integration": {
+      "level": "Core",
+      "courses": [
+        "WEB2063"
+      ],
+      "dependentSkills": []
+    },
+    "HTTP client (Axios/Fetch)": {
+      "level": "Core",
+      "courses": [
+        "WEB2063"
+      ],
+      "dependentSkills": []
+    },
+    "Client-side storage": {
+      "level": "Core",
+      "courses": [
+        "WEB2063"
+      ],
+      "dependentSkills": []
+    },
+    "JS security (XSS prevention)": {
+      "level": "Core",
+      "courses": [
+        "WEB2063"
+      ],
+      "dependentSkills": []
+    },
+    "Agile/Scrum": {
+      "level": "Core",
+      "courses": [
+        "PRO1014"
+      ],
+      "dependentSkills": []
+    },
+    "Git collaboration": {
+      "level": "Core",
+      "courses": [
+        "PRO1014"
+      ],
+      "dependentSkills": []
+    },
+    "Fullstack project integration": {
+      "level": "Core",
+      "courses": [
+        "PRO1014"
+      ],
+      "dependentSkills": []
+    },
+    "Team communication": {
+      "level": "Core",
+      "courses": [
+        "PRO1014"
+      ],
+      "dependentSkills": []
+    },
+    "NodeJS development": {
+      "level": "Core",
+      "courses": [
+        "WEB503"
+      ],
+      "dependentSkills": []
+    },
+    "ExpressJS framework": {
+      "level": "Core",
+      "courses": [
+        "WEB503"
+      ],
+      "dependentSkills": []
+    },
+    "Restful API Design": {
+      "level": "Core",
+      "courses": [
+        "WEB503"
+      ],
+      "dependentSkills": []
+    },
+    "NoSQL database (MongoDB)": {
+      "level": "Core",
+      "courses": [
+        "WEB503"
+      ],
+      "dependentSkills": []
+    },
+    "TypeScript syntax": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB502"
+      ],
+      "dependentSkills": []
+    },
+    "Static typing": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB502"
+      ],
+      "dependentSkills": []
+    },
+    "Generics and interfaces": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB502"
+      ],
+      "dependentSkills": []
+    },
+    "TS compilation config": {
+      "level": "Supplementary",
+      "courses": [
+        "WEB502"
+      ],
+      "dependentSkills": []
+    },
+    "Job interview skills": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP104"
+      ],
+      "dependentSkills": []
+    },
+    "Professional ethics": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP104"
+      ],
+      "dependentSkills": []
+    },
+    "LinkedIn branding": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP104"
+      ],
+      "dependentSkills": []
+    },
+    "Workplace communication": {
+      "level": "Supplementary",
+      "courses": [
+        "PDP104"
+      ],
+      "dependentSkills": []
+    },
+    "Business model canvas": {
+      "level": "Supplementary",
+      "courses": [
+        "SYB3013"
+      ],
+      "dependentSkills": []
+    },
+    "Financial forecasting": {
+      "level": "Supplementary",
+      "courses": [
+        "SYB3013"
+      ],
+      "dependentSkills": []
+    },
+    "Project Pitching": {
+      "level": "Supplementary",
+      "courses": [
+        "SYB3013"
+      ],
+      "dependentSkills": []
+    },
+    "Market research": {
+      "level": "Supplementary",
+      "courses": [
+        "SYB3013"
+      ],
+      "dependentSkills": []
+    },
+    "ReactJS component design": {
+      "level": "Core",
+      "courses": [
+        "WEB2081"
+      ],
+      "dependentSkills": []
+    },
+    "React state and props": {
+      "level": "Core",
+      "courses": [
+        "WEB2081"
+      ],
+      "dependentSkills": []
+    },
+    "Basic React Hooks (useState/useEffect)": {
+      "level": "Core",
+      "courses": [
+        "WEB2081"
+      ],
+      "dependentSkills": []
+    },
+    "Vite build tool": {
+      "level": "Core",
+      "courses": [
+        "WEB2081"
+      ],
+      "dependentSkills": []
+    },
+    "Global State Management (Redux Toolkit/Context)": {
+      "level": "Core",
+      "courses": [
+        "WEB2091"
+      ],
+      "dependentSkills": []
+    },
+    "React Routing": {
+      "level": "Core",
+      "courses": [
+        "WEB2091"
+      ],
+      "dependentSkills": []
+    },
+    "Performance optimization (useMemo/useCallback)": {
+      "level": "Core",
+      "courses": [
+        "WEB2091"
+      ],
+      "dependentSkills": []
+    },
+    "NextJS fundamentals": {
+      "level": "Core",
+      "courses": [
+        "WEB2091"
+      ],
+      "dependentSkills": []
+    },
+    "Industry experience": {
+      "level": "Core",
+      "courses": [
+        "PRO116"
+      ],
+      "dependentSkills": []
+    },
+    "Workplace professional communication": {
+      "level": "Core",
+      "courses": [
+        "PRO116"
+      ],
+      "dependentSkills": []
+    },
+    "Task completion": {
+      "level": "Core",
+      "courses": [
+        "PRO116"
+      ],
+      "dependentSkills": []
+    },
+    "Report writing": {
+      "level": "Core",
+      "courses": [
+        "PRO116"
+      ],
+      "dependentSkills": []
+    },
+    "Agile/Scrum Project Management": {
+      "level": "Core",
+      "courses": [
+        "PRO2201"
+      ],
+      "dependentSkills": []
+    },
+    "Full Stack Development": {
+      "level": "Core",
+      "courses": [
+        "PRO2201"
+      ],
+      "dependentSkills": []
+    },
+    "System Architecture Design": {
+      "level": "Core",
+      "courses": [
+        "PRO2201"
+      ],
+      "dependentSkills": []
+    },
+    "Technical Presentation": {
+      "level": "Core",
+      "courses": [
+        "PRO2201"
+      ],
+      "dependentSkills": []
+    }
+  }
+}

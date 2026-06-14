@@ -1,0 +1,180 @@
+{
+  "rules": [
+    {
+      "courseId": "COM108",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn COM108 (Nhập môn lập trình). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Viết lại toàn bộ 10 bài thực hành Lab cú pháp C cơ bản",
+        "Tuần 5-8: Vẽ sơ đồ khối thuật toán cho cấu trúc rẽ nhánh & vòng lặp",
+        "Tuần 9-12: Lập trình giải quyết 5 bài toán mảng và hàm nâng cao"
+      ]
+    },
+    {
+      "courseId": "COM2012",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn COM2012 (Cơ sở dữ liệu). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Vẽ lược đồ ERD chuẩn hóa cho 3 bài toán nghiệp vụ thực tế",
+        "Tuần 5-8: Luyện viết 30 câu truy vấn SQL JOIN và GROUP BY từ cơ bản đến nâng cao",
+        "Tuần 9-12: Thực hành thiết kế CSDL và phân tích tối ưu chỉ mục index"
+      ]
+    },
+    {
+      "courseId": "WEB1013",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB1013 (Xây dựng trang Web). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Cắt giao diện HTML/CSS tĩnh cho 3 bản thiết kế Figma",
+        "Tuần 5-8: Xây dựng layout đáp ứng sử dụng Flexbox và CSS Grid",
+        "Tuần 9-12: Tối ưu hóa Responsive tương thích đa thiết bị bằng Media Queries"
+      ]
+    },
+    {
+      "courseId": "WEB1043",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB1043 (Lập trình cơ sở với JavaScript). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Hoàn thành 5 bài tập thuật toán và thao tác DOM cơ bản",
+        "Tuần 5-8: Xây dựng chức năng Slideshow và Form Validation động",
+        "Tuần 9-12: Lập trình ứng dụng Todo List sử dụng LocalStorage"
+      ]
+    },
+    {
+      "courseId": "WEB108",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB108 (Lập trình PHP cơ bản). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Xây dựng hệ thống đăng nhập và đăng ký tài khoản đơn giản",
+        "Tuần 5-8: Lập trình xử lý Form dữ liệu và bảo mật đầu vào chống XSS",
+        "Tuần 9-12: Kết nối CSDL MySQL và xây dựng chức năng CRUD PHP thuần"
+      ]
+    },
+    {
+      "courseId": "WEB2014",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB2014 (Lập trình PHP 1). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Lập trình hướng đối tượng OOP tạo các Class và Interface cơ bản",
+        "Tuần 5-8: Xây dựng cấu trúc thư mục dự án chuẩn mô hình MVC",
+        "Tuần 9-12: Viết thư viện kết nối và truy xuất cơ sở dữ liệu qua PDO"
+      ]
+    },
+    {
+      "courseId": "WEB105",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB105 (Thiết kế UI/UX). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Hoàn thành 3 bài thực hành thiết kế Wireframe trên Figma",
+        "Tuần 5-8: Thiết kế giao diện Mockup chi tiết cho một Landing Page đáp ứng hệ thống lưới",
+        "Tuần 9-12: Xây dựng Prototype tương tác ứng dụng Mobile và thực hiện kiểm thử người dùng"
+      ]
+    },
+    {
+      "courseId": "WEB2041",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB2041 (Dự án mẫu). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Bám sát tài liệu đặc tả dự án mẫu",
+        "Kiểm tra kỹ cấu hình máy chủ local Apache/MySQL",
+        "Thực hành commit và push code lên GitHub hàng ngày"
+      ]
+    },
+    {
+      "courseId": "WEB501",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB501 (Lập trình ECMAScript). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tập viết ít nhất 15 hàm xử lý bất đồng bộ bằng Promise và Async/Await",
+        "Thực hành chuyển đổi mã nguồn JavaScript cũ sang chuẩn ES6+",
+        "Tích cực sử dụng công cụ kiểm lỗi ESLint"
+      ]
+    },
+    {
+      "courseId": "WEB2063",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB2063 (Lập trình Javascript nâng cao). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Thực hành gọi API lấy dữ liệu thời tiết/tin tức bằng Fetch/Axios",
+        "Tuần 5-8: Xử lý lưu trữ trạng thái ứng dụng qua LocalStorage và Cookies",
+        "Tuần 9-12: Xây dựng ứng dụng SPA quản lý sản phẩm bằng JavaScript thuần"
+      ]
+    },
+    {
+      "courseId": "PRO1014",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn PRO1014 (Dự án 1 (TKTW)). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tổ chức họp giao ban nhóm hàng ngày thảo luận công việc",
+        "Thực hành quy trình tạo nhánh Git nghiêm túc",
+        "Đặc tả kỹ lưỡng định dạng API trao đổi dữ liệu"
+      ]
+    },
+    {
+      "courseId": "WEB503",
+      "riskPriority": "HIGH",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB503 (NodeJS & Restful Web Service). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Xây dựng máy chủ Node.js/Express kết nối CSDL MongoDB",
+        "Tuần 5-8: Thiết kế bộ RESTful API CRUD đầy đủ nghiệp vụ",
+        "Tuần 9-12: Tích hợp chứng thực người dùng và phân quyền bằng JWT"
+      ]
+    },
+    {
+      "courseId": "WEB2081",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB2081 (Lập trình Front-End Framework 1). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Tạo 5 components React có thể tái sử dụng sử dụng Props/State",
+        "Tuần 5-8: Thực hành xử lý Side Effect bằng Hooks useState và useEffect",
+        "Tuần 9-12: Xây dựng ứng dụng Fetch API hiển thị danh sách sản phẩm bằng React"
+      ]
+    },
+    {
+      "courseId": "WEB2091",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn WEB2091 (Lập trình Front-End Framework 2). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Cấu hình state toàn cục cho giỏ hàng bằng Redux Toolkit",
+        "Tuần 5-8: Thiết lập định tuyến trang phức tạp sử dụng React Router Dom",
+        "Tuần 9-12: Tối ưu hóa hiệu năng render component bằng useMemo/useCallback"
+      ]
+    },
+    {
+      "courseId": "PRO116",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn PRO116 (Thực tập tốt nghiệp (TKTW)). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tác phong đi làm đúng giờ, tuân thủ kỷ luật",
+        "Chủ động giao tiếp thảo luận cùng Mentor công ty",
+        "Viết báo cáo hàng tuần cẩn thận"
+      ]
+    },
+    {
+      "courseId": "PRO2201",
+      "riskPriority": "CRITICAL",
+      "triggerCondition": "FAILED_OR_WEAK",
+      "advisoryMessage": "Hệ thống phát hiện suy giảm năng lực cốt lõi ở môn PRO2201 (Dự án tốt nghiệp (TKTW-Single page Application)). Đây là học phần then chốt chặn tiến độ chuyên ngành.",
+      "remediationSteps": [
+        "Tuần 1-4: Lập kế hoạch phân rã Task và quản lý Sprint Backlog trên Trello",
+        "Tuần 5-8: Lập trình hoàn thiện chức năng Full Stack Web SPA đáp ứng tiêu chí",
+        "Tuần 9-12: Viết slide báo cáo, chuẩn bị kịch bản demo và thuyết trình thử"
+      ]
+    }
+  ]
+}

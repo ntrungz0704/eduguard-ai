@@ -22,6 +22,12 @@ const syllabusGraph = loadKnowledgeJson('syllabus_graph.json');
 const courseDependency = loadKnowledgeJson('course_dependency.json');
 const coursesJson = loadKnowledgeJson('courses.json');
 
+const curriculumKbRaw = loadKnowledgeJson('curriculum_knowledge_base.json');
+const curriculumKb = Array.isArray(curriculumKbRaw) ? curriculumKbRaw : [];
+const courseSkillGraph = loadKnowledgeJson('course_skill_graph.json');
+const courseCareerMapping = loadKnowledgeJson('course_career_mapping.json');
+const courseInterventionRules = loadKnowledgeJson('course_intervention_rules.json');
+
 // Module-level caches to prevent O(N^2) DB bottlenecks during batch queries
 let cachedStudentGpas = null;
 let lastCacheTime = 0;
@@ -203,58 +209,279 @@ async function generateDetailedDSSReport(student) {
   // 4. Root Cause Analysis (Prerequisite Failure Chain Traversal)
   // Algorithm: DFS-based recursive graph traversal on the prerequisite knowledge graph (via syllabus_graph.json).
   // Traces back to the earliest prerequisite ancestor where the student got < 7.0 (weak foundation) or failed.
-  const findRootCauseForCourse = (courseId, visited = new Set()) => {
-    if (visited.has(courseId)) return courseId;
-    visited.add(courseId);
-    
-    const node = syllabusGraph[courseId];
-    if (!node || !node.prerequisites || node.prerequisites.length === 0) {
-      return courseId;
+  const traceRootCausePath = (courseId, visited = new Set(), pathList = []) => {
+    if (visited.has(courseId)) {
+      return { rootCause: courseId, path: pathList };
     }
+    visited.add(courseId);
+
+    const scoreObj = scores.find(s => {
+      const cleanTarget = courseId.toLowerCase().replace(/\s+/g, '');
+      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+      return cleanS === cleanTarget || cleanS.includes(cleanTarget) || cleanTarget.includes(cleanS);
+    });
+
+    const node = syllabusGraph[courseId];
+    const kbCourse = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === courseId.toLowerCase().replace(/\s+/g, ''));
+    const nameStr = kbCourse ? kbCourse.courseName : (node?.name || courseDependency[courseId]?.role || courseId);
     
-    // Check if any prerequisite has a weak score (< 7.0) or is failed
+    const grade = scoreObj ? scoreObj.value : null;
+    const status = scoreObj ? scoreObj.status : null;
+
+    const pathNode = {
+      courseId,
+      name: nameStr,
+      grade,
+      status: status === 'FAILED' || (grade !== null && grade < 5.0) ? 'FAILED' : (grade !== null && grade < 7.0 ? 'WEAK' : 'OK')
+    };
+
+    const newPathList = [...pathList, pathNode];
+
+    if (!node || !node.prerequisites || node.prerequisites.length === 0) {
+      return { rootCause: courseId, path: newPathList };
+    }
+
+    // Look for weak or failed prerequisites
     for (const prereq of node.prerequisites) {
-      const scoreObj = scores.find(s => {
+      const pScoreObj = scores.find(s => {
         const cleanP = prereq.toLowerCase().replace(/\s+/g, '');
         const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
         return cleanS === cleanP || cleanS.includes(cleanP) || cleanP.includes(cleanS);
       });
-      
-      if (scoreObj && (scoreObj.status === 'FAILED' || (scoreObj.value !== null && scoreObj.value < 7.0))) {
-        return findRootCauseForCourse(prereq, visited);
+
+      if (pScoreObj && (pScoreObj.status === 'FAILED' || (pScoreObj.value !== null && pScoreObj.value < 7.0))) {
+        return traceRootCausePath(prereq, visited, newPathList);
       }
     }
-    return courseId;
+
+    return { rootCause: courseId, path: newPathList };
   };
 
   let rootCause = null;
   if (failedCourses.length > 0) {
-    const rcList = [];
+    const rcPaths = [];
     failedCourses.forEach(fc => {
-      const rcId = findRootCauseForCourse(fc);
-      if (!rcList.includes(rcId)) {
-        rcList.push(rcId);
-      }
+      const res = traceRootCausePath(fc);
+      rcPaths.push(res);
     });
     
-    if (rcList.length > 0) {
-      const rcCode = rcList[0];
-      const rcScoreObj = scores.find(s => s.courseId === rcCode);
+    // Sort paths to find the one that has the longest failure chain
+    rcPaths.sort((a, b) => b.path.length - a.path.length);
+    const primaryRc = rcPaths[0];
+    
+    if (primaryRc) {
+      const rcCode = primaryRc.rootCause;
+      const rcPath = primaryRc.path;
+      const rcScoreObj = scores.find(s => {
+        const cleanRc = rcCode.toLowerCase().replace(/\s+/g, '');
+        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
+        return cleanS === cleanRc || cleanS.includes(cleanRc) || cleanRc.includes(cleanS);
+      });
       const isWeakPassed = rcScoreObj && rcScoreObj.status !== 'FAILED' && rcScoreObj.value !== null && rcScoreObj.value < 7.0;
       
+      const kbCourse = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === rcCode.toLowerCase().replace(/\s+/g, ''));
+      const courseNameStr = kbCourse ? kbCourse.courseName : (syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode);
+
       let explanation = '';
       if (isWeakPassed) {
-        explanation = `Điểm gãy nền tảng xuất phát từ môn ${rcCode} (${syllabusGraph[rcCode]?.name || rcCode}). Sinh viên tuy đã thi đỗ môn này nhưng chỉ đạt điểm số yếu (${rcScoreObj.value.toFixed(1)}/10), trực tiếp gây thiếu hụt kỹ năng và làm trượt chuỗi môn học kế thừa tiếp theo.`;
+        explanation = `Điểm gãy nền tảng xuất phát từ môn ${rcCode} (${courseNameStr}). Sinh viên tuy đã thi đỗ môn này nhưng chỉ đạt điểm số yếu (${rcScoreObj.value.toFixed(1)}/10), trực tiếp gây thiếu hụt kỹ năng và làm trượt chuỗi môn học kế thừa tiếp theo.`;
       } else {
-        explanation = `Điểm gãy học thuật nghiêm trọng nhất xuất hiện sớm nhất tại môn ${rcCode} (${syllabusGraph[rcCode]?.name || rcCode}). Việc trượt môn này đã làm gián đoạn dây chuyền tiến độ học tập và chặn đứng các môn chuyên ngành phía sau.`;
+        explanation = `Điểm gãy học thuật nghiêm trọng nhất xuất hiện sớm nhất tại môn ${rcCode} (${courseNameStr}). Việc trượt môn này đã làm gián đoạn dây chuyền tiến độ học tập và chặn đứng các môn chuyên ngành phía sau.`;
       }
       
       rootCause = {
         courseId: rcCode,
-        name: syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode,
-        explanation
+        name: courseNameStr,
+        explanation,
+        academicImportanceLevel: kbCourse ? kbCourse.academicImportanceLevel : 'MEDIUM',
+        bottleneckWeight: kbCourse ? kbCourse.bottleneckWeight : 1,
+        missingSkills: kbCourse ? (kbCourse.coreSkills || []) : [],
+        learningOutcomes: kbCourse ? (kbCourse.learningOutcomes || []) : [],
+        technologiesTools: kbCourse ? (kbCourse.technologiesTools || []) : [],
+        commonFailureReasons: kbCourse ? (kbCourse.commonFailureReasons || []) : [],
+        remediationRecommendations: kbCourse ? (kbCourse.remediationRecommendations || []) : [],
+        careerRelevance: kbCourse ? (kbCourse.careerRelevance || []) : [],
+        path: rcPath
       };
     }
+  }
+
+  // Compute Skills Gap Analysis
+  const failedOrWeakCoursesList = [];
+  const allMissingSkills = new Set();
+  const allMissingCLOs = [];
+  const allMissingTools = new Set();
+
+  scores.forEach(s => {
+    const isFailed = s.status === 'FAILED' || (s.value !== null && s.value < 5.0);
+    const isWeak = s.value !== null && s.value >= 5.0 && s.value < 7.0;
+    
+    if (isFailed || isWeak) {
+      const kbC = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === s.courseId.toLowerCase().replace(/\s+/g, ''));
+      if (kbC) {
+        failedOrWeakCoursesList.push({
+          courseId: s.courseId,
+          courseName: kbC.courseName,
+          status: isFailed ? 'FAILED' : 'WEAK',
+          grade: s.value,
+          academicImportanceLevel: kbC.academicImportanceLevel,
+          skills: kbC.coreSkills || [],
+          learningOutcomes: kbC.learningOutcomes || [],
+          technologiesTools: kbC.technologiesTools || []
+        });
+        (kbC.coreSkills || []).forEach(sk => allMissingSkills.add(sk));
+        (kbC.learningOutcomes || []).forEach(clo => allMissingCLOs.push({ courseId: s.courseId, clo }));
+        (kbC.technologiesTools || []).forEach(t => allMissingTools.add(t));
+      }
+    }
+  });
+
+  const skillsGapAnalysis = {
+    failedOrWeakCourses: failedOrWeakCoursesList,
+    allMissingSkills: Array.from(allMissingSkills),
+    allMissingCLOs: allMissingCLOs,
+    allMissingTools: Array.from(allMissingTools)
+  };
+
+  // Compute Career Impact Analysis
+  const careerImpactAnalysis = [];
+  if (courseCareerMapping && courseCareerMapping.careers) {
+    Object.entries(courseCareerMapping.careers).forEach(([careerName, mapping]) => {
+      const required = mapping.requiredCourses || [];
+      const requiredFailedOrWeak = required.filter(cid => 
+        scores.some(s => {
+          const isFailedOrWeak = s.status === 'FAILED' || (s.value !== null && s.value < 7.0);
+          return isFailedOrWeak && s.courseId.toLowerCase().replace(/\s+/g, '') === cid.toLowerCase().replace(/\s+/g, '');
+        })
+      );
+      
+      const failedRequiredDetails = requiredFailedOrWeak.map(cid => {
+        const kbC = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === cid.toLowerCase().replace(/\s+/g, ''));
+        return {
+          courseId: cid,
+          courseName: kbC ? kbC.courseName : cid
+        };
+      });
+
+      const requiredCoursesDetails = required.map(cid => {
+        const cleanCid = cid.toLowerCase().replace(/\s+/g, '');
+        const scoreObj = scores.find(s => s.courseId.toLowerCase().replace(/\s+/g, '') === cleanCid);
+        const kbC = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === cleanCid);
+        return {
+          courseId: cid,
+          courseName: kbC ? kbC.courseName : cid,
+          grade: scoreObj ? scoreObj.value : null,
+          status: scoreObj ? scoreObj.status : 'NOT_STARTED'
+        };
+      });
+
+      let status = 'SAFE'; 
+      let riskLabel = 'An toàn';
+      let color = 'emerald';
+      
+      const failCount = requiredFailedOrWeak.length;
+      if (failCount >= 3) {
+        status = 'CRITICAL';
+        riskLabel = 'Nguy cơ cực cao';
+        color = 'rose';
+      } else if (failCount >= 2) {
+        status = 'HIGH_RISK';
+        riskLabel = 'Rủi ro cao';
+        color = 'orange';
+      } else if (failCount >= 1) {
+        status = 'WARNING';
+        riskLabel = 'Cảnh báo';
+        color = 'amber';
+      }
+
+      // Compile detailed required skills validation with database & syllabus evidence
+      const requiredSkillsDetails = (mapping.requiredSkills || []).map(sk => {
+        // Find which course teaches this skill
+        let teachingCourseId = null;
+        if (courseSkillGraph && courseSkillGraph.skills && courseSkillGraph.skills[sk]) {
+          const coursesForSkill = courseSkillGraph.skills[sk].courses || [];
+          if (coursesForSkill.length > 0) {
+            teachingCourseId = coursesForSkill[0];
+          }
+        }
+        
+        // Fallback search
+        if (!teachingCourseId) {
+          const kbC = curriculumKb.find(c => (c.coreSkills || []).includes(sk));
+          if (kbC) {
+            teachingCourseId = kbC.courseId;
+          }
+        }
+
+        // Find the student's score for this course
+        let grade = null;
+        let scoreStatus = 'NOT_STARTED';
+        let isPossessed = false;
+        let courseName = teachingCourseId || '';
+        
+        if (teachingCourseId) {
+          const cleanTarget = teachingCourseId.toLowerCase().replace(/\s+/g, '');
+          const scoreObj = scores.find(s => s.courseId.toLowerCase().replace(/\s+/g, '') === cleanTarget);
+          const kbC = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === cleanTarget);
+          if (kbC) {
+            courseName = kbC.courseName;
+          }
+          if (scoreObj) {
+            grade = scoreObj.value;
+            scoreStatus = scoreObj.status;
+            const isFailed = scoreStatus === 'FAILED' || (grade !== null && grade < 5.0);
+            const isWeak = grade !== null && grade >= 5.0 && grade < 7.0;
+            isPossessed = !isFailed && !isWeak;
+          } else {
+            isPossessed = false;
+          }
+        } else {
+          isPossessed = false;
+        }
+
+        // Pull syllabus evidence from curriculumKb
+        let syllabusSource = '';
+        let syllabusLocation = '';
+        let syllabusCLO = '';
+
+        if (teachingCourseId) {
+          const cleanTarget = teachingCourseId.toLowerCase().replace(/\s+/g, '');
+          const kbC = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === cleanTarget);
+          if (kbC && kbC.evidence && kbC.evidence[sk]) {
+            syllabusSource = kbC.evidence[sk].source;
+            syllabusLocation = kbC.evidence[sk].location;
+            syllabusCLO = kbC.evidence[sk].learningOutcome;
+          } else if (kbC) {
+            syllabusSource = `FPT Polytechnic Syllabus - ${kbC.courseId} ${kbC.courseName}`;
+            syllabusLocation = `Bài thực hành chuyên sâu kỹ năng ${sk}`;
+            syllabusCLO = kbC.learningOutcomes ? kbC.learningOutcomes[0] : '';
+          }
+        }
+
+        return {
+          skillName: sk,
+          isPossessed,
+          teachingCourseId,
+          teachingCourseName: courseName,
+          grade,
+          status: scoreStatus,
+          syllabusSource,
+          syllabusLocation,
+          syllabusCLO
+        };
+      });
+
+      careerImpactAnalysis.push({
+        careerName,
+        status,
+        riskLabel,
+        color,
+        failedRequiredCount: failCount,
+        failedRequiredCourses: failedRequiredDetails,
+        requiredCourses: requiredCoursesDetails,
+        requiredSkills: requiredSkillsDetails
+      });
+    });
   }
 
   // 5. Risk Contributors
@@ -310,8 +537,6 @@ async function generateDetailedDSSReport(student) {
   });
 
   // 7. Graduation Risk & Delay Index Engine
-  // Heuristic Index: Trị số trễ tốt nghiệp này được thiết lập theo luật chuyên gia học vụ (Expert Heuristic Rules) 
-  // dựa trên cấu trúc tín chỉ và chuỗi ràng buộc tiên quyết, không phải mô hình thống kê học máy thuần túy.
   const { delayScore, failedCredits, blockedCount, maxChainDepth, bottleneckWeight } = calculateDelayScore(scores, syllabusGraph, courseDependency);
 
   let gradRiskLevel = 'LOW';
@@ -360,33 +585,85 @@ async function generateDetailedDSSReport(student) {
   // 8. Recovery Roadmap
   const recoveryRoadmap = [];
   if (rootCause) {
-    recoveryRoadmap.push({
-      phase: 'Giai đoạn 1 (Tuần 1 - 4)',
-      title: `Lấp lỗ hổng gốc rễ: ${rootCause.courseId}`,
-      focus: `Học lại lý thuyết và tự làm lại các bài lab thực hành của môn ${rootCause.courseId} (${rootCause.name}). Tập trung vào các kiến thức nền tảng và CLO thiếu hụt.`
-    });
-    
-    // Find intermediate blocked courses
-    const nextCourses = blockedCourses.filter(bc => bc.failedCourse === rootCause.courseId);
-    if (nextCourses.length > 0) {
-      recoveryRoadmap.push({
-        phase: 'Giai đoạn 2 (Tuần 5 - 8)',
-        title: `Ôn tập môn kế thừa: ${nextCourses.map(c => c.blockedCourse).join(', ')}`,
-        focus: `Tìm hiểu các khái niệm nâng cao của môn ${nextCourses.map(c => c.blockedCourse).join(', ')} để chuẩn bị học lại hoặc cải thiện điểm số.`
+    const recs = rootCause.remediationRecommendations || [];
+    if (recs.length >= 3) {
+      recs.forEach((rec, rIdx) => {
+        let phase = `Giai đoạn ${rIdx + 1}`;
+        let title = rec;
+        let focus = '';
+        
+        if (rec.includes(':')) {
+          const parts = rec.split(':');
+          const weekStr = parts[0].trim();
+          phase = `Giai đoạn ${rIdx + 1} (${weekStr})`;
+          title = parts.slice(1).join(':').trim();
+        }
+        
+        if (rIdx === 0) {
+          focus = `Tập trung củng cố kiến thức nền tảng và khắc phục lỗ hổng môn ${rootCause.courseId}. Ôn tập các kỹ năng thiếu hụt: ${rootCause.missingSkills ? rootCause.missingSkills.join(', ') : 'N/A'}.`;
+        } else if (rIdx === 1) {
+          focus = `Thực hành thiết kế hoặc viết mã dự án mini (mini-project) áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
+        } else if (rIdx === 2) {
+          const cleanClos = rootCause.learningOutcomes ? rootCause.learningOutcomes.map(clo => clo.split(':')[0]).join(', ') : 'N/A';
+          focus = `Đăng ký học phụ đạo (Tutor) tại trường để rà soát chuẩn đầu ra (CLOs) bị nợ: ${cleanClos}. Hoàn thành kiểm thử để vượt qua nguyên nhân gốc rễ học thuật này.`;
+        }
+        
+        recoveryRoadmap.push({
+          phase,
+          title,
+          focus
+        });
       });
     } else {
+      // Fallback if not enough recommendations
+      let phase1Title = `Lập kế hoạch ôn tập: ${rootCause.courseId} - ${rootCause.name}`;
+      let phase1Focus = `Học lại lý thuyết cơ bản và hoàn thành các bài lab của môn học.`;
+      if (recs.length > 0) {
+        phase1Title = `Nhiệm vụ can thiệp 1: ${recs[0]}`;
+        const firstSkill = rootCause.missingSkills && rootCause.missingSkills[0];
+        const skillEv = firstSkill && rootCause.technologiesTools ? ` (Kỹ năng: ${firstSkill}, Công cụ: ${rootCause.technologiesTools.slice(0, 2).join(', ')})` : '';
+        phase1Focus = `Tập trung hoàn thành nội dung thực hành môn ${rootCause.courseId}${skillEv}. Bám sát đề cương chi tiết học phần để khắc phục lỗ hổng kiến thức gốc rễ sớm nhất.`;
+      }
+      recoveryRoadmap.push({
+        phase: 'Giai đoạn 1 (Tuần 1 - 4)',
+        title: phase1Title,
+        focus: phase1Focus
+      });
+
+      let phase2Title = `Ôn tập môn kế thừa`;
+      let phase2Focus = `Tìm hiểu các khái niệm nâng cao để chuẩn bị học lại hoặc cải thiện điểm số.`;
+      const nextCourses = blockedCourses.filter(bc => bc.failedCourse === rootCause.courseId);
+      if (recs.length > 1) {
+        phase2Title = `Nhiệm vụ can thiệp 2: ${recs[1]}`;
+        phase2Focus = `Thực hiện rèn luyện nâng cao theo khuyến nghị từ giáo trình FPT Polytechnic.`;
+        if (nextCourses.length > 0) {
+          phase2Focus += ` Chuẩn bị sẵn sàng kiến thức để mở khóa chuỗi môn học bị chặn kế thừa phía sau: ${nextCourses.map(c => c.blockedCourse).join(', ')}.`;
+        }
+      } else if (nextCourses.length > 0) {
+        phase2Title = `Ôn tập môn kế thừa: ${nextCourses.map(c => c.blockedCourse).join(', ')}`;
+        phase2Focus = `Tìm hiểu các khái niệm nâng cao của các môn bị chặn chuyên ngành phía sau để sẵn sàng học bù ngay khi mở khóa môn gốc.`;
+      } else {
+        phase2Title = 'Củng cố tư duy lập trình nâng cao';
+        phase2Focus = 'Thực hành các cấu trúc dữ liệu modern, kỹ thuật lập trình nâng cao và kết nối API thực tế.';
+      }
       recoveryRoadmap.push({
         phase: 'Giai đoạn 2 (Tuần 5 - 8)',
-        title: 'Củng cố tư duy lập trình nâng cao',
-        focus: 'Thực hành các cấu trúc dữ liệu modern, kỹ thuật lập trình nâng cao và kết nối API thực tế.'
+        title: phase2Title,
+        focus: phase2Focus
+      });
+
+      let phase3Title = `Hoàn thiện Project thực chiến & Tutor`;
+      let phase3Focus = `Đăng ký tham gia nhóm học phụ đạo (Tutor) 1 kèm 1 từ nhà trường. Hoàn thiện một đồ án cá nhân nhỏ để tích hợp các kỹ năng đã học, sẵn sàng cho kỳ học mới.`;
+      if (recs.length > 2) {
+        phase3Title = `Nhiệm vụ can thiệp 3: ${recs[2]}`;
+        phase3Focus = `Đăng ký tham gia nhóm Tutor học thuật tại trường để được hỗ trợ 1 kèm 1. Thực hành làm đồ án nhỏ (mini project) áp dụng các công nghệ đã được học để chứng minh năng lực thực tế.`;
+      }
+      recoveryRoadmap.push({
+        phase: 'Giai đoạn 3 (Tuần 9 - 12)',
+        title: phase3Title,
+        focus: phase3Focus
       });
     }
-
-    recoveryRoadmap.push({
-      phase: 'Giai đoạn 3 (Tuần 9 - 12)',
-      title: 'Hoàn thiện Project thực chiến & Tutor',
-      focus: 'Đăng ký tham gia nhóm học phụ đạo (Tutor) 1 kèm 1 từ nhà trường. Hoàn thiện một đồ án cá nhân nhỏ để tích hợp các kỹ năng đã học, sẵn sàng cho kỳ học mới.'
-    });
   } else if (failedCourses.length > 0) {
     recoveryRoadmap.push({
       phase: 'Giai đoạn 1 (Tuần 1 - 4)',
@@ -452,6 +729,30 @@ async function generateDetailedDSSReport(student) {
       description: 'Mức độ rủi ro nhẹ. Sinh viên chỉ cần đăng ký học bù môn đang nợ trong học kỳ hè sắp tới để đảm bảo không bị chậm tiến độ tốt nghiệp của cả khóa.',
       colorClass: 'blue'
     };
+  }
+
+  // Apply expert intervention rules if rootCause exists
+  if (rootCause) {
+    const matchingRule = courseInterventionRules && courseInterventionRules.rules 
+      ? courseInterventionRules.rules.find(r => r.courseId.toLowerCase().replace(/\s+/g, '') === rootCause.courseId.toLowerCase().replace(/\s+/g, ''))
+      : null;
+      
+    if (matchingRule) {
+      const priority = matchingRule.riskPriority; 
+      let color = 'rose';
+      if (priority === 'HIGH') color = 'orange';
+      if (priority === 'MEDIUM') color = 'amber';
+      if (priority === 'LOW') color = 'blue';
+      
+      interventionRec = {
+        riskLevel: priority,
+        actionCode: `INTERVENTION_${rootCause.courseId}`,
+        actionTitle: `Can thiệp học thuật: Khắc phục môn ${rootCause.courseId} (${rootCause.name})`,
+        description: `${matchingRule.advisoryMessage}\n\nKhuyến nghị các bước can thiệp cụ thể:\n` + 
+          matchingRule.remediationSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n'),
+        colorClass: color
+      };
+    }
   }
 
   // 9. Program-Level Comparison
@@ -532,7 +833,9 @@ async function generateDetailedDSSReport(student) {
       delayScore
     },
     recoveryRoadmap,
-    interventionRecommendation: interventionRec
+    interventionRecommendation: interventionRec,
+    skillsGapAnalysis,
+    careerImpactAnalysis
   };
 }
 
