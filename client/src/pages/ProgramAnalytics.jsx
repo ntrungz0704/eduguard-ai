@@ -210,6 +210,8 @@ export default function ProgramAnalytics() {
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
+                  itemStyle={{ color: '#e2e8f0', fontWeight: 500 }}
+                  labelStyle={{ color: '#fff', fontWeight: 'bold', marginBottom: '4px' }}
                 />
                 <Bar dataKey="failRate" name="Tỷ lệ rớt" radius={[4, 4, 0, 0]}>
                   {topFailedCourses.map((entry, index) => (
@@ -261,6 +263,8 @@ export default function ProgramAnalytics() {
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
+                  itemStyle={{ color: '#e2e8f0', fontWeight: 500 }}
+                  labelStyle={{ color: '#fff', fontWeight: 'bold', marginBottom: '4px' }}
                 />
                 <Bar dataKey="bottleneckScore" name="Chỉ số nghẽn" radius={[4, 4, 0, 0]}>
                   {topPrerequisiteBottlenecks.map((entry, index) => (
@@ -320,6 +324,8 @@ export default function ProgramAnalytics() {
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
+                  itemStyle={{ color: '#e2e8f0', fontWeight: 500 }}
+                  labelStyle={{ color: '#fff', fontWeight: 'bold', marginBottom: '4px' }}
                 />
                 <Bar dataKey="count" name="Ước lượng Lỗ hổng CLO" radius={[0, 4, 4, 0]}>
                   {topWeakestCLOs.map((entry, index) => (
@@ -376,6 +382,8 @@ export default function ProgramAnalytics() {
                 <Tooltip 
                   cursor={{fill: 'rgba(255,255,255,0.05)'}}
                   contentStyle={{backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff'}}
+                  itemStyle={{ color: '#e2e8f0', fontWeight: 500 }}
+                  labelStyle={{ color: '#fff', fontWeight: 'bold', marginBottom: '4px' }}
                 />
                 <Bar dataKey="count" name="Số lượng sinh viên hổng" radius={[4, 4, 0, 0]}>
                   {topSkillGaps.map((entry, index) => (
