@@ -43,22 +43,22 @@
     "evidence": {
       "Word processing": {
         "source": "FPT Polytechnic Syllabus - COM1071 Tin học",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Word processing",
+        "location": "Bài 1-3: Soạn thảo văn bản và định dạng tài liệu Word",
         "learningOutcome": "CLO1: Sử dụng thành thạo Microsoft Word soạn thảo văn bản"
       },
       "Excel spreadsheet calculation": {
         "source": "FPT Polytechnic Syllabus - COM1071 Tin học",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Excel spreadsheet calculation",
+        "location": "Bài 4-6: Công thức, hàm tính toán và biểu đồ Excel",
         "learningOutcome": "CLO2: Áp dụng công thức và hàm cơ bản trong Excel"
       },
       "PowerPoint presentation": {
         "source": "FPT Polytechnic Syllabus - COM1071 Tin học",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng PowerPoint presentation",
+        "location": "Bài 7-8: Thiết kế slide trình chiếu PowerPoint chuyên nghiệp",
         "learningOutcome": "CLO3: Thiết kế slide thuyết trình PowerPoint chuyên nghiệp"
       },
       "Information search": {
         "source": "FPT Polytechnic Syllabus - COM1071 Tin học",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Information search",
+        "location": "Bài 9: Tìm kiếm thông tin trên Internet và sử dụng email an toàn",
         "learningOutcome": "CLO1: Sử dụng thành thạo Microsoft Word soạn thảo văn bản"
       }
     }
@@ -103,17 +103,17 @@
     "evidence": {
       "Physical fitness": {
         "source": "FPT Polytechnic Syllabus - VIE103 Giáo dục thể chất - Vovinam",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Physical fitness",
-        "learningOutcome": "CLO1: Nắm vững các đòn thế võ tự vệ cơ bản"
+        "location": "Bài 1-5: Rèn luyện thể lực cơ bản và kỹ thuật võ Vovinam",
+        "learningOutcome": "CLO2: Đạt chuẩn thể lực quy định"
       },
       "Self defense": {
         "source": "FPT Polytechnic Syllabus - VIE103 Giáo dục thể chất - Vovinam",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Self defense",
-        "learningOutcome": "CLO2: Đạt chuẩn thể lực quy định"
+        "location": "Bài 6-8: Các đòn thế tự vệ cơ bản trong Vovinam",
+        "learningOutcome": "CLO1: Nắm vững các đòn thế võ tự vệ cơ bản"
       },
       "Team discipline": {
         "source": "FPT Polytechnic Syllabus - VIE103 Giáo dục thể chất - Vovinam",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Team discipline",
+        "location": "Bài 9-10: Tập luyện đồng đội và rèn kỷ luật tập thể",
         "learningOutcome": "CLO3: Rèn luyện tính kỷ luật tự giác"
       }
     }
@@ -161,23 +161,23 @@
     "evidence": {
       "Time management": {
         "source": "FPT Polytechnic Syllabus - PDP102 Kỹ năng học tập",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Time management",
+        "location": "Bài 1-2: Lập kế hoạch tuần và quản lý quỹ thời gian học tập",
         "learningOutcome": "CLO1: Lập kế hoạch tuần và quản lý thời gian học tập"
       },
       "Active learning": {
         "source": "FPT Polytechnic Syllabus - PDP102 Kỹ năng học tập",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Active learning",
+        "location": "Bài 3: Phương pháp ghi chép Cornell và tự học chủ động",
         "learningOutcome": "CLO2: Sử dụng sơ đồ tư duy Cornell và Mindmap"
       },
       "Mindmapping": {
         "source": "FPT Polytechnic Syllabus - PDP102 Kỹ năng học tập",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Mindmapping",
-        "learningOutcome": "CLO3: Kỹ năng làm việc nhóm cơ bản"
+        "location": "Bài 4: Kỹ thuật lập sơ đồ tư duy Mindmap tổng hợp kiến thức",
+        "learningOutcome": "CLO2: Sử dụng sơ đồ tư duy Cornell và Mindmap"
       },
       "Presentation skills": {
         "source": "FPT Polytechnic Syllabus - PDP102 Kỹ năng học tập",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Presentation skills",
-        "learningOutcome": "CLO1: Lập kế hoạch tuần và quản lý thời gian học tập"
+        "location": "Bài 5: Thuyết trình nhóm và kỹ năng trình bày trước lớp",
+        "learningOutcome": "CLO3: Kỹ năng làm việc nhóm cơ bản"
       }
     }
   },
@@ -291,17 +291,17 @@
     "evidence": {
       "Hardware knowledge": {
         "source": "FPT Polytechnic Syllabus - ITI101 Nhập môn công nghệ thông tin",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Hardware knowledge",
+        "location": "Bài 1-3: Cấu tạo phần cứng máy tính và nguyên lý hoạt động",
         "learningOutcome": "CLO1: Nắm bắt kiến thức cơ bản về phần cứng, phần mềm và mạng"
       },
       "Networking basics": {
         "source": "FPT Polytechnic Syllabus - ITI101 Nhập môn công nghệ thông tin",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Networking basics",
-        "learningOutcome": "CLO2: Hiểu xu hướng công nghệ hiện đại như AI, Cloud, IoT"
+        "location": "Bài 4-5: Mạng máy tính cơ bản và mô hình OSI/TCP-IP",
+        "learningOutcome": "CLO1: Nắm bắt kiến thức cơ bản về phần cứng, phần mềm và mạng"
       },
       "Career planning": {
         "source": "FPT Polytechnic Syllabus - ITI101 Nhập môn công nghệ thông tin",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Career planning",
+        "location": "Bài 7: Các nghề nghiệp trong ngành IT và lộ trình phát triển",
         "learningOutcome": "CLO3: Định hình lộ trình sự nghiệp trong ngành IT"
       }
     }
@@ -346,18 +346,18 @@
     "evidence": {
       "Military discipline": {
         "source": "FPT Polytechnic Syllabus - VIE104 Giáo dục quốc phòng",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Military discipline",
-        "learningOutcome": "CLO1: Hiểu kiến thức quốc phòng an ninh cơ bản"
+        "location": "Bài 1-3: Điều lệnh đội ngũ và tác phong quân ngũ",
+        "learningOutcome": "CLO2: Thực hiện nghiêm túc điều lệnh quân ngũ"
       },
       "Team cohesion": {
         "source": "FPT Polytechnic Syllabus - VIE104 Giáo dục quốc phòng",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Team cohesion",
+        "location": "Bài 4-6: Huấn luyện đội hình và phối hợp nhóm",
         "learningOutcome": "CLO2: Thực hiện nghiêm túc điều lệnh quân ngũ"
       },
       "National security awareness": {
         "source": "FPT Polytechnic Syllabus - VIE104 Giáo dục quốc phòng",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng National security awareness",
-        "learningOutcome": "CLO3: Đạt chuẩn kỹ thuật tháo lắp vũ khí"
+        "location": "Bài 7-9: Kiến thức quốc phòng an ninh và bảo vệ Tổ quốc",
+        "learningOutcome": "CLO1: Hiểu kiến thức quốc phòng an ninh cơ bản"
       }
     }
   },
@@ -404,18 +404,18 @@
     "evidence": {
       "English pronunciation": {
         "source": "FPT Polytechnic Syllabus - ENT1128 Tiếng Anh 1.1",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng English pronunciation",
+        "location": "Bài 1-3: Phát âm cơ bản và luyện nói giao tiếp hàng ngày",
         "learningOutcome": "CLO1: Giao tiếp xã hội cơ bản hàng ngày"
       },
       "Basic vocabulary": {
         "source": "FPT Polytechnic Syllabus - ENT1128 Tiếng Anh 1.1",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Basic vocabulary",
+        "location": "Bài 4-6: Từ vựng chủ đề thường nhật và đọc hiểu văn bản ngắn",
         "learningOutcome": "CLO2: Đọc hiểu văn bản ngắn đơn giản"
       },
       "Listening and speaking": {
         "source": "FPT Polytechnic Syllabus - ENT1128 Tiếng Anh 1.1",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Listening and speaking",
-        "learningOutcome": "CLO3: Viết đoạn văn ngắn giới thiệu bản thân"
+        "location": "Bài 7-9: Nghe hiểu hội thoại và luyện phản xạ nói",
+        "learningOutcome": "CLO1: Giao tiếp xã hội cơ bản hàng ngày"
       }
     }
   },
@@ -604,18 +604,18 @@
     "evidence": {
       "Technical vocabulary": {
         "source": "FPT Polytechnic Syllabus - ENT123 Tiếng Anh 1.2",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Technical vocabulary",
+        "location": "Bài 1-3: Từ vựng chuyên ngành CNTT và giao tiếp công sở",
         "learningOutcome": "CLO1: Giao tiếp tự tin trong môi trường làm việc"
       },
       "Professional communication": {
         "source": "FPT Polytechnic Syllabus - ENT123 Tiếng Anh 1.2",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Professional communication",
-        "learningOutcome": "CLO2: Đọc hiểu tài liệu kỹ thuật ngắn"
+        "location": "Bài 4-5: Giao tiếp email và trao đổi công việc bằng tiếng Anh",
+        "learningOutcome": "CLO1: Giao tiếp tự tin trong môi trường làm việc"
       },
       "Reading comprehension": {
         "source": "FPT Polytechnic Syllabus - ENT123 Tiếng Anh 1.2",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Reading comprehension",
-        "learningOutcome": "CLO3: Viết báo cáo tiến độ công việc đơn giản"
+        "location": "Bài 6-7: Đọc hiểu tài liệu kỹ thuật ngắn và viết báo cáo",
+        "learningOutcome": "CLO2: Đọc hiểu tài liệu kỹ thuật ngắn"
       }
     }
   },
@@ -736,23 +736,23 @@
     "evidence": {
       "Server-side programming": {
         "source": "FPT Polytechnic Syllabus - WEB108 Lập trình PHP cơ bản",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Server-side programming",
+        "location": "Bài 1: Cài đặt XAMPP và viết trang PHP đầu tiên",
         "learningOutcome": "CLO1: Nắm vững cú pháp cơ bản PHP và vòng đời yêu cầu client-server"
       },
       "PHP syntax": {
         "source": "FPT Polytechnic Syllabus - WEB108 Lập trình PHP cơ bản",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng PHP syntax",
-        "learningOutcome": "CLO2: Xử lý dữ liệu biểu mẫu an toàn tránh lỗi bảo mật cơ bản"
+        "location": "Bài 2-3: Biến, mảng, vòng lặp và hàm trong PHP",
+        "learningOutcome": "CLO1: Nắm vững cú pháp cơ bản PHP và vòng đời yêu cầu client-server"
       },
       "Form handling": {
         "source": "FPT Polytechnic Syllabus - WEB108 Lập trình PHP cơ bản",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Form handling",
-        "learningOutcome": "CLO3: Thiết lập cơ chế đăng nhập sử dụng Session và Cookie"
+        "location": "Bài 4: Xử lý dữ liệu biểu mẫu GET/POST và Upload file",
+        "learningOutcome": "CLO2: Xử lý dữ liệu biểu mẫu an toàn tránh lỗi bảo mật cơ bản"
       },
       "Session management": {
         "source": "FPT Polytechnic Syllabus - WEB108 Lập trình PHP cơ bản",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Session management",
-        "learningOutcome": "CLO1: Nắm vững cú pháp cơ bản PHP và vòng đời yêu cầu client-server"
+        "location": "Bài 5: Quản lý phiên đăng nhập Session và Cookie",
+        "learningOutcome": "CLO3: Thiết lập cơ chế đăng nhập sử dụng Session và Cookie"
       }
     }
   },
@@ -802,18 +802,18 @@
     "evidence": {
       "Technical reading": {
         "source": "FPT Polytechnic Syllabus - ENT213 Tiếng Anh 2.1",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Technical reading",
+        "location": "Bài 1-3: Đọc hiểu tài liệu đặc tả API và hướng dẫn kỹ thuật",
         "learningOutcome": "CLO1: Đọc hiểu tài liệu đặc tả API và tài liệu thiết kế hệ thống ngắn"
       },
       "Business emailing": {
         "source": "FPT Polytechnic Syllabus - ENT213 Tiếng Anh 2.1",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Business emailing",
-        "learningOutcome": "CLO2: Thuyết trình kỹ thuật đơn giản bằng tiếng Anh"
+        "location": "Bài 4-5: Viết email trao đổi công việc và báo cáo tiến độ",
+        "learningOutcome": "CLO3: Viết email trao đổi công việc chuyên nghiệp"
       },
       "Professional collaboration": {
         "source": "FPT Polytechnic Syllabus - ENT213 Tiếng Anh 2.1",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Professional collaboration",
-        "learningOutcome": "CLO3: Viết email trao đổi công việc chuyên nghiệp"
+        "location": "Bài 6-7: Thuyết trình kỹ thuật và phối hợp nhóm đa quốc gia",
+        "learningOutcome": "CLO2: Thuyết trình kỹ thuật đơn giản bằng tiếng Anh"
       }
     }
   },
@@ -857,17 +857,17 @@
     "evidence": {
       "Critical thinking": {
         "source": "FPT Polytechnic Syllabus - VIE108 Chính trị",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Critical thinking",
+        "location": "Bài 1-4: Triết học Mác-Lênin và phương pháp tư duy biện chứng",
         "learningOutcome": "CLO1: Nắm bắt kiến thức cơ bản triết học Mác-Lênin"
       },
       "Social responsibility": {
         "source": "FPT Polytechnic Syllabus - VIE108 Chính trị",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Social responsibility",
+        "location": "Bài 5-7: Tư tưởng Hồ Chí Minh và đạo đức cách mạng",
         "learningOutcome": "CLO2: Nhận thức sâu sắc lòng yêu nước và đạo đức Hồ Chí Minh"
       },
       "Dialectical analysis": {
         "source": "FPT Polytechnic Syllabus - VIE108 Chính trị",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Dialectical analysis",
+        "location": "Bài 8-10: Đường lối cách mạng và vận dụng tư duy biện chứng",
         "learningOutcome": "CLO3: Vận dụng tư duy biện chứng vào cuộc sống"
       }
     }
@@ -918,22 +918,22 @@
     "evidence": {
       "Advanced CSS3": {
         "source": "FPT Polytechnic Syllabus - WEB3023 Thiết kế Web với HTML5 & CSS3",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Advanced CSS3",
-        "learningOutcome": "CLO1: Ứng dụng các thẻ ngữ nghĩa và Local Storage HTML5"
+        "location": "Bài 2-3: CSS3 Transitions, Transforms và Animation Keyframes",
+        "learningOutcome": "CLO2: Tạo các chuyển động động CSS3 phức tạp"
       },
       "Bootstrap integration": {
         "source": "FPT Polytechnic Syllabus - WEB3023 Thiết kế Web với HTML5 & CSS3",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Bootstrap integration",
-        "learningOutcome": "CLO2: Tạo các chuyển động động CSS3 phức tạp"
+        "location": "Bài 5-6: Tích hợp Bootstrap Grid System và Component UI",
+        "learningOutcome": "CLO3: Xây dựng nhanh giao diện trang web chuẩn responsive bằng Bootstrap"
       },
       "CSS Animations": {
         "source": "FPT Polytechnic Syllabus - WEB3023 Thiết kế Web với HTML5 & CSS3",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng CSS Animations",
-        "learningOutcome": "CLO3: Xây dựng nhanh giao diện trang web chuẩn responsive bằng Bootstrap"
+        "location": "Bài 4: Hiệu ứng chuyển động nâng cao và Keyframe Animation",
+        "learningOutcome": "CLO2: Tạo các chuyển động động CSS3 phức tạp"
       },
       "HTML5 semantic markup": {
         "source": "FPT Polytechnic Syllabus - WEB3023 Thiết kế Web với HTML5 & CSS3",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng HTML5 semantic markup",
+        "location": "Bài 1: Thẻ ngữ nghĩa HTML5 và Local Storage API",
         "learningOutcome": "CLO1: Ứng dụng các thẻ ngữ nghĩa và Local Storage HTML5"
       }
     }
@@ -988,23 +988,23 @@
     "evidence": {
       "Object-Oriented Programming (OOP)": {
         "source": "FPT Polytechnic Syllabus - WEB2014 Lập trình PHP 1",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Object-Oriented Programming (OOP)",
+        "location": "Bài 1-2: Class, kế thừa và đa hình trong PHP OOP",
         "learningOutcome": "CLO1: Áp dụng mô hình lập trình hướng đối tượng OOP (kế thừa, đa hình)"
       },
       "MVC Architecture": {
         "source": "FPT Polytechnic Syllabus - WEB2014 Lập trình PHP 1",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng MVC Architecture",
+        "location": "Bài 3-4: Xây dựng cấu trúc thư mục chuẩn Model-View-Controller",
         "learningOutcome": "CLO2: Xây dựng mã nguồn chuẩn kiến trúc Model-View-Controller (MVC)"
       },
       "Database connection with PDO": {
         "source": "FPT Polytechnic Syllabus - WEB2014 Lập trình PHP 1",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Database connection with PDO",
+        "location": "Bài 5: Truy xuất cơ sở dữ liệu an toàn qua thư viện PDO",
         "learningOutcome": "CLO3: Truy xuất cơ sở dữ liệu an toàn thông qua thư viện PDO"
       },
       "PHP Routing": {
         "source": "FPT Polytechnic Syllabus - WEB2014 Lập trình PHP 1",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng PHP Routing",
-        "learningOutcome": "CLO1: Áp dụng mô hình lập trình hướng đối tượng OOP (kế thừa, đa hình)"
+        "location": "Bài 6: Quản lý định tuyến URL và điều hướng trang trong MVC",
+        "learningOutcome": "CLO2: Xây dựng mã nguồn chuẩn kiến trúc Model-View-Controller (MVC)"
       }
     }
   },
@@ -1049,17 +1049,17 @@
     "evidence": {
       "Contract comprehension": {
         "source": "FPT Polytechnic Syllabus - VIE1026 Pháp luật",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Contract comprehension",
+        "location": "Bài 1-3: Quyền và nghĩa vụ công dân theo Hiến pháp",
         "learningOutcome": "CLO1: Hiểu quyền và nghĩa vụ công dân"
       },
       "Intellectual Property knowledge": {
         "source": "FPT Polytechnic Syllabus - VIE1026 Pháp luật",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Intellectual Property knowledge",
+        "location": "Bài 4-5: Luật lao động và bảo hộ quyền sở hữu trí tuệ phần mềm",
         "learningOutcome": "CLO2: Đọc hiểu hợp đồng lao động và quy định bản quyền phần mềm"
       },
       "Legal compliance": {
         "source": "FPT Polytechnic Syllabus - VIE1026 Pháp luật",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Legal compliance",
+        "location": "Bài 6-7: Tuân thủ pháp luật công nghệ thông tin và an ninh mạng",
         "learningOutcome": "CLO3: Nhận thức tầm quan trọng của tuân thủ pháp luật IT"
       }
     }
@@ -1107,23 +1107,23 @@
     "evidence": {
       "SWOT analysis": {
         "source": "FPT Polytechnic Syllabus - PDP103 Kỹ năng phát triển bản thân",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng SWOT analysis",
+        "location": "Bài 1-2: Tự đánh giá bản thân bằng sơ đồ SWOT cá nhân",
         "learningOutcome": "CLO1: Phân tích bản thân bằng sơ đồ SWOT"
       },
       "SMART goal setting": {
         "source": "FPT Polytechnic Syllabus - PDP103 Kỹ năng phát triển bản thân",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng SMART goal setting",
+        "location": "Bài 3: Xác lập mục tiêu cuộc sống theo mô hình SMART",
         "learningOutcome": "CLO2: Xác lập mục tiêu cuộc sống theo mô hình SMART"
       },
       "Emotional intelligence": {
         "source": "FPT Polytechnic Syllabus - PDP103 Kỹ năng phát triển bản thân",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Emotional intelligence",
+        "location": "Bài 4: Quản lý cảm xúc và phát triển EQ trong công việc",
         "learningOutcome": "CLO3: Lập kế hoạch hành động cụ thể để đạt mục tiêu"
       },
       "Self reflection": {
         "source": "FPT Polytechnic Syllabus - PDP103 Kỹ năng phát triển bản thân",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Self reflection",
-        "learningOutcome": "CLO1: Phân tích bản thân bằng sơ đồ SWOT"
+        "location": "Bài 5: Viết nhật ký phản tư và lập kế hoạch hành động cá nhân",
+        "learningOutcome": "CLO3: Lập kế hoạch hành động cụ thể để đạt mục tiêu"
       }
     }
   },
@@ -1242,23 +1242,23 @@
     "evidence": {
       "Project planning": {
         "source": "FPT Polytechnic Syllabus - WEB2041 Dự án mẫu",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Project planning",
+        "location": "Bài 1-2: Phân tích yêu cầu và lập kế hoạch dự án web thực tế",
         "learningOutcome": "CLO1: Phân tích đặc tả yêu cầu sản phẩm và lập kế hoạch"
       },
       "Full stack development": {
         "source": "FPT Polytechnic Syllabus - WEB2041 Dự án mẫu",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Full stack development",
+        "location": "Bài 3-5: Lập trình giao diện frontend và backend PHP kết nối CSDL",
         "learningOutcome": "CLO2: Lập trình backend CRUD hoàn chỉnh có kết nối cơ sở dữ liệu"
       },
       "CRUD implementation": {
         "source": "FPT Polytechnic Syllabus - WEB2041 Dự án mẫu",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng CRUD implementation",
-        "learningOutcome": "CLO3: Sử dụng Git để kiểm soát phiên bản mã nguồn"
+        "location": "Bài 6-7: Xây dựng chức năng CRUD và quản lý dữ liệu sản phẩm",
+        "learningOutcome": "CLO2: Lập trình backend CRUD hoàn chỉnh có kết nối cơ sở dữ liệu"
       },
       "Deployment basics": {
         "source": "FPT Polytechnic Syllabus - WEB2041 Dự án mẫu",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Deployment basics",
-        "learningOutcome": "CLO1: Phân tích đặc tả yêu cầu sản phẩm và lập kế hoạch"
+        "location": "Bài 8: Kiểm soát phiên bản Git và triển khai dự án lên hosting",
+        "learningOutcome": "CLO3: Sử dụng Git để kiểm soát phiên bản mã nguồn"
       }
     }
   },
@@ -1307,18 +1307,18 @@
     "evidence": {
       "Interview preparation": {
         "source": "FPT Polytechnic Syllabus - ENT223 Tiếng Anh 2.2",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Interview preparation",
-        "learningOutcome": "CLO1: Đọc hiểu tốt các tài liệu kỹ thuật dài chuyên ngành"
+        "location": "Bài 4-5: Luyện tập phỏng vấn xin việc bằng tiếng Anh",
+        "learningOutcome": "CLO3: Phản xạ trả lời phỏng vấn kỹ thuật bằng tiếng Anh"
       },
       "CV writing": {
         "source": "FPT Polytechnic Syllabus - ENT223 Tiếng Anh 2.2",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng CV writing",
+        "location": "Bài 2-3: Viết CV và thư ứng tuyển tiếng Anh chuyên nghiệp",
         "learningOutcome": "CLO2: Viết CV tiếng Anh chuyên nghiệp ứng tuyển công việc IT"
       },
       "Technical reading comprehension": {
         "source": "FPT Polytechnic Syllabus - ENT223 Tiếng Anh 2.2",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Technical reading comprehension",
-        "learningOutcome": "CLO3: Phản xạ trả lời phỏng vấn kỹ thuật bằng tiếng Anh"
+        "location": "Bài 1: Đọc hiểu tài liệu kỹ thuật dài chuyên ngành CNTT",
+        "learningOutcome": "CLO1: Đọc hiểu tốt các tài liệu kỹ thuật dài chuyên ngành"
       }
     }
   },
@@ -1367,23 +1367,23 @@
     "evidence": {
       "WordPress management": {
         "source": "FPT Polytechnic Syllabus - WEB1023 Quản trị website",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng WordPress management",
+        "location": "Bài 1-2: Cài đặt WordPress và quản trị giao diện Theme/Plugin",
         "learningOutcome": "CLO1: Cài đặt và quản trị website WordPress hoàn chỉnh"
       },
       "Domain & Hosting config": {
         "source": "FPT Polytechnic Syllabus - WEB1023 Quản trị website",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Domain & Hosting config",
-        "learningOutcome": "CLO2: Thực hiện sao lưu backup dữ liệu định kỳ"
+        "location": "Bài 3: Đăng ký domain, cấu hình hosting và triển khai website",
+        "learningOutcome": "CLO1: Cài đặt và quản trị website WordPress hoàn chỉnh"
       },
       "Backup/Restore": {
         "source": "FPT Polytechnic Syllabus - WEB1023 Quản trị website",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Backup/Restore",
-        "learningOutcome": "CLO3: Tối ưu hóa SEO on-page cơ bản cho website"
+        "location": "Bài 4: Sao lưu và khôi phục dữ liệu WordPress bằng UpdraftPlus",
+        "learningOutcome": "CLO2: Thực hiện sao lưu backup dữ liệu định kỳ"
       },
       "SEO optimization": {
         "source": "FPT Polytechnic Syllabus - WEB1023 Quản trị website",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng SEO optimization",
-        "learningOutcome": "CLO1: Cài đặt và quản trị website WordPress hoàn chỉnh"
+        "location": "Bài 5-6: Tối ưu SEO on-page bằng Yoast SEO và Google Search Console",
+        "learningOutcome": "CLO3: Tối ưu hóa SEO on-page cơ bản cho website"
       }
     }
   },
@@ -1431,23 +1431,23 @@
     "evidence": {
       "Keyword research": {
         "source": "FPT Polytechnic Syllabus - WEB2055 Marketing trên Internet",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Keyword research",
+        "location": "Bài 1-2: Nghiên cứu từ khóa với Google Keyword Planner",
         "learningOutcome": "CLO1: Nghiên cứu bộ từ khóa tối ưu cho công cụ tìm kiếm"
       },
       "Ad campaign setup": {
         "source": "FPT Polytechnic Syllabus - WEB2055 Marketing trên Internet",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Ad campaign setup",
+        "location": "Bài 3: Thiết lập chiến dịch quảng cáo Google Ads và Facebook Ads",
         "learningOutcome": "CLO2: Thiết lập cơ bản chiến dịch quảng cáo trả phí"
       },
       "Analytics interpretation": {
         "source": "FPT Polytechnic Syllabus - WEB2055 Marketing trên Internet",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Analytics interpretation",
+        "location": "Bài 5: Phân tích số liệu truy cập bằng Google Analytics",
         "learningOutcome": "CLO3: Đọc hiểu các số liệu thống kê lượt truy cập website"
       },
       "Copywriting": {
         "source": "FPT Polytechnic Syllabus - WEB2055 Marketing trên Internet",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Copywriting",
-        "learningOutcome": "CLO1: Nghiên cứu bộ từ khóa tối ưu cho công cụ tìm kiếm"
+        "location": "Bài 4: Kỹ thuật viết nội dung quảng cáo thu hút và tối ưu CTR",
+        "learningOutcome": "CLO2: Thiết lập cơ bản chiến dịch quảng cáo trả phí"
       }
     }
   },
@@ -1498,22 +1498,22 @@
     "evidence": {
       "ES6+ Javascript": {
         "source": "FPT Polytechnic Syllabus - WEB501 Lập trình ECMAScript",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng ES6+ Javascript",
+        "location": "Bài 1: Arrow functions, Template literals và Destructuring",
         "learningOutcome": "CLO1: Viết mã nguồn JavaScript tối ưu theo chuẩn ES6+"
       },
       "Asynchronous programming": {
         "source": "FPT Polytechnic Syllabus - WEB501 Lập trình ECMAScript",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Asynchronous programming",
+        "location": "Bài 3-4: Promise, Async/Await và xử lý lỗi bất đồng bộ",
         "learningOutcome": "CLO2: Xử lý thành thạo bất đồng bộ bằng Promise và Async/Await"
       },
       "Modules and classes": {
         "source": "FPT Polytechnic Syllabus - WEB501 Lập trình ECMAScript",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Modules and classes",
+        "location": "Bài 5: ES6 Modules (import/export) và Class syntax",
         "learningOutcome": "CLO3: Thiết lập module hóa cho các mã nguồn JavaScript lớn"
       },
       "Functional programming methods": {
         "source": "FPT Polytechnic Syllabus - WEB501 Lập trình ECMAScript",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Functional programming methods",
+        "location": "Bài 2: Map, Filter, Reduce và Spread/Rest operator",
         "learningOutcome": "CLO1: Viết mã nguồn JavaScript tối ưu theo chuẩn ES6+"
       }
     }
@@ -1640,22 +1640,22 @@
     "evidence": {
       "Agile/Scrum": {
         "source": "FPT Polytechnic Syllabus - PRO1014 Dự án 1 (TKTW)",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Agile/Scrum",
+        "location": "Bài 1-2: Quy trình Agile/Scrum và phân chia Sprint backlog",
         "learningOutcome": "CLO1: Phối hợp làm việc nhóm hiệu quả theo mô hình Agile/Scrum"
       },
       "Git collaboration": {
         "source": "FPT Polytechnic Syllabus - PRO1014 Dự án 1 (TKTW)",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Git collaboration",
-        "learningOutcome": "CLO2: Thiết kế và xây dựng cơ sở dữ liệu quan hệ hoàn chỉnh"
+        "location": "Bài 3: Quản lý mã nguồn nhóm bằng Git branching và Pull Request",
+        "learningOutcome": "CLO3: Lập trình và tích hợp đầy đủ giao diện cùng backend sản phẩm"
       },
       "Fullstack project integration": {
         "source": "FPT Polytechnic Syllabus - PRO1014 Dự án 1 (TKTW)",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Fullstack project integration",
+        "location": "Bài 4-6: Tích hợp frontend-backend và kiểm thử hệ thống",
         "learningOutcome": "CLO3: Lập trình và tích hợp đầy đủ giao diện cùng backend sản phẩm"
       },
       "Team communication": {
         "source": "FPT Polytechnic Syllabus - PRO1014 Dự án 1 (TKTW)",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Team communication",
+        "location": "Bài 7: Họp giao ban Daily Standup và phối hợp giao tiếp nhóm",
         "learningOutcome": "CLO1: Phối hợp làm việc nhóm hiệu quả theo mô hình Agile/Scrum"
       }
     }
@@ -1772,23 +1772,23 @@
     "evidence": {
       "TypeScript syntax": {
         "source": "FPT Polytechnic Syllabus - WEB502 Lập trình TypeScript",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng TypeScript syntax",
+        "location": "Bài 1: Khai báo kiểu dữ liệu và cú pháp TypeScript cơ bản",
         "learningOutcome": "CLO1: Áp dụng cơ chế an toàn kiểu viết code an toàn hơn"
       },
       "Static typing": {
         "source": "FPT Polytechnic Syllabus - WEB502 Lập trình TypeScript",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Static typing",
-        "learningOutcome": "CLO2: Thiết lập interface và class phân tách kiến trúc ứng dụng"
+        "location": "Bài 2: Kiểu tĩnh, Union Types và Type Narrowing",
+        "learningOutcome": "CLO1: Áp dụng cơ chế an toàn kiểu viết code an toàn hơn"
       },
       "Generics and interfaces": {
         "source": "FPT Polytechnic Syllabus - WEB502 Lập trình TypeScript",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Generics and interfaces",
+        "location": "Bài 3-4: Interface, Generic Types và Utility Types nâng cao",
         "learningOutcome": "CLO3: Sử dụng Generics nâng cao viết mã nguồn linh hoạt"
       },
       "TS compilation config": {
         "source": "FPT Polytechnic Syllabus - WEB502 Lập trình TypeScript",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng TS compilation config",
-        "learningOutcome": "CLO1: Áp dụng cơ chế an toàn kiểu viết code an toàn hơn"
+        "location": "Bài 5: Cấu hình tsconfig.json và tích hợp TypeScript vào dự án",
+        "learningOutcome": "CLO2: Thiết lập interface và class phân tách kiến trúc ứng dụng"
       }
     }
   },
@@ -1835,23 +1835,23 @@
     "evidence": {
       "Job interview skills": {
         "source": "FPT Polytechnic Syllabus - PDP104 Kỹ năng làm việc",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Job interview skills",
-        "learningOutcome": "CLO1: Thiết kế CV và tối ưu trang cá nhân LinkedIn chuyên nghiệp"
+        "location": "Bài 2-3: Kỹ năng phỏng vấn xin việc và ứng xử tình huống",
+        "learningOutcome": "CLO2: Tự tin ứng tuyển tham gia phỏng vấn xin việc thực tế"
       },
       "Professional ethics": {
         "source": "FPT Polytechnic Syllabus - PDP104 Kỹ năng làm việc",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Professional ethics",
-        "learningOutcome": "CLO2: Tự tin ứng tuyển tham gia phỏng vấn xin việc thực tế"
+        "location": "Bài 4: Đạo đức nghề nghiệp IT và trách nhiệm xã hội",
+        "learningOutcome": "CLO3: Nhận thức sâu sắc đạo đức nghề nghiệp IT"
       },
       "LinkedIn branding": {
         "source": "FPT Polytechnic Syllabus - PDP104 Kỹ năng làm việc",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng LinkedIn branding",
-        "learningOutcome": "CLO3: Nhận thức sâu sắc đạo đức nghề nghiệp IT"
+        "location": "Bài 1: Thiết kế CV và tối ưu trang LinkedIn cá nhân",
+        "learningOutcome": "CLO1: Thiết kế CV và tối ưu trang cá nhân LinkedIn chuyên nghiệp"
       },
       "Workplace communication": {
         "source": "FPT Polytechnic Syllabus - PDP104 Kỹ năng làm việc",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Workplace communication",
-        "learningOutcome": "CLO1: Thiết kế CV và tối ưu trang cá nhân LinkedIn chuyên nghiệp"
+        "location": "Bài 5: Kỹ năng giao tiếp công sở và văn hóa doanh nghiệp IT",
+        "learningOutcome": "CLO2: Tự tin ứng tuyển tham gia phỏng vấn xin việc thực tế"
       }
     }
   },
@@ -1898,22 +1898,22 @@
     "evidence": {
       "Business model canvas": {
         "source": "FPT Polytechnic Syllabus - SYB3013 Khởi sự doanh nghiệp",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Business model canvas",
+        "location": "Bài 1-2: Phác thảo ý tưởng kinh doanh bằng Business Model Canvas",
         "learningOutcome": "CLO1: Phác thảo mô hình khởi nghiệp bằng Business Model Canvas"
       },
       "Financial forecasting": {
         "source": "FPT Polytechnic Syllabus - SYB3013 Khởi sự doanh nghiệp",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Financial forecasting",
+        "location": "Bài 3: Lập kế hoạch tài chính và ước tính điểm hòa vốn",
         "learningOutcome": "CLO2: Lập kế hoạch tài chính và ước tính điểm hòa vốn cơ bản"
       },
       "Project Pitching": {
         "source": "FPT Polytechnic Syllabus - SYB3013 Khởi sự doanh nghiệp",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Project Pitching",
+        "location": "Bài 5-6: Thuyết trình kêu gọi vốn đầu tư (Pitching)",
         "learningOutcome": "CLO3: Thuyết trình kêu gọi vốn thuyết phục trước đám đông"
       },
       "Market research": {
         "source": "FPT Polytechnic Syllabus - SYB3013 Khởi sự doanh nghiệp",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Market research",
+        "location": "Bài 4: Khảo sát thị trường và phân tích đối thủ cạnh tranh",
         "learningOutcome": "CLO1: Phác thảo mô hình khởi nghiệp bằng Business Model Canvas"
       }
     }
@@ -2101,23 +2101,23 @@
     "evidence": {
       "Industry experience": {
         "source": "FPT Polytechnic Syllabus - PRO116 Thực tập tốt nghiệp (TKTW)",
-        "location": "Bài 1: Đào tạo chuyên sâu kỹ năng Industry experience",
+        "location": "Tuần 1-4: Làm quen quy trình doanh nghiệp và nhận mentor",
         "learningOutcome": "CLO1: Thích nghi nhanh với quy trình làm việc doanh nghiệp"
       },
       "Workplace professional communication": {
         "source": "FPT Polytechnic Syllabus - PRO116 Thực tập tốt nghiệp (TKTW)",
-        "location": "Bài 2: Đào tạo chuyên sâu kỹ năng Workplace professional communication",
+        "location": "Tuần 5-8: Tham gia họp nhóm và giao tiếp chuyên nghiệp",
         "learningOutcome": "CLO2: Giải quyết các tác vụ công nghệ thực tiễn được giao"
       },
       "Task completion": {
         "source": "FPT Polytechnic Syllabus - PRO116 Thực tập tốt nghiệp (TKTW)",
-        "location": "Bài 3: Đào tạo chuyên sâu kỹ năng Task completion",
-        "learningOutcome": "CLO3: Hoàn thành báo cáo thực tập chất lượng đúng hạn"
+        "location": "Tuần 9-14: Hoàn thành task được giao và nghiệm thu sản phẩm",
+        "learningOutcome": "CLO2: Giải quyết các tác vụ công nghệ thực tiễn được giao"
       },
       "Report writing": {
         "source": "FPT Polytechnic Syllabus - PRO116 Thực tập tốt nghiệp (TKTW)",
-        "location": "Bài 4: Đào tạo chuyên sâu kỹ năng Report writing",
-        "learningOutcome": "CLO1: Thích nghi nhanh với quy trình làm việc doanh nghiệp"
+        "location": "Tuần 15-16: Viết báo cáo thực tập và thuyết trình kết quả",
+        "learningOutcome": "CLO3: Hoàn thành báo cáo thực tập chất lượng đúng hạn"
       }
     }
   },
