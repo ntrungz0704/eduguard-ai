@@ -33,6 +33,7 @@ export default function Dashboard() {
   const [totalRisk, setTotalRisk] = useState(0);
   const [kpi, setKpi] = useState({ totalInterventions: 0, improvementRate: 0 });
   const [roadmapProgress, setRoadmapProgress] = useState(null);
+  const [programAnalytics, setProgramAnalytics] = useState(null);
   const navigate = useNavigate();
   const currentUser = useStore(state => state.currentUser);
 
@@ -74,9 +75,19 @@ export default function Dashboard() {
     }
   };
 
+  const fetchProgramAnalytics = async () => {
+    try {
+      const res = await requestWithRestartRetry(() => api.get('/program-analytics'));
+      setProgramAnalytics(res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const fetchData = () => {
     fetchRedAlerts();
     fetchRoadmapProgress();
+    fetchProgramAnalytics();
   };
 
   useEffect(() => {
@@ -735,11 +746,11 @@ export default function Dashboard() {
         {/* Row 1: Risk Distribution + Bottleneck */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
           <RiskDistribution
-            data={redAlerts ? [
-              { name: 'CRITICAL', value: redAlerts.filter(a => a.priorityLevel === 'CRITICAL').length },
-              { name: 'HIGH', value: redAlerts.filter(a => a.priorityLevel === 'HIGH').length },
-              { name: 'MEDIUM', value: redAlerts.filter(a => a.priorityLevel === 'MEDIUM').length },
-              { name: 'LOW', value: Math.max(0, (trainingData?.totalStudents || 30) - redAlerts.length) }
+            data={programAnalytics ? [
+              { name: 'CRITICAL', value: programAnalytics.riskLevelDistribution.critical },
+              { name: 'HIGH', value: programAnalytics.riskLevelDistribution.high },
+              { name: 'MEDIUM', value: programAnalytics.riskLevelDistribution.medium },
+              { name: 'LOW', value: programAnalytics.riskLevelDistribution.low }
             ] : null}
           />
           <BottleneckChart
