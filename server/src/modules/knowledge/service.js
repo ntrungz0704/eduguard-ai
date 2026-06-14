@@ -163,7 +163,20 @@ exports.analyzeStudentCareer = async (goalSlug, mssv) => {
 };
 
 exports.suggestCareers = async (mssv) => {
-  const student = await fetchStudentByMssv(mssv);
-  // Pass to engine. If student is missing, engine will handle it or return empty.
-  return suggestBestCareers(student);
+  // Use getAllCareers to ensure 100% synchronization of scores across the entire system, 
+  // including LearningBoard adjustments if they exist.
+  const allCareers = await exports.getAllCareers(mssv);
+  
+  const results = allCareers.map(c => ({
+    id: c.id,
+    careerName: c.careerName,
+    matchScore: c.readinessScore || 0,
+    readinessScore: c.readinessScore || 0,
+    score: c.readinessScore || 0,
+    matchCount: 0, // Fallbacks for legacy UI
+    totalRequired: 0
+  }));
+
+  results.sort((a, b) => b.score - a.score);
+  return results;
 };

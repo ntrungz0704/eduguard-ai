@@ -493,17 +493,9 @@ exports.suggestBestCareers = (student) => {
   for (const careerGoal of Object.keys(careerRoadmaps)) {
     const analysis = exports.analyzeCareer(student, careerGoal);
     
-    // Calculate suitability match score based on student's learning style & profile
-    const styleMatchScore = calculateStyleMatch(student.learningStyle, student.strengths, student.weaknesses, careerGoal);
-    
-    // For freshman / new student, we orient based on learningStyle compatibility
-    const scores = student.scores || [];
-    const gradedScores = scores.filter(s => s.value !== null && s.status !== 'STUDYING');
-    let finalScore = styleMatchScore;
-    
-    if (gradedScores.length > 2) {
-      finalScore = Math.round(styleMatchScore * 0.4 + analysis.readinessScore * 0.6);
-    }
+    // Use ONLY readinessScore to ensure 100% synchronization across all UI components and teacher views.
+    // No hallucination or style mapping interpolation.
+    let finalScore = analysis.readinessScore || 0;
     
     results.push({
       id: careerGoal === 'AI Fullstack Engineer' ? 'ai-engineer' : slugify(careerGoal),
@@ -517,5 +509,5 @@ exports.suggestBestCareers = (student) => {
   }
 
   results.sort((a, b) => b.score - a.score);
-  return results; // Return all recommendations so UI can map readiness scores
+  return results; 
 };
