@@ -246,21 +246,8 @@ export default function StudentSearch() {
     if (!selectedStudent) return;
     const printWindow = window.open('', '_blank');
     
-    // Compute GPA and failed subjects
-    const validScores = getScoresArray(selectedStudent).filter(s => s.value !== null);
-    
-    const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
-    
-    let totalScoreWeight = 0;
-    let totalCredits = 0;
-    
-    academicScores.forEach(s => {
-      const credits = getCourseCredits(s.courseId || s.course?.name);
-      totalScoreWeight += (s.value * credits);
-      totalCredits += credits;
-    });
-
-    const gpa = totalCredits > 0 ? (Math.round(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10).toFixed(1) : '0.0';
+    const gpa = (selectedStudent.analytics?.gpa10 ?? 0.0).toFixed(1);
+    const totalCredits = selectedStudent.analytics?.totalEarnedCredits ?? 0;
     
     const failedSubjects = getScoresArray(selectedStudent).filter(s => s.value !== null && s.value < 5);
     const failedListHTML = failedSubjects.length > 0

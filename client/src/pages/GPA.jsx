@@ -58,19 +58,21 @@ export default function GPA() {
       const data = res.data;
       setStudentData(data);
       
+      const isEnglish = (courseName, courseId) => {
+        const name = (courseName || '').toLowerCase();
+        const cid = (courseId || '').toUpperCase();
+        return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
+      };
+      
       const validScores = data.scores?.filter(s => s.value !== null && s.status === 'PASSED') || [];
-      const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
+      const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglish(s.course?.name || s.courseId, s.courseId));
       
-      let totalScoreWeight = 0;
       let totalCredits = 0;
-      
       academicScores.forEach(s => {
-        const credits = s.course?.credits || 3;
-        totalScoreWeight += (s.value * credits);
-        totalCredits += credits;
+        totalCredits += s.course?.credits || 3;
       });
 
-      const gpa = totalCredits > 0 ? (Math.round(((totalScoreWeight / totalCredits) + 1e-9) * 10) / 10).toFixed(1) : 0;
+      const gpa = data.analytics?.gpa10 ?? 0.0;
       
       // Compute danger courses (predictions with HIGH risk or FAILED)
       const failed = data.scores?.filter(s => s.status === 'FAILED').map(s => s.courseId) || [];
