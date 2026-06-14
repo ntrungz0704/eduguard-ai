@@ -69,27 +69,27 @@ export default function Interventions() {
     if (type === 'advisor_alert') {
       setActionModal({
         type,
-        title: 'Gửi Cảnh báo tới Cố vấn học tập (Advisor Alert)',
+        title: 'DSS Action Triggered',
         icon: BellRing,
         color: 'text-amber-500 bg-amber-500/10',
         content: (
           <div className="space-y-4 text-slate-600 dark:text-slate-300">
             <p className="text-sm">
-              Hệ thống DSS đã quét toàn diện và phát hiện <span className="font-bold text-rose-500">{criticalCount}</span> sinh viên có nguy cơ <b>Cực kỳ Nguy hiểm</b> và <span className="font-bold text-orange-500">{highCount}</span> sinh viên có nguy cơ <b>Cao</b>.
+              Hệ thống DSS đã phát hiện <span className="font-bold text-rose-500">{criticalCount}</span> sinh viên nguy cơ rất cao và <span className="font-bold text-orange-500">{highCount}</span> sinh viên nguy cơ cao.
             </p>
             <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
-                <Check size={14} /> Tự động phân nhóm sinh viên theo Cố vấn phụ trách (Advisor ID).
+                <Check size={14} /> Tự động phân nhóm theo Cố vấn học tập.
               </div>
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
-                <Check size={14} /> Gửi email cảnh báo kèm danh sách môn nợ và Chỉ số Chậm tiến độ (Delay Index).
+                <Check size={14} /> Sinh nội dung cảnh báo học vụ.
               </div>
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
-                <Check size={14} /> Gắn cờ (Flag) yêu cầu Cố vấn phản hồi kế hoạch can thiệp trong vòng 24 giờ.
+                <Check size={14} /> Hỗ trợ theo dõi và lập kế hoạch can thiệp.
               </div>
             </div>
             <p className="text-xs text-slate-500 italic">
-              * Hành động này giúp chuyển đổi từ cảnh báo tĩnh sang hành động điều phối giáo vụ thực tế.
+              * Phiên bản hiện tại tạo danh sách cảnh báo và mẫu nội dung can thiệp. Trong triển khai thực tế có thể tích hợp Email Gateway để gửi tự động.
             </p>
           </div>
         )
@@ -97,27 +97,25 @@ export default function Interventions() {
     } else if (type === 'tutor_list') {
       setActionModal({
         type,
-        title: 'Tạo Danh sách Phụ đạo (Generate Tutor List)',
+        title: 'DSS Action Triggered',
         icon: Users,
         color: 'text-indigo-500 bg-indigo-500/10',
         content: (
           <div className="space-y-4 text-slate-600 dark:text-slate-300">
             <p className="text-sm">
-              Hệ thống DSS đã đối sánh các sinh viên nguy cơ với cơ sở dữ liệu sinh viên giỏi (GPA ≥ 8.0, điểm môn tương ứng ≥ 8.5) để tự động lập danh sách ghép cặp Phụ đạo đồng hành (Peer Tutoring).
+              Hệ thống đề xuất danh sách sinh viên có thành tích học tập tốt phù hợp làm Peer Tutor.
             </p>
             <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-indigo-500">Môn WEB2063 (JavaScript):</span> Ghép cặp sinh viên nguy cơ với tutor xuất sắc.
+              <div className="font-bold text-indigo-500 mb-1">Ví dụ: Môn WEB2063</div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                 <Check size={14} /> GPA ≥ 8.0
               </div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-indigo-500">Môn ENT123 (Tiếng Anh):</span> Ghép cặp sinh viên nguy cơ với tutor xuất sắc.
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-indigo-500">Môn WEB2091 (Dự án mẫu):</span> Ghép cặp sinh viên nguy cơ với tutor xuất sắc.
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                 <Check size={14} /> Điểm WEB2063 ≥ 8.5
               </div>
             </div>
             <p className="text-xs text-slate-500 italic">
-              * Danh sách chi tiết đã được gửi cho phòng Công tác sinh viên và các Câu lạc bộ Học thuật để phân phối giảng đường ôn tập.
+              * Danh sách được sử dụng làm cơ sở hỗ trợ hoạt động phụ đạo học thuật.
             </p>
           </div>
         )
@@ -125,13 +123,24 @@ export default function Interventions() {
     } else if (type === 'recovery_plan') {
       setActionModal({
         type,
-        title: 'Tạo Lộ trình phục hồi Học thuật (Generate Recovery Plan)',
+        title: 'DSS Action Triggered',
         icon: ClipboardList,
         color: 'text-cyan-500 bg-cyan-500/10',
         content: (
           <div className="space-y-4 text-slate-600 dark:text-slate-300">
             <p className="text-sm">
-              Chương trình đã chạy thuật toán **Duyệt đồ thị tìm Nguyên nhân gốc (DFS Root Cause Traversal)** trên `syllabus_graph.json` và Heuristic **Chỉ số Chậm tiến độ (Graduation Delay Index)** để cá nhân hóa lộ trình phục hồi.
+              Hệ thống sử dụng:
+            </p>
+            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> DFS Root Cause Traversal
+              </div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                <Check size={14} /> Graduation Delay Index
+              </div>
+            </div>
+            <p className="text-sm">
+              để tạo lộ trình phục hồi học thuật cá nhân hóa.
             </p>
             <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
@@ -141,34 +150,31 @@ export default function Interventions() {
                 <Check size={14} /> Giãn tiến độ học tập cho các kỳ tiếp theo để giảm tải áp lực.
               </div>
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold">
-                <Check size={14} /> Lập lộ trình học tập phục hồi cho <span className="font-bold">{totalRisk}</span> sinh viên nguy cơ trung bình & cao.
+                <Check size={14} /> Lập lộ trình học tập phục hồi cho <span className="font-bold">{totalRisk}</span> sinh viên nguy cơ.
               </div>
             </div>
-            <p className="text-xs text-slate-500 italic">
-              * Lộ trình can thiệp này đã sẵn sàng để gửi tự động cho sinh viên qua hệ thống Thông báo (Inbox) của EduGuard.
-            </p>
           </div>
         )
       });
     } else if (type === 'export_pdf') {
       setActionModal({
         type,
-        title: 'Kết xuất báo cáo DSS (Export Decision Support Report)',
+        title: 'DSS Action Triggered',
         icon: Download,
         color: 'text-emerald-500 bg-emerald-500/10',
         content: (
           <div className="space-y-4 text-slate-600 dark:text-slate-300">
             <p className="text-sm">
-              Báo cáo tóm tắt điều hành **EduGuard DSS Academic Report** đã được xuất thành công dưới dạng PDF tiêu chuẩn chất lượng cao.
+              Hệ thống tổng hợp:
             </p>
-            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-1 text-xs">
-              <div>• <b>Phần 1:</b> Phân bổ nguy cơ học thuật toàn trường (652 sinh viên).</div>
-              <div>• <b>Phần 2:</b> Phân tích môn nghẽn chương trình (Syllabus Bottlenecks & Skill Gaps).</div>
-              <div>• <b>Phần 3:</b> Thống kê nguyên nhân gốc (Root Cause Traversal) và chỉ số trễ hạn tốt nghiệp.</div>
-              <div>• <b>Phần 4:</b> Đề xuất can thiệp học thuật khẩn cấp và phân công Cố vấn học tập.</div>
+            <div className="bg-slate-50 dark:bg-black/30 p-4 rounded-xl border border-slate-200 dark:border-white/5 space-y-2 text-xs">
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold"><Check size={14} /> Risk Distribution</div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold"><Check size={14} /> Bottleneck Courses</div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold"><Check size={14} /> Root Cause Analysis</div>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold"><Check size={14} /> Intervention Recommendations</div>
             </div>
-            <p className="text-xs text-slate-500">
-              * Tài liệu đã được lưu trữ và tải xuống thành công để báo cáo Hội đồng chuyên môn trường.
+            <p className="text-sm">
+              và chuẩn bị báo cáo DSS phục vụ công tác học vụ.
             </p>
           </div>
         )
