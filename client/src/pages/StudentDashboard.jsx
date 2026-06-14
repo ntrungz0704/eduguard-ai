@@ -246,63 +246,32 @@ const detectStudentSemester = (courses) => {
   return maxStudied;
 };
 
-const calculateFptStats = (scores) => {
-  const validScores = (scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
-  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglishCourse(s.course?.name || s.courseId, s.courseId) && s.value > 1.0);
-
-  let totalScoreWeight10 = 0;
-  let totalScoreWeight4 = 0;
-  let totalAcademicCredits = 0;
-
-  academicScores.forEach(s => {
-    const credits = s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
-    totalScoreWeight10 += (s.value * credits);
-    totalScoreWeight4 += (get40Scale(s.value) * credits);
-    totalAcademicCredits += credits;
-  });
-
-  let totalEarnedCredits = 0;
-  validScores.forEach(s => {
-    if (s.value >= 5.0 || s.value === 1.0 || s.status === 'PASSED') {
-      totalEarnedCredits += s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
-    }
-  });
-
-  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
-  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
-
-  return {
-    gpa10,
-    gpa4,
-    totalEarnedCredits,
-    academicScores,
-    validScores,
-    academicScoresCount: academicScores.length,
-    totalScoresCount: validScores.length
-  };
-};
+// Unified statistics calculated centrally on backend. Client-side calculateFptStats removed.
 
 // ─────────────────────────────────────────────
 //  Overview Tab
 // ─────────────────────────────────────────────
-function OverviewTab({ data, curriculumCourses, stats, dssReport, handleTabChange }) {
+function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
   const predictions = Array.isArray(data?.predictions) ? data.predictions : [];
   
-  const gpa = stats.gpa10;
-  const gpa4 = stats.gpa4;
-  const totalEarnedCredits = stats.totalEarnedCredits;
-  const validScores = stats.validScores;
+  const gpa = data?.analytics?.gpa10 ?? 0.0;
+  const gpa4 = data?.analytics?.gpa4 ?? 0.0;
+  const totalEarnedCredits = data?.analytics?.totalEarnedCredits ?? 0;
+  
+  const validScores = (data?.scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
   const completed = validScores.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
   
   // Dynamic GPA target calculation
-  let targetGPA = Math.min(10, Math.ceil(gpa * 10) / 10 + 0.5);
-  if (gpa === 0) targetGPA = 7.5;
+  const cleanGpa = (gpa !== null && !isNaN(gpa)) ? gpa : 0.0;
+  let targetGPA = Math.min(10, Math.ceil(cleanGpa * 10) / 10 + 0.5);
+  if (cleanGpa === 0) targetGPA = 7.5;
   const totalCurriculumCredits = 120; // Assume 120 credits for total program
   const remainingCredits = Math.max(10, totalCurriculumCredits - totalEarnedCredits);
-  const currentPoints = gpa * totalEarnedCredits;
+  const currentPoints = cleanGpa * totalEarnedCredits;
   const targetPoints = targetGPA * totalCurriculumCredits;
   let requiredGPA = remainingCredits > 0 ? ((targetPoints - currentPoints) / remainingCredits) : targetGPA;
   if (requiredGPA > 10) requiredGPA = 10;
+  if (isNaN(requiredGPA) || requiredGPA < 0) requiredGPA = 0.0;
   
   // Evaluate goal label
   let targetLabel = "Khá";
@@ -310,8 +279,26 @@ function OverviewTab({ data, curriculumCourses, stats, dssReport, handleTabChang
   if (targetGPA >= 9.0) targetLabel = "Xuất sắc";
 
   // Strengths: top 3 highest academic scores
-  const strengths = [...stats.academicScores].sort((a, b) => b.value - a.value).slice(0, 3);
-  // Weaknesses: bottom 3 lowest predicted upcoming courses (Cảnh báo các môn sắp tới dựa trên tiên quyết)
+  const academicScores = validScores.filter(s => {
+    const isCond = (s.course?.name || s.courseId || '').toLowerCase().includes('thể chất') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('quốc phòng') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('vovinam') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('gdqp') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('chính trị') ||
+                   (s.courseId || '').toUpperCase().includes('VIE103') ||
+                   (s.courseId || '').toUpperCase().includes('VIE104') ||
+                   (s.courseId || '').toUpperCase().includes('VIE108') ||
+                   (s.courseId || '').toUpperCase().includes('PRO110') ||
+                   (s.courseId || '').toUpperCase().includes('PRO115') ||
+                   (s.courseId || '').toUpperCase().includes('PRO116');
+    const isEng = (s.course?.name || s.courseId || '').toLowerCase().includes('tiếng anh') || 
+                  (s.course?.name || s.courseId || '').toLowerCase().includes('tieng anh') || 
+                  (s.courseId || '').toUpperCase().includes('ENT');
+    return !isCond && !isEng && s.value > 1.0;
+  });
+  const strengths = [...academicScores].sort((a, b) => b.value - a.value).slice(0, 3);
+  
+  // Weaknesses: bottom 3 lowest predicted upcoming courses
   const weaknesses = predictions
     .filter(p => p.predictedScore < 6.5)
     .sort((a, b) => a.predictedScore - b.predictedScore)
@@ -328,42 +315,23 @@ function OverviewTab({ data, curriculumCourses, stats, dssReport, handleTabChang
 
   // Auto AI feedback text
   let aiFeedback = "Dựa trên điểm số quá khứ, bạn đang có phong độ học tập khá ổn định. Cần duy trì sự tập trung ở các môn chuyên ngành.";
-  if (gpa >= 8.0) {
+  if (cleanGpa >= 8.0) {
     aiFeedback = "Chúc mừng! Bạn có kết quả học tập xuất sắc (GPA ≥ 8.0). AI nhận thấy bạn có tư duy lập trình nhạy bén và khả năng tiếp thu kiến thức cốt lõi cực tốt. Hãy tiếp tục duy trì để săn học bổng học kỳ này!";
-  } else if (gpa >= 6.5) {
+  } else if (cleanGpa >= 6.5) {
     aiFeedback = "Học lực của bạn ở mức Khá. AI nhận thấy bạn hoàn thành tốt hầu hết các môn cơ sở. Bạn chỉ cách bằng Giỏi (GPA 8.0) một khoảng ngắn. Hãy tập trung cải thiện các môn đang học có trọng số tín chỉ cao để bứt phá.";
-  } else if (gpa > 0) {
+  } else if (cleanGpa > 0) {
     aiFeedback = "AI cảnh báo phong độ hiện tại ở mức Trung bình. Bản đồ lỗ hổng cho thấy bạn gặp khó khăn ở các môn lập trình nền tảng. Bạn nên tham gia các buổi hướng dẫn phụ đạo hoặc hỏi ngay Cố vấn học vụ để tránh nguy cơ rủi ro.";
   }
 
   // Data for Charts
   const chartData = useMemo(() => {
-    const sems = [
-      { name: 'Kỳ 1', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 1) },
-      { name: 'Kỳ 2', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 2) },
-      { name: 'Kỳ 3', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 3) },
-      { name: 'Kỳ 4', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 4) },
-      { name: 'Kỳ 5', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 5) },
-      { name: 'Kỳ 6', courses: curriculumCourses.filter(c => getCurriculumSemester(c.courseId, c.courseName) === 6) }
-    ];
-    let cumTotal = 0;
-    let cumCount = 0;
-
-    return sems.map(sem => {
-      const validC = sem.courses.filter(c => c.value !== null && !isConditionalCourse(c.courseId, c.courseId));
-      let semAvg = null;
-      if (validC.length > 0) {
-        semAvg = validC.reduce((sum, c) => sum + c.value, 0) / validC.length;
-        cumTotal += validC.reduce((sum, c) => sum + c.value, 0);
-        cumCount += validC.length;
-      }
-      return {
-        name: sem.name,
-        'GPA Học kỳ': semAvg !== null ? Math.round(semAvg * 10) / 10 : null,
-        'CPA Tích lũy': cumCount > 0 ? Math.round((cumTotal / cumCount) * 10) / 10 : null
-      };
-    }).filter(d => d['GPA Học kỳ'] !== null || d['CPA Tích lũy'] !== null);
-  }, [curriculumCourses]);
+    if (!data?.analytics?.curriculumSemesterStats) return [];
+    return data.analytics.curriculumSemesterStats.map(s => ({
+      name: s.semesterName,
+      'GPA Học kỳ': s.gpa,
+      'CPA Tích lũy': s.cpa
+    })).filter(d => d['GPA Học kỳ'] !== null || d['CPA Tích lũy'] !== null);
+  }, [data]);
 
   return (
     <div className="space-y-6">
@@ -1948,12 +1916,11 @@ export default function StudentDashboard() {
 
   // Redundant mapping cleaned up
 
-  // Calculate actual completed GPA using unified FPT Polytechnic logic on raw scores
-  const stats = calculateFptStats(studentScores);
-  const gpa = stats.gpa10;
-  const gpa4 = stats.gpa4;
-  const totalEarnedCredits = stats.totalEarnedCredits;
-  const validScoresCount = stats.totalScoresCount;
+  // Get unified GPA and credits computed from central backend services
+  const gpa = data?.analytics?.gpa10 ?? 0.0;
+  const gpa4 = data?.analytics?.gpa4 ?? 0.0;
+  const totalEarnedCredits = data?.analytics?.totalEarnedCredits ?? 0;
+  const validScoresCount = data?.analytics?.semesterStats?.reduce((sum, s) => sum + s.credits, 0) ?? 0;
 
   const detectedSemester = detectStudentSemester(curriculumCourses);
 
@@ -2036,7 +2003,7 @@ export default function StudentDashboard() {
       </div>
  
       {/* ── Dynamic Tab Content Render ── */}
-      {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} stats={stats} dssReport={dssReport} handleTabChange={handleTabChange} />}
+      {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} dssReport={dssReport} handleTabChange={handleTabChange} />}
       {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}

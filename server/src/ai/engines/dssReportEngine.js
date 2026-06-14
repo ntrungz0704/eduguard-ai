@@ -203,7 +203,10 @@ async function generateDetailedDSSReport(student) {
   // 4. Root Cause Analysis (Prerequisite Failure Chain Traversal)
   // Algorithm: DFS-based recursive graph traversal on the prerequisite knowledge graph (via syllabus_graph.json).
   // Traces back to the earliest prerequisite ancestor where the student got < 7.0 (weak foundation) or failed.
-  const findRootCauseForCourse = (courseId) => {
+  const findRootCauseForCourse = (courseId, visited = new Set()) => {
+    if (visited.has(courseId)) return courseId;
+    visited.add(courseId);
+    
     const node = syllabusGraph[courseId];
     if (!node || !node.prerequisites || node.prerequisites.length === 0) {
       return courseId;
@@ -218,7 +221,7 @@ async function generateDetailedDSSReport(student) {
       });
       
       if (scoreObj && (scoreObj.status === 'FAILED' || (scoreObj.value !== null && scoreObj.value < 7.0))) {
-        return findRootCauseForCourse(prereq);
+        return findRootCauseForCourse(prereq, visited);
       }
     }
     return courseId;

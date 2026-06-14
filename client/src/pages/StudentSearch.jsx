@@ -656,65 +656,25 @@ export default function StudentSearch() {
 
               {/* Dynamic calculations for selected student */}
               {(() => {
-                const calculateFptStats = (scores) => {
-                  const validScores = (scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
-                  const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglishCourse(s.course?.name || s.courseId, s.courseId) && s.value > 1.0);
-
-                  let totalScoreWeight10 = 0;
-                  let totalScoreWeight4 = 0;
-                  let totalAcademicCredits = 0;
-
-                  academicScores.forEach(s => {
-                    const credits = s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
-                    totalScoreWeight10 += (s.value * credits);
-                    totalScoreWeight4 += (get40Scale(s.value) * credits);
-                    totalAcademicCredits += credits;
-                  });
-
-                  let totalEarnedCredits = 0;
-                  validScores.forEach(s => {
-                    if (s.value >= 5.0 || s.value === 1.0 || s.status === 'PASSED') {
-                      totalEarnedCredits += s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
-                    }
-                  });
-
-                  const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
-                  const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
-
-                  return {
-                    gpa10,
-                    gpa4,
-                    totalEarnedCredits,
-                    academicScoresCount: academicScores.length,
-                    totalScoresCount: validScores.length
-                  };
+                const fptStats = {
+                  gpa10: selectedStudent?.analytics?.gpa10 ?? 0.0,
+                  gpa4: selectedStudent?.analytics?.gpa4 ?? 0.0,
+                  totalEarnedCredits: selectedStudent?.analytics?.totalEarnedCredits ?? 0,
+                  academicScoresCount: selectedStudent?.analytics?.academicScoresCount ?? 0,
+                  totalScoresCount: selectedStudent?.analytics?.totalScoresCount ?? 0
                 };
-
-                const fptStats = calculateFptStats(getScoresArray(selectedStudent));
                 const selectedStudentGpa = parseFloat(fptStats.gpa10);
 
-                const getGpaTrend = (student) => {
-                  const validScores = getScoresArray(student).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
-                  const groupedBySem = {};
-                  validScores.forEach(s => {
-                    const sem = s.semester || 'Kỳ 1';
-                    if (!groupedBySem[sem]) groupedBySem[sem] = { totalPoints: 0, totalCredits: 0 };
-                    const credits = getCourseCredits(s.courseId || s.course?.name);
-                    groupedBySem[sem].totalPoints += s.value * credits;
-                    groupedBySem[sem].totalCredits += credits;
-                  });
-                  const trend = Object.keys(groupedBySem).sort().map(sem => {
-                    const gpa = groupedBySem[sem].totalCredits > 0 ? (groupedBySem[sem].totalPoints / groupedBySem[sem].totalCredits) : 0;
-                    return {
-                      name: sem,
-                      gpa: parseFloat(gpa.toFixed(1)),
+                const trendData = selectedStudent?.analytics?.curriculumSemesterStats 
+                  ? selectedStudent.analytics.curriculumSemesterStats.map(s => ({
+                      name: s.semesterName,
+                      gpa: s.gpa ?? 0,
                       target: 8.0
-                    };
-                  });
-                  return trend.length > 0 ? trend : [
-                    { name: 'Chưa có', gpa: 0, target: 8.0 }
-                  ];
-                };
+                    })).filter(d => d.gpa > 0)
+                  : [{ name: 'Chưa có', gpa: 0, target: 8.0 }];
+                if (trendData.length === 0) {
+                  trendData.push({ name: 'Chưa có', gpa: 0, target: 8.0 });
+                }
 
                 const getRadarData = (student) => {
                   const validScores = getScoresArray(student).filter(s => s.value !== null && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
@@ -731,7 +691,6 @@ export default function StudentSearch() {
                   }));
                 };
 
-                const trendData = getGpaTrend(selectedStudent);
                 const radarData = getRadarData(selectedStudent);
 
                 // Get two lowest scoring subjects

@@ -9,6 +9,10 @@ const { prisma } = require('../infrastructure/database/prisma');
 
 // Import modular services
 const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../utils/dataService');
+const analyticsService = require('../services/analyticsService');
+const riskService = require('../services/riskService');
+const predictionService = require('../services/predictionService');
+const careerService = require('../services/careerService');
 
 const { spawn } = require('child_process');
 const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../ai/regression');
@@ -589,8 +593,9 @@ router.get('/red-alerts', async (req, res) => {
       const primaryInterventionStatus = interventionStatusMap.get(`${mssv}_${primary.courseId}`);
       const isIntervened = primaryInterventionStatus === 'PENDING' || primaryInterventionStatus === 'ACTIVE' || primary.intervened;
 
-      // Unify Risk & Priority Level using calculateBaseRisk
-      const baseRiskObj = calculateBaseRisk(data.studentObj);
+      // Unify Risk & Priority Level using central services
+      const baseRiskObj = riskService.getStudentRisk(data.studentObj);
+      const studentAnalytics = analyticsService.getStudentAnalytics(data.studentObj);
 
       alerts.push({
         mssv: data.mssv,
@@ -600,10 +605,10 @@ router.get('/red-alerts', async (req, res) => {
         targetCourseId: primary.courseId,
         predictedScore: primary.predictedScore,
         risk: primary.risk,
-        priorityLevel: baseRiskObj.level,
+        priorityLevel: baseRiskObj.riskLevel,
         riskScore: baseRiskObj.riskScore,
-        gpa: baseRiskObj.gpa,
-        avgAttendance: baseRiskObj.avgAttendance,
+        gpa: studentAnalytics.gpa10,
+        avgAttendance: 100,
         weakPrereqs: primary.weakPrereqs,
         isEarlyWarning: primary.isEarlyWarning,
         intervened: isIntervened,
@@ -1957,6 +1962,15 @@ router.get('/students/:mssv', async (req, res) => {
       }
     });
 
+    let allStudents = [];
+    try {
+      allStudents = await prisma.student.findMany({
+        include: { scores: true }
+      });
+    } catch (err) {
+      console.warn("Lỗi fetch all students for rank calculation:", err);
+    }
+
     if (!student) {
       // Fallback to checking the in-memory array if not found in DB
       const memStudent = (cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students).find(st => st.id === mssv);
@@ -1972,13 +1986,37 @@ router.get('/students/:mssv', async (req, res) => {
             course: { id: cId, name: cId, credits: getCourseCredits(cId) }
           };
         });
-        return res.json({
+        const mappedMemStudent = {
           mssv,
           name: memStudent.name || `Sinh viên ${mssv}`,
           classCode: memStudent.classCode || 'N/A',
           scores,
           predictions: [],
           interventions: []
+        };
+
+        const allMemStudents = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
+        const mappedAllMemStudents = allMemStudents.map(st => {
+          const stScores = Object.entries(st.scores || {}).map(([cId, val]) => {
+            const status = val === null ? 'STUDYING' : (val >= 5 ? 'PASSED' : 'FAILED');
+            return { courseId: cId, value: val, status };
+          });
+          return { mssv: st.id, scores: stScores };
+        });
+
+        const analytics = analyticsService.getStudentAnalytics(mappedMemStudent, mappedAllMemStudents);
+        const risk = riskService.getStudentRisk(mappedMemStudent);
+        const predictions = predictionService.getStudentPredictions(mappedMemStudent);
+        const careers = careerService.getStudentCareers(mappedMemStudent);
+
+        return res.json({
+          ...mappedMemStudent,
+          analytics,
+          risk,
+          predictions: predictions.predictions,
+          predictionsInsufficientData: predictions.insufficientData,
+          careers: careers.careers,
+          careersInsufficientEvidence: careers.insufficientEvidence
         });
       }
 
@@ -1989,7 +2027,20 @@ router.get('/students/:mssv', async (req, res) => {
       });
     }
 
-    res.json(student);
+    const analytics = analyticsService.getStudentAnalytics(student, allStudents);
+    const risk = riskService.getStudentRisk(student);
+    const predictions = predictionService.getStudentPredictions(student);
+    const careers = careerService.getStudentCareers(student);
+
+    res.json({
+      ...student,
+      analytics,
+      risk,
+      predictions: predictions.predictions,
+      predictionsInsufficientData: predictions.insufficientData,
+      careers: careers.careers,
+      careersInsufficientEvidence: careers.insufficientEvidence
+    });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

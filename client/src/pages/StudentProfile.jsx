@@ -469,40 +469,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     );
   }
 
-  // HÀM HỖ TRỢ PHÂN TÍCH GPA VÀ TÍN CHỈ CHUẨN FPT POLYTECHNIC
-  const calculateFptStats = (scores) => {
-    const validScores = (scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
-    const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglishCourse(s.course?.name || s.courseId, s.courseId) && s.value > 1.0);
-
-    let totalScoreWeight10 = 0;
-    let totalScoreWeight4 = 0;
-    let totalAcademicCredits = 0;
-
-    academicScores.forEach(s => {
-      const credits = s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
-      totalScoreWeight10 += (s.value * credits);
-      totalScoreWeight4 += (get40Scale(s.value) * credits);
-      totalAcademicCredits += credits;
-    });
-
-    let totalEarnedCredits = 0;
-    validScores.forEach(s => {
-      if (s.value >= 5.0 || s.value === 1.0 || s.status === 'PASSED') {
-        totalEarnedCredits += s.course?.credits || getCourseCredits(s.courseId || s.course?.name);
-      }
-    });
-
-    const gpa10 = totalAcademicCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight10 / totalAcademicCredits) + 1e-9) * 10) / 10;
-    const gpa4 = totalAcademicCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / totalAcademicCredits) + 1e-9) * 100) / 100;
-
-    return {
-      gpa10,
-      gpa4,
-      totalEarnedCredits,
-      academicScoresCount: academicScores.length,
-      totalScoresCount: validScores.length
-    };
-  };
+  // Unified statistics calculated centrally on backend. Client-side calculateFptStats removed.
 
   // Calculate statistics from actual scores
   const scoreEntries = Array.isArray(student.scores) ? student.scores : Object.values(student.scores || {});
@@ -526,7 +493,13 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     return isFailed || isLowScore || isHighRisk || (isInProgress && (isHighRisk || isMediumRisk || pred));
   });
   
-  const fptStats = calculateFptStats(scoreEntries);
+  const fptStats = {
+    gpa10: student?.analytics?.gpa10 ?? 0.0,
+    gpa4: student?.analytics?.gpa4 ?? 0.0,
+    totalEarnedCredits: student?.analytics?.totalEarnedCredits ?? 0,
+    academicScoresCount: student?.analytics?.academicScoresCount ?? 0,
+    totalScoresCount: student?.analytics?.totalScoresCount ?? 0
+  };
   const currentGPA = fptStats.gpa10;
   
   // Format chart data (only passed/completed courses)
