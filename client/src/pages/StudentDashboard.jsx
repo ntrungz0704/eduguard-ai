@@ -705,8 +705,6 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
 function GradesTab({ curriculumCourses, courseDependencies }) {
   const [filter, setFilter] = useState('all');
 
-  const stats = calculateFptStats(curriculumCourses);
-
   const completed = curriculumCourses.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
   const studying = curriculumCourses.filter(c => c.status === 'STUDYING' || c.isPredicted);
   const notStarted = curriculumCourses.filter(c => c.status === 'NOT_STARTED' && !c.isPredicted);

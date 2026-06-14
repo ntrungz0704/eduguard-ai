@@ -272,6 +272,11 @@ export default function CareerDetail() {
   // Backend Metrics
   const [backendMetrics, setBackendMetrics] = useState(null);
 
+  const isAcquired = (skillName) => {
+    if (!analysis || !analysis.matchedSkills) return false;
+    return analysis.matchedSkills.some(s => s.toLowerCase().trim() === skillName.toLowerCase().trim());
+  };
+
   const studentId = currentUser?.id || 'SE182001';
   const mode = (currentUser?.role === 'STUDENT' && currentUser?.id) ? 'STUDENT' : 'GUEST';
 
@@ -1121,42 +1126,78 @@ const handleDragLeave = () => {
                 </h3>
 
                 {/* Core Skills Chart */}
-                {career.coreSkills && career.coreSkills.length > 0 && (
-                  <div className="h-48 w-full mt-4">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={career.coreSkills.map(s => ({ name: s, impact: getSkillImpact(s) })).sort((a,b) => b.impact - a.impact)} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                        <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} tickLine={false} axisLine={false} />
-                        <YAxis tick={false} tickLine={false} axisLine={false} />
-                        <RechartsTooltip cursor={{ fill: 'rgba(59, 130, 246, 0.05)' }} contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontSize: '12px', color: '#fff', fontWeight: 'bold' }} />
-                        <Bar dataKey="impact" radius={[4, 4, 0, 0]}>
-                          {career.coreSkills.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={index < 3 ? '#3b82f6' : '#64748b'} />
-                          ))}
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                )}
+                {(() => {
+                  const chartData = (career.coreSkills || []).map(s => {
+                    const acquired = isAcquired(s);
+                    return {
+                      name: s,
+                      impact: getSkillImpact(s),
+                      acquired,
+                      statusText: acquired ? 'Đã đạt' : 'Chưa đạt'
+                    };
+                  }).sort((a, b) => b.impact - a.impact);
+
+                  return career.coreSkills && career.coreSkills.length > 0 && (
+                    <div className="h-48 w-full mt-4">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                          <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} tickLine={false} axisLine={false} />
+                          <YAxis tick={false} tickLine={false} axisLine={false} />
+                          <RechartsTooltip 
+                            cursor={{ fill: 'rgba(59, 130, 246, 0.05)' }} 
+                            contentStyle={{ 
+                              backgroundColor: '#0f172a', 
+                              border: '1px solid rgba(255,255,255,0.1)', 
+                              borderRadius: '12px', 
+                              fontSize: '12px' 
+                            }}
+                            itemStyle={{ color: '#60a5fa' }}
+                            labelStyle={{ color: '#fff', fontWeight: 'bold' }}
+                          />
+                          <Bar dataKey="impact" radius={[4, 4, 0, 0]}>
+                            {chartData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.acquired ? '#10b981' : '#475569'} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  );
+                })()}
 
                 <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-white/10">
                   <div>
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Kỹ năng cốt lõi ({career.coreSkills?.length})</span>
                     <div className="flex flex-wrap gap-2">
-                      {(career.coreSkills || []).map((s, i) => (
-                        <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-blue-500/50 hover:bg-blue-500/5 hover:text-blue-600 transition-all cursor-default shadow-sm flex items-center gap-1.5">
-                          {s} <span className="text-[9px] text-blue-500">+{getSkillImpact(s)}</span>
-                        </span>
-                      ))}
+                      {(career.coreSkills || []).map((s, i) => {
+                        const acquired = isAcquired(s);
+                        return acquired ? (
+                          <span key={i} className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 hover:border-emerald-500/40 transition-all cursor-default shadow-sm flex items-center gap-1.5">
+                            ✅ {s} <span className="text-[9px] text-emerald-500">+{getSkillImpact(s)}</span>
+                          </span>
+                        ) : (
+                          <span key={i} className="text-xs font-bold text-slate-400 dark:text-slate-500 bg-slate-100/30 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-dashed border-slate-300 dark:border-white/10 hover:border-blue-500/30 transition-all cursor-default shadow-sm flex items-center gap-1.5">
+                            ⏳ {s} <span className="text-[9px] text-slate-400 dark:text-slate-500">+{getSkillImpact(s)}</span>
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                   <div>
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-2">Kỹ năng nâng cao ({career.advancedSkills?.length})</span>
                     <div className="flex flex-wrap gap-2">
-                      {(career.advancedSkills || []).map((s, i) => (
-                        <span key={i} className="text-xs font-bold text-slate-700 dark:text-slate-300 bg-purple-500/5 px-3 py-1.5 rounded-lg border border-purple-500/10 text-purple-600 dark:text-purple-400 hover:bg-purple-500/10 transition-all cursor-default shadow-sm">
-                          {s}
-                        </span>
-                      ))}
+                      {(career.advancedSkills || []).map((s, i) => {
+                        const acquired = isAcquired(s);
+                        return acquired ? (
+                          <span key={i} className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 hover:border-emerald-500/40 transition-all cursor-default shadow-sm flex items-center gap-1.5">
+                            ✅ {s}
+                          </span>
+                        ) : (
+                          <span key={i} className="text-xs font-bold text-purple-400 dark:text-purple-500/70 bg-purple-500/5 px-3 py-1.5 rounded-lg border border-purple-500/10 border-dashed hover:bg-purple-500/10 transition-all cursor-default shadow-sm flex items-center gap-1.5">
+                            ⏳ {s}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                   {(career.tools || []).length > 0 && (

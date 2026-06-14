@@ -2027,13 +2027,17 @@ router.get('/students/:mssv', async (req, res) => {
       });
     }
 
-    const analytics = analyticsService.getStudentAnalytics(student, allStudents);
-    const risk = riskService.getStudentRisk(student);
-    const predictions = predictionService.getStudentPredictions(student);
-    const careers = careerService.getStudentCareers(student);
+    const { enrichStudentData } = require('../repositories/studentRepository');
+    const enrichedStudent = enrichStudentData(student);
+
+    const analytics = analyticsService.getStudentAnalytics(enrichedStudent, allStudents);
+    const risk = riskService.getStudentRisk(enrichedStudent);
+    const predictions = predictionService.getStudentPredictions(enrichedStudent);
+    const careers = careerService.getStudentCareers(enrichedStudent);
 
     res.json({
       ...student,
+      ...enrichedStudent,
       analytics,
       risk,
       predictions: predictions.predictions,

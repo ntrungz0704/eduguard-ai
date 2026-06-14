@@ -14,11 +14,21 @@ function getStudentAnalytics(student, allStudents = []) {
       curriculumSemesterStats: [],
       cohortRank: '—',
       totalCohort: '—',
-      cohortPercentile: '—'
+      cohortPercentile: '—',
+      academicScoresCount: 0,
+      totalScoresCount: 0
     };
   }
 
-  const scores = student.scores || [];
+  let scores = student.scores || [];
+  if (!Array.isArray(scores) && typeof scores === 'object') {
+    scores = Object.entries(scores).map(([courseId, val]) => ({
+      courseId,
+      value: val,
+      status: val === null ? 'STUDYING' : (val >= 5 ? 'PASSED' : 'FAILED'),
+      course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
+    }));
+  }
   
   // 1. Calculate cumulative GPA using central FPT formula
   const fptGpa = calculateFptGPA(scores);
@@ -162,6 +172,27 @@ function getStudentAnalytics(student, allStudents = []) {
     }
   }
 
+  // 6. Calculate completed and academic scores counts
+  const academicScoresCount = completedScores.filter(s => {
+    const isCond = (s.course?.name || s.courseId || '').toLowerCase().includes('thể chất') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('quốc phòng') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('vovinam') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('gdqp') ||
+                   (s.course?.name || s.courseId || '').toLowerCase().includes('chính trị') ||
+                   (s.courseId || '').toUpperCase().includes('VIE103') ||
+                   (s.courseId || '').toUpperCase().includes('VIE104') ||
+                   (s.courseId || '').toUpperCase().includes('VIE108') ||
+                   (s.courseId || '').toUpperCase().includes('PRO110') ||
+                   (s.courseId || '').toUpperCase().includes('PRO115') ||
+                   (s.courseId || '').toUpperCase().includes('PRO116');
+    const isEng = (s.course?.name || s.courseId || '').toLowerCase().includes('tiếng anh') || 
+                  (s.course?.name || s.courseId || '').toLowerCase().includes('tieng anh') || 
+                  (s.courseId || '').toUpperCase().includes('ENT');
+    return !isCond && !isEng;
+  }).length;
+
+  const totalScoresCount = completedScores.length;
+
   return {
     gpa10: fptGpa.gpa,
     gpa4: fptGpa.gpa_4,
@@ -170,7 +201,9 @@ function getStudentAnalytics(student, allStudents = []) {
     curriculumSemesterStats,
     cohortRank,
     totalCohort,
-    cohortPercentile
+    cohortPercentile,
+    academicScoresCount,
+    totalScoresCount
   };
 }
 
