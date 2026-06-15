@@ -437,12 +437,144 @@ function calculateDelayScore(scores, syllabusGraph, courseDependency) {
   };
 }
 
+const courseCodeNormalizationMap = {
+  'COM107': 'COM1071',
+  'COM1071': 'COM1071',
+  'VIE103': 'VIE103',
+  'PDP102': 'PDP102',
+  'COM108': 'COM108',
+  'ITI101': 'ITI101',
+  'VIE104': 'VIE104',
+  'ENT112': 'ENT1128',
+  'ENT1128': 'ENT1128',
+  'COM201': 'COM2012',
+  'COM2012': 'COM2012',
+  'WEB101': 'WEB1013',
+  'WEB1013': 'WEB1013',
+  'ENT12': 'ENT123',
+  'ENT123': 'ENT123',
+  'WEB104': 'WEB1043',
+  'WEB1043': 'WEB1043',
+  'WEB108': 'WEB108',
+  'ENT21': 'ENT213',
+  'ENT213': 'ENT213',
+  'VIE108': 'VIE108',
+  'WEB302': 'WEB3023',
+  'WEB3023': 'WEB3023',
+  'WEB201': 'WEB2014',
+  'WEB2014': 'WEB2014',
+  'VIE102': 'VIE1026',
+  'VIE1026': 'VIE1026',
+  'PDP103': 'PDP103',
+  'WEB105': 'WEB105',
+  'WEB204': 'WEB2041',
+  'WEB2041': 'WEB2041',
+  'ENT22': 'ENT223',
+  'ENT223': 'ENT223',
+  'WEB102': 'WEB1023',
+  'WEB1023': 'WEB1023',
+  'WEB205': 'WEB2055',
+  'WEB2055': 'WEB2055',
+  'WEB501': 'WEB501',
+  'WEB206': 'WEB2063',
+  'WEB2063': 'WEB2063',
+  'PRO101': 'PRO1014',
+  'PRO1014': 'PRO1014',
+  'WEB503': 'WEB503',
+  'WEB502': 'WEB502',
+  'PDP104': 'PDP104',
+  'SYB301': 'SYB3013',
+  'SYB3013': 'SYB3013',
+  'WEB208': 'WEB2081',
+  'WEB2081': 'WEB2081',
+  'WEB209': 'WEB2091',
+  'WEB2091': 'WEB2091',
+  'PRO11': 'PRO116',
+  'PRO116': 'PRO116',
+  'PRO22': 'PRO2201',
+  'PRO2201': 'PRO2201'
+};
+
+const courseNameToCodeMap = {
+  'tin học': 'COM1071',
+  'nhập môn lập trình': 'COM108',
+  'tiếng anh 1.1': 'ENT1128',
+  'nhập môn công nghệ thông tin': 'ITI101',
+  'nhập môn cntt': 'ITI101',
+  'kỹ năng học tập': 'PDP102',
+  'giáo dục thể chất': 'VIE103',
+  'giáo dục thể chất - vovinam': 'VIE103',
+  'vovinam': 'VIE103',
+  'cơ sở dữ liệu': 'COM2012',
+  'csdl': 'COM2012',
+  'tiếng anh 1.2': 'ENT123',
+  'giáo dục chính trị': 'VIE108',
+  'chính trị': 'VIE108',
+  'xây dựng trang web': 'WEB1013',
+  'lập trình cơ sở với javascript': 'WEB1043',
+  'lập trình php cơ bản': 'WEB108',
+  'tiếng anh 2.1': 'ENT213',
+  'kỹ năng phát triển bản thân': 'PDP103',
+  'thiết kế ui/ux': 'WEB105',
+  'lập trình php 1': 'WEB2014',
+  'dự án mẫu': 'WEB2041',
+  'dự án mẫu (tktw)': 'WEB2041',
+  'thiết kế web với html5 & css3': 'WEB3023',
+  'thiết kế web với html5&css3': 'WEB3023',
+  'tiếng anh 2.2': 'ENT223',
+  'dự án 1': 'PRO1014',
+  'dự án 1 (tktw)': 'PRO1014',
+  'quản trị website': 'WEB1023',
+  'marketing trên internet': 'WEB2055',
+  'lập trình javascript nâng cao': 'WEB2063',
+  'lập trình js nâng cao': 'WEB2063',
+  'lập trình ecmascript': 'WEB501',
+  'kỹ năng làm việc': 'PDP104',
+  'khởi sự doanh nghiệp': 'SYB3013',
+  'lập trình front-end framework 1': 'WEB2081',
+  'lập trình front-end framework 2': 'WEB2091',
+  'lập trình typescript': 'WEB502',
+  'nodejs & restful web service': 'WEB503',
+  'thực tập tốt nghiệp': 'PRO116',
+  'thực tập tốt nghiệp (tktw)': 'PRO116',
+  'dự án tốt nghiệp': 'PRO2201',
+  'dự án tốt nghiệp (tktw-single page application)': 'PRO2201',
+  'pháp luật': 'VIE1026',
+  'giáo dục quốc phòng': 'VIE104',
+  'gdqp': 'VIE104'
+};
+
+function resolveBackendCourseCode(input) {
+  if (!input) return null;
+  const raw = String(input).trim();
+  const lower = raw.toLowerCase();
+  
+  if (courseNameToCodeMap[lower]) {
+    return courseNameToCodeMap[lower];
+  }
+  
+  const codeUpper = raw.toUpperCase().replace(/\s+/g, '');
+  if (courseCodeNormalizationMap[codeUpper]) {
+    return courseCodeNormalizationMap[codeUpper];
+  }
+  
+  // Fuzzy code match (e.g. "WEB206(JS)" -> "WEB2063")
+  for (const [short, standard] of Object.entries(courseCodeNormalizationMap)) {
+    if (codeUpper.startsWith(short)) {
+      return standard;
+    }
+  }
+  
+  return codeUpper;
+}
+
 module.exports = {
   parseScore,
   mapToPretrainedSubject,
   validateAndCleanData,
   getCourseCredits,
   calculateFptGPA,
-  calculateDelayScore
+  calculateDelayScore,
+  resolveBackendCourseCode
 };
 

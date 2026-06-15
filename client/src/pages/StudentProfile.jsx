@@ -1392,7 +1392,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     <div className="space-y-8 animate-fade-in pb-16">
       {/* Back navigation */}
       <div className="flex items-center justify-between">
-        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all">
+        <button onClick={() => navigate('/search')} className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all">
           <ArrowLeft size={18} /> Quay lại danh sách
         </button>
         <div className="flex items-center gap-3">

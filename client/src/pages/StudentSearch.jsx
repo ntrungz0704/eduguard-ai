@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import { 
@@ -113,6 +113,7 @@ const getScoresArray = (student) => {
 };
 
 export default function StudentSearch() {
+  const navigate = useNavigate();
   const activeStudent = useStore(state => state.activeStudent);
   const setActiveStudent = useStore(state => state.setActiveStudent);
 
@@ -138,22 +139,9 @@ export default function StudentSearch() {
   useEffect(() => {
     const urlId = searchParams.get('id');
     if (urlId) {
-      const isAlreadyLoaded = 
-        selectedStudent && 
-        (selectedStudent.mssv === urlId || selectedStudent.id === urlId) && 
-        Array.isArray(selectedStudent.scores);
-        
-      if (!isAlreadyLoaded) {
-        setLoading(true);
-        api.get(`/students/${urlId}`).then(res => {
-          setActiveStudent(res.data);
-          setSelectedStudent(res.data);
-        }).catch(console.error)
-          .finally(() => setLoading(false));
-      }
+      navigate(`/student/${urlId}`, { replace: true });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, setActiveStudent]);
+  }, [searchParams, navigate]);
 
   useEffect(() => {
     if (activeStudent) {
@@ -557,19 +545,9 @@ export default function StudentSearch() {
     }
   };
 
-  const handleSelectStudent = async (student) => {
-    try {
-      setLoading(true);
-      const studentId = student.mssv || student.id;
-      const res = await api.get(`/students/${studentId}`);
-      setActiveStudent(res.data);
-      setSelectedStudent(res.data);
-      // Chat history is now loaded via useEffect watching activeStudent
-    } catch (err) {
-      alert('Không thể tải chi tiết sinh viên: ' + (err.response?.data?.error || err.message));
-    } finally {
-      setLoading(false);
-    }
+  const handleSelectStudent = (student) => {
+    const studentId = student.mssv || student.id;
+    navigate(`/student/${studentId}`);
   };
 
   const handleSendChat = async (e, customText = null) => {

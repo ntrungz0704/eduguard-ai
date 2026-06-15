@@ -1,6 +1,7 @@
 const xlsx = require('xlsx');
 const prisma = require('../../infrastructure/database/prisma');
 const logger = require('../../infrastructure/logger');
+const { resolveBackendCourseCode } = require('../../utils/dataService');
 
 // Helper to calculate final score if quiz/asm/final provided
 const calculateScore = (row) => {
@@ -16,6 +17,9 @@ const calculateScore = (row) => {
 
   if (row.score !== undefined) return parseVal(row.score);
   if (row.value !== undefined) return parseVal(row.value);
+  if (row['Tổng kết'] !== undefined) return parseVal(row['Tổng kết']);
+  if (row['Điểm tổng kết'] !== undefined) return parseVal(row['Điểm tổng kết']);
+  if (row['Thang điểm 10'] !== undefined) return parseVal(row['Thang điểm 10']);
   
   const quiz = parseFloat(row.quiz) || 0;
   const asm = parseFloat(row.asm) || 0;
@@ -79,7 +83,7 @@ exports.previewData = async (req, res) => {
       const rawName = row.name || row.fullname || row.student_name || row['Họ Tên'] || row['Họ tên'] || row['Tên sinh viên'] || row['Tên Sinh Viên'];
       const name = rawName ? String(rawName).trim() : null;
       const rawCourse = row.course || row.courseId || row['Mã chuyển đổi'] || row['Mã môn'] || row['Môn học'];
-      const course = typeof rawCourse === 'string' ? rawCourse.trim().toUpperCase() : rawCourse;
+      const course = resolveBackendCourseCode(rawCourse);
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
       let calculatedScore = calculateScore(row);
@@ -89,10 +93,10 @@ exports.previewData = async (req, res) => {
       const trangThai = row['Trạng thái'] || row['Trạng Thái'] || row.status;
       if (trangThai) {
         const t = String(trangThai).toLowerCase().trim();
-        if (t === 'studying' || t === 'đang học') rowStatus = 'STUDYING';
-        else if (t === 'not started' || t === 'chưa học') rowStatus = 'NOT_STARTED';
-        else if (t === 'passed' || t === 'đạt') rowStatus = 'PASSED';
-        else if (t === 'failed' || t === 'trượt') rowStatus = 'FAILED';
+        if (t.includes('studying') || t.includes('đang học')) rowStatus = 'STUDYING';
+        else if (t.includes('not started') || t.includes('chưa học')) rowStatus = 'NOT_STARTED';
+        else if (t.includes('passed') || t.includes('đạt')) rowStatus = 'PASSED';
+        else if (t.includes('failed') || t.includes('trượt')) rowStatus = 'FAILED';
       }
 
       // FPT format fallback
