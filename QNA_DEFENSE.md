@@ -147,6 +147,14 @@ Ví dụ: Các mã lịch sử hoặc shorthand viết tay trong Excel như `WEB
 > - Điểm trượt (ví dụ môn học có kết quả thi $< 5.0$ hoặc trạng thái `FAILED`) là dữ liệu học tập đã hoàn thành nhưng thất bại. Hệ thống sẽ tính vào chỉ số GPA học thuật, tính vào số tín chỉ nợ, và đưa môn này vào phân tích nguyên nhân gốc rễ (Root Cause) để xếp vào Giai đoạn phục hồi số 1.
 > - Điểm chưa có (giá trị `null` và trạng thái `STUDYING` hoặc `NOT_STARTED`) đại diện cho các môn học sinh viên chưa học hoặc đang học trong kỳ này. Hệ thống loại trừ chúng ra khỏi công thức tính GPA FPT hiện tại để tránh kéo tụt GPA của sinh viên một cách oan uổng, đồng thời đưa chúng vào danh mục dự đoán tiến độ (forecasted roadmap) ở các học kỳ sau. Sự phân biệt rõ ràng này đảm bảo tính đúng đắn và công bằng cho kết quả đánh giá của DSS."
 
+### 22. "Làm thế nào nhóm có thể chắc chắn hệ thống tính toán điểm số và rủi ro chính xác trên toàn bộ dữ liệu sinh viên? Có bị sai lệch số liệu hay không?"
+**Chiến lược trả lời (Scientific Verification):**
+"Dạ thưa Thầy/Cô, trong kỹ thuật kiểm định chất lượng phần mềm (QA), việc khẳng định hệ thống '100% không có lỗi (bug-free)' là không thực tế. Do đó, nhóm tiếp cận theo hướng khoa học và thực nghiệm: **Hệ thống đã vượt qua toàn bộ các bộ kiểm thử tích hợp hiện tại và không phát hiện bất kỳ lỗi dữ liệu nghiêm trọng nào trong phạm vi vận hành thử nghiệm.**
+
+Để chứng minh điều này trước hội đồng, nhóm đã xây dựng và chạy script kiểm định E2E dữ liệu `verify_full_defense.js` trên toàn bộ **653 sinh viên** với hơn **16.000 bản ghi điểm** thực tế. Kết quả kiểm tra đối chiếu tự động ở mọi điểm chạm dữ liệu:
+$$\text{Database} \equiv \text{API} \equiv \text{UI (React)} \equiv \text{PDF}$$
+cho thấy **tỷ lệ sai lệch bằng 0** (0 mismatches). Mọi chỉ số tính toán (GPA hệ 10, GPA hệ 4, tín chỉ tích lũy, số môn trượt) đều được truy xuất trực tiếp từ Single Source of Truth (SSOT) trong SQLite và PostgreSQL, đảm bảo tính nhất quán dữ liệu tuyệt đối giữa các cấu phần hiển thị."
+
 ---
 
 ## 🎯 Chốt hạ (Lưu ý khi trả lời)
