@@ -333,9 +333,9 @@ function calculateFptGPA(scores) {
     });
   }
 
-  // FPT Poly often truncates cumulative GPA to 1 or 2 decimal places instead of rounding up.
-  // Using Math.floor(value * 10) / 10 gives 8.7 for 8.764 instead of 8.8
-  const gpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 10) / 10;
+  // FPT Poly often truncates cumulative GPA to 2 decimal places instead of rounding up.
+  // Using Math.floor(value * 100) / 100 gives 8.76 for 8.764 instead of 8.8
+  const gpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
   let gpa_4 = gpaCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / gpaCredits) + 1e-9) * 100) / 100;
   
   // Edge case fix for 3.67 as per user requirement (it could be slightly different based on the exact 4-point conversion mapping)

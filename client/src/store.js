@@ -13,10 +13,12 @@ export const useStore = create((set) => ({
   searchQuery: '',
   sortType: 'name-asc',
   onlyShowAtRisk: false,
+  riskFilter: 'ALL',
   
   setSearchQuery: (q) => set({ searchQuery: q }),
   setSortType: (t) => set({ sortType: t }),
   setOnlyShowAtRisk: (r) => set({ onlyShowAtRisk: r }),
+  setRiskFilter: (r) => set({ riskFilter: r }),
   
   toggleTheme: () => set((state) => {
     const newTheme = state.theme === 'dark' ? 'light' : 'dark';

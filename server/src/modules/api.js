@@ -34,76 +34,86 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // Helper to sync uploaded class Excel scores to local SQLite dev.db
 async function syncUploadedData(validStudents) {
-  try {
-    const courseIds = new Set();
-    validStudents.forEach(st => {
-      if (st.scores) {
-        Object.keys(st.scores).forEach(cId => {
-          courseIds.add(cId);
-        });
+  const courseIds = new Set();
+  validStudents.forEach(st => {
+    if (st.scores) {
+      Object.keys(st.scores).forEach(cId => {
+        courseIds.add(cId);
+      });
+    }
+  });
+
+  // Fetch all standard courses from the database
+  const dbCourses = await prisma.course.findMany({
+    select: { id: true }
+  });
+  const standardCourseIds = new Set(dbCourses.map(c => c.id));
+
+  // Validate that all courseIds from the upload exist in the database
+  const invalidCourses = Array.from(courseIds).filter(id => !standardCourseIds.has(id));
+  if (invalidCourses.length > 0) {
+    const error = new Error(`Mã môn học không hợp lệ hoặc không thuộc khung chương trình học: ${invalidCourses.join(', ')}`);
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // 1. Bulk Upsert Courses
+  await Promise.all(Array.from(courseIds).map(id => {
+    const credits = getCourseCredits(id);
+    return prisma.course.upsert({
+      where: { id },
+      update: { credits },
+      create: {
+        id,
+        name: id,
+        credits,
+        prerequisites: ''
       }
     });
+  }));
 
-    // 1. Bulk Upsert Courses
-    await Promise.all(Array.from(courseIds).map(id => {
-      const credits = getCourseCredits(id);
-      return prisma.course.upsert({
-        where: { id },
-        update: { credits },
-        create: {
-          id,
-          name: id,
-          credits,
-          prerequisites: ''
-        }
-      });
-    }));
+  // 2. Bulk Upsert Students & Score entries in batches
+  for (const st of validStudents) {
+    const mssv = st.id;
+    const name = st.name || `Sinh viên ${mssv}`;
+    const classCode = st.classCode || 'WD18301';
 
-    // 2. Bulk Upsert Students & Score entries in batches
-    for (const st of validStudents) {
-      const mssv = st.id;
-      const name = st.name || `Sinh viên ${mssv}`;
-      const classCode = st.classCode || 'WD18301';
+    await prisma.student.upsert({
+      where: { mssv },
+      update: { name, classCode },
+      create: { mssv, name, classCode }
+    });
 
-      await prisma.student.upsert({
-        where: { mssv },
-        update: { name, classCode },
-        create: { mssv, name, classCode }
-      });
+    // === BẢO MẬT DỮ LIỆU: Xóa dữ liệu rác cũ (residual data) của sinh viên này trước khi đè dữ liệu mới từ file Excel ===
+    await prisma.score.deleteMany({
+      where: { mssv }
+    });
 
-      // === BẢO MẬT DỮ LIỆU: Xóa dữ liệu rác cũ (residual data) của sinh viên này trước khi đè dữ liệu mới từ file Excel ===
-      await prisma.score.deleteMany({
-        where: { mssv }
-      });
+    for (const [courseId, val] of Object.entries(st.scores || {})) {
+      if (val === null) continue;
+      const value = parseFloat(val);
+      const status = value >= 5 ? 'PASSED' : 'FAILED';
 
-      for (const [courseId, val] of Object.entries(st.scores || {})) {
-        if (val === null) continue;
-        const value = parseFloat(val);
-        const status = value >= 5 ? 'PASSED' : 'FAILED';
-
-        await prisma.score.upsert({
-          where: {
-            mssv_courseId_semester: {
-              mssv,
-              courseId,
-              semester: 'Summer 2025'
-            }
-          },
-          update: { value, status },
-          create: {
+      await prisma.score.upsert({
+        where: {
+          mssv_courseId_semester: {
             mssv,
             courseId,
-            value,
-            semester: 'Summer 2025',
-            status
+            semester: 'Summer 2025'
           }
-        });
-      }
+        },
+        update: { value, status },
+        create: {
+          mssv,
+          courseId,
+          value,
+          semester: 'Summer 2025',
+          status
+        }
+      });
     }
-    console.log(`✅ Dynamically synchronized ${validStudents.length} student scores to SQLite.`);
-  } catch (err) {
-    console.error('❌ Failed to synchronize uploaded data to SQLite:', err);
   }
+  console.log(`✅ Dynamically synchronized ${validStudents.length} student scores to SQLite.`);
 }
 
 
@@ -1399,7 +1409,8 @@ router.post('/save-uploaded', async (req, res) => {
     res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! Hệ thống đang tự động quét lại AI...` });
   } catch (err) {
     console.error('Lỗi khi lưu dữ liệu:', err);
-    res.status(500).json({ error: 'Lỗi máy chủ khi lưu dữ liệu sinh viên: ' + err.message });
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({ error: err.message || 'Lỗi máy chủ khi lưu dữ liệu sinh viên.' });
   }
 });
 

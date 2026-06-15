@@ -95,6 +95,71 @@ const getLetterGrade = (val) => {
   return 'F';
 };
 
+const getCurriculumSemester = (courseId, courseName) => {
+  const cid = String(courseId || '').toUpperCase().trim();
+  const name = String(courseName || '').toLowerCase().trim();
+
+  if (cid.includes('COM107') || name.includes('tin học')) return 1;
+  if (cid.includes('ITI101') || name.includes('nhập môn công nghệ thông tin') || name.includes('nhập môn cntt')) return 1;
+  if (cid.includes('COM108') || name.includes('nhập môn lập trình')) return 1;
+  if (cid.includes('PDP102') || name.includes('kỹ năng học tập') || name.includes('phát triển cá nhân 1')) return 1;
+  if (cid.includes('VIE103') || name.includes('thể chất') || name.includes('vovinam')) return 1;
+  if (cid.includes('ENT112') || name.includes('tiếng anh 1.1')) return 1;
+
+  if (cid.includes('WEB101') || name.includes('xây dựng trang web')) return 2;
+  if (cid.includes('COM201') || name.includes('cơ sở dữ liệu') || name.includes('csdl')) return 2;
+  if (cid.includes('ENT12') || name.includes('tiếng anh 1.2')) return 2;
+  if (cid.includes('WEB108') || name.includes('lập trình php cơ bản') || name.includes('php cơ bản')) return 2;
+  if (cid.includes('WEB104') || name.includes('lập trình cơ sở với javascript') || name.includes('javascript cơ bản')) return 2;
+  if (cid.includes('VIE1016') || cid.includes('VIE108') || name.includes('chính trị')) return 2;
+
+  if (cid.includes('WEB302') || name.includes('html5 & css3') || name.includes('thiết kế web với html5')) return 3;
+  if (cid.includes('WEB204') || name.includes('dự án mẫu')) return 3;
+  if (cid.includes('WEB201') || name.includes('lập trình php 1') || name.includes('php 1')) return 3;
+  if (cid.includes('WEB105') || name.includes('thiết kế ui/ux') || name.includes('ui/ux')) return 3;
+  if (cid.includes('ENT21') || name.includes('tiếng anh 2.1')) return 3;
+  if (cid.includes('PDP103') || name.includes('phát triển bản thân') || name.includes('phát triển cá nhân 2')) return 3;
+
+  if (cid.includes('WEB206') || name.includes('javascript nâng cao') || name.includes('js nâng cao')) return 4;
+  if (cid.includes('ENT22') || name.includes('tiếng anh 2.2')) return 4;
+  if (cid.includes('WEB102') || name.includes('quản trị website')) return 4;
+  if (cid.includes('WEB501') || name.includes('ecmascript')) return 4;
+  if (cid.includes('PRO101') || name.includes('dự án 1')) return 4;
+  if (cid.includes('WEB205') || name.includes('marketing trên internet') || name.includes('marketing online')) return 4;
+
+  if (cid.includes('WEB503') || name.includes('nodejs') || name.includes('restful')) return 5;
+  if (cid.includes('WEB502') || name.includes('typescript')) return 5;
+  if (cid.includes('WEB209') || name.includes('front-end framework 2') || name.includes('framework 2')) return 5;
+  if (cid.includes('PDP104') || name.includes('kỹ năng làm việc') || name.includes('phát triển cá nhân 3')) return 5;
+  if (cid.includes('WEB208') || name.includes('front-end framework 1') || name.includes('framework 1')) return 5;
+  if (cid.includes('SYB301') || name.includes('khởi sự doanh nghiệp')) return 5;
+
+  if (cid.includes('VIE104') || name.includes('quốc phòng') || name.includes('gdqp')) return 6;
+  if (cid.includes('PRO11') || name.includes('thực tập tốt nghiệp') || name.includes('thực tập doanh nghiệp')) return 6;
+  if (cid.includes('PRO22') || name.includes('dự án tốt nghiệp') || name.includes('đồ án tốt nghiệp')) return 6;
+  if (cid.includes('VIE102') || name.includes('pháp luật')) return 6;
+
+  return 1;
+};
+
+const detectStudentSemester = (courses) => {
+  if (!courses || courses.length === 0) return 1;
+  const studiedSems = courses
+    .filter(c => c.status !== 'NOT_STARTED')
+    .map(c => getCurriculumSemester(c.courseId, c.course?.name || c.courseName || c.courseId));
+  
+  if (studiedSems.length === 0) return 1;
+  const maxStudied = Math.max(...studiedSems);
+  
+  const coursesInMaxSem = courses.filter(c => getCurriculumSemester(c.courseId, c.course?.name || c.courseName || c.courseId) === maxStudied);
+  const completedInMaxSem = coursesInMaxSem.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
+  
+  if (completedInMaxSem.length === coursesInMaxSem.length && maxStudied < 6) {
+    return maxStudied + 1;
+  }
+  return maxStudied;
+};
+
 
 const getScoresArray = (student) => {
   if (!student) return [];
@@ -112,6 +177,40 @@ const getScoresArray = (student) => {
   return [];
 };
 
+const getLocalRiskLevel = (student) => {
+  if (!student) return 'LOW';
+  const scoresArray = Object.values(student.scores || {});
+  const failedCount = scoresArray.filter(v => v !== null && v < 5.0).length;
+  const lowGradesCount = scoresArray.filter(v => v !== null && v < 6.5).length;
+  
+  if (failedCount >= 3) return 'CRITICAL';
+  if (failedCount > 0) return 'HIGH';
+  if (lowGradesCount > 0) return 'MEDIUM';
+  return 'LOW';
+};
+
+const calculateLocalFptGPA = (scores) => {
+  if (!scores) return 0.0;
+  
+  let totalScoreWeight = 0;
+  let gpaCredits = 0;
+
+  Object.entries(scores).forEach(([courseId, val]) => {
+    if (val === null || val === undefined || val === '') return;
+    const score = parseFloat(val);
+    const isCond = isConditionalCourse(courseId, courseId);
+    const isEng = isEnglishCourse(courseId, courseId);
+    const credits = getCourseCredits(courseId);
+
+    if (!isCond && !isEng && score > 1.0) {
+      totalScoreWeight += score * credits;
+      gpaCredits += credits;
+    }
+  });
+
+  return gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
+};
+
 export default function StudentSearch() {
   const navigate = useNavigate();
   const activeStudent = useStore(state => state.activeStudent);
@@ -123,6 +222,8 @@ export default function StudentSearch() {
   const setSortType = useStore(state => state.setSortType);
   const onlyShowAtRisk = useStore(state => state.onlyShowAtRisk);
   const setOnlyShowAtRisk = useStore(state => state.setOnlyShowAtRisk);
+  const riskFilter = useStore(state => state.riskFilter);
+  const setRiskFilter = useStore(state => state.setRiskFilter);
 
   const [results, setResults] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
@@ -262,7 +363,7 @@ export default function StudentSearch() {
     if (!selectedStudent) return;
     const printWindow = window.open('', '_blank');
     
-    const gpa = (selectedStudent.analytics?.gpa10 ?? 0.0).toFixed(1);
+    const gpa = (selectedStudent.analytics?.gpa10 ?? 0.0).toFixed(2);
     const totalCredits = selectedStudent.analytics?.totalEarnedCredits ?? 0;
     
     const failedSubjects = getScoresArray(selectedStudent).filter(s => s.value !== null && s.value < 5);
@@ -1018,12 +1119,7 @@ export default function StudentSearch() {
                   );
                 };
 
-                const detectedSemester = (() => {
-                  const sc = getScoresArray(selectedStudent);
-                  const sems = sc.map(s => s.semester).filter(Boolean);
-                  if (sems.length === 0) return 1;
-                  return Math.max(...sems);
-                })();
+                const detectedSemester = detectStudentSemester(getScoresArray(selectedStudent));
                 const failedScores = getScoresArray(selectedStudent).filter(s => s.value !== null && s.value < 5);
 
                 return (
@@ -1506,25 +1602,32 @@ export default function StudentSearch() {
                 </div>
 
                 <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
-                  <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={onlyShowAtRisk}
-                      onChange={(e) => setOnlyShowAtRisk(e.target.checked)}
-                      className="rounded border-slate-300 dark:border-white/10 text-blue-600 focus:ring-blue-500/50 w-4 h-4 bg-transparent cursor-pointer"
-                    />
-                    Chỉ hiện sinh viên có rủi ro
-                  </label>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold">Sắp xếp theo:</span>
+                    <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold font-mono uppercase tracking-wider">Mức độ rủi ro:</span>
+                    <select
+                      value={riskFilter}
+                      onChange={(e) => setRiskFilter(e.target.value)}
+                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50"
+                    >
+                      <option value="ALL">Tất cả</option>
+                      <option value="CRITICAL">🔴 Nguy cấp (Critical)</option>
+                      <option value="HIGH">🟠 Nguy cơ cao (High)</option>
+                      <option value="MEDIUM">🟡 Nguy cơ vừa (Medium)</option>
+                      <option value="LOW">🟢 An toàn (Low)</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold font-mono uppercase tracking-wider">Sắp xếp theo:</span>
                     <select
                       value={sortType}
                       onChange={(e) => setSortType(e.target.value)}
-                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/20 rounded-xl px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50"
+                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/20 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-blue-500/50"
                     >
                       <option value="name-asc">Tên (A-Z)</option>
                       <option value="name-desc">Tên (Z-A)</option>
-                      <option value="risk-desc">Rủi ro (Cao - Thấp)</option>
+                      <option value="risk-desc">Số môn trượt (Giảm dần)</option>
+                      <option value="gpa-desc">GPA (Cao - Thấp)</option>
+                      <option value="gpa-asc">GPA (Thấp - Cao)</option>
                     </select>
                   </div>
                 </div>
@@ -1532,9 +1635,8 @@ export default function StudentSearch() {
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {[...(query.trim() ? results : allStudents)]
                   .filter(st => {
-                    if (!onlyShowAtRisk) return true;
-                    const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
-                    return riskCount > 0;
+                    if (riskFilter === 'ALL') return true;
+                    return getLocalRiskLevel(st) === riskFilter;
                   })
                   .sort((a, b) => {
                     const nameA = a?.name || '';
@@ -1545,6 +1647,12 @@ export default function StudentSearch() {
                       const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
                       const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
                       return riskB - riskA;
+                    }
+                    if (sortType === 'gpa-desc') {
+                      return calculateLocalFptGPA(b.scores) - calculateLocalFptGPA(a.scores);
+                    }
+                    if (sortType === 'gpa-asc') {
+                      return calculateLocalFptGPA(a.scores) - calculateLocalFptGPA(b.scores);
                     }
                     return 0;
                   }).map(st => {

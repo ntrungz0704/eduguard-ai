@@ -26,7 +26,7 @@ function generateDynamicStudentInsight(student, riskData) {
     }
     
     if (failedCourses && failedCourses.length > 0) {
-      const courseList = failedCourses.map(c => c.courseId).join(', ');
+      const courseList = failedCourses.map(c => typeof c === 'string' ? c : c.courseId).join(', ');
       insight += `- **Hổng kiến thức nền tảng:** Ghi nhận nợ/yếu ở các học phần nền tảng: **${courseList}**. Việc đứt gãy kiến thức này sẽ cản trở nghiêm trọng tới khả năng tiếp thu các môn tiên quyết tiếp theo.\n`;
     } else {
       insight += `- **Xu hướng học lực:** Kết quả các bài kiểm tra thực hành gần đây có chiều hướng đi xuống mặc dù chưa nợ môn.\n`;
@@ -284,11 +284,11 @@ function buildHighRiskStudentsResponse(data) {
     .map((s, i) => {
       const gpa = s.gpa || 4.5;
       const failedStr = s.failedCourses && s.failedCourses.length > 0
-        ? s.failedCourses.map(c => `\`${c.courseId}\``).join(', ')
+        ? s.failedCourses.map(c => `\`${typeof c === 'string' ? c : c.courseId}\``).join(', ')
         : 'Không nợ môn nền tảng';
       return `### ${i + 1}. 🚨 **${s.name || 'Sinh viên'}** (${s.mssv})
 - **Risk Score:** ${s.riskScore}/100
-- **GPA Tích lũy:** ${gpa.toFixed(1)}/10
+- **GPA Tích lũy:** ${gpa.toFixed(2)}/10
 - **Tình trạng nợ môn:** ${failedStr}
 - **Khuyến nghị:** CVHT liên hệ trực tiếp trong tuần này, theo dõi chuyên cần và sắp xếp buddy kèm cặp học tập.`;
     })
@@ -546,7 +546,7 @@ function buildStudentAnalyticsResponse(data) {
   const text = `# 🎯 HỒ SƠ PHÂN TÍCH DSS — ${student.name || student.mssv}
 
 👤 **MSSV:** \`${student.mssv}\` | Lớp: ${student.classCode || 'N/A'}
-🎯 **GPA Tích lũy:** ${gpa.toFixed(1)}/10 (*Xếp loại: ${rank}*)
+🎯 **GPA Tích lũy:** ${gpa.toFixed(2)}/10 (*Xếp loại: ${rank}*)
 ⚠ **Risk Level:** ${formatRiskBadge(riskData.level, riskData.riskScore)}
 
 ---
@@ -587,7 +587,7 @@ function buildFollowupResponse(data) {
       const failedCount = riskData.failedCourses?.length || 0;
       let dynamicInsight = '';
       if (failedCount > 0) {
-        const firstFailed = riskData.failedCourses[0]?.courseId;
+        const firstFailed = typeof riskData.failedCourses[0] === 'string' ? riskData.failedCourses[0] : riskData.failedCourses[0]?.courseId;
         dynamicInsight = `Sự đứt gãy kiến thức nền tảng ở môn **${firstFailed}** đang tạo ra rủi ro lây lan lớn, có khả năng ảnh hưởng dây chuyền đến các học phần tiếp theo trong chương trình đào tạo FPT Polytechnic.`;
       } else {
         dynamicInsight = `Sinh viên chưa trượt môn foundational nào, rủi ro hiện tại chủ yếu bị ảnh hưởng từ thái độ học tập và chuyên cần sụt giảm ở học kỳ mới.`;

@@ -34,6 +34,13 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
       const riskData = explainRisk(student);
+      try {
+        const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
+        const dssReport = await generateDetailedDSSReport(student);
+        riskData.primaryRootCause = dssReport.rootCauseAnalysis;
+      } catch (err) {
+        appLogger.error(`Error generating DSS report for student analytics: ${err.message}`);
+      }
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'STUDENT_ANALYTICS', student, riskData, timeline };
     }
@@ -55,6 +62,13 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
       const riskData = explainRisk(student);
+      try {
+        const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
+        const dssReport = await generateDetailedDSSReport(student);
+        riskData.primaryRootCause = dssReport.rootCauseAnalysis;
+      } catch (err) {
+        appLogger.error(`Error generating DSS report for root cause: ${err.message}`);
+      }
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_ROOT_CAUSE', followupType: 'ROOT_CAUSE', student, riskData, timeline };
     }
@@ -66,6 +80,13 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
       const riskData = explainRisk(student);
+      try {
+        const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
+        const dssReport = await generateDetailedDSSReport(student);
+        riskData.primaryRootCause = dssReport.rootCauseAnalysis;
+      } catch (err) {
+        appLogger.error(`Error generating DSS report for attendance analysis: ${err.message}`);
+      }
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_ATTENDANCE', followupType: 'ATTENDANCE', student, riskData, timeline };
     }

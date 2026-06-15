@@ -4,7 +4,7 @@ const XLSX = require('xlsx');
 
 // Import modular logic và các hàm toán học hồi quy từ hệ thống
 const { getPrerequisites, calibrate, weightedPrediction } = require('../ai/regression');
-const { calculateFptGPA } = require('../services/dataService');
+const { calculateFptGPA } = require('../utils/dataService');
 
 // ============================================================
 // CẤU HÌNH ĐƯỜNG DẪN

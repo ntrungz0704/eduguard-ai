@@ -344,7 +344,7 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
           {gpa !== null ? (
             <div>
               <div className="text-5xl font-black mt-2 mb-1 bg-white dark:bg-gradient-to-r from-white dark:to-slate-300 bg-clip-text text-transparent" style={{ color: scoreColor(gpa) }}>
-                {gpa.toFixed(1)} <span className="text-xl text-slate-500">/10</span>
+                {gpa.toFixed(2)} <span className="text-xl text-slate-500">/10</span>
               </div>
               <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Hệ 4: <span className="font-bold text-slate-900 dark:text-white">{gpa4.toFixed(2)}</span>
@@ -918,7 +918,7 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 bg-white/3 p-4 rounded-xl border border-slate-200 dark:border-white/5">
             <div>
               <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 10)</div>
-              <div className="text-2xl font-black text-emerald-400 mt-1">{(stats?.gpa10 || 0).toFixed(1)}</div>
+              <div className="text-2xl font-black text-emerald-400 mt-1">{(stats?.gpa10 || 0).toFixed(2)}</div>
             </div>
             <div>
               <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 4)</div>
@@ -1687,7 +1687,7 @@ function ChatTab({ currentUser, activeStudentData }) {
               </h3>
               <div className="space-y-4">
                 <p className="text-xs text-slate-700 dark:text-slate-300">
-                  Dựa trên năng lực hiện tại, để đạt <strong>GPA {targetGPA.toFixed(1)} ({targetLabel})</strong> khi ra trường, bạn cần đạt trung bình <strong>{requiredGPA.toFixed(1)}</strong> cho các môn còn lại.
+                  Dựa trên năng lực hiện tại, để đạt <strong>GPA {targetGPA.toFixed(2)} ({targetLabel})</strong> khi ra trường, bạn cần đạt trung bình <strong>{requiredGPA.toFixed(2)}</strong> cho các môn còn lại.
                 </p>
                 <div className="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-amber-100 dark:border-amber-500/10">
                   <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase mb-3">Kế hoạch 90 ngày tới</h4>
@@ -2016,7 +2016,7 @@ export default function StudentDashboard() {
             <div className="shrink-0 text-center bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 p-4 rounded-2xl w-44 shadow-inner">
               <div className="flex justify-around items-center">
                 <div>
-                  <div className="text-2xl font-black" style={{ color: scoreColor(gpa) }}>{gpa.toFixed(1)}</div>
+                  <div className="text-2xl font-black" style={{ color: scoreColor(gpa) }}>{gpa.toFixed(2)}</div>
                   <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Hệ 10</div>
                 </div>
                 <div className="h-6 w-px bg-slate-50 dark:bg-slate-800" />

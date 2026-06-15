@@ -212,16 +212,13 @@ exports.publishData = async (req, res) => {
         }
       });
 
-      // Automatically create course if not exists
-      await prisma.course.upsert({
-        where: { id: row.course },
-        update: {},
-        create: {
-          id: row.course,
-          name: row.course,
-          credits: 3
-        }
+      // Verify course exists in the 34 syllabus courses
+      const courseExists = await prisma.course.findUnique({
+        where: { id: row.course }
       });
+      if (!courseExists) {
+        return res.status(400).json({ error: `Khóa học '${row.course}' không hợp lệ hoặc không thuộc chương trình 34 môn của syllabus.` });
+      }
 
       // Insert/Update Score
       let status = row.rowStatus;
