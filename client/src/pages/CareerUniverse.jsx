@@ -97,7 +97,7 @@ function TopMatchCard({ career, rank, onClick }) {
           <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
             <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${career.readinessScore || 0}%` }} />
           </div>
-          <span className="text-sm font-black text-amber-600 dark:text-amber-400">{career.readinessScore || 0}% Match</span>
+          <span className="text-sm font-black text-amber-600 dark:text-amber-400">{career.readinessScore || 0}% Alignment</span>
         </div>
       )}
     </button>
@@ -137,8 +137,8 @@ function CareerCard({ career, onClick }) {
           ) : (
             <>
               <div className="flex justify-between text-[10px] font-bold mb-1">
-                <span className="text-slate-500 uppercase tracking-wider">Mức độ phù hợp</span>
-                <span className="text-blue-600 dark:text-blue-400">{career.readinessScore}% Match</span>
+                <span className="text-slate-500 uppercase tracking-wider">Chỉ số Phù hợp</span>
+                <span className="text-blue-600 dark:text-blue-400">{career.readinessScore}% Alignment</span>
               </div>
               <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                 <div
@@ -258,7 +258,7 @@ export default function CareerUniverse() {
           </div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2">Khám phá Career Universe</h1>
           <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mb-5 max-w-2xl">
-            Tìm hiểu toàn bộ hệ sinh thái {careers.length} lộ trình nghề nghiệp lập trình và công nghệ thông tin. So khớp kỹ năng, đo lường Match Score và định hướng lộ trình học tập cá nhân hóa.
+            Tìm hiểu toàn bộ hệ sinh thái {careers.length} lộ trình nghề nghiệp lập trình và công nghệ thông tin. So khớp kỹ năng, phân tích Chỉ số Phù hợp (Alignment Indicator) và định hướng lộ trình học tập tham khảo.
           </p>
 
           {/* Quick Stats */}
@@ -266,7 +266,7 @@ export default function CareerUniverse() {
             {[
               { icon: <Briefcase size={14} />, label: `${careers.length} Lộ trình chi tiết`, color: 'blue' },
               { icon: <Target size={14} />, label: 'Phân tích lỗ hổng kỹ năng', color: 'emerald' },
-              { icon: <TrendingUp size={14} />, label: 'Match Score cá nhân', color: 'purple' },
+              { icon: <TrendingUp size={14} />, label: 'Chỉ báo Phù hợp (Alignment Indicator)', color: 'purple' },
               { icon: <Star size={14} />, label: 'Kế hoạch 90 ngày & Gợi ý dự án', color: 'amber' },
             ].map((stat, i) => (
               <span key={i} className="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300">
@@ -295,7 +295,7 @@ export default function CareerUniverse() {
         <div className="animate-fadeIn">
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={18} className="text-amber-500" />
-            <h2 className="text-lg font-black text-slate-900 dark:text-white">Nghề phù hợp nhất với bạn</h2>
+            <h2 className="text-lg font-black text-slate-900 dark:text-white">Chỉ báo Định hướng Nghề nghiệp Phù hợp</h2>
           </div>
           {topMatches.filter(c => (c.readinessScore || 0) > 0).length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -305,7 +305,7 @@ export default function CareerUniverse() {
             </div>
           ) : (
             <div className="p-8 glass-panel border border-slate-200 dark:border-white/10 rounded-2xl text-center">
-              <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Chưa đủ dữ liệu điểm số để đánh giá độ phù hợp nghề nghiệp. Vui lòng cập nhật điểm các môn chuyên ngành.</p>
+              <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Chưa đủ dữ liệu điểm số để ước tính chỉ số phù hợp nghề nghiệp. Vui lòng cập nhật điểm các môn chuyên ngành.</p>
             </div>
           )}
         </div>
