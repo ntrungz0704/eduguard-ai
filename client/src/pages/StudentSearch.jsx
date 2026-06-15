@@ -117,7 +117,13 @@ export default function StudentSearch() {
   const activeStudent = useStore(state => state.activeStudent);
   const setActiveStudent = useStore(state => state.setActiveStudent);
 
-  const [query, setQuery] = useState('');
+  const query = useStore(state => state.searchQuery);
+  const setQuery = useStore(state => state.setSearchQuery);
+  const sortType = useStore(state => state.sortType);
+  const setSortType = useStore(state => state.setSortType);
+  const onlyShowAtRisk = useStore(state => state.onlyShowAtRisk);
+  const setOnlyShowAtRisk = useStore(state => state.setOnlyShowAtRisk);
+
   const [results, setResults] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -125,8 +131,6 @@ export default function StudentSearch() {
   const [loadingDss, setLoadingDss] = useState(false);
   
   const [allStudents, setAllStudents] = useState([]);
-  const [sortType, setSortType] = useState('name-asc');
-  const [onlyShowAtRisk, setOnlyShowAtRisk] = useState(false);
 
   useEffect(() => {
     if (!selectedStudent) {

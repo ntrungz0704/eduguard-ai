@@ -121,7 +121,11 @@ exports.previewData = async (req, res) => {
       const errors = [];
       
       if (!mssv) errors.push('Thiếu MSSV (bạn có thể nhập tay ở ô MSSV)');
-      if (!course) errors.push('Thiếu Mã môn học');
+      if (!course) {
+        errors.push('Thiếu Mã môn học');
+      } else if (!courseSet.has(course.toLowerCase())) {
+        errors.push(`Mã môn '${course}' không nằm trong 34 môn học chuẩn của syllabus`);
+      }
       
       if (calculatedScore === null && rowStatus !== 'STUDYING' && rowStatus !== 'NOT_STARTED') {
         errors.push('Thiếu dữ liệu điểm');

@@ -9,6 +9,15 @@ export const useStore = create((set) => ({
   activeStudent: null,
   currentUser: JSON.parse(localStorage.getItem('eduguard_user')) || null, // Stores { id, name, role, classCode }
   
+  // Search state preservation for Teacher view
+  searchQuery: '',
+  sortType: 'name-asc',
+  onlyShowAtRisk: false,
+  
+  setSearchQuery: (q) => set({ searchQuery: q }),
+  setSortType: (t) => set({ sortType: t }),
+  setOnlyShowAtRisk: (r) => set({ onlyShowAtRisk: r }),
+  
   toggleTheme: () => set((state) => {
     const newTheme = state.theme === 'dark' ? 'light' : 'dark';
     localStorage.setItem('eduguard-theme', newTheme);
