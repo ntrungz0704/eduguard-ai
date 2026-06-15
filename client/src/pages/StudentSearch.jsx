@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import { Search, GraduationCap } from 'lucide-react';
+import StudentProfile from './StudentProfile';
 
 const getCourseCredits = (courseNameOrId) => {
   const name = String(courseNameOrId || '').trim();
@@ -112,22 +113,14 @@ export default function StudentSearch() {
   }, []);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    const urlId = searchParams.get('id');
-    if (urlId) {
-      setSearchParams({}, { replace: true });
-      navigate(`/student/${urlId}`, { replace: true });
-    }
-  }, [searchParams, navigate, setSearchParams]);
+  const id = searchParams.get('id');
 
   useEffect(() => {
     if (activeStudent) {
       const studentId = activeStudent.mssv || activeStudent.id;
-      setSearchParams({}, { replace: true });
-      navigate(`/student/${studentId}`);
+      setSearchParams({ id: studentId }, { replace: true });
     }
-  }, [activeStudent?.mssv, activeStudent?.id, navigate, setSearchParams]);
+  }, [activeStudent?.mssv, activeStudent?.id, setSearchParams]);
 
   // Auto-search on typing
   useEffect(() => {
@@ -156,8 +149,12 @@ export default function StudentSearch() {
 
   const handleSelectStudent = (student) => {
     const studentId = student.mssv || student.id;
-    navigate(`/student/${studentId}`);
+    setSearchParams({ id: studentId });
   };
+
+  if (id) {
+    return <StudentProfile />;
+  }
 
   return (
     <div className="space-y-6 animate-fade-in pb-10">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useStore } from '../store';
 import { api } from '../lib/api';
 import { 
@@ -191,7 +191,9 @@ const detectStudentSemester = (courses) => {
 };
 
 export default function StudentProfile() {
-  const { mssv } = useParams();
+  const { mssv: pathMssv } = useParams();
+  const [searchParams] = useSearchParams();
+  const mssv = pathMssv || searchParams.get('id');
   const navigate = useNavigate();
   const { setActiveStudent } = useStore();
   
