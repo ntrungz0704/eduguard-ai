@@ -676,13 +676,38 @@ export default function StudentSearch() {
                 };
                 const selectedStudentGpa = parseFloat(fptStats.gpa10);
 
-                const trendData = selectedStudent?.analytics?.curriculumSemesterStats 
-                  ? selectedStudent.analytics.curriculumSemesterStats.map(s => ({
-                      name: s.semesterName,
-                      gpa: s.gpa ?? 0,
-                      target: 8.0
-                    })).filter(d => d.gpa > 0)
-                  : [{ name: 'Chưa có', gpa: 0, target: 8.0 }];
+                const stats = selectedStudent?.analytics?.curriculumSemesterStats;
+                let trendData = [];
+                if (stats) {
+                  let maxStudiedSem = 0;
+                  stats.forEach((s, idx) => {
+                    if (s.gpa !== null) {
+                      maxStudiedSem = idx + 1;
+                    }
+                  });
+
+                  // Chỉ hiển thị tới học kỳ đã học
+                  trendData = stats.slice(0, maxStudiedSem).map(s => ({
+                    name: s.semesterName,
+                    gpa: s.gpa ?? 0,
+                    target: 8.0
+                  }));
+
+                  // Lấy dự kiến cho học kỳ tiếp theo (nếu có dự đoán AI)
+                  if (maxStudiedSem > 0 && maxStudiedSem < 6) {
+                    const predictions = selectedStudent.predictions || [];
+                    if (predictions.length > 0) {
+                      const avgPredicted = predictions.reduce((sum, p) => sum + p.predicted, 0) / predictions.length;
+                      trendData.push({
+                        name: `Dự kiến (Kỳ ${maxStudiedSem + 1})`,
+                        gpa: Math.round(avgPredicted * 10) / 10,
+                        target: 8.0,
+                        isPrediction: true
+                      });
+                    }
+                  }
+                }
+                
                 if (trendData.length === 0) {
                   trendData.push({ name: 'Chưa có', gpa: 0, target: 8.0 });
                 }
