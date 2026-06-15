@@ -716,7 +716,7 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
 // ─────────────────────────────────────────────
 //  Grades Tab
 // ─────────────────────────────────────────────
-function GradesTab({ curriculumCourses, courseDependencies }) {
+function GradesTab({ curriculumCourses, courseDependencies, stats }) {
   const [filter, setFilter] = useState('all');
 
   const completed = curriculumCourses.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
@@ -918,15 +918,15 @@ function GradesTab({ curriculumCourses, courseDependencies }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 bg-white/3 p-4 rounded-xl border border-slate-200 dark:border-white/5">
             <div>
               <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 10)</div>
-              <div className="text-2xl font-black text-emerald-400 mt-1">{stats.gpa10.toFixed(1)}</div>
+              <div className="text-2xl font-black text-emerald-400 mt-1">{(stats?.gpa10 || 0).toFixed(1)}</div>
             </div>
             <div>
               <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Điểm trung bình (Hệ 4)</div>
-              <div className="text-2xl font-black text-blue-400 mt-1">{stats.gpa4.toFixed(2)}</div>
+              <div className="text-2xl font-black text-blue-400 mt-1">{(stats?.gpa4 || 0).toFixed(2)}</div>
             </div>
             <div>
               <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Tín chỉ tích lũy (Đạt / Tổng)</div>
-              <div className="text-2xl font-black text-amber-400 mt-1">{stats.totalEarnedCredits} / 100 <span className="text-xs text-slate-500 font-normal">tín</span></div>
+              <div className="text-2xl font-black text-amber-400 mt-1">{stats?.totalEarnedCredits || 0} / 100 <span className="text-xs text-slate-500 font-normal">tín</span></div>
             </div>
           </div>
           <p className="text-[10px] text-slate-500 italic mt-3">
@@ -1120,6 +1120,43 @@ function RoadmapTab({ curriculumCourses, courseDependencies }) {
           </p>
         </div>
       </div>
+
+      {/* Progress Overview */}
+      {(() => {
+        const totalCredits = curriculumCourses.reduce((sum, c) => sum + (c.credits || 3), 0) || 120;
+        const completedCredits = curriculumCourses.filter(c => c.status === 'PASSED').reduce((sum, c) => sum + (c.credits || 3), 0);
+        const progressPercent = Math.min(100, Math.round((completedCredits / totalCredits) * 100));
+        const remainingCredits = totalCredits - completedCredits;
+        // Giả sử mỗi kỳ trung bình học 15-20 tín chỉ, 1 kỳ mất 4 tháng
+        const estimatedRemainingMonths = Math.ceil((remainingCredits / 15) * 4);
+
+        return (
+          <div className="glass-card p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900/40 shadow-sm">
+            <div className="flex justify-between items-end mb-3">
+              <div>
+                <h4 className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tiến độ đào tạo</h4>
+                <div className="text-2xl font-black text-slate-800 dark:text-white mt-1">
+                  {progressPercent}% <span className="text-xs font-medium text-slate-500">hoàn thành</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <h4 className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Thời gian dự kiến còn lại</h4>
+                <div className="text-lg font-bold text-emerald-500 mt-1">
+                  {progressPercent === 100 ? '🎉 Đã hoàn tất lộ trình!' : `~ ${estimatedRemainingMonths} tháng`}
+                </div>
+              </div>
+            </div>
+            <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-3 mb-1.5 overflow-hidden">
+              <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 h-3 rounded-full transition-all duration-1000 shadow-sm" style={{ width: `${progressPercent}%` }}></div>
+            </div>
+            <div className="flex justify-between text-[10px] text-slate-500 font-medium px-1">
+              <span>Đã đạt: <strong className="text-slate-700 dark:text-slate-300">{completedCredits}</strong> tín chỉ</span>
+              <span>Tổng: <strong className="text-slate-700 dark:text-slate-300">{totalCredits}</strong> tín chỉ</span>
+            </div>
+          </div>
+        );
+      })()}
+
 
       {/* Timeline Semesters list */}
       <div className="space-y-8 relative before:absolute before:left-5 before:top-6 before:bottom-6 before:w-0.5 before:bg-slate-800">
@@ -2016,7 +2053,7 @@ export default function StudentDashboard() {
  
       {/* ── Dynamic Tab Content Render ── */}
       {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} dssReport={dssReport} handleTabChange={handleTabChange} />}
-      {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
+      {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} stats={data?.analytics || { gpa10: 0, gpa4: 0, totalEarnedCredits: 0 }} />}
       {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}
 
