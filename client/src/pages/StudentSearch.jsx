@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useStore } from '../store';
 import { api } from '../lib/api';
@@ -1566,9 +1566,7 @@ export default function StudentSearch() {
                       <div className="flex border-b border-slate-200 dark:border-white/5 gap-2 overflow-x-auto pb-1 scrollbar-none">
                         {[
                           { id: 'gpa', label: '📊 Bảng Điểm & Biểu Đồ' },
-                          { id: 'dss', label: '🧠 Báo Cáo AI DSS Chi Tiết' },
-                          { id: 'roadmap', label: '🎯 Lộ trình & Thử thách' }
-                        ].map(t => (
+                          { id: 'dss', label: '🧠 Báo Cáo AI DSS Chi Tiết' }].map(t => (
                           <button
                             key={t.id}
                             type="button"
@@ -1875,150 +1873,6 @@ export default function StudentSearch() {
                           {renderDssReport()}
                         </div>
                       )}
-
-                      {/* Tab 3: Roadmaps & Steppers & Challenges */}
-                      {activeTab === 'roadmap' && (
-                        <div className="space-y-6 animate-fade-in">
-                          
-                          {/* Weakness Accordion */}
-                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10">
-                            <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wider flex items-center gap-2">
-                              <AlertTriangle size={16} className="text-rose-400" /> Môn yếu & Nguyên nhân cốt lõi
-                            </h4>
-                            <div className="space-y-3">
-                              {lowestSubjects.length > 0 ? (
-                                lowestSubjects.slice(0, 3).map((subject, idx) => {
-                                  const isExpanded = expandedWeakSubject === idx;
-                                  return (
-                                    <div key={idx} className="border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden bg-slate-100 dark:bg-black/20">
-                                      <button
-                                        type="button"
-                                        onClick={() => setExpandedWeakSubject(isExpanded ? -1 : idx)}
-                                        className="w-full flex items-center justify-between p-4 font-bold text-xs text-slate-800 dark:text-slate-200 hover:bg-white/5 transition-all text-left"
-                                      >
-                                        <div>
-                                          <p className="text-sm text-slate-100">Môn: {courseNameToCode[subject.course?.name || subject.courseId] || subject.courseId} ({getLetterGrade(subject.value)})</p>
-                                          <p className="text-[10px] text-slate-600 dark:text-slate-400 font-normal mt-1">Cần phân tích nguyên nhân cốt lõi</p>
-                                        </div>
-                                        {isExpanded ? <ChevronUp size={16} className="text-slate-600 dark:text-slate-400" /> : <ChevronDown size={16} className="text-slate-600 dark:text-slate-400" />}
-                                      </button>
-                                      {isExpanded && (
-                                        <div className="p-4 border-t border-slate-200 dark:border-white/5 bg-slate-200 dark:bg-black/40 text-xs text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
-                                          <div className="flex items-start gap-2">
-                                            <span className="text-blue-400 font-bold">🤖</span>
-                                            <p>Vui lòng sử dụng tính năng <strong>Trợ lý AI</strong> bên phải để phân tích nguyên nhân cốt lõi và lấy lời khuyên cụ thể cho môn học này.</p>
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                })
-                              ) : (
-                                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 text-xs text-center font-semibold">
-                                  Sinh viên này không có môn yếu. Xin chúc mừng! 🎉
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* 21-Day Challenge Checklist */}
-                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10">
-                            <div className="flex justify-between items-center mb-4">
-                              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-                                <Award size={16} className="text-amber-400" /> Lời khuyên & Thử thách 21 ngày
-                              </h4>
-                              <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
-                                {progressPercent}% hoàn thành
-                              </span>
-                            </div>
-                            
-                            {/* Progress Bar */}
-                            <div className="w-full bg-slate-50 dark:bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
-                              <div 
-                                className="h-full bg-white dark:bg-gradient-to-r dark:from-emerald-600 dark:to-emerald-400 transition-all duration-500"
-                                style={{ width: `${progressPercent}%` }}
-                              ></div>
-                            </div>
-
-                            <div className="space-y-3">
-                              {challenges.length > 0 ? (
-                                challenges.map(ch => (
-                                  <div 
-                                    key={ch.id} 
-                                    onClick={() => handleToggleChallenge(ch.id)}
-                                    className="flex items-start gap-3 p-3 bg-slate-100 dark:bg-black/20 hover:bg-black/35 border border-slate-200 dark:border-white/5 rounded-2xl cursor-pointer transition-all"
-                                  >
-                                    <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all mt-0.5 ${
-                                      ch.completed 
-                                        ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
-                                        : 'border-slate-200 dark:border-white/20 text-transparent'
-                                    }`}>
-                                      <Check size={12} strokeWidth={3} />
-                                    </div>
-                                    <span className={`text-xs leading-relaxed transition-all ${
-                                      ch.completed ? 'text-slate-500 line-through' : 'text-slate-700 dark:text-slate-300 font-medium'
-                                    }`}>
-                                      {ch.text}
-                                    </span>
-                                  </div>
-                                ))
-                              ) : (
-                                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400 text-xs text-center">
-                                  <p>Chưa có thử thách nào được tạo.</p>
-                                  <p className="mt-1 font-semibold">Vui lòng sử dụng tính năng Chat AI để sinh lộ trình thử thách 21 ngày cá nhân hóa.</p>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Visual Stepper Improvement roadmap */}
-                          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10">
-                            <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-wider flex items-center gap-2">
-                              <TrendingUp size={16} className="text-purple-400" /> Lộ Trình Cải Thiện GPA Học Tập
-                            </h4>
-                            <div className="relative pl-6 space-y-8 border-l border-slate-200 dark:border-white/10 ml-3">
-                              {selectedStudent.roadmap && selectedStudent.roadmap.length > 0 ? (
-                                selectedStudent.roadmap.map((step, idx) => (
-                                  <div key={idx} className="relative">
-                                    <div className={`absolute -left-[35px] top-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                                      step.status === 'completed' 
-                                        ? 'bg-emerald-600 border-emerald-500 text-slate-900 dark:text-white' 
-                                        : step.status === 'active'
-                                          ? 'bg-blue-600 border-blue-400 text-slate-900 dark:text-white animate-pulse'
-                                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-white/20'
-                                    }`}>
-                                      {(step.status === 'completed' || step.status === 'active') && <div className="w-1.5 h-1.5 bg-white rounded-full"></div>}
-                                    </div>
-                                    <div>
-                                      <h5 className={`text-xs font-bold ${
-                                        step.status === 'completed' 
-                                          ? 'text-emerald-400' 
-                                          : step.status === 'active'
-                                            ? 'text-blue-400'
-                                            : 'text-slate-600 dark:text-slate-400'
-                                      }`}>{step.stage}</h5>
-                                      <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">{step.desc}</p>
-                                    </div>
-                                  </div>
-                                ))
-                              ) : (
-                                <div className="relative">
-                                  <div className="absolute -left-[35px] top-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all bg-white dark:bg-slate-900 border-slate-200 dark:border-white/20"></div>
-                                  <div>
-                                    <h5 className="text-xs font-bold text-slate-600 dark:text-slate-400">Chưa có lộ trình học tập</h5>
-                                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">
-                                      Hệ thống chưa tạo lộ trình tự động. Bạn hãy nhập yêu cầu "Hãy lập lộ trình can thiệp học tập" vào khung Chat AI bên phải để sinh cấu trúc cải thiện điểm số.
-                                    </p>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                        </div>
-                      )}
-
-
 
                     </div>
 
