@@ -634,36 +634,25 @@ export default function StudentSearch() {
     <div className="space-y-6 animate-fade-in pb-10">
       
       {/* Top Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gradient-to-r dark:from-blue-900/40 dark:via-purple-900/40 dark:to-slate-900/40 border border-slate-200 dark:border-white/10 p-8 shadow-2xl">
-        <div className="absolute top-0 right-0 p-8 opacity-5">
-          <GraduationCap size={150} />
+      {!selectedStudent && (
+        <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-gradient-to-r dark:from-blue-900/40 dark:via-purple-900/40 dark:to-slate-900/40 border border-slate-200 dark:border-white/10 p-8 shadow-2xl">
+          <div className="absolute top-0 right-0 p-8 opacity-5">
+            <GraduationCap size={150} />
+          </div>
+          <div className="relative z-10 max-w-2xl">
+            <span className="bg-blue-500/10 text-blue-300 border border-blue-200 dark:border-blue-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">EduGuard Personal Query Hub</span>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white mt-3 mb-2">Trợ Lý Học Vụ Cá Nhân Hóa</h2>
+            <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+              Tra cứu học bạ tức thì và kích hoạt AI tư vấn lộ trình học tập, phát hiện lỗ hổng môn tiên quyết đến từng sinh viên.
+            </p>
+          </div>
         </div>
-        <div className="relative z-10 max-w-2xl">
-          <span className="bg-blue-500/10 text-blue-300 border border-blue-200 dark:border-blue-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">EduGuard Personal Query Hub</span>
-          <h2 className="text-3xl font-black text-slate-900 dark:text-white mt-3 mb-2">Trợ Lý Học Vụ Cá Nhân Hóa</h2>
-          <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-            Tra cứu học bạ tức thì và kích hoạt AI tư vấn lộ trình học tập, phát hiện lỗ hổng môn tiên quyết đến từng sinh viên.
-          </p>
-        </div>
-      </div>
+      )}
 
-            {/* Detailed Profile & AI Assistant (Full Width) */}
+      {/* Detailed Profile & AI Assistant (Full Width) */}
       <div className="w-full space-y-6">
         {selectedStudent ? (
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-              
-              <div className="xl:col-span-12">
-                <button 
-                  onClick={() => {
-                    setActiveStudent(null);
-                    setSelectedStudent(null);
-                    setSearchParams({}, { replace: true });
-                  }}
-                  className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 transition-all border border-slate-200 dark:border-white/10"
-                >
-                  <ArrowRight className="w-4 h-4 rotate-180" /> Quay lại danh sách
-                </button>
-              </div>
 
               {/* Dynamic calculations for selected student */}
               {(() => {
@@ -1047,80 +1036,119 @@ export default function StudentSearch() {
                   );
                 };
 
+                const detectedSemester = (() => {
+                  const sc = getScoresArray(selectedStudent);
+                  const sems = sc.map(s => s.semester).filter(Boolean);
+                  if (sems.length === 0) return 1;
+                  return Math.max(...sems);
+                })();
+                const failedScores = getScoresArray(selectedStudent).filter(s => s.value !== null && s.value < 5);
+
                 return (
                   <>
-                    {/* Tabbed workspace panel (Left) */}
-                    <div className="xl:col-span-8 space-y-6">
-                      
-                      {/* Horizontal tab header */}
-                      <div className="flex border-b border-slate-200 dark:border-white/5 gap-2 overflow-x-auto pb-1 scrollbar-none">
-                        {[
-                          { id: 'gpa', label: '📊 Bảng Điểm & Biểu Đồ' },
-                          { id: 'dss', label: '🧠 Báo Cáo AI DSS Chi Tiết' }].map(t => (
-                          <button
-                            key={t.id}
-                            type="button"
-                            onClick={() => setActiveTab(t.id)}
-                            className={`px-4 py-2.5 rounded-t-2xl font-bold text-xs transition-all border-b-2 flex-shrink-0 ${
-                              activeTab === t.id
-                                ? 'text-blue-400 border-blue-500 bg-white/5'
-                                : 'text-slate-600 dark:text-slate-400 border-transparent hover:text-slate-200 hover:bg-white/5'
-                            }`}
-                          >
-                            {t.label}
-                          </button>
-                        ))}
+                    <div className="xl:col-span-12 space-y-6">
+                      {/* Back navigation & Actions */}
+                      <div className="flex flex-wrap items-center justify-between gap-4">
+                        <button 
+                          onClick={() => {
+                            setActiveStudent(null);
+                            setSelectedStudent(null);
+                            setSearchParams({}, { replace: true });
+                          }}
+                          className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-white rounded-xl text-sm font-semibold border border-slate-200 dark:border-white/5 transition-all"
+                        >
+                          <ArrowRight className="w-4 h-4 rotate-180" /> Quay lại danh sách
+                        </button>
+                        <div className="flex items-center gap-3">
+                          <Link to={`/inbox?mssv=${selectedStudent.mssv}`} className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-500/20 flex items-center gap-2 transition-all">
+                            <Send size={16} /> Nhắn tin cho Sinh viên
+                          </Link>
+                          <span className="px-3.5 py-1.5 text-xs font-black bg-blue-500/10 text-blue-400 border border-blue-200 dark:border-blue-500/20 rounded-full flex items-center gap-1.5 animate-pulse">
+                            <Brain size={14}/> Hệ thống đang phân tích
+                          </span>
+                        </div>
                       </div>
 
-                      {/* Tab 1: GPA Analysis & Detailed Scores */}
-                      {activeTab === 'gpa' && (
-                        <div className="space-y-6 animate-fade-in">
-                          
-                          {/* Personal Info Summary */}
-                          <div className="glass-card p-6 rounded-3xl relative overflow-hidden border border-slate-200 dark:border-white/10">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
-                            
-                            <div className="flex items-start gap-4">
-                              <div className="w-14 h-14 rounded-2xl bg-white dark:bg-gradient-to-tr dark:from-blue-600 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white font-black text-xl shadow-lg">
-                                {selectedStudent.name.charAt(0)}
-                              </div>
-                              <div className="space-y-1">
-                                <h3 className="text-2xl font-black text-slate-900 dark:text-white">{selectedStudent.name}</h3>
-                                <p className="text-slate-600 dark:text-slate-400 text-sm flex items-center gap-2">
-                                  <Hash size={14} className="text-blue-400" /> <span className="font-mono text-slate-900 dark:text-white font-bold">{selectedStudent.mssv}</span>
-                                  • <span className="text-slate-700 dark:text-slate-300">{selectedStudent.classCode || 'WD18301'}</span>
-                                </p>
-                              </div>
+                      {/* Main Student Header Card */}
+                      <div className="glass-card p-8 rounded-3xl relative overflow-hidden bg-white dark:bg-gradient-to-r dark:from-slate-900/60 dark:to-slate-800/60 border border-slate-200 dark:border-white/10">
+                        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4"></div>
+                        
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                          <div className="flex items-center gap-5">
+                            <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gradient-to-tr dark:from-blue-500 dark:to-indigo-600 flex items-center justify-center text-slate-900 dark:text-white font-bold text-2xl shadow-xl shadow-sm dark:shadow-blue-500/20 border border-slate-200 dark:border-white/10">
+                              {selectedStudent.name ? selectedStudent.name.split(' ').pop().substring(0, 2).toUpperCase() : 'SV'}
                             </div>
-                            
-                            {/* Academic Meta quick stats */}
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-6 border-t border-slate-200 dark:border-white/5 text-center">
-                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-                                <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">Tiến Độ Học</p>
-                                <p className="text-slate-900 dark:text-white font-bold text-base">
-                                  {fptStats.totalScoresCount} môn
-                                </p>
-                              </div>
-                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-                                <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">GPA (Hệ 10)</p>
-                                <p className="text-slate-900 dark:text-white font-bold text-base text-emerald-400">
-                                  {fptStats.gpa10} <span className="text-[10px] text-slate-600 dark:text-slate-400 font-normal">/ 10</span>
-                                </p>
-                              </div>
-                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-                                <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">GPA (Hệ 4)</p>
-                                <p className="text-slate-900 dark:text-white font-bold text-base text-blue-400">
-                                  {fptStats.gpa4} <span className="text-[10px] text-slate-600 dark:text-slate-400 font-normal">/ 4</span>
-                                </p>
-                              </div>
-                              <div className="bg-slate-100 dark:bg-black/20 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-                                <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-1">Tín Chỉ Tích Lũy</p>
-                                <p className="text-slate-900 dark:text-white font-bold text-base text-purple-400">
-                                  {fptStats.totalEarnedCredits} <span className="text-[10px] text-slate-600 dark:text-slate-400 font-normal">tín</span>
-                                </p>
+                            <div>
+                              <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{selectedStudent.name}</h2>
+                              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-slate-600 dark:text-slate-400 mt-1.5 font-medium">
+                                <span>MSSV: <strong className="text-slate-800 dark:text-slate-200">{selectedStudent.mssv}</strong></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
+                                <span>Lớp: <strong className="text-slate-800 dark:text-slate-200">{selectedStudent.classCode || 'WD18301'}</strong></span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
+                                <span>Chuyên ngành: <strong className="text-blue-400">Thiết kế & Lập trình Web</strong></span>
+                                {dssReport?.academicHealth?.score !== 'N/A' && dssReport?.academicHealth?.cohortPercentile !== undefined && (
+                                  <>
+                                    <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
+                                    <span>Xếp hạng khóa: <strong className="text-emerald-400">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</strong></span>
+                                  </>
+                                )}
                               </div>
                             </div>
                           </div>
+                          
+                          {/* Quick Stats Grid */}
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+                              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Học Kỳ Khung</span>
+                              <span className="text-2xl font-black text-amber-400">Kỳ {detectedSemester}</span>
+                            </div>
+                            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+                              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">GPA Hệ 10</span>
+                              <span className="text-2xl font-black text-emerald-400">{fptStats.gpa10}</span>
+                            </div>
+                            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+                              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">GPA Hệ 4</span>
+                              <span className="text-2xl font-black text-blue-400">{fptStats.gpa4}</span>
+                            </div>
+                            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+                              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Tích Lũy Tín</span>
+                              <span className="text-2xl font-black text-purple-400">{fptStats.totalEarnedCredits} tín</span>
+                            </div>
+                            <div className="bg-slate-100 dark:bg-black/20 p-4 rounded-2xl border border-slate-200 dark:border-white/5 text-center min-w-[100px]">
+                              <span className="block text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider mb-1 font-mono">Môn Trượt</span>
+                              <span className="text-2xl font-black text-rose-500">{failedScores.length}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                      {/* Tabbed workspace panel (Left) */}
+                      <div className="space-y-6">
+                        
+                        {/* Horizontal tab header */}
+                        <div className="flex border-b border-slate-200 dark:border-white/5 gap-2 overflow-x-auto pb-1 scrollbar-none">
+                          {[
+                            { id: 'gpa', label: '📊 Bảng Điểm & Biểu Đồ' },
+                            { id: 'dss', label: '🧠 Báo Cáo AI DSS Chi Tiết' }].map(t => (
+                            <button
+                              key={t.id}
+                              type="button"
+                              onClick={() => setActiveTab(t.id)}
+                              className={`px-4 py-2.5 rounded-t-2xl font-bold text-xs transition-all border-b-2 flex-shrink-0 ${
+                                activeTab === t.id
+                                  ? 'text-blue-400 border-blue-500 bg-white/5'
+                                  : 'text-slate-600 dark:text-slate-400 border-transparent hover:text-slate-200 hover:bg-white/5'
+                              }`}
+                            >
+                              {t.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Tab 1: GPA Analysis & Detailed Scores */}
+                        {activeTab === 'gpa' && (
+                          <div className="space-y-6 animate-fade-in">
 
                           {/* Visual Academic Charts Row */}
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
