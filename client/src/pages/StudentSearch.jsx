@@ -7,7 +7,7 @@ import {
   MessageSquare, Send, Sparkles, TrendingUp, ArrowRight, 
   Flag, Award, BookOpen, GraduationCap, Clock,
   ChevronDown, ChevronUp, ChevronRight, Check, Plus, Trash2, Play, Pause, RotateCcw,
-  Activity, CheckCircle2, ShieldAlert, Brain, Layers, Mail
+  Activity, CheckCircle2, ShieldAlert, Brain, Layers, Mail, Loader2
 } from 'lucide-react';
 import { 
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
