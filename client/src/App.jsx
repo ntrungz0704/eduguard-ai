@@ -76,7 +76,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
         <div className="text-xs uppercase tracking-wider text-[#0F172A] dark:text-slate-400 font-extrabold mb-4">Phân tích Học vụ</div>
         <nav className="space-y-2">
           {navItems.map(item => {
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname === item.path || (item.path === '/search' && location.pathname.startsWith('/student/'));
             return (
               <Link
                 key={item.path}
