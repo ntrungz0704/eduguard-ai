@@ -287,8 +287,10 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    fetchTrainingData();
-  }, [fetchTrainingData]);
+    if (currentUser) {
+      fetchTrainingData();
+    }
+  }, [fetchTrainingData, currentUser]);
 
   if (!currentUser) {
     return (
