@@ -302,8 +302,9 @@ function calculateFptGPA(scores) {
     if (score >= 5.0 || score === 1.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
       const lowerName = String(courseName || '').toLowerCase();
       const code = String(courseId || '').toUpperCase();
-      // Giáo dục quốc phòng (4 tín chỉ) là chứng chỉ độc lập, không cộng vào tín chỉ tích luỹ tốt nghiệp
-      if (!(lowerName.includes('quốc phòng') || lowerName.includes('gdqp') || code.includes('VIE104'))) {
+      // Giáo dục quốc phòng (4 tín chỉ) và Thể chất (3 tín chỉ) là chứng chỉ độc lập, không cộng vào tích luỹ tốt nghiệp
+      if (!(lowerName.includes('quốc phòng') || lowerName.includes('gdqp') || code.includes('VIE104') ||
+            lowerName.includes('thể chất') || lowerName.includes('vovinam') || code.includes('VIE103'))) {
         totalAccumulatedCredits += credits;
       }
     }

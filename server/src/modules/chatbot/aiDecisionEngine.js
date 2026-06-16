@@ -27,7 +27,7 @@ async function getAlignedRiskData(student) {
   return {
     riskScore: dssReport.graduationRisk?.delayScore || 0,
     level: dssReport.graduationRisk?.level || 'LOW',
-    gpa: dssReport.graduationRisk?.gpa || 0,
+    gpa: dssReport.academicSnapshot?.gpa10 || 0,
     avgAttendance: 100,
     failedCourses: dssReport.knowledgeDependency?.failedCourses || [],
     reasons: reasons.length > 0 ? reasons : ['Không có rủi ro đáng kể.'],

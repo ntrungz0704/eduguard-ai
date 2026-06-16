@@ -659,6 +659,62 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     return true;
   });
 
+  const AcademicDependencyGraph = ({ scores }) => {
+    const chain = [
+      { id: 'COM108', name: 'Nhập môn Lập trình' },
+      { id: 'WEB1013', name: 'Thiết kế Web (HTML5/CSS3)' },
+      { id: 'WEB2013', name: 'Lập trình JS cơ bản' },
+      { id: 'WEB2062', name: 'Lập trình JS nâng cao' },
+      { id: 'WEB503', name: 'Lập trình Node.js & CSDL' }
+    ];
+
+    return (
+      <div className="bg-slate-900/40 p-6 rounded-2xl border border-slate-700/30">
+        <h5 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 font-mono">Academic Dependency Graph (Sơ đồ Tiến trình Học tập)</h5>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 overflow-x-auto py-2">
+          {chain.map((c, idx) => {
+            const scoreObj = scores?.find(s => s.courseId === c.id || s.courseId.includes(c.id));
+            const val = scoreObj ? scoreObj.value : null;
+            const status = scoreObj ? scoreObj.status : 'NOT_STARTED';
+
+            let color = 'bg-slate-800 text-slate-500 border-slate-700'; // Gray (Not started)
+            let statusLabel = 'Chưa học';
+            
+            if (status === 'PASSED' && val >= 7.0) {
+              color = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+              statusLabel = `Đạt mạnh (${val.toFixed(1)})`;
+            } else if (status === 'PASSED' && val < 7.0) {
+              color = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+              statusLabel = `Đạt TB (${val.toFixed(1)})`;
+            } else if (status === 'FAILED' || (val !== null && val < 5.0)) {
+              color = 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+              statusLabel = `Trượt (${val ? val.toFixed(1) : 'Yếu'})`;
+            } else if (status === 'STUDYING') {
+              color = 'bg-blue-500/10 text-blue-400 border-blue-500/30';
+              statusLabel = 'Đang học';
+            }
+
+            return (
+              <React.Fragment key={c.id}>
+                <div className={`flex flex-col items-center p-3 rounded-xl border min-w-[140px] text-center transition-all hover:scale-105 duration-300 ${color}`}>
+                  <span className="text-[10px] font-black font-mono tracking-wider">{c.id}</span>
+                  <span className="text-[10px] font-medium truncate w-[120px] block mt-0.5" title={c.name}>{c.name}</span>
+                  <span className="text-[9px] font-bold mt-1.5 uppercase tracking-wide opacity-80">{statusLabel}</span>
+                </div>
+                {idx < chain.length - 1 && (
+                  <div className="hidden md:flex items-center text-slate-600 font-bold text-lg px-1 animate-pulse">&rarr;</div>
+                )}
+                {idx < chain.length - 1 && (
+                  <div className="flex md:hidden items-center text-slate-600 font-bold text-lg py-1 animate-pulse">&darr;</div>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   const renderDssReport = () => {
     if (loadingDss || !dssReport) {
       return (
@@ -676,6 +732,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
       rootCauseAnalysis,
       riskContributors,
       futureCourseImpact,
+      futureRiskWarnings,
       graduationRisk,
       recoveryRoadmap,
       programLevelComparison,
@@ -683,17 +740,6 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
       careerImpactAnalysis,
       dependencyHeatmap
     } = dssReport;
-
-    const weakPassedCourses = scoreEntries.filter(s => s.status === 'PASSED' && s.value !== null && s.value < 7.0);
-
-    const unrecoveredFailedCourses = scoreEntries.filter(s => {
-      if (s.status !== 'FAILED') return false;
-      const isRecovered = scoreEntries.some(other => other.courseId === s.courseId && other.status === 'PASSED');
-      const isRetaking = scoreEntries.some(other => other.courseId === s.courseId && (other.status === 'STUDYING' || other.status === 'NOT_STARTED'));
-      return !isRecovered && !isRetaking;
-    });
-
-    const currentStudyingCourses = scoreEntries.filter(s => s.status === 'STUDYING');
 
     return (
       <div className="space-y-10">
@@ -706,33 +752,23 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
             ✓ Derived from Syllabus
           </span>
           <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center gap-1">
-            ✓ Three-Layer Architecture v2
+            ✓ Dynamic Dependency Analysis
           </span>
         </div>
 
-        {/* ============================================================ */}
-        {/* LAYER 1: HISTORICAL EVIDENCE (BẰNG CHỨNG HỌC TẬP - QUÁ KHỨ) */}
-        {/* ============================================================ */}
-        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl -z-10"></div>
+        {/* SECTION 1: Academic Health */}
+        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6">
+          <h3 className="text-lg font-black text-slate-905 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-white/5 pb-3">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 font-black text-sm">S1</span>
+            SECTION 1 — Sức khỏe học lực &amp; Tiến độ (Academic Health)
+          </h3>
           
-          <div className="flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 font-black text-sm">L1</span>
-            <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                LAYER 1 — HISTORICAL EVIDENCE (Quá khứ &amp; Bằng chứng)
-              </h3>
-              <p className="text-xs text-slate-500 font-semibold">Kết quả học tập đã hoàn thành, chỉ số sức khỏe và cảnh báo hổng kiến thức nền tảng</p>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Academic Health Score */}
-            <div className="glass-card p-5 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/5 relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl"></div>
+            {/* Health Score circle */}
+            <div className="glass-card p-5 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/5 flex flex-col justify-between">
               <div>
                 <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
-                  <Activity className="text-emerald-400 animate-pulse" size={16} /> Chỉ số Sức khỏe Học tập (Academic Health Score)
+                  <Activity className="text-emerald-400 animate-pulse" size={16} /> Chỉ số Sức khỏe Học tập
                 </h4>
                 <div className="flex items-center gap-6 my-4">
                   <div className="relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-slate-200 dark:border-white/15 bg-white/5 shadow-inner">
@@ -758,7 +794,9 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                       </span>
                       {academicHealth.score !== 'N/A' && academicHealth.cohortPercentile !== undefined && (
                         <span className="text-[10px] font-black px-2 py-0.5 rounded-full border bg-blue-500/10 border-blue-500/20 text-blue-400">
-                          Top {academicHealth.cohortPercentile}%
+                          {academicHealth.cohortPercentile <= 50.0 
+                            ? `Top ${academicHealth.cohortPercentile}%`
+                            : `Thứ ${academicHealth.cohortRank}/${academicHealth.totalCohort} SV`}
                         </span>
                       )}
                     </div>
@@ -768,16 +806,12 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                   </div>
                 </div>
               </div>
-              
-              <div className="p-3 rounded-lg border border-blue-500/20 bg-blue-500/5 text-blue-300 text-[10px] leading-relaxed font-medium mt-3">
-                <strong>Tuyên bố hệ thống:</strong> Dự đoán dựa trên cấu trúc chương trình đào tạo &amp; điểm quá khứ, không cam kết điểm số tuyệt đối.
-              </div>
             </div>
 
-            {/* Trend Analysis Chart */}
+            {/* GPA Trend BarChart */}
             <div className="glass-card p-5 rounded-2xl border border-slate-200 dark:border-white/5 bg-white/5">
               <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
-                <TrendingUp className="text-blue-400" size={16} /> Phân tích Xu hướng Học thuật (GPA Trend)
+                <TrendingUp className="text-blue-400" size={16} /> Phân tích Xu hướng GPA (GPA Trend)
               </h4>
               <div className="h-40 w-full mb-3">
                 {trendAnalysis.trendData && trendAnalysis.trendData.length > 0 ? (
@@ -805,516 +839,113 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2 border-t border-slate-200 dark:border-white/5 mt-4">
-            {/* Retake Advisory (Unrecovered Failed Courses) */}
-            <div className="space-y-3">
-              <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono flex items-center gap-2"><XCircle className="text-rose-500" size={14} /> Khuyến nghị học lại (Retake Advisory):</h5>
-              <div className="max-h-60 overflow-y-auto border border-slate-200 dark:border-white/5 rounded-2xl bg-white/5 p-4 custom-scrollbar">
-                {unrecoveredFailedCourses.length > 0 ? (
-                  unrecoveredFailedCourses.map((fc, idx) => (
-                    <div key={idx} className="p-3 mb-2 bg-rose-500/5 border border-rose-500/20 rounded-xl space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="font-extrabold text-xs text-rose-400 font-mono">{fc.courseId} — {fc.courseName || fc.courseId}</span>
-                        <span className="text-[9px] font-black bg-rose-500/20 px-1.5 py-0.5 rounded border border-rose-500/30 text-rose-500">
-                          TRƯỢT GỐC: {fc.value !== null ? `${fc.value.toFixed(1)}/10` : '—'}
-                        </span>
-                      </div>
-                      <p className="text-[10px] text-slate-400 leading-relaxed font-semibold">
-                        Trạng thái: <b>Đã kết thúc</b>. Khuyến nghị liên hệ để xếp lớp học lại.
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-xs text-slate-500 text-center py-4 flex items-center justify-center gap-2"><CheckCircle2 size={14} className="text-emerald-400" /> Không có học phần trượt nào cần học lại.</p>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono flex items-center gap-2"><Activity className="text-blue-500" size={14} /> So sánh đối sánh học thuật:</h5>
-              <div className="max-h-60 overflow-y-auto border border-slate-200 dark:border-white/5 rounded-2xl bg-white/5 p-4 custom-scrollbar">
-                {programLevelComparison && programLevelComparison.length > 0 ? (
-                  <table className="w-full text-left text-[11px] border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-200 dark:border-white/10 text-slate-500 font-bold uppercase font-mono">
-                        <th className="pb-2">Mã môn</th>
-                        <th className="pb-2 text-center">SV</th>
-                        <th className="pb-2 text-center">Lớp</th>
-                        <th className="pb-2 text-right">Chênh lệch</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {programLevelComparison.slice(0, 10).map((item, idx) => (
-                        <tr key={idx} className="border-b border-slate-100 dark:border-white/5 hover:bg-white/5 transition-colors font-medium">
-                          <td className="py-2 font-bold text-slate-700 dark:text-slate-300 font-mono">{item.courseId}</td>
-                          <td className="py-2 text-center font-bold text-slate-800 dark:text-white">{item.studentGrade.toFixed(1)}</td>
-                          <td className="py-2 text-center text-slate-500">{item.classAverage.toFixed(1)}</td>
-                          <td className="py-2 text-right">
-                            <span className={`font-mono font-bold ${item.difference >= 0 ? 'text-emerald-400' : 'text-rose-500'}`}>
-                              {item.difference >= 0 ? `+${item.difference.toFixed(1)}` : `${item.difference.toFixed(1)}`}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <p className="text-xs text-slate-500 text-center py-4">Chưa có dữ liệu đối sánh.</p>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* ============================================================ */}
-        {/* LAYER 2: CURRENT RISK (CAN THIỆP RỦI RO HIỆN TẠI - HIỆN TẠI) */}
-        {/* ============================================================ */}
-        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/5 rounded-full blur-3xl -z-10"></div>
+        {/* SECTION 2: Root Cause Analysis */}
+        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6">
+          <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-white/5 pb-3">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-orange-500/10 text-orange-400 font-black text-sm">S2</span>
+            SECTION 2 — Phân tích Nguyên nhân Gốc rễ (Root Cause Analysis)
+          </h3>
           
-          <div className="flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-rose-500/10 text-rose-400 font-black text-sm">L2</span>
-            <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                LAYER 2 — CURRENT RISK (Nguy cơ hiện tại &amp; Can thiệp)
-              </h3>
-              <p className="text-xs text-slate-500 font-semibold">Các học phần đang học bị rủi ro và các môn trượt chưa được khắc phục</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6">
-            {/* Active Intervention Queue (Studying Courses) */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-250 flex items-center gap-2">
-                <Clock className="text-amber-400" size={16} /> Hàng đợi Can thiệp Chủ động (Active Intervention Queue)
-              </h4>
-              <p className="text-xs text-slate-500">Các môn học đang học trong kỳ này. Cần theo dõi rủi ro và can thiệp trước kỳ thi.</p>
-              
-              <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-                {currentStudyingCourses.length > 0 ? (
-                  currentStudyingCourses.map((sc, idx) => {
-                    const pred = student.predictions?.find(p => p.courseId === sc.courseId);
-                    const risk = pred?.risk || 'LOW';
-                    const scoreVal = pred?.predictedScore ? `${pred.predictedScore.toFixed(0)}% Rủi ro` : 'Bình thường';
-                    
-                    return (
-                      <div key={idx} className={`p-4 rounded-xl border transition-all space-y-2 ${
-                        risk === 'HIGH' || risk === 'CRITICAL' ? 'bg-orange-500/5 border-orange-500/20 text-orange-400' : 'bg-white/5 border-white/10 text-slate-300'
-                      }`}>
-                        <div className="flex justify-between items-center">
-                          <span className="font-extrabold text-xs font-mono">{sc.courseId} — {sc.courseName || sc.courseId}</span>
-                          <span className={`text-[9px] font-black px-2 py-0.5 rounded border uppercase ${
-                            risk === 'HIGH' || risk === 'CRITICAL' ? 'bg-orange-500/20 border-orange-500/30 text-orange-400 animate-pulse' :
-                            risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-500/30 text-amber-400' :
-                            'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
-                          }`}>
-                            {risk === 'HIGH' || risk === 'CRITICAL' ? `CẢNH BÁO: ${scoreVal}` : `AN TOÀN`}
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-400 leading-relaxed font-semibold">
-                          {pred?.explanation || `Học phần đang được theo dõi định kỳ. Duy trì tham gia lớp đầy đủ.`}
-                        </p>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="p-4 bg-slate-900/50 border border-white/5 text-slate-500 rounded-xl text-xs font-bold text-center">
-                    Không có học phần nào đang học trong học kỳ hiện tại.
+          {rootCauseAnalysis ? (
+            <div className="p-5 bg-white/5 border border-white/5 rounded-2xl space-y-4 relative overflow-hidden">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl">
+                  <AlertTriangle size={18} />
+                </div>
+                <div className="space-y-1">
+                  <h5 className="font-black text-base text-amber-400 font-mono">
+                    {rootCauseAnalysis.courseId} - {rootCauseAnalysis.name}
+                  </h5>
+                  <div className="flex flex-wrap gap-2 text-[10px] font-black uppercase text-slate-400">
+                    <span className="bg-rose-500/10 border border-rose-500/20 text-rose-450 px-2 py-0.5 rounded">Tác động: {rootCauseAnalysis.academicImportanceLevel}</span>
+                    <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-2 py-0.5 rounded">Độ nghẽn: {rootCauseAnalysis.bottleneckWeight}/5</span>
+                    <span className="bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded">Impact: {rootCauseAnalysis.impactTrack}</span>
                   </div>
-                )}
+                </div>
+              </div>
+              <div className="bg-black/30 p-4 rounded-xl border border-white/5 space-y-2">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono">Định nghĩa & Lý do (Definition &amp; Reason):</span>
+                <p className="text-xs text-slate-300 leading-relaxed font-semibold">
+                  Môn học gốc {rootCauseAnalysis.courseId} chặn đứng tiến độ của {rootCauseAnalysis.directDownstreamCount} môn kế thừa tiếp theo.
+                </p>
+                <div className="text-xs text-slate-350 leading-relaxed whitespace-pre-wrap font-medium">
+                  {rootCauseAnalysis.explanation}
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 pt-4 border-t border-slate-200 dark:border-white/5">
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <AlertTriangle className="text-amber-500" size={16} /> Phân tích Nguyên nhân Gốc rễ (Academic Root Cause)
-              </h4>
-              {rootCauseAnalysis ? (
-                <div className="p-5 bg-white/5 border border-white/5 rounded-2xl space-y-3 relative overflow-hidden">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl">
-                      <AlertTriangle size={18} />
-                    </div>
-                    <div className="space-y-1">
-                      <h5 className="font-black text-sm text-amber-400 font-mono">
-                        {rootCauseAnalysis.courseId} - {rootCauseAnalysis.name}
-                      </h5>
-                      <div className="flex flex-wrap gap-1 text-[8px] font-black uppercase text-slate-400">
-                        <span className="bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded">Tác động: {rootCauseAnalysis.academicImportanceLevel}</span>
-                        <span className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded">Nghẽn: {rootCauseAnalysis.bottleneckWeight}/5</span>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-350 leading-relaxed whitespace-pre-wrap bg-black/20 p-3 rounded-lg border border-white/5 font-medium">
-                    {rootCauseAnalysis.explanation}
-                  </p>
-                </div>
-              ) : (
-                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-xs font-bold flex items-center gap-2">
-                  <CheckCircle2 size={14} /> Chưa phát hiện điểm gãy học thuật nghiêm trọng.
-                </div>
-              )}
+          ) : (
+            <div className="p-5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-xs font-bold flex items-center gap-2">
+              <CheckCircle2 size={14} /> Chưa phát hiện điểm gãy học thuật nghiêm trọng.
             </div>
-
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="text-amber-400" size={16} /> Lộ trình Khôi phục Học lực 12 Tuần
-              </h4>
-              <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-                {recoveryRoadmap && recoveryRoadmap.length > 0 ? (
-                  recoveryRoadmap.map((step, idx) => (
-                    <div key={idx} className="flex gap-3 text-xs">
-                      <div className="flex flex-col items-center">
-                        <div className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-[10px] border border-blue-500/30">
-                          {idx + 1}
-                        </div>
-                        {idx < recoveryRoadmap.length - 1 && <div className="w-0.5 bg-blue-500/20 flex-1 my-1"></div>}
-                      </div>
-                      <div className="flex-1 bg-white/5 p-3 rounded-xl border border-white/5">
-                        <span className="text-[9px] font-black text-blue-400 font-mono block uppercase font-mono">{step.phase}</span>
-                        <h5 className="font-bold text-slate-200 mt-0.5">{step.title}</h5>
-                        <p className="text-[11px] text-slate-400 leading-relaxed mt-1 font-medium">{step.focus}</p>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-xs text-slate-500 text-center py-4">Chưa tạo lộ trình khôi phục.</p>
-                )}
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* ============================================================ */}
-        {/* LAYER 3: FUTURE RISK (DỰ BÁO NGUY CƠ TƯƠNG LAI - TƯƠNG LAI) */}
-        {/* ============================================================ */}
-        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -z-10"></div>
-          
-          <div className="flex items-center gap-3 border-b border-slate-200 dark:border-white/5 pb-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 font-black text-sm">L3</span>
-            <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                LAYER 3 — FUTURE RISK (Dự báo nguy cơ tương lai)
-              </h3>
-              <p className="text-xs text-slate-500 font-semibold">Dự báo nguy cơ cho các môn học sắp tới và rủi ro chậm ra trường</p>
-            </div>
-          </div>
+        {/* SECTION 3: Future Risk Warnings & Dependency Graph */}
+        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6">
+          <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-white/5 pb-3">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-red-500/10 text-red-400 font-black text-sm">S3</span>
+            SECTION 3 — Nguy cơ Tương lai &amp; Đồ thị Ràng buộc (Future Risk Warnings)
+          </h3>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Weak Foundation Warnings (From skillsGapAnalysis) */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-250 flex items-center gap-2">
-                <AlertCircle className="text-amber-500 animate-pulse" size={16} /> Cảnh báo Nền tảng Yếu (Weak Foundation)
-              </h4>
-              <p className="text-xs text-slate-500">Các môn học đã qua (GPA &lt; 7.0) nhưng chưa vững kiến thức, có thể gây rủi ro cho các môn tương lai.</p>
-              
-              <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-                {skillsGapAnalysis?.failedOrWeakCourses?.filter(c => c.status === 'WEAK').length > 0 ? (
-                  skillsGapAnalysis.failedOrWeakCourses.filter(c => c.status === 'WEAK').map((wc, idx) => (
-                    <div key={idx} className="p-4 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/20 rounded-xl transition-all space-y-2 animate-fade-in">
-                      <div className="flex justify-between items-center">
-                        <span className="font-extrabold text-xs text-amber-500 font-mono">{wc.courseId} — {wc.courseName}</span>
-                        <span className="text-[10px] font-black bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30 text-amber-500">
-                          ĐẠT YẾU: {wc.grade?.toFixed(1)}/10
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-400 leading-relaxed font-semibold">
-                        Ghi nhận hổng kiến thức mức độ {wc.academicImportanceLevel}.
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold flex items-center gap-2">
-                    <CheckCircle2 size={14} /> Không có môn nền tảng yếu.
-                  </div>
-                )}
-              </div>
-            </div>
+          {/* Flowchart Dependency Graph */}
+          <AcademicDependencyGraph scores={scoreEntries} />
 
-            {/* Future Course Impact & Prerequisite Weakness Propagation */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-250 flex items-center gap-2">
-                <Flame className="text-rose-500 animate-pulse" size={16} /> Dự báo Nguy cơ Môn học Tương lai
-              </h4>
-              <p className="text-xs text-slate-500">Dự đoán rủi ro đối với các môn học sắp tới do lỗ hổng kiến thức tiên quyết truyền dẫn qua Syllabus.</p>
-              
-              <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-                {futureCourseImpact && futureCourseImpact.length > 0 ? (
-                  futureCourseImpact.map((fc, idx) => (
-                    <div key={idx} className="p-4 bg-slate-900/40 rounded-xl border border-white/5 flex justify-between items-center gap-4 animate-fade-in">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-bold text-slate-200 text-xs font-mono">{fc.courseId}</span>
-                          <span className="text-slate-500 text-[10px]">— {fc.name}</span>
-                        </div>
-                        <p className="text-[11px] text-slate-300 leading-relaxed font-semibold">{fc.warning}</p>
-                      </div>
-                      <span className={`text-[8px] font-black px-2 py-0.5 rounded border uppercase ${
-                        fc.risk === 'CRITICAL' ? 'bg-rose-500/20 border-rose-500/30 text-rose-500 animate-pulse' : 'bg-orange-500/20 border-orange-500/30 text-orange-400'
-                      }`}>
-                        {fc.risk === 'CRITICAL' ? 'NGUY CẤP' : 'RỦI RO CAO'}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold flex items-center gap-2">
-                    <CheckCircle2 size={14} /> Chưa ghi nhận rủi ro đối với các môn học tương lai.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4 border-t border-slate-200 dark:border-white/5 mt-4">
-            {/* Career Impact Analysis */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-250 flex items-center gap-2">
-                <Target className="text-blue-400" size={16} /> Rủi ro Định hướng Nghề nghiệp
-              </h4>
-              <p className="text-xs text-slate-500">Tác động của nền tảng yếu/trượt đối với các vị trí nghề nghiệp tương lai.</p>
-              
-              <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-                {careerImpactAnalysis && careerImpactAnalysis.length > 0 ? (
-                  careerImpactAnalysis.map((c, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-xs p-3 bg-slate-900/40 rounded-lg border border-white/5">
-                      <span className="font-bold text-slate-300">{c.careerName}</span>
-                      <span className={`text-[9px] font-black px-2 py-0.5 rounded border ${
-                        c.color === 'rose' ? 'bg-rose-500/20 border-rose-500/20 text-rose-500' :
-                        c.color === 'orange' ? 'bg-orange-500/20 border-orange-500/20 text-orange-400' :
-                        c.color === 'amber' ? 'bg-amber-500/20 border-amber-500/20 text-amber-400' :
-                        'bg-emerald-500/20 border-emerald-500/20 text-emerald-400'
-                      }`}>
-                        {c.riskLabel.toUpperCase()}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-xs text-slate-500 text-center py-4">Chưa có đánh giá định hướng nghề nghiệp.</p>
-                )}
-              </div>
-            </div>
-
-            {/* Knowledge Dependency & Blocked Chains */}
-            <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 dark:text-slate-250 flex items-center gap-2">
-                <Layers className="text-purple-400" size={16} /> Chuỗi Môn chuyên ngành bị chặn (Blocked Chains)
-              </h4>
-              <p className="text-xs text-slate-500">Các môn học phía sau bị khóa lớp, không thể đăng ký do nợ môn tiên quyết hiện tại.</p>
-              
-              <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-                {knowledgeDependency.blockedCourses && knowledgeDependency.blockedCourses.length > 0 ? (
-                  knowledgeDependency.blockedCourses.map((bc, idx) => (
-                    <div key={idx} className="flex items-center gap-3 p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl">
-                      <div className="text-center min-w-[70px]">
-                        <span className="text-[8px] text-rose-400 font-extrabold uppercase font-mono block">Chưa đạt</span>
-                        <span className="text-[10px] font-bold text-rose-300 block bg-rose-500/20 px-2 py-0.5 rounded border border-rose-500/20 font-mono mt-0.5">{bc.failedCourse}</span>
-                      </div>
-                      <span className="text-slate-600 font-bold font-mono">&rarr;</span>
-                      <div className="flex-1">
-                        <span className="text-[8px] text-slate-500 font-extrabold uppercase font-mono block">Bị khóa lớp chuyên ngành</span>
-                        <span className="text-[10px] font-bold text-slate-200 truncate block mt-0.5" title={bc.blockedCourseName}>
-                          {bc.blockedCourse} — {bc.blockedCourseName}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold flex items-center gap-2">
-                    <CheckCircle2 size={14} /> Không có môn học nào bị chặn tiến độ đăng ký.
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 bg-white/5 border border-white/5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">Chỉ số rủi ro chậm tốt nghiệp (Delay Index):</span>
-                <span className={`text-[9px] font-black px-2 py-0.5 rounded-full border ${
-                  graduationRisk.level === 'CRITICAL' ? 'bg-rose-500/20 border-rose-500/20 text-rose-500' :
-                  graduationRisk.level === 'HIGH' ? 'bg-rose-500/20 border-rose-500/20 text-rose-500' :
-                  graduationRisk.level === 'MEDIUM' ? 'bg-amber-500/20 border-amber-500/20 text-amber-400' :
-                  'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                }`}>
-                  {graduationRisk.level === 'CRITICAL' ? 'RẤT NGUY CẤP' : graduationRisk.level === 'HIGH' ? 'RỦI RO CAO' : graduationRisk.level === 'MEDIUM' ? 'CẦN CHÚ Ý' : 'AN TOÀN'}
-                </span>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed font-semibold">
-                {graduationRisk.description}
-              </p>
-            </div>
+          <div className="space-y-4 mt-4">
+            <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+              <AlertTriangle className="text-rose-550" size={16} /> Cảnh báo Rủi ro Lan truyền
+            </h4>
             
-            {graduationRisk.delaySemesters > 0 && (
-              <div className="p-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-center min-w-[120px]">
-                <span className="block text-[8px] text-rose-400 font-bold uppercase font-mono">Trễ dự kiến</span>
-                <span className="text-lg font-black text-rose-500">+{graduationRisk.delaySemesters} Học kỳ</span>
+            {futureRiskWarnings && futureRiskWarnings.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {futureRiskWarnings.map((warning, idx) => (
+                  <div key={idx} className="bg-slate-950/20 p-4 rounded-xl border border-white/5 space-y-2">
+                    <div className="flex justify-between items-start">
+                      <span className="text-xs font-black text-red-400">🔴 {warning.targetCourseId} is at risk</span>
+                      <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold ${
+                        warning.severity === 'HIGH' ? 'bg-red-500/20 text-red-350' : 'bg-amber-500/20 text-amber-300'
+                      }`}>
+                        {warning.severity}
+                      </span>
+                    </div>
+                    
+                    <div className="text-xs space-y-1 text-slate-700 dark:text-slate-305 font-medium">
+                      <div>
+                        <span className="text-slate-500 dark:text-slate-400 font-normal">Reason:</span> Weak foundation from {warning.sourceCourseId}
+                      </div>
+                      <div>
+                        <span className="text-slate-500 dark:text-slate-400 font-normal">Impact:</span> {warning.impactTrack}
+                      </div>
+                      <div>
+                        <span className="text-slate-500 dark:text-slate-400 font-normal">Confidence:</span> {warning.confidence}%
+                      </div>
+                      <div>
+                        <span className="text-slate-500 dark:text-slate-400 font-normal">Priority:</span> {warning.priority}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold flex items-center gap-2">
+                <CheckCircle2 size={14} /> Chưa ghi nhận rủi ro đối với các môn học tương lai.
               </div>
             )}
           </div>
         </div>
 
-        {/* ============================================================ */}
-        {/* DEPENDENCY HEATMAP: BẢN ĐỒ TÁC ĐỘNG SYLLABUS DECAY */}
-        {/* ============================================================ */}
-        <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-4">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-200 dark:border-white/5">
-            <Flame className="text-red-500 animate-pulse" size={20} />
-            <div>
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                Bản đồ Tác động Syllabus (Syllabus Dependency Heatmap)
-              </h3>
-              <p className="text-xs text-slate-500 font-semibold">Xếp hạng các môn học yếu/trượt ảnh hưởng nghiêm trọng nhất đến tiến độ học tập (dựa trên điểm số, số môn bị chặn và độ trung tâm đồ thị)</p>
-            </div>
-          </div>
-
-          {dependencyHeatmap && dependencyHeatmap.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-200 dark:border-white/10 text-slate-500 font-bold uppercase font-mono">
-                    <th className="pb-2 pl-2">Thứ hạng</th>
-                    <th className="pb-2">Mã môn &amp; Tên môn học</th>
-                    <th className="pb-2 text-center">Điểm số</th>
-                    <th className="pb-2 text-center">Số môn bị chặn (Syllabus Impact)</th>
-                    <th className="pb-2 text-center">Độ trung tâm đồ thị (Centrality)</th>
-                    <th className="pb-2 text-right pr-2">Điểm Tác động Rủi ro (Influence Score)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dependencyHeatmap.map((item, idx) => {
-                    const score = item.riskInfluenceScore;
-                    let rowBg = 'hover:bg-white/5';
-                    let badgeColor = 'bg-slate-500/10 text-slate-400 border-white/5';
-                    if (score >= 20) {
-                      rowBg = 'bg-rose-500/5 hover:bg-rose-500/10 border-rose-500/10';
-                      badgeColor = 'bg-rose-500/20 text-rose-400 border-rose-500/30 font-black animate-pulse';
-                    } else if (score >= 12) {
-                      rowBg = 'bg-orange-500/5 hover:bg-orange-500/10 border-orange-500/10';
-                      badgeColor = 'bg-orange-500/20 text-orange-400 border-orange-500/30 font-bold';
-                    } else if (score >= 6) {
-                      rowBg = 'bg-amber-500/5 hover:bg-amber-500/10 border-amber-500/10';
-                      badgeColor = 'bg-amber-500/20 text-amber-400 border-amber-500/30 font-semibold';
-                    }
-                    
-                    return (
-                      <tr key={idx} className={`border-b border-slate-100 dark:border-white/5 transition-colors font-medium ${rowBg}`}>
-                        <td className="py-3 pl-3 font-bold text-slate-400 dark:text-slate-400 font-mono">#{idx + 1}</td>
-                        <td className="py-3">
-                          <span className="font-bold text-slate-800 dark:text-slate-200 font-mono block">{item.courseId}</span>
-                          <span className="text-[10px] text-slate-500 block truncate max-w-[200px]" title={item.name}>{item.name}</span>
-                        </td>
-                        <td className="py-3 text-center">
-                          <span className={`font-black ${item.grade >= 5.0 ? 'text-blue-400' : 'text-rose-500 font-extrabold'}`}>
-                            {item.grade.toFixed(1)}
-                          </span>
-                        </td>
-                        <td className="py-3 text-center font-bold text-slate-700 dark:text-slate-350 font-mono">{item.downstreamCount} môn</td>
-                        <td className="py-3 text-center text-slate-550 font-semibold font-mono">{(item.centralityScore * 100).toFixed(0)}%</td>
-                        <td className="py-3 text-right pr-2">
-                          <span className={`text-[11px] font-mono font-black px-2.5 py-1 rounded-lg border ${badgeColor}`}>
-                            {score.toFixed(1)}đ
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-bold flex items-center gap-2">
-              <CheckCircle2 size={14} /> Không có học phần yếu/trượt nào để xếp hạng tác động.
-            </div>
-          )}
-        </div>
-
-        {/* 10. Phân tích Khoảng cách Kỹ năng (Skill Gap Analysis) */}
-        {skillsGapAnalysis && (
-          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-              <Sparkles className="text-indigo-400" size={20} /> 10. Phân tích Khoảng cách Kỹ năng (Skill Gap Analysis)
-            </h3>
-            <p className="text-xs text-slate-500 mb-6 font-semibold">Tự động đối chiếu lỗ hổng kỹ năng và các chuẩn đầu ra (CLOs) bị thiếu từ các môn học yếu hoặc trượt</p>
-            
-            <div className="space-y-6">
-              <div className="bg-slate-100 dark:bg-black/30 p-5 rounded-2xl border border-slate-200 dark:border-white/5">
-                <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-3 font-mono">Tổng hợp kỹ năng cốt lõi đang thiếu:</span>
-                <div className="flex flex-wrap gap-2">
-                  {skillsGapAnalysis.allMissingSkills && skillsGapAnalysis.allMissingSkills.length > 0 ? (
-                    skillsGapAnalysis.allMissingSkills.map((sk, idx) => (
-                      <span key={idx} className="text-xs px-3 py-1.5 rounded-xl bg-rose-500/10 border border-rose-500/10 text-rose-300 font-bold">
-                        {sk}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="text-xs text-emerald-400 font-bold">✔ Không thiếu hụt kỹ năng cốt lõi nào.</span>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider font-mono">Chi tiết khoảng cách theo học phần:</span>
-                {skillsGapAnalysis.failedOrWeakCourses && skillsGapAnalysis.failedOrWeakCourses.length > 0 ? (
-                  skillsGapAnalysis.failedOrWeakCourses.map((c, idx) => (
-                    <div key={idx} className="p-4 bg-slate-100 dark:bg-black/10 rounded-2xl border border-slate-200 dark:border-white/5 space-y-3">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h5 className="font-bold text-sm text-slate-900 dark:text-white">
-                            {c.courseId} - {c.courseName}
-                          </h5>
-                          <span className="text-[10px] text-slate-500 font-medium">Điểm số: {c.grade ? c.grade.toFixed(1) : 'N/A'}</span>
-                        </div>
-                        <span className={`text-[9px] font-black px-2 py-0.5 rounded-full border ${
-                          c.status === 'FAILED' ? 'bg-rose-500/20 border-rose-500/20 text-rose-500' : 'bg-amber-500/20 border-amber-500/20 text-amber-400'
-                        }`}>
-                          {c.status === 'FAILED' ? 'TRƯỢT' : 'YẾU'}
-                        </span>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
-                        <div>
-                          <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider font-mono mb-1">Kỹ năng mục tiêu:</span>
-                          <div className="flex flex-wrap gap-1">
-                            {c.skills.map((s, sIdx) => (
-                              <span key={sIdx} className="text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/5 text-slate-300">{s}</span>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider font-mono mb-1">Chuẩn đầu ra (CLOs):</span>
-                          <ul className="list-disc list-inside text-[10px] text-slate-400 space-y-0.5 font-medium pl-1">
-                            {c.learningOutcomes.map((lo, lIdx) => (
-                              <li key={lIdx} className="truncate" title={lo}>{lo}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-xs text-slate-500 text-center py-2">Không ghi nhận môn học yếu/trượt.</p>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 11. Ảnh hưởng Định hướng Nghề nghiệp (Career Impact) */}
-        {careerImpactAnalysis && (
-          <div className="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-              <GraduationCap className="text-emerald-400" size={20} /> 11. Ảnh hưởng Định hướng Nghề nghiệp (Career Impact)
-            </h3>
-            <p className="text-xs text-slate-500 mb-6 font-semibold">Đánh giá mức độ rủi ro đối với 5 vị trí công việc chính trong ngành Thiết kế Web của FPT Polytechnic</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {careerImpactAnalysis.map((c, idx) => (
-                <div key={idx} className="p-4 bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/5 rounded-2xl space-y-4">
+        {/* SECTION 4: Career Impact */}
+        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6">
+          <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-white/5 pb-3">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 font-black text-sm">S4</span>
+            SECTION 4 — Ảnh hưởng Định hướng Nghề nghiệp (Career Impact)
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {careerImpactAnalysis && careerImpactAnalysis.length > 0 ? (
+              careerImpactAnalysis.map((c, idx) => (
+                <div key={idx} className="p-4 bg-slate-100 dark:bg-black/30 border border-slate-200 dark:border-white/5 rounded-2xl space-y-3">
                   <div className="flex justify-between items-center">
                     <h4 className="font-bold text-sm text-slate-900 dark:text-white">{c.careerName}</h4>
                     <span className={`text-[9px] font-black px-2.5 py-0.5 rounded-full border ${
@@ -1327,82 +958,68 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                     </span>
                   </div>
 
-                  <div className="space-y-2">
-                    <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider font-mono">
-                      Minh chứng học phần cốt lõi (Source Courses):
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {c.requiredCourses && c.requiredCourses.map((rc, rcIdx) => {
-                        const isPassed = rc.status === 'PASSED' && (rc.grade === null || rc.grade >= 7.0);
-                        const isWeak = rc.status === 'PASSED' && rc.grade !== null && rc.grade < 7.0;
-                        const isFailed = rc.status === 'FAILED';
-                        
-                        let badgeClass = 'bg-slate-500/5 border-slate-500/10 text-slate-400';
-                        let statusText = 'Chưa học';
-                        
-                        if (isPassed) {
-                          badgeClass = 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400';
-                          statusText = `Đạt (${rc.grade ? rc.grade.toFixed(1) : '—'})`;
-                        } else if (isWeak) {
-                          badgeClass = 'bg-amber-500/10 border-amber-500/20 text-amber-400';
-                          statusText = `Yếu (${rc.grade ? rc.grade.toFixed(1) : '—'})`;
-                        } else if (isFailed) {
-                          badgeClass = 'bg-rose-500/10 border-rose-500/20 text-rose-400';
-                          statusText = `Trượt (${rc.grade ? rc.grade.toFixed(1) : '—'})`;
-                        }
-                        
-                        return (
-                          <span 
-                            key={rcIdx} 
-                            title={`${rc.courseId} - ${rc.courseName}\nTrạng thái: ${statusText}`}
-                            className={`text-[9px] px-2 py-0.5 rounded border font-bold ${badgeClass}`}
-                          >
-                            {rc.courseId}: {statusText}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <span className="block text-[9px] text-slate-500 font-bold uppercase tracking-wider font-mono">
-                      Kỹ năng cốt lõi bắt buộc (Di chuột để xem minh chứng học thuật):
-                    </span>
+                  <div className="space-y-1">
+                    <span className="block text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider font-mono">Kỹ năng cốt lõi bắt buộc:</span>
                     <div className="flex flex-wrap gap-1">
-                      {c.requiredSkills.map((skObj, skIdx) => {
-                        const isMissing = !skObj.isPossessed;
-                        const tooltipText = `Kỹ năng: ${skObj.skillName}\n` +
-                          `Nguồn đào tạo: Môn ${skObj.teachingCourseId || 'N/A'} - ${skObj.teachingCourseName || 'N/A'}\n` +
-                          `Trạng thái học vụ: ${skObj.status === 'NOT_STARTED' ? 'Chưa học' : `Điểm: ${skObj.grade !== null ? skObj.grade.toFixed(1) : '—'} (${skObj.status})`}\n` +
-                          `Minh chứng giáo trình: ${skObj.syllabusSource || 'N/A'}\n` +
-                          `Vị trí bài học: ${skObj.syllabusLocation || 'N/A'}\n` +
-                          `Chuẩn đầu ra: ${skObj.syllabusCLO || 'N/A'}`;
-                        
-                        return (
-                          <span 
-                            key={skIdx} 
-                            title={tooltipText}
-                            className={`text-[9px] px-2 py-0.5 rounded cursor-help transition-all ${
-                              isMissing 
-                                ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400 font-medium line-through' 
-                                : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold'
-                            }`}
-                          >
-                            {isMissing ? '✗' : '✓'} {skObj.skillName}
-                          </span>
-                        );
-                      })}
+                      {c.requiredSkills.map((skObj, skIdx) => (
+                        <span 
+                          key={skIdx} 
+                          className={`text-[9px] px-2 py-0.5 rounded border ${
+                            skObj.isPossessed 
+                              ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400 font-bold' 
+                              : 'bg-rose-500/10 border border-rose-500/20 text-rose-400 font-medium'
+                          }`}
+                        >
+                          {skObj.isPossessed ? '✓' : '✗'} {skObj.skillName}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <div className="col-span-2 p-4 bg-slate-900/50 border border-white/5 text-slate-500 rounded-xl text-center text-xs font-bold">
+                Chưa có đánh giá định hướng nghề nghiệp.
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
+        {/* SECTION 5: Recovery Roadmap */}
+        <div className="p-6 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-black/20 space-y-6">
+          <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-white/5 pb-3">
+            <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-teal-500/10 text-teal-400 font-black text-sm">S5</span>
+            SECTION 5 — Lộ trình Phục hồi 12 Tuần (Recovery Roadmap)
+          </h3>
+          
+          <div className="space-y-4">
+            {recoveryRoadmap && recoveryRoadmap.length > 0 ? (
+              recoveryRoadmap.map((step, idx) => (
+                <div key={idx} className="flex gap-4 text-xs">
+                  <div className="flex flex-col items-center">
+                    <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/30">
+                      {idx + 1}
+                    </div>
+                    {idx < recoveryRoadmap.length - 1 && <div className="w-0.5 bg-blue-500/20 flex-1 my-1"></div>}
+                  </div>
+                  <div className="flex-1 bg-white/5 p-4 rounded-2xl border border-white/5 space-y-1">
+                    <span className="text-[9px] font-black text-blue-400 font-mono block uppercase">{step.phase}</span>
+                    <h5 className="font-bold text-slate-200 text-sm">{step.title}</h5>
+                    <p className="text-xs text-slate-400 leading-relaxed font-medium mt-1">{step.focus}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="p-4 bg-slate-900/50 border border-white/5 text-slate-500 rounded-xl text-center text-xs font-bold">
+                Chưa có đề xuất lộ trình khôi phục chi tiết.
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     );
   };
+
 
   return (
     <div className="space-y-8 animate-fade-in pb-16">
@@ -1441,7 +1058,12 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 {dssReport?.academicHealth?.score !== 'N/A' && dssReport?.academicHealth?.cohortPercentile !== undefined && (
                   <>
                     <span className="w-1.5 h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 hidden sm:inline-block"></span>
-                    <span>Xếp hạng khóa: <strong className="text-emerald-400">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</strong></span>
+                    <span>Xếp hạng khóa: <strong className="text-emerald-400">
+                      {dssReport.academicHealth.cohortPercentile <= 50.0 
+                        ? `Top ${dssReport.academicHealth.cohortPercentile}% (${dssReport.academicHealth.cohortRank}/${dssReport.academicHealth.totalCohort} SV)`
+                        : `Thứ ${dssReport.academicHealth.cohortRank}/${dssReport.academicHealth.totalCohort} SV`
+                      }
+                    </strong></span>
                   </>
                 )}
               </div>
@@ -1729,18 +1351,65 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
               <p className="text-[10px] text-slate-500 mb-6 font-semibold">Khuyến nghị hành động tự động từ Động cơ DSS của EduGuard</p>
               
               <div className="space-y-4">
-                <div className={`p-4 rounded-2xl border ${
-                  dssReport.interventionRecommendation.colorClass === 'rose' ? 'bg-rose-500/10 border-rose-500/25 text-rose-300' :
-                  dssReport.interventionRecommendation.colorClass === 'amber' ? 'bg-amber-500/10 border-amber-500/25 text-amber-300' :
-                  dssReport.interventionRecommendation.colorClass === 'blue' ? 'bg-blue-500/10 border-blue-500/25 text-blue-300' :
-                  'bg-emerald-500/10 border-emerald-500/25 text-emerald-300'
-                }`}>
-                  <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80">Mức Can Thiệp:</span>
-                  <span className="text-base font-black block mt-1">{dssReport.interventionRecommendation.actionTitle}</span>
-                  <p className="text-xs mt-2 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200">
-                    {dssReport.interventionRecommendation.description}
-                  </p>
-                </div>
+                {dssReport.interventionRecommendation.rootCauseCourseId ? (
+                  <div className="space-y-4 text-slate-900 dark:text-white">
+                    {/* 1. Root Cause */}
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">1. Nguyên nhân gốc rễ (Root Cause)</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-base font-black text-rose-500 dark:text-rose-455">{dssReport.interventionRecommendation.rootCauseCourseId}</span>
+                        <span className="text-xs font-semibold text-slate-700 dark:text-slate-350">({dssReport.interventionRecommendation.rootCauseCourseName})</span>
+                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-950/40 text-slate-700 dark:text-slate-350 border border-slate-200 dark:border-white/5">
+                          Điểm: {dssReport.interventionRecommendation.currentScore?.toFixed(1)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 2. Why it matters */}
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">2. Tầm ảnh hưởng (Why it matters)</span>
+                      <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                        {dssReport.interventionRecommendation.whyItMatters}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mt-1.5">
+                        {dssReport.interventionRecommendation.affectedCourses?.map(c => (
+                          <span key={c.id} className="text-[10px] px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-355 border border-rose-500/20">
+                            {c.id}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 3. Recommended Actions */}
+                    <div className="bg-slate-100 dark:bg-slate-950/30 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 space-y-2">
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">3. Hành động khuyến nghị (Recommended Actions)</span>
+                      <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1">
+                        <div>
+                          <span className="text-slate-500 dark:text-slate-400 font-bold">Review:</span> {dssReport.interventionRecommendation.recommendedActions?.review?.join(', ')}
+                        </div>
+                        <div>
+                          <span className="text-slate-500 dark:text-slate-400 font-bold">Practice:</span> {dssReport.interventionRecommendation.recommendedActions?.practice}
+                        </div>
+                        <div>
+                          <span className="text-slate-500 dark:text-slate-400 font-bold">Target:</span> {dssReport.interventionRecommendation.recommendedActions?.target}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={`p-4 rounded-2xl border ${
+                    dssReport.interventionRecommendation.colorClass === 'rose' ? 'bg-rose-500/10 border-rose-500/25 text-rose-305' :
+                    dssReport.interventionRecommendation.colorClass === 'amber' ? 'bg-amber-500/10 border-amber-500/25 text-amber-305' :
+                    dssReport.interventionRecommendation.colorClass === 'blue' ? 'bg-blue-500/10 border-blue-500/25 text-blue-305' :
+                    'bg-emerald-500/10 border-emerald-500/25 text-emerald-305'
+                  }`}>
+                    <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80">Mức Can Thiệp:</span>
+                    <span className="text-base font-black block mt-1">{dssReport.interventionRecommendation.actionTitle}</span>
+                    <p className="text-xs mt-2 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200">
+                      {dssReport.interventionRecommendation.description}
+                    </p>
+                  </div>
+                )}
                 
                 {/* Quick Action Button mapping to workflow */}
                 {dssReport.interventionRecommendation.actionCode === 'EMAIL_ADVISOR' && (

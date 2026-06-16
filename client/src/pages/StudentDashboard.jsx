@@ -8,7 +8,7 @@ import {
   TrendingUp, TrendingDown, ChevronRight,
   AlertCircle, CheckCircle, Clock, Award,
   GraduationCap, BarChart2, Send, Paperclip, User, Loader2, Sparkles, HelpCircle, Activity, Check, Bot,
-  Target, HeartHandshake
+  Target, HeartHandshake, AlertTriangle
 } from 'lucide-react';
 
 
@@ -461,35 +461,89 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-4 flex items-center gap-1.5">
-                  <HeartHandshake size={14} /> Khuyến nghị Hành động (Prescriptive Recommendation)
+                  <HeartHandshake size={14} /> Khuyến nghị Hành động (Prescriptive Advisory)
                 </h4>
-                
-                <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80 mb-1">Hành động can thiệp:</span>
-                <span className="text-lg font-black block leading-snug">{dssReport.interventionRecommendation.actionTitle}</span>
-                
-                <p className="text-xs mt-3 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200 bg-slate-950/20 p-3.5 rounded-xl border border-white/5">
-                  {dssReport.interventionRecommendation.description}
-                </p>
+
+                {dssReport.interventionRecommendation.rootCauseCourseId ? (
+                  <div className="space-y-4">
+                    {/* 1. Root Cause */}
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">1. Nguyên nhân gốc rễ (Root Cause)</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-base font-black text-rose-400">{dssReport.interventionRecommendation.rootCauseCourseId}</span>
+                        <span className="text-xs text-slate-700 dark:text-slate-300">({dssReport.interventionRecommendation.rootCauseCourseName})</span>
+                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-350">
+                          Điểm hiện tại: {dssReport.interventionRecommendation.currentScore?.toFixed(1)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 2. Why it matters */}
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">2. Tầm ảnh hưởng (Why it matters)</span>
+                      <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+                        {dssReport.interventionRecommendation.whyItMatters}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mt-1.5">
+                        {dssReport.interventionRecommendation.affectedCourses?.map(c => (
+                          <span key={c.id} className="text-[10px] px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-350 border border-rose-500/20">
+                            {c.id}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 3. Recommended Actions */}
+                    <div className="bg-slate-950/30 p-3 rounded-xl border border-white/5 space-y-2">
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">3. Hành động khuyến nghị (Recommended Actions)</span>
+                      <div className="text-xs text-slate-350 space-y-1">
+                        <div>
+                          <span className="text-slate-400 font-medium">Review:</span> {dssReport.interventionRecommendation.recommendedActions.review.join(', ')}
+                        </div>
+                        <div>
+                          <span className="text-slate-400 font-medium">Practice:</span> {dssReport.interventionRecommendation.recommendedActions.practice}
+                        </div>
+                        <div>
+                          <span className="text-slate-400 font-medium">Target:</span> {dssReport.interventionRecommendation.recommendedActions.target}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80 mb-1">Hành động can thiệp:</span>
+                    <span className="text-lg font-black block leading-snug">{dssReport.interventionRecommendation.actionTitle}</span>
+                    
+                    <p className="text-xs mt-3 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200 bg-slate-950/20 p-3.5 rounded-xl border border-white/5">
+                      {dssReport.interventionRecommendation.description}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/5 flex gap-2">
-                {dssReport.interventionRecommendation.actionCode === 'INVITE_TUTOR' && (
+                {dssReport.interventionRecommendation.actionCode?.startsWith('INTERVENTION_') ? (
+                  <button 
+                    onClick={() => handleTabChange('roadmap')}
+                    className="w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Sparkles size={13} /> Xem Lộ trình Phục hồi 12 Tuần
+                  </button>
+                ) : dssReport.interventionRecommendation.actionCode === 'INVITE_TUTOR' ? (
                   <button 
                     onClick={() => handleTabChange('chat')}
                     className="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-500/20 transition-all flex items-center justify-center gap-2"
                   >
                     <MessageSquare size={13} /> Chat với cố vấn để ghép lớp Tutor
                   </button>
-                )}
-                {dssReport.interventionRecommendation.actionCode === 'SELF_STUDY_ROADMAP' && (
+                ) : dssReport.interventionRecommendation.actionCode === 'SELF_STUDY_ROADMAP' ? (
                   <button 
                     onClick={() => handleTabChange('roadmap')}
                     className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
                   >
                     <Sparkles size={13} /> Xem Lộ trình 12 Tuần
                   </button>
-                )}
-                {dssReport.interventionRecommendation.actionCode === 'PERIODIC_MONITORING' && (
+                ) : (
                   <div className="text-[10px] text-emerald-400 font-bold italic">
                     🎉 Tiến độ học tập của bạn rất tốt! Hãy tiếp tục duy trì nhé.
                   </div>
@@ -498,6 +552,50 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
             </div>
           )}
         </div>
+
+        {/* Future Academic Risks Section */}
+        {dssReport.futureRiskWarnings && dssReport.futureRiskWarnings.length > 0 && (
+          <div className="glass-card p-6 rounded-2xl border border-red-500/20 bg-red-500/5 text-slate-900 dark:text-white mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="p-1.5 rounded-lg bg-red-500/10 text-red-500">
+                <AlertTriangle size={16} />
+              </span>
+              <h4 className="font-bold text-sm text-red-400">Nguy cơ học tập tương lai (Future Academic Risks)</h4>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {dssReport.futureRiskWarnings.map((warning, idx) => (
+                <div key={idx} className="bg-slate-950/20 p-4 rounded-xl border border-white/5 space-y-2 relative">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black text-red-400">🔴 {warning.targetCourseId} is at risk</span>
+                    </div>
+                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold ${
+                      warning.severity === 'HIGH' ? 'bg-red-500/20 text-red-350' : 'bg-amber-500/20 text-amber-300'
+                    }`}>
+                      {warning.severity}
+                    </span>
+                  </div>
+                  
+                  <div className="text-xs space-y-1 text-slate-700 dark:text-slate-350 font-medium">
+                    <div>
+                      <span className="text-slate-500 dark:text-slate-400 font-normal">Reason:</span> Weak foundation from {warning.sourceCourseId}
+                    </div>
+                    <div>
+                      <span className="text-slate-500 dark:text-slate-400 font-normal">Impact:</span> {warning.impactTrack}
+                    </div>
+                    <div>
+                      <span className="text-slate-500 dark:text-slate-400 font-normal">Confidence:</span> {warning.confidence}%
+                    </div>
+                    <div>
+                      <span className="text-slate-500 dark:text-slate-400 font-normal">Priority:</span> {warning.priority}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     )}
 
@@ -1124,12 +1222,18 @@ function RoadmapTab({ curriculumCourses, courseDependencies }) {
       {/* Progress Overview */}
       {(() => {
         const totalCredits = curriculumCourses.reduce((sum, c) => {
-          const isGDQP = c.courseId === 'VIE104' || (c.courseName || '').toLowerCase().includes('quốc phòng');
-          return sum + (isGDQP ? 0 : (c.credits || 3));
+          const isCond = c.courseId === 'VIE104' || c.courseId === 'VIE103' || 
+                         (c.courseName || '').toLowerCase().includes('quốc phòng') || 
+                         (c.courseName || '').toLowerCase().includes('thể chất') ||
+                         (c.courseName || '').toLowerCase().includes('vovinam');
+          return sum + (isCond ? 0 : (c.credits || 3));
         }, 0) || 120;
         const completedCredits = curriculumCourses.filter(c => c.status === 'PASSED').reduce((sum, c) => {
-          const isGDQP = c.courseId === 'VIE104' || (c.courseName || '').toLowerCase().includes('quốc phòng');
-          return sum + (isGDQP ? 0 : (c.credits || 3));
+          const isCond = c.courseId === 'VIE104' || c.courseId === 'VIE103' || 
+                         (c.courseName || '').toLowerCase().includes('quốc phòng') || 
+                         (c.courseName || '').toLowerCase().includes('thể chất') ||
+                         (c.courseName || '').toLowerCase().includes('vovinam');
+          return sum + (isCond ? 0 : (c.credits || 3));
         }, 0);
         const progressPercent = Math.min(100, Math.round((completedCredits / totalCredits) * 100));
         const remainingCredits = totalCredits - completedCredits;
@@ -2011,7 +2115,12 @@ export default function StudentDashboard() {
               <span>Lớp: <span className="text-slate-800 dark:text-slate-200 font-bold">{data?.classCode || 'WD18301'}</span></span>
               <span>Học kỳ khung: <span className="text-amber-400 font-bold">Kỳ {detectedSemester}</span></span>
               {dssReport?.academicHealth?.score !== 'N/A' && dssReport?.academicHealth?.cohortPercentile !== undefined && (
-                <span>Xếp hạng khóa: <span className="text-emerald-400 font-bold">Top {dssReport.academicHealth.cohortPercentile}% ({dssReport.academicHealth.cohortRank}/{dssReport.academicHealth.totalCohort} SV)</span></span>
+                <span>Xếp hạng khóa: <span className="text-emerald-400 font-bold">
+                  {dssReport.academicHealth.cohortPercentile <= 50.0 
+                    ? `Top ${dssReport.academicHealth.cohortPercentile}% (${dssReport.academicHealth.cohortRank}/${dssReport.academicHealth.totalCohort} SV)`
+                    : `Thứ ${dssReport.academicHealth.cohortRank}/${dssReport.academicHealth.totalCohort} SV`
+                  }
+                </span></span>
               )}
               <span>Hệ đào tạo: <span className="text-slate-800 dark:text-slate-200 font-bold">Cao đẳng (FPT Poly)</span></span>
             </p>

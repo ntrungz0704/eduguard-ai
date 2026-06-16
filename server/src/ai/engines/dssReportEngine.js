@@ -47,6 +47,87 @@ function getSemesterVal(semStr) {
   return year + term;
 }
 
+// Traverses the syllabus graph to trace risk propagation for weak courses (grade < 6.0)
+function getFutureRiskWarnings(scores) {
+  const warnings = [];
+  const weakCourses = scores.filter(s => s.value !== null && s.value < 6.0);
+  
+  weakCourses.forEach(wc => {
+    const wcId = wc.courseId;
+    const wcScore = wc.value;
+    const wcName = syllabusGraph[wcId]?.name || wcId;
+    
+    // Direct unlocks
+    const node = syllabusGraph[wcId];
+    if (node && node.unlocks) {
+      node.unlocks.forEach(directId => {
+        // Exclude if already passed
+        const directScoreObj = scores.find(s => s.courseId === directId);
+        const hasPassedDirect = directScoreObj && directScoreObj.value !== null && directScoreObj.value >= 5.0;
+        
+        if (!hasPassedDirect) {
+          let impactTrack = "General Track";
+          if (directId.startsWith("WEB1") || directId.startsWith("WEB2") || directId.startsWith("WEB3")) {
+            impactTrack = "Frontend Track";
+          } else if (directId.startsWith("WEB5") || directId.startsWith("COM2")) {
+            impactTrack = "Backend Track";
+          } else if (directId.startsWith("PRO")) {
+            impactTrack = "Project Track";
+          }
+
+          warnings.push({
+            sourceCourseId: wcId,
+            sourceCourseName: wcName,
+            targetCourseId: directId,
+            targetCourseName: syllabusGraph[directId]?.name || directId,
+            severity: 'HIGH',
+            reason: `Kiến thức nền tảng yếu từ môn ${wcId} (${wcScore.toFixed(1)}đ)`,
+            confidence: Math.round(90 - wcScore * 5),
+            priority: 'HIGH',
+            impactTrack
+          });
+          
+          // Downstream of direct unlocks (indirect)
+          const directNode = syllabusGraph[directId];
+          if (directNode && directNode.unlocks) {
+            directNode.unlocks.forEach(indirectId => {
+              const indirectScoreObj = scores.find(s => s.courseId === indirectId);
+              const hasPassedIndirect = indirectScoreObj && indirectScoreObj.value !== null && indirectScoreObj.value >= 5.0;
+              
+              if (!hasPassedIndirect) {
+                if (!warnings.some(w => w.sourceCourseId === directId && w.targetCourseId === indirectId)) {
+                  let indirectTrack = "General Track";
+                  if (indirectId.startsWith("WEB1") || indirectId.startsWith("WEB2") || indirectId.startsWith("WEB3")) {
+                    indirectTrack = "Frontend Track";
+                  } else if (indirectId.startsWith("WEB5") || indirectId.startsWith("COM2")) {
+                    indirectTrack = "Backend Track";
+                  } else if (indirectId.startsWith("PRO")) {
+                    indirectTrack = "Project Track";
+                  }
+
+                  warnings.push({
+                    sourceCourseId: directId,
+                    sourceCourseName: directNode.name,
+                    targetCourseId: indirectId,
+                    targetCourseName: syllabusGraph[indirectId]?.name || indirectId,
+                    severity: 'MEDIUM',
+                    reason: `Rủi ro lan truyền gián tiếp từ môn ${wcId} qua ${directId}`,
+                    confidence: Math.round(80 - wcScore * 4),
+                    priority: 'MEDIUM',
+                    impactTrack: indirectTrack
+                  });
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  });
+  
+  return warnings;
+}
+
 /**
  * Generate 9-part Academic DSS Report for a single student
  */
@@ -63,6 +144,16 @@ async function generateDetailedDSSReport(student) {
         cohortRank: '—',
         totalCohort: '—',
         cohortPercentile: '—'
+      },
+      academicSnapshot: {
+        studentId: student.mssv || student.id,
+        gpa10: 0.0,
+        gpa4: 0.0,
+        credits: 0,
+        failedCourses: [],
+        academicHealth: 100,
+        riskScore: 0,
+        rootCauseCourses: []
       },
       trendAnalysis: {
         trendData: [],
@@ -460,6 +551,20 @@ async function generateDetailedDSSReport(student) {
       const hasPassedRetake = scores.some(s => s.courseId === rcCode && s.status === 'PASSED');
       const isCompleted = hasPassedRetake && !hasInProgressRetake;
       
+      const directUnlocks = (syllabusGraph[rcCode] && syllabusGraph[rcCode].unlocks) || [];
+      
+      let impactTrack = "General Track";
+      if (rcCode.startsWith("WEB1") || rcCode.startsWith("WEB2") || rcCode.startsWith("WEB3")) {
+        impactTrack = "Frontend Track";
+      } else if (rcCode.startsWith("WEB5") || rcCode.startsWith("COM2")) {
+        impactTrack = "Backend Track";
+      } else if (rcCode.startsWith("PRO")) {
+        impactTrack = "Project Track";
+      }
+      
+      const rcGrade = bestCandidate.grade;
+      const reason = `Điểm số thấp (${rcGrade.toFixed(1)}), Chặn ${directUnlocks.length} môn học tiếp theo, Ảnh hưởng ${impactTrack}`;
+
       rootCause = {
         courseId: rcCode,
         name: courseNameStr,
@@ -473,7 +578,13 @@ async function generateDetailedDSSReport(student) {
         remediationRecommendations: kbCourse ? (kbCourse.remediationRecommendations || []) : [],
         careerRelevance: kbCourse ? (kbCourse.careerRelevance || []) : [],
         path: rcPath,
-        isCompleted
+        isCompleted,
+        
+        // Structured fields
+        directDownstreamCount: directUnlocks.length,
+        directDownstreamCourses: directUnlocks.map(id => ({ id, name: syllabusGraph[id]?.name || id })),
+        impactTrack,
+        reason
       };
     }
   }
@@ -763,7 +874,7 @@ async function generateDetailedDSSReport(student) {
       
       recoveryRoadmap.push({
         phase: 'Giai đoạn 1 (Tuần 1 - 4)',
-        title: `Củng cố nền tảng chuẩn bị cho ${targetCoursesStr}`,
+        title: `Củng cố nền tảng môn gốc ${rootCause.courseId} chuẩn bị cho ${targetCoursesStr}`,
         focus: `Môn học ${rootCause.courseId} là nền tảng cốt lõi cho ${targetCoursesStr}. Tập trung ôn tập lại các kỹ năng yếu: ${rootCause.missingSkills && rootCause.missingSkills.length > 0 ? rootCause.missingSkills.join(', ') : 'các kiến thức cơ bản'}.`
       });
       recoveryRoadmap.push({
@@ -928,46 +1039,44 @@ async function generateDetailedDSSReport(student) {
 
   // Apply expert intervention rules if rootCause exists
   if (rootCause) {
-    if (rootCause.isCompleted) {
-      // Find downstream courses affected
-      const futureDownstreamList = getFutureDownstreamCourses(rootCause.courseId);
-      const downstreamNames = futureDownstreamList.map(c => `${c.courseId} (${c.name})`);
+    const directUnlocks = (syllabusGraph[rootCause.courseId] && syllabusGraph[rootCause.courseId].unlocks) || [];
+    const directNames = directUnlocks.map(id => syllabusGraph[id]?.name || id);
+    const missingSkills = rootCause.missingSkills || [];
+    
+    // Remediation steps
+    const matchingRule = courseInterventionRules && courseInterventionRules.rules 
+      ? courseInterventionRules.rules.find(r => r.courseId.toLowerCase().replace(/\s+/g, '') === rootCause.courseId.toLowerCase().replace(/\s+/g, ''))
+      : null;
+    const remediationSteps = matchingRule ? matchingRule.remediationSteps : [
+      "Xem lại kiến thức lý thuyết cốt lõi (Variables, Functions, Arrays, DOM)",
+      "Luyện tập tối thiểu 5 bài tập thực hành mỗi ngày",
+      "Đặt mục tiêu đạt điểm thi lại/cải thiện > 7.0 điểm"
+    ];
+    
+    const rootCauseScore = rootCause.path[0]?.grade || 5.0;
+    const priority = rootCause.academicImportanceLevel || 'HIGH';
+    let color = rootCause.isCompleted ? 'amber' : 'rose';
+    if (priority === 'HIGH' && !rootCause.isCompleted) color = 'orange';
+
+    interventionRec = {
+      riskLevel: priority,
+      actionCode: `INTERVENTION_${rootCause.courseId}`,
+      actionTitle: `Can thiệp học thuật: Khắc phục môn ${rootCause.courseId} (${rootCause.name})`,
+      colorClass: color,
       
-      const missingSkills = rootCause.missingSkills || [];
-      const learningOutcomes = rootCause.learningOutcomes || [];
-      
-      interventionRec = {
-        riskLevel: rootCause.academicImportanceLevel || 'MEDIUM',
-        actionCode: 'WEAK_FOUNDATION_WARNING',
-        actionTitle: `Can thiệp tiền đề: Chuẩn bị cho ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'môn học tiếp theo'}`,
-        description: `Sinh viên đã hoàn thành môn ${rootCause.courseId} (${rootCause.name}) nhưng với điểm số chưa vững (${rootCause.path[0]?.grade?.toFixed(1) || '5.x'}). Nguy cơ cao khi học các môn chuyên ngành tiếp theo phụ thuộc vào nền tảng này: ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'Các môn chuyên ngành tiếp theo'}. Đề xuất củng cố kiến thức môn ${rootCause.courseId} trước khi bắt đầu môn mới. Các kỹ năng cần chú trọng: ${missingSkills.join(', ')}. CLO bị ảnh hưởng: ${learningOutcomes.map(clo => clo.split(':')[0]).join(', ')}.`,
-        colorClass: 'amber',
-        targetCourses: futureDownstreamList.map(c => c.courseId),
-        missingSkills: missingSkills,
-        affectedCLOs: learningOutcomes
-      };
-    } else {
-      const matchingRule = courseInterventionRules && courseInterventionRules.rules 
-        ? courseInterventionRules.rules.find(r => r.courseId.toLowerCase().replace(/\s+/g, '') === rootCause.courseId.toLowerCase().replace(/\s+/g, ''))
-        : null;
-        
-      if (matchingRule) {
-        const priority = matchingRule.riskPriority; 
-        let color = 'rose';
-        if (priority === 'HIGH') color = 'orange';
-        if (priority === 'MEDIUM') color = 'amber';
-        if (priority === 'LOW') color = 'blue';
-        
-        interventionRec = {
-          riskLevel: priority,
-          actionCode: `INTERVENTION_${rootCause.courseId}`,
-          actionTitle: `Can thiệp học thuật: Khắc phục môn ${rootCause.courseId} (${rootCause.name})`,
-          description: `${matchingRule.advisoryMessage}\n\nKhuyến nghị các bước can thiệp cụ thể:\n` + 
-            matchingRule.remediationSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n'),
-          colorClass: color
-        };
-      }
-    }
+      // Structured DTO fields for Task 4
+      rootCauseCourseId: rootCause.courseId,
+      rootCauseCourseName: rootCause.name,
+      currentScore: rootCauseScore,
+      whyItMatters: `Môn học này ảnh hưởng trực tiếp đến: ${directUnlocks.join(', ') || 'các môn tiếp theo'}`,
+      affectedCourses: directUnlocks.map(id => ({ id, name: syllabusGraph[id]?.name || id })),
+      recommendedActions: {
+        review: missingSkills.length > 0 ? missingSkills : ["Variables", "Functions", "Arrays", "DOM"],
+        practice: remediationSteps[1] || "Thực hành 5 bài tập/ngày.",
+        target: "Điểm số thi lại/cải thiện đạt > 7.0 điểm."
+      },
+      description: `Học phần gốc rễ cần khắc phục ngay: ${rootCause.courseId} (${rootCause.name}).`
+    };
   }
 
   // 9. Program-Level Comparison
@@ -1067,6 +1176,7 @@ async function generateDetailedDSSReport(student) {
     rootCauseAnalysis: rootCause,
     riskContributors,
     futureCourseImpact: futureImpacts,
+    futureRiskWarnings: getFutureRiskWarnings(scores),
     graduationRisk: {
       level: gradRiskLevel,
       description: gradRiskDesc,
@@ -1077,7 +1187,17 @@ async function generateDetailedDSSReport(student) {
     interventionRecommendation: interventionRec,
     skillsGapAnalysis,
     careerImpactAnalysis,
-    dependencyHeatmap
+    dependencyHeatmap,
+    academicSnapshot: {
+      studentId: student.mssv || student.id,
+      gpa10: calculateFptGPA(scores).gpa,
+      gpa4: calculateFptGPA(scores).gpa_4,
+      credits: calculateFptGPA(scores).totalCredits,
+      failedCourses: failedCourses,
+      academicHealth: healthScore,
+      riskScore: baseRisk.riskScore,
+      rootCauseCourses: rootCause ? [rootCause.courseId] : []
+    }
   };
 }
 

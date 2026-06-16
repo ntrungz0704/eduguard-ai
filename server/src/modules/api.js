@@ -606,6 +606,18 @@ router.get('/red-alerts', async (req, res) => {
       // Unify Risk & Priority Level using central services
       const baseRiskObj = riskService.getStudentRisk(data.studentObj);
       const studentAnalytics = analyticsService.getStudentAnalytics(data.studentObj);
+      const failedCoursesIds = failedCourses.map(c => c.courseId);
+
+      const academicSnapshot = {
+        studentId: data.mssv,
+        gpa10: studentAnalytics.gpa10,
+        gpa4: studentAnalytics.gpa4,
+        credits: studentAnalytics.totalEarnedCredits,
+        failedCourses: failedCoursesIds,
+        academicHealth: Math.max(0, 100 - baseRiskObj.riskScore),
+        riskScore: baseRiskObj.riskScore,
+        rootCauseCourses: []
+      };
 
       alerts.push({
         mssv: data.mssv,
@@ -623,6 +635,7 @@ router.get('/red-alerts', async (req, res) => {
         isEarlyWarning: primary.isEarlyWarning,
         intervened: isIntervened,
         reasons: primary.reasons,
+        academicSnapshot,
         
         failedCourses: failedCourses,
         allPredictedRisks: data.predictions.map(p => ({
@@ -1447,7 +1460,44 @@ router.get('/students-search', async (req, res) => {
     const dbMapped = dbStudents.map(s => {
       const scoresObj = {};
       s.scores.forEach(sc => { scoresObj[sc.courseId] = sc.value; });
-      return { id: s.mssv, name: s.name, classCode: s.classCode || 'WD18301', scores: scoresObj, source: 'Database' };
+      
+      const mappedDbStudent = {
+        mssv: s.mssv,
+        name: s.name,
+        classCode: s.classCode,
+        scores: s.scores.map(sc => ({
+          courseId: sc.courseId,
+          value: sc.value,
+          status: sc.status,
+          course: { id: sc.courseId, name: sc.course?.name || sc.courseId, credits: sc.course?.credits || getCourseCredits(sc.courseId) }
+        }))
+      };
+      
+      const analytics = analyticsService.getStudentAnalytics(mappedDbStudent);
+      const risk = riskService.getStudentRisk(mappedDbStudent);
+      const failedCourses = s.scores
+        .filter(sc => sc.status === 'FAILED' || (sc.value !== null && sc.value < 5.0))
+        .map(sc => sc.courseId);
+        
+      const academicSnapshot = {
+        studentId: s.mssv,
+        gpa10: analytics.gpa10,
+        gpa4: analytics.gpa4,
+        credits: analytics.totalEarnedCredits,
+        failedCourses,
+        academicHealth: Math.max(0, 100 - risk.riskScore),
+        riskScore: risk.riskScore,
+        rootCauseCourses: []
+      };
+      
+      return { 
+        id: s.mssv, 
+        name: s.name, 
+        classCode: s.classCode || 'WD18301', 
+        scores: scoresObj, 
+        source: 'Database',
+        academicSnapshot
+      };
     });
 
     // 2. Query from memory cache
@@ -1467,7 +1517,47 @@ router.get('/students-search', async (req, res) => {
         return sid.includes(q) || sname.includes(q);
       })
       .slice(0, q ? 50 : 700)
-      .map(s => ({ id: s.id, name: s.name || `Sinh viên ${s.id}`, classCode: s.classCode || 'WD18301', scores: s.scores || {}, source: 'Memory Cache' }));
+      .map(s => {
+        const scoresObj = s.scores || {};
+        
+        const mappedMemStudent = {
+          mssv: s.id,
+          name: s.name,
+          classCode: s.classCode || 'WD18301',
+          scores: Object.entries(scoresObj).map(([courseId, val]) => ({
+            courseId,
+            value: val,
+            status: val === null ? 'STUDYING' : (val >= 5 ? 'PASSED' : 'FAILED'),
+            course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
+          }))
+        };
+        
+        const analytics = analyticsService.getStudentAnalytics(mappedMemStudent);
+        const risk = riskService.getStudentRisk(mappedMemStudent);
+        const failedCourses = mappedMemStudent.scores
+          .filter(sc => sc.status === 'FAILED' || (sc.value !== null && sc.value < 5.0))
+          .map(sc => sc.courseId);
+          
+        const academicSnapshot = {
+          studentId: s.id,
+          gpa10: analytics.gpa10,
+          gpa4: analytics.gpa4,
+          credits: analytics.totalEarnedCredits,
+          failedCourses,
+          academicHealth: Math.max(0, 100 - risk.riskScore),
+          riskScore: risk.riskScore,
+          rootCauseCourses: []
+        };
+        
+        return { 
+          id: s.id, 
+          name: s.name || `Sinh viên ${s.id}`, 
+          classCode: s.classCode || 'WD18301', 
+          scores: scoresObj, 
+          source: 'Memory Cache',
+          academicSnapshot
+        };
+      });
 
     // Combine lists, preventing duplicates
     const combined = [...dbMapped];
@@ -2020,10 +2110,35 @@ router.get('/students/:mssv', async (req, res) => {
         const predictions = predictionService.getStudentPredictions(mappedMemStudent);
         const careers = careerService.getStudentCareers(mappedMemStudent);
 
+        const analytics = analyticsService.getStudentAnalytics(mappedMemStudent, mappedAllMemStudents);
+        const risk = riskService.getStudentRisk(mappedMemStudent);
+        const predictions = predictionService.getStudentPredictions(mappedMemStudent);
+        const careers = careerService.getStudentCareers(mappedMemStudent);
+
+        const { generateDetailedDSSReport } = require('../ai/engines/dssReportEngine');
+        const dssReport = await generateDetailedDSSReport(mappedMemStudent);
+
+        const failedCourses = mappedMemStudent.scores
+          .filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5.0))
+          .map(s => s.courseId);
+        const rootCauseCourses = dssReport?.rootCauseAnalysis ? [dssReport.rootCauseAnalysis.courseId] : [];
+
+        const academicSnapshot = {
+          studentId: mssv,
+          gpa10: analytics.gpa10,
+          gpa4: analytics.gpa4,
+          credits: analytics.totalEarnedCredits,
+          failedCourses,
+          academicHealth: dssReport?.academicHealth?.score || Math.max(0, 100 - risk.riskScore),
+          riskScore: risk.riskScore,
+          rootCauseCourses
+        };
+
         return res.json({
           ...mappedMemStudent,
           analytics,
           risk,
+          academicSnapshot,
           predictions: predictions.predictions,
           predictionsInsufficientData: predictions.insufficientData,
           careers: careers.careers,
@@ -2046,11 +2161,31 @@ router.get('/students/:mssv', async (req, res) => {
     const predictions = predictionService.getStudentPredictions(enrichedStudent);
     const careers = careerService.getStudentCareers(enrichedStudent);
 
+    const { generateDetailedDSSReport } = require('../ai/engines/dssReportEngine');
+    const dssReport = await generateDetailedDSSReport(enrichedStudent);
+
+    const failedCourses = enrichedStudent.scores
+      .filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5.0))
+      .map(s => s.courseId);
+    const rootCauseCourses = dssReport?.rootCauseAnalysis ? [dssReport.rootCauseAnalysis.courseId] : [];
+
+    const academicSnapshot = {
+      studentId: student.mssv,
+      gpa10: analytics.gpa10,
+      gpa4: analytics.gpa4,
+      credits: analytics.totalEarnedCredits,
+      failedCourses,
+      academicHealth: dssReport?.academicHealth?.score || Math.max(0, 100 - risk.riskScore),
+      riskScore: risk.riskScore,
+      rootCauseCourses
+    };
+
     res.json({
       ...student,
       ...enrichedStudent,
       analytics,
       risk,
+      academicSnapshot,
       predictions: predictions.predictions,
       predictionsInsufficientData: predictions.insufficientData,
       careers: careers.careers,
