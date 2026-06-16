@@ -172,7 +172,7 @@ async function auditDataIntegrity() {
       }
     });
 
-    const recalculatedGpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 10) / 10;
+    const recalculatedGpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
     const avgAttendance = attendanceCount === 0 ? null : totalAttendanceSum / attendanceCount;
 
     // Load pipeline representations
@@ -298,7 +298,7 @@ async function auditDataIntegrity() {
   console.log('====================================================');
 
   // Generate the markdown report artifact
-  const reportPath = path.join('C:', 'Users', 'ntrun', '.gemini', 'antigravity', 'brain', 'cb874118-eacc-4293-bb95-b93ea16e8b5d', 'data_integrity_audit_report.md');
+  const reportPath = path.join('C:', 'Users', 'ntrun', '.gemini', 'antigravity', 'brain', '70d3f5cd-8cee-4df4-ad01-08f8813ddce0', 'data_integrity_audit_report.md');
   const reportMarkdown = `# Data Integrity Audit Report
 
 Generated on: ${new Date().toISOString()}

@@ -19,22 +19,10 @@ exports.calculateCareerReadiness = async (studentId, careerId, boardTasks, stude
 
     let academicScore = 0;
     if (student && student.scores.length > 0) {
-      // Calculate weighted average
-      let totalScoreWeight = 0;
-      let totalCredits = 0;
-
-      // Use a basic filtering logic for academic courses (not PE/GDQP)
-      const validScores = student.scores.filter(s => s.value !== null && !['PE', 'MILITARY', 'GDQP', 'VOVINAM'].some(p => (s.courseId || '').toUpperCase().includes(p)));
-
-      validScores.forEach(s => {
-        const credits = s.course?.credits || 3;
-        totalScoreWeight += (s.value * credits);
-        totalCredits += credits;
-      });
-
-      if (totalCredits > 0) {
-        // Map GPA (0-10) to 0-100 scale
-        academicScore = Math.round((totalScoreWeight / totalCredits) * 10);
+      // Calculate weighted average using exact FPT formula to prevent double-counting retakes
+      const gpaResult = dataService.calculateFptGPA(student.scores);
+      if (gpaResult && gpaResult.gpa > 0) {
+        academicScore = Math.round(gpaResult.gpa * 10);
       }
     }
 

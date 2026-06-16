@@ -289,7 +289,7 @@ function calculateFptGPA(scores) {
   let gpaCredits = 0;
   let totalAccumulatedCredits = 0;
 
-  const processScore = (val, courseName, courseId) => {
+  const processScore = (val, courseName, courseId, status) => {
     if (val === null || val === undefined || val === '') return;
     
     const isCond = isConditionalCourse(courseName, courseId);
@@ -298,12 +298,14 @@ function calculateFptGPA(scores) {
     const score = parseFloat(val);
 
     // If passed or is 1.0 (passed conditional), add to total accumulated credits
-    if (score >= 5.0 || score === 1.0) {
+    // Also check if status is explicitly PASSED (handles text-based grades like "Đạt", "Miễn")
+    if (score >= 5.0 || score === 1.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
       totalAccumulatedCredits += credits;
     }
 
     // Include in GPA calculation if it's NOT conditional and NOT english and is not exactly 1.0
-    if (!isCond && !isEng && score > 1.0) {
+    // And ensure score is a valid number to prevent NaN
+    if (!isCond && !isEng && score > 1.0 && !isNaN(score)) {
       totalScoreWeight += (score * credits);
       // Wait, in FPT Poly, system 4 is calculated from the total GPA directly, 
       // or by converting each course's score to system 4 and taking the average?
@@ -323,13 +325,37 @@ function calculateFptGPA(scores) {
     }
   };
 
+  // Group scores by unique courseId to avoid double-counting retakes
   if (Array.isArray(scores)) {
+    const groupedScores = {};
     scores.forEach(s => {
-      processScore(s.value, s.course?.name || s.courseId, s.courseId);
+      const cid = (s.courseId || s.course?.id || '').toUpperCase();
+      if (!cid) return;
+      
+      const val = parseFloat(s.value);
+      const isPassed = s.status === 'PASSED' || val >= 5.0 || val === 1.0 || String(s.value).toLowerCase() === 'đạt' || String(s.value).toLowerCase() === 'miễn';
+
+      if (!groupedScores[cid]) {
+        groupedScores[cid] = s;
+      } else {
+        const existingVal = parseFloat(groupedScores[cid].value);
+        const existingPassed = groupedScores[cid].status === 'PASSED' || existingVal >= 5.0 || existingVal === 1.0 || String(groupedScores[cid].value).toLowerCase() === 'đạt' || String(groupedScores[cid].value).toLowerCase() === 'miễn';
+        
+        // Retain the best attempt: Highest score, or PASSED status
+        if (!isNaN(val) && (isNaN(existingVal) || val > existingVal)) {
+          groupedScores[cid] = s;
+        } else if (isPassed && !existingPassed) {
+          groupedScores[cid] = s;
+        }
+      }
+    });
+    
+    Object.values(groupedScores).forEach(s => {
+      processScore(s.value, s.course?.name || s.courseId, s.courseId, s.status);
     });
   } else {
     Object.entries(scores).forEach(([courseId, val]) => {
-      processScore(val, courseId, courseId);
+      processScore(val, courseId, courseId, null);
     });
   }
 

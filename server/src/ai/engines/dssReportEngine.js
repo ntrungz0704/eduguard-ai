@@ -21,6 +21,7 @@ function loadKnowledgeJson(filename) {
 const syllabusGraph = loadKnowledgeJson('syllabus_graph.json');
 const courseDependency = loadKnowledgeJson('course_dependency.json');
 const coursesJson = loadKnowledgeJson('courses.json');
+const courseCentrality = loadKnowledgeJson('course-centrality.json');
 
 const curriculumKbRaw = loadKnowledgeJson('curriculum_knowledge_base.json');
 const curriculumKb = Array.isArray(curriculumKbRaw) ? curriculumKbRaw : [];
@@ -206,99 +207,223 @@ async function generateDetailedDSSReport(student) {
     }
   });
 
-  // 4. Root Cause Analysis (Prerequisite Failure Chain Traversal)
-  // Algorithm: DFS-based recursive graph traversal on the prerequisite knowledge graph (via syllabus_graph.json).
-  // Traces back to the earliest prerequisite ancestor where the student got < 7.0 (weak foundation) or failed.
-  const traceRootCausePath = (courseId, visited = new Set(), pathList = []) => {
-    if (visited.has(courseId)) {
-      return { rootCause: courseId, path: pathList };
-    }
+  // 4. Root Cause Analysis (Prerequisite Knowledge Graph Traversal)
+  // Traces back to the earliest prerequisite ancestor in the syllabus graph (syllabus_graph.json)
+  // using graph-based priority scoring.
+  const getSourceAncestor = (courseId, visited = new Set()) => {
+    if (visited.has(courseId)) return courseId;
     visited.add(courseId);
-
-    const scoreObj = scores.find(s => {
-      const cleanTarget = courseId.toLowerCase().replace(/\s+/g, '');
-      const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-      return cleanS === cleanTarget || cleanS.includes(cleanTarget) || cleanTarget.includes(cleanS);
-    });
-
-    const node = syllabusGraph[courseId];
-    const kbCourse = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === courseId.toLowerCase().replace(/\s+/g, ''));
-    const nameStr = kbCourse ? kbCourse.courseName : (node?.name || courseDependency[courseId]?.role || courseId);
     
-    const grade = scoreObj ? scoreObj.value : null;
-    const status = scoreObj ? scoreObj.status : null;
-
-    const pathNode = {
-      courseId,
-      name: nameStr,
-      grade,
-      status: status === 'FAILED' || (grade !== null && grade < 5.0) ? 'FAILED' : (grade !== null && grade < 7.0 ? 'WEAK' : 'OK')
-    };
-
-    const newPathList = [...pathList, pathNode];
-
-    if (!node || !node.prerequisites || node.prerequisites.length === 0) {
-      return { rootCause: courseId, path: newPathList };
+    const node = syllabusGraph[courseId];
+    const kbCourse = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === courseId.toLowerCase().replace(/\s+/g, ''));
+    const prerequisites = (node && node.prerequisites) || (kbCourse && kbCourse.prerequisiteCourses) || [];
+    if (prerequisites.length === 0) {
+      return courseId;
     }
-
-    // Look for weak or failed prerequisites
-    for (const prereq of node.prerequisites) {
+    
+    for (const prereq of prerequisites) {
       const pScoreObj = scores.find(s => {
         const cleanP = prereq.toLowerCase().replace(/\s+/g, '');
         const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
         return cleanS === cleanP || cleanS.includes(cleanP) || cleanP.includes(cleanS);
       });
-
       if (pScoreObj && (pScoreObj.status === 'FAILED' || (pScoreObj.value !== null && pScoreObj.value < 7.0))) {
-        return traceRootCausePath(prereq, visited, newPathList);
+        return getSourceAncestor(prereq, visited);
       }
     }
-
-    return { rootCause: courseId, path: newPathList };
+    
+    return courseId;
   };
 
-  let rootCause = null;
-  if (failedCourses.length > 0) {
-    const rcPaths = [];
-    failedCourses.forEach(fc => {
-      const res = traceRootCausePath(fc);
-      rcPaths.push(res);
+  const getDownstreamCount = (cId) => {
+    const visited = new Set();
+    const queue = [cId];
+    const descendants = new Set();
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      const node = syllabusGraph[current];
+      if (node && node.unlocks) {
+        node.unlocks.forEach(unlock => {
+          descendants.add(unlock);
+          queue.push(unlock);
+        });
+      }
+      const depNode = courseDependency[current];
+      if (depNode && depNode.affects) {
+        depNode.affects.forEach(affect => {
+          descendants.add(affect);
+          queue.push(affect);
+        });
+      }
+      const kbCourse = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === current.toLowerCase().replace(/\s+/g, ''));
+      if (kbCourse && kbCourse.affectedCourses) {
+        kbCourse.affectedCourses.forEach(affect => {
+          descendants.add(affect);
+          queue.push(affect);
+        });
+      }
+    }
+    return descendants.size;
+  };
+
+  const getFutureDownstreamCourses = (cId) => {
+    const visited = new Set();
+    const queue = [cId];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (visited.has(current)) continue;
+      visited.add(current);
+      
+      const node = syllabusGraph[current];
+      if (node && node.unlocks) {
+        node.unlocks.forEach(unlock => {
+          if (!visited.has(unlock) && !queue.includes(unlock)) {
+            queue.push(unlock);
+          }
+        });
+      }
+      const depNode = courseDependency[current];
+      if (depNode && depNode.affects) {
+        depNode.affects.forEach(affect => {
+          if (!visited.has(affect) && !queue.includes(affect)) {
+            queue.push(affect);
+          }
+        });
+      }
+      const kbCourse = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === current.toLowerCase().replace(/\s+/g, ''));
+      if (kbCourse && kbCourse.affectedCourses) {
+        kbCourse.affectedCourses.forEach(affect => {
+          if (!visited.has(affect) && !queue.includes(affect)) {
+            queue.push(affect);
+          }
+        });
+      }
+    }
+    
+    // Remove the starting course itself
+    visited.delete(cId);
+    
+    // Filter out finished courses
+    const futureDownstream = [];
+    visited.forEach(id => {
+      const sc = scores.find(s => s.courseId === id);
+      const isFinished = sc && (sc.status === 'PASSED' || sc.status === 'FAILED');
+      if (!isFinished) {
+        const dKb = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === id.toLowerCase().replace(/\s+/g, ''));
+        const dName = dKb ? dKb.courseName : (syllabusGraph[id]?.name || id);
+        futureDownstream.push({ courseId: id, name: dName });
+      }
     });
     
-    // Sort paths to find the one that has the longest failure chain
-    rcPaths.sort((a, b) => b.path.length - a.path.length);
-    const primaryRc = rcPaths[0];
-    
-    if (primaryRc) {
-      const rcCode = primaryRc.rootCause;
-      const rcPath = primaryRc.path;
-      const rcScoreObj = scores.find(s => {
-        const cleanRc = rcCode.toLowerCase().replace(/\s+/g, '');
-        const cleanS = s.courseId.toLowerCase().replace(/\s+/g, '');
-        return cleanS === cleanRc || cleanS.includes(cleanRc) || cleanRc.includes(cleanS);
-      });
-      const isWeakPassed = rcScoreObj && rcScoreObj.status !== 'FAILED' && rcScoreObj.value !== null && rcScoreObj.value < 7.0;
-      
-      const kbCourse = curriculumKb.find(c => c.courseId.toLowerCase().replace(/\s+/g, '') === rcCode.toLowerCase().replace(/\s+/g, ''));
-      const courseNameStr = kbCourse ? kbCourse.courseName : (syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode);
+    return futureDownstream;
+  };
 
+  // Collect all troubled courses in student scores (failed or weak)
+  const troubledCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 7.0));
+  
+  let rootCause = null;
+  if (troubledCourses.length > 0) {
+    const candidatesMap = new Map();
+    troubledCourses.forEach(s => {
+      const ancestorId = getSourceAncestor(s.courseId);
+      const ancestorScoreObj = scores.find(as => as.courseId === ancestorId);
+      if (ancestorScoreObj) {
+        candidatesMap.set(ancestorId, ancestorScoreObj);
+      }
+    });
+    
+    const candidates = Array.from(candidatesMap.values());
+    const scoredCandidates = candidates.map(c => {
+      const cId = c.courseId;
+      const kbCourse = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === cId.toLowerCase().replace(/\s+/g, ''));
+      
+      const grade = c.value !== null ? c.value : 3.0;
+      const downstreamCount = getDownstreamCount(cId);
+      const bottleneckWeight = kbCourse?.bottleneckWeight || 1;
+      
+      let importanceWeight = 1;
+      if (kbCourse?.academicImportanceLevel === 'CRITICAL') importanceWeight = 10;
+      else if (kbCourse?.academicImportanceLevel === 'HIGH') importanceWeight = 7;
+      else if (kbCourse?.academicImportanceLevel === 'MEDIUM') importanceWeight = 4;
+      
+      const foundationWeight = Math.max(0, 7 - (kbCourse?.semester || 1));
+      const centralityObj = courseCentrality[cId];
+      const centralityScore = centralityObj ? centralityObj.centralityScore : 0.0;
+      
+      const priority = (10 - grade) * 2 +
+                       downstreamCount * 4 +
+                       bottleneckWeight * 3 +
+                       importanceWeight * 2 +
+                       foundationWeight * 5 +
+                       centralityScore * 5;
+      
+      return {
+        course: c,
+        priority,
+        grade,
+        downstreamCount,
+        bottleneckWeight,
+        importanceVal: importanceWeight,
+        kbCourse
+      };
+    });
+    
+    scoredCandidates.sort((a, b) => b.priority - a.priority);
+    const bestCandidate = scoredCandidates[0];
+    
+    if (bestCandidate) {
+      const rcCode = bestCandidate.course.courseId;
+      const kbCourse = bestCandidate.kbCourse;
+      const courseNameStr = kbCourse ? kbCourse.courseName : (syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode);
+      const isWeakPassed = bestCandidate.course.status !== 'FAILED' && bestCandidate.course.value !== null && bestCandidate.course.value >= 5.0;
+      
+      const rcPath = [];
+      let curr = rcCode;
+      let pathVisited = new Set();
+      while (curr && !pathVisited.has(curr)) {
+        pathVisited.add(curr);
+        const currScoreObj = scores.find(s => s.courseId === curr);
+        const currKb = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === curr.toLowerCase().replace(/\s+/g, ''));
+        const currName = currKb ? currKb.courseName : (syllabusGraph[curr]?.name || curr);
+        const currGrade = currScoreObj ? currScoreObj.value : null;
+        const currStatus = currScoreObj ? currScoreObj.status : null;
+        
+        rcPath.push({
+          courseId: curr,
+          name: currName,
+          grade: currGrade,
+          status: currStatus === 'FAILED' || (currGrade !== null && currGrade < 5.0) ? 'FAILED' : (currGrade !== null && currGrade < 7.0 ? 'WEAK' : 'OK')
+        });
+        
+        const nextNode = Object.entries(syllabusGraph).find(([key, val]) => val.prerequisites && val.prerequisites.includes(curr));
+        if (nextNode && troubledCourses.some(tc => tc.courseId === nextNode[0])) {
+          curr = nextNode[0];
+        } else {
+          curr = null;
+        }
+      }
+      
       let explanation = '';
       const missingSkillsFormatted = kbCourse && kbCourse.coreSkills ? kbCourse.coreSkills.map(s => `• ${s}`).join('\n') : '';
       const affectedClosFormatted = kbCourse && kbCourse.learningOutcomes ? kbCourse.learningOutcomes.map(c => `• ${c.split(':')[0]}`).join('\n') : '';
       const affectedCareersFormatted = kbCourse && kbCourse.careerRelevance ? kbCourse.careerRelevance.map(c => `• ${c}`).join('\n') : '';
       
       const nextCourses = blockedCourses.filter(bc => bc.failedCourse === rcCode);
-      const affectedCoursesFormatted = nextCourses.length > 0 ? nextCourses.map(c => `• ${c.blockedCourse} (${c.blockedCourseName})`).join('\n') : '';
-
+      const futureDownstreamList = getFutureDownstreamCourses(rcCode);
+      const affectedCoursesFormatted = futureDownstreamList.length > 0
+        ? futureDownstreamList.map(c => `• ${c.courseId} (${c.name})`).join('\n')
+        : (nextCourses.length > 0 ? nextCourses.map(c => `• ${c.blockedCourse} (${c.blockedCourseName})`).join('\n') : '');
+      
       const priorityLabel = kbCourse ? (
         kbCourse.academicImportanceLevel === 'CRITICAL' ? '🔴 Rất cao (Critical)' :
         kbCourse.academicImportanceLevel === 'HIGH' ? '🔴 Cao (High)' :
         kbCourse.academicImportanceLevel === 'MEDIUM' ? '🟡 Trung bình (Medium)' : '🔵 Thấp (Low)'
       ) : '🟡 Trung bình (Medium)';
-
+      
       if (isWeakPassed) {
-        explanation = `Sinh viên đạt điểm số yếu ở môn ${rcCode} (${courseNameStr}) với điểm số: ${rcScoreObj.value.toFixed(1)}/10.\n\n`;
-        
+        explanation = `Sinh viên đạt điểm số yếu ở môn ${rcCode} (${courseNameStr}) với điểm số: ${bestCandidate.grade.toFixed(1)}/10.\n\n`;
         if (affectedCoursesFormatted) {
           explanation += `Môn học bị ảnh hưởng trực tiếp (nguy cơ do nền tảng yếu):\n${affectedCoursesFormatted}\n\n`;
         }
@@ -314,7 +439,6 @@ async function generateDetailedDSSReport(student) {
         explanation += `Mức độ tác động: ${priorityLabel}`;
       } else {
         explanation = `Môn ${rcCode} (${courseNameStr}) chưa đạt.\n\n`;
-        
         if (affectedCoursesFormatted) {
           explanation += `Môn học bị ảnh hưởng trực tiếp:\n${affectedCoursesFormatted}\n\n`;
         } else {
@@ -332,6 +456,10 @@ async function generateDetailedDSSReport(student) {
         explanation += `Mức độ tác động: ${priorityLabel}`;
       }
       
+      const hasInProgressRetake = scores.some(s => s.courseId === rcCode && (s.status === 'STUDYING' || s.status === 'NOT_STARTED'));
+      const hasPassedRetake = scores.some(s => s.courseId === rcCode && s.status === 'PASSED');
+      const isCompleted = hasPassedRetake && !hasInProgressRetake;
+      
       rootCause = {
         courseId: rcCode,
         name: courseNameStr,
@@ -344,7 +472,8 @@ async function generateDetailedDSSReport(student) {
         commonFailureReasons: kbCourse ? (kbCourse.commonFailureReasons || []) : [],
         remediationRecommendations: kbCourse ? (kbCourse.remediationRecommendations || []) : [],
         careerRelevance: kbCourse ? (kbCourse.careerRelevance || []) : [],
-        path: rcPath
+        path: rcPath,
+        isCompleted
       };
     }
   }
@@ -778,25 +907,39 @@ async function generateDetailedDSSReport(student) {
 
   // Apply expert intervention rules if rootCause exists
   if (rootCause) {
-    const matchingRule = courseInterventionRules && courseInterventionRules.rules 
-      ? courseInterventionRules.rules.find(r => r.courseId.toLowerCase().replace(/\s+/g, '') === rootCause.courseId.toLowerCase().replace(/\s+/g, ''))
-      : null;
-      
-    if (matchingRule) {
-      const priority = matchingRule.riskPriority; 
-      let color = 'rose';
-      if (priority === 'HIGH') color = 'orange';
-      if (priority === 'MEDIUM') color = 'amber';
-      if (priority === 'LOW') color = 'blue';
+    if (rootCause.isCompleted) {
+      // Find downstream courses affected
+      const futureDownstreamList = getFutureDownstreamCourses(rootCause.courseId);
+      const downstreamNames = futureDownstreamList.map(c => `${c.courseId} (${c.name})`);
       
       interventionRec = {
-        riskLevel: priority,
-        actionCode: `INTERVENTION_${rootCause.courseId}`,
-        actionTitle: `Can thiệp học thuật: Khắc phục môn ${rootCause.courseId} (${rootCause.name})`,
-        description: `${matchingRule.advisoryMessage}\n\nKhuyến nghị các bước can thiệp cụ thể:\n` + 
-          matchingRule.remediationSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n'),
-        colorClass: color
+        riskLevel: rootCause.academicImportanceLevel || 'MEDIUM',
+        actionCode: 'WEAK_FOUNDATION_WARNING',
+        actionTitle: `Cảnh báo nền tảng yếu: Môn ${rootCause.courseId}`,
+        description: `Sinh viên đã hoàn thành môn ${rootCause.courseId} (${rootCause.name}) nhưng với điểm số chưa vững (${rootCause.path[0]?.grade?.toFixed(1) || '5.x'}). Nguy cơ cao khi học các môn chuyên ngành tiếp theo phụ thuộc vào nền tảng này: ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'Các môn chuyên ngành tiếp theo'}. Đề xuất củng cố kiến thức trước khi bắt đầu môn mới.`,
+        colorClass: 'amber'
       };
+    } else {
+      const matchingRule = courseInterventionRules && courseInterventionRules.rules 
+        ? courseInterventionRules.rules.find(r => r.courseId.toLowerCase().replace(/\s+/g, '') === rootCause.courseId.toLowerCase().replace(/\s+/g, ''))
+        : null;
+        
+      if (matchingRule) {
+        const priority = matchingRule.riskPriority; 
+        let color = 'rose';
+        if (priority === 'HIGH') color = 'orange';
+        if (priority === 'MEDIUM') color = 'amber';
+        if (priority === 'LOW') color = 'blue';
+        
+        interventionRec = {
+          riskLevel: priority,
+          actionCode: `INTERVENTION_${rootCause.courseId}`,
+          actionTitle: `Can thiệp học thuật: Khắc phục môn ${rootCause.courseId} (${rootCause.name})`,
+          description: `${matchingRule.advisoryMessage}\n\nKhuyến nghị các bước can thiệp cụ thể:\n` + 
+            matchingRule.remediationSteps.map((step, idx) => `${idx + 1}. ${step}`).join('\n'),
+          colorClass: color
+        };
+      }
     }
   }
 
@@ -850,6 +993,32 @@ async function generateDetailedDSSReport(student) {
     });
   }
 
+  // Generate Dependency Heatmap
+  const dependencyHeatmap = [];
+  const weakOrFailedScores = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 7.0));
+  weakOrFailedScores.forEach(s => {
+    const cId = s.courseId;
+    const grade = s.value !== null ? s.value : 3.0;
+    const downstreamCount = getDownstreamCount(cId);
+    const centralityObj = courseCentrality[cId];
+    const centralityScore = centralityObj ? centralityObj.centralityScore : 0.0;
+    const kbC = curriculumKb.find(kb => kb.courseId.toLowerCase().replace(/\s+/g, '') === cId.toLowerCase().replace(/\s+/g, ''));
+    
+    const influence = (10 - grade) * 2 + downstreamCount * 3 + centralityScore * 5;
+    const riskInfluenceScore = Math.round(influence * 10) / 10;
+    const courseName = kbC ? kbC.courseName : (syllabusGraph[cId]?.name || cId);
+    
+    dependencyHeatmap.push({
+      courseId: cId,
+      name: courseName,
+      grade,
+      downstreamCount,
+      centralityScore,
+      riskInfluenceScore
+    });
+  });
+  dependencyHeatmap.sort((a, b) => b.riskInfluenceScore - a.riskInfluenceScore);
+
   return {
     academicHealth: {
       score: healthScore,
@@ -880,7 +1049,8 @@ async function generateDetailedDSSReport(student) {
     recoveryRoadmap,
     interventionRecommendation: interventionRec,
     skillsGapAnalysis,
-    careerImpactAnalysis
+    careerImpactAnalysis,
+    dependencyHeatmap
   };
 }
 

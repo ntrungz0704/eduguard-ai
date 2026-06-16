@@ -79,20 +79,24 @@ async function executeStudentDecision({ intent, activeMssv, entities, session, m
   let timeline = null;
   let recommendations = null;
   if (student) {
-    const explained = explainRisk(student);
-    const criticalFailures = (explained.failedCourses || []).map(c => c.courseId || c);
-    const reasons = (explained.explanations || []).map(e => `${e.factor}: ${e.detail}`);
+    const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
+    const dssReport = await generateDetailedDSSReport(student);
+    
+    const criticalFailures = (dssReport.knowledgeDependency?.failedCourses || []).map(c => c.courseId || c);
+    const reasons = (dssReport.riskContributors || []).map(e => `${e.label}: Chiếm ${e.percentage}% (Điểm tác động: ${e.score})`);
     
     const rawAnalysis = await advisorService.analyzeStudent(student.mssv || activeMssv, "Backend Developer");
     
     riskData = {
       ...rawAnalysis,
-      riskLevel: explained.level || rawAnalysis.riskLevel || 'LOW',
+      riskLevel: dssReport.graduationRisk?.level || rawAnalysis.riskLevel || 'LOW',
+      riskScore: dssReport.graduationRisk?.delayScore || 0,
+      gpa: dssReport.graduationRisk?.gpa || 0,
       criticalFailures: criticalFailures,
       reasons: reasons.length > 0 ? reasons : ['Không có yếu tố rủi ro đáng kể.']
     };
     
-    const timelineArray = generateAcademicTimeline(student, explained);
+    const timelineArray = generateAcademicTimeline(student, { level: riskData.riskLevel });
     timeline = {
       events: timelineArray,
       forecastText: timelineArray.map(t => `- Tuần ${t.week}: ${t.event || t.type}`).join('\n') || 'Tiến độ học tập ổn định.'

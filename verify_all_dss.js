@@ -27,6 +27,10 @@ async function main() {
       const healthScore = report.academicHealth.score;
       const riskLevel = report.graduationRisk.level;
 
+      if (healthScore === 'N/A' || riskLevel === 'Chưa khả dụng') {
+        continue;
+      }
+
       // Check alignment
       // 80-100: Low Risk
       // 60-79: Medium Risk

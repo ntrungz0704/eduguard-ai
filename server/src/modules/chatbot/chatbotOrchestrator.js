@@ -132,7 +132,7 @@ async function orchestrateChatbot(req, sessionId) {
     // ─────────────────────────────────────────────────
 
     const responseObj = buildStudentResponse(decisionData);
-    text = responseObj.text;
+    text = applyPredictionGuardrails(responseObj.text);
     chartData = responseObj.chartData;
     actions = responseObj.actions;
 
@@ -193,7 +193,7 @@ async function orchestrateChatbot(req, sessionId) {
 
     // Step 8: Build Response
     const responseObj = buildTeacherResponse(decisionData);
-    text = responseObj.text;
+    text = applyPredictionGuardrails(responseObj.text);
     chartData = responseObj.chartData;
     actions = responseObj.actions;
     
@@ -252,6 +252,28 @@ async function orchestrateChatbot(req, sessionId) {
     riskData: decisionData?.riskData || null,
     processingTimeMs: duration
   };
+}
+
+function applyPredictionGuardrails(replyText) {
+  if (!replyText) return replyText;
+  let guarded = replyText;
+  
+  guarded = guarded.replace(/(bạn|sinh viên)\s+sẽ\s+trượt\s+môn/gi, "$1 có nguy cơ cao không qua môn (theo phân tích DSS)");
+  guarded = guarded.replace(/(bạn|sinh viên)\s+sẽ\s+rớt\s+môn/gi, "$1 có nguy cơ cao không qua môn (theo phân tích DSS)");
+  guarded = guarded.replace(/(bạn|sinh viên)\s+sẽ\s+tạch\s+môn/gi, "$1 có nguy cơ cao không qua môn (theo phân tích DSS)");
+  
+  guarded = guarded.replace(/sẽ\s+trượt\s+môn/gi, "có nguy cơ không qua môn (theo phân tích DSS)");
+  guarded = guarded.replace(/sẽ\s+rớt\s+môn/gi, "có nguy cơ không qua môn (theo phân tích DSS)");
+  guarded = guarded.replace(/sẽ\s+tạch\s+môn/gi, "có nguy cơ không qua môn (theo phân tích DSS)");
+  
+  guarded = guarded.replace(/sẽ\s+bị\s+trượt/gi, "có nguy cơ không đạt (theo phân tích DSS)");
+  guarded = guarded.replace(/sẽ\s+bị\s+rớt/gi, "có nguy cơ không đạt (theo phân tích DSS)");
+  guarded = guarded.replace(/sẽ\s+bị\s+tạch/gi, "có nguy cơ không đạt (theo phân tích DSS)");
+  
+  guarded = guarded.replace(/bạn\s+sẽ\s+trượt/gi, "bạn có nguy cơ cao không đạt (theo phân tích DSS)");
+  guarded = guarded.replace(/bạn\s+sẽ\s+rớt/gi, "bạn có nguy cơ cao không đạt (theo phân tích DSS)");
+  
+  return guarded;
 }
 
 module.exports = {

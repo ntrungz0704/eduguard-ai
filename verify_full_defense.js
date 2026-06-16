@@ -188,7 +188,7 @@ async function runFullDefenseAudit() {
   console.log('====================================================');
 
   // Write report artifact
-  const reportPath = path.join('C:', 'Users', 'ntrun', '.gemini', 'antigravity', 'brain', 'cb874118-eacc-4293-bb95-b93ea16e8b5d', 'defense_audit_report.md');
+  const reportPath = path.join('C:', 'Users', 'ntrun', '.gemini', 'antigravity', 'brain', '70d3f5cd-8cee-4df4-ad01-08f8813ddce0', 'defense_audit_report.md');
   const reportMarkdown = `# Internal End-to-End QA Verification Report
 
 Generated on: ${new Date().toISOString()}

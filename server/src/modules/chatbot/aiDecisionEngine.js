@@ -17,6 +17,25 @@ const appLogger = require('../../infrastructure/logger');
 // ════════════════════════════════════════════
 // CORE DECISION ROUTER (ORCHESTRATOR)
 // ════════════════════════════════════════════
+async function getAlignedRiskData(student) {
+  const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
+  const dssReport = await generateDetailedDSSReport(student);
+  
+  const criticalFailures = (dssReport.knowledgeDependency?.failedCourses || []).map(c => c.courseId || c);
+  const reasons = (dssReport.riskContributors || []).map(e => `${e.label}: Chiếm ${e.percentage}% (Điểm tác động: ${e.score})`);
+  
+  return {
+    riskScore: dssReport.graduationRisk?.delayScore || 0,
+    level: dssReport.graduationRisk?.level || 'LOW',
+    gpa: dssReport.graduationRisk?.gpa || 0,
+    avgAttendance: 100,
+    failedCourses: dssReport.knowledgeDependency?.failedCourses || [],
+    reasons: reasons.length > 0 ? reasons : ['Không có rủi ro đáng kể.'],
+    primaryRootCause: dssReport.rootCauseAnalysis,
+    dssReport
+  };
+}
+
 async function executeDecision({ intent, activeMssv, entities, session, user = 'System' }) {
   appLogger.info(`[DSS_DECISION] Executing intent: ${intent} | MSSV Context: ${activeMssv || 'none'}`);
   
@@ -33,14 +52,7 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const riskData = explainRisk(student);
-      try {
-        const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
-        const dssReport = await generateDetailedDSSReport(student);
-        riskData.primaryRootCause = dssReport.rootCauseAnalysis;
-      } catch (err) {
-        appLogger.error(`Error generating DSS report for student analytics: ${err.message}`);
-      }
+      const riskData = await getAlignedRiskData(student);
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'STUDENT_ANALYTICS', student, riskData, timeline };
     }
@@ -61,14 +73,7 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const riskData = explainRisk(student);
-      try {
-        const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
-        const dssReport = await generateDetailedDSSReport(student);
-        riskData.primaryRootCause = dssReport.rootCauseAnalysis;
-      } catch (err) {
-        appLogger.error(`Error generating DSS report for root cause: ${err.message}`);
-      }
+      const riskData = await getAlignedRiskData(student);
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_ROOT_CAUSE', followupType: 'ROOT_CAUSE', student, riskData, timeline };
     }
@@ -79,14 +84,7 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const riskData = explainRisk(student);
-      try {
-        const { generateDetailedDSSReport } = require('../../ai/engines/dssReportEngine');
-        const dssReport = await generateDetailedDSSReport(student);
-        riskData.primaryRootCause = dssReport.rootCauseAnalysis;
-      } catch (err) {
-        appLogger.error(`Error generating DSS report for attendance analysis: ${err.message}`);
-      }
+      const riskData = await getAlignedRiskData(student);
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_ATTENDANCE', followupType: 'ATTENDANCE', student, riskData, timeline };
     }
@@ -100,7 +98,7 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const riskData = explainRisk(student);
+      const riskData = await getAlignedRiskData(student);
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_TIMELINE', followupType: 'TIMELINE', student, riskData, timeline };
     }
@@ -161,7 +159,7 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
       const student = await fetchStudentByMssv(mssv);
       if (!student) return { type: 'STUDENT_NOT_FOUND', mssv };
       
-      const riskData = explainRisk(student);
+      const riskData = await getAlignedRiskData(student);
       const timeline = generateAcademicTimeline(student, riskData);
       return { type: 'FOLLOWUP_INTERVENTION', followupType: 'INTERVENTION', student, riskData, timeline };
     }
