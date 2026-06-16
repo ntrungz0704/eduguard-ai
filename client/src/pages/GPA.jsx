@@ -67,12 +67,8 @@ export default function GPA() {
       const validScores = data.scores?.filter(s => s.value !== null && s.status === 'PASSED') || [];
       const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglish(s.course?.name || s.courseId, s.courseId));
       
-      let totalCredits = 0;
-      academicScores.forEach(s => {
-        totalCredits += s.course?.credits || 3;
-      });
-
       const gpa = data.analytics?.gpa10 ?? 0.0;
+      const totalCredits = data.analytics?.totalEarnedCredits ?? 0;
       
       // Compute danger courses (predictions with HIGH risk or FAILED)
       const failed = data.scores?.filter(s => s.status === 'FAILED').map(s => s.courseId) || [];
