@@ -1124,11 +1124,11 @@ function RoadmapTab({ curriculumCourses, courseDependencies }) {
       {/* Progress Overview */}
       {(() => {
         const totalCredits = curriculumCourses.reduce((sum, c) => {
-          const isGDQP = c.id === 'VIE104' || (c.name || '').toLowerCase().includes('quốc phòng');
+          const isGDQP = c.courseId === 'VIE104' || (c.courseName || '').toLowerCase().includes('quốc phòng');
           return sum + (isGDQP ? 0 : (c.credits || 3));
         }, 0) || 120;
         const completedCredits = curriculumCourses.filter(c => c.status === 'PASSED').reduce((sum, c) => {
-          const isGDQP = c.id === 'VIE104' || (c.name || '').toLowerCase().includes('quốc phòng');
+          const isGDQP = c.courseId === 'VIE104' || (c.courseName || '').toLowerCase().includes('quốc phòng');
           return sum + (isGDQP ? 0 : (c.credits || 3));
         }, 0);
         const progressPercent = Math.min(100, Math.round((completedCredits / totalCredits) * 100));
