@@ -300,7 +300,12 @@ function calculateFptGPA(scores) {
     // If passed or is 1.0 (passed conditional), add to total accumulated credits
     // Also check if status is explicitly PASSED (handles text-based grades like "Đạt", "Miễn")
     if (score >= 5.0 || score === 1.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
-      totalAccumulatedCredits += credits;
+      const lowerName = String(courseName || '').toLowerCase();
+      const code = String(courseId || '').toUpperCase();
+      // Giáo dục quốc phòng (4 tín chỉ) là chứng chỉ độc lập, không cộng vào tín chỉ tích luỹ tốt nghiệp
+      if (!(lowerName.includes('quốc phòng') || lowerName.includes('gdqp') || code.includes('VIE104'))) {
+        totalAccumulatedCredits += credits;
+      }
     }
 
     // Include in GPA calculation if it's NOT conditional and NOT english and is not exactly 1.0

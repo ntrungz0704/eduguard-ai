@@ -1123,8 +1123,14 @@ function RoadmapTab({ curriculumCourses, courseDependencies }) {
 
       {/* Progress Overview */}
       {(() => {
-        const totalCredits = curriculumCourses.reduce((sum, c) => sum + (c.credits || 3), 0) || 120;
-        const completedCredits = curriculumCourses.filter(c => c.status === 'PASSED').reduce((sum, c) => sum + (c.credits || 3), 0);
+        const totalCredits = curriculumCourses.reduce((sum, c) => {
+          const isGDQP = c.id === 'VIE104' || (c.name || '').toLowerCase().includes('quốc phòng');
+          return sum + (isGDQP ? 0 : (c.credits || 3));
+        }, 0) || 120;
+        const completedCredits = curriculumCourses.filter(c => c.status === 'PASSED').reduce((sum, c) => {
+          const isGDQP = c.id === 'VIE104' || (c.name || '').toLowerCase().includes('quốc phòng');
+          return sum + (isGDQP ? 0 : (c.credits || 3));
+        }, 0);
         const progressPercent = Math.min(100, Math.round((completedCredits / totalCredits) * 100));
         const remainingCredits = totalCredits - completedCredits;
         // Giả sử mỗi kỳ trung bình học 15-20 tín chỉ, 1 kỳ mất 4 tháng
