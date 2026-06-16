@@ -257,25 +257,34 @@ export default function StudentProfile() {
     return () => { setActiveStudent(null); };
   }, [mssv]);
 
-  // Tự động chọn môn rủi ro cao nhất làm mặc định sau khi load xong
+  // Tự động chọn môn rủi ro cao nhất làm mặc định sau khi load xong (chỉ chọn môn chưa hoàn thành)
   useEffect(() => {
-    if (!student?.scores || student.scores.length === 0) return;
+    if (!student?.scores) return;
     const entries = Array.isArray(student.scores) ? student.scores : Object.values(student.scores || {});
     const predictions = student.predictions || [];
-    const highRisk = entries.find(s => {
-      if (isConditionalCourse(s.course?.name || s.courseId, s.courseId)) return false;
-      const pred = predictions.find(p => p.courseId === s.courseId);
-      return pred && (pred.risk === 'HIGH' || pred.risk === 'CRITICAL');
+    
+    let picked = null;
+    
+    // Tìm môn đang học hoặc chưa học có rủi ro cao
+    const highRiskPred = predictions.find(p => {
+      if (p.risk !== 'HIGH' && p.risk !== 'CRITICAL') return false;
+      const scoreStat = entries.find(s => s.courseId === p.courseId);
+      return !scoreStat || (scoreStat.status !== 'PASSED' && scoreStat.status !== 'FAILED');
     });
-    const failed = entries.find(s => s.status === 'FAILED' && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
-    const lowScore = entries.find(s => s.value !== null && s.value < 6 && !isConditionalCourse(s.course?.name || s.courseId, s.courseId));
-    const inProgressRisk = entries.find(s => {
-      if (isConditionalCourse(s.course?.name || s.courseId, s.courseId)) return false;
-      const pred = predictions.find(p => p.courseId === s.courseId);
-      return s.status !== 'PASSED' && s.status !== 'FAILED' && pred;
-    });
-    const picked = highRisk || failed || lowScore || inProgressRisk;
-    if (picked) setSelectedCourse(picked.courseId);
+    
+    if (highRiskPred) {
+      picked = highRiskPred.courseId;
+    } else {
+      const medRiskPred = predictions.find(p => {
+        if (p.risk !== 'MEDIUM') return false;
+        const scoreStat = entries.find(s => s.courseId === p.courseId);
+        return !scoreStat || (scoreStat.status !== 'PASSED' && scoreStat.status !== 'FAILED');
+      });
+      if (medRiskPred) picked = medRiskPred.courseId;
+    }
+    
+    if (picked) setSelectedCourse(picked);
+    else setSelectedCourse('');
   }, [student?.mssv]);
 
   // Tự động sinh ghi chú can thiệp bằng AI cho môn được chọn
@@ -1756,6 +1765,18 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                     className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
                   >
                     <Sparkles size={14} /> Xem chi tiết lộ trình tự học 12 tuần
+                  </button>
+                )}
+                {dssReport.interventionRecommendation.actionCode === 'WEAK_FOUNDATION_WARNING' && (
+                  <button 
+                    onClick={() => handleOpenWorkflow('email', { 
+                      courseId: dssReport.interventionRecommendation.targetCourses?.[0] || 'N/A', 
+                      risk: 'HIGH', 
+                      explanation: `Cần củng cố kiến thức từ môn ${dssReport.rootCauseAnalysis?.courseId || ''} để chuẩn bị cho các môn sắp tới.` 
+                    })}
+                    className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Mail size={14} /> Gửi thư yêu cầu củng cố kiến thức môn sắp học
                   </button>
                 )}
               </div>

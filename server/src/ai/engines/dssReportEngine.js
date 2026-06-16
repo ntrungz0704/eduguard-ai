@@ -915,9 +915,10 @@ async function generateDetailedDSSReport(student) {
       interventionRec = {
         riskLevel: rootCause.academicImportanceLevel || 'MEDIUM',
         actionCode: 'WEAK_FOUNDATION_WARNING',
-        actionTitle: `Cảnh báo nền tảng yếu: Môn ${rootCause.courseId}`,
-        description: `Sinh viên đã hoàn thành môn ${rootCause.courseId} (${rootCause.name}) nhưng với điểm số chưa vững (${rootCause.path[0]?.grade?.toFixed(1) || '5.x'}). Nguy cơ cao khi học các môn chuyên ngành tiếp theo phụ thuộc vào nền tảng này: ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'Các môn chuyên ngành tiếp theo'}. Đề xuất củng cố kiến thức trước khi bắt đầu môn mới.`,
-        colorClass: 'amber'
+        actionTitle: `Can thiệp tiền đề: Chuẩn bị cho ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'môn học tiếp theo'}`,
+        description: `Sinh viên đã hoàn thành môn ${rootCause.courseId} (${rootCause.name}) nhưng với điểm số chưa vững (${rootCause.path[0]?.grade?.toFixed(1) || '5.x'}). Nguy cơ cao khi học các môn chuyên ngành tiếp theo phụ thuộc vào nền tảng này: ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'Các môn chuyên ngành tiếp theo'}. Đề xuất củng cố kiến thức môn ${rootCause.courseId} trước khi bắt đầu môn mới.`,
+        colorClass: 'amber',
+        targetCourses: futureDownstreamList.map(c => c.courseId)
       };
     } else {
       const matchingRule = courseInterventionRules && courseInterventionRules.rules 
