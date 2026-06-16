@@ -2439,7 +2439,7 @@ router.post('/students/update-score', async (req, res) => {
 // ============================================================
 router.post('/intervention/send-roadmap', async (req, res) => {
   try {
-    const { mssv, targetCourseId, riskLevel } = req.body;
+    const { mssv, targetCourseId, riskLevel, missingSkills, affectedCLOs } = req.body;
     if (!mssv || !targetCourseId) {
       return res.status(400).json({ error: 'Thiếu mssv hoặc targetCourseId' });
     }
@@ -2452,7 +2452,7 @@ router.post('/intervention/send-roadmap', async (req, res) => {
     }
 
     const { sendAutomatedRoadmap } = require('./intervention/interventionEngine');
-    const result = await sendAutomatedRoadmap(mssv, targetCourseId, riskLevel || 'HIGH', studentData);
+    const result = await sendAutomatedRoadmap(mssv, targetCourseId, riskLevel || 'HIGH', studentData, missingSkills, affectedCLOs);
 
     res.json(result);
   } catch (e) {

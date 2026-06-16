@@ -757,86 +757,107 @@ async function generateDetailedDSSReport(student) {
   // 8. Recovery Roadmap
   const recoveryRoadmap = [];
   if (rootCause) {
-    const recs = rootCause.remediationRecommendations || [];
-    if (recs.length >= 3) {
-      recs.forEach((rec, rIdx) => {
-        let phase = `Giai đoạn ${rIdx + 1}`;
-        let title = rec;
-        let focus = '';
-        
-        if (rec.includes(':')) {
-          const parts = rec.split(':');
-          const weekStr = parts[0].trim();
-          phase = `Giai đoạn ${rIdx + 1} (${weekStr})`;
-          title = `[Môn gốc ${rootCause.courseId}] ` + parts.slice(1).join(':').trim();
-        } else {
-          title = `[Môn gốc ${rootCause.courseId}] ` + rec;
-        }
-        
-        if (rIdx === 0) {
-          focus = `Tập trung củng cố kiến thức nền tảng và khắc phục lỗ hổng môn ${rootCause.courseId}. Ôn tập các kỹ năng thiếu hụt: ${rootCause.missingSkills ? rootCause.missingSkills.join(', ') : 'N/A'}.`;
-        } else if (rIdx === 1) {
-          focus = `Thực hành thiết kế hoặc viết mã dự án mini (mini-project) áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
-        } else if (rIdx === 2) {
-          const cleanClos = rootCause.learningOutcomes ? rootCause.learningOutcomes.map(clo => clo.split(':')[0]).join(', ') : 'N/A';
-          focus = `Đăng ký học phụ đạo (Tutor) tại trường để rà soát chuẩn đầu ra (CLOs) bị nợ: ${cleanClos}. Hoàn thành kiểm thử để vượt qua nguyên nhân gốc rễ học thuật này.`;
-        }
-        
-        recoveryRoadmap.push({
-          phase,
-          title,
-          focus
-        });
-      });
-    } else {
-      // Fallback if not enough recommendations
-      let phase1Title = `Lập kế hoạch ôn tập: ${rootCause.courseId} - ${rootCause.name}`;
-      let phase1Focus = `Học lại lý thuyết cơ bản và hoàn thành các bài lab của môn học.`;
-      if (recs.length > 0) {
-        phase1Title = `Can thiệp ${rootCause.courseId}: ${recs[0]}`;
-        const firstSkill = rootCause.missingSkills && rootCause.missingSkills[0];
-        const skillEv = firstSkill && rootCause.technologiesTools ? ` (Kỹ năng: ${firstSkill}, Công cụ: ${rootCause.technologiesTools.slice(0, 2).join(', ')})` : '';
-        phase1Focus = `Tập trung hoàn thành nội dung thực hành môn ${rootCause.courseId}${skillEv}. Bám sát đề cương chi tiết học phần để khắc phục lỗ hổng kiến thức gốc rễ sớm nhất.`;
-      }
+    if (rootCause.isCompleted) {
+      const futureDownstreamList = getFutureDownstreamCourses(rootCause.courseId);
+      const targetCoursesStr = futureDownstreamList.length > 0 ? futureDownstreamList.map(c => c.courseId).join(', ') : 'môn học chuyên ngành tiếp theo';
+      
       recoveryRoadmap.push({
         phase: 'Giai đoạn 1 (Tuần 1 - 4)',
-        title: phase1Title,
-        focus: phase1Focus
+        title: `Củng cố nền tảng chuẩn bị cho ${targetCoursesStr}`,
+        focus: `Môn học ${rootCause.courseId} là nền tảng cốt lõi cho ${targetCoursesStr}. Tập trung ôn tập lại các kỹ năng yếu: ${rootCause.missingSkills && rootCause.missingSkills.length > 0 ? rootCause.missingSkills.join(', ') : 'các kiến thức cơ bản'}.`
       });
-
-      let phase2Title = `Ôn tập môn kế thừa`;
-      let phase2Focus = `Tìm hiểu các khái niệm nâng cao để chuẩn bị học lại hoặc cải thiện điểm số.`;
-      const nextCourses = blockedCourses.filter(bc => bc.failedCourse === rootCause.courseId);
-      if (recs.length > 1) {
-        phase2Title = `Nhiệm vụ can thiệp 2: ${recs[1]}`;
-        phase2Focus = `Thực hiện rèn luyện nâng cao theo khuyến nghị từ giáo trình FPT Polytechnic.`;
-        if (nextCourses.length > 0) {
-          phase2Focus += ` Chuẩn bị sẵn sàng kiến thức để mở khóa chuỗi môn học bị chặn kế thừa phía sau: ${nextCourses.map(c => c.blockedCourse).join(', ')}.`;
-        }
-      } else if (nextCourses.length > 0) {
-        phase2Title = `Ôn tập môn kế thừa: ${nextCourses.map(c => c.blockedCourse).join(', ')}`;
-        phase2Focus = `Tìm hiểu các khái niệm nâng cao của các môn bị chặn chuyên ngành phía sau để sẵn sàng học bù ngay khi mở khóa môn gốc.`;
-      } else {
-        phase2Title = 'Củng cố tư duy lập trình nâng cao';
-        phase2Focus = 'Thực hành các cấu trúc dữ liệu modern, kỹ thuật lập trình nâng cao và kết nối API thực tế.';
-      }
       recoveryRoadmap.push({
         phase: 'Giai đoạn 2 (Tuần 5 - 8)',
-        title: phase2Title,
-        focus: phase2Focus
+        title: `Lấp lỗ hổng Chuẩn đầu ra (CLOs)`,
+        focus: `Rà soát lại các chuẩn đầu ra chưa vững từ môn trước: ${rootCause.learningOutcomes && rootCause.learningOutcomes.length > 0 ? rootCause.learningOutcomes.map(clo => clo.split(':')[0]).join(', ') : 'N/A'}. Hãy thực hành áp dụng lại để sẵn sàng cho môn mới.`
       });
-
-      let phase3Title = `Hoàn thiện Project thực chiến & Tutor`;
-      let phase3Focus = `Đăng ký tham gia nhóm học phụ đạo (Tutor) 1 kèm 1 từ nhà trường. Hoàn thiện một đồ án cá nhân nhỏ để tích hợp các kỹ năng đã học, sẵn sàng cho kỳ học mới.`;
-      if (recs.length > 2) {
-        phase3Title = `Nhiệm vụ can thiệp 3: ${recs[2]}`;
-        phase3Focus = `Đăng ký tham gia nhóm Tutor học thuật tại trường để được hỗ trợ 1 kèm 1. Thực hành làm đồ án nhỏ (mini project) áp dụng các công nghệ đã được học để chứng minh năng lực thực tế.`;
-      }
       recoveryRoadmap.push({
         phase: 'Giai đoạn 3 (Tuần 9 - 12)',
-        title: phase3Title,
-        focus: phase3Focus
+        title: `Tiền trạm môn học ${targetCoursesStr}`,
+        focus: `Bắt đầu đọc trước đề cương, giáo trình và tài liệu của môn học tương lai ${targetCoursesStr}. Hãy tự tin bước vào học kỳ mới với nền tảng đã được gia cố.`
       });
+    } else {
+      const recs = rootCause.remediationRecommendations || [];
+      if (recs.length >= 3) {
+        recs.forEach((rec, rIdx) => {
+          let phase = `Giai đoạn ${rIdx + 1}`;
+          let title = rec;
+          let focus = '';
+          
+          if (rec.includes(':')) {
+            const parts = rec.split(':');
+            const weekStr = parts[0].trim();
+            phase = `Giai đoạn ${rIdx + 1} (${weekStr})`;
+            title = `[Môn gốc ${rootCause.courseId}] ` + parts.slice(1).join(':').trim();
+          } else {
+            title = `[Môn gốc ${rootCause.courseId}] ` + rec;
+          }
+          
+          if (rIdx === 0) {
+            focus = `Tập trung củng cố kiến thức nền tảng và khắc phục lỗ hổng môn ${rootCause.courseId}. Ôn tập các kỹ năng thiếu hụt: ${rootCause.missingSkills ? rootCause.missingSkills.join(', ') : 'N/A'}.`;
+          } else if (rIdx === 1) {
+            focus = `Thực hành thiết kế hoặc viết mã dự án mini (mini-project) áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
+          } else if (rIdx === 2) {
+            const cleanClos = rootCause.learningOutcomes ? rootCause.learningOutcomes.map(clo => clo.split(':')[0]).join(', ') : 'N/A';
+            focus = `Đăng ký học phụ đạo (Tutor) tại trường để rà soát chuẩn đầu ra (CLOs) bị nợ: ${cleanClos}. Hoàn thành kiểm thử để vượt qua nguyên nhân gốc rễ học thuật này.`;
+          }
+          
+          recoveryRoadmap.push({
+            phase,
+            title,
+            focus
+          });
+        });
+      } else {
+        // Fallback if not enough recommendations
+        let phase1Title = `Lập kế hoạch ôn tập: ${rootCause.courseId} - ${rootCause.name}`;
+        let phase1Focus = `Học lại lý thuyết cơ bản và hoàn thành các bài lab của môn học.`;
+        if (recs.length > 0) {
+          phase1Title = `Can thiệp ${rootCause.courseId}: ${recs[0]}`;
+          const firstSkill = rootCause.missingSkills && rootCause.missingSkills[0];
+          const skillEv = firstSkill && rootCause.technologiesTools ? ` (Kỹ năng: ${firstSkill}, Công cụ: ${rootCause.technologiesTools.slice(0, 2).join(', ')})` : '';
+          phase1Focus = `Tập trung hoàn thành nội dung thực hành môn ${rootCause.courseId}${skillEv}. Bám sát đề cương chi tiết học phần để khắc phục lỗ hổng kiến thức gốc rễ sớm nhất.`;
+        }
+        recoveryRoadmap.push({
+          phase: 'Giai đoạn 1 (Tuần 1 - 4)',
+          title: phase1Title,
+          focus: phase1Focus
+        });
+
+        let phase2Title = `Ôn tập môn kế thừa`;
+        let phase2Focus = `Tìm hiểu các khái niệm nâng cao để chuẩn bị học lại hoặc cải thiện điểm số.`;
+        const nextCourses = blockedCourses.filter(bc => bc.failedCourse === rootCause.courseId);
+        if (recs.length > 1) {
+          phase2Title = `Nhiệm vụ can thiệp 2: ${recs[1]}`;
+          phase2Focus = `Thực hiện rèn luyện nâng cao theo khuyến nghị từ giáo trình FPT Polytechnic.`;
+          if (nextCourses.length > 0) {
+            phase2Focus += ` Chuẩn bị sẵn sàng kiến thức để mở khóa chuỗi môn học bị chặn kế thừa phía sau: ${nextCourses.map(c => c.blockedCourse).join(', ')}.`;
+          }
+        } else if (nextCourses.length > 0) {
+          phase2Title = `Ôn tập môn kế thừa: ${nextCourses.map(c => c.blockedCourse).join(', ')}`;
+          phase2Focus = `Tìm hiểu các khái niệm nâng cao của các môn bị chặn chuyên ngành phía sau để sẵn sàng học bù ngay khi mở khóa môn gốc.`;
+        } else {
+          phase2Title = 'Củng cố tư duy lập trình nâng cao';
+          phase2Focus = 'Thực hành các cấu trúc dữ liệu modern, kỹ thuật lập trình nâng cao và kết nối API thực tế.';
+        }
+        recoveryRoadmap.push({
+          phase: 'Giai đoạn 2 (Tuần 5 - 8)',
+          title: phase2Title,
+          focus: phase2Focus
+        });
+
+        let phase3Title = `Hoàn thiện Project thực chiến & Tutor`;
+        let phase3Focus = `Đăng ký tham gia nhóm học phụ đạo (Tutor) 1 kèm 1 từ nhà trường. Hoàn thiện một đồ án cá nhân nhỏ để tích hợp các kỹ năng đã học, sẵn sàng cho kỳ học mới.`;
+        if (recs.length > 2) {
+          phase3Title = `Nhiệm vụ can thiệp 3: ${recs[2]}`;
+          phase3Focus = `Đăng ký tham gia nhóm Tutor học thuật tại trường để được hỗ trợ 1 kèm 1. Thực hành làm đồ án nhỏ (mini project) áp dụng các công nghệ đã được học để chứng minh năng lực thực tế.`;
+        }
+        recoveryRoadmap.push({
+          phase: 'Giai đoạn 3 (Tuần 9 - 12)',
+          title: phase3Title,
+          focus: phase3Focus
+        });
+      }
     }
   } else if (failedCourses.length > 0) {
     recoveryRoadmap.push({
@@ -912,13 +933,18 @@ async function generateDetailedDSSReport(student) {
       const futureDownstreamList = getFutureDownstreamCourses(rootCause.courseId);
       const downstreamNames = futureDownstreamList.map(c => `${c.courseId} (${c.name})`);
       
+      const missingSkills = rootCause.missingSkills || [];
+      const learningOutcomes = rootCause.learningOutcomes || [];
+      
       interventionRec = {
         riskLevel: rootCause.academicImportanceLevel || 'MEDIUM',
         actionCode: 'WEAK_FOUNDATION_WARNING',
         actionTitle: `Can thiệp tiền đề: Chuẩn bị cho ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'môn học tiếp theo'}`,
-        description: `Sinh viên đã hoàn thành môn ${rootCause.courseId} (${rootCause.name}) nhưng với điểm số chưa vững (${rootCause.path[0]?.grade?.toFixed(1) || '5.x'}). Nguy cơ cao khi học các môn chuyên ngành tiếp theo phụ thuộc vào nền tảng này: ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'Các môn chuyên ngành tiếp theo'}. Đề xuất củng cố kiến thức môn ${rootCause.courseId} trước khi bắt đầu môn mới.`,
+        description: `Sinh viên đã hoàn thành môn ${rootCause.courseId} (${rootCause.name}) nhưng với điểm số chưa vững (${rootCause.path[0]?.grade?.toFixed(1) || '5.x'}). Nguy cơ cao khi học các môn chuyên ngành tiếp theo phụ thuộc vào nền tảng này: ${downstreamNames.length > 0 ? downstreamNames.join(', ') : 'Các môn chuyên ngành tiếp theo'}. Đề xuất củng cố kiến thức môn ${rootCause.courseId} trước khi bắt đầu môn mới. Các kỹ năng cần chú trọng: ${missingSkills.join(', ')}. CLO bị ảnh hưởng: ${learningOutcomes.map(clo => clo.split(':')[0]).join(', ')}.`,
         colorClass: 'amber',
-        targetCourses: futureDownstreamList.map(c => c.courseId)
+        targetCourses: futureDownstreamList.map(c => c.courseId),
+        missingSkills: missingSkills,
+        affectedCLOs: learningOutcomes
       };
     } else {
       const matchingRule = courseInterventionRules && courseInterventionRules.rules 

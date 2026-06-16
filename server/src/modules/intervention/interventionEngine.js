@@ -3,17 +3,14 @@ const { generatePersonalizedPath } = require('./learningPathGenerator');
 const { traceImpact } = require('../knowledge/academicGraph');
 const { calculateSkillGap } = require('./skillGapEngine');
 
-async function sendAutomatedRoadmap(studentId, targetCourseId, riskLevel, studentData) {
+async function sendAutomatedRoadmap(studentId, targetCourseId, riskLevel, studentData, missingSkillsArr, affectedCLOs) {
   try {
-    // 1. Generate roadmap
-    const roadmap = generatePersonalizedPath(studentData, targetCourseId, riskLevel);
-
     // Predict score or fallback
     const predictedScore = studentData.predictedScore || 4.2; 
     
     // Skill Gap Analysis (Layer 2)
     let weakSkillsInfo = calculateSkillGap(predictedScore, targetCourseId);
-    let weakSkills = weakSkillsInfo.missingSkills;
+    let weakSkills = missingSkillsArr && missingSkillsArr.length > 0 ? missingSkillsArr : weakSkillsInfo.missingSkills;
     if (weakSkills.length === 0) {
       try {
          weakSkills = studentData.memory?.weaknesses ? JSON.parse(studentData.memory.weaknesses) : [];
@@ -22,6 +19,9 @@ async function sendAutomatedRoadmap(studentId, targetCourseId, riskLevel, studen
     const weaknessStr = weakSkills.length > 0 
       ? weakSkills.map(s => `- Thiếu ${s}`).join('\n') 
       : '- Thiếu kiến thức cơ bản';
+
+    // 1. Generate roadmap
+    const roadmap = generatePersonalizedPath(studentData, targetCourseId, riskLevel, weakSkills, affectedCLOs);
 
     // Academic Graph Impact (Layer 1)
     const impactedCourses = traceImpact(targetCourseId);

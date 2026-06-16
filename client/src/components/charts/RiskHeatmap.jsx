@@ -57,9 +57,12 @@ const RiskHeatmap = React.memo(({ students = [], title = 'Bản đồ Nhiệt R�
         {/* Student rows */}
         {displayStudents.map((student, idx) => (
           <div key={student.mssv} className="grid gap-1 mb-1" style={{ gridTemplateColumns: '100px repeat(8, 1fr)' }}>
-            <div className="text-slate-600 dark:text-slate-400 text-[11px] font-semibold flex items-center pr-2">
+            <button
+              onClick={() => navigate(`/student/${student.mssv}`)}
+              className="text-left text-slate-600 dark:text-slate-400 text-[11px] font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline cursor-pointer focus:outline-none flex items-center pr-2"
+            >
               {student.mssv}
-            </div>
+            </button>
             {weeks.map(week => {
               // Simulate risk progression: higher risk students show CRITICAL sooner
               const escalationWeek = Math.max(1, 8 - Math.floor(student.riskScore / 15));

@@ -1769,14 +1769,29 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                 )}
                 {dssReport.interventionRecommendation.actionCode === 'WEAK_FOUNDATION_WARNING' && (
                   <button 
-                    onClick={() => handleOpenWorkflow('email', { 
-                      courseId: dssReport.interventionRecommendation.targetCourses?.[0] || 'N/A', 
-                      risk: 'HIGH', 
-                      explanation: `Cần củng cố kiến thức từ môn ${dssReport.rootCauseAnalysis?.courseId || ''} để chuẩn bị cho các môn sắp tới.` 
-                    })}
-                    className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+                    disabled={updating}
+                    onClick={async () => {
+                      if (!window.confirm('Hệ thống sẽ tự động tạo Lộ trình 30 ngày và gửi hộp thư cho SV. Bạn có chắc không?')) return;
+                      setUpdating(true);
+                      try {
+                        await api.post('/intervention/send-roadmap', {
+                          mssv: student.mssv,
+                          targetCourseId: dssReport.interventionRecommendation.targetCourses?.[0],
+                          riskLevel: 'HIGH',
+                          missingSkills: dssReport.interventionRecommendation.missingSkills,
+                          affectedCLOs: dssReport.interventionRecommendation.affectedCLOs
+                        });
+                        alert('✅ Đã tạo lộ trình và thông báo cho sinh viên thành công!');
+                        fetchStudentProfile();
+                      } catch (err) {
+                        alert('Lỗi: ' + err.message);
+                      } finally {
+                        setUpdating(false);
+                      }
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    <Mail size={14} /> Gửi thư yêu cầu củng cố kiến thức môn sắp học
+                    <Mail size={14} /> Gửi thư & Lộ trình chuẩn bị môn tiếp theo
                   </button>
                 )}
               </div>

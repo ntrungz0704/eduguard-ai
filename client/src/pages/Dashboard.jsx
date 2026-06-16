@@ -498,9 +498,20 @@ export default function Dashboard() {
                     }`}
                   >
                     <td className="px-6 py-4">
-                      <div className="font-bold text-slate-900 dark:text-slate-200">{alert.name}</div>
+                      <button
+                        onClick={() => navigate(`/student/${alert.mssv}`)}
+                        className="font-bold text-slate-900 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline text-left cursor-pointer focus:outline-none"
+                      >
+                        {alert.name}
+                      </button>
                       <div className="text-slate-500 text-xs flex items-center gap-1.5 mt-1 flex-wrap">
-                        <span>{alert.mssv} • {alert.classCode}</span>
+                        <button
+                          onClick={() => navigate(`/student/${alert.mssv}`)}
+                          className="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline cursor-pointer focus:outline-none"
+                        >
+                          {alert.mssv}
+                        </button>
+                        <span> • {alert.classCode}</span>
                         {alert.totalRisksCount > 0 && (
                           <span className="bg-rose-500/10 text-rose-500 dark:text-rose-400 text-[10px] px-1.5 py-0.5 rounded-lg font-bold border border-rose-200/20 dark:border-rose-500/20">
                             {alert.totalRisksCount} rủi ro
