@@ -281,22 +281,21 @@ router.get('/evaluate-model', (req, res) => {
       return res.status(400).json({ error: "No training data available" });
     }
 
-    // Sort students by number of valid scores (excluding 1.0 Passed values and 0) and take top 100
-    const getValidScoresCount = (st) => Object.values(st.scores).filter(v => typeof v === 'number' && v > 0 && v !== 1.0).length;
-    const topStudents = [...students].sort((a, b) => getValidScoresCount(b) - getValidScoresCount(a)).slice(0, 100);
+    // We will evaluate the model on the entire dataset.
+    // However, we only count valid scores (excluding 1.0 Passed values and 0).
+    const evalStudents = [...students];
 
     // 1. Pre-calculate models for all subjects to optimize speed
-    // This reduces operations from 168 million to ~750,000.
-    // Since N=100, training on N yields almost identical weights.
+    // This reduces operations significantly.
     const precomputedModels = {};
     const trainAverages = {};
     const trainScoresList = {};
 
     subjects.forEach(target => {
       const features = subjects.filter(sub => sub !== target);
-      precomputedModels[target] = weightedPrediction(features, target, topStudents);
+      precomputedModels[target] = weightedPrediction(features, target, evalStudents);
       
-      const scoredStudents = topStudents.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]) && s.scores[target] > 0 && s.scores[target] !== 1.0);
+      const scoredStudents = evalStudents.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]) && s.scores[target] > 0 && s.scores[target] !== 1.0);
       if (scoredStudents.length > 0) {
         trainScoresList[target] = scoredStudents.map(s => s.scores[target]);
         trainAverages[target] = trainScoresList[target].reduce((a, b) => a + b, 0) / scoredStudents.length;
@@ -317,8 +316,8 @@ router.get('/evaluate-model', (req, res) => {
       subjectStats[s] = { subject: s, count: 0, totalError: 0, excellent: 0, good: 0, poor: 0 };
     });
 
-    // 2. Predict every single known score (simulated Leave-One-Out)
-    topStudents.forEach((student) => {
+    // 2. Predict every single known valid score (simulated Leave-One-Out)
+    evalStudents.forEach((student) => {
       const completedSubjects = Object.keys(student.scores).filter(sub => {
         const v = student.scores[sub];
         return typeof v === 'number' && !isNaN(v) && v > 0 && v !== 1.0;
@@ -386,7 +385,7 @@ router.get('/evaluate-model', (req, res) => {
       .sort((a, b) => b.accuracy - a.accuracy || a.mae - b.mae);
 
     res.json({
-      totalStudents: topStudents.length,
+      totalStudents: evalStudents.length,
       totalPredictions,
       mae: Math.round(mae * 100) / 100,
       distribution: {
