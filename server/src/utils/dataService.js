@@ -332,9 +332,9 @@ function calculateFptGPA(scores) {
       }
     }
 
-    // Include in GPA calculation if it's NOT conditional and NOT english and is not exactly 1.0
+    // Include in GPA calculation if it's NOT conditional and NOT english and is not exactly 1.0 for PASSED (Đạt/Miễn)
     // And ensure score is a valid number to prevent NaN
-    if (!isCond && !isEng && score > 1.0 && !isNaN(score)) {
+    if (!isCond && !isEng && !(score === 1.0 && status === 'PASSED') && !isNaN(score)) {
       totalScoreWeight += (score * credits);
       // Wait, in FPT Poly, system 4 is calculated from the total GPA directly, 
       // or by converting each course's score to system 4 and taking the average?

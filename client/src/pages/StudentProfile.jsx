@@ -538,10 +538,11 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
   
   // Format chart data (only passed/completed courses)
   const chartData = scoreEntries
-    .filter(s => s.value !== null)
+    .filter(s => s.value !== null && !(s.value === 1 && s.status === 'PASSED'))
     .map(s => ({
       name: s.courseId,
-      score: s.value
+      score: s.value,
+      status: s.status
     }));
 
   // ── Build allCourses: merge curriculum (34 courses) + student scores ──
@@ -686,7 +687,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
             } else if (status === 'PASSED' && val < 7.0) {
               color = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
               statusLabel = `Đạt TB (${val.toFixed(1)})`;
-            } else if (status === 'FAILED' || (val !== null && val < 5.0)) {
+            } else if (status === 'FAILED' || (val !== null && val < 5.0 && status !== 'PASSED')) {
               color = 'bg-rose-500/10 text-rose-400 border-rose-500/30';
               statusLabel = `Trượt (${val ? val.toFixed(1) : 'Yếu'})`;
             } else if (status === 'STUDYING') {
@@ -1144,7 +1145,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                         />
                         <Bar dataKey="score" name="Điểm môn" radius={[4, 4, 0, 0]}>
                           {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.score >= 8 ? '#10b981' : entry.score >= 5 ? '#3b82f6' : '#ef4444'} />
+                            <Cell key={`cell-${index}`} fill={entry.status === 'FAILED' ? '#ef4444' : entry.score >= 8 ? '#10b981' : '#3b82f6'} />
                           ))}
                         </Bar>
                       </BarChart>

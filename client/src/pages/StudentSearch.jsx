@@ -62,8 +62,8 @@ const isEnglishCourse = (courseName, courseId) => {
 const getLocalRiskLevel = (student) => {
   if (!student) return 'LOW';
   const scoresArray = Object.values(student.scores || {});
-  const failedCount = scoresArray.filter(v => v !== null && v < 5.0).length;
-  const lowGradesCount = scoresArray.filter(v => v !== null && v < 6.5).length;
+  const failedCount = scoresArray.filter(v => v !== null && v !== 1.0 && v < 5.0).length;
+  const lowGradesCount = scoresArray.filter(v => v !== null && v !== 1.0 && v < 6.5).length;
   
   if (failedCount >= 3) return 'CRITICAL';
   if (failedCount > 0) return 'HIGH';
@@ -281,8 +281,8 @@ export default function StudentSearch() {
                 if (sortType === 'name-asc') return nameA.localeCompare(nameB);
                 if (sortType === 'name-desc') return nameB.localeCompare(nameA);
                 if (sortType === 'risk-desc') {
-                  const riskA = Object.values(a.scores || {}).filter(v => v !== null && v < 5).length;
-                  const riskB = Object.values(b.scores || {}).filter(v => v !== null && v < 5).length;
+                  const riskA = Object.values(a.scores || {}).filter(v => v !== null && v !== 1.0 && v < 5).length;
+                  const riskB = Object.values(b.scores || {}).filter(v => v !== null && v !== 1.0 && v < 5).length;
                   return riskB - riskA;
                 }
                 if (sortType === 'gpa-desc') {
@@ -293,7 +293,7 @@ export default function StudentSearch() {
                 }
                 return 0;
               }).map(st => {
-              const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v < 5).length;
+              const riskCount = Object.values(st.scores || {}).filter(v => v !== null && v !== 1.0 && v < 5).length;
               return (
                 <button
                   key={st.id}

@@ -496,8 +496,8 @@ export default function AIChat() {
 
       // Sort failed/high-risk first
       const sorted = [...scores].sort((a, b) => {
-        const aFail = a.status === 'FAILED' || (a.value !== null && a.value < 5) ? 0 : 1;
-        const bFail = b.status === 'FAILED' || (b.value !== null && b.value < 5) ? 0 : 1;
+        const aFail = a.status === 'FAILED' || (a.value !== null && a.value < 5 && a.status !== 'PASSED') ? 0 : 1;
+        const bFail = b.status === 'FAILED' || (b.value !== null && b.value < 5 && b.status !== 'PASSED') ? 0 : 1;
         return aFail - bFail;
       });
 
@@ -508,7 +508,7 @@ export default function AIChat() {
       }).join('\n');
 
       const highRisk = predictions.filter(p => p.risk === 'HIGH' || p.risk === 'CRITICAL');
-      const failedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5));
+      const failedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5 && s.status !== 'PASSED'));
 
       const prompt = `Hãy soạn một LỘ TRÌNH CẢI THIỆN HỌC LỰC ĐẦY ĐỦ cho sinh viên ${sv.name} (${sv.mssv || sv.id}) gửi trực tiếp cho sinh viên, bao gồm:\n` +
         `1. Phân tích ngắn gọn TƯƠNG QUAN giữa các môn: từ môn có điểm thấp/trượt ảnh hưởng như thế nào đến môn học tiếp theo (chuỗi rủi ro tiên quyết).\n` +

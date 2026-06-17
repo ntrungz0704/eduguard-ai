@@ -1459,7 +1459,7 @@ router.get('/students-search', async (req, res) => {
       const analytics = analyticsService.getStudentAnalytics(mappedDbStudent);
       const risk = riskService.getStudentRisk(mappedDbStudent);
       const failedCourses = s.scores
-        .filter(sc => sc.status === 'FAILED' || (sc.value !== null && sc.value < 5.0))
+        .filter(sc => sc.status === 'FAILED' || (sc.value !== null && sc.value < 5.0 && sc.status !== 'PASSED'))
         .map(sc => sc.courseId);
         
       const academicSnapshot = {
