@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
-import { RefreshCw, CheckCircle2, TrendingUp, Info, Printer, Download, BookOpen, User, AlertTriangle, ShieldCheck, Zap } from 'lucide-react';
+import { RefreshCw, CheckCircle2, TrendingUp, Info, Printer, Download, BookOpen, User, AlertTriangle, ShieldCheck, Zap, X } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useStore } from '../store';
 
@@ -11,6 +11,7 @@ const AIMetrics = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [scanTime, setScanTime] = useState(null);
+  const [showGuide, setShowGuide] = useState(false);
 
   const fetchMetrics = async () => {
     try {
@@ -94,13 +95,26 @@ const AIMetrics = () => {
             </button>
           ) : (
             <>
-              <button onClick={fetchMetrics} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold transition-all text-sm">
-                <RefreshCw size={16} /> Quét lại
+              <button 
+                onClick={fetchMetrics} 
+                disabled={loading} 
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold transition-all text-sm disabled:opacity-50"
+              >
+                <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
+                {loading ? 'Đang quét...' : 'Quét lại'}
               </button>
-              <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold transition-all text-sm">
+              <button 
+                onClick={() => window.print()} 
+                disabled={loading} 
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl font-semibold transition-all text-sm disabled:opacity-50"
+              >
                 <Printer size={16} /> In Báo Cáo / Lưu PDF
               </button>
-              <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-500/20 text-sm">
+              <button 
+                onClick={() => setShowGuide(true)} 
+                disabled={loading} 
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all shadow-lg shadow-blue-500/20 text-sm disabled:opacity-50"
+              >
                 <BookOpen size={16} /> Hướng Dẫn Chụp Slide
               </button>
             </>
@@ -373,6 +387,76 @@ const AIMetrics = () => {
                   })}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Slide Guide Modal */}
+      {showGuide && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in no-print">
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative">
+            <button 
+              onClick={() => setShowGuide(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="bg-blue-500/10 text-blue-500 p-2.5 rounded-xl">
+                <BookOpen size={24} />
+              </span>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Hướng Dẫn Chụp Slide Báo Cáo</h2>
+            </div>
+            
+            <div className="space-y-5 text-sm text-slate-600 dark:text-slate-300">
+              <p className="leading-relaxed">
+                Để có những bức ảnh chụp biểu đồ và bảng số liệu kiểm chứng sắc nét, chuẩn kích thước để đưa vào Slide báo cáo, hãy làm theo hướng dẫn sau:
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 text-blue-500 font-bold flex items-center justify-center shrink-0">1</div>
+                  <div>
+                    <h4 className="font-bold text-slate-950 dark:text-white mb-1">Mở chế độ toàn màn hình</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                      Nhấn phím <kbd className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded text-[11px] font-mono shadow-sm">F11</kbd> trên Windows hoặc <kbd className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded text-[11px] font-mono shadow-sm">Control + Cmd + F</kbd> trên macOS để ẩn thanh địa chỉ trình duyệt.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 text-blue-500 font-bold flex items-center justify-center shrink-0">2</div>
+                  <div>
+                    <h4 className="font-bold text-slate-950 dark:text-white mb-1">Dùng phím tắt chụp màn hình nhanh</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-2">
+                      Sử dụng tổ hợp phím chụp vùng màn hình mong muốn:
+                    </p>
+                    <ul className="list-disc list-inside space-y-1 pl-2 text-xs text-slate-500 dark:text-slate-400">
+                      <li><strong>Windows:</strong> <kbd className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded text-[11px] font-mono shadow-sm">Win + Shift + S</kbd> rồi kéo chuột chọn vùng.</li>
+                      <li><strong>macOS:</strong> <kbd className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded text-[11px] font-mono shadow-sm">Cmd + Shift + 4</kbd> rồi kéo chuột chọn vùng.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 text-blue-500 font-bold flex items-center justify-center shrink-0">3</div>
+                  <div>
+                    <h4 className="font-bold text-slate-950 dark:text-white mb-1">Dán vào PowerPoint / Google Slides</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                      Chuyển sang slide PowerPoint của bạn và nhấn <kbd className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded text-[11px] font-mono shadow-sm">Ctrl + V</kbd> (hoặc <kbd className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded text-[11px] font-mono shadow-sm">Cmd + V</kbd> trên Mac) để dán trực tiếp ảnh.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 flex justify-end">
+              <button 
+                onClick={() => setShowGuide(false)}
+                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20 text-sm"
+              >
+                Đồng ý
+              </button>
             </div>
           </div>
         </div>

@@ -142,3 +142,35 @@ body {
   background-color: transparent !important;
 }
 
+/* Print Utilities */
+@media print {
+  aside,
+  header,
+  .no-print,
+  button,
+  .theme-toggle-btn {
+    display: none !important;
+  }
+  
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  
+  .flex-1 {
+    margin-left: 0 !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .glass-panel {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+}
+

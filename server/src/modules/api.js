@@ -288,7 +288,11 @@ router.get('/training-info', async (req, res) => {
 // ============================================================
 router.get('/evaluate-model', async (req, res, next) => {
   try {
-    const { loadTrainingDataFromDB } = require('../scripts/recalculate_predictions');
+    const { loadTrainingDataFromDB, recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+    
+    // Retrain regression models and recalculate predictions so any new student is factored in!
+    await recalculateAllPredictions(false);
+    
     cache.trainingData = await loadTrainingDataFromDB();
     
     const students = cache.trainingData.students || [];
@@ -1426,11 +1430,9 @@ router.post('/save-uploaded', async (req, res) => {
     // Persist as current active uploaded list in RAM
     cache.uploadedStudents = students;
 
-    // Auto-trigger AI Evaluation (LOOCV) in the background so metrics are always up-to-date
-    const { runAIEvaluation } = require('../ai/evaluateTask');
-    const currOrder = cache.trainingData.curriculumOrder || [];
-    // Run in background (do not await)
-    runAIEvaluation(students, currOrder).catch(err => console.error('[Auto-evaluation] Error:', err));
+    // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
+    const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+    recalculateAllPredictions(false).catch(err => console.error('[Auto-recalculate] Error:', err));
 
     res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! Hệ thống đang tự động quét lại AI...` });
   } catch (err) {
