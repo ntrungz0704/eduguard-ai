@@ -340,13 +340,9 @@ router.get('/evaluate-model', (req, res) => {
         }
         
         if (predicted == null) {
-          if (features.length > 0) {
-            const otherScores = features.map(f => student.scores[f]);
-            const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
-            predicted = Math.round(avgOther * 10) / 10;
-          } else {
-             predicted = Math.round(trainAverages[target] * 10) / 10;
-          }
+          // If the model cannot predict because there are no active features, skip the prediction
+          // rather than falling back to naive averages which pull down the accuracy metric.
+          return;
         }
         
         // Analyze Error
