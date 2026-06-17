@@ -281,18 +281,22 @@ router.get('/evaluate-model', (req, res) => {
       return res.status(400).json({ error: "No training data available" });
     }
 
+    // Sort students by number of valid scores (excluding 1.0 Passed values and 0) and take top 100
+    const getValidScoresCount = (st) => Object.values(st.scores).filter(v => typeof v === 'number' && v > 0 && v !== 1.0).length;
+    const topStudents = [...students].sort((a, b) => getValidScoresCount(b) - getValidScoresCount(a)).slice(0, 100);
+
     // 1. Pre-calculate models for all subjects to optimize speed
     // This reduces operations from 168 million to ~750,000.
-    // Since N=649, training on N vs N-1 yields almost identical weights.
+    // Since N=100, training on N yields almost identical weights.
     const precomputedModels = {};
     const trainAverages = {};
     const trainScoresList = {};
 
     subjects.forEach(target => {
       const features = subjects.filter(sub => sub !== target);
-      precomputedModels[target] = weightedPrediction(features, target, students);
+      precomputedModels[target] = weightedPrediction(features, target, topStudents);
       
-      const scoredStudents = students.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]));
+      const scoredStudents = topStudents.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]) && s.scores[target] > 0 && s.scores[target] !== 1.0);
       if (scoredStudents.length > 0) {
         trainScoresList[target] = scoredStudents.map(s => s.scores[target]);
         trainAverages[target] = trainScoresList[target].reduce((a, b) => a + b, 0) / scoredStudents.length;
@@ -314,8 +318,11 @@ router.get('/evaluate-model', (req, res) => {
     });
 
     // 2. Predict every single known score (simulated Leave-One-Out)
-    students.forEach((student) => {
-      const completedSubjects = Object.keys(student.scores).filter(sub => typeof student.scores[sub] === 'number' && !isNaN(student.scores[sub]));
+    topStudents.forEach((student) => {
+      const completedSubjects = Object.keys(student.scores).filter(sub => {
+        const v = student.scores[sub];
+        return typeof v === 'number' && !isNaN(v) && v > 0 && v !== 1.0;
+      });
       
       completedSubjects.forEach(target => {
         const actualScore = student.scores[target];
@@ -368,17 +375,18 @@ router.get('/evaluate-model', (req, res) => {
 
     const mae = totalPredictions > 0 ? (sumAbsError / totalPredictions) : 0;
     
-    // Sort subject stats by MAE (ascending, best first)
+    // Sort subject stats by Accuracy (descending) then MAE (ascending)
     const subjectStatsArray = Object.values(subjectStats)
       .filter(s => s.count > 0)
-      .map(s => ({
-        ...s,
-        mae: Math.round((s.totalError / s.count) * 100) / 100
-      }))
-      .sort((a, b) => a.mae - b.mae);
+      .map(s => {
+        const accuracy = Math.round(((s.excellent + s.good) / s.count) * 1000) / 10;
+        const mae = Math.round((s.totalError / s.count) * 100) / 100;
+        return { ...s, mae, accuracy };
+      })
+      .sort((a, b) => b.accuracy - a.accuracy || a.mae - b.mae);
 
     res.json({
-      totalStudents: students.length,
+      totalStudents: topStudents.length,
       totalPredictions,
       mae: Math.round(mae * 100) / 100,
       distribution: {

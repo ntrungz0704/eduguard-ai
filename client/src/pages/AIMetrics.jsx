@@ -314,7 +314,54 @@ const AIMetrics = () => {
                     />
                   </BarChart>
                 </ResponsiveContainer>
+            </div>
+          </div>
+          </div>
+
+          {/* Per-subject Table */}
+          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 overflow-hidden flex flex-col mt-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2 mb-1">
+                  <BookOpen size={18} className="text-emerald-400" /> Bảng Số Liệu Kiểm Chứng Mô Hình Chi Tiết
+                </h3>
+                <p className="text-xs text-slate-400">Dữ liệu kiểm thử chéo 34 môn học. Sắp xếp theo độ chính xác từ cao xuống thấp.</p>
               </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm whitespace-nowrap">
+                <thead className="bg-[#0f172a] text-slate-400 uppercase text-[10px] font-bold border-y border-slate-800">
+                  <tr>
+                    <th className="px-4 py-3">STT</th>
+                    <th className="px-4 py-3">Môn học</th>
+                    <th className="px-4 py-3 text-center">Tổng SV</th>
+                    <th className="px-4 py-3 text-center text-emerald-400">Siêu Chuẩn (≤0.5)</th>
+                    <th className="px-4 py-3 text-center text-blue-400">Khá Chuẩn (0.6-1.0)</th>
+                    <th className="px-4 py-3 text-center text-rose-400">Lệch Lớn (&gt;1.0)</th>
+                    <th className="px-4 py-3 text-center text-purple-400">Lệch TB (MAE)</th>
+                    <th className="px-4 py-3 text-center text-blue-500">Độ Chính Xác</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  {statsList.map((stat, idx) => {
+                    const total = stat.count;
+                    if (total === 0) return null;
+                    const acc = stat.accuracy !== undefined ? stat.accuracy : Math.round(((stat.excellent + stat.good) / total) * 1000) / 10;
+                    return (
+                      <tr key={stat.subject} className="hover:bg-slate-800/30 transition-colors">
+                        <td className="px-4 py-3 text-slate-500 font-medium">{idx + 1}</td>
+                        <td className="px-4 py-3 text-slate-300 font-semibold">{stat.subject}</td>
+                        <td className="px-4 py-3 text-center text-slate-400">{total}</td>
+                        <td className="px-4 py-3 text-center text-emerald-400/90">{stat.excellent} <span className="text-xs opacity-60">({Math.round(stat.excellent/total*100)}%)</span></td>
+                        <td className="px-4 py-3 text-center text-blue-400/90">{stat.good} <span className="text-xs opacity-60">({Math.round(stat.good/total*100)}%)</span></td>
+                        <td className="px-4 py-3 text-center text-rose-400/90">{stat.poor} <span className="text-xs opacity-60">({Math.round(stat.poor/total*100)}%)</span></td>
+                        <td className="px-4 py-3 text-center text-purple-400 font-medium">{stat.mae}</td>
+                        <td className="px-4 py-3 text-center font-bold text-white bg-blue-500/5 rounded-md">{acc}%</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
