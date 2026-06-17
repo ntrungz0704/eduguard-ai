@@ -40,6 +40,7 @@ model Student {
   learningProgresses      LearningProgress[]
   studentRoadmaps         StudentRoadmap[]
   interventionRoadmaps    InterventionRoadmap[] @relation("StudentInterventionRoadmaps")
+  retakeRegistrations     RetakeRegistration[]
 }
 
 model Course {
@@ -52,6 +53,7 @@ model Course {
   scores        Score[]
   predictions   Prediction[]
   interventions Intervention[]
+  retakeClasses RetakeClass[]
 }
 
 model Score {
@@ -358,3 +360,38 @@ model InterventionRoadmap {
   student Student @relation("StudentInterventionRoadmaps", fields: [studentId], references: [mssv], onDelete: Cascade)
   @@index([studentId])
 }
+
+model RetakeClass {
+  id             String               @id @default(uuid())
+  courseId       String
+  course         Course               @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lecturerName   String
+  schedule       String
+  startDate      DateTime
+  endDate        DateTime
+  totalSeats     Int
+  availableSeats Int
+  status         String               @default("OPEN") // OPEN, CLOSED
+  registrations  RetakeRegistration[]
+  createdAt      DateTime             @default(now())
+}
+
+model RetakeRegistration {
+  id             String       @id @default(uuid())
+  studentId      String
+  student        Student      @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+  retakeClassId  String
+  retakeClass    RetakeClass  @relation(fields: [retakeClassId], references: [id], onDelete: Cascade)
+  status         String       @default("PENDING") // PENDING, APPROVED, REJECTED
+  registeredAt   DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model RetakeNotification {
+  id          String   @id @default(uuid())
+  recipientId String   // MSSV (Student) or Role (e.g. ADVISOR)
+  message     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+

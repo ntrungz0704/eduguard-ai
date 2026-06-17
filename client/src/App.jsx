@@ -21,6 +21,8 @@ import CareerUniverse from './pages/CareerUniverse';
 import CareerDetail from './pages/CareerDetail';
 import CareerRoadmapBoard from './pages/CareerRoadmapBoard';
 import AIMetrics from './pages/AIMetrics';
+import RetakeRegistration from './pages/RetakeRegistration';
+import AdvisorRetakeManagement from './pages/AdvisorRetakeManagement';
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -33,6 +35,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/ai-metrics', icon: <BarChart2 size={20} />, label: 'Đánh giá AI (LOOCV)' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
+    { path: '/retake-management', icon: <Layers size={20} />, label: 'Quản lý Học lại' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Trợ lý Phân tích NLP' }
   ];
@@ -42,6 +45,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/gpa', icon: <Calculator size={20} />, label: 'Mục tiêu GPA & What-if' },
     { path: '/career-universe', icon: <Briefcase size={20} />, label: 'Vũ trụ Nghề nghiệp' },
     { path: '/career-board', icon: <KanbanSquare size={20} />, label: 'Bảng Lộ trình' },
+    { path: '/retake-registration', icon: <BookOpen size={20} />, label: 'Đăng ký Học lại' },
     { path: '/chat', icon: <MessageSquare size={20} />, label: 'Hỏi đáp Cố vấn AI' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Tin nhắn Cố vấn' }
   ];
@@ -322,9 +326,10 @@ function App() {
                 {currentUser.role === 'STUDENT' ? (
                   <>
                     <Route path="/student-dashboard" element={<StudentDashboard />} />
-                    <Route path="/career-universe" element={<CareerUniverse />} />
-                    <Route path="/career-universe/:careerId" element={<CareerDetail />} />
-                    <Route path="/career-board" element={<CareerRoadmapBoard />} />
+                    <Route path="/career-universe" element={currentUser?.role === 'STUDENT' ? <CareerUniverse /> : <Login />} />
+                    <Route path="/career/:careerId" element={currentUser?.role === 'STUDENT' ? <CareerDetail /> : <Login />} />
+                    <Route path="/career-board" element={currentUser?.role === 'STUDENT' ? <CareerRoadmapBoard /> : <Login />} />
+                    <Route path="/retake-registration" element={<RetakeRegistration />} />
                     <Route path="/gpa" element={<GPA />} />
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />
@@ -341,6 +346,7 @@ function App() {
                     <Route path="/chat" element={<AIChat />} />
                     <Route path="/inbox" element={<Inbox />} />
                     <Route path="/student/:mssv" element={<StudentProfile />} />
+                    <Route path="/retake-management" element={<AdvisorRetakeManagement />} />
                     <Route path="*" element={<Dashboard />} />
                   </>
                 )}

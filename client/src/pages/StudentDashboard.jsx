@@ -10,6 +10,7 @@ import {
   GraduationCap, BarChart2, Send, Paperclip, User, Loader2, Sparkles, HelpCircle, Activity, Check, Bot,
   Target, HeartHandshake, AlertTriangle
 } from 'lucide-react';
+import CourseRecoveryModal from '../components/CourseRecoveryModal';
 
 
 // ─────────────────────────────────────────────
@@ -1356,9 +1357,8 @@ function RoadmapTab({ curriculumCourses, courseDependencies }) {
           );
         })}
       </div>
-      <CourseInsightModal 
+      <CourseRecoveryModal 
         course={selectedCourse} 
-        dependencies={selectedCourse ? (courseDependencies[selectedCourse.courseId] || courseDependencies[selectedCourse.courseId.replace(/\s+/g,'')]) : null}
         onClose={() => setSelectedCourse(null)} 
       />
     </div>
