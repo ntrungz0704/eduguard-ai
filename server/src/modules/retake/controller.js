@@ -221,33 +221,61 @@ exports.getCourseXai = async (req, res, next) => {
   try {
     const { courseId } = req.params;
     
+    // Parse structures according to actual JSON files
     const courseKnowledge = curriculumKnowledge.find(c => c.courseId === courseId) || {};
-    const rules = interventionRules.find(c => c.courseId === courseId) || {};
-    const skills = skillGraph.find(c => c.courseId === courseId) || {};
+    const rulesObj = interventionRules.rules ? interventionRules.rules.find(c => c.courseId === courseId) : {};
+    const courseSkills = skillGraph.courses ? (skillGraph.courses[courseId] || []) : [];
     const graphNode = syllabusGraph.find(c => c.courseId === courseId) || {};
 
+    // 1. Diagnosis (Root Causes derived from learningOutcomes or coreSkills)
+    let rootCauses = [];
+    if (courseKnowledge.learningOutcomes && courseKnowledge.learningOutcomes.length > 0) {
+      rootCauses = courseKnowledge.learningOutcomes.map(o => `Chưa đạt: ${o}`);
+    } else if (courseKnowledge.coreSkills && courseKnowledge.coreSkills.length > 0) {
+      rootCauses = courseKnowledge.coreSkills.map(s => `Yếu kỹ năng: ${s}`);
+    } else {
+      rootCauses = ["Chưa đạt chuẩn đầu ra môn học"];
+    }
+
     const diagnosis = {
-      rootCauses: courseKnowledge.rootCauses || ["Thiếu nền tảng cơ bản", "Kỹ năng thực hành yếu", "Chưa hiểu rõ khái niệm cốt lõi"],
-      confidence: 87
+      rootCauses,
+      confidence: 87 // Confidence can be static for now or derived from DSS if needed, but rules-based XAI implies 100% rule confidence
     };
 
+    // 2. Downstream Impact
+    const blockedCourses = graphNode.unlocks || [];
     const whyItMatters = {
-      blockedCourses: graphNode.unlocks || [],
-      risk: graphNode.unlocks?.length > 0 ? "Potential delayed graduation risk." : "No immediate blockers."
+      blockedCourses,
+      risk: blockedCourses.length > 0 ? "Chậm trễ tiến độ tốt nghiệp do bị chặn môn tiên quyết." : "Không chặn trực tiếp môn học nào."
     };
 
-    const actionPlan = rules.weeklyPlan || [
-      { week: 1, tasks: ["Ôn tập kiến thức nền tảng", "Hoàn thành bài tập cơ bản"] },
-      { week: 2, tasks: ["Thực hành kỹ năng chuyên sâu", "Làm mini project"] },
-      { week: 3, tasks: ["Thi thử và đánh giá lại"] }
-    ];
+    // 3. Action Plan (From intervention rules)
+    let actionPlan = [];
+    if (rulesObj && rulesObj.remediationSteps) {
+      actionPlan = rulesObj.remediationSteps.map((step, idx) => ({
+        week: idx + 1,
+        tasks: [step]
+      }));
+    } else {
+      actionPlan = [
+        { week: 1, tasks: ["Ôn tập toàn bộ lý thuyết môn học"] },
+        { week: 2, tasks: ["Làm lại các bài tập thực hành/Lab"] }
+      ];
+    }
 
-    const skillGap = skills.missingSkills || [
-      { name: "Lý thuyết cơ bản", value: 40 },
-      { name: "Kỹ năng thực hành", value: 30 },
-      { name: "Khắc phục lỗi", value: 20 },
-      { name: "Tư duy logic", value: 10 }
-    ];
+    // 4. Skill Gap
+    let skillGap = [];
+    if (courseSkills.length > 0) {
+      skillGap = courseSkills.map(skill => ({
+        name: skill,
+        value: Math.floor(Math.random() * 30) + 20 // Simulated gap percentage for display
+      }));
+    } else {
+      skillGap = [
+        { name: "Kỹ năng chuyên môn", value: 40 },
+        { name: "Khả năng thực hành", value: 30 }
+      ];
+    }
 
     res.json({
       success: true,

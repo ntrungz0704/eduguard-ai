@@ -385,6 +385,8 @@ model RetakeRegistration {
   status         String       @default("PENDING") // PENDING, APPROVED, REJECTED
   registeredAt   DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+
+  @@unique([studentId, retakeClassId])
 }
 
 model RetakeNotification {
