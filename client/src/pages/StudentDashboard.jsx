@@ -254,9 +254,9 @@ const detectStudentSemester = (courses) => {
 function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
   const predictions = Array.isArray(data?.predictions) ? data.predictions : [];
   
-  const gpa = data?.analytics?.gpa10 ?? 0.0;
-  const gpa4 = data?.analytics?.gpa4 ?? 0.0;
-  const totalEarnedCredits = data?.analytics?.totalEarnedCredits ?? 0;
+  const gpa = data?.academicSnapshot?.gpa10 ?? data?.analytics?.gpa10 ?? 0.0;
+  const gpa4 = data?.academicSnapshot?.gpa4 ?? data?.analytics?.gpa4 ?? 0.0;
+  const totalEarnedCredits = data?.academicSnapshot?.credits ?? data?.analytics?.totalEarnedCredits ?? 0;
   
   const validScores = (data?.scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
   const completed = validScores.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
@@ -2075,10 +2075,10 @@ export default function StudentDashboard() {
 
   // Redundant mapping cleaned up
 
-  // Get unified GPA and credits computed from central backend services
-  const gpa = data?.analytics?.gpa10 ?? 0.0;
-  const gpa4 = data?.analytics?.gpa4 ?? 0.0;
-  const totalEarnedCredits = data?.analytics?.totalEarnedCredits ?? 0;
+  // Get unified GPA and credits computed from central backend services (SSOT DTO)
+  const gpa = data?.academicSnapshot?.gpa10 ?? data?.analytics?.gpa10 ?? 0.0;
+  const gpa4 = data?.academicSnapshot?.gpa4 ?? data?.analytics?.gpa4 ?? 0.0;
+  const totalEarnedCredits = data?.academicSnapshot?.credits ?? data?.analytics?.totalEarnedCredits ?? 0;
   const validScoresCount = data?.analytics?.semesterStats?.reduce((sum, s) => sum + s.credits, 0) ?? 0;
 
   const detectedSemester = detectStudentSemester(curriculumCourses);
@@ -2168,7 +2168,7 @@ export default function StudentDashboard() {
  
       {/* ── Dynamic Tab Content Render ── */}
       {activeTab === 'overview' && <OverviewTab data={data} curriculumCourses={curriculumCourses} dssReport={dssReport} handleTabChange={handleTabChange} />}
-      {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} stats={data?.analytics || { gpa10: 0, gpa4: 0, totalEarnedCredits: 0 }} />}
+      {activeTab === 'grades'   && <GradesTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} stats={data?.academicSnapshot || data?.analytics || { gpa10: 0, gpa4: 0, totalEarnedCredits: 0 }} />}
       {activeTab === 'roadmap'  && <RoadmapTab curriculumCourses={curriculumCourses} courseDependencies={courseDependencies} />}
       {activeTab === 'chat'     && <ChatTab currentUser={currentUser} activeStudentData={data} />}
 

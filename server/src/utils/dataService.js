@@ -114,11 +114,21 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
 
     const scores = {};
     parsedRows.forEach((row, idx) => {
-      let sub = String(row[subjectCol] || '').trim();
-      if (!sub) return;
+      let subRaw = String(row[subjectCol] || '').trim();
+      if (!subRaw) return;
 
-      // Smart map the subject name to match pre-trained subjects
-      sub = mapToPretrainedSubject(sub, pretrainedSubjects);
+      // 1. Resolve to backend standard code first (e.g., WEB206 -> WEB2063)
+      // 2. Fallback to smart name mapping
+      let sub = resolveBackendCourseCode(subRaw);
+      if (!sub || (pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(sub))) {
+         sub = mapToPretrainedSubject(subRaw, pretrainedSubjects);
+      }
+
+      // Block invalid subjects
+      if (pretrainedSubjects && pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(sub)) {
+        errors.push(`Môn học không hợp lệ hoặc không có trong khung chương trình: ${subRaw}`);
+        return;
+      }
 
       let score = parseScore(row[scoreCol]);
       
@@ -175,12 +185,28 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
     const rawSubjectCols = headers.filter(h => h !== idCol && h !== nameCol && h && !h.startsWith('__EMPTY_'));
     
     // Map each class dataset subject to pretrained subjects
+    const validRawCols = [];
     rawSubjectCols.forEach(rs => {
-      const matched = mapToPretrainedSubject(rs, pretrainedSubjects);
-      if (!subjectCols.includes(matched)) {
-        subjectCols.push(matched);
+      let matched = resolveBackendCourseCode(rs);
+      if (!matched || (pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(matched))) {
+        matched = mapToPretrainedSubject(rs, pretrainedSubjects);
+      }
+
+      // Block invalid subjects
+      if (pretrainedSubjects && pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(matched)) {
+        errors.push(`Cột môn học không hợp lệ: ${rs}`);
+      } else {
+        validRawCols.push({ raw: rs, matched });
+        if (!subjectCols.includes(matched)) {
+          subjectCols.push(matched);
+        }
       }
     });
+
+    // If any invalid columns found, block the entire import to keep DB clean
+    if (errors.length > 0) {
+      return { validStudents: [], errors, subjectCols: [], fileType };
+    }
 
     parsedRows.forEach((row, index) => {
       const id = String(row[idCol] || '').trim();
@@ -193,8 +219,7 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
       const name = nameCol && row[nameCol] ? String(row[nameCol]).trim() : undefined;
 
       const scores = {};
-      rawSubjectCols.forEach(rs => {
-        const matchedSub = mapToPretrainedSubject(rs, pretrainedSubjects);
+      validRawCols.forEach(({ raw: rs, matched: matchedSub }) => {
         scores[matchedSub] = parseScore(row[rs]);
       });
 

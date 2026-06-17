@@ -603,21 +603,8 @@ router.get('/red-alerts', async (req, res) => {
       const primaryInterventionStatus = interventionStatusMap.get(`${mssv}_${primary.courseId}`);
       const isIntervened = primaryInterventionStatus === 'PENDING' || primaryInterventionStatus === 'ACTIVE' || primary.intervened;
 
-      // Unify Risk & Priority Level using central services
-      const baseRiskObj = riskService.getStudentRisk(data.studentObj);
-      const studentAnalytics = analyticsService.getStudentAnalytics(data.studentObj);
-      const failedCoursesIds = failedCourses.map(c => c.courseId);
-
-      const academicSnapshot = {
-        studentId: data.mssv,
-        gpa10: studentAnalytics.gpa10,
-        gpa4: studentAnalytics.gpa4,
-        credits: studentAnalytics.totalEarnedCredits,
-        failedCourses: failedCoursesIds,
-        academicHealth: Math.max(0, 100 - baseRiskObj.riskScore),
-        riskScore: baseRiskObj.riskScore,
-        rootCauseCourses: []
-      };
+      const { buildAcademicSnapshot } = require('../services/studentSnapshotService');
+      const academicSnapshot = buildAcademicSnapshot(data.studentObj);
 
       alerts.push({
         mssv: data.mssv,
@@ -627,9 +614,9 @@ router.get('/red-alerts', async (req, res) => {
         targetCourseId: primary.courseId,
         predictedScore: primary.predictedScore,
         risk: primary.risk,
-        priorityLevel: baseRiskObj.riskLevel,
-        riskScore: baseRiskObj.riskScore,
-        gpa: studentAnalytics.gpa10,
+        priorityLevel: academicSnapshot.riskLevel,
+        riskScore: academicSnapshot.riskScore,
+        gpa: academicSnapshot.gpa10,
         avgAttendance: 100,
         weakPrereqs: primary.weakPrereqs,
         isEarlyWarning: primary.isEarlyWarning,

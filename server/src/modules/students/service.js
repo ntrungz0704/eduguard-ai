@@ -104,6 +104,9 @@ const getStudentByMssv = async (mssv) => {
     throw new AppError(`Student with MSSV "${mssv}" not found.`, 404);
   }
 
+  const { buildAcademicSnapshot } = require('../../services/studentSnapshotService');
+  student.academicSnapshot = buildAcademicSnapshot(student);
+
   return student;
 };
 

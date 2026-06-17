@@ -97,12 +97,54 @@ export default function StudentSearch() {
   const navigate = useNavigate();
   const activeStudent = useStore(state => state.activeStudent);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Read state from URL (or fallback to store/defaults)
+  const queryParam = searchParams.get('q') || '';
+  const sortParam = searchParams.get('sort') || 'name_asc';
+  const riskParam = searchParams.get('risk') || 'ALL';
+
   const query = useStore(state => state.searchQuery);
-  const setQuery = useStore(state => state.setSearchQuery);
+  const setQueryStore = useStore(state => state.setSearchQuery);
   const sortType = useStore(state => state.sortType);
-  const setSortType = useStore(state => state.setSortType);
+  const setSortTypeStore = useStore(state => state.setSortType);
   const riskFilter = useStore(state => state.riskFilter);
-  const setRiskFilter = useStore(state => state.setRiskFilter);
+  const setRiskFilterStore = useStore(state => state.setRiskFilter);
+
+  // Sync initial URL to Zustand on mount
+  useEffect(() => {
+    if (queryParam !== query) setQueryStore(queryParam);
+    if (sortParam !== sortType) setSortTypeStore(sortParam);
+    if (riskParam !== riskFilter) setRiskFilterStore(riskParam);
+  }, []);
+
+  // Update URL and State together
+  const setQuery = (newQuery) => {
+    setQueryStore(newQuery);
+    setSearchParams(prev => {
+      const p = new URLSearchParams(prev);
+      if (newQuery) p.set('q', newQuery); else p.delete('q');
+      return p;
+    }, { replace: true });
+  };
+
+  const setSortType = (newSort) => {
+    setSortTypeStore(newSort);
+    setSearchParams(prev => {
+      const p = new URLSearchParams(prev);
+      p.set('sort', newSort);
+      return p;
+    }, { replace: true });
+  };
+
+  const setRiskFilter = (newRisk) => {
+    setRiskFilterStore(newRisk);
+    setSearchParams(prev => {
+      const p = new URLSearchParams(prev);
+      p.set('risk', newRisk);
+      return p;
+    }, { replace: true });
+  };
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -112,7 +154,6 @@ export default function StudentSearch() {
     api.get('/students-search?q=').then(res => setAllStudents(res.data)).catch(console.error);
   }, []);
 
-  const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get('id');
 
   useEffect(() => {
