@@ -1398,10 +1398,10 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                   </div>
                 ) : (
                   <div className={`p-4 rounded-2xl border ${
-                    dssReport.interventionRecommendation.colorClass === 'rose' ? 'bg-rose-500/10 border-rose-500/25 text-rose-305' :
-                    dssReport.interventionRecommendation.colorClass === 'amber' ? 'bg-amber-500/10 border-amber-500/25 text-amber-305' :
-                    dssReport.interventionRecommendation.colorClass === 'blue' ? 'bg-blue-500/10 border-blue-500/25 text-blue-305' :
-                    'bg-emerald-500/10 border-emerald-500/25 text-emerald-305'
+                    dssReport.interventionRecommendation.colorClass === 'rose' ? 'bg-rose-500/10 border-rose-500/25 text-rose-600 dark:text-rose-300' :
+                    dssReport.interventionRecommendation.colorClass === 'amber' ? 'bg-amber-500/10 border-amber-500/25 text-amber-600 dark:text-amber-300' :
+                    dssReport.interventionRecommendation.colorClass === 'blue' ? 'bg-blue-500/10 border-blue-500/25 text-blue-600 dark:text-blue-300' :
+                    'bg-emerald-500/10 border-emerald-500/25 text-emerald-600 dark:text-emerald-300'
                   }`}>
                     <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80">Mức Can Thiệp:</span>
                     <span className="text-base font-black block mt-1">{dssReport.interventionRecommendation.actionTitle}</span>

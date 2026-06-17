@@ -512,9 +512,9 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
                 ) : (
                   <div>
                     <span className="block text-[9px] font-bold uppercase tracking-wider font-mono opacity-80 mb-1">Hành động can thiệp:</span>
-                    <span className="text-lg font-black block leading-snug">{dssReport.interventionRecommendation.actionTitle}</span>
+                    <span className="text-lg font-black block leading-snug text-slate-900 dark:text-white">{dssReport.interventionRecommendation.actionTitle}</span>
                     
-                    <p className="text-xs mt-3 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200 bg-slate-950/20 p-3.5 rounded-xl border border-white/5">
+                    <p className="text-xs mt-3 leading-relaxed opacity-95 text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-950/20 p-3.5 rounded-xl border border-slate-200 dark:border-white/5">
                       {dssReport.interventionRecommendation.description}
                     </p>
                   </div>
