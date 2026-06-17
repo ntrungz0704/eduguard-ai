@@ -10,40 +10,40 @@ import {
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const DEFAULT_CURRICULUM = [
-  { id: 'COM107', name: 'Tin học', credits: 3 },
-  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 3 },
+  { id: 'COM1071', name: 'Tin học', credits: 3 },
+  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 2 },
   { id: 'PDP102', name: 'Kỹ năng học tập', credits: 2 },
   { id: 'COM108', name: 'Nhập môn lập trình', credits: 3 },
   { id: 'ITI101', name: 'Nhập môn Công nghệ thông tin', credits: 3 },
   { id: 'VIE104', name: 'Giáo dục quốc phòng', credits: 4 },
-  { id: 'ENT112', name: 'Tiếng Anh 1.1', credits: 3 },
-  { id: 'COM201', name: 'Cơ sở dữ liệu', credits: 3 },
-  { id: 'WEB101', name: 'Xây dựng trang Web', credits: 3 },
-  { id: 'ENT12', name: 'Tiếng Anh 1.2', credits: 3 },
-  { id: 'WEB104', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
+  { id: 'ENT1128', name: 'Tiếng Anh 1.1', credits: 2 },
+  { id: 'COM2012', name: 'Cơ sở dữ liệu', credits: 3 },
+  { id: 'WEB1013', name: 'Xây dựng trang Web', credits: 3 },
+  { id: 'ENT123', name: 'Tiếng Anh 1.2', credits: 2 },
+  { id: 'WEB1043', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
   { id: 'WEB108', name: 'Lập trình PHP cơ bản', credits: 3 },
-  { id: 'ENT21', name: 'Tiếng Anh 2.1', credits: 3 },
+  { id: 'ENT213', name: 'Tiếng Anh 2.1', credits: 2 },
   { id: 'VIE108', name: 'Chính trị', credits: 5 },
-  { id: 'WEB302', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
-  { id: 'WEB201', name: 'Lập trình PHP 1', credits: 3 },
-  { id: 'VIE102', name: 'Pháp luật', credits: 2 },
+  { id: 'WEB3023', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
+  { id: 'WEB2014', name: 'Lập trình PHP 1', credits: 3 },
+  { id: 'VIE1026', name: 'Pháp luật', credits: 2 },
   { id: 'PDP103', name: 'Kỹ năng phát triển bản thân', credits: 2 },
   { id: 'WEB105', name: 'Thiết kế UI/UX', credits: 3 },
-  { id: 'WEB204', name: 'Dự án mẫu', credits: 3 },
-  { id: 'ENT22', name: 'Tiếng Anh 2.2', credits: 3 },
-  { id: 'WEB102', name: 'Quản trị website', credits: 3 },
-  { id: 'WEB205', name: 'Marketing trên Internet', credits: 3 },
+  { id: 'WEB2041', name: 'Dự án mẫu', credits: 3 },
+  { id: 'ENT223', name: 'Tiếng Anh 2.2', credits: 2 },
+  { id: 'WEB1023', name: 'Quản trị website', credits: 3 },
+  { id: 'WEB2055', name: 'Marketing trên Internet', credits: 3 },
   { id: 'WEB501', name: 'Lập trình ECMAScript', credits: 3 },
-  { id: 'WEB206', name: 'Lập trình Javascript nâng cao', credits: 3 },
-  { id: 'PRO101', name: 'Dự án 1', credits: 3 },
+  { id: 'WEB2063', name: 'Lập trình Javascript nâng cao', credits: 3 },
+  { id: 'PRO1014', name: 'Dự án 1', credits: 3 },
   { id: 'WEB503', name: 'NodeJS & Restful Web Service', credits: 3 },
   { id: 'WEB502', name: 'Lập trình TypeScript', credits: 3 },
   { id: 'PDP104', name: 'Kỹ năng làm việc', credits: 2 },
-  { id: 'SYB301', name: 'Khởi sự doanh nghiệp', credits: 3 },
-  { id: 'WEB208', name: 'Lập trình Front-End Framework 1', credits: 3 },
-  { id: 'WEB209', name: 'Lập trình Front-End Framework 2', credits: 3 },
-  { id: 'PRO11', name: 'Thực tập tốt nghiệp', credits: 5 },
-  { id: 'PRO22', name: 'Dự án tốt nghiệp', credits: 5 }
+  { id: 'SYB3013', name: 'Khởi sự doanh nghiệp', credits: 3 },
+  { id: 'WEB2081', name: 'Lập trình Front-End Framework 1', credits: 3 },
+  { id: 'WEB2091', name: 'Lập trình Front-End Framework 2', credits: 3 },
+  { id: 'PRO116', name: 'Thực tập tốt nghiệp', credits: 5 },
+  { id: 'PRO2201', name: 'Dự án tốt nghiệp', credits: 5 }
 ];
 
 const getCourseCredits = (courseNameOrId) => {
@@ -51,7 +51,7 @@ const getCourseCredits = (courseNameOrId) => {
   const lower = name.toLowerCase();
   const code = name.toUpperCase();
 
-  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 3;
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
   if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
   if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
@@ -60,7 +60,7 @@ const getCourseCredits = (courseNameOrId) => {
   if (
     lower.includes('tiếng anh') || lower.includes('tieng anh') || code.includes('ENT')
   ) {
-    return 3;
+    return 2;
   }
 
   if (
@@ -1245,14 +1245,22 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.value !== null ? (
-                                        <span className={`text-sm font-black ${c.value >= 8 ? 'text-emerald-400' : c.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
-                                          {c.value.toFixed(1)}
-                                        </span>
+                                        c.value === 1.0 && c.status === 'PASSED' ? (
+                                          <span className="text-xs font-semibold text-emerald-400">Đạt</span>
+                                        ) : (
+                                          <span className={`text-sm font-black ${c.value >= 8 ? 'text-emerald-400' : c.value >= 5 ? 'text-blue-400' : 'text-rose-500'}`}>
+                                            {c.value.toFixed(1)}
+                                          </span>
+                                        )
                                       ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.value !== null ? (
-                                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{getLetterGrade(c.value)}</span>
+                                        c.value === 1.0 && c.status === 'PASSED' ? (
+                                          <span className="text-xs font-semibold text-slate-400 dark:text-slate-600">—</span>
+                                        ) : (
+                                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{getLetterGrade(c.value)}</span>
+                                        )
                                       ) : <span className="text-xs text-slate-400 dark:text-slate-600">—</span>}
                                     </td>
                                     <td className="p-3 text-center">

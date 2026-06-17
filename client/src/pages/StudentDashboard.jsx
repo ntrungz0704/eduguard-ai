@@ -16,14 +16,16 @@ import CourseRecoveryModal from '../components/CourseRecoveryModal';
 // ─────────────────────────────────────────────
 //  Helpers
 // ─────────────────────────────────────────────
-const scoreColor = (s) => {
+const scoreColor = (s, status) => {
+  if (s === 1.0 && status === 'PASSED') return '#10b981';   // emerald for exemption
   if (s >= 8) return '#10b981';   // emerald
   if (s >= 6.5) return '#3b82f6'; // blue
   if (s >= 5) return '#f59e0b';   // amber
   return '#ef4444';               // red
 };
 
-const scoreBg = (s) => {
+const scoreBg = (s, status) => {
+  if (s === 1.0 && status === 'PASSED') return 'bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-400';
   if (s >= 8) return 'bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20 text-emerald-400';
   if (s >= 6.5) return 'bg-blue-500/10 border-blue-200 dark:border-blue-500/20 text-blue-400';
   if (s >= 5) return 'bg-amber-500/10 border-amber-200 dark:border-amber-500/20 text-amber-400';
@@ -38,14 +40,17 @@ const scoreLabel = (s) => {
   return 'Yếu';
 };
 
-const ScoreBar = ({ value, max = 10 }) => (
-  <div className="h-2 bg-slate-50 dark:bg-slate-800 rounded-full overflow-hidden w-full relative">
-    <div
-      className="h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(59,130,246,0.3)]"
-      style={{ width: `${(value / max) * 100}%`, backgroundColor: scoreColor(value) }}
-    />
-  </div>
-);
+const ScoreBar = ({ value, status, max = 10 }) => {
+  const widthPercent = (value === 1.0 && status === 'PASSED') ? 100 : (value / max) * 100;
+  return (
+    <div className="h-2 bg-slate-50 dark:bg-slate-800 rounded-full overflow-hidden w-full relative">
+      <div
+        className="h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(59,130,246,0.3)]"
+        style={{ width: `${widthPercent}%`, backgroundColor: scoreColor(value, status) }}
+      />
+    </div>
+  );
+};
 
 const TabBtn = ({ active, onClick, icon, label, badge = null }) => (
   <button
@@ -67,40 +72,40 @@ const TabBtn = ({ active, onClick, icon, label, badge = null }) => (
 );
 
 const DEFAULT_CURRICULUM = [
-  { id: 'COM107', name: 'Tin học', credits: 3 },
-  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 3 },
+  { id: 'COM1071', name: 'Tin học', credits: 3 },
+  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 2 },
   { id: 'PDP102', name: 'Kỹ năng học tập', credits: 2 },
   { id: 'COM108', name: 'Nhập môn lập trình', credits: 3 },
   { id: 'ITI101', name: 'Nhập môn Công nghệ thông tin', credits: 3 },
   { id: 'VIE104', name: 'Giáo dục quốc phòng', credits: 4 },
-  { id: 'ENT112', name: 'Tiếng Anh 1.1', credits: 3 },
-  { id: 'COM201', name: 'Cơ sở dữ liệu', credits: 3 },
-  { id: 'WEB101', name: 'Xây dựng trang Web', credits: 3 },
-  { id: 'ENT12', name: 'Tiếng Anh 1.2', credits: 3 },
-  { id: 'WEB104', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
+  { id: 'ENT1128', name: 'Tiếng Anh 1.1', credits: 2 },
+  { id: 'COM2012', name: 'Cơ sở dữ liệu', credits: 3 },
+  { id: 'WEB1013', name: 'Xây dựng trang Web', credits: 3 },
+  { id: 'ENT123', name: 'Tiếng Anh 1.2', credits: 2 },
+  { id: 'WEB1043', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
   { id: 'WEB108', name: 'Lập trình PHP cơ bản', credits: 3 },
-  { id: 'ENT21', name: 'Tiếng Anh 2.1', credits: 3 },
+  { id: 'ENT213', name: 'Tiếng Anh 2.1', credits: 2 },
   { id: 'VIE108', name: 'Chính trị', credits: 5 },
-  { id: 'WEB302', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
-  { id: 'WEB201', name: 'Lập trình PHP 1', credits: 3 },
-  { id: 'VIE102', name: 'Pháp luật', credits: 2 },
+  { id: 'WEB3023', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
+  { id: 'WEB2014', name: 'Lập trình PHP 1', credits: 3 },
+  { id: 'VIE1026', name: 'Pháp luật', credits: 2 },
   { id: 'PDP103', name: 'Kỹ năng phát triển bản thân', credits: 2 },
   { id: 'WEB105', name: 'Thiết kế UI/UX', credits: 3 },
-  { id: 'WEB204', name: 'Dự án mẫu', credits: 3 },
-  { id: 'ENT22', name: 'Tiếng Anh 2.2', credits: 3 },
-  { id: 'WEB102', name: 'Quản trị website', credits: 3 },
-  { id: 'WEB205', name: 'Marketing trên Internet', credits: 3 },
+  { id: 'WEB2041', name: 'Dự án mẫu', credits: 3 },
+  { id: 'ENT223', name: 'Tiếng Anh 2.2', credits: 2 },
+  { id: 'WEB1023', name: 'Quản trị website', credits: 3 },
+  { id: 'WEB2055', name: 'Marketing trên Internet', credits: 3 },
   { id: 'WEB501', name: 'Lập trình ECMAScript', credits: 3 },
-  { id: 'WEB206', name: 'Lập trình Javascript nâng cao', credits: 3 },
-  { id: 'PRO101', name: 'Dự án 1', credits: 3 },
+  { id: 'WEB2063', name: 'Lập trình Javascript nâng cao', credits: 3 },
+  { id: 'PRO1014', name: 'Dự án 1', credits: 3 },
   { id: 'WEB503', name: 'NodeJS & Restful Web Service', credits: 3 },
   { id: 'WEB502', name: 'Lập trình TypeScript', credits: 3 },
   { id: 'PDP104', name: 'Kỹ năng làm việc', credits: 2 },
-  { id: 'SYB301', name: 'Khởi sự doanh nghiệp', credits: 3 },
-  { id: 'WEB208', name: 'Lập trình Front-End Framework 1', credits: 3 },
-  { id: 'WEB209', name: 'Lập trình Front-End Framework 2', credits: 3 },
-  { id: 'PRO11', name: 'Thực tập tốt nghiệp', credits: 5 },
-  { id: 'PRO22', name: 'Dự án tốt nghiệp', credits: 5 }
+  { id: 'SYB3013', name: 'Khởi sự doanh nghiệp', credits: 3 },
+  { id: 'WEB2081', name: 'Lập trình Front-End Framework 1', credits: 3 },
+  { id: 'WEB2091', name: 'Lập trình Front-End Framework 2', credits: 3 },
+  { id: 'PRO116', name: 'Thực tập tốt nghiệp', credits: 5 },
+  { id: 'PRO2201', name: 'Dự án tốt nghiệp', credits: 5 }
 ];
 
 function getCourseCredits(courseNameOrId) {
@@ -108,7 +113,7 @@ function getCourseCredits(courseNameOrId) {
   const lower = name.toLowerCase();
   const code = name.toUpperCase();
 
-  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 3;
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
   if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
   if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
@@ -117,7 +122,7 @@ function getCourseCredits(courseNameOrId) {
   if (
     lower.includes('tiếng anh') || lower.includes('tieng anh') || code.includes('ENT')
   ) {
-    return 3;
+    return 2;
   }
 
   if (
@@ -683,7 +688,7 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
                     <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[80%]">{c.courseId}</span>
                     <span className="text-xs font-black text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20">{c.value.toFixed(1)}</span>
                   </div>
-                  <ScoreBar value={c.value} />
+                  <ScoreBar value={c.value} status="PASSED" />
                 </div>
               ))}
             </div>
@@ -714,7 +719,7 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
                     </span>
                     <span className="text-xs font-black text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-200 dark:border-rose-500/20">{c.value.toFixed(1)}</span>
                   </div>
-                  <ScoreBar value={c.value} />
+                  <ScoreBar value={c.value} status="PASSED" />
                 </div>
               ))}
             </div>
@@ -906,14 +911,18 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
                         {/* Score 10 - col-span-1 */}
                         <div className="col-span-1 flex justify-center items-center gap-1.5">
                           {c.value !== null ? (
-                            <>
-                              <span className="text-sm font-black" style={{ color: scoreColor(c.value) }}>
-                                {c.value.toFixed(1)}
-                              </span>
-                              {c.isPredicted && (
-                                <span className="text-[8px] font-bold text-blue-400 bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-1 py-0.2 rounded uppercase shrink-0">AI</span>
-                              )}
-                            </>
+                            c.value === 1.0 && c.status === 'PASSED' ? (
+                              <span className="text-xs font-semibold text-emerald-400">Đạt</span>
+                            ) : (
+                              <>
+                                <span className="text-sm font-black" style={{ color: scoreColor(c.value, c.status) }}>
+                                  {c.value.toFixed(1)}
+                                </span>
+                                {c.isPredicted && (
+                                  <span className="text-[8px] font-bold text-blue-400 bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-1 py-0.2 rounded uppercase shrink-0">AI</span>
+                                )}
+                              </>
+                            )
                           ) : (
                             <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>
                           )}
@@ -921,15 +930,25 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
 
                         {/* Score 4 - col-span-1 */}
                         <div className="col-span-1 text-center text-xs font-bold text-slate-700 dark:text-slate-300">
-                          {c.value !== null ? get40Scale(c.value).toFixed(2) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.00</span>}
+                          {c.value !== null ? (
+                            c.value === 1.0 && c.status === 'PASSED' ? (
+                              <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">—</span>
+                            ) : (
+                              get40Scale(c.value).toFixed(2)
+                            )
+                          ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.00</span>}
                         </div>
 
                         {/* Letter - col-span-1 */}
                         <div className="col-span-1 text-center text-xs font-black text-slate-900 dark:text-white">
                           {c.value !== null ? (
-                            <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block min-w-[32px] text-center">
-                              {getLetterGrade(c.value)}
-                            </span>
+                            c.value === 1.0 && c.status === 'PASSED' ? (
+                              <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">—</span>
+                            ) : (
+                              <span className="bg-white/5 border border-slate-200 dark:border-white/10 rounded px-2 py-0.5 inline-block min-w-[32px] text-center">
+                                {getLetterGrade(c.value)}
+                              </span>
+                            )
                           ) : <span className="text-xs text-slate-400 dark:text-slate-600">—</span>}
                         </div>
 
