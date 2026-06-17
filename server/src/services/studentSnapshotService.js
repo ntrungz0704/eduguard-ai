@@ -1,6 +1,10 @@
 const riskService = require('./riskService');
 const analyticsService = require('./analyticsService');
 
+// Simple in-memory cache for academic snapshots
+const snapshotCache = new Map();
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
 /**
  * studentSnapshotService
  * Provides a Single Source of Truth (SSOT) for a student's core academic metrics.
@@ -14,6 +18,15 @@ const analyticsService = require('./analyticsService');
  */
 function buildAcademicSnapshot(studentObj) {
   if (!studentObj) return null;
+  
+  const studentId = studentObj.mssv || studentObj.id;
+  const now = Date.now();
+  
+  // Check if we have a valid cached snapshot
+  const cached = snapshotCache.get(studentId);
+  if (cached && (now - cached.timestamp < CACHE_TTL_MS)) {
+    return cached.snapshot;
+  }
 
   // Unify Risk & Priority Level using central services
   const baseRiskObj = riskService.getStudentRisk(studentObj);
@@ -28,8 +41,8 @@ function buildAcademicSnapshot(studentObj) {
   // For the SSOT baseline, we list failed courses as potential root causes
   const rootCauseCourses = failedCoursesIds;
 
-  return {
-    studentId: studentObj.mssv || studentObj.id,
+  const snapshot = {
+    studentId: studentId,
     name: studentObj.name,
     classCode: studentObj.classCode,
     gpa10: studentAnalytics.gpa10,
@@ -43,8 +56,29 @@ function buildAcademicSnapshot(studentObj) {
     totalScoresCount: studentAnalytics.totalScoresCount,
     curriculumSemesterStats: studentAnalytics.curriculumSemesterStats
   };
+
+  // Cache the generated snapshot
+  snapshotCache.set(studentId, {
+    snapshot,
+    timestamp: now
+  });
+
+  return snapshot;
+}
+
+/**
+ * Clears the snapshot cache (either for a specific student or the entire cache).
+ * @param {string|null} studentId 
+ */
+function clearSnapshotCache(studentId = null) {
+  if (studentId) {
+    snapshotCache.delete(studentId);
+  } else {
+    snapshotCache.clear();
+  }
 }
 
 module.exports = {
-  buildAcademicSnapshot
+  buildAcademicSnapshot,
+  clearSnapshotCache
 };

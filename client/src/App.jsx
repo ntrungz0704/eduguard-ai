@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from './store';
 import { api } from './lib/api';
@@ -6,23 +6,29 @@ import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircu
 import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2, Layers, BookOpen } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
-import Dashboard from './pages/Dashboard';
-import Predict from './pages/Predict';
-import GPA from './pages/GPA';
-import StudentSearch from './pages/StudentSearch';
-import StudentProfile from './pages/StudentProfile';
-import AIChat from './pages/AIChat';
-import Login from './pages/Login';
-import StudentDashboard from './pages/StudentDashboard';
-import Inbox from './pages/Inbox';
-import Interventions from './pages/Interventions';
-import DataImport from './pages/DataImport';
-import CareerUniverse from './pages/CareerUniverse';
-import CareerDetail from './pages/CareerDetail';
-import CareerRoadmapBoard from './pages/CareerRoadmapBoard';
-import AIMetrics from './pages/AIMetrics';
-import RetakeRegistration from './pages/RetakeRegistration';
-import AdvisorRetakeManagement from './pages/AdvisorRetakeManagement';
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Predict = lazy(() => import('./pages/Predict'));
+const GPA = lazy(() => import('./pages/GPA'));
+const StudentSearch = lazy(() => import('./pages/StudentSearch'));
+const StudentProfile = lazy(() => import('./pages/StudentProfile'));
+const AIChat = lazy(() => import('./pages/AIChat'));
+const Login = lazy(() => import('./pages/Login'));
+const StudentDashboard = lazy(() => import('./pages/StudentDashboard'));
+const Inbox = lazy(() => import('./pages/Inbox'));
+const Interventions = lazy(() => import('./pages/Interventions'));
+const DataImport = lazy(() => import('./pages/DataImport'));
+const CareerUniverse = lazy(() => import('./pages/CareerUniverse'));
+const CareerDetail = lazy(() => import('./pages/CareerDetail'));
+const CareerRoadmapBoard = lazy(() => import('./pages/CareerRoadmapBoard'));
+const AIMetrics = lazy(() => import('./pages/AIMetrics'));
+const RetakeRegistration = lazy(() => import('./pages/RetakeRegistration'));
+const AdvisorRetakeManagement = lazy(() => import('./pages/AdvisorRetakeManagement'));
+
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-[400px]">
+    <Loader2 className="animate-spin text-blue-500" size={40} />
+  </div>
+);
 
 const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const location = useLocation();
@@ -299,9 +305,11 @@ function App() {
   if (!currentUser) {
     return (
       <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<Login />} />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="*" element={<Login />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     );
   }
@@ -322,35 +330,37 @@ function App() {
                 </div>
               </div>
             )}
-              <Routes>
-                {currentUser.role === 'STUDENT' ? (
-                  <>
-                    <Route path="/student-dashboard" element={<StudentDashboard />} />
-                    <Route path="/career-universe" element={currentUser?.role === 'STUDENT' ? <CareerUniverse /> : <Login />} />
-                    <Route path="/career/:careerId" element={currentUser?.role === 'STUDENT' ? <CareerDetail /> : <Login />} />
-                    <Route path="/career-board" element={currentUser?.role === 'STUDENT' ? <CareerRoadmapBoard /> : <Login />} />
-                    <Route path="/retake-registration" element={<RetakeRegistration />} />
-                    <Route path="/gpa" element={<GPA />} />
-                    <Route path="/chat" element={<AIChat />} />
-                    <Route path="/inbox" element={<Inbox />} />
-                    <Route path="*" element={<StudentDashboard />} />
-                  </>
-                ) : (
-                  <>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/search" element={<StudentSearch />} />
-                    <Route path="/predict" element={<Predict />} />
-                    <Route path="/ai-metrics" element={<AIMetrics />} />
-                    <Route path="/import-data" element={<DataImport />} />
-                    <Route path="/interventions" element={<Interventions />} />
-                    <Route path="/chat" element={<AIChat />} />
-                    <Route path="/inbox" element={<Inbox />} />
-                    <Route path="/student/:mssv" element={<StudentProfile />} />
-                    <Route path="/retake-management" element={<AdvisorRetakeManagement />} />
-                    <Route path="*" element={<Dashboard />} />
-                  </>
-                )}
-              </Routes>
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  {currentUser.role === 'STUDENT' ? (
+                    <>
+                      <Route path="/student-dashboard" element={<StudentDashboard />} />
+                      <Route path="/career-universe" element={currentUser?.role === 'STUDENT' ? <CareerUniverse /> : <Login />} />
+                      <Route path="/career/:careerId" element={currentUser?.role === 'STUDENT' ? <CareerDetail /> : <Login />} />
+                      <Route path="/career-board" element={currentUser?.role === 'STUDENT' ? <CareerRoadmapBoard /> : <Login />} />
+                      <Route path="/retake-registration" element={<RetakeRegistration />} />
+                      <Route path="/gpa" element={<GPA />} />
+                      <Route path="/chat" element={<AIChat />} />
+                      <Route path="/inbox" element={<Inbox />} />
+                      <Route path="*" element={<StudentDashboard />} />
+                    </>
+                  ) : (
+                    <>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/search" element={<StudentSearch />} />
+                      <Route path="/predict" element={<Predict />} />
+                      <Route path="/ai-metrics" element={<AIMetrics />} />
+                      <Route path="/import-data" element={<DataImport />} />
+                      <Route path="/interventions" element={<Interventions />} />
+                      <Route path="/chat" element={<AIChat />} />
+                      <Route path="/inbox" element={<Inbox />} />
+                      <Route path="/student/:mssv" element={<StudentProfile />} />
+                      <Route path="/retake-management" element={<AdvisorRetakeManagement />} />
+                      <Route path="*" element={<Dashboard />} />
+                    </>
+                  )}
+                </Routes>
+              </Suspense>
           </main>
         </div>
       </div>

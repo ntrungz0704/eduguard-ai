@@ -1430,6 +1430,14 @@ router.post('/save-uploaded', async (req, res) => {
     // Persist as current active uploaded list in RAM
     cache.uploadedStudents = students;
 
+    // Invalidate entire snapshot cache on new bulk data import
+    try {
+      const { clearSnapshotCache } = require('../services/studentSnapshotService');
+      clearSnapshotCache();
+    } catch (cacheErr) {
+      console.warn("Lỗi khi xóa cache hệ thống:", cacheErr.message);
+    }
+
     // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
     const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
     recalculateAllPredictions(false).catch(err => console.error('[Auto-recalculate] Error:', err));
@@ -2555,6 +2563,14 @@ router.post('/students/update-score', async (req, res) => {
       } catch (err) {
         console.warn("Lỗi khi cập nhật trạng thái can thiệp sau khi đạt điểm:", err);
       }
+    }
+
+    // Invalidate snapshot cache for this student
+    try {
+      const { clearSnapshotCache } = require('../services/studentSnapshotService');
+      clearSnapshotCache(mssv);
+    } catch (cacheErr) {
+      console.warn("Lỗi khi xóa cache của sinh viên:", cacheErr.message);
     }
 
     // Trigger dynamic prediction recalibration in background

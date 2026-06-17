@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
+const compression = require('compression');
 
 const rateLimit = require('express-rate-limit');
 const traceIdMiddleware = require('./middlewares/tracing');
@@ -26,6 +27,9 @@ const apiLimiter = rateLimit({
 
 // Security Headers (sets 11 HTTP security headers automatically)
 app.use(helmet());
+
+// Compress all HTTP responses
+app.use(compression());
 
 // Strict CORS — only allow configured frontend origin
 app.use(cors({

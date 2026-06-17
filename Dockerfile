@@ -31,7 +31,7 @@ WORKDIR /app
 
 RUN apk add --no-cache python3 make g++ openssl
 
-ENV DATABASE_URL=file:/app/prisma/dev.db
+ENV DATABASE_URL=file:/app/prisma/dev.db?connection_limit=5
 
 # Copy Prisma schema first (required before generate)
 COPY prisma ./prisma
