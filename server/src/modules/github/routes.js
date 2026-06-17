@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const githubService = require('./githubService');
+const { jwtMiddleware } = require('../auth/middleware');
+
+router.use(jwtMiddleware);
 
 router.post('/verify', async (req, res) => {
   try {

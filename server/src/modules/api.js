@@ -124,11 +124,25 @@ const dataPath = path.join(__dirname, '..', '..', 'src', 'datasets', 'training_d
 const modelCachePath = path.join(__dirname, '..', '..', 'src', 'ai', 'models', 'regression', 'trained_model.json');
 const cache = require('../shared/cache');
 
+const { loadTrainingDataFromDB } = require('../scripts/recalculate_predictions');
 
-if (fs.existsSync(dataPath)) {
-  cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-  console.log(`📚 Pre-trained data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
-}
+loadTrainingDataFromDB()
+  .then(dbData => {
+    if (dbData && dbData.students && dbData.students.length > 0) {
+      cache.trainingData = dbData;
+      console.log(`📚 Dynamically loaded training data from Database on boot: ${dbData.students.length} SV, ${dbData.subjects.length} môn`);
+    } else if (fs.existsSync(dataPath)) {
+      cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+      console.log(`📚 Pre-trained JSON data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+    }
+  })
+  .catch(err => {
+    console.error("❌ Failed to load training data from database on boot, falling back to JSON:", err);
+    if (fs.existsSync(dataPath)) {
+      cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+      console.log(`📚 Pre-trained JSON data loaded in Router (Fallback): ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+    }
+  });
 
 if (fs.existsSync(modelCachePath)) {
   cache.modelCache = JSON.parse(fs.readFileSync(modelCachePath, 'utf8'));
@@ -272,8 +286,11 @@ router.get('/training-info', async (req, res) => {
 // ============================================================
 // API: Model Evaluation Engine (LOOCV Approximation)
 // ============================================================
-router.get('/evaluate-model', (req, res) => {
+router.get('/evaluate-model', async (req, res, next) => {
   try {
+    const { loadTrainingDataFromDB } = require('../scripts/recalculate_predictions');
+    cache.trainingData = await loadTrainingDataFromDB();
+    
     const students = cache.trainingData.students || [];
     const subjects = cache.trainingData.subjects || [];
     
@@ -398,7 +415,7 @@ router.get('/evaluate-model', (req, res) => {
     
   } catch (err) {
     console.error("Evaluate model error:", err);
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 

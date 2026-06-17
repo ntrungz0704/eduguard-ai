@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('./controller');
+const { jwtMiddleware } = require('../auth/middleware');
+
+router.use(jwtMiddleware);
 
 router.get('/courses/:courseId', controller.getCourseInfo);
 router.get('/dependencies', controller.getDependencies);

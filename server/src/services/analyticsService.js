@@ -132,7 +132,7 @@ function getStudentAnalytics(student, allStudents = []) {
       }
     });
 
-    const currentCumGpa10 = cumGpaCredits === 0 ? 0.0 : Math.floor(((cumWeight10 / cumGpaCredits) + 1e-9) * 10) / 10;
+    const currentCumGpa10 = cumGpaCredits === 0 ? 0.0 : Math.floor(((cumWeight10 / cumGpaCredits) + 1e-9) * 100) / 100;
     const currentCumGpa4 = cumGpaCredits === 0 ? 0.0 : Math.round(((cumWeight4 / cumGpaCredits) + 1e-9) * 100) / 100;
 
     curriculumSemesterStats.push({

@@ -94,19 +94,6 @@ exports.registerRetake = async (req, res, next) => {
     const mssv = req.user.id;
     const { retakeClassId } = req.body;
 
-    // Check if class exists and has seats
-    const retakeClass = await prisma.retakeClass.findUnique({
-      where: { id: retakeClassId }
-    });
-
-    if (!retakeClass) {
-      return res.status(404).json({ error: 'Không tìm thấy lớp học lại này.' });
-    }
-
-    if (retakeClass.availableSeats <= 0) {
-      return res.status(400).json({ error: 'Lớp học lại đã hết chỗ.' });
-    }
-
     // Check if already registered
     const existing = await prisma.retakeRegistration.findFirst({
       where: { studentId: mssv, retakeClassId }
@@ -116,22 +103,41 @@ exports.registerRetake = async (req, res, next) => {
       return res.status(400).json({ error: 'Bạn đã đăng ký lớp này rồi.' });
     }
 
-    // Register
-    const reg = await prisma.retakeRegistration.create({
-      data: {
-        studentId: mssv,
-        retakeClassId,
-        status: 'PENDING'
-      }
-    });
-
-    // Decrease available seats
-    await prisma.retakeClass.update({
-      where: { id: retakeClassId },
+    // Atomically decrement seats IF availableSeats > 0.
+    const updateResult = await prisma.retakeClass.updateMany({
+      where: { id: retakeClassId, availableSeats: { gt: 0 } },
       data: { availableSeats: { decrement: 1 } }
     });
 
-    res.json({ success: true, registration: reg });
+    if (updateResult.count === 0) {
+      // Check if class exists
+      const retakeClass = await prisma.retakeClass.findUnique({
+        where: { id: retakeClassId }
+      });
+      if (!retakeClass) {
+        return res.status(404).json({ error: 'Không tìm thấy lớp học lại này.' });
+      }
+      return res.status(400).json({ error: 'Lớp học lại đã hết chỗ.' });
+    }
+
+    try {
+      // Register
+      const reg = await prisma.retakeRegistration.create({
+        data: {
+          studentId: mssv,
+          retakeClassId,
+          status: 'PENDING'
+        }
+      });
+      res.json({ success: true, registration: reg });
+    } catch (err) {
+      // Rollback the seat decrement if registration creation fails
+      await prisma.retakeClass.update({
+        where: { id: retakeClassId },
+        data: { availableSeats: { increment: 1 } }
+      });
+      throw err;
+    }
   } catch (err) {
     next(err);
   }

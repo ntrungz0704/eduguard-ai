@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const controller = require('./controller');
 const { requireRole } = require('../../middlewares/rbac');
+const { jwtMiddleware } = require('../auth/middleware');
+
+router.use(jwtMiddleware);
 
 // ─── STUDENT ROUTES ──────────────────────────────────────────────
 // Get eligible courses for retake (FAILED or Score < 5.0)

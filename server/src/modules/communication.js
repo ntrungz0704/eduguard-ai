@@ -23,6 +23,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+const { jwtMiddleware } = require('./auth/middleware');
+
+// Apply JWT middleware to all message and advisor routes
+router.use('/messages', jwtMiddleware);
+router.use('/advisors', jwtMiddleware);
+
 // ----------------------------------------------------
 // AUTH ENDPOINTS (Mock Auth)
 // ----------------------------------------------------
@@ -128,6 +134,11 @@ router.get('/messages/suggestion', async (req, res) => {
   const { mssv, courseId, predictedScore } = req.query;
   if (!mssv || !courseId) {
     return res.status(400).json({ error: 'Missing mssv or courseId' });
+  }
+
+  // Security check: Student role can only query their own mssv
+  if (req.user.role === 'STUDENT' && req.user.id !== mssv) {
+    return res.status(403).json({ error: 'Bạn không có quyền xem thông tin của sinh viên khác.' });
   }
 
   try {
@@ -245,8 +256,8 @@ Nếu cần hỗ trợ thêm, hãy phản hồi lại qua Hộp thư này. Chúc
 
 // Get inbox for a user
 router.get('/messages/:userId', async (req, res) => {
-  const { userId } = req.params;
-  const { role } = req.query; // 'ADVISOR' or 'STUDENT'
+  const role = req.user.role;
+  const userId = role === 'STUDENT' ? req.user.id : req.params.userId;
   
   try {
     // Fetch all student IDs to identify who is a student
@@ -413,6 +424,12 @@ router.get('/messages/:userId', async (req, res) => {
 // Send a message
 router.post('/messages', upload.array('files'), async (req, res) => {
   const { senderId, receiverId, content } = req.body;
+
+  // Security check: authenticated senderId must match req.user.id
+  if (senderId !== req.user.id) {
+    return res.status(403).json({ error: 'Bạn không thể gửi tin nhắn dưới danh nghĩa người khác.' });
+  }
+
   try {
     const newMessage = await prisma.message.create({
       data: {
@@ -456,6 +473,17 @@ router.post('/messages/read', async (req, res) => {
     });
     const advisorIds = advisors.map(a => a.id);
     advisorIds.push('advisor-group');
+    
+    // Security check: Student can only mark their own messages as read; Advisor can only mark advisor/advisor-group messages as read
+    if (req.user.role === 'STUDENT') {
+      if (receiverId !== req.user.id) {
+        return res.status(403).json({ error: 'Bạn không thể đánh dấu đọc tin nhắn của người khác.' });
+      }
+    } else {
+      if (!advisorIds.includes(receiverId)) {
+        return res.status(403).json({ error: 'Bạn không thể đánh dấu đọc tin nhắn của người khác.' });
+      }
+    }
     
     const isSenderAdvisor = advisorIds.includes(senderId);
     const isReceiverAdvisor = advisorIds.includes(receiverId);
@@ -501,6 +529,24 @@ router.post('/messages/read', async (req, res) => {
 router.post('/messages/unread', async (req, res) => {
   const { senderId, receiverId } = req.body;
   try {
+    const advisors = await prisma.user.findMany({
+      where: { role: { in: ['ADVISOR', 'ADMIN'] } },
+      select: { id: true }
+    });
+    const advisorIds = advisors.map(a => a.id);
+    advisorIds.push('advisor-group');
+    
+    // Security check: Student can only mark their own messages as unread; Advisor can only mark advisor/advisor-group messages as unread
+    if (req.user.role === 'STUDENT') {
+      if (receiverId !== req.user.id) {
+        return res.status(403).json({ error: 'Bạn không thể đánh dấu chưa đọc tin nhắn của người khác.' });
+      }
+    } else {
+      if (!advisorIds.includes(receiverId)) {
+        return res.status(403).json({ error: 'Bạn không thể đánh dấu chưa đọc tin nhắn của người khác.' });
+      }
+    }
+
     const lastMsg = await prisma.message.findFirst({
       where: {
         senderId: senderId,
