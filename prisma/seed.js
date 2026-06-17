@@ -163,7 +163,7 @@ async function main() {
       const batch = scoreEntries.slice(i, i + BATCH_SIZE);
       for (const [subName, scoreVal] of batch) {
         const courseId = normalizeCourseId(subName);
-        const status = (scoreVal >= 5 || scoreVal === 1.0) ? 'PASSED' : 'FAILED';
+        const status = (scoreVal >= 5) ? 'PASSED' : 'FAILED';
         
         // Kiểm tra xem điểm đã tồn tại chưa (theo mssv + courseId)
         const existing = await prisma.score.findFirst({

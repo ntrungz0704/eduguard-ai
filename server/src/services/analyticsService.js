@@ -25,7 +25,7 @@ function getStudentAnalytics(student, allStudents = []) {
     scores = Object.entries(scores).map(([courseId, val]) => ({
       courseId,
       value: val,
-      status: val === null ? 'STUDYING' : ((val >= 5 || val === 1.0) ? 'PASSED' : 'FAILED'),
+      status: val === null ? 'STUDYING' : ((val >= 5.0) ? 'PASSED' : 'FAILED'),
       course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
     }));
   }

@@ -92,7 +92,7 @@ async function syncUploadedData(validStudents) {
     for (const [courseId, val] of Object.entries(st.scores || {})) {
       if (val === null) continue;
       const value = parseFloat(val);
-      const status = (value >= 5 || value === 1.0) ? 'PASSED' : 'FAILED';
+      const status = (value >= 5.0) ? 'PASSED' : 'FAILED';
 
       await prisma.score.upsert({
         where: {
@@ -393,13 +393,20 @@ router.get('/evaluate-model', async (req, res, next) => {
     
     // Sort subject stats by Accuracy (descending) then MAE (ascending)
     const subjectStatsArray = Object.values(subjectStats)
-      .filter(s => s.count > 0)
       .map(s => {
+        if (s.count === 0) {
+          return { ...s, mae: '—', accuracy: '—' };
+        }
         const mae = Math.round((s.totalError / s.count) * 100) / 100;
         const accuracy = Math.round((10 - mae) * 10 * 10) / 10;
         return { ...s, mae, accuracy };
       })
-      .sort((a, b) => b.accuracy - a.accuracy || a.mae - b.mae);
+      .sort((a, b) => {
+        if (a.count === 0 && b.count > 0) return 1;
+        if (a.count > 0 && b.count === 0) return -1;
+        if (a.count === 0 && b.count === 0) return 0;
+        return b.accuracy - a.accuracy || a.mae - b.mae;
+      });
 
     res.json({
       totalStudents: evalStudents.length,
@@ -474,7 +481,7 @@ router.get('/red-alerts', async (req, res) => {
       const courseId = pred.courseId;
 
       const targetScore = student.scores.find(sc => sc.courseId === courseId);
-      if (targetScore && targetScore.value !== null && (targetScore.value >= 5.0 || targetScore.value === 1.0)) {
+      if (targetScore && targetScore.value !== null && (targetScore.value >= 5.0)) {
         return;
       }
 
@@ -550,7 +557,7 @@ router.get('/red-alerts', async (req, res) => {
     allDbStudents.forEach(student => {
       const mssv = student.mssv;
       const failedScores = student.scores.filter(sc => {
-        if (sc.value === null || sc.value >= 5.0 || sc.value === 1.0) return false;
+        if (sc.value === null || sc.value >= 5.0) return false;
         // Exclude if intervention is RESOLVED
         const status = interventionStatusMap.get(`${mssv}_${sc.courseId}`);
         if (status === 'RESOLVED') return false;
@@ -575,7 +582,7 @@ router.get('/red-alerts', async (req, res) => {
     for (const [mssv, data] of studentAlertsMap.entries()) {
       const failedCourses = data.studentScores
         .filter(sc => {
-          if (sc.value === null || sc.value >= 5.0 || sc.value === 1.0) return false;
+          if (sc.value === null || sc.value >= 5.0) return false;
           const status = interventionStatusMap.get(`${mssv}_${sc.courseId}`);
           if (status === 'RESOLVED') return false;
           return true;
@@ -1533,7 +1540,7 @@ router.get('/students-search', async (req, res) => {
           scores: Object.entries(scoresObj).map(([courseId, val]) => ({
             courseId,
             value: val,
-            status: val === null ? 'STUDYING' : ((val >= 5 || val === 1.0) ? 'PASSED' : 'FAILED'),
+            status: val === null ? 'STUDYING' : ((val >= 5.0) ? 'PASSED' : 'FAILED'),
             course: { id: courseId, name: courseId, credits: getCourseCredits(courseId) }
           }))
         };
@@ -1541,7 +1548,7 @@ router.get('/students-search', async (req, res) => {
         const analytics = analyticsService.getStudentAnalytics(mappedMemStudent);
         const risk = riskService.getStudentRisk(mappedMemStudent);
         const failedCourses = mappedMemStudent.scores
-          .filter(sc => sc.status === 'FAILED' || (sc.value !== null && sc.value < 5.0 && sc.value !== 1.0))
+          .filter(sc => sc.status === 'FAILED' || (sc.value !== null && sc.value < 5.0))
           .map(sc => sc.courseId);
           
         const academicSnapshot = {
@@ -2084,7 +2091,7 @@ router.get('/students/:mssv', async (req, res) => {
       if (memStudent) {
         // Student exists in memory cache but not in DB — return it without fake attendance
         const scores = Object.entries(memStudent.scores || {}).map(([cId, val]) => {
-          const status = val === null ? 'STUDYING' : ((val >= 5 || val === 1.0) ? 'PASSED' : 'FAILED');
+          const status = val === null ? 'STUDYING' : ((val >= 5.0) ? 'PASSED' : 'FAILED');
           return {
             courseId: cId,
             value: val,
@@ -2105,7 +2112,7 @@ router.get('/students/:mssv', async (req, res) => {
         const allMemStudents = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
         const mappedAllMemStudents = allMemStudents.map(st => {
           const stScores = Object.entries(st.scores || {}).map(([cId, val]) => {
-            const status = val === null ? 'STUDYING' : ((val >= 5 || val === 1.0) ? 'PASSED' : 'FAILED');
+            const status = val === null ? 'STUDYING' : ((val >= 5.0) ? 'PASSED' : 'FAILED');
             return { courseId: cId, value: val, status };
           });
           return { mssv: st.id, scores: stScores };
@@ -2501,7 +2508,7 @@ router.post('/students/update-score', async (req, res) => {
       return res.status(400).json({ error: 'Điểm số phải là số thực từ 0 đến 10.' });
     }
 
-    const status = (numericValue >= 5.0 || numericValue === 1.0) ? 'PASSED' : 'FAILED';
+    const status = (numericValue >= 5.0) ? 'PASSED' : 'FAILED';
 
     // Update or Insert in Database
     const score = await prisma.score.upsert({
@@ -2526,7 +2533,7 @@ router.post('/students/update-score', async (req, res) => {
     });
 
     // Automatically update intervention status to RESOLVED if student passed (value >= 5.0 or 1.0 exemption)
-    if (numericValue >= 5.0 || numericValue === 1.0) {
+    if (numericValue >= 5.0) {
       try {
         await prisma.intervention.updateMany({
           where: { mssv, courseId },

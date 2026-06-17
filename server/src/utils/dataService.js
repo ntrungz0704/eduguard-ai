@@ -322,7 +322,7 @@ function calculateFptGPA(scores) {
 
     // If passed or is 1.0 (passed conditional), add to total accumulated credits
     // Also check if status is explicitly PASSED (handles text-based grades like "Đạt", "Miễn")
-    if (score >= 5.0 || score === 1.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
+    if (score >= 5.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
       const lowerName = String(courseName || '').toLowerCase();
       const code = String(courseId || '').toUpperCase();
       // Giáo dục quốc phòng (4 tín chỉ) và Thể chất (3 tín chỉ) là chứng chỉ độc lập, không cộng vào tích luỹ tốt nghiệp
@@ -334,7 +334,7 @@ function calculateFptGPA(scores) {
 
     // Include in GPA calculation if it's NOT conditional and NOT english and is not exactly 1.0 for PASSED (Đạt/Miễn)
     // And ensure score is a valid number to prevent NaN
-    if (!isCond && !isEng && !(score === 1.0 && status === 'PASSED') && !isNaN(score)) {
+    if (!isCond && !isEng && !isNaN(score) && !(status === 'PASSED' && score === 1.0)) {
       totalScoreWeight += (score * credits);
       // Wait, in FPT Poly, system 4 is calculated from the total GPA directly, 
       // or by converting each course's score to system 4 and taking the average?
@@ -362,13 +362,13 @@ function calculateFptGPA(scores) {
       if (!cid) return;
       
       const val = parseFloat(s.value);
-      const isPassed = s.status === 'PASSED' || val >= 5.0 || val === 1.0 || String(s.value).toLowerCase() === 'đạt' || String(s.value).toLowerCase() === 'miễn';
+      const isPassed = s.status === 'PASSED' || val >= 5.0 || String(s.value).toLowerCase() === 'đạt' || String(s.value).toLowerCase() === 'miễn';
 
       if (!groupedScores[cid]) {
         groupedScores[cid] = s;
       } else {
         const existingVal = parseFloat(groupedScores[cid].value);
-        const existingPassed = groupedScores[cid].status === 'PASSED' || existingVal >= 5.0 || existingVal === 1.0 || String(groupedScores[cid].value).toLowerCase() === 'đạt' || String(groupedScores[cid].value).toLowerCase() === 'miễn';
+        const existingPassed = groupedScores[cid].status === 'PASSED' || existingVal >= 5.0 || String(groupedScores[cid].value).toLowerCase() === 'đạt' || String(groupedScores[cid].value).toLowerCase() === 'miễn';
         
         // Retain the best attempt: Highest score, or PASSED status
         if (!isNaN(val) && (isNaN(existingVal) || val > existingVal)) {

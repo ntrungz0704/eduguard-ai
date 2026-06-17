@@ -104,7 +104,7 @@ async function main() {
       if (cellVal !== '') {
         value = parseFloat(cellVal);
         if (!isNaN(value)) {
-           status = (value >= 5.0 || value === 1.0) ? 'PASSED' : 'FAILED';
+           status = (value >= 5.0) ? 'PASSED' : 'FAILED';
         } else {
            value = null;
         }
