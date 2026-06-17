@@ -187,6 +187,29 @@ const getLetterGrade = (val) => {
   return 'F';
 };
 
+const scrollToCourse = (shortCode) => {
+  const cleanShort = String(shortCode || '').trim().toUpperCase();
+  const elements = document.querySelectorAll('[id^="course-row-"]');
+  let targetEl = null;
+  
+  for (const el of elements) {
+    const id = el.id.replace('course-row-', '').toUpperCase();
+    if (id === cleanShort || id.includes(cleanShort) || cleanShort.includes(id)) {
+      targetEl = el;
+      break;
+    }
+  }
+  
+  if (targetEl) {
+    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Flash background
+    targetEl.classList.add('bg-blue-500/20', 'dark:bg-blue-500/30');
+    setTimeout(() => {
+      targetEl.classList.remove('bg-blue-500/20', 'dark:bg-blue-500/30');
+    }, 2000);
+  }
+};
+
 const getCurriculumSemester = (courseId, courseName) => {
   const cid = String(courseId || '').toUpperCase().trim();
   const name = String(courseName || '').toLowerCase().trim();
@@ -887,7 +910,7 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
                       <span className="col-span-12">Học kỳ {semNum} ({coursesInSem.length} môn)</span>
                     </div>
                     {coursesInSem.map((c, i) => (
-                      <div key={i} className="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/2 transition-colors">
+                      <div id={`course-row-${c.courseId}`} key={i} className="grid grid-cols-12 px-6 py-4 items-center hover:bg-white/2 transition-colors">
                         {/* Course name - col-span-3 */}
                         <div className="col-span-3 flex items-center gap-3">
                           {c.status === 'PASSED' && <CheckCircle size={15} className="text-emerald-500 shrink-0" />}
@@ -990,7 +1013,14 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
                                   </span>
                                   <div className="flex flex-wrap gap-1">
                                     {affects.map((aff, j) => (
-                                      <span key={j} className="text-[9px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded">{aff}</span>
+                                      <button
+                                        key={j}
+                                        onClick={() => scrollToCourse(aff)}
+                                        className="text-[9px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded hover:bg-rose-500/20 transition-all cursor-pointer"
+                                        title={`Nhấp để di chuyển đến môn ${aff}`}
+                                      >
+                                        {aff}
+                                      </button>
                                     ))}
                                   </div>
                                 </div>
@@ -1005,7 +1035,14 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
                                   </span>
                                   <div className="flex flex-wrap gap-1">
                                     {affects.map((aff, j) => (
-                                      <span key={j} className="text-[9px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">{aff}</span>
+                                      <button
+                                        key={j}
+                                        onClick={() => scrollToCourse(aff)}
+                                        className="text-[9px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded hover:bg-amber-500/20 transition-all cursor-pointer"
+                                        title={`Nhấp để di chuyển đến môn ${aff}`}
+                                      >
+                                        {aff}
+                                      </button>
                                     ))}
                                   </div>
                                 </div>

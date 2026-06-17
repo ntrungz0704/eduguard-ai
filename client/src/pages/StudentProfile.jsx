@@ -125,6 +125,29 @@ const getLetterGrade = (val) => {
   return 'F';
 };
 
+const scrollToCourse = (shortCode) => {
+  const cleanShort = String(shortCode || '').trim().toUpperCase();
+  const elements = document.querySelectorAll('[id^="course-row-"]');
+  let targetEl = null;
+  
+  for (const el of elements) {
+    const id = el.id.replace('course-row-', '').toUpperCase();
+    if (id === cleanShort || id.includes(cleanShort) || cleanShort.includes(id)) {
+      targetEl = el;
+      break;
+    }
+  }
+  
+  if (targetEl) {
+    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Flash background
+    targetEl.classList.add('bg-blue-500/20', 'dark:bg-blue-500/30');
+    setTimeout(() => {
+      targetEl.classList.remove('bg-blue-500/20', 'dark:bg-blue-500/30');
+    }, 2000);
+  }
+};
+
 const getCurriculumSemester = (courseId, courseName) => {
   const cid = String(courseId || '').toUpperCase().trim();
   const name = String(courseName || '').toLowerCase().trim();
@@ -1229,7 +1252,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                 const examScore = scoreObj?.final ?? null;
                                 
                                 return (
-                                  <tr key={`${semNum}-${idx}`} className={`border-b border-slate-200 dark:border-white/5 hover:bg-white/5 transition-colors ${isNotStarted ? 'opacity-50' : ''}`}>
+                                  <tr id={`course-row-${c.courseId}`} key={`${semNum}-${idx}`} className={`border-b border-slate-200 dark:border-white/5 hover:bg-white/5 transition-colors ${isNotStarted ? 'opacity-50' : ''}`}>
                                     <td className="p-3 font-bold text-slate-700 dark:text-slate-300 text-xs">{c.courseId}</td>
                                     <td className="p-3 text-slate-900 dark:text-white font-medium text-xs max-w-[160px] truncate" title={c.courseName}>{c.courseName}</td>
                                     <td className="p-3 text-slate-600 dark:text-slate-400 text-center text-xs">{c.credits}</td>
@@ -1289,7 +1312,14 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                               </span>
                                               <div className="flex flex-wrap gap-1">
                                                 {affects.map((aff, j) => (
-                                                  <span key={j} className="text-[9px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded">{aff}</span>
+                                                  <button
+                                                    key={j}
+                                                    onClick={() => scrollToCourse(aff)}
+                                                    className="text-[9px] font-bold bg-rose-500/10 border border-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded hover:bg-rose-500/20 transition-all cursor-pointer"
+                                                    title={`Nhấp để di chuyển đến môn ${aff}`}
+                                                  >
+                                                    {aff}
+                                                  </button>
                                                 ))}
                                               </div>
                                             </div>
@@ -1303,7 +1333,14 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                               </span>
                                               <div className="flex flex-wrap gap-1">
                                                 {affects.map((aff, j) => (
-                                                  <span key={j} className="text-[9px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">{aff}</span>
+                                                  <button
+                                                    key={j}
+                                                    onClick={() => scrollToCourse(aff)}
+                                                    className="text-[9px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded hover:bg-amber-500/20 transition-all cursor-pointer"
+                                                    title={`Nhấp để di chuyển đến môn ${aff}`}
+                                                  >
+                                                    {aff}
+                                                  </button>
                                                 ))}
                                               </div>
                                             </div>
