@@ -292,7 +292,7 @@ router.get('/evaluate-model', (req, res) => {
       const features = subjects.filter(sub => sub !== target);
       precomputedModels[target] = weightedPrediction(features, target, students);
       
-      const scoredStudents = students.filter(s => s.scores[target] != null);
+      const scoredStudents = students.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]));
       if (scoredStudents.length > 0) {
         trainScoresList[target] = scoredStudents.map(s => s.scores[target]);
         trainAverages[target] = trainScoresList[target].reduce((a, b) => a + b, 0) / scoredStudents.length;
@@ -315,7 +315,7 @@ router.get('/evaluate-model', (req, res) => {
 
     // 2. Predict every single known score (simulated Leave-One-Out)
     students.forEach((student) => {
-      const completedSubjects = Object.keys(student.scores).filter(sub => student.scores[sub] !== null);
+      const completedSubjects = Object.keys(student.scores).filter(sub => typeof student.scores[sub] === 'number' && !isNaN(student.scores[sub]));
       
       completedSubjects.forEach(target => {
         const actualScore = student.scores[target];
