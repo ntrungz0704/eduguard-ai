@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 're
 import { useStore } from './store';
 import { api } from './lib/api';
 import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap, Briefcase, KanbanSquare } from 'lucide-react';
-import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2, Layers } from 'lucide-react';
+import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2, Layers, BookOpen } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
 import Dashboard from './pages/Dashboard';
