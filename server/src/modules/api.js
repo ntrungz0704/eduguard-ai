@@ -2110,11 +2110,6 @@ router.get('/students/:mssv', async (req, res) => {
         const predictions = predictionService.getStudentPredictions(mappedMemStudent);
         const careers = careerService.getStudentCareers(mappedMemStudent);
 
-        const analytics = analyticsService.getStudentAnalytics(mappedMemStudent, mappedAllMemStudents);
-        const risk = riskService.getStudentRisk(mappedMemStudent);
-        const predictions = predictionService.getStudentPredictions(mappedMemStudent);
-        const careers = careerService.getStudentCareers(mappedMemStudent);
-
         const { generateDetailedDSSReport } = require('../ai/engines/dssReportEngine');
         const dssReport = await generateDetailedDSSReport(mappedMemStudent);
 

@@ -213,7 +213,7 @@ function getCourseCredits(courseNameOrId) {
   const lower = name.toLowerCase();
   const code = name.toUpperCase();
 
-  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 3;
+  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
   if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
   if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
@@ -222,7 +222,7 @@ function getCourseCredits(courseNameOrId) {
   if (
     lower.includes('tiếng anh') || lower.includes('tieng anh') || code.includes('ENT')
   ) {
-    return 3;
+    return 2;
   }
 
   if (
@@ -249,10 +249,8 @@ function calculateFptGPA(scores) {
       name.includes('thực tập tốt nghiệp') ||
       name.includes('vovinam') ||
       name.includes('gdqp') ||
-      name.includes('chính trị') ||
       cid.includes('VIE103') ||
       cid.includes('VIE104') ||
-      cid.includes('VIE108') ||
       cid.includes('PRO110') ||
       cid.includes('PRO115') ||
       cid.includes('PRO116')

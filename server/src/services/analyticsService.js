@@ -105,10 +105,8 @@ function getStudentAnalytics(student, allStudents = []) {
                      (s.course?.name || s.courseId || '').toLowerCase().includes('quốc phòng') ||
                      (s.course?.name || s.courseId || '').toLowerCase().includes('vovinam') ||
                      (s.course?.name || s.courseId || '').toLowerCase().includes('gdqp') ||
-                     (s.course?.name || s.courseId || '').toLowerCase().includes('chính trị') ||
                      (s.courseId || '').toUpperCase().includes('VIE103') ||
                      (s.courseId || '').toUpperCase().includes('VIE104') ||
-                     (s.courseId || '').toUpperCase().includes('VIE108') ||
                      (s.courseId || '').toUpperCase().includes('PRO110') ||
                      (s.courseId || '').toUpperCase().includes('PRO115') ||
                      (s.courseId || '').toUpperCase().includes('PRO116');
@@ -178,10 +176,8 @@ function getStudentAnalytics(student, allStudents = []) {
                    (s.course?.name || s.courseId || '').toLowerCase().includes('quốc phòng') ||
                    (s.course?.name || s.courseId || '').toLowerCase().includes('vovinam') ||
                    (s.course?.name || s.courseId || '').toLowerCase().includes('gdqp') ||
-                   (s.course?.name || s.courseId || '').toLowerCase().includes('chính trị') ||
                    (s.courseId || '').toUpperCase().includes('VIE103') ||
                    (s.courseId || '').toUpperCase().includes('VIE104') ||
-                   (s.courseId || '').toUpperCase().includes('VIE108') ||
                    (s.courseId || '').toUpperCase().includes('PRO110') ||
                    (s.courseId || '').toUpperCase().includes('PRO115') ||
                    (s.courseId || '').toUpperCase().includes('PRO116');
