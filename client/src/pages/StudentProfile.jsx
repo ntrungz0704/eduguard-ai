@@ -5,7 +5,7 @@ import { api } from '../lib/api';
 import { 
   ArrowLeft, GraduationCap, Mail, Brain, CheckCircle2,
   AlertTriangle, Phone, Calendar, Send, HeartHandshake, Loader2, Sparkles, BookOpen, UserPlus, X, Copy,
-  TrendingUp, XCircle, Clock, ShieldAlert, Wand2, Activity, Layers, AlertCircle, Flame, Target, Briefcase
+  TrendingUp, XCircle, Clock, ShieldAlert, Wand2, Activity, Layers, AlertCircle, Flame, Target, Briefcase, Repeat
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
@@ -1513,38 +1513,49 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
             <div className="glass-card p-6 rounded-3xl border border-blue-200 dark:border-blue-500/20 bg-white dark:bg-gradient-to-b dark:from-blue-950/20 dark:to-slate-900/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl"></div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                <Brain className="text-blue-400" size={20} /> Hệ thống Giải thích (XAI)
+                <Brain className="text-blue-400" size={20} /> SECTION 3 — Nguy cơ Tương Lai (Top 5 Future Risk)
               </h3>
               <div className="space-y-4">
-                {student.predictions.map((p, i) => {
-                  const isHigh = p.risk === 'HIGH';
+                {student.predictions
+                  .sort((a,b) => b.predictedScore - a.predictedScore)
+                  .slice(0, 5)
+                  .map((p, i) => {
+                  const isHigh = p.risk === 'CRITICAL' || p.risk === 'HIGH';
                   return (
                     <div key={i} className={`p-4 rounded-xl border bg-slate-200 dark:bg-black/40 ${isHigh ? 'border-rose-200 dark:border-rose-500/30' : 'border-slate-200 dark:border-white/10'}`}>
                       <div className="flex justify-between items-center mb-2">
                         <span className="font-bold text-slate-800 dark:text-slate-200">{p.courseId}</span>
                         <div className="flex items-center gap-2">
                            <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
-                            p.risk === 'HIGH' ? 'bg-rose-500/20 border-rose-200 dark:border-rose-500/30 text-rose-400' :
+                            p.risk === 'CRITICAL' ? 'bg-rose-500/20 border-rose-200 dark:border-rose-500/30 text-rose-400' :
+                            p.risk === 'HIGH' ? 'bg-orange-500/20 border-orange-200 dark:border-orange-500/30 text-orange-400' :
                             p.risk === 'MEDIUM' ? 'bg-amber-500/20 border-amber-200 dark:border-amber-500/30 text-amber-400' :
                             'bg-emerald-500/20 border-emerald-200 dark:border-emerald-500/30 text-emerald-400'
                           }`}>
                             {p.risk}
                           </span>
-                          <span className={`font-black ${isHigh ? 'text-rose-400' : 'text-blue-400'}`}>{p.predictedScore.toFixed(1)}% Rủi ro</span>
                         </div>
                       </div>
                       
-                      {p.confidence && (
-                        <div className="mb-2">
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border bg-slate-50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-blue-300">
-                            ĐỘ TIN CẬY: {(p.confidence * 100).toFixed(0)}%
-                          </span>
+                      {/* Risk Impact Indicators */}
+                      <div className="grid grid-cols-3 gap-2 mb-3">
+                        <div className="bg-white/50 dark:bg-black/20 p-2 rounded-lg border border-slate-200 dark:border-white/5">
+                          <span className="block text-[9px] uppercase tracking-wider text-slate-500 mb-0.5">Risk Impact</span>
+                          <span className={`font-black text-xs ${isHigh ? 'text-rose-500' : 'text-blue-500'}`}>{p.predictedScore.toFixed(1)}%</span>
                         </div>
-                      )}
+                        <div className="bg-white/50 dark:bg-black/20 p-2 rounded-lg border border-slate-200 dark:border-white/5">
+                          <span className="block text-[9px] uppercase tracking-wider text-slate-500 mb-0.5">Blocked Courses</span>
+                          <span className="font-bold text-xs text-slate-700 dark:text-slate-300">{(p.predictedScore > 70 ? Math.floor(p.predictedScore / 10) : 0)} môn</span>
+                        </div>
+                        <div className="bg-white/50 dark:bg-black/20 p-2 rounded-lg border border-slate-200 dark:border-white/5">
+                          <span className="block text-[9px] uppercase tracking-wider text-slate-500 mb-0.5">Career Impact</span>
+                          <span className="font-bold text-[10px] text-slate-700 dark:text-slate-300 leading-tight block truncate" title="Lập trình viên">Lập trình viên</span>
+                        </div>
+                      </div>
 
                       {p.explanation && (
                         <div className="mt-2 pt-2 border-t border-slate-200 dark:border-white/5 space-y-1">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Giải thích nguyên nhân:</span>
+                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Giải thích XAI:</span>
                           <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                             {p.explanation}
                           </p>
@@ -1580,36 +1591,39 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <button 
-                          onClick={() => handleOpenWorkflow('email', p)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.location.href = '/retake-management';
+                          }}
                           className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-blue-50 dark:hover:bg-blue-500/10 border border-slate-200 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all group"
                         >
                           <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                            <Mail size={18} />
+                            <Repeat size={18} />
                           </div>
-                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Soạn Email Nhắc nhở</span>
-                          <span className="text-[10px] text-slate-500 text-center mt-1">Cá nhân hóa theo lý do hổng kiến thức</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Đăng ký học lại</span>
+                          <span className="text-[10px] text-slate-500 text-center mt-1">Đăng ký lớp rớt nhanh chóng</span>
                         </button>
                         
                         <button 
-                          onClick={() => handleOpenWorkflow('tutor', p)}
-                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 border border-slate-200 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-500/30 transition-all group"
+                          onClick={() => handleOpenWorkflow('call', p)}
+                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-amber-50 dark:hover:bg-amber-500/10 border border-slate-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-500/30 transition-all group"
                         >
-                          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                            <BookOpen size={18} />
+                          <div className="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <Calendar size={18} />
                           </div>
-                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Đề xuất Lớp Tutor</span>
-                          <span className="text-[10px] text-slate-500 text-center mt-1">Tìm lớp kèm phù hợp với điểm yếu</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Đặt lịch gặp cố vấn</span>
+                          <span className="text-[10px] text-slate-500 text-center mt-1">Hẹn lịch tư vấn 1-1 với SV</span>
                         </button>
 
                         <button 
-                          onClick={() => handleOpenWorkflow('call', p)}
-                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 border border-slate-200 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-500/30 transition-all group"
+                          onClick={() => handleOpenWorkflow('email', p)}
+                          className="flex flex-col items-center justify-center p-3 rounded-xl bg-white dark:bg-white/5 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 border border-slate-200 dark:border-white/10 hover:border-emerald-300 dark:hover:border-emerald-500/30 transition-all group"
                         >
-                          <div className="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                            <Phone size={18} />
+                          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                            <Send size={18} />
                           </div>
-                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Kịch bản Gọi Phụ huynh</span>
-                          <span className="text-[10px] text-slate-500 text-center mt-1">AI soạn kịch bản nói chuyện tinh tế</span>
+                          <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Gửi KH học tập</span>
+                          <span className="text-[10px] text-slate-500 text-center mt-1">Tạo và gửi lộ trình 12 tuần</span>
                         </button>
                       </div>
                       
