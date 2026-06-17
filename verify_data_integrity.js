@@ -172,7 +172,10 @@ async function auditDataIntegrity() {
       }
     });
 
-    const recalculatedGpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
+    const dbGpaObj = calculateFptGPA(student.scores);
+    const dbGpa = dbGpaObj.gpa;
+    const recalculatedGpa = dbGpa;
+    calculatedEarnedCredits = dbGpaObj.totalCredits;
     const avgAttendance = attendanceCount === 0 ? null : totalAttendanceSum / attendanceCount;
 
     // Load pipeline representations
@@ -183,13 +186,10 @@ async function auditDataIntegrity() {
     const risk = riskService.getStudentRisk(enrichedStudent);
     const dssReport = await generateDetailedDSSReport(student);
 
-    // Verify GPA Consistency (Tolerance 0.0000)
-    const dbGpaObj = calculateFptGPA(student.scores);
-    const dbGpa = dbGpaObj.gpa;
     const advisorGpa = analytics.gpa10;
-    const dssGpa = dssReport.trendAnalysis && dssReport.trendAnalysis.trendData.length > 0 
-      ? dssReport.trendAnalysis.trendData[dssReport.trendAnalysis.trendData.length - 1].gpa 
-      : dbGpa; // Fallback or current semester check
+    const dssGpa = dssReport.academicSnapshot
+      ? dssReport.academicSnapshot.gpa10
+      : dbGpa;
 
     const gpaDiff = Math.abs(recalculatedGpa - dbGpa) + Math.abs(dbGpa - advisorGpa);
     if (gpaDiff > 0.0001) {

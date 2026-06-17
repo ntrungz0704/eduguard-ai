@@ -35,7 +35,15 @@ async function fetchAndParse() {
       res.on('data', chunk => data += chunk);
       res.on('end', async () => {
         try {
-          const lines = data.split('\n').filter(l => l.trim() && (l.includes('"PS') || l.includes('"PC') || l.includes('"PP')));
+          const lines = data.split('\n').filter(l => l.trim() && (
+            l.includes('"PS') ||
+            l.includes('"PC') ||
+            l.includes('"PD') ||
+            l.includes('"PI') ||
+            l.includes('"PK') ||
+            l.includes('"PY') ||
+            l.includes('"PP')
+          ));
           const headerLine = data.split('\n').find(l => l.includes('"MSSV"'));
           
           if (!headerLine) {

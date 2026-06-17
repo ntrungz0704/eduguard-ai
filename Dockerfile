@@ -55,8 +55,11 @@ COPY --from=builder /app/server/data ./server/data
 # Copy trained NLP model
 COPY --from=builder /app/server/src/ai/models/nlp/chatbot_model.nlp ./server/src/ai/models/nlp/chatbot_model.nlp
 
+# Pre-populate, seed database, and pre-calculate predictions during image build
+RUN npx prisma db push --accept-data-loss && node prisma/seed.js && node server/src/scripts/recalculate_predictions.js
+
 # Expose API port
 EXPOSE 3000
 
-# Initialize DB schema, seed data, and start server
-CMD ["sh", "-c", "npx prisma db push && node prisma/seed.js && node server/server.js"]
+# Start server directly (instantly!)
+CMD ["node", "server/server.js"]

@@ -102,8 +102,8 @@ async function runFullDefenseAudit() {
 
     // Check GPA lineage
     const apiGpa = analytics.gpa10;
-    const dssGpa = dssReport.trendAnalysis.trendData.length > 0
-      ? dssReport.trendAnalysis.trendData[dssReport.trendAnalysis.trendData.length - 1].gpa
+    const dssGpa = dssReport.academicSnapshot
+      ? dssReport.academicSnapshot.gpa10
       : dbGpa;
     
     // PDF simulated value (since we changed StudentSearch.jsx to read directly from analytics.gpa10)
