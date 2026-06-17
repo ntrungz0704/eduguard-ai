@@ -378,8 +378,8 @@ router.get('/evaluate-model', (req, res) => {
     const subjectStatsArray = Object.values(subjectStats)
       .filter(s => s.count > 0)
       .map(s => {
-        const accuracy = Math.round(((s.excellent + s.good) / s.count) * 1000) / 10;
         const mae = Math.round((s.totalError / s.count) * 100) / 100;
+        const accuracy = Math.round((10 - mae) * 10 * 10) / 10;
         return { ...s, mae, accuracy };
       })
       .sort((a, b) => b.accuracy - a.accuracy || a.mae - b.mae);

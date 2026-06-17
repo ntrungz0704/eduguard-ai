@@ -46,7 +46,7 @@ const AIMetrics = () => {
   const excellentRate = total > 0 ? (excellent / total) * 100 : 0;
   const goodRate = total > 0 ? (good / total) * 100 : 0;
   const poorRate = total > 0 ? (poor / total) * 100 : 0;
-  const overallAccuracy = total > 0 ? ((excellent + good) / total) * 100 : 0;
+  const overallAccuracy = total > 0 ? (10 - mae) * 10 : 0;
 
   const pieData = [
     { name: 'Siêu Chuẩn (0.0 - 0.5)', value: excellent, color: '#10b981' },
