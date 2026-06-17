@@ -497,6 +497,40 @@ router.post('/messages/read', async (req, res) => {
   }
 });
 
+// Mark messages as unread (to move to urgent)
+router.post('/messages/unread', async (req, res) => {
+  const { senderId, receiverId } = req.body;
+  try {
+    const lastMsg = await prisma.message.findFirst({
+      where: {
+        senderId: senderId,
+        receiverId: receiverId
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+    
+    if (lastMsg) {
+      await prisma.message.update({
+        where: { id: lastMsg.id },
+        data: { isRead: false }
+      });
+    } else {
+      // If no message exists, create a dummy one to trigger unread
+      await prisma.message.create({
+        data: {
+          senderId: senderId,
+          receiverId: receiverId,
+          content: 'Đánh dấu cần xử lý gấp',
+          isRead: false
+        }
+      });
+    }
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // GET /api/comm/advisors
 router.get('/advisors', async (req, res) => {
   try {

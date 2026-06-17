@@ -25,6 +25,8 @@ export default function Inbox() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchFocused, setSearchFocused] = useState(false);
   
+  const [activeStudentDetails, setActiveStudentDetails] = useState(null);
+  
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -68,8 +70,21 @@ export default function Inbox() {
         setActivePartnerName(activePartnerId);
       }
       setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
+
+      if (currentUser.role !== 'STUDENT') {
+        api.get(`/students/${activePartnerId}`)
+          .then(res => {
+            if (res.data) setActiveStudentDetails(res.data);
+          })
+          .catch(err => {
+            console.error("Lỗi lấy thông tin SV:", err);
+            setActiveStudentDetails(null);
+          });
+      }
+    } else {
+      setActiveStudentDetails(null);
     }
-  }, [activePartnerId, conversations]);
+  }, [activePartnerId, conversations, currentUser.role]);
 
   const fetchConversations = async (showLoading = true, currentActivePartnerId = activePartnerId) => {
     try {
@@ -177,6 +192,33 @@ export default function Inbox() {
       ));
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleMarkUrgent = async () => {
+    try {
+      await api.post('/comm/messages/unread', {
+        senderId: activePartnerId,
+        receiverId: currentUser.id
+      });
+      alert("Đã chuyển cuộc trò chuyện sang trạng thái Cần xử lý gấp.");
+      fetchConversations(false);
+      handleTabSelect('urgent');
+    } catch (e) {
+      console.error(e);
+      alert("Lỗi khi cập nhật trạng thái.");
+    }
+  };
+
+  const handleMarkResolved = async () => {
+    try {
+      await markAsRead(activePartnerId);
+      alert("Đã chuyển cuộc trò chuyện sang trạng thái Đã theo dõi.");
+      fetchConversations(false);
+      handleTabSelect('resolved');
+    } catch (e) {
+      console.error(e);
+      alert("Lỗi khi cập nhật trạng thái.");
     }
   };
 
@@ -435,17 +477,40 @@ export default function Inbox() {
               <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 border border-blue-200 dark:bg-gradient-to-tr dark:from-blue-500 dark:to-purple-600 flex items-center justify-center dark:text-white">
                 <User size={18} />
               </div>
-              <div>
+              <div className="flex flex-col">
                 <h3 className="text-sm font-extrabold text-[#0F172A] dark:text-slate-200">{activePartnerName}</h3>
-                <p className="text-xs text-green-600 dark:text-slate-400 font-bold">Trực tuyến</p>
+                {currentUser.role !== 'STUDENT' && activeStudentDetails ? (
+                   <div className="flex items-center gap-2 mt-1">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${activeStudentDetails.learningProfile?.academicWarningCount > 0 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                        Nguy cơ: {activeStudentDetails.learningProfile?.academicWarningCount > 0 ? 'Cao' : 'Bình thường'}
+                      </span>
+                      <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+                        Lớp: {activeStudentDetails.classCode}
+                      </span>
+                   </div>
+                ) : (
+                  <p className="text-xs text-green-600 dark:text-slate-400 font-bold">Trực tuyến</p>
+                )}
               </div>
               {currentUser.role !== 'STUDENT' && (
-                <div className="ml-auto">
+                <div className="ml-auto flex items-center gap-2">
+                  <button 
+                    onClick={handleMarkUrgent}
+                    className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center gap-2"
+                  >
+                    🔥 Cần xử lý gấp
+                  </button>
+                  <button 
+                    onClick={handleMarkResolved}
+                    className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-200 text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center gap-2"
+                  >
+                    ✅ Đã theo dõi
+                  </button>
                   <button 
                     onClick={handleSendRoadmap}
-                    className="px-3 py-1.5 bg-gradient-to-r from-[#1D4ED8] to-[#9333EA] text-white text-xs font-bold rounded-lg shadow-sm hover:opacity-90 flex items-center gap-2"
+                    className="px-3 py-1.5 bg-gradient-to-r from-[#1D4ED8] to-[#9333EA] text-white text-xs font-bold rounded-lg shadow-sm hover:opacity-90 flex items-center gap-2 ml-2"
                   >
-                    🚀 Gửi lộ trình tự động
+                    🚀 Gửi lộ trình
                   </button>
                 </div>
               )}
