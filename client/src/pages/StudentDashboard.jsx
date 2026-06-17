@@ -1422,7 +1422,7 @@ function ChatTab({ currentUser, activeStudentData }) {
     }
   }, [chatMode, currentUser]);
 
-  const fetchAdvisorsAndMessages = async (showLoading = true) => {
+  async function fetchAdvisorsAndMessages(showLoading = true) {
     if (showLoading) setLoadingConv(true);
     try {
       // 1. Fetch available advisors
@@ -1797,7 +1797,7 @@ function ChatTab({ currentUser, activeStudentData }) {
               </h3>
               <div className="space-y-4">
                 <p className="text-xs text-slate-700 dark:text-slate-300">
-                  Dựa trên năng lực hiện tại, để đạt <strong>GPA {targetGPA.toFixed(2)} ({targetLabel})</strong> khi ra trường, bạn cần đạt trung bình <strong>{requiredGPA.toFixed(2)}</strong> cho các môn còn lại.
+                  Dựa trên năng lực hiện tại, để đạt <strong>GPA 8.00 (Giỏi)</strong> khi ra trường, bạn cần đạt trung bình <strong>8.50</strong> cho các môn còn lại.
                 </p>
                 <div className="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-amber-100 dark:border-amber-500/10">
                   <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase mb-3">Kế hoạch 90 ngày tới</h4>

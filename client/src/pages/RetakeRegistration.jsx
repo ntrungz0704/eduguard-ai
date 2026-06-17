@@ -14,7 +14,7 @@ export default function RetakeRegistration() {
     fetchInitialData();
   }, []);
 
-  const fetchInitialData = async () => {
+  async function fetchInitialData() {
     try {
       setLoading(true);
       const [coursesRes, historyRes] = await Promise.all([
@@ -28,7 +28,7 @@ export default function RetakeRegistration() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleSelectCourse = async (courseId) => {
     setSelectedCourseId(courseId);

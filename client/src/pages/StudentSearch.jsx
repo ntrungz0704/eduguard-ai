@@ -172,7 +172,7 @@ export default function StudentSearch() {
     return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
-  const handleSearch = async (q) => {
+  async function handleSearch(q) {
     if (!q.trim()) {
       setResults([]);
       return;
@@ -186,7 +186,7 @@ export default function StudentSearch() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const handleSelectStudent = (student) => {
     const studentId = student.mssv || student.id;

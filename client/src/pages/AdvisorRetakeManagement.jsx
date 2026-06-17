@@ -7,10 +7,6 @@ export default function AdvisorRetakeManagement() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('ALL'); // ALL, PENDING, APPROVED, REJECTED
 
-  useEffect(() => {
-    fetchRequests();
-  }, []);
-
   const fetchRequests = async () => {
     try {
       setLoading(true);
@@ -22,6 +18,10 @@ export default function AdvisorRetakeManagement() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
 
   const handleAction = async (id, status) => {
     try {
