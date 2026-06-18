@@ -2,6 +2,27 @@ const fs = require('fs');
 const path = require('path');
 const { prisma } = require('../infrastructure/database/prisma');
 
+const mockDir = path.join(__dirname, '..', '..', 'data', 'mock-lms', 'students');
+let existingMockFiles = null;
+
+function getExistingMockFiles() {
+  if (existingMockFiles === null) {
+    try {
+      if (fs.existsSync(mockDir)) {
+        const files = fs.readdirSync(mockDir);
+        existingMockFiles = new Set(files.map(f => f.toUpperCase()));
+      } else {
+        existingMockFiles = new Set();
+      }
+    } catch (e) {
+      console.warn("Failed to read mock students directory:", e.message);
+      existingMockFiles = new Set();
+    }
+  }
+  return existingMockFiles;
+}
+
+
 /**
  * Student Repository Layer
  * Tách biệt mọi thao tác Database khỏi AI Engine.
@@ -145,9 +166,10 @@ function enrichStudentData(student) {
   }
   
   // 2. Load mock JSON file if exists
-  const mockPath = path.join(__dirname, '..', '..', 'data', 'mock-lms', 'students', `${student.mssv.toUpperCase()}.json`);
+  const mockFileName = `${student.mssv.toUpperCase()}.json`;
   let mockData = {};
-  if (fs.existsSync(mockPath)) {
+  if (getExistingMockFiles().has(mockFileName)) {
+    const mockPath = path.join(mockDir, mockFileName);
     try {
       mockData = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
     } catch (e) {
@@ -312,9 +334,10 @@ async function fetchStudentByMssv(mssv) {
     // Fallback if Prisma is not connected
   }
 
-  const mockPath = path.join(__dirname, '..', '..', 'data', 'mock-lms', 'students', `${upperMssv}.json`);
+  const mockFileName = `${upperMssv}.json`;
   let enriched = null;
-  if (fs.existsSync(mockPath)) {
+  if (getExistingMockFiles().has(mockFileName)) {
+    const mockPath = path.join(mockDir, mockFileName);
     try {
       const data = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
       enriched = enrichStudentData({

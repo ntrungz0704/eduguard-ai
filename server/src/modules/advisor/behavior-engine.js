@@ -1,13 +1,34 @@
 const fs = require('fs');
 const path = require('path');
 
+const mockDir = path.join(__dirname, '..', '..', '..', 'data', 'mock-lms', 'students');
+let existingMockFiles = null;
+
+function getExistingMockFiles() {
+  if (existingMockFiles === null) {
+    try {
+      if (fs.existsSync(mockDir)) {
+        const files = fs.readdirSync(mockDir);
+        existingMockFiles = new Set(files.map(f => f.toUpperCase()));
+      } else {
+        existingMockFiles = new Set();
+      }
+    } catch (e) {
+      console.warn("Failed to read mock students directory:", e.message);
+      existingMockFiles = new Set();
+    }
+  }
+  return existingMockFiles;
+}
+
 exports.analyzeBehavior = (studentId) => {
   const defaultBehavior = { behaviorScore: 0.0, riskFactors: [] };
   if (!studentId || studentId === "RAW_API") return defaultBehavior;
 
-  const mockPath = path.join(__dirname, '..', '..', '..', 'data', 'mock-lms', 'students', `${studentId}.json`);
-  if (!fs.existsSync(mockPath)) return defaultBehavior;
+  const mockFileName = `${studentId.toUpperCase()}.json`;
+  if (!getExistingMockFiles().has(mockFileName)) return defaultBehavior;
 
+  const mockPath = path.join(mockDir, mockFileName);
   const data = JSON.parse(fs.readFileSync(mockPath, 'utf-8'));
   const behaviorData = data.behavior || {
     attendance: data.attendance || 0,

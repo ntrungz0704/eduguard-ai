@@ -36,6 +36,12 @@ let cachedCourseStats = null;
 let lastCourseStatsTime = 0;
 const CACHE_DURATION = 60000; // 1 minute cache
 
+// In-memory cache for computeProgramAnalytics
+let cachedProgramAnalytics = null;
+let lastProgramAnalyticsTime = 0;
+const PROGRAM_ANALYTICS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+
 // Helper to convert semester name to sortable float
 function getSemesterVal(semStr) {
   const lower = (semStr || '').toLowerCase();
@@ -1205,6 +1211,11 @@ async function generateDetailedDSSReport(student) {
  * Calculate class-wide / program-wide aggregated metrics (Program Analytics)
  */
 async function computeProgramAnalytics() {
+  const now = Date.now();
+  if (cachedProgramAnalytics && (now - lastProgramAnalyticsTime < PROGRAM_ANALYTICS_CACHE_TTL)) {
+    return cachedProgramAnalytics;
+  }
+
   const students = await prisma.student.findMany({
     include: { scores: true, predictions: true }
   });
@@ -1365,7 +1376,7 @@ async function computeProgramAnalytics() {
     .sort((a, b) => b.bottleneckScore - a.bottleneckScore)
     .slice(0, 10);
 
-  return {
+  const result = {
     totalStudents: students.length,
     riskLevelDistribution: {
       low: lowCount,
@@ -1378,9 +1389,20 @@ async function computeProgramAnalytics() {
     topSkillGaps,
     topPrerequisiteBottlenecks
   };
+
+  cachedProgramAnalytics = result;
+  lastProgramAnalyticsTime = Date.now();
+
+  return result;
+}
+
+function clearProgramAnalyticsCache() {
+  cachedProgramAnalytics = null;
+  lastProgramAnalyticsTime = 0;
 }
 
 module.exports = {
   generateDetailedDSSReport,
-  computeProgramAnalytics
+  computeProgramAnalytics,
+  clearProgramAnalyticsCache
 };

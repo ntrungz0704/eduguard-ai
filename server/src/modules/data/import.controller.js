@@ -268,6 +268,18 @@ exports.publishData = async (req, res) => {
       }
     }
 
+    // Invalidate entire snapshot cache to force SSOT UI refresh
+    try {
+      const { clearSnapshotCache } = require('../../services/studentSnapshotService');
+      clearSnapshotCache();
+      const { clearProgramAnalyticsCache } = require('../../ai/engines/dssReportEngine');
+      if (typeof clearProgramAnalyticsCache === 'function') {
+        clearProgramAnalyticsCache();
+      }
+    } catch (cacheErr) {
+      logger.warn("Lỗi khi xóa cache hệ thống: " + cacheErr.message);
+    }
+
     // Trigger AI predictions for updated students in background
     setTimeout(() => {
       try {

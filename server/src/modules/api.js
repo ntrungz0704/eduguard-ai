@@ -29,6 +29,17 @@ const { calculateBaseRisk } = require('../ai/engines/riskEngine');
 // Protect all dashboard/chatbot APIs using JWT authentication
 router.use(jwtMiddleware);
 
+// In-memory cache for red-alerts
+let cachedRedAlerts = null;
+let lastRedAlertsTime = 0;
+const RED_ALERTS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+function clearRedAlertsCache() {
+  cachedRedAlerts = null;
+  lastRedAlertsTime = 0;
+}
+
+
 // Setup upload
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -435,6 +446,11 @@ router.get('/evaluate-model', async (req, res, next) => {
 // ============================================================
 router.get('/red-alerts', async (req, res) => {
   try {
+    const now = Date.now();
+    if (cachedRedAlerts && (now - lastRedAlertsTime < RED_ALERTS_CACHE_TTL)) {
+      return res.json(cachedRedAlerts);
+    }
+
     const interventions = getInterventions();
     
     // Fetch all database interventions
@@ -552,6 +568,14 @@ router.get('/red-alerts', async (req, res) => {
     let allDbStudents = [];
     try {
       allDbStudents = await prisma.student.findMany({
+        where: {
+          scores: {
+            some: {
+              value: { lt: 5.0 },
+              status: { not: 'PASSED' }
+            }
+          }
+        },
         include: { scores: true }
       });
     } catch (err) {
@@ -697,7 +721,7 @@ router.get('/red-alerts', async (req, res) => {
       console.warn("Lỗi đếm chuyên cần:", e);
     }
 
-    res.json({
+    const responseData = {
       alerts,
       totalAtRisk,
       kpi: {
@@ -708,7 +732,12 @@ router.get('/red-alerts', async (req, res) => {
         mediumCount,
         lowAttendanceCount
       }
-    });
+    };
+
+    cachedRedAlerts = responseData;
+    lastRedAlertsTime = Date.now();
+
+    res.json(responseData);
   } catch (err) {
     console.error("Lỗi Red Alerts:", err);
     res.status(500).json({ error: err.message });
@@ -1430,10 +1459,13 @@ router.post('/save-uploaded', async (req, res) => {
     // Persist as current active uploaded list in RAM
     cache.uploadedStudents = students;
 
-    // Invalidate entire snapshot cache on new bulk data import
+    // Invalidate entire snapshot cache and program analytics cache on new bulk data import
     try {
       const { clearSnapshotCache } = require('../services/studentSnapshotService');
       clearSnapshotCache();
+      const { clearProgramAnalyticsCache } = require('../ai/engines/dssReportEngine');
+      clearProgramAnalyticsCache();
+      clearRedAlertsCache();
     } catch (cacheErr) {
       console.warn("Lỗi khi xóa cache hệ thống:", cacheErr.message);
     }
@@ -2565,10 +2597,12 @@ router.post('/students/update-score', async (req, res) => {
       }
     }
 
-    // Invalidate snapshot cache for this student
+    // Invalidate snapshot cache for this student and program analytics cache
     try {
       const { clearSnapshotCache } = require('../services/studentSnapshotService');
       clearSnapshotCache(mssv);
+      const { clearProgramAnalyticsCache } = require('../ai/engines/dssReportEngine');
+      clearProgramAnalyticsCache();
     } catch (cacheErr) {
       console.warn("Lỗi khi xóa cache của sinh viên:", cacheErr.message);
     }

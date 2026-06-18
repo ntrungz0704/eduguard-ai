@@ -48,7 +48,9 @@ function buildAcademicSnapshot(studentObj) {
     gpa10: studentAnalytics.gpa10,
     gpa4: studentAnalytics.gpa4,
     credits: studentAnalytics.totalEarnedCredits,
+    totalCredits: studentAnalytics.totalEarnedCredits, // alias to prevent undefined
     failedCourses: failedCoursesIds,
+    failedCoursesCount: failedCoursesIds.length,
     academicHealth: Math.max(0, 100 - baseRiskObj.riskScore),
     riskScore: baseRiskObj.riskScore,
     riskLevel: baseRiskObj.riskLevel,
