@@ -12,7 +12,9 @@ const { extractMssv, detectListPosition } = require('./entityExtractor');
  */
 function resolveContext(req, session) {
   const { message, mssv, studentContext } = req.body;
-  const userRole = req.user?.role || req.headers['x-user-role'] || 'TEACHER';
+  // Use the verified role from the JWT token attached to req.user
+  // Fallback to STUDENT if unauthenticated to ensure safe least privilege
+  const userRole = req.user?.role || 'STUDENT';
   const userId = req.user?.id || req.headers['x-user-id'];
   const isStudent = userRole === 'STUDENT';
   

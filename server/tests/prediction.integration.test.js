@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../src/app');
 const cache = require('../src/shared/cache');
+const { generateToken } = require('../src/modules/auth/service');
 
 describe('Integration Test: Prediction Module', () => {
   beforeAll(() => {
@@ -26,8 +27,12 @@ describe('Integration Test: Prediction Module', () => {
     };
   });
 
+  const token = generateToken({ id: 'ADMIN_TEST', role: 'ADMIN' });
+
   it('GET /api/v1/prediction/:subject should return 200 and predictions', async () => {
-    const res = await request(app).get('/api/v1/prediction/Physics');
+    const res = await request(app)
+      .get('/api/v1/prediction/Physics')
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toBe(200);
     expect(res.body.status).toBe('success');
     expect(res.body.predictions).toBeDefined();
@@ -35,7 +40,9 @@ describe('Integration Test: Prediction Module', () => {
   });
 
   it('GET /api/v1/prediction/:subject with unknown subject should return 400', async () => {
-    const res = await request(app).get('/api/v1/prediction/Chemistry');
+    const res = await request(app)
+      .get('/api/v1/prediction/Chemistry')
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toBeDefined();
   });

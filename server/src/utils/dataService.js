@@ -328,7 +328,11 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
 
       const scores = {};
       validRawCols.forEach(({ raw: rs, matched: matchedSub }) => {
-        scores[matchedSub] = parseScore(row[rs]);
+        const scoreVal = parseScore(row[rs]);
+        if (scoreVal !== null && (scoreVal < 0 || scoreVal > 10)) {
+          errors.push(`Dòng ${index + 2}: Điểm môn '${rs}' không hợp lệ (${scoreVal}). Điểm phải từ 0 đến 10.`);
+        }
+        scores[matchedSub] = scoreVal;
       });
 
       validStudents.push({ id, name, scores });

@@ -28,6 +28,7 @@ export default function Inbox() {
   const [activeStudentDetails, setActiveStudentDetails] = useState(null);
   
   const messagesEndRef = useRef(null);
+  const markingReadRef = useRef(new Set());
 
   useEffect(() => {
     fetchConversations(true);
@@ -64,8 +65,12 @@ export default function Inbox() {
       if (conv) {
         setMessages((conv.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)));
         setActivePartnerName(conv.partnerName);
-        if (conv.unreadCount > 0) {
-          markAsRead(activePartnerId);
+        if (conv.unreadCount > 0 && !markingReadRef.current.has(activePartnerId)) {
+          markingReadRef.current.add(activePartnerId);
+          markAsRead(activePartnerId).finally(() => {
+             // Remove the lock after a delay to allow future reads if new messages arrive
+             setTimeout(() => markingReadRef.current.delete(activePartnerId), 2000);
+          });
         }
       } else {
         setMessages([]);

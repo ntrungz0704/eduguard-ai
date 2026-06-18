@@ -278,25 +278,25 @@ exports.analyzeCareer = (student, careerGoal) => {
     academicScore = maxAcademicWeight > 0 ? (passedAcademicWeight / maxAcademicWeight) * 100 : 0;
     industryScore = maxIndustryWeight > 0 ? (acquiredIndustryWeight / maxIndustryWeight) * 100 : 0;
     
-    // Base readiness score
-    const baseReadinessScore = Math.round((academicScore * 0.3) + (industryScore * 0.4) + (portfolioScore * 0.2) + (behaviorScoreVal * 0.1));
+    // Strictly base readiness on actual hard evidence (courses, skills, portfolios)
+    readinessScore = Math.round((academicScore * 0.40) + (industryScore * 0.45) + (portfolioScore * 0.15));
     
-    // Aptitude match based on learning style and strengths/weaknesses
+    // Apply behavior as a penalty
+    const behaviorPenalty = (100 - behaviorScoreVal) * 0.2; // up to 20% penalty if behavior is extremely bad
+    readinessScore = Math.max(0, readinessScore - behaviorPenalty);
+    
+    // GPA and Style act strictly as small bonuses (+5 points max each)
     const styleScore = calculateStyleMatch(student.learningStyle, student.strengths || [], student.weaknesses || [], careerGoal);
+    const styleBonus = (styleScore / 100) * 5; 
     
-    // GPA score
     const gpaResult = calculateFptGPA(student.scores || []);
     const gpaScore = gpaResult && gpaResult.gpa ? gpaResult.gpa * 10 : 0;
+    const gpaBonus = (gpaScore / 100) * 5; 
     
-    // Blend base readiness with style/GPA aptitude
-    const aptitudeScore = (styleScore * 0.6) + (gpaScore * 0.4);
-    const progress = academicScore / 100; // relevant course progress
-    
-    readinessScore = Math.round((baseReadinessScore * progress) + (aptitudeScore * (1 - progress)));
-    readinessScore = Math.min(100, Math.max(0, readinessScore));
+    readinessScore = Math.min(100, Math.round(readinessScore + styleBonus + gpaBonus));
 
-    if (readinessScore <= 20) readinessLevel = 'Explorer';
-    else if (readinessScore <= 40) readinessLevel = 'Foundation';
+    if (readinessScore <= 15) readinessLevel = 'Explorer';
+    else if (readinessScore <= 35) readinessLevel = 'Foundation';
     else if (readinessScore <= 60) readinessLevel = 'Beginner Intern';
     else if (readinessScore <= 80) readinessLevel = 'Internship Ready';
     else readinessLevel = 'Job Ready';

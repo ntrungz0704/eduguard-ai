@@ -22,16 +22,35 @@ const calculateScore = (row) => {
     const s = String(val).trim();
     if (s === '*' || s === 'X' || s === '-' || s === 'F') return null;
     const lower = s.toLowerCase();
+    // Eagerly mapping 'đạt' to 1.0 is risky for regular courses, but we keep it for conditional courses
     if (lower === 'đạt' || lower === 'passed' || lower === 'miễn') return 1.0;
     const n = parseFloat(s);
     return isNaN(n) ? null : n;
   };
 
-  if (row.score !== undefined) return parseVal(row.score);
-  if (row.value !== undefined) return parseVal(row.value);
-  if (row['Tổng kết'] !== undefined) return parseVal(row['Tổng kết']);
-  if (row['Điểm tổng kết'] !== undefined) return parseVal(row['Điểm tổng kết']);
-  if (row['Thang điểm 10'] !== undefined) return parseVal(row['Thang điểm 10']);
+  // Prioritize explicit numeric columns
+  if (row['Thang điểm 10'] !== undefined) {
+    const val = parseVal(row['Thang điểm 10']);
+    if (val !== null) return val;
+  }
+  if (row.score !== undefined) {
+    const val = parseVal(row.score);
+    if (val !== null) return val;
+  }
+  if (row.value !== undefined) {
+    const val = parseVal(row.value);
+    if (val !== null) return val;
+  }
+  
+  // Fallback to summary columns which might contain "Passed"
+  if (row['Điểm tổng kết'] !== undefined) {
+    const val = parseVal(row['Điểm tổng kết']);
+    if (val !== null) return val;
+  }
+  if (row['Tổng kết'] !== undefined) {
+    const val = parseVal(row['Tổng kết']);
+    if (val !== null) return val;
+  }
   
   const quiz = parseFloat(row.quiz) || 0;
   const asm = parseFloat(row.asm) || 0;
@@ -177,10 +196,13 @@ exports.previewData = async (req, res) => {
       const trangThai = row['Trạng thái'] || row['Trạng Thái'] || row.status;
       if (trangThai) {
         const t = String(trangThai).toLowerCase().trim();
-        if (t.includes('studying') || t.includes('đang học')) rowStatus = 'STUDYING';
-        else if (t.includes('not started') || t.includes('chưa học')) rowStatus = 'NOT_STARTED';
-        else if (t.includes('passed') || t.includes('đạt')) rowStatus = 'PASSED';
-        else if (t.includes('failed') || t.includes('trượt')) rowStatus = 'FAILED';
+        if (t === 'studying' || t === 'đang học') rowStatus = 'STUDYING';
+        else if (t === 'not started' || t === 'chưa học') rowStatus = 'NOT_STARTED';
+        else if (t === 'passed' || t === 'đạt' || t === 'miễn' || t === 'mien' || t === 'pass') rowStatus = 'PASSED';
+        else if (t === 'failed' || t === 'không đạt' || t === 'chưa đạt' || t === 'trượt' || t === 'rớt' || t === 'học lại' || t === 'fail') rowStatus = 'FAILED';
+        else if (t.includes('studying') || t.includes('đang học')) rowStatus = 'STUDYING';
+        else if (t.includes('không đạt') || t.includes('chưa đạt') || t.includes('trượt') || t.includes('failed')) rowStatus = 'FAILED';
+        else if (t.includes('đạt') || t.includes('passed')) rowStatus = 'PASSED';
       }
 
       // FPT format fallback

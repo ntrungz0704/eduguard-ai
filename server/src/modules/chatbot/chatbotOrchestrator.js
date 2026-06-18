@@ -46,8 +46,9 @@ const appLogger = require('../../infrastructure/logger');
 async function orchestrateChatbot(req, sessionId) {
   const startTime = Date.now();
   const message = req.body?.message || '';
-  const userRole = req.user?.role || req.headers['x-user-role'] || 'TEACHER';
-  const userId = req.user?.id || req.headers['x-user-id'];
+  const userId = req.user?.id || 'anonymous';
+  // Use the verified role from the JWT token attached to req.user. Default to STUDENT for safety.
+  const userRole = req.user?.role || 'STUDENT';
 
   // ─── Step 1: Get/Create Session ──────────────────────────
   const session = getSession(sessionId, userRole);
