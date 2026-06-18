@@ -84,7 +84,12 @@ const DataImport = () => {
     
     setPublishStatus('loading');
     try {
-      const payload = { data: previewData.data };
+      const payload = { 
+        data: previewData.data,
+        fileHash: previewData.fileHash,
+        fileName: previewData.fileName,
+        fileSize: previewData.fileSize
+      };
       if (classCodeInput.trim() !== '') {
         payload.classCode = classCodeInput.trim();
       }

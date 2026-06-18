@@ -612,21 +612,98 @@ const courseNameToCodeMap = {
   'gdqp': 'VIE104'
 };
 
+// In-memory cache for course aliases
+let courseAliasesMap = new Map();
+
+async function initCourseAliases() {
+  const { prisma } = require('../infrastructure/database/prisma');
+  try {
+    const count = await prisma.courseAlias.count();
+    if (count === 0) {
+      console.log('[CourseAlias] Seeding default course aliases to database...');
+      const defaultAliases = [];
+      
+      // Seed from courseNameToCodeMap
+      for (const [name, code] of Object.entries(courseNameToCodeMap)) {
+        defaultAliases.push({
+          aliasCode: name.toLowerCase(),
+          courseCode: code,
+          source: 'SYSTEM'
+        });
+      }
+      
+      // Seed from courseCodeNormalizationMap
+      for (const [code, canonical] of Object.entries(courseCodeNormalizationMap)) {
+        defaultAliases.push({
+          aliasCode: code.toLowerCase(),
+          courseCode: canonical,
+          source: 'SYSTEM'
+        });
+      }
+      
+      // Seed using a transaction of upserts for cross-version compatibility
+      await prisma.$transaction(
+        defaultAliases.map(item => 
+          prisma.courseAlias.upsert({
+            where: { aliasCode: item.aliasCode },
+            update: {},
+            create: item
+          })
+        )
+      );
+      console.log(`[CourseAlias] Seeded ${defaultAliases.length} aliases.`);
+    }
+    
+    // Load from DB
+    await refreshCourseAliases();
+  } catch (err) {
+    console.error('[CourseAlias] Error initializing aliases:', err.message);
+  }
+}
+
+async function refreshCourseAliases() {
+  const { prisma } = require('../infrastructure/database/prisma');
+  try {
+    const dbAliases = await prisma.courseAlias.findMany();
+    courseAliasesMap.clear();
+    dbAliases.forEach(a => {
+      courseAliasesMap.set(a.aliasCode.toLowerCase(), a.courseCode);
+    });
+    console.log(`[CourseAlias] Loaded ${courseAliasesMap.size} aliases from database.`);
+  } catch (err) {
+    console.error('[CourseAlias] Error refreshing aliases:', err.message);
+  }
+}
+
 function resolveBackendCourseCode(input) {
   if (!input) return null;
   const raw = String(input).trim();
   const lower = raw.toLowerCase();
   
-  if (courseNameToCodeMap[lower]) {
-    return courseNameToCodeMap[lower];
+  if (courseAliasesMap.has(lower)) {
+    return courseAliasesMap.get(lower);
   }
   
   const codeUpper = raw.toUpperCase().replace(/\s+/g, '');
+  const cleanCode = codeUpper.toLowerCase();
+  if (courseAliasesMap.has(cleanCode)) {
+    return courseAliasesMap.get(cleanCode);
+  }
+  
+  // Fuzzy code match (e.g. startsWith)
+  for (const [alias, canonical] of courseAliasesMap.entries()) {
+    if (cleanCode.startsWith(alias)) {
+      return canonical;
+    }
+  }
+  
+  // Static fallback if cache not loaded yet
+  if (courseNameToCodeMap[lower]) {
+    return courseNameToCodeMap[lower];
+  }
   if (courseCodeNormalizationMap[codeUpper]) {
     return courseCodeNormalizationMap[codeUpper];
   }
-  
-  // Fuzzy code match (e.g. "WEB206(JS)" -> "WEB2063")
   for (const [short, standard] of Object.entries(courseCodeNormalizationMap)) {
     if (codeUpper.startsWith(short)) {
       return standard;
@@ -643,6 +720,8 @@ module.exports = {
   getCourseCredits,
   calculateFptGPA,
   calculateDelayScore,
-  resolveBackendCourseCode
+  resolveBackendCourseCode,
+  initCourseAliases,
+  refreshCourseAliases
 };
 

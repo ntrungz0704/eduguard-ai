@@ -15,6 +15,9 @@ app.set('trust proxy', 1); // Trust Render's reverse proxy for express-rate-limi
 // Initialize Data Caches
 syllabusLoader.init();
 require('./modules/knowledge/cache').init();
+require('./utils/dataService').initCourseAliases().catch(err => {
+  console.error('[Startup] Failed to initialize course aliases:', err);
+});
 
 // Apply Rate Limiting
 const apiLimiter = rateLimit({

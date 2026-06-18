@@ -397,3 +397,33 @@ model RetakeNotification {
   createdAt   DateTime @default(now())
 }
 
+// ═══════════════════════════════════════════════════════════════
+// DATA INTEGRITY MODELS
+// ═══════════════════════════════════════════════════════════════
+
+// Dynamic Course Alias mapping (replaces hardcoded courseCodeNormalizationMap)
+// Allows admins to add new aliases without code changes
+model CourseAlias {
+  id         Int      @id @default(autoincrement())
+  aliasCode  String   @unique  // The short/alternative code (e.g., "ENT111", "COM107", "tin học")
+  courseCode String              // The canonical database Course.id (e.g., "ENT1128", "COM1071")
+  source     String   @default("SYSTEM") // SYSTEM, ADMIN, IMPORT
+  createdAt  DateTime @default(now())
+
+  @@index([courseCode])
+}
+
+// Import History for file deduplication and audit trail
+model ImportHistory {
+  id              Int      @id @default(autoincrement())
+  fileHash        String   @unique  // SHA-256 hash of the uploaded file
+  fileName        String
+  fileSize        Int
+  uploadedBy      String   // User ID or MSSV of uploader
+  studentsCount   Int      @default(0)
+  scoresInserted  Int      @default(0)
+  scoresUpdated   Int      @default(0)
+  status          String   @default("SUCCESS") // SUCCESS, FAILED, ROLLED_BACK
+  errorMessage    String?
+  createdAt       DateTime @default(now())
+}

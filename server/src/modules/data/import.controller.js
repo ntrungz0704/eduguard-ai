@@ -1,7 +1,11 @@
 const xlsx = require('xlsx');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 const { prisma } = require('../../infrastructure/database/prisma');
 const logger = require('../../infrastructure/logger');
 const { resolveBackendCourseCode } = require('../../utils/dataService');
+const { checkDatabaseIntegrity } = require('../../utils/integrityVerify');
 
 // Helper to calculate final score if quiz/asm/final provided
 const calculateScore = (row) => {
@@ -31,10 +35,41 @@ const calculateScore = (row) => {
   return null;
 };
 
+// Database snapshot / backup helper functions
+function backupDatabase() {
+  const dbPath = path.resolve(__dirname, '../../../../prisma/dev.db');
+  const backupsDir = path.resolve(__dirname, '../../../../prisma/backups');
+  if (!fs.existsSync(backupsDir)) {
+    fs.mkdirSync(backupsDir, { recursive: true });
+  }
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '_');
+  const backupFile = path.join(backupsDir, `backup_${dateStr}_${Date.now()}.db`);
+  fs.copyFileSync(dbPath, backupFile);
+  return backupFile;
+}
+
+function restoreDatabase(backupFile) {
+  const dbPath = path.resolve(__dirname, '../../../../prisma/dev.db');
+  fs.copyFileSync(backupFile, dbPath);
+}
+
 exports.previewData = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'Không tìm thấy file Excel' });
+    }
+
+    // Calculate SHA-256 hash of the uploaded file to prevent duplicates
+    const fileHash = crypto.createHash('sha256').update(req.file.buffer).digest('hex');
+    
+    // Check if file has already been successfully imported
+    const existingImport = await prisma.importHistory.findUnique({
+      where: { fileHash }
+    });
+    if (existingImport && existingImport.status === 'SUCCESS') {
+      return res.status(400).json({
+        error: `File này đã được import vào hệ thống trước đó bởi ${existingImport.uploadedBy} vào ${new Date(existingImport.createdAt).toLocaleString()}.`
+      });
     }
 
     // Support default MSSV if provided by client (FPT portal transcripts often lack MSSV column)
@@ -68,12 +103,14 @@ exports.previewData = async (req, res) => {
     }
 
     const previewData = [];
-    const validationErrors = [];
     let hasErrors = false;
 
     // Fetch existing courses to validate
     const existingCourses = await prisma.course.findMany({ select: { id: true } });
     const courseSet = new Set(existingCourses.map(c => c.id.toLowerCase()));
+
+    // Keep track of student-course duplicates within the file itself
+    const seenKeysInFile = new Set();
 
     data.forEach((row, index) => {
       const rowNum = index + headerRowIndex + 2; // +1 for 0-index, +1 for header line
@@ -120,7 +157,18 @@ exports.previewData = async (req, res) => {
       
       const errors = [];
       
-      if (!mssv) errors.push('Thiếu MSSV (bạn có thể nhập tay ở ô MSSV)');
+      if (!mssv) {
+        errors.push('Thiếu MSSV (bạn có thể nhập tay ở ô MSSV)');
+      } else {
+        // Check for duplicate student-course pairs in the same uploaded file
+        const fileDuplicateKey = `${String(mssv).trim().toUpperCase()}_${course ? course.toUpperCase() : 'N/A'}_${String(semester).trim()}`;
+        if (seenKeysInFile.has(fileDuplicateKey)) {
+          errors.push(`Trùng lặp dòng dữ liệu môn học '${course}' của sinh viên '${mssv}' học kỳ '${semester}' trong cùng file Excel`);
+        } else {
+          seenKeysInFile.add(fileDuplicateKey);
+        }
+      }
+
       if (!course) {
         errors.push('Thiếu Mã môn học');
       } else if (!courseSet.has(course.toLowerCase())) {
@@ -169,7 +217,10 @@ exports.previewData = async (req, res) => {
       validRows: validRowsCount,
       invalidRows: invalidRowsCount,
       hasErrors,
-      data: previewData
+      data: previewData,
+      fileHash,
+      fileName: req.file.originalname,
+      fileSize: req.file.size
     });
 
   } catch (error) {
@@ -179,9 +230,10 @@ exports.previewData = async (req, res) => {
 };
 
 exports.publishData = async (req, res) => {
-  try {
-    const { data, classCode } = req.body;
+  const { data, classCode, fileHash, fileName, fileSize } = req.body;
+  let backupFile = null;
 
+  try {
     if (!data || !Array.isArray(data) || data.length === 0) {
       return res.status(400).json({ error: 'Không có dữ liệu để publish' });
     }
@@ -190,6 +242,16 @@ exports.publishData = async (req, res) => {
     const validData = data.filter(r => r.isValid);
     if (validData.length === 0) {
       return res.status(400).json({ error: 'Không có dữ liệu hợp lệ để publish' });
+    }
+
+    // === HASH DEDUPLICATION CHECK ===
+    if (fileHash) {
+      const existingImport = await prisma.importHistory.findUnique({
+        where: { fileHash }
+      });
+      if (existingImport && existingImport.status === 'SUCCESS') {
+        return res.status(400).json({ error: 'File này đã được import vào hệ thống trước đó.' });
+      }
     }
 
     // === PRE-TRANSACTION: Normalize all MSSVs and validate all courses ===
@@ -213,6 +275,15 @@ exports.publishData = async (req, res) => {
           error: `Khóa học '${courseId}' không hợp lệ hoặc không thuộc chương trình 34 môn của syllabus.`
         });
       }
+    }
+
+    // === DATABASE SNAPSHOT / BACKUP ===
+    try {
+      backupFile = backupDatabase();
+      logger.info(`Database backup created: ${backupFile}`);
+    } catch (backupErr) {
+      logger.error('Failed to create database backup before import:', backupErr);
+      return res.status(500).json({ error: 'Không thể tạo bản sao lưu cơ sở dữ liệu trước khi import.' });
     }
 
     // === TRANSACTION: All-or-nothing database writes ===
@@ -255,7 +326,6 @@ exports.publishData = async (req, res) => {
             status = (scoreValue >= 5.0 || scoreValue === 1.0) ? 'PASSED' : 'FAILED';
           }
         }
-        // else: explicit PASSED/FAILED status — keep scoreValue as-is
 
         // Check if record already exists for counting inserted vs updated
         const existingScore = await tx.score.findUnique({
@@ -309,12 +379,33 @@ exports.publishData = async (req, res) => {
           }
         });
       }
-    }); // If ANY row fails, the entire transaction is rolled back
+
+      // === POST INTEGRITY & SNAPSHOT VERIFY INSIDE TRANSACTION ===
+      // This will throw an error and trigger transaction rollback if errors > 0
+      logger.info('Running pre-commit database data integrity check...');
+      await checkDatabaseIntegrity(tx, true);
+
+      // === SAVE SUCCESSFUL IMPORT HISTORY ===
+      if (fileHash) {
+        await tx.importHistory.create({
+          data: {
+            fileHash,
+            fileName: fileName || 'unknown',
+            fileSize: fileSize || 0,
+            uploadedBy: req.user?.email || 'SYSTEM',
+            studentsCount: uniqueStudents.size,
+            scoresInserted,
+            scoresUpdated,
+            status: 'SUCCESS'
+          }
+        });
+      }
+    }); // If ANY row or the integrity check fails, the entire transaction rolls back
 
     // === AUDIT LOG ===
     const auditTimestamp = new Date().toISOString();
     const auditUser = req.user?.email || req.user?.username || 'SYSTEM';
-    const auditFilename = req.body.filename || 'unknown';
+    const auditFilename = fileName || 'unknown';
     logger.info(
       `[IMPORT_AUDIT] ${auditTimestamp} | ${auditUser} | ${auditFilename} | ` +
       `studentsAffected=${uniqueStudents.size} | scoresInserted=${scoresInserted} | scoresUpdated=${scoresUpdated}`
@@ -324,22 +415,17 @@ exports.publishData = async (req, res) => {
       `studentsAffected=${uniqueStudents.size} | scoresInserted=${scoresInserted} | scoresUpdated=${scoresUpdated}`
     );
 
-    // === POST-IMPORT INTEGRITY CHECK ===
+    // === POST-IMPORT SUCCESS CHECKS & CACHE INVALIDATION ===
     const studentMssvList = [...uniqueStudents];
     const [verifyStudentCount, verifyScoreCount] = await Promise.all([
       prisma.student.count({ where: { mssv: { in: studentMssvList } } }),
       prisma.score.count({ where: { mssv: { in: studentMssvList } } })
     ]);
-    if (verifyStudentCount < uniqueStudents.size) {
-      logger.error(
-        `[IMPORT_INTEGRITY] Expected ${uniqueStudents.size} students but found ${verifyStudentCount} after commit.`
-      );
-    }
     logger.info(
-      `[IMPORT_INTEGRITY] Verified: ${verifyStudentCount} students, ${verifyScoreCount} total scores for imported cohort.`
+      `[IMPORT_INTEGRITY] Verified post-commit: ${verifyStudentCount} students, ${verifyScoreCount} total scores for imported cohort.`
     );
 
-    // Invalidate entire snapshot cache to force SSOT UI refresh
+    // Invalidate caches
     try {
       const { clearSnapshotCache } = require('../../services/studentSnapshotService');
       clearSnapshotCache();
@@ -373,15 +459,6 @@ exports.publishData = async (req, res) => {
 
     if (global.latestImportStatus) {
       global.latestImportStatus.status = 'PUBLISHED';
-    } else {
-      global.latestImportStatus = {
-        totalRows: validData.length,
-        validRows: validData.length,
-        invalidRows: 0,
-        hasErrors: false,
-        timestamp: Date.now(),
-        status: 'PUBLISHED'
-      };
     }
 
     res.json({
@@ -393,7 +470,36 @@ exports.publishData = async (req, res) => {
     });
 
   } catch (error) {
-    logger.error('Publish data error:', error);
-    res.status(500).json({ error: 'Lỗi lưu dữ liệu vào hệ thống', details: error.message });
+    logger.error('Publish data error, rolling back database changes:', error);
+
+    // === ROLLBACK RESTORATION OF DB FILE ===
+    if (backupFile) {
+      try {
+        restoreDatabase(backupFile);
+        logger.warn(`Database dev.db file restored from snapshot: ${backupFile}`);
+      } catch (restoreErr) {
+        logger.error('Failed to restore database dev.db file from backup:', restoreErr);
+      }
+    }
+
+    // Save failed import to history for audit trail (executed outside transaction)
+    if (fileHash) {
+      try {
+        await prisma.importHistory.create({
+          data: {
+            fileHash,
+            fileName: fileName || 'unknown',
+            fileSize: fileSize || 0,
+            uploadedBy: req.user?.email || 'SYSTEM',
+            status: 'FAILED',
+            errorMessage: error.message
+          }
+        });
+      } catch (historyErr) {
+        logger.error('Failed to write FAILED status to ImportHistory:', historyErr);
+      }
+    }
+
+    res.status(500).json({ error: 'Lỗi lưu dữ liệu vào hệ thống và đã rollback để an toàn', details: error.message });
   }
 };
