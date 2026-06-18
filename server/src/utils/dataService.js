@@ -75,36 +75,37 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
 
   // 1. Fetch all courses and their aliases dynamically from the DB (Single Source of Truth)
   let dbCourses = [];
+  let dbAliases = [];
   try {
     const { prisma } = require('../infrastructure/database/prisma');
-    dbCourses = await prisma.course.findMany({
-      include: {
-        aliases: true
-      }
-    });
+    dbCourses = await prisma.course.findMany();
+    dbAliases = await prisma.courseAlias.findMany();
   } catch (dbErr) {
-    console.error('[validateAndCleanData] Failed to load courses from DB:', dbErr.message);
+    console.error('[validateAndCleanData] Failed to load courses or aliases from DB:', dbErr.message);
   }
 
   // 2. Build a local lookup map (code/alias/name -> subjectName)
   const lookupMap = new Map();
   dbCourses.forEach(c => {
-    // Map course ID/code to its name (e.g. COM1071 -> Tin học)
-    lookupMap.set(c.id.toUpperCase(), c.name);
-    
-    // Map aliases to its name (e.g. com107 -> Tin học)
-    if (c.aliases) {
-      c.aliases.forEach(a => {
-        lookupMap.set(a.aliasCode.toLowerCase(), c.name);
-        lookupMap.set(a.aliasCode.toUpperCase(), c.name);
-      });
+    if (c && c.id && c.name) {
+      // Map course ID/code to its name (e.g. COM1071 -> Tin học)
+      lookupMap.set(c.id.toUpperCase(), c.name);
+      
+      // Also map lowercase/uppercase names to themselves for direct matching
+      lookupMap.set(c.name.toLowerCase(), c.name);
+      lookupMap.set(c.name.toUpperCase(), c.name);
     }
   });
 
-  // Also map lowercase/uppercase names to themselves for direct matching
-  dbCourses.forEach(c => {
-    lookupMap.set(c.name.toLowerCase(), c.name);
-    lookupMap.set(c.name.toUpperCase(), c.name);
+  dbAliases.forEach(a => {
+    if (a && a.aliasCode && a.courseCode) {
+      // Find course name for this canonical courseCode
+      const course = dbCourses.find(c => c.id.toUpperCase() === a.courseCode.toUpperCase());
+      if (course) {
+        lookupMap.set(a.aliasCode.toLowerCase(), course.name);
+        lookupMap.set(a.aliasCode.toUpperCase(), course.name);
+      }
+    }
   });
 
   // Safe static fallback if DB is empty or failed

@@ -152,15 +152,23 @@ loadTrainingDataFromDB()
       cache.trainingData = dbData;
       console.log(`📚 Dynamically loaded training data from Database on boot: ${dbData.students.length} SV, ${dbData.subjects.length} môn`);
     } else if (fs.existsSync(dataPath)) {
-      cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-      console.log(`📚 Pre-trained JSON data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+      try {
+        cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        console.log(`📚 Pre-trained JSON data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+      } catch (jsonErr) {
+        console.error("❌ Failed to parse training data JSON fallback on boot:", jsonErr);
+      }
     }
   })
   .catch(err => {
     console.error("❌ Failed to load training data from database on boot, falling back to JSON:", err);
     if (fs.existsSync(dataPath)) {
-      cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-      console.log(`📚 Pre-trained JSON data loaded in Router (Fallback): ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+      try {
+        cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+        console.log(`📚 Pre-trained JSON data loaded in Router (Fallback): ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+      } catch (jsonErr) {
+        console.error("❌ Failed to parse training data JSON fallback after DB fail:", jsonErr);
+      }
     }
   });
 
@@ -248,8 +256,8 @@ router.get('/knowledge/dependencies', (req, res) => {
 // ============================================================
 router.get('/training-info', async (req, res) => {
   try {
-    const subjects = cache.trainingData.subjects || [];
-    const jsonStudents = cache.trainingData.students || [];
+    const subjects = (cache.trainingData && cache.trainingData.subjects) || [];
+    const jsonStudents = (cache.trainingData && cache.trainingData.students) || [];
 
     // Merge with database students to include newly-added students
     const dbStudentsRaw = await prisma.student.findMany({
@@ -292,10 +300,10 @@ router.get('/training-info', async (req, res) => {
       totalStudents: students.length,
       totalSubjects: subjects.length,
       displaySubjects: stats.length,
-      source: cache.trainingData.source || 'Pre-trained',
-      lastUpdated: cache.trainingData.lastUpdated,
+      source: (cache.trainingData && cache.trainingData.source) || 'Pre-trained',
+      lastUpdated: cache.trainingData && cache.trainingData.lastUpdated,
       stats,
-      curriculumOrder: cache.trainingData.curriculumOrder || []
+      curriculumOrder: (cache.trainingData && cache.trainingData.curriculumOrder) || []
     });
   } catch (err) {
     console.error('Error in /training-info:', err);
@@ -848,7 +856,8 @@ router.post('/upload-predict', upload.any(), async (req, res) => {
       }
 
       // 2. VALIDATE & CLEAN
-      const cleanResult = await validateAndCleanData(parsedRows, headers, fileType, cache.trainingData.subjects);
+      const pretrainedSubjects = (cache.trainingData && Array.isArray(cache.trainingData.subjects)) ? cache.trainingData.subjects : [];
+      const cleanResult = await validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects);
       const { validStudents, errors, subjectCols, fileType: detectedFileType } = cleanResult;
 
       if (detectedFileType === 'class') {
@@ -887,14 +896,15 @@ router.post('/upload-predict', upload.any(), async (req, res) => {
     cache.uploadedStudents = mergedValidStudents;
 
     // 4. PREPARE PREDICTION SUBJECTS
-    const trainSubjects = new Set(cache.trainingData.subjects || []);
+    const trainSubjects = new Set((cache.trainingData && cache.trainingData.subjects) || []);
     const predictable = [];
     const uniqueSubjectCols = Array.from(allSubjectCols);
 
     uniqueSubjectCols.forEach(s => {
       if (!trainSubjects.has(s)) return;
-      const prereqs = getPrerequisites(s, cache.trainingData);
-      const isTrainable = prereqs.length > 0 && cache.trainingData.students.filter(st => st.scores[s] != null).length >= 5;
+      const prereqs = getPrerequisites(s, cache.trainingData || {});
+      const trainStudentsList = (cache.trainingData && cache.trainingData.students) || [];
+      const isTrainable = prereqs.length > 0 && trainStudentsList.filter(st => st.scores[s] != null).length >= 5;
 
       if (isTrainable) {
         const missingCount = mergedValidStudents.filter(st => st.scores[s] == null).length;
