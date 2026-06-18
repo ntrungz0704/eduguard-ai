@@ -21413,11 +21413,11 @@
       }
     },
     {
-      "id": "PSTEST999",
-      "name": "Nguyen Van Test",
-      "classCode": "TEST999",
+      "id": "PSCOMPAT999",
+      "name": "Nguyen Compatibility Test",
+      "classCode": "COMPAT_CLASS",
       "scores": {
-        "Tin học": 8.5
+        "Xây dựng trang Web": 9
       }
     }
   ]

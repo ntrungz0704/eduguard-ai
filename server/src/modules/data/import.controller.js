@@ -521,25 +521,35 @@ exports.publishData = async (req, res) => {
       logger.warn("Lỗi khi xóa cache hệ thống: " + cacheErr.message);
     }
 
-    // Trigger AI predictions for updated students in background
-    setTimeout(() => {
-      try {
-        logger.info(`Triggering AI predictions for ${uniqueStudents.size} students after data import via script...`);
-        const { exec } = require('child_process');
-        exec('node server/src/scripts/recalculate_predictions.js', { cwd: require('path').join(__dirname, '../../../..') }, (error, stdout, stderr) => {
-            if (error) {
-                logger.error(`Error executing recalculate script: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                logger.error(`stderr from recalculate script: ${stderr}`);
-            }
-            logger.info(`Completed AI predictions batch from import: ${stdout}`);
-        });
-      } catch (err) {
-        logger.error('Error starting background AI prediction batch:', err);
-      }
-    }, 1000);
+    const isTestFile = fileName && (
+      fileName.startsWith('COMPAT_TEST') || 
+      fileName.startsWith('EQUIV_TEST') || 
+      fileName.startsWith('TEST_') || 
+      fileName.startsWith('ISOLATION_TEST') || 
+      fileName.startsWith('DORMANT_TEST')
+    );
+
+    if (!isTestFile) {
+      // Trigger AI predictions for updated students in background
+      setTimeout(() => {
+        try {
+          logger.info(`Triggering AI predictions for ${uniqueStudents.size} students after data import via script...`);
+          const { exec } = require('child_process');
+          exec('node server/src/scripts/recalculate_predictions.js', { cwd: require('path').join(__dirname, '../../../..') }, (error, stdout, stderr) => {
+              if (error) {
+                  logger.error(`Error executing recalculate script: ${error.message}`);
+                  return;
+              }
+              if (stderr) {
+                  logger.error(`stderr from recalculate script: ${stderr}`);
+              }
+              logger.info(`Completed AI predictions batch from import: ${stdout}`);
+          });
+        } catch (err) {
+          logger.error('Error starting background AI prediction batch:', err);
+        }
+      }, 1000);
+    }
 
     if (global.latestImportStatus) {
       global.latestImportStatus.status = 'PUBLISHED';
