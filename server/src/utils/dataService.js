@@ -68,10 +68,66 @@ function mapToPretrainedSubject(excelSubName, pretrainedSubjects = []) {
 // ============================================================
 // DATA CLEANING & VALIDATION PIPELINE
 // ============================================================
-function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects = []) {
+async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects = []) {
   const errors = [];
   const validStudents = [];
   let subjectCols = [];
+
+  // 1. Fetch all courses and their aliases dynamically from the DB (Single Source of Truth)
+  let dbCourses = [];
+  try {
+    const { prisma } = require('../infrastructure/database/prisma');
+    dbCourses = await prisma.course.findMany({
+      include: {
+        aliases: true
+      }
+    });
+  } catch (dbErr) {
+    console.error('[validateAndCleanData] Failed to load courses from DB:', dbErr.message);
+  }
+
+  // 2. Build a local lookup map (code/alias/name -> subjectName)
+  const lookupMap = new Map();
+  dbCourses.forEach(c => {
+    // Map course ID/code to its name (e.g. COM1071 -> Tin học)
+    lookupMap.set(c.id.toUpperCase(), c.name);
+    
+    // Map aliases to its name (e.g. com107 -> Tin học)
+    if (c.aliases) {
+      c.aliases.forEach(a => {
+        lookupMap.set(a.aliasCode.toLowerCase(), c.name);
+        lookupMap.set(a.aliasCode.toUpperCase(), c.name);
+      });
+    }
+  });
+
+  // Also map lowercase/uppercase names to themselves for direct matching
+  dbCourses.forEach(c => {
+    lookupMap.set(c.name.toLowerCase(), c.name);
+    lookupMap.set(c.name.toUpperCase(), c.name);
+  });
+
+  // Safe static fallback if DB is empty or failed
+  if (lookupMap.size === 0) {
+    for (const [code, name] of Object.entries(staticCourseCodeToNameMap)) {
+      lookupMap.set(code.toUpperCase(), name);
+    }
+  }
+
+  // Local helper to resolve input to standard subject name
+  const resolveToSubjectNameLocal = (rawInput) => {
+    if (!rawInput) return null;
+    const raw = String(rawInput).trim();
+    const upper = raw.toUpperCase();
+    const lower = raw.toLowerCase();
+
+    // 1. Direct lookup by code, alias, or name
+    if (lookupMap.has(upper)) return lookupMap.get(upper);
+    if (lookupMap.has(lower)) return lookupMap.get(lower);
+
+    // 2. Fuzzy fallback
+    return mapToPretrainedSubject(raw, pretrainedSubjects);
+  };
 
   // Helper to normalize header names for robust fuzzy detection
   const normHeader = (h) => String(h || '')
@@ -126,28 +182,18 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
       let subRaw = String(row[subjectCol] || '').trim();
       if (!subRaw) return;
 
-      // 1. Resolve standard backend code & map to subject name if available
-      let resolvedCode = resolveBackendCourseCode(subRaw);
-      let sub = null;
-      let aliasUsed = false;
-
-      if (resolvedCode && courseCodeToNameMap[resolvedCode]) {
-        sub = courseCodeToNameMap[resolvedCode];
-        aliasUsed = resolvedCode !== subRaw;
-      }
-
-      if (!sub) {
-        sub = mapToPretrainedSubject(subRaw, pretrainedSubjects);
-      }
-
-      const courseFound = !!resolvedCode;
+      let sub = resolveToSubjectNameLocal(subRaw);
+      
+      const courseCodeNormalized = resolveBackendCourseCode(subRaw);
+      const courseFound = !!courseCodeNormalized;
       const curriculumFound = pretrainedSubjects.includes(sub);
+      const aliasUsed = courseCodeNormalized && courseCodeNormalized !== subRaw;
 
       // Temporary diagnostic logs for COM107/COM1071
       if (subRaw.toUpperCase().includes('COM107') || subRaw.toUpperCase().includes('COM1071')) {
         console.log({
           rawCode: subRaw,
-          normalizedCode: resolvedCode,
+          normalizedCode: courseCodeNormalized,
           resolvedCode: sub
         });
       }
@@ -223,27 +269,18 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
     // Map each class dataset subject to pretrained subjects
     const validRawCols = [];
     rawSubjectCols.forEach(rs => {
-      let resolvedCode = resolveBackendCourseCode(rs);
-      let matched = null;
-      let aliasUsed = false;
-
-      if (resolvedCode && courseCodeToNameMap[resolvedCode]) {
-        matched = courseCodeToNameMap[resolvedCode];
-        aliasUsed = resolvedCode !== rs;
-      }
-
-      if (!matched) {
-        matched = mapToPretrainedSubject(rs, pretrainedSubjects);
-      }
-
-      const courseFound = !!resolvedCode;
+      let matched = resolveToSubjectNameLocal(rs);
+      
+      const courseCodeNormalized = resolveBackendCourseCode(rs);
+      const courseFound = !!courseCodeNormalized;
       const curriculumFound = pretrainedSubjects.includes(matched);
+      const aliasUsed = courseCodeNormalized && courseCodeNormalized !== rs;
 
       // Temporary diagnostic logs for COM107/COM1071
       if (rs.toUpperCase().includes('COM107') || rs.toUpperCase().includes('COM1071')) {
         console.log({
           rawCode: rs,
-          normalizedCode: resolvedCode,
+          normalizedCode: courseCodeNormalized,
           resolvedCode: matched
         });
       }

@@ -756,7 +756,7 @@ router.get('/red-alerts', async (req, res) => {
 // ============================================================
 // API: Upload student Excel (Production pipeline)
 // ============================================================
-router.post('/upload-predict', upload.any(), (req, res) => {
+router.post('/upload-predict', upload.any(), async (req, res) => {
   try {
     const files = req.files || (req.file ? [req.file] : []);
     if (files.length === 0) {
@@ -848,7 +848,7 @@ router.post('/upload-predict', upload.any(), (req, res) => {
       }
 
       // 2. VALIDATE & CLEAN
-      const cleanResult = validateAndCleanData(parsedRows, headers, fileType, cache.trainingData.subjects);
+      const cleanResult = await validateAndCleanData(parsedRows, headers, fileType, cache.trainingData.subjects);
       const { validStudents, errors, subjectCols, fileType: detectedFileType } = cleanResult;
 
       if (detectedFileType === 'class') {
