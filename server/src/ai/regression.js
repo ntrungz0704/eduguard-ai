@@ -23,7 +23,7 @@ const ACADEMIC_PREREQUISITES = {
   "Lập trình Front-End Framework 1": ["Lập trình Javascript nâng cao", "Lập trình ECMAScript", "Thiết kế Web với HTML5 & CSS3", "Lập trình cơ sở với JavaScript"],
   "Lập trình Front-End Framework 2": ["Lập trình Front-End Framework 1", "Lập trình TypeScript"],
   "Lập trình TypeScript": ["Lập trình Javascript nâng cao", "Lập trình ECMAScript", "Lập trình cơ sở với JavaScript"],
-  "Dự án 1": ["Lập trình PHP 1", "Thiết kế UI/UX", "Thiết kế Web với HTML5 & CSS3", "Cơ sở dữ liệu", "Lập trình cơ sở với JavaScript"],
+  "Dự án 1": ["Dự án mẫu", "Lập trình PHP 1", "Thiết kế UI/UX", "Thiết kế Web với HTML5 & CSS3", "Cơ sở dữ liệu", "Lập trình cơ sở với JavaScript"],
   "Dự án tốt nghiệp": ["NodeJS & Restful Web Service", "Lập trình Front-End Framework 1", "Dự án 1", "Cơ sở dữ liệu", "Lập trình PHP 1"]
 };
 
