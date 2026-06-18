@@ -70,11 +70,15 @@ model Score {
   final      Float?
   semester   String
   status     String   @default("STUDYING") // PASSED, FAILED, STUDYING, NOT_STARTED
+  rawScore   Float?   // The raw score uploaded by teacher
+  computedScore Float? // The calculated weighted score
+  importSessionId Int? // Links to the import session
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
   course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  importSession ImportSession? @relation(fields: [importSessionId], references: [id], onDelete: SetNull)
   components ScoreComponent[]
 
   @@unique([mssv, courseId, semester])
@@ -414,8 +418,8 @@ model CourseAlias {
   @@index([courseCode])
 }
 
-// Import History for file deduplication and audit trail
-model ImportHistory {
+// Import Session for file deduplication and audit trail
+model ImportSession {
   id              Int      @id @default(autoincrement())
   fileHash        String   @unique  // SHA-256 hash of the uploaded file
   fileName        String
@@ -427,19 +431,27 @@ model ImportHistory {
   status          String   @default("SUCCESS") // SUCCESS, FAILED, ROLLED_BACK
   errorMessage    String?
   createdAt       DateTime @default(now())
+
+  scores          Score[]
+  components      ScoreComponent[]
 }
 
 model AssessmentSchema {
   id            Int      @id @default(autoincrement())
   courseCode    String
+  curriculumVersion String @default("K19")
   componentCode String
   componentName String
+  componentIndex Int     @default(1)
   orderNo       Int
   count         Int
-  weight        Float
-  isRequired    Boolean  @default(true)
+  weightPercent Int      // stored as integer (e.g. 30 for 30%)
+  isActive      Boolean  @default(true)
+  effectiveFromSemester String?
+  effectiveToSemester   String?
   createdAt     DateTime @default(now())
 
+  @@unique([courseCode, curriculumVersion, componentCode, componentIndex])
   @@index([courseCode])
 }
 
@@ -450,11 +462,14 @@ model ScoreComponent {
   componentName  String
   componentIndex Int
   value          Float
-  weight         Float?
+  weightPercent  Int?     // stored as integer
   sourceColumn   String?
+  sourceType     String   @default("EXCEL") // EXCEL, MANUAL, API, AI
+  importSessionId Int?
   importedAt     DateTime @default(now())
 
   score          Score    @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+  importSession  ImportSession? @relation(fields: [importSessionId], references: [id], onDelete: SetNull)
 
-  @@index([scoreId])
+  @@unique([scoreId, componentCode, componentIndex])
 }

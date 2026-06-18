@@ -71,7 +71,7 @@ exports.previewData = async (req, res) => {
     const fileHash = crypto.createHash('sha256').update(req.file.buffer).digest('hex');
     
     // Check if file has already been successfully imported
-    const existingImport = await prisma.importHistory.findUnique({
+    const existingImport = await prisma.importSession.findUnique({
       where: { fileHash }
     });
     if (existingImport && existingImport.status === 'SUCCESS') {
@@ -136,22 +136,39 @@ exports.previewData = async (req, res) => {
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
       let calculatedScore = calculateScore(row);
-      
-      // Dynamic Assessment Components logic (Dormant by default)
+      let rawScore = calculatedScore; // Save raw uploaded score
+      let computedScore = null;
       let rowComponents = [];
+      const warnings = [];
+
+      // Dynamic Assessment Components logic (Dormant by default)
       if (enableComponentScore && course) {
         try {
-          const schema = await resolveCourseAssessmentSchema(course);
+          // Resolve assessment schema using 'K19' curriculum and semester
+          const schema = await resolveCourseAssessmentSchema(course, 'K19', semester);
           const inferred = inferComponentsFromExcel(row);
           rowComponents = normalizeAssessmentColumns(inferred, schema);
           if (rowComponents.length > 0) {
             const finalWeighted = calculateFinalScore(rowComponents, schema);
             if (finalWeighted !== null) {
-              calculatedScore = finalWeighted;
+              computedScore = finalWeighted;
             }
           }
         } catch (err) {
           logger.warn(`[AssessmentEngine] Failed to resolve schema for preview: ${err.message}`);
+        }
+      }
+
+      if (enableComponentScore && computedScore !== null) {
+        if (rawScore !== null && rawScore !== undefined) {
+          // Do NOT overwrite teacher's total score. Keep raw score as the final score.
+          calculatedScore = rawScore;
+          if (Math.abs(rawScore - computedScore) > 0.01) {
+            warnings.push(`Dòng ${rowNum}: Điểm tổng kết giáo viên nhập (${rawScore}) khác với điểm tính toán từ thành phần (${computedScore}).`);
+          }
+        } else {
+          // If no raw score provided, use computed score
+          calculatedScore = computedScore;
         }
       }
       
@@ -225,8 +242,11 @@ exports.previewData = async (req, res) => {
         semester: String(semester).trim(),
         rowStatus,
         errors,
+        warnings,
         isValid: errors.length === 0,
-        components: rowComponents // Dynamic components passed to client
+        components: rowComponents,
+        rawScore: rawScore !== null && !isNaN(rawScore) ? parseFloat(rawScore.toFixed(2)) : null,
+        computedScore: computedScore !== null && !isNaN(computedScore) ? parseFloat(computedScore.toFixed(2)) : null
       });
     }
 
@@ -277,7 +297,7 @@ exports.publishData = async (req, res) => {
 
     // === HASH DEDUPLICATION CHECK ===
     if (fileHash) {
-      const existingImport = await prisma.importHistory.findUnique({
+      const existingImport = await prisma.importSession.findUnique({
         where: { fileHash }
       });
       if (existingImport && existingImport.status === 'SUCCESS') {
@@ -325,6 +345,20 @@ exports.publishData = async (req, res) => {
     const enableComponentScore = process.env.ENABLE_COMPONENT_SCORE === 'true';
 
     await prisma.$transaction(async (tx) => {
+      // 1. Create ImportSession first to get ID
+      const importSession = await tx.importSession.create({
+        data: {
+          fileHash: fileHash || `TEMP_HASH_${Date.now()}_${Math.random()}`,
+          fileName: fileName || 'unknown',
+          fileSize: fileSize || 0,
+          uploadedBy: req.user?.email || 'SYSTEM',
+          studentsCount: uniqueStudents.size, // Will update at the end
+          scoresInserted: 0,
+          scoresUpdated: 0,
+          status: 'PROCESSING'
+        }
+      });
+
       for (const row of normalizedRows) {
         const mssv = row.mssv;
         uniqueStudents.add(mssv);
@@ -346,14 +380,14 @@ exports.publishData = async (req, res) => {
         // Determine status and score value
         let status = row.rowStatus;
         let scoreValue = row.score;
+        let rawScore = row.rawScore !== undefined ? row.rawScore : null;
+        let computedScore = row.computedScore !== undefined ? row.computedScore : null;
 
         if (status === 'STUDYING' || status === 'NOT_STARTED') {
-          // STUDYING/NOT_STARTED: score MUST be null regardless of input
           scoreValue = null;
         } else if (!status) {
-          // No explicit status: derive from score
           if (scoreValue === null || scoreValue === undefined) {
-            status = 'STUDYING'; // No score and no status → default to STUDYING
+            status = 'STUDYING';
             scoreValue = null;
           } else {
             status = (scoreValue >= 5.0 || scoreValue === 1.0) ? 'PASSED' : 'FAILED';
@@ -390,6 +424,9 @@ exports.publishData = async (req, res) => {
           update: {
             value: scoreValue,
             status,
+            rawScore,
+            computedScore,
+            importSessionId: importSession.id,
             quiz: row.quiz !== undefined ? parseFloat(row.quiz) : null,
             asm1: row.asm !== undefined ? parseFloat(row.asm) : null,
             final: row.final !== undefined ? parseFloat(row.final) : null,
@@ -403,6 +440,9 @@ exports.publishData = async (req, res) => {
             semester: row.semester,
             value: scoreValue,
             status,
+            rawScore,
+            computedScore,
+            importSessionId: importSession.id,
             attendance: row.attendance !== undefined ? parseFloat(row.attendance) : 100,
             quiz: row.quiz !== undefined ? parseFloat(row.quiz) : null,
             asm1: row.asm !== undefined ? parseFloat(row.asm) : null,
@@ -414,32 +454,26 @@ exports.publishData = async (req, res) => {
 
         // Save components if feature is enabled
         if (enableComponentScore && row.components && Array.isArray(row.components) && row.components.length > 0) {
-          const dbComps = buildAssessmentObjects(row.components, scoreRecord.id);
+          const dbComps = buildAssessmentObjects(row.components, scoreRecord.id, importSession.id, 'EXCEL');
           await saveScoreComponents(tx, scoreRecord.id, dbComps);
         }
       }
 
       // === POST INTEGRITY & SNAPSHOT VERIFY INSIDE TRANSACTION ===
-      // This will throw an error and trigger transaction rollback if errors > 0
       logger.info('Running pre-commit database data integrity check...');
       await checkDatabaseIntegrity(tx, true);
 
-      // === SAVE SUCCESSFUL IMPORT HISTORY ===
-      if (fileHash) {
-        await tx.importHistory.create({
-          data: {
-            fileHash,
-            fileName: fileName || 'unknown',
-            fileSize: fileSize || 0,
-            uploadedBy: req.user?.email || 'SYSTEM',
-            studentsCount: uniqueStudents.size,
-            scoresInserted,
-            scoresUpdated,
-            status: 'SUCCESS'
-          }
-        });
-      }
-    }); // If ANY row or the integrity check fails, the entire transaction rolls back
+      // === UPDATE SUCCESSFUL IMPORT SESSION ===
+      await tx.importSession.update({
+        where: { id: importSession.id },
+        data: {
+          studentsCount: uniqueStudents.size,
+          scoresInserted,
+          scoresUpdated,
+          status: 'SUCCESS'
+        }
+      });
+    }); // Rollback if transaction fails
 
     // === AUDIT LOG ===
     const auditTimestamp = new Date().toISOString();
@@ -521,12 +555,12 @@ exports.publishData = async (req, res) => {
       }
     }
 
-    // Save failed import to history for audit trail (executed outside transaction)
+    // Save failed import to session for audit trail (executed outside transaction)
     if (fileHash) {
       try {
-        await prisma.importHistory.create({
+        await prisma.importSession.create({
           data: {
-            fileHash,
+            fileHash: `${fileHash}_failed_${Date.now()}`,
             fileName: fileName || 'unknown',
             fileSize: fileSize || 0,
             uploadedBy: req.user?.email || 'SYSTEM',
@@ -535,7 +569,7 @@ exports.publishData = async (req, res) => {
           }
         });
       } catch (historyErr) {
-        logger.error('Failed to write FAILED status to ImportHistory:', historyErr);
+        logger.error('Failed to write FAILED status to ImportSession:', historyErr);
       }
     }
 

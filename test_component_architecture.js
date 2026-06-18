@@ -46,9 +46,9 @@ async function runTests() {
     const itSchema = await assessmentEngine.resolveCourseAssessmentSchema('COM108');
     const projSchema = await assessmentEngine.resolveCourseAssessmentSchema('PRO2201');
 
-    const hasLab8 = webSchema.some(s => s.componentCode === 'LAB8' && s.weight === 0.0375);
-    const hasQuiz4 = itSchema.some(s => s.componentCode === 'QUIZ4' && s.weight === 0.025);
-    const hasDef2 = projSchema.some(s => s.componentCode === 'DEF2' && s.weight === 0.70);
+    const hasLab8 = webSchema.some(s => s.componentCode === 'LAB8' && Math.abs(s.weight - 0.0375) < 0.001);
+    const hasQuiz4 = itSchema.some(s => s.componentCode === 'QUIZ4' && Math.abs(s.weight - 0.025) < 0.001);
+    const hasDef2 = projSchema.some(s => s.componentCode === 'DEF2' && Math.abs(s.weight - 0.70) < 0.001);
 
     if (hasLab8 && hasQuiz4 && hasDef2) {
       console.log('✅ Dynamic schema structures for different courses loaded correctly from database!');
@@ -99,7 +99,7 @@ async function runTests() {
   }
 
   // 5. Clean up previous test entries
-  await prisma.importHistory.deleteMany({ where: { fileName: { startsWith: 'COMP_TEST_' } } });
+  await prisma.importSession.deleteMany({ where: { fileName: { startsWith: 'COMP_TEST_' } } });
   await prisma.score.deleteMany({ where: { mssv: 'PSCOMP999' } });
   await prisma.student.deleteMany({ where: { mssv: 'PSCOMP999' } });
 
@@ -167,18 +167,26 @@ async function runTests() {
   console.log('\n6. Testing ACTIVE Component Score Mode (ENABLE_COMPONENT_SCORE = true)...');
   process.env.ENABLE_COMPONENT_SCORE = 'true';
   
-  // Clear the import history hash so we can re-upload
-  await prisma.importHistory.deleteMany({ where: { fileHash: hash } });
+  // Clear the import session hash so we can re-upload
+  await prisma.importSession.deleteMany({ where: { fileHash: hash } });
 
   const resPreviewActive = createMockResponse();
   await importController.previewData(reqPreview, resPreviewActive);
   
   const parsedRowActive = resPreviewActive.data.data[0];
   
-  if (parsedRowActive.components.length > 0 && parsedRowActive.score === 9.1) {
+  if (
+    parsedRowActive.components.length > 0 && 
+    parsedRowActive.score === 7.0 && 
+    parsedRowActive.rawScore === 7.0 &&
+    parsedRowActive.computedScore === 9.1 &&
+    parsedRowActive.warnings.length > 0
+  ) {
     console.log('✅ Component scores extracted in active mode!');
     console.log(`   - Extracted Components count: ${parsedRowActive.components.length}`);
-    console.log(`   - Auto-computed Total Score: ${parsedRowActive.score} (weighted average, overwriting raw 7.0)`);
+    console.log(`   - Raw Score: ${parsedRowActive.rawScore} (does not overwrite, value stays 7.0)`);
+    console.log(`   - Computed Score: ${parsedRowActive.computedScore}`);
+    console.log(`   - Warnings issued: "${parsedRowActive.warnings[0]}"`);
   } else {
     console.error('❌ Active component preview parse failed.', parsedRowActive);
     passed = false;
@@ -202,8 +210,20 @@ async function runTests() {
     include: { components: true }
   });
 
-  if (dbScoreActive && dbScoreActive.value === 9.1 && dbScoreActive.components.length === 10) {
-    console.log('✅ Active commit succeeded! Weighted average saved to Score.value and 10 component entries saved to ScoreComponent table.');
+  if (
+    dbScoreActive && 
+    dbScoreActive.value === 7.0 && 
+    dbScoreActive.rawScore === 7.0 && 
+    dbScoreActive.computedScore === 9.1 && 
+    dbScoreActive.components.length === 10
+  ) {
+    const allAuditFieldsSet = dbScoreActive.components.every(c => c.importSessionId && c.sourceType === 'EXCEL');
+    if (allAuditFieldsSet) {
+      console.log('✅ Active commit succeeded! Teacher raw score preserved, computed score stored, and ScoreComponents linked with audit trail.');
+    } else {
+      console.error('❌ ScoreComponent audit trail fields missing:', dbScoreActive.components);
+      passed = false;
+    }
   } else {
     console.error('❌ Active db commit validation failed:', dbScoreActive);
     passed = false;
@@ -211,7 +231,7 @@ async function runTests() {
 
   // Cleanup test data
   console.log('\nCleaning up verification database entries...');
-  await prisma.importHistory.deleteMany({ where: { fileName: { startsWith: 'COMP_TEST_' } } });
+  await prisma.importSession.deleteMany({ where: { fileName: { startsWith: 'COMP_TEST_' } } });
   await prisma.score.deleteMany({ where: { mssv: 'PSCOMP999' } });
   await prisma.student.deleteMany({ where: { mssv: 'PSCOMP999' } });
 

@@ -2,31 +2,31 @@ const fs = require('fs');
 const path = require('path');
 const { prisma } = require('../infrastructure/database/prisma');
 
-// Default configurations based on FPT Polytechnic syllabus styles
+// Default configurations based on FPT Polytechnic syllabus styles (weights stored as integer percentages)
 const DEFAULT_SCHEMAS = {
-  // Web design style: Lab x8 (30%), ASM1 (20%), ASM2 (50%)
+  // Web design style: Lab x8 (30% total), ASM1 (20%), ASM2 (50%)
   'web_design': [
-    ...Array.from({ length: 8 }, (_, i) => ({ componentCode: `LAB${i+1}`, componentName: `Lab ${i+1}`, orderNo: i + 1, count: 8, weight: 0.0375 })),
-    { componentCode: 'ASM1', componentName: 'Assignment 1', orderNo: 9, count: 1, weight: 0.20 },
-    { componentCode: 'ASM2', componentName: 'Assignment 2', orderNo: 10, count: 1, weight: 0.50 }
+    ...Array.from({ length: 8 }, (_, i) => ({ componentCode: `LAB${i+1}`, componentName: `Lab ${i+1}`, componentIndex: i + 1, orderNo: i + 1, count: 8, weightPercent: 30 })),
+    { componentCode: 'ASM1', componentName: 'Assignment 1', componentIndex: 1, orderNo: 9, count: 1, weightPercent: 20 },
+    { componentCode: 'ASM2', componentName: 'Assignment 2', componentIndex: 1, orderNo: 10, count: 1, weightPercent: 50 }
   ],
   // IT style: Quiz x4 (10%), Lab x4 (30%), Final x1 (60%)
   'basic_it': [
-    ...Array.from({ length: 4 }, (_, i) => ({ componentCode: `QUIZ${i+1}`, componentName: `Quiz ${i+1}`, orderNo: i + 1, count: 4, weight: 0.025 })),
-    ...Array.from({ length: 4 }, (_, i) => ({ componentCode: `LAB${i+1}`, componentName: `Lab ${i+1}`, orderNo: i + 5, count: 4, weight: 0.075 })),
-    { componentCode: 'FINAL', componentName: 'Final Exam', orderNo: 9, count: 1, weight: 0.60 }
+    ...Array.from({ length: 4 }, (_, i) => ({ componentCode: `QUIZ${i+1}`, componentName: `Quiz ${i+1}`, componentIndex: i + 1, orderNo: i + 1, count: 4, weightPercent: 10 })),
+    ...Array.from({ length: 4 }, (_, i) => ({ componentCode: `LAB${i+1}`, componentName: `Lab ${i+1}`, componentIndex: i + 1, orderNo: i + 5, count: 4, weightPercent: 30 })),
+    { componentCode: 'FINAL', componentName: 'Final Exam', componentIndex: 1, orderNo: 9, count: 1, weightPercent: 60 }
   ],
   // Project style: Defense 1 (30%), Defense 2 (70%)
   'project': [
-    { componentCode: 'DEF1', componentName: 'Defense 1', orderNo: 1, count: 1, weight: 0.30 },
-    { componentCode: 'DEF2', componentName: 'Defense 2', orderNo: 2, count: 1, weight: 0.70 }
+    { componentCode: 'DEF1', componentName: 'Defense 1', componentIndex: 1, orderNo: 1, count: 1, weightPercent: 30 },
+    { componentCode: 'DEF2', componentName: 'Defense 2', componentIndex: 1, orderNo: 2, count: 1, weightPercent: 70 }
   ],
   // Generic fallback: Quiz x4 (10%), Lab x8 (30%), Assignment (20%), Final (40%)
   'default': [
-    ...Array.from({ length: 4 }, (_, i) => ({ componentCode: `QUIZ${i+1}`, componentName: `Quiz ${i+1}`, orderNo: i + 1, count: 4, weight: 0.025 })),
-    ...Array.from({ length: 8 }, (_, i) => ({ componentCode: `LAB${i+1}`, componentName: `Lab ${i+1}`, orderNo: i + 5, count: 8, weight: 0.0375 })),
-    { componentCode: 'ASSIGNMENT', componentName: 'Assignment', orderNo: 13, count: 1, weight: 0.20 },
-    { componentCode: 'FINAL', componentName: 'Final Exam', orderNo: 14, count: 1, weight: 0.40 }
+    ...Array.from({ length: 4 }, (_, i) => ({ componentCode: `QUIZ${i+1}`, componentName: `Quiz ${i+1}`, componentIndex: i + 1, orderNo: i + 1, count: 4, weightPercent: 10 })),
+    ...Array.from({ length: 8 }, (_, i) => ({ componentCode: `LAB${i+1}`, componentName: `Lab ${i+1}`, componentIndex: i + 1, orderNo: i + 5, count: 8, weightPercent: 30 })),
+    { componentCode: 'ASSIGNMENT', componentName: 'Assignment', componentIndex: 1, orderNo: 13, count: 1, weightPercent: 20 },
+    { componentCode: 'FINAL', componentName: 'Final Exam', componentIndex: 1, orderNo: 14, count: 1, weightPercent: 40 }
   ]
 };
 
@@ -50,84 +50,100 @@ const COURSE_STYLES = {
 };
 
 /**
+ * Parses a semester string like "Summer 2025" or "Fall 2026" into a comparable integer.
+ * Spring -> 1, Summer -> 2, Fall -> 3.
+ * Example: "Summer 2025" -> 20252
+ */
+function parseSemester(sem) {
+  if (!sem) return 0;
+  const parts = String(sem).trim().split(/\s+/);
+  if (parts.length < 2) return 0;
+  const term = parts[0].toLowerCase();
+  const year = parseInt(parts[1]);
+  if (isNaN(year)) return 0;
+  let termVal = 0;
+  if (term.includes('spring')) termVal = 1;
+  else if (term.includes('summer')) termVal = 2;
+  else if (term.includes('fall')) termVal = 3;
+  return year * 10 + termVal;
+}
+
+/**
  * Resolves the dynamic grading schema for a course from the AssessmentSchema table.
- * If the table is empty, it automatically seeds default configurations.
- * If no schema exists for the course, it creates a default schema dynamically in the DB.
+ * Does NOT auto-seed the database in runtime.
+ * Filters by isActive = true and checks semester range if provided.
+ * If no schema exists in the DB, it generates and returns a fallback structure in-memory.
  * 
  * @param {string} courseCode - Canonical course ID
- * @returns {Promise<Array>} List of schema components
+ * @param {string} curriculumVersion - Curriculum version (e.g. K19)
+ * @param {string} semester - Optional semester name (e.g. "Summer 2025")
+ * @returns {Promise<Array>} List of schema components with mapped float weight
  */
-async function resolveCourseAssessmentSchema(courseCode) {
+async function resolveCourseAssessmentSchema(courseCode, curriculumVersion = 'K19', semester = null) {
   const code = String(courseCode).toUpperCase().trim();
   
-  // 1. Try to find the schema in the DB
+  // 1. Try to find active schemas matching curriculumVersion
   let dbSchema = await prisma.assessmentSchema.findMany({
-    where: { courseCode: code },
+    where: {
+      courseCode: code,
+      isActive: true,
+      curriculumVersion: curriculumVersion
+    },
     orderBy: { orderNo: 'asc' }
   });
 
-  if (dbSchema.length > 0) {
-    return dbSchema;
-  }
-
-  // 2. Auto-seed if database is empty
-  const totalCount = await prisma.assessmentSchema.count();
-  if (totalCount === 0) {
-    console.log('[AssessmentEngine] Seeding default course assessment schemas into database...');
-    const seedRecords = [];
-    
-    for (const [cCode, style] of Object.entries(COURSE_STYLES)) {
-      const components = DEFAULT_SCHEMAS[style];
-      components.forEach(comp => {
-        seedRecords.push({
-          courseCode: cCode,
-          componentCode: comp.componentCode,
-          componentName: comp.componentName,
-          orderNo: comp.orderNo,
-          count: comp.count,
-          weight: comp.weight,
-          isRequired: true
-        });
-      });
-    }
-
-    await prisma.$transaction(
-      seedRecords.map(data => 
-        prisma.assessmentSchema.create({ data })
-      )
-    );
-    console.log(`[AssessmentEngine] Seeded ${seedRecords.length} default schema components.`);
-
-    // Re-query
+  // Fallback to any active schemas for this course if none found for curriculumVersion
+  if (dbSchema.length === 0) {
     dbSchema = await prisma.assessmentSchema.findMany({
-      where: { courseCode: code },
+      where: {
+        courseCode: code,
+        isActive: true
+      },
       orderBy: { orderNo: 'asc' }
     });
-    if (dbSchema.length > 0) return dbSchema;
   }
 
-  // 3. Fallback: Generate dynamic default schema for this specific course and save to DB
-  console.log(`[AssessmentEngine] No schema found for course ${code}. Generating default schema...`);
+  // Filter by semester applicability if semester is provided
+  if (semester && dbSchema.length > 0) {
+    const targetVal = parseSemester(semester);
+    dbSchema = dbSchema.filter(schema => {
+      if (schema.effectiveFromSemester) {
+        const fromVal = parseSemester(schema.effectiveFromSemester);
+        if (targetVal < fromVal) return false;
+      }
+      if (schema.effectiveToSemester) {
+        const toVal = parseSemester(schema.effectiveToSemester);
+        if (targetVal > toVal) return false;
+      }
+      return true;
+    });
+  }
+
+  // 2. If schemas exist in DB, map weightPercent to float weight (weight = weightPercent / 100 / count)
+  if (dbSchema.length > 0) {
+    return dbSchema.map(s => ({
+      ...s,
+      weight: (s.weightPercent / 100) / s.count
+    }));
+  }
+
+  // 3. Fallback: Generate dynamic default schema in-memory (never save to DB)
+  console.log(`[AssessmentEngine] No active schema found in database for course ${code}. Generating fallback in-memory schema...`);
   const style = COURSE_STYLES[code] || 'default';
   const defaultComps = DEFAULT_SCHEMAS[style];
   
-  const createdComps = [];
-  for (const comp of defaultComps) {
-    const record = await prisma.assessmentSchema.create({
-      data: {
-        courseCode: code,
-        componentCode: comp.componentCode,
-        componentName: comp.componentName,
-        orderNo: comp.orderNo,
-        count: comp.count,
-        weight: comp.weight,
-        isRequired: true
-      }
-    });
-    createdComps.push(record);
-  }
-
-  return createdComps;
+  return defaultComps.map(comp => ({
+    courseCode: code,
+    curriculumVersion: curriculumVersion || 'K19',
+    componentCode: comp.componentCode,
+    componentName: comp.componentName,
+    componentIndex: comp.componentIndex || 1,
+    orderNo: comp.orderNo,
+    count: comp.count,
+    weightPercent: comp.weightPercent,
+    weight: (comp.weightPercent / 100) / comp.count,
+    isActive: true
+  }));
 }
 
 /**
@@ -150,7 +166,6 @@ function detectAssessmentColumns(headers) {
     const clean = String(h).trim().toLowerCase();
     if (nonComponentKeys.has(clean)) return false;
     
-    // Potential components: lab, quiz, assignment, asm, final, pe, test, defense
     return clean.includes('lab') || 
            clean.includes('quiz') || 
            clean.includes('asm') || 
@@ -225,6 +240,7 @@ function normalizeAssessmentColumns(inferredComponents, courseSchema) {
         componentName: schemaComp.componentName,
         value: matchedVal,
         weight: schemaComp.weight,
+        weightPercent: schemaComp.weightPercent,
         sourceColumn: matchedCol
       });
     }
@@ -267,7 +283,7 @@ function calculateWeightedAverage(components, schema) {
 
   if (totalWeightUsed === 0) return null;
   
-  // If not all components are graded, normalize the average relative to the weight completed
+  // Normalize the average relative to the weight completed
   const finalScore = totalWeightedScore / totalWeightUsed;
   return parseFloat(finalScore.toFixed(2));
 }
@@ -282,7 +298,7 @@ function calculateFinalScore(components, courseSchema) {
 /**
  * Creates database-ready array of components to insert.
  */
-function buildAssessmentObjects(normalizedComponents, scoreId) {
+function buildAssessmentObjects(normalizedComponents, scoreId, importSessionId = null, sourceType = 'EXCEL') {
   if (!normalizedComponents || !Array.isArray(normalizedComponents)) return [];
   
   return normalizedComponents.map(c => {
@@ -296,8 +312,10 @@ function buildAssessmentObjects(normalizedComponents, scoreId) {
       componentName: c.componentName,
       componentIndex,
       value: c.value,
-      weight: c.weight,
-      sourceColumn: c.sourceColumn || c.componentCode
+      weightPercent: c.weightPercent !== undefined ? c.weightPercent : (c.weight ? Math.round(c.weight * 100) : null),
+      sourceColumn: c.sourceColumn || c.componentCode,
+      sourceType,
+      importSessionId
     };
   });
 }
