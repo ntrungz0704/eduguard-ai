@@ -155,6 +155,71 @@ async function run() {
   console.log('- Checking table content consistency...');
   await prismaReconnect.$executeRawUnsafe(`ATTACH DATABASE '${baselineDbPath}' AS baseline`);
 
+  // Compute metrics comparison
+  console.log('- Checking database metrics (Student count, Score count, Average Score)...');
+  const [{ count: baselineStudentCount }] = await prismaReconnect.$queryRawUnsafe("SELECT count(*) as count FROM baseline.Student");
+  const [{ count: baselineScoreCount }] = await prismaReconnect.$queryRawUnsafe("SELECT count(*) as count FROM baseline.Score");
+  const [{ avg: baselineAvgScore }] = await prismaReconnect.$queryRawUnsafe("SELECT avg(value) as avg FROM baseline.Score");
+
+  const [{ count: mainStudentCount }] = await prismaReconnect.$queryRawUnsafe("SELECT count(*) as count FROM main.Student");
+  const [{ count: mainScoreCount }] = await prismaReconnect.$queryRawUnsafe("SELECT count(*) as count FROM main.Score");
+  const [{ avg: mainAvgScore }] = await prismaReconnect.$queryRawUnsafe("SELECT avg(value) as avg FROM main.Score");
+
+  console.log(`  * Student Count: main=${mainStudentCount}, baseline=${baselineStudentCount}`);
+  console.log(`  * Score Count:   main=${mainScoreCount}, baseline=${baselineScoreCount}`);
+  console.log(`  * Average Score: main=${mainAvgScore}, baseline=${baselineAvgScore}`);
+
+  if (mainStudentCount !== baselineStudentCount || mainScoreCount !== baselineScoreCount) {
+    console.error('  ❌ Fail: Student or Score count mismatch!');
+    passed = false;
+  } else {
+    console.log('  ✅ Pass: Database record counts match baseline.');
+  }
+
+  if (Math.abs((mainAvgScore || 0) - (baselineAvgScore || 0)) > 0.0001) {
+    console.error('  ❌ Fail: Average score value mismatch!');
+    passed = false;
+  } else {
+    console.log('  ✅ Pass: Average score matches baseline.');
+  }
+
+  // Calculate Checksum hash over table records to verify logical content integrity
+  console.log('- Computing database logical checksum hash...');
+  const crypto = require('crypto');
+  
+  async function computeDbChecksum(dbPrefix) {
+    const tablesList = ['Student', 'Course', 'Score', 'AssessmentSchema', 'ScoreComponent', 'ImportSession'];
+    let combinedString = '';
+    for (const t of tablesList) {
+      try {
+        const rows = await prismaReconnect.$queryRawUnsafe(
+          `SELECT * FROM ${dbPrefix}.${t} ORDER BY id ASC`
+        );
+        const serialized = JSON.stringify(rows, (key, value) => {
+          if (key === 'createdAt' || key === 'updatedAt' || key === 'lastUpdated') return 'timestamp_normalized';
+          if (value instanceof Date) return value.toISOString();
+          return value;
+        });
+        combinedString += `${t}:${serialized};`;
+      } catch (e) {
+        // Table might not exist or be empty
+      }
+    }
+    return crypto.createHash('sha256').update(combinedString).digest('hex');
+  }
+
+  const baselineHash = await computeDbChecksum('baseline');
+  const mainHash = await computeDbChecksum('main');
+  console.log(`  * Baseline Checksum Hash: ${baselineHash}`);
+  console.log(`  * Main Checksum Hash:     ${mainHash}`);
+
+  if (baselineHash === mainHash) {
+    console.log('  ✅ Pass: Logical database checksum hashes match.');
+  } else {
+    console.error('  ❌ Fail: Logical database checksum hashes mismatched!');
+    passed = false;
+  }
+
   const tables = await prismaReconnect.$queryRawUnsafe(
     "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
   );

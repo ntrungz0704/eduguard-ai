@@ -44,15 +44,18 @@ const calculateScore = (row) => {
 };
 
 // Database snapshot / backup helper functions
-function backupDatabase() {
-  const dbPath = path.resolve(__dirname, '../../../../prisma/dev.db');
+let isImporting = false;
+
+async function backupDatabase() {
   const backupsDir = path.resolve(__dirname, '../../../../prisma/backups');
   if (!fs.existsSync(backupsDir)) {
     fs.mkdirSync(backupsDir, { recursive: true });
   }
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '_');
   const backupFile = path.join(backupsDir, `backup_${dateStr}_${Date.now()}.db`);
-  fs.copyFileSync(dbPath, backupFile);
+  const sqliteSafePath = backupFile.replace(/\\/g, '/').replace(/'/g, "''");
+  
+  await prisma.$executeRawUnsafe(`VACUUM INTO '${sqliteSafePath}'`);
   return backupFile;
 }
 
@@ -287,6 +290,11 @@ exports.previewData = async (req, res) => {
 };
 
 exports.publishData = async (req, res) => {
+  if (isImporting) {
+    return res.status(429).json({ error: 'Hệ thống đang thực hiện một tiến trình import khác. Vui lòng thử lại sau.' });
+  }
+  isImporting = true;
+
   const { data, classCode, fileHash, fileName, fileSize } = req.body;
   let backupFile = null;
 
@@ -336,7 +344,7 @@ exports.publishData = async (req, res) => {
 
     // === DATABASE SNAPSHOT / BACKUP ===
     try {
-      backupFile = backupDatabase();
+      backupFile = await backupDatabase();
       logger.info(`Database backup created: ${backupFile}`);
     } catch (backupErr) {
       logger.error('Failed to create database backup before import:', backupErr);
@@ -595,5 +603,7 @@ exports.publishData = async (req, res) => {
     }
 
     res.status(500).json({ error: 'Lỗi lưu dữ liệu vào hệ thống và đã rollback để an toàn', details: error.message });
+  } finally {
+    isImporting = false;
   }
 };

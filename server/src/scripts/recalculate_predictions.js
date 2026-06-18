@@ -158,192 +158,220 @@ function trainModel(trainingData) {
 }
 
 async function recalculateAllPredictions(shouldExit = false) {
-    console.log('Bắt đầu tính toán lại toàn bộ dự báo...');
-    
-    // 1. Load latest training data from DB
-    const trainingData = await loadTrainingDataFromDB();
-    console.log(`📚 Đã load ${trainingData.students.length} sinh viên từ DB làm dữ liệu huấn luyện.`);
-    
-    // 2. Retrain models on the fly
-    const modelCache = trainModel(trainingData);
-    console.log(`⚡ Đã huấn luyện thành công ${Object.keys(modelCache).length} mô hình hồi quy.`);
-    
-    // Save to disk and update cache
+    const lockFilePath = path.join(__dirname, 'recalculate.lock');
+    let hasLock = false;
     try {
-        fs.writeFileSync(modelCachePath, JSON.stringify(modelCache, null, 2), 'utf8');
-        fs.writeFileSync(datasetPath, JSON.stringify(trainingData, null, 2), 'utf8');
-        console.log('💾 Đã lưu modelCache và trainingData cập nhật xuống đĩa.');
-    } catch (e) {
-        console.error('Lỗi lưu tệp cache mô hình:', e);
+        const fd = fs.openSync(lockFilePath, 'wx');
+        fs.writeSync(fd, String(process.pid));
+        fs.closeSync(fd);
+        hasLock = true;
+    } catch (err) {
+        console.log('Một tiến trình tính toán lại dự báo khác đang chạy (lockfile đã tồn tại). Hủy bỏ tiến trình hiện tại để tránh race condition.');
+        if (shouldExit) {
+            process.exit(0);
+        }
+        return 0;
     }
-    
-    // Update in-memory cache
-    const cache = require('../shared/cache');
-    cache.modelCache = modelCache;
-    cache.trainingData = trainingData;
-    
-    const trainScoresMap = {};
-    Object.keys(modelCache).forEach(target => {
-        trainScoresMap[target] = trainingData.students.filter(s => s.scores[target] != null).map(s => s.scores[target]);
-    });
-
-    const students = await prisma.student.findMany({ include: { scores: true } });
-    console.log(`Tìm thấy ${students.length} sinh viên trong Database.`);
-    
-    const dbCourses = await prisma.course.findMany();
-    
-    const getCourseId = (name) => {
-        const entry = Object.entries(COURSE_CODE_TO_NAME).find(([code, val]) => val === name);
-        if (entry) return entry[0];
-        
-        const exact = dbCourses.find(c => c.name === name);
-        if (exact) return exact.id;
-        const lower = dbCourses.find(c => c.name.toLowerCase() === name.toLowerCase());
-        if (lower) return lower.id;
-        return null;
-    };
-
-    const getTrainingName = (id) => {
-        if (COURSE_CODE_TO_NAME[id]) return COURSE_CODE_TO_NAME[id];
-        
-        const c = dbCourses.find(x => x.id === id);
-        if (!c) return null;
-        return c.name;
-    };
 
     let count = 0;
-    const operations = [];
-
-    for (const student of students) {
-        const mssv = student.mssv;
-        const scoresMap = {};
-        student.scores.forEach(s => {
-            scoresMap[s.courseId] = s.value;
-            const tName = getTrainingName(s.courseId);
-            if (tName) scoresMap[tName] = s.value;
+    try {
+        console.log('Bắt đầu tính toán lại toàn bộ dự báo...');
+        
+        // 1. Load latest training data from DB
+        const trainingData = await loadTrainingDataFromDB();
+        console.log(`📚 Đã load ${trainingData.students.length} sinh viên từ DB làm dữ liệu huấn luyện.`);
+        
+        // 2. Retrain models on the fly
+        const modelCache = trainModel(trainingData);
+        console.log(`⚡ Đã huấn luyện thành công ${Object.keys(modelCache).length} mô hình hồi quy.`);
+        
+        // Save to disk and update cache
+        try {
+            fs.writeFileSync(modelCachePath, JSON.stringify(modelCache, null, 2), 'utf8');
+            fs.writeFileSync(datasetPath, JSON.stringify(trainingData, null, 2), 'utf8');
+            console.log('💾 Đã lưu modelCache và trainingData cập nhật xuống đĩa.');
+        } catch (e) {
+            console.error('Lỗi lưu tệp cache mô hình:', e);
+        }
+        
+        // Update in-memory cache
+        const cache = require('../shared/cache');
+        cache.modelCache = modelCache;
+        cache.trainingData = trainingData;
+        
+        const trainScoresMap = {};
+        Object.keys(modelCache).forEach(target => {
+            trainScoresMap[target] = trainingData.students.filter(s => s.scores[target] != null).map(s => s.scores[target]);
         });
 
-        for (const target of Object.keys(modelCache)) {
-            const courseId = getCourseId(target);
-            if (!courseId) {
-                console.warn(`Không tìm thấy Course ID cho môn: ${target}`);
-                continue;
-            }
-            // Predict if they haven't learned it
-            if (scoresMap[target] == null && scoresMap[courseId] == null) {
-                const cachedModel = modelCache[target];
-                if (!cachedModel || !cachedModel.topFeatures) continue;
-                
-                const topFeatures = cachedModel.topFeatures;
-                const trainScores = trainScoresMap[target] || [];
-                
-                const activeFeatures = topFeatures.filter(f => scoresMap[f.subject] != null);
-                let predicted = null;
-                let reasons = [];
+        const students = await prisma.student.findMany({ include: { scores: true } });
+        console.log(`Tìm thấy ${students.length} sinh viên trong Database.`);
+        
+        const dbCourses = await prisma.course.findMany();
+        
+        const getCourseId = (name) => {
+            const entry = Object.entries(COURSE_CODE_TO_NAME).find(([code, val]) => val === name);
+            if (entry) return entry[0];
+            
+            const exact = dbCourses.find(c => c.name === name);
+            if (exact) return exact.id;
+            const lower = dbCourses.find(c => c.name.toLowerCase() === name.toLowerCase());
+            if (lower) return lower.id;
+            return null;
+        };
 
-                if (activeFeatures.length > 0) {
-                    const activeTotalScore = activeFeatures.reduce((sum, f) => sum + f.hybridScore, 0) || 1;
-                    let predSum = 0;
-                    activeFeatures.forEach(f => {
-                        const x = scoresMap[f.subject];
-                        const val = Math.min(10, Math.max(0, f.a + f.b * x));
-                        predSum += (f.hybridScore / activeTotalScore) * val;
-                    });
-                    const rawPredicted = Math.round(predSum * 10) / 10;
-                    predicted = calibrate(rawPredicted, trainScores);
+        const getTrainingName = (id) => {
+            if (COURSE_CODE_TO_NAME[id]) return COURSE_CODE_TO_NAME[id];
+            
+            const c = dbCourses.find(x => x.id === id);
+            if (!c) return null;
+            return c.name;
+        };
+
+        const operations = [];
+
+        for (const student of students) {
+            const mssv = student.mssv;
+            const scoresMap = {};
+            student.scores.forEach(s => {
+                scoresMap[s.courseId] = s.value;
+                const tName = getTrainingName(s.courseId);
+                if (tName) scoresMap[tName] = s.value;
+            });
+
+            for (const target of Object.keys(modelCache)) {
+                const courseId = getCourseId(target);
+                if (!courseId) {
+                    console.warn(`Không tìm thấy Course ID cho môn: ${target}`);
+                    continue;
+                }
+                // Predict if they haven't learned it
+                if (scoresMap[target] == null && scoresMap[courseId] == null) {
+                    const cachedModel = modelCache[target];
+                    if (!cachedModel || !cachedModel.topFeatures) continue;
                     
-                    topFeatures.forEach(f => {
-                        const score = scoresMap[f.subject];
-                        if (score != null) {
-                            const impact = f.r > 0 ? (score < 5 ? 'kéo xuống' : 'nâng lên') : (score < 5 ? 'nâng lên' : 'kéo xuống');
-                            reasons.push({
-                                subject: f.subject,
-                                score,
-                                r: Math.round(f.r * 100) / 100,
-                                impact: score < 5 ? 'negative' : score >= 7 ? 'positive' : 'neutral',
-                                explanation: `${f.subject} = ${score} (r=${Math.round(f.r * 100) / 100}) → ${impact}`
-                            });
-                        }
-                    });
-                }
+                    const topFeatures = cachedModel.topFeatures;
+                    const trainScores = trainScoresMap[target] || [];
+                    
+                    const activeFeatures = topFeatures.filter(f => scoresMap[f.subject] != null);
+                    let predicted = null;
+                    let reasons = [];
 
-                if (predicted == null) {
-                    const otherScores = Object.values(scoresMap).filter(v => v !== null && typeof v === 'number');
-                    if (otherScores.length > 0) {
-                        const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
-                        predicted = Math.round(avgOther * 10) / 10;
-                        reasons = [{
-                            subject: 'Trung bình môn học khác',
-                            score: predicted,
-                            r: 0.4,
-                            impact: predicted < 5 ? 'negative' : 'positive',
-                            explanation: `Dự báo dựa trên điểm trung bình các môn khác (${predicted}đ)`
-                        }];
-                    } else {
-                        const trainAvg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 7.2;
-                        predicted = Math.round(trainAvg * 10) / 10;
-                        reasons = [{
-                            subject: 'Trung bình môn học',
-                            score: predicted,
-                            r: 0.1,
-                            impact: 'neutral',
-                            explanation: `Dự báo dựa trên điểm trung bình môn của khóa trước (${predicted}đ)`
-                        }];
-                    }
-                }
-
-                // Cascading Risk
-                const prereqs = ACADEMIC_PREREQUISITES[target] || [];
-                if (prereqs.length > 0) {
-                    let cascadePenalty = 0;
-                    let rootCauses = [];
-                    prereqs.forEach(prereq => {
-                        if (scoresMap[prereq] !== undefined && scoresMap[prereq] !== null) {
-                            if (scoresMap[prereq] < 5.0) {
-                                cascadePenalty += 2.0;
-                                rootCauses.push(`Hổng kiến thức nền tảng do rớt môn tiên quyết "${prereq}" (${scoresMap[prereq]}đ).`);
-                            } else if (scoresMap[prereq] < 6.5) {
-                                cascadePenalty += 0.5;
-                                rootCauses.push(`Kiến thức nền tảng chưa vững ở môn tiên quyết "${prereq}" (${scoresMap[prereq]}đ).`);
+                    if (activeFeatures.length > 0) {
+                        const activeTotalScore = activeFeatures.reduce((sum, f) => sum + f.hybridScore, 0) || 1;
+                        let predSum = 0;
+                        activeFeatures.forEach(f => {
+                            const x = scoresMap[f.subject];
+                            const val = Math.min(10, Math.max(0, f.a + f.b * x));
+                            predSum += (f.hybridScore / activeTotalScore) * val;
+                        });
+                        const rawPredicted = Math.round(predSum * 10) / 10;
+                        predicted = calibrate(rawPredicted, trainScores);
+                        
+                        topFeatures.forEach(f => {
+                            const score = scoresMap[f.subject];
+                            if (score != null) {
+                                const impact = f.r > 0 ? (score < 5 ? 'kéo xuống' : 'nâng lên') : (score < 5 ? 'nâng lên' : 'kéo xuống');
+                                reasons.push({
+                                    subject: f.subject,
+                                    score,
+                                    r: Math.round(f.r * 100) / 100,
+                                    impact: score < 5 ? 'negative' : score >= 7 ? 'positive' : 'neutral',
+                                    explanation: `${f.subject} = ${score} (r=${Math.round(f.r * 100) / 100}) → ${impact}`
+                                });
                             }
-                        }
-                    });
-
-                    if (cascadePenalty > 0) {
-                        predicted = Math.max(0, predicted - cascadePenalty);
-                        reasons.unshift({
-                            subject: 'Cascading Risk (Rủi ro lan truyền)',
-                            score: null,
-                            r: 1.0,
-                            impact: 'negative',
-                            explanation: rootCauses.join(' ')
                         });
                     }
+
+                    if (predicted == null) {
+                        const otherScores = Object.values(scoresMap).filter(v => v !== null && typeof v === 'number');
+                        if (otherScores.length > 0) {
+                            const avgOther = otherScores.reduce((a, b) => a + b, 0) / otherScores.length;
+                            predicted = Math.round(avgOther * 10) / 10;
+                            reasons = [{
+                                subject: 'Trung bình môn học khác',
+                                score: predicted,
+                                r: 0.4,
+                                impact: predicted < 5 ? 'negative' : 'positive',
+                                explanation: `Dự báo dựa trên điểm trung bình các môn khác (${predicted}đ)`
+                            }];
+                        } else {
+                            const trainAvg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 7.2;
+                            predicted = Math.round(trainAvg * 10) / 10;
+                            reasons = [{
+                                subject: 'Trung bình môn học',
+                                score: predicted,
+                                r: 0.1,
+                                impact: 'neutral',
+                                explanation: `Dự báo dựa trên điểm trung bình môn của khóa trước (${predicted}đ)`
+                            }];
+                        }
+                    }
+
+                    // Cascading Risk
+                    const prereqs = ACADEMIC_PREREQUISITES[target] || [];
+                    if (prereqs.length > 0) {
+                        let cascadePenalty = 0;
+                        let rootCauses = [];
+                        prereqs.forEach(prereq => {
+                            if (scoresMap[prereq] !== undefined && scoresMap[prereq] !== null) {
+                                if (scoresMap[prereq] < 5.0) {
+                                    cascadePenalty += 2.0;
+                                    rootCauses.push(`Hổng kiến thức nền tảng do rớt môn tiên quyết "${prereq}" (${scoresMap[prereq]}đ).`);
+                                } else if (scoresMap[prereq] < 6.5) {
+                                    cascadePenalty += 0.5;
+                                    rootCauses.push(`Kiến thức nền tảng chưa vững ở môn tiên quyết "${prereq}" (${scoresMap[prereq]}đ).`);
+                                }
+                            }
+                        });
+
+                        if (cascadePenalty > 0) {
+                            predicted = Math.max(0, predicted - cascadePenalty);
+                            reasons.unshift({
+                                subject: 'Cascading Risk (Rủi ro lan truyền)',
+                                score: null,
+                                r: 1.0,
+                                impact: 'negative',
+                                explanation: rootCauses.join(' ')
+                            });
+                        }
+                    }
+
+                    predicted = Math.round(predicted * 10) / 10;
+                    const risk = predicted < 5 ? 'HIGH' : predicted < 6.5 ? 'MEDIUM' : 'LOW';
+
+                    operations.push(prisma.prediction.upsert({
+                        where: { mssv_courseId: { mssv, courseId: courseId } },
+                        update: { predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) },
+                        create: { mssv, courseId: courseId, predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) }
+                    }));
+                    count++;
+
+                    if (operations.length >= 200) {
+                        await prisma.$transaction(operations);
+                        operations.length = 0;
+                    }
                 }
+            }
+        }
 
-                predicted = Math.round(predicted * 10) / 10;
-                const risk = predicted < 5 ? 'HIGH' : predicted < 6.5 ? 'MEDIUM' : 'LOW';
+        if (operations.length > 0) {
+            await prisma.$transaction(operations);
+        }
 
-                operations.push(prisma.prediction.upsert({
-                    where: { mssv_courseId: { mssv, courseId: courseId } },
-                    update: { predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) },
-                    create: { mssv, courseId: courseId, predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) }
-                }));
-                count++;
-
-                if (operations.length >= 200) {
-                    await prisma.$transaction(operations);
-                    operations.length = 0;
+        console.log(`✅ Đã tính toán và lưu ${count} dự báo vào Database.`);
+    } finally {
+        if (hasLock) {
+            try {
+                if (fs.existsSync(lockFilePath)) {
+                    fs.unlinkSync(lockFilePath);
                 }
+            } catch (unlinkErr) {
+                console.error('Lỗi khi xóa lockfile:', unlinkErr);
             }
         }
     }
 
-    if (operations.length > 0) {
-        await prisma.$transaction(operations);
-    }
-
-    console.log(`✅ Đã tính toán và lưu ${count} dự báo vào Database.`);
     if (shouldExit) {
         process.exit(0);
     }
