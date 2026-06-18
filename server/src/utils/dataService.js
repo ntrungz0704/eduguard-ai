@@ -122,12 +122,18 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
     const upper = raw.toUpperCase();
     const lower = raw.toLowerCase();
 
+    let name = null;
     // 1. Direct lookup by code, alias, or name
-    if (lookupMap.has(upper)) return lookupMap.get(upper);
-    if (lookupMap.has(lower)) return lookupMap.get(lower);
+    if (lookupMap.has(upper)) {
+      name = lookupMap.get(upper);
+    } else if (lookupMap.has(lower)) {
+      name = lookupMap.get(lower);
+    } else {
+      name = raw;
+    }
 
-    // 2. Fuzzy fallback
-    return mapToPretrainedSubject(raw, pretrainedSubjects);
+    // 2. Map to the standard pretrained subject name (fuzzy & accent correction)
+    return mapToPretrainedSubject(name, pretrainedSubjects);
   };
 
   // Helper to normalize header names for robust fuzzy detection
@@ -764,9 +770,8 @@ function resolveToSubjectName(input, pretrainedSubjects = []) {
     }
   }
   
-  // 3. Verify standard name if matched
-  if (name && (pretrainedSubjects.length === 0 || pretrainedSubjects.includes(name))) {
-    return name;
+  if (name) {
+    return mapToPretrainedSubject(name, pretrainedSubjects);
   }
   
   // 4. Otherwise, fallback to smart name fuzzy mapping
