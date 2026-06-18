@@ -1,5 +1,6 @@
 const knowledgeCache = require('../knowledge/cache');
 const { analyzeBehavior } = require('./behavior-engine');
+const { calculateFptGPA } = require('../../utils/dataService');
 
 const getStudentCourseStatus = (student, courseCode, courseName) => {
   if (!student || !student.courseStatus) return undefined;
@@ -277,8 +278,21 @@ exports.analyzeCareer = (student, careerGoal) => {
     academicScore = maxAcademicWeight > 0 ? (passedAcademicWeight / maxAcademicWeight) * 100 : 0;
     industryScore = maxIndustryWeight > 0 ? (acquiredIndustryWeight / maxIndustryWeight) * 100 : 0;
     
-    // Readiness Score = 30% Academic + 40% Industry + 20% Portfolio + 10% Behavior
-    readinessScore = Math.round((academicScore * 0.3) + (industryScore * 0.4) + (portfolioScore * 0.2) + (behaviorScoreVal * 0.1));
+    // Base readiness score
+    const baseReadinessScore = Math.round((academicScore * 0.3) + (industryScore * 0.4) + (portfolioScore * 0.2) + (behaviorScoreVal * 0.1));
+    
+    // Aptitude match based on learning style and strengths/weaknesses
+    const styleScore = calculateStyleMatch(student.learningStyle, student.strengths || [], student.weaknesses || [], careerGoal);
+    
+    // GPA score
+    const gpaResult = calculateFptGPA(student.scores || []);
+    const gpaScore = gpaResult && gpaResult.gpa ? gpaResult.gpa * 10 : 0;
+    
+    // Blend base readiness with style/GPA aptitude
+    const aptitudeScore = (styleScore * 0.6) + (gpaScore * 0.4);
+    const progress = academicScore / 100; // relevant course progress
+    
+    readinessScore = Math.round((baseReadinessScore * progress) + (aptitudeScore * (1 - progress)));
     readinessScore = Math.min(100, Math.max(0, readinessScore));
 
     if (readinessScore <= 20) readinessLevel = 'Explorer';
@@ -349,7 +363,7 @@ exports.analyzeCareer = (student, careerGoal) => {
     courseName: c.courseName,
     skills: c.skills
   }));
-  const insufficientEvidence = matchedSkills.length === 0 && evidence.length === 0;
+  const insufficientEvidence = mode === 'STUDENT' ? (!student.scores || student.scores.filter(s => s.value !== null).length === 0) : false;
 
   return {
     mode,
@@ -528,3 +542,5 @@ exports.suggestBestCareers = (student) => {
   results.sort((a, b) => b.score - a.score);
   return results; 
 };
+
+exports.calculateStyleMatch = calculateStyleMatch;

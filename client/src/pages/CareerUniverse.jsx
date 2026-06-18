@@ -300,7 +300,7 @@ export default function CareerUniverse() {
           {topMatches.filter(c => (c.readinessScore || 0) > 0).length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {topMatches.filter(c => (c.readinessScore || 0) > 0).slice(0, 3).map((career, i) => (
-                <TopMatchCard key={career.id} career={career} rank={i} onClick={() => navigate(`/career-universe/${career.id}`)} />
+                <TopMatchCard key={career.id} career={career} rank={i} onClick={() => navigate(`/career/${career.id}`)} />
               ))}
             </div>
           ) : (
@@ -362,7 +362,7 @@ export default function CareerUniverse() {
               {/* Grid of Career Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {belongs.map(career => (
-                  <CareerCard key={career.id} career={career} onClick={() => navigate(`/career-universe/${career.id}`)} />
+                  <CareerCard key={career.id} career={career} onClick={() => navigate(`/career/${career.id}`)} />
                 ))}
               </div>
             </div>

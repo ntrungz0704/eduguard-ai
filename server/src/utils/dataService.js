@@ -781,41 +781,38 @@ function resolveToSubjectName(input, pretrainedSubjects = []) {
 async function initCourseAliases() {
   const { prisma } = require('../infrastructure/database/prisma');
   try {
-    const count = await prisma.courseAlias.count();
-    if (count === 0) {
-      console.log('[CourseAlias] Seeding default course aliases to database...');
-      const defaultAliases = [];
-      
-      // Seed from courseNameToCodeMap
-      for (const [name, code] of Object.entries(courseNameToCodeMap)) {
-        defaultAliases.push({
-          aliasCode: name.toLowerCase(),
-          courseCode: code,
-          source: 'SYSTEM'
-        });
-      }
-      
-      // Seed from courseCodeNormalizationMap
-      for (const [code, canonical] of Object.entries(courseCodeNormalizationMap)) {
-        defaultAliases.push({
-          aliasCode: code.toLowerCase(),
-          courseCode: canonical,
-          source: 'SYSTEM'
-        });
-      }
-      
-      // Seed using a transaction of upserts for cross-version compatibility
-      await prisma.$transaction(
-        defaultAliases.map(item => 
-          prisma.courseAlias.upsert({
-            where: { aliasCode: item.aliasCode },
-            update: {},
-            create: item
-          })
-        )
-      );
-      console.log(`[CourseAlias] Seeded ${defaultAliases.length} aliases.`);
+    console.log('[CourseAlias] Synchronizing default course aliases to database...');
+    const defaultAliases = [];
+    
+    // Seed from courseNameToCodeMap
+    for (const [name, code] of Object.entries(courseNameToCodeMap)) {
+      defaultAliases.push({
+        aliasCode: name.toLowerCase(),
+        courseCode: code,
+        source: 'SYSTEM'
+      });
     }
+    
+    // Seed from courseCodeNormalizationMap
+    for (const [code, canonical] of Object.entries(courseCodeNormalizationMap)) {
+      defaultAliases.push({
+        aliasCode: code.toLowerCase(),
+        courseCode: canonical,
+        source: 'SYSTEM'
+      });
+    }
+    
+    // Seed using a transaction of upserts for cross-version compatibility
+    await prisma.$transaction(
+      defaultAliases.map(item => 
+        prisma.courseAlias.upsert({
+          where: { aliasCode: item.aliasCode },
+          update: {},
+          create: item
+        })
+      )
+    );
+    console.log(`[CourseAlias] Synchronized ${defaultAliases.length} aliases.`);
     
     // Load from DB
     await refreshCourseAliases();

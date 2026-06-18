@@ -122,7 +122,7 @@ exports.getAllCareers = async (mssv) => {
 
         if (board) {
           // If a Learning Board exists, calculate real metrics from DB
-          const realMetrics = await readinessService.calculateCareerReadiness(mssv, careerId, board.tasks, dbStudent);
+          const realMetrics = await readinessService.calculateCareerReadiness(mssv, careerId, board.tasks, student);
           readinessScore = realMetrics.readinessScore;
         } else {
           // Otherwise, simulate based on academic mapping

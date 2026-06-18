@@ -48,12 +48,55 @@ exports.calculateCareerReadiness = async (studentId, careerId, boardTasks, stude
       portfolioScore = Math.min(100, totalGithubPoints);
     }
 
-    // Readiness Score Formula
-    const readinessScore = Math.round(
+    // Base readiness score
+    const baseReadinessScore = Math.round(
       (academicScore * 0.3) + 
       (industryScore * 0.4) + 
       (portfolioScore * 0.3)
     );
+
+    // Aptitude match based on learning style and strengths/weaknesses
+    let learningStyle = student ? student.learningStyle : undefined;
+    let strengths = student ? student.strengths : undefined;
+    let weaknesses = student ? student.weaknesses : undefined;
+
+    if (student && !learningStyle) {
+      try {
+        const mem = await prisma.studentMemory.findUnique({
+          where: { studentId }
+        });
+        if (mem) {
+          learningStyle = mem.learningStyle;
+          try { strengths = JSON.parse(mem.strengths); } catch {}
+          try { weaknesses = JSON.parse(mem.weaknesses); } catch {}
+        }
+      } catch (e) {
+        console.warn("Failed to load student memory in calculateCareerReadiness:", e);
+      }
+    }
+
+    const { calculateStyleMatch } = require('../advisor/career-engine');
+    const roadmaps = require('../knowledge/cache').get('careerRoadmaps') || {};
+    const careerKey = Object.keys(roadmaps).find(k => {
+      const slug = k.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      return slug === careerId || (careerId === 'ai-engineer' && k === 'AI Fullstack Engineer');
+    }) || careerId;
+
+    const styleScore = calculateStyleMatch(
+      learningStyle,
+      strengths || [],
+      weaknesses || [],
+      careerKey
+    );
+
+    const gpaResult = dataService.calculateFptGPA(student ? student.scores : []);
+    const gpaScore = gpaResult && gpaResult.gpa ? gpaResult.gpa * 10 : 0;
+    const aptitudeScore = (styleScore * 0.6) + (gpaScore * 0.4);
+
+    const passedCount = student && student.scores ? student.scores.filter(s => s.status === 'PASSED').length : 0;
+    const progress = Math.min(1.0, passedCount / 15); // normalized at 15 passed courses
+
+    const readinessScore = Math.round((baseReadinessScore * progress) + (aptitudeScore * (1 - progress)));
 
     return {
       readinessScore: Math.min(100, Math.max(0, readinessScore)),
