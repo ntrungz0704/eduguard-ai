@@ -334,7 +334,7 @@ router.get('/training-info', async (req, res) => {
 // ============================================================
 // API: Model Evaluation Engine (LOOCV Approximation)
 // ============================================================
-router.get('/evaluate-model', requireAdvisor, async (req, res, next) =>;
+router.get('/evaluate-model', requireAdvisor, async (req, res, next) => {
   try {
     const { loadTrainingDataFromDB, recalculateAllPredictions } = require('../scripts/recalculate_predictions');
     
@@ -2507,7 +2507,6 @@ router.post('/intervention-roadmap/:id/status', async (req, res) => {
     if (req.user.role === 'STUDENT' && String(roadmapObj.studentId).toUpperCase() !== String(req.user.id).toUpperCase()) {
       return res.status(403).json({ error: 'Bạn không có quyền cập nhật lộ trình của người khác.' });
     }
-    const { status } = req.body;
     const interventionRoadmap = await prisma.interventionRoadmap.update({
       where: { id: id },
       data: { status }
