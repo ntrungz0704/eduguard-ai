@@ -139,7 +139,29 @@ function getFutureRiskWarnings(scores) {
  */
 async function generateDetailedDSSReport(student) {
   if (!student) return null;
-  const scores = student.scores || [];
+  let scores = student.scores || [];
+  if (scores.length > 0) {
+    const highestScoresMap = new Map();
+    scores.forEach(s => {
+      if (!s.courseId) return;
+      const existing = highestScoresMap.get(s.courseId);
+      if (!existing) {
+        highestScoresMap.set(s.courseId, s);
+      } else {
+        const existingVal = existing.value !== null ? existing.value : -1;
+        const currentVal = s.value !== null ? s.value : -1;
+        if (currentVal > existingVal) {
+          highestScoresMap.set(s.courseId, s);
+        } else if (currentVal === existingVal) {
+           if (s.status === 'PASSED' && existing.status !== 'PASSED') {
+              highestScoresMap.set(s.courseId, s);
+           }
+        }
+      }
+    });
+    scores = Array.from(highestScoresMap.values());
+    student.scores = scores; // Update the reference so downstream functions use deduped scores
+  }
   const gradedScores = scores.filter(s => s.value !== null);
   if (gradedScores.length === 0) {
     return {
