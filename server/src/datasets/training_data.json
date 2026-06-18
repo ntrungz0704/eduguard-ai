@@ -21411,6 +21411,14 @@
         "Khởi sự doanh nghiệp": 8.9,
         "Kỹ năng làm việc": 8.2
       }
+    },
+    {
+      "id": "PSTEST999",
+      "name": "Nguyen Van Test",
+      "classCode": "TEST999",
+      "scores": {
+        "Tin học": 8.5
+      }
     }
   ]
 }

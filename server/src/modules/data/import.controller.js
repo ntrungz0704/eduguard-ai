@@ -121,7 +121,7 @@ exports.previewData = async (req, res) => {
     const seenKeysInFile = new Set();
 
     // Feature Flag validation
-    const enableComponentScore = process.env.ENABLE_COMPONENT_SCORE === 'true';
+    const componentEnabled = process.env.ENABLE_COMPONENT_SCORE === 'true';
 
     for (let index = 0; index < data.length; index++) {
       const row = data[index];
@@ -136,39 +136,40 @@ exports.previewData = async (req, res) => {
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
       let calculatedScore = calculateScore(row);
-      let rawScore = calculatedScore; // Save raw uploaded score
+      
+      let rawScore = null;
       let computedScore = null;
       let rowComponents = [];
       const warnings = [];
 
-      // Dynamic Assessment Components logic (Dormant by default)
-      if (enableComponentScore && course) {
-        try {
-          // Resolve assessment schema using 'K19' curriculum and semester
-          const schema = await resolveCourseAssessmentSchema(course, 'K19', semester);
-          const inferred = inferComponentsFromExcel(row);
-          rowComponents = normalizeAssessmentColumns(inferred, schema);
-          if (rowComponents.length > 0) {
-            const finalWeighted = calculateFinalScore(rowComponents, schema);
-            if (finalWeighted !== null) {
-              computedScore = finalWeighted;
+      // Only execute assessment engine components if flag is enabled
+      if (componentEnabled) {
+        rawScore = calculatedScore;
+        if (course) {
+          try {
+            const schema = await resolveCourseAssessmentSchema(course, 'K19', semester);
+            const inferred = inferComponentsFromExcel(row);
+            rowComponents = normalizeAssessmentColumns(inferred, schema);
+            if (rowComponents.length > 0) {
+              const finalWeighted = calculateFinalScore(rowComponents, schema);
+              if (finalWeighted !== null) {
+                computedScore = finalWeighted;
+              }
             }
+          } catch (err) {
+            logger.warn(`[AssessmentEngine] Failed to resolve schema for preview: ${err.message}`);
           }
-        } catch (err) {
-          logger.warn(`[AssessmentEngine] Failed to resolve schema for preview: ${err.message}`);
         }
-      }
 
-      if (enableComponentScore && computedScore !== null) {
-        if (rawScore !== null && rawScore !== undefined) {
-          // Do NOT overwrite teacher's total score. Keep raw score as the final score.
-          calculatedScore = rawScore;
-          if (Math.abs(rawScore - computedScore) > 0.01) {
-            warnings.push(`Dòng ${rowNum}: Điểm tổng kết giáo viên nhập (${rawScore}) khác với điểm tính toán từ thành phần (${computedScore}).`);
+        if (computedScore !== null) {
+          if (rawScore !== null && rawScore !== undefined) {
+            calculatedScore = rawScore;
+            if (Math.abs(rawScore - computedScore) > 0.01) {
+              warnings.push(`Dòng ${rowNum}: Điểm tổng kết giáo viên nhập (${rawScore}) khác với điểm tính toán từ thành phần (${computedScore}).`);
+            }
+          } else {
+            calculatedScore = computedScore;
           }
-        } else {
-          // If no raw score provided, use computed score
-          calculatedScore = computedScore;
         }
       }
       
@@ -230,7 +231,7 @@ exports.previewData = async (req, res) => {
 
       if (errors.length > 0) hasErrors = true;
 
-      previewData.push({
+      const previewItem = {
         _row: rowNum,
         mssv: mssv ? String(mssv).trim().toUpperCase() : 'N/A',
         name,
@@ -242,12 +243,17 @@ exports.previewData = async (req, res) => {
         semester: String(semester).trim(),
         rowStatus,
         errors,
-        warnings,
-        isValid: errors.length === 0,
-        components: rowComponents,
-        rawScore: rawScore !== null && !isNaN(rawScore) ? parseFloat(rawScore.toFixed(2)) : null,
-        computedScore: computedScore !== null && !isNaN(computedScore) ? parseFloat(computedScore.toFixed(2)) : null
-      });
+        isValid: errors.length === 0
+      };
+
+      if (componentEnabled) {
+        previewItem.warnings = warnings;
+        previewItem.components = rowComponents;
+        previewItem.rawScore = rawScore !== null && !isNaN(rawScore) ? parseFloat(rawScore.toFixed(2)) : null;
+        previewItem.computedScore = computedScore !== null && !isNaN(computedScore) ? parseFloat(computedScore.toFixed(2)) : null;
+      }
+
+      previewData.push(previewItem);
     }
 
     const validRowsCount = previewData.filter(r => r.isValid).length;
@@ -342,7 +348,7 @@ exports.publishData = async (req, res) => {
     let scoresInserted = 0;
     let scoresUpdated = 0;
 
-    const enableComponentScore = process.env.ENABLE_COMPONENT_SCORE === 'true';
+    const componentEnabled = process.env.ENABLE_COMPONENT_SCORE === 'true';
 
     await prisma.$transaction(async (tx) => {
       // 1. Create ImportSession first to get ID
@@ -380,8 +386,13 @@ exports.publishData = async (req, res) => {
         // Determine status and score value
         let status = row.rowStatus;
         let scoreValue = row.score;
-        let rawScore = row.rawScore !== undefined ? row.rawScore : null;
-        let computedScore = row.computedScore !== undefined ? row.computedScore : null;
+        let rawScore = null;
+        let computedScore = null;
+
+        if (componentEnabled) {
+          rawScore = row.rawScore !== undefined ? row.rawScore : null;
+          computedScore = row.computedScore !== undefined ? row.computedScore : null;
+        }
 
         if (status === 'STUDYING' || status === 'NOT_STARTED') {
           scoreValue = null;
@@ -452,8 +463,8 @@ exports.publishData = async (req, res) => {
           }
         });
 
-        // Save components if feature is enabled
-        if (enableComponentScore && row.components && Array.isArray(row.components) && row.components.length > 0) {
+        // Save components only if feature is enabled
+        if (componentEnabled && row.components && Array.isArray(row.components) && row.components.length > 0) {
           const dbComps = buildAssessmentObjects(row.components, scoreRecord.id, importSession.id, 'EXCEL');
           await saveScoreComponents(tx, scoreRecord.id, dbComps);
         }

@@ -29,6 +29,9 @@ async function runTests() {
   console.log('=== STARTING FUTURE ASSESSMENT COMPONENTS ARCHITECTURE AUDIT ===\n');
 
   let passed = true;
+  
+  // Set flag to true for active component unit tests
+  process.env.ENABLE_COMPONENT_SCORE = 'true';
 
   // 1. Verify Assessment Engine loads successfully
   console.log('1. Checking Assessment Engine loading...');
@@ -130,7 +133,7 @@ async function runTests() {
   const parsedRow = resPreview.data.data[0];
   const hash = resPreview.data.fileHash;
 
-  if (parsedRow.components.length === 0 && parsedRow.score === 7.0) {
+  if ((parsedRow.components === undefined || parsedRow.components.length === 0) && parsedRow.score === 7.0) {
     console.log('✅ In Dormant Mode, Excel components are ignored. Preview uses the provided total score (7.0).');
   } else {
     console.error('❌ Component extraction was NOT bypassed in dormant mode.', parsedRow);

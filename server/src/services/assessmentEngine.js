@@ -80,6 +80,10 @@ function parseSemester(sem) {
  * @returns {Promise<Array>} List of schema components with mapped float weight
  */
 async function resolveCourseAssessmentSchema(courseCode, curriculumVersion = 'K19', semester = null) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return [];
+  }
+
   const code = String(courseCode).toUpperCase().trim();
   
   // 1. Try to find active schemas matching curriculumVersion
@@ -153,6 +157,10 @@ async function resolveCourseAssessmentSchema(courseCode, curriculumVersion = 'K1
  * @returns {Array<string>} List of columns matching components
  */
 function detectAssessmentColumns(headers) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return [];
+  }
+
   if (!headers || !Array.isArray(headers)) return [];
   
   const nonComponentKeys = new Set([
@@ -186,6 +194,10 @@ function detectAssessmentColumns(headers) {
  * @returns {object} Extracted component values (e.g. { lab1: 8.5, asm1: 9 })
  */
 function inferComponentsFromExcel(row) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return {};
+  }
+
   if (!row || typeof row !== 'object') return {};
   
   const headers = Object.keys(row);
@@ -214,6 +226,10 @@ function inferComponentsFromExcel(row) {
  * @returns {Array} List of normalized components with values
  */
 function normalizeAssessmentColumns(inferredComponents, courseSchema) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return [];
+  }
+
   if (!inferredComponents || !courseSchema) return [];
 
   const result = [];
@@ -256,6 +272,10 @@ function normalizeAssessmentColumns(inferredComponents, courseSchema) {
  * @returns {boolean} True if valid
  */
 function validateWeights(schema) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return false;
+  }
+
   if (!schema || schema.length === 0) return false;
   const totalWeight = schema.reduce((sum, item) => sum + (item.weight || 0), 0);
   return Math.abs(totalWeight - 1.0) < 0.001; // Allow float precision variations
@@ -269,6 +289,10 @@ function validateWeights(schema) {
  * @returns {number|null} Calculated score or null if insufficient data
  */
 function calculateWeightedAverage(components, schema) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return null;
+  }
+
   if (!components || components.length === 0) return null;
 
   let totalWeightedScore = 0;
@@ -292,6 +316,10 @@ function calculateWeightedAverage(components, schema) {
  * Calculate final score wrapper.
  */
 function calculateFinalScore(components, courseSchema) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return null;
+  }
+
   return calculateWeightedAverage(components, courseSchema);
 }
 
@@ -299,6 +327,10 @@ function calculateFinalScore(components, courseSchema) {
  * Creates database-ready array of components to insert.
  */
 function buildAssessmentObjects(normalizedComponents, scoreId, importSessionId = null, sourceType = 'EXCEL') {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return [];
+  }
+
   if (!normalizedComponents || !Array.isArray(normalizedComponents)) return [];
   
   return normalizedComponents.map(c => {
@@ -328,6 +360,10 @@ function buildAssessmentObjects(normalizedComponents, scoreId, importSessionId =
  * @param {Array} dbComponents - Prepared components array
  */
 async function saveScoreComponents(tx, scoreId, dbComponents) {
+  if (process.env.ENABLE_COMPONENT_SCORE !== 'true') {
+    return;
+  }
+
   if (!dbComponents || dbComponents.length === 0) return;
   
   // Wipe any existing components for this score entry to prevent duplicate constraints
