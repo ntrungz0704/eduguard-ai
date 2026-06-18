@@ -98,29 +98,13 @@ function getMockMemoryForMssv(mssv) {
   }
 
   // General deterministic generation based on mssv hash
-  const learningStyles = ['Hands-on', 'Analytical', 'Social', 'Self-taught', 'Rote learning', 'Theory-only'];
-  const careerGoals = ['Frontend Developer', 'Backend Developer', 'AI Fullstack Engineer', 'Mobile Developer', 'QA Automation'];
-  const allStrengths = ['HTML/CSS', 'Javascript', 'SQL', 'Logical Thinking', 'English', 'UI Design', 'Problem Solving'];
-  const allWeaknesses = ['Algorithms', 'Teamwork', 'Self-study', 'System Design', 'Communication', 'Debugging'];
-
-  const styleIdx = mssvNum % learningStyles.length;
-  const careerIdx = (mssvNum + 1) % careerGoals.length;
-  const strengthIdx1 = (mssvNum + 2) % allStrengths.length;
-  const strengthIdx2 = (mssvNum + 3) % allStrengths.length;
-  const weaknessIdx1 = (mssvNum + 4) % allWeaknesses.length;
-  const weaknessIdx2 = (mssvNum + 5) % allWeaknesses.length;
-
-  const strengths = [allStrengths[strengthIdx1]];
-  if (strengthIdx1 !== strengthIdx2) strengths.push(allStrengths[strengthIdx2]);
-  
-  const weaknesses = [allWeaknesses[weaknessIdx1]];
-  if (weaknessIdx1 !== weaknessIdx2) weaknesses.push(allWeaknesses[weaknessIdx2]);
-
+  // DISABLED: We no longer generate random skills/careers for new students
+  // to avoid false positives (buffing) in the Career Engine.
   return {
-    learningStyle: learningStyles[styleIdx],
-    careerGoal: careerGoals[careerIdx],
-    strengths,
-    weaknesses
+    learningStyle: null,
+    careerGoal: null,
+    strengths: [],
+    weaknesses: []
   };
 }
 
