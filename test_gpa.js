@@ -19,8 +19,8 @@ const scores = [
   { courseId: 'WEB2014', course: { name: 'Lập trình PHP 1' }, value: 9.2 },
   { courseId: 'WEB2041', course: { name: 'Dự án mẫu (TKTW)' }, value: 5.8 },
   { courseId: 'WEB3023', course: { name: 'Thiết kế Web với HTML5&CSS3' }, value: 9.9 },
-  { courseId: 'VIE104', course: { name: 'Giáo dục quốc phòng' }, value: 1.0 },
-  { courseId: 'VIE108', course: { name: 'Chính trị' }, value: 1.0 }
+  { courseId: 'VIE104', course: { name: 'Giáo dục quốc phòng' }, value: 6, status: 'PASSED' },
+  { courseId: 'VIE108', course: { name: 'Chính trị' }, value: 10, status: 'PASSED' }
 ];
 
 console.log(calculateFptGPA(scores));

@@ -21,7 +21,34 @@ const storage = multer.diskStorage({
     cb(null, uniqueSuffix + '-' + file.originalname);
   }
 });
-const upload = multer({ storage: storage });
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.csv', '.txt', '.zip', '.rar'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!allowedExtensions.includes(ext)) {
+      return cb(new Error('Chỉ cho phép các định dạng tài liệu, bảng tính hoặc hình ảnh an toàn.'));
+    }
+    cb(null, true);
+  }
+});
+
+const uploadMiddleware = (req, res, next) => {
+  upload.array('files')(req, res, (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return res.status(400).json({ error: 'Kích thước file không được vượt quá 5MB.' });
+        }
+        return res.status(400).json({ error: `Lỗi tải file: ${err.message}` });
+      }
+      return res.status(400).json({ error: err.message });
+    }
+    next();
+  });
+};
 
 const { jwtMiddleware } = require('./auth/middleware');
 
@@ -422,7 +449,7 @@ router.get('/messages/:userId', async (req, res) => {
 });
 
 // Send a message
-router.post('/messages', upload.array('files'), async (req, res) => {
+router.post('/messages', uploadMiddleware, async (req, res) => {
   const { senderId, receiverId, content } = req.body;
 
   // Security check: authenticated senderId must match req.user.id

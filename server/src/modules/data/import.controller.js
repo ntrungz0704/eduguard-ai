@@ -59,10 +59,6 @@ async function backupDatabase() {
   return backupFile;
 }
 
-function restoreDatabase(backupFile) {
-  const dbPath = path.resolve(__dirname, '../../../../prisma/dev.db');
-  fs.copyFileSync(backupFile, dbPath);
-}
 
 exports.previewData = async (req, res) => {
   try {
@@ -573,16 +569,6 @@ exports.publishData = async (req, res) => {
 
   } catch (error) {
     logger.error('Publish data error, rolling back database changes:', error);
-
-    // === ROLLBACK RESTORATION OF DB FILE ===
-    if (backupFile) {
-      try {
-        restoreDatabase(backupFile);
-        logger.warn(`Database dev.db file restored from snapshot: ${backupFile}`);
-      } catch (restoreErr) {
-        logger.error('Failed to restore database dev.db file from backup:', restoreErr);
-      }
-    }
 
     // Save failed import to session for audit trail (executed outside transaction)
     if (fileHash) {

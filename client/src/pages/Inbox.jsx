@@ -64,7 +64,9 @@ export default function Inbox() {
       if (conv) {
         setMessages((conv.messages || []).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)));
         setActivePartnerName(conv.partnerName);
-        markAsRead(activePartnerId);
+        if (conv.unreadCount > 0) {
+          markAsRead(activePartnerId);
+        }
       } else {
         setMessages([]);
         setActivePartnerName(activePartnerId);

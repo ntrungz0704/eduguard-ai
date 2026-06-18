@@ -175,9 +175,10 @@ export default function GPA() {
               />
               <button 
                 onClick={fetchStudentData} 
-                className="bg-cyan-600 hover:bg-cyan-500 text-slate-900 dark:text-white p-4 rounded-2xl transition-colors shadow-lg shadow-sm dark:shadow-cyan-500/20 font-bold whitespace-nowrap"
+                disabled={loadingStudent}
+                className="bg-cyan-600 hover:bg-cyan-500 text-slate-900 dark:text-white p-4 rounded-2xl transition-colors shadow-lg shadow-sm dark:shadow-cyan-500/20 font-bold whitespace-nowrap disabled:opacity-50"
               >
-                Phân tích
+                {loadingStudent ? 'Đang phân tích...' : 'Phân tích'}
               </button>
             </div>
           </div>

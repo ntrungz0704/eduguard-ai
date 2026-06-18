@@ -29,6 +29,26 @@ const { calculateBaseRisk } = require('../ai/engines/riskEngine');
 // Protect all dashboard/chatbot APIs using JWT authentication
 router.use(jwtMiddleware);
 
+// Security Role Check Middleware
+const requireAdvisor = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Bạn cần đăng nhập để thực hiện thao tác này.' });
+  }
+  if (req.user.role !== 'ADVISOR' && req.user.role !== 'ADMIN') {
+    return res.status(403).json({ error: 'Bạn không có quyền truy cập chức năng này.' });
+  }
+  next();
+};
+
+// Vietnamese Diacritic Removal Helper for Accent-Insensitive Search
+const removeAccents = (str) => {
+  return String(str || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D');
+};
+
 // In-memory cache for red-alerts
 let cachedRedAlerts = null;
 let lastRedAlertsTime = 0;
@@ -314,7 +334,7 @@ router.get('/training-info', async (req, res) => {
 // ============================================================
 // API: Model Evaluation Engine (LOOCV Approximation)
 // ============================================================
-router.get('/evaluate-model', async (req, res, next) => {
+router.get('/evaluate-model', requireAdvisor, async (req, res, next) =>;
   try {
     const { loadTrainingDataFromDB, recalculateAllPredictions } = require('../scripts/recalculate_predictions');
     
@@ -461,7 +481,7 @@ router.get('/evaluate-model', async (req, res, next) => {
 // ============================================================
 // API: Cảnh báo đỏ & Priority Intervention Ranking
 // ============================================================
-router.get('/red-alerts', async (req, res) => {
+router.get('/red-alerts', requireAdvisor, async (req, res) => {
   try {
     const now = Date.now();
     if (cachedRedAlerts && (now - lastRedAlertsTime < RED_ALERTS_CACHE_TTL)) {
@@ -764,7 +784,7 @@ router.get('/red-alerts', async (req, res) => {
 // ============================================================
 // API: Upload student Excel (Production pipeline)
 // ============================================================
-router.post('/upload-predict', upload.any(), async (req, res) => {
+router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) => {
   try {
     const files = req.files || (req.file ? [req.file] : []);
     if (files.length === 0) {
@@ -943,7 +963,7 @@ router.post('/upload-predict', upload.any(), async (req, res) => {
 // ============================================================
 // API: Predict scores for uploaded students (Supports stateless payload and cached models)
 // ============================================================
-router.all('/predict/:subject', async (req, res) => {
+router.all('/predict/:subject', requireAdvisor, async (req, res) => {
   try {
     const target = decodeURIComponent(req.params.subject);
     const trainStudents = cache.trainingData.students || [];
@@ -1341,7 +1361,7 @@ router.all('/predict/:subject', async (req, res) => {
 // ============================================================
 // API: Full validation report
 // ============================================================
-router.get('/validate/:subject', (req, res) => {
+router.get('/validate/:subject', requireAdvisor, (req, res) => {
   const target = decodeURIComponent(req.params.subject);
   const trainStudents = cache.trainingData.students || [];
   const activeInterventions = getInterventions()[target] || [];
@@ -1355,7 +1375,7 @@ router.get('/validate/:subject', (req, res) => {
 // ============================================================
 // API: Toggle student intervention state (Feedback Loop)
 // ============================================================
-router.post('/interventions', (req, res) => {
+router.post('/interventions', requireAdvisor, (req, res) => {
   try {
     const { studentId, subject, intervened } = req.body;
     if (!studentId || !subject) {
@@ -1379,7 +1399,7 @@ router.post('/interventions', (req, res) => {
 // ============================================================
 // API: Dashboard stats
 // ============================================================
-router.get('/api/stats', (req, res) => {
+router.get('/students', requireAdvisor, (req, res) => {
   // Backwards compatibility endpoint if called directly
   const students = cache.trainingData.students || [];
   if (students.length === 0) return res.json({ empty: true });
@@ -1396,7 +1416,7 @@ router.get('/api/stats', (req, res) => {
 });
 
 // Direct route /stats (Vite maps to /api/stats)
-router.get('/stats', (req, res) => {
+router.get('/stats', requireAdvisor, (req, res) => {
   const students = cache.trainingData.students || [];
   if (students.length === 0) return res.json({ empty: true });
 
@@ -1425,7 +1445,7 @@ router.get('/stats', (req, res) => {
 // ============================================================
 // API: AI Evaluation (LOOCV metrics)
 // ============================================================
-router.get('/ai-evaluation', (req, res) => {
+router.get('/ai-evaluation', requireAdvisor, (req, res) => {
   const fs = require('fs');
   const path = require('path');
   const metricsPath = path.join(__dirname, '../datasets/ai_metrics.json');
@@ -1459,7 +1479,7 @@ router.get('/students', (req, res) => {
 // ============================================================
 // API: Save custom uploaded students to SQLite Database
 // ============================================================
-router.post('/save-uploaded', async (req, res) => {
+router.post('/save-uploaded', requireAdvisor, async (req, res) => {
   try {
     const { students } = req.body;
     if (!students || !Array.isArray(students) || students.length === 0) {
@@ -1504,27 +1524,21 @@ router.post('/save-uploaded', async (req, res) => {
 // ============================================================
 // API: Real-time search students matching query (MSSV or Name)
 // ============================================================
-router.get('/students-search', async (req, res) => {
+router.get('/students-search', requireAdvisor, async (req, res) => {
   try {
-    const userRole = req.headers['x-user-role'];
-    if (userRole === 'STUDENT') {
-      return res.status(403).json({ error: 'Bạn không có quyền truy cập chức năng này.' });
-    }
-
     const q = String(req.query.q || '').trim().toLowerCase();
+    const qNormalized = removeAccents(q);
 
-    // 1. Query from Prisma Database
+    // 1. Query from Prisma Database and filter in memory to support diacritics-insensitive search
     let dbStudents = [];
     try {
-      dbStudents = await prisma.student.findMany({
-        where: {
-          OR: [
-            { mssv: { contains: q } },
-            { name: { contains: q } }
-          ]
-        },
-        include: { scores: { include: { course: true } } },
-        take: q ? 50 : 700
+      const allDbStudents = await prisma.student.findMany({
+        include: { scores: { include: { course: true } } }
+      });
+      dbStudents = allDbStudents.filter(s => {
+        const mssvNorm = removeAccents(s.mssv.toLowerCase());
+        const nameNorm = removeAccents(s.name.toLowerCase());
+        return mssvNorm.includes(qNormalized) || nameNorm.includes(qNormalized);
       });
     } catch (dbErr) {
       console.warn('Lỗi tra cứu SQLite:', dbErr);
@@ -1586,9 +1600,9 @@ router.get('/students-search', async (req, res) => {
     const sourceList = Object.values(sourceMap);
     const memMapped = sourceList
       .filter(s => {
-        const sid = String(s.id || '').toLowerCase();
-        const sname = String(s.name || '').toLowerCase();
-        return sid.includes(q) || sname.includes(q);
+        const sid = removeAccents(String(s.id || '').toLowerCase());
+        const sname = removeAccents(String(s.name || '').toLowerCase());
+        return sid.includes(qNormalized) || sname.includes(qNormalized);
       })
       .slice(0, q ? 50 : 700)
       .map(s => {
@@ -1909,6 +1923,11 @@ router.get('/chat/history/:mssv', async (req, res) => {
   try {
     const mssv = req.params.mssv;
     if (!mssv) return res.status(400).json({ error: 'MSSV required' });
+
+    // Security check: Student can only view their own history!
+    if (req.user.role === 'STUDENT' && String(mssv).toUpperCase() !== String(req.user.id).toUpperCase()) {
+      return res.status(403).json({ error: 'Bạn không có quyền truy cập lịch sử của sinh viên khác.' });
+    }
     
     const { prisma } = require('../../src/infrastructure/database/prisma');
     const history = await prisma.conversationHistory.findMany({
@@ -1933,7 +1952,7 @@ router.get('/chat/history/:mssv', async (req, res) => {
   }
 });
 
-router.get('/chat/teacher-history/:mssv', async (req, res) => {
+router.get('/chat/teacher-history/:mssv', requireAdvisor, async (req, res) => {
   try {
     const mssv = req.params.mssv;
     if (!mssv) return res.status(400).json({ error: 'MSSV required' });
@@ -1964,6 +1983,11 @@ router.get('/chat/teacher-history/:mssv', async (req, res) => {
 router.get('/chat/student/memory/:mssv', async (req, res) => {
   try {
     const { mssv } = req.params;
+
+    // Security check: Student can only view their own memory!
+    if (req.user.role === 'STUDENT' && String(mssv).toUpperCase() !== String(req.user.id).toUpperCase()) {
+      return res.status(403).json({ error: 'Bạn không có quyền truy cập thông tin của sinh viên khác.' });
+    }
     const { prisma } = require('../../src/infrastructure/database/prisma');
     
     // Fetch memory
@@ -2114,9 +2138,7 @@ router.get('/students/:mssv', async (req, res) => {
     const mssv = req.params.mssv;
 
     // Security Check: If STUDENT, they can only view their own profile!
-    const userRole = req.headers['x-user-role'];
-    const userId = req.headers['x-user-id'];
-    if (userRole === 'STUDENT' && String(mssv).toUpperCase() !== String(userId).toUpperCase()) {
+    if (req.user.role === 'STUDENT' && String(mssv).toUpperCase() !== String(req.user.id).toUpperCase()) {
       return res.status(403).json({ error: 'Bạn không có quyền truy cập học bạ của sinh viên khác.' });
     }
 
@@ -2273,9 +2295,7 @@ router.get('/students/:mssv/dss-report', async (req, res) => {
     const mssv = req.params.mssv;
     
     // Security check: Students can only view their own DSS report!
-    const userRole = req.headers['x-user-role'];
-    const userId = req.headers['x-user-id'];
-    if (userRole === 'STUDENT' && String(mssv).toUpperCase() !== String(userId).toUpperCase()) {
+    if (req.user.role === 'STUDENT' && String(mssv).toUpperCase() !== String(req.user.id).toUpperCase()) {
       return res.status(403).json({ error: 'Bạn không có quyền truy cập báo cáo DSS của sinh viên khác.' });
     }
 
@@ -2306,7 +2326,7 @@ router.get('/students/:mssv/dss-report', async (req, res) => {
 // ============================================================
 // API: Get aggregated program analytics for all students (DSS)
 // ============================================================
-router.get('/program-analytics', async (req, res) => {
+router.get('/program-analytics', requireAdvisor, async (req, res) => {
   try {
     const { computeProgramAnalytics } = require('../ai/engines/dssReportEngine');
     const analytics = await computeProgramAnalytics();
@@ -2319,7 +2339,7 @@ router.get('/program-analytics', async (req, res) => {
 // ============================================================
 // API: Flag student for academic intervention (Intervention System)
 // ============================================================
-router.post('/students/:mssv/flag', async (req, res) => {
+router.post('/students/:mssv/flag', requireAdvisor, async (req, res) => {
   try {
     const mssv = req.params.mssv;
     const { courseId, action, status } = req.body;
@@ -2390,7 +2410,7 @@ router.post('/students/:mssv/flag', async (req, res) => {
 // ============================================================
 // API: Get Intervention Management lists (Smart Queue)
 // ============================================================
-router.get('/interventions-management', async (req, res) => {
+router.get('/interventions-management', requireAdvisor, async (req, res) => {
   try {
     // 1. Lấy danh sách InterventionRoadmap đã tạo
     const roadmaps = await prisma.interventionRoadmap.findMany({
@@ -2474,6 +2494,20 @@ router.post('/intervention-roadmap/:id/status', async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+
+    // Find roadmap first to check owner
+    const roadmapObj = await prisma.interventionRoadmap.findUnique({
+      where: { id }
+    });
+    if (!roadmapObj) {
+      return res.status(404).json({ error: 'Không tìm thấy lộ trình.' });
+    }
+
+    // If student, they can only update their own roadmap status
+    if (req.user.role === 'STUDENT' && String(roadmapObj.studentId).toUpperCase() !== String(req.user.id).toUpperCase()) {
+      return res.status(403).json({ error: 'Bạn không có quyền cập nhật lộ trình của người khác.' });
+    }
+    const { status } = req.body;
     const interventionRoadmap = await prisma.interventionRoadmap.update({
       where: { id: id },
       data: { status }
@@ -2516,7 +2550,7 @@ router.post('/intervention-roadmap/:id/status', async (req, res) => {
   }
 });
 
-router.delete('/intervention-roadmap/:id', async (req, res) => {
+router.delete('/intervention-roadmap/:id', requireAdvisor, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -2557,7 +2591,7 @@ router.delete('/intervention-roadmap/:id', async (req, res) => {
 // ============================================================
 // API: Update or Create Student Grade (Inline Grade Editor)
 // ============================================================
-router.post('/students/update-score', async (req, res) => {
+router.post('/students/update-score', requireAdvisor, async (req, res) => {
   try {
     const { mssv, courseId, value } = req.body;
     if (!mssv || !courseId || value === undefined) {
@@ -2651,7 +2685,7 @@ router.post('/students/update-score', async (req, res) => {
 // ============================================================
 // API: Intervention Roadmap
 // ============================================================
-router.post('/intervention/send-roadmap', async (req, res) => {
+router.post('/intervention/send-roadmap', requireAdvisor, async (req, res) => {
   try {
     const { mssv, targetCourseId, riskLevel, missingSkills, affectedCLOs } = req.body;
     if (!mssv || !targetCourseId) {
@@ -2787,7 +2821,7 @@ let recalculationState = {
   processedCount: 0
 };
 
-router.post('/prediction/recalculate', async (req, res) => {
+router.post('/prediction/recalculate', requireAdvisor, async (req, res) => {
   if (recalculationState.isRecalculating) {
     return res.status(400).json({ success: false, message: 'Hệ thống đang tiến hành tính toán, vui lòng đợi.' });
   }

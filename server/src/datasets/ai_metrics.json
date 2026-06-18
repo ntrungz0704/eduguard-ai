@@ -1,13 +1,13 @@
 {
-  "lastRunTime": "2026-06-11T10:48:25.634Z",
-  "durationMs": 23526,
-  "totalStudents": 649,
+  "lastRunTime": "2026-06-18T10:57:46.978Z",
+  "durationMs": 150157,
+  "totalStudents": 659,
   "totalSubjects": 34,
-  "totalPredictions": 14091,
-  "mae": 0.8871762117663891,
+  "totalPredictions": 15639,
+  "mae": 0.8883496387237207,
   "buckets": {
-    "0.0_to_0.5": 6320,
-    "0.5_to_1.0": 3941,
-    "more_than_1.0": 3830
+    "0.0_to_0.5": 7045,
+    "0.5_to_1.0": 4401,
+    "more_than_1.0": 4193
   }
 }
