@@ -21411,6 +21411,14 @@
         "Khởi sự doanh nghiệp": 8.9,
         "Kỹ năng làm việc": 8.2
       }
+    },
+    {
+      "id": "PSCOMPAT999",
+      "name": "Nguyen Compatibility Test",
+      "classCode": "COMPAT_CLASS",
+      "scores": {
+        "Xây dựng trang Web": 9
+      }
     }
   ]
 }
