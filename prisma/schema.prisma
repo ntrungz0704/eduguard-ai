@@ -75,6 +75,7 @@ model Score {
 
   student Student @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
   course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  components ScoreComponent[]
 
   @@unique([mssv, courseId, semester])
   @@index([mssv])
@@ -426,4 +427,34 @@ model ImportHistory {
   status          String   @default("SUCCESS") // SUCCESS, FAILED, ROLLED_BACK
   errorMessage    String?
   createdAt       DateTime @default(now())
+}
+
+model AssessmentSchema {
+  id            Int      @id @default(autoincrement())
+  courseCode    String
+  componentCode String
+  componentName String
+  orderNo       Int
+  count         Int
+  weight        Float
+  isRequired    Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@index([courseCode])
+}
+
+model ScoreComponent {
+  id             Int      @id @default(autoincrement())
+  scoreId        Int
+  componentCode  String
+  componentName  String
+  componentIndex Int
+  value          Float
+  weight         Float?
+  sourceColumn   String?
+  importedAt     DateTime @default(now())
+
+  score          Score    @relation(fields: [scoreId], references: [id], onDelete: Cascade)
+
+  @@index([scoreId])
 }

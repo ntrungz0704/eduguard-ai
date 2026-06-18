@@ -6,6 +6,14 @@ const { prisma } = require('../../infrastructure/database/prisma');
 const logger = require('../../infrastructure/logger');
 const { resolveBackendCourseCode } = require('../../utils/dataService');
 const { checkDatabaseIntegrity } = require('../../utils/integrityVerify');
+const {
+  resolveCourseAssessmentSchema,
+  inferComponentsFromExcel,
+  normalizeAssessmentColumns,
+  calculateFinalScore,
+  buildAssessmentObjects,
+  saveScoreComponents
+} = require('../../services/assessmentEngine');
 
 // Helper to calculate final score if quiz/asm/final provided
 const calculateScore = (row) => {
@@ -112,7 +120,11 @@ exports.previewData = async (req, res) => {
     // Keep track of student-course duplicates within the file itself
     const seenKeysInFile = new Set();
 
-    data.forEach((row, index) => {
+    // Feature Flag validation
+    const enableComponentScore = process.env.ENABLE_COMPONENT_SCORE === 'true';
+
+    for (let index = 0; index < data.length; index++) {
+      const row = data[index];
       const rowNum = index + headerRowIndex + 2; // +1 for 0-index, +1 for header line
       
       // Auto-detect columns for flexibility
@@ -124,6 +136,24 @@ exports.previewData = async (req, res) => {
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
       let calculatedScore = calculateScore(row);
+      
+      // Dynamic Assessment Components logic (Dormant by default)
+      let rowComponents = [];
+      if (enableComponentScore && course) {
+        try {
+          const schema = await resolveCourseAssessmentSchema(course);
+          const inferred = inferComponentsFromExcel(row);
+          rowComponents = normalizeAssessmentColumns(inferred, schema);
+          if (rowComponents.length > 0) {
+            const finalWeighted = calculateFinalScore(rowComponents, schema);
+            if (finalWeighted !== null) {
+              calculatedScore = finalWeighted;
+            }
+          }
+        } catch (err) {
+          logger.warn(`[AssessmentEngine] Failed to resolve schema for preview: ${err.message}`);
+        }
+      }
       
       // Trạng thái parsing
       let rowStatus = null;
@@ -195,9 +225,10 @@ exports.previewData = async (req, res) => {
         semester: String(semester).trim(),
         rowStatus,
         errors,
-        isValid: errors.length === 0
+        isValid: errors.length === 0,
+        components: rowComponents // Dynamic components passed to client
       });
-    });
+    }
 
     const validRowsCount = previewData.filter(r => r.isValid).length;
     const invalidRowsCount = previewData.filter(r => !r.isValid).length;
@@ -291,6 +322,8 @@ exports.publishData = async (req, res) => {
     let scoresInserted = 0;
     let scoresUpdated = 0;
 
+    const enableComponentScore = process.env.ENABLE_COMPONENT_SCORE === 'true';
+
     await prisma.$transaction(async (tx) => {
       for (const row of normalizedRows) {
         const mssv = row.mssv;
@@ -346,7 +379,7 @@ exports.publishData = async (req, res) => {
         }
 
         // Atomic upsert on @@unique([mssv, courseId, semester])
-        await tx.score.upsert({
+        const scoreRecord = await tx.score.upsert({
           where: {
             mssv_courseId_semester: {
               mssv,
@@ -378,6 +411,12 @@ exports.publishData = async (req, res) => {
             assignment: row.assignment !== undefined ? parseFloat(row.assignment) : null
           }
         });
+
+        // Save components if feature is enabled
+        if (enableComponentScore && row.components && Array.isArray(row.components) && row.components.length > 0) {
+          const dbComps = buildAssessmentObjects(row.components, scoreRecord.id);
+          await saveScoreComponents(tx, scoreRecord.id, dbComps);
+        }
       }
 
       // === POST INTEGRITY & SNAPSHOT VERIFY INSIDE TRANSACTION ===
