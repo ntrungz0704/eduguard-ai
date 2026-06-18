@@ -617,7 +617,7 @@ const courseCodeNormalizationMap = {
   'ENT11': 'ENT1128'
 };
 
-const courseCodeToNameMap = {
+const staticCourseCodeToNameMap = {
   'COM1071': 'Tin học',
   'VIE103': 'Giáo dục thể chất',
   'PDP102': 'Kỹ năng học tập',
@@ -705,6 +705,35 @@ const courseNameToCodeMap = {
 
 // In-memory cache for course aliases
 let courseAliasesMap = new Map();
+let courseCodeToNameMap = new Map();
+
+function resolveToSubjectName(input, pretrainedSubjects = []) {
+  if (!input) return null;
+  const raw = String(input).trim();
+  
+  // 1. Resolve standard backend code (e.g. COM107 -> COM1071)
+  const code = resolveBackendCourseCode(raw);
+  
+  // 2. Look up in the dynamic courseCodeToNameMap loaded from DB
+  let name = null;
+  if (code) {
+    const codeUpper = code.toUpperCase();
+    if (courseCodeToNameMap.has(codeUpper)) {
+      name = courseCodeToNameMap.get(codeUpper);
+    } else {
+      // Static fallback if cache not loaded yet (e.g. during test scripts)
+      name = staticCourseCodeToNameMap[codeUpper] || null;
+    }
+  }
+  
+  // 3. Verify standard name if matched
+  if (name && (pretrainedSubjects.length === 0 || pretrainedSubjects.includes(name))) {
+    return name;
+  }
+  
+  // 4. Otherwise, fallback to smart name fuzzy mapping
+  return mapToPretrainedSubject(raw, pretrainedSubjects);
+}
 
 async function initCourseAliases() {
   const { prisma } = require('../infrastructure/database/prisma');
@@ -761,6 +790,14 @@ async function refreshCourseAliases() {
       courseAliasesMap.set(a.aliasCode.toLowerCase(), a.courseCode);
     });
     console.log(`[CourseAlias] Loaded ${courseAliasesMap.size} aliases from database.`);
+
+    // Load courses dynamically to build code-to-name mapping from Course table (SSOT)
+    const dbCourses = await prisma.course.findMany();
+    courseCodeToNameMap.clear();
+    dbCourses.forEach(c => {
+      courseCodeToNameMap.set(c.id.toUpperCase(), c.name);
+    });
+    console.log(`[CourseAlias] Loaded ${courseCodeToNameMap.size} course names dynamically from database.`);
   } catch (err) {
     console.error('[CourseAlias] Error refreshing aliases:', err.message);
   }
@@ -812,6 +849,7 @@ module.exports = {
   calculateFptGPA,
   calculateDelayScore,
   resolveBackendCourseCode,
+  resolveToSubjectName,
   initCourseAliases,
   refreshCourseAliases
 };
