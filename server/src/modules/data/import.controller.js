@@ -1,5 +1,5 @@
 const xlsx = require('xlsx');
-const prisma = require('../../infrastructure/database/prisma');
+const { prisma } = require('../../infrastructure/database/prisma');
 const logger = require('../../infrastructure/logger');
 const { resolveBackendCourseCode } = require('../../utils/dataService');
 
@@ -82,7 +82,7 @@ exports.previewData = async (req, res) => {
       const mssv = row.student_code || row.mssv || row['MSSV'] || row['Mã sinh viên'] || defaultMssv;
       const rawName = row.name || row.fullname || row.student_name || row['Họ Tên'] || row['Họ tên'] || row['Tên sinh viên'] || row['Tên Sinh Viên'];
       const name = rawName ? String(rawName).trim() : null;
-      const rawCourse = row.course || row.courseId || row['Mã chuyển đổi'] || row['Mã môn'] || row['Môn học'];
+      const rawCourse = row['Mã môn'] || row['Mã chuyển đổi'] || row.courseId || row.course || row['Môn học'] || row['Môn'];
       const course = resolveBackendCourseCode(rawCourse);
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
@@ -137,7 +137,7 @@ exports.previewData = async (req, res) => {
 
       previewData.push({
         _row: rowNum,
-        mssv: mssv ? String(mssv).toUpperCase() : 'N/A',
+        mssv: mssv ? String(mssv).trim().toUpperCase() : 'N/A',
         name,
         course: course || 'N/A',
         quiz: row.quiz,
@@ -181,7 +181,7 @@ exports.previewData = async (req, res) => {
 exports.publishData = async (req, res) => {
   try {
     const { data, classCode } = req.body;
-    
+
     if (!data || !Array.isArray(data) || data.length === 0) {
       return res.status(400).json({ error: 'Không có dữ liệu để publish' });
     }
@@ -192,81 +192,152 @@ exports.publishData = async (req, res) => {
       return res.status(400).json({ error: 'Không có dữ liệu hợp lệ để publish' });
     }
 
+    // === PRE-TRANSACTION: Normalize all MSSVs and validate all courses ===
+    const normalizedRows = validData.map(row => ({
+      ...row,
+      mssv: String(row.mssv).trim().toUpperCase(),
+      course: row.course,
+      semester: String(row.semester).trim()
+    }));
+
+    // Pre-validate all referenced courses exist BEFORE opening a transaction
+    const uniqueCourseIds = [...new Set(normalizedRows.map(r => r.course))];
+    const existingCourses = await prisma.course.findMany({
+      where: { id: { in: uniqueCourseIds } },
+      select: { id: true }
+    });
+    const validCourseIds = new Set(existingCourses.map(c => c.id));
+    for (const courseId of uniqueCourseIds) {
+      if (!validCourseIds.has(courseId)) {
+        return res.status(400).json({
+          error: `Khóa học '${courseId}' không hợp lệ hoặc không thuộc chương trình 34 môn của syllabus.`
+        });
+      }
+    }
+
+    // === TRANSACTION: All-or-nothing database writes ===
     const uniqueStudents = new Set();
-    
-    // Wrap in a transaction or process sequentially
-    for (const row of validData) {
-      uniqueStudents.add(row.mssv);
-      
-      // Upsert Student (with parsed name if available)
-      await prisma.student.upsert({
-        where: { mssv: row.mssv },
-        update: {
-          ...(row.name ? { name: row.name } : {}),
-          ...(classCode ? { classCode } : {})
-        },
-        create: {
-          mssv: row.mssv,
-          name: row.name || `Sinh viên ${row.mssv}`,
-          classCode: classCode || 'UNKNOWN'
+    let scoresInserted = 0;
+    let scoresUpdated = 0;
+
+    await prisma.$transaction(async (tx) => {
+      for (const row of normalizedRows) {
+        const mssv = row.mssv;
+        uniqueStudents.add(mssv);
+
+        // Upsert Student
+        await tx.student.upsert({
+          where: { mssv },
+          update: {
+            ...(row.name ? { name: row.name } : {}),
+            ...(classCode ? { classCode } : {})
+          },
+          create: {
+            mssv,
+            name: row.name || `Sinh viên ${mssv}`,
+            classCode: classCode || 'UNKNOWN'
+          }
+        });
+
+        // Determine status and score value
+        let status = row.rowStatus;
+        let scoreValue = row.score;
+
+        if (status === 'STUDYING' || status === 'NOT_STARTED') {
+          // STUDYING/NOT_STARTED: score MUST be null regardless of input
+          scoreValue = null;
+        } else if (!status) {
+          // No explicit status: derive from score
+          if (scoreValue === null || scoreValue === undefined) {
+            status = 'STUDYING'; // No score and no status → default to STUDYING
+            scoreValue = null;
+          } else {
+            status = (scoreValue >= 5.0 || scoreValue === 1.0) ? 'PASSED' : 'FAILED';
+          }
         }
-      });
+        // else: explicit PASSED/FAILED status — keep scoreValue as-is
 
-      // Verify course exists in the 34 syllabus courses
-      const courseExists = await prisma.course.findUnique({
-        where: { id: row.course }
-      });
-      if (!courseExists) {
-        return res.status(400).json({ error: `Khóa học '${row.course}' không hợp lệ hoặc không thuộc chương trình 34 môn của syllabus.` });
-      }
+        // Check if record already exists for counting inserted vs updated
+        const existingScore = await tx.score.findUnique({
+          where: {
+            mssv_courseId_semester: {
+              mssv,
+              courseId: row.course,
+              semester: row.semester
+            }
+          },
+          select: { id: true }
+        });
 
-      // Insert/Update Score
-      let status = row.rowStatus;
-      if (!status) {
-        status = (row.score >= 5 || row.score === 1.0) ? 'PASSED' : 'FAILED';
-      }
-      
-      // Since MSSV, CourseId, Semester is unique constraint in DB
-      const existingScore = await prisma.score.findFirst({
-        where: {
-          mssv: row.mssv,
-          courseId: row.course,
-          semester: row.semester
+        if (existingScore) {
+          scoresUpdated++;
+        } else {
+          scoresInserted++;
         }
-      });
 
-      if (existingScore) {
-        await prisma.score.update({
-          where: { id: existingScore.id },
-          data: {
-            value: row.score,
-            status: status,
+        // Atomic upsert on @@unique([mssv, courseId, semester])
+        await tx.score.upsert({
+          where: {
+            mssv_courseId_semester: {
+              mssv,
+              courseId: row.course,
+              semester: row.semester
+            }
+          },
+          update: {
+            value: scoreValue,
+            status,
             quiz: row.quiz !== undefined ? parseFloat(row.quiz) : null,
             asm1: row.asm !== undefined ? parseFloat(row.asm) : null,
             final: row.final !== undefined ? parseFloat(row.final) : null,
             lab: row.lab !== undefined ? parseFloat(row.lab) : null,
             assignment: row.assignment !== undefined ? parseFloat(row.assignment) : null,
-            attendance: row.attendance !== undefined ? parseFloat(row.attendance) : (existingScore.attendance || 100)
-          }
-        });
-      } else {
-        await prisma.score.create({
-          data: {
-            mssv: row.mssv,
+            attendance: row.attendance !== undefined ? parseFloat(row.attendance) : undefined
+          },
+          create: {
+            mssv,
             courseId: row.course,
-            value: row.score,
+            semester: row.semester,
+            value: scoreValue,
+            status,
             attendance: row.attendance !== undefined ? parseFloat(row.attendance) : 100,
             quiz: row.quiz !== undefined ? parseFloat(row.quiz) : null,
             asm1: row.asm !== undefined ? parseFloat(row.asm) : null,
             final: row.final !== undefined ? parseFloat(row.final) : null,
             lab: row.lab !== undefined ? parseFloat(row.lab) : null,
-            assignment: row.assignment !== undefined ? parseFloat(row.assignment) : null,
-            semester: row.semester,
-            status: status
+            assignment: row.assignment !== undefined ? parseFloat(row.assignment) : null
           }
         });
       }
+    }); // If ANY row fails, the entire transaction is rolled back
+
+    // === AUDIT LOG ===
+    const auditTimestamp = new Date().toISOString();
+    const auditUser = req.user?.email || req.user?.username || 'SYSTEM';
+    const auditFilename = req.body.filename || 'unknown';
+    logger.info(
+      `[IMPORT_AUDIT] ${auditTimestamp} | ${auditUser} | ${auditFilename} | ` +
+      `studentsAffected=${uniqueStudents.size} | scoresInserted=${scoresInserted} | scoresUpdated=${scoresUpdated}`
+    );
+    console.log(
+      `[IMPORT_AUDIT] ${auditTimestamp} | ${auditUser} | ${auditFilename} | ` +
+      `studentsAffected=${uniqueStudents.size} | scoresInserted=${scoresInserted} | scoresUpdated=${scoresUpdated}`
+    );
+
+    // === POST-IMPORT INTEGRITY CHECK ===
+    const studentMssvList = [...uniqueStudents];
+    const [verifyStudentCount, verifyScoreCount] = await Promise.all([
+      prisma.student.count({ where: { mssv: { in: studentMssvList } } }),
+      prisma.score.count({ where: { mssv: { in: studentMssvList } } })
+    ]);
+    if (verifyStudentCount < uniqueStudents.size) {
+      logger.error(
+        `[IMPORT_INTEGRITY] Expected ${uniqueStudents.size} students but found ${verifyStudentCount} after commit.`
+      );
     }
+    logger.info(
+      `[IMPORT_INTEGRITY] Verified: ${verifyStudentCount} students, ${verifyScoreCount} total scores for imported cohort.`
+    );
 
     // Invalidate entire snapshot cache to force SSOT UI refresh
     try {
@@ -315,8 +386,10 @@ exports.publishData = async (req, res) => {
 
     res.json({
       success: true,
-      message: `Đã import thành công ${validData.length} bản ghi. AI đang phân tích dữ liệu...`,
-      studentsAffected: uniqueStudents.size
+      message: `Đã import thành công ${validData.length} bản ghi (${scoresInserted} mới, ${scoresUpdated} cập nhật). AI đang phân tích dữ liệu...`,
+      studentsAffected: uniqueStudents.size,
+      scoresInserted,
+      scoresUpdated
     });
 
   } catch (error) {

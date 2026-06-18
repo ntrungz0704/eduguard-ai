@@ -45,13 +45,25 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // Helper to sync uploaded class Excel scores to local SQLite dev.db
 async function syncUploadedData(validStudents) {
+  const { resolveBackendCourseCode } = require('../utils/dataService');
+  
+  // Phase 1: Normalize and resolve all course codes BEFORE validation
   const courseIds = new Set();
-  validStudents.forEach(st => {
+  const normalizedStudents = validStudents.map(st => {
+    const normalizedScores = {};
     if (st.scores) {
-      Object.keys(st.scores).forEach(cId => {
-        courseIds.add(cId);
+      Object.entries(st.scores).forEach(([rawCourseId, val]) => {
+        // Resolve any course name/alias to standard courseCode
+        const resolvedCode = resolveBackendCourseCode(rawCourseId) || rawCourseId;
+        normalizedScores[resolvedCode] = val;
+        courseIds.add(resolvedCode);
       });
     }
+    return {
+      ...st,
+      id: String(st.id || '').trim().toUpperCase(), // MSSV normalization
+      scores: normalizedScores
+    };
   });
 
   // Fetch all standard courses from the database
@@ -68,63 +80,60 @@ async function syncUploadedData(validStudents) {
     throw error;
   }
 
-  // 1. Bulk Upsert Courses
-  await Promise.all(Array.from(courseIds).map(id => {
-    const credits = getCourseCredits(id);
-    return prisma.course.upsert({
-      where: { id },
-      update: { credits },
-      create: {
-        id,
-        name: id,
-        credits,
-        prerequisites: ''
-      }
-    });
-  }));
-
-  // 2. Bulk Upsert Students & Score entries in batches
-  for (const st of validStudents) {
-    const mssv = st.id;
-    const name = st.name || `Sinh viên ${mssv}`;
-    const classCode = st.classCode || 'WD18301';
-
-    await prisma.student.upsert({
-      where: { mssv },
-      update: { name, classCode },
-      create: { mssv, name, classCode }
-    });
-
-    // === BẢO MẬT DỮ LIỆU: Xóa dữ liệu rác cũ (residual data) của sinh viên này trước khi đè dữ liệu mới từ file Excel ===
-    await prisma.score.deleteMany({
-      where: { mssv }
-    });
-
-    for (const [courseId, val] of Object.entries(st.scores || {})) {
-      if (val === null) continue;
-      const value = parseFloat(val);
-      const status = (value >= 5.0) ? 'PASSED' : 'FAILED';
-
-      await prisma.score.upsert({
-        where: {
-          mssv_courseId_semester: {
-            mssv,
-            courseId,
-            semester: 'Summer 2025'
-          }
-        },
-        update: { value, status },
-        create: {
-          mssv,
-          courseId,
-          value,
-          semester: 'Summer 2025',
-          status
-        }
+  // Phase 2: Execute all writes inside a single Prisma transaction
+  await prisma.$transaction(async (tx) => {
+    // 1. Bulk Upsert Courses
+    for (const id of courseIds) {
+      const credits = getCourseCredits(id);
+      await tx.course.upsert({
+        where: { id },
+        update: { credits },
+        create: { id, name: id, credits, prerequisites: '' }
       });
     }
-  }
-  console.log(`✅ Dynamically synchronized ${validStudents.length} student scores to SQLite.`);
+
+    // 2. Upsert Students & Score entries (NO deleteMany - safe upsert only)
+    for (const st of normalizedStudents) {
+      const mssv = st.id;
+      if (!mssv || mssv === 'N/A') continue;
+      
+      const name = st.name || `Sinh viên ${mssv}`;
+      const classCode = st.classCode || 'WD18301';
+
+      await tx.student.upsert({
+        where: { mssv },
+        update: { name, classCode },
+        create: { mssv, name, classCode }
+      });
+
+      for (const [courseId, val] of Object.entries(st.scores || {})) {
+        if (val === null || val === undefined) continue;
+        const value = parseFloat(val);
+        if (isNaN(value) || value < 0 || value > 10) continue; // Strict score validation
+        const status = (value >= 5.0) ? 'PASSED' : 'FAILED';
+
+        await tx.score.upsert({
+          where: {
+            mssv_courseId_semester: {
+              mssv,
+              courseId,
+              semester: 'Summer 2025'
+            }
+          },
+          update: { value, status },
+          create: {
+            mssv,
+            courseId,
+            value,
+            semester: 'Summer 2025',
+            status
+          }
+        });
+      }
+    }
+  });
+
+  console.log(`[IMPORT_AUDIT] ${new Date().toISOString()} | syncUploadedData | ${normalizedStudents.length} students | COMMITTED`);
 }
 
 

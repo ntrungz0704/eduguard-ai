@@ -83,10 +83,20 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
 
   if (fileType === 'transcript') {
     // PERSONAL TRANSCRIPT MODE (1 Student)
-    const subjectCol = headers.find(h => {
-      const nh = normHeader(h);
-      return nh.includes('MON') || nh.includes('SUBJECT');
+    const normHeaderStrict = h => String(h).toUpperCase().replace(/\s/g, '');
+    
+    // Prioritize mapping the Course Code/ID column over the Course Name column
+    let subjectCol = headers.find(h => {
+      const nh = normHeaderStrict(h);
+      return nh.includes('MAMON') || nh.includes('MACHUYENDOI') || nh.includes('COURSEID') || nh.includes('COURSECODE');
     });
+
+    if (!subjectCol) {
+      subjectCol = headers.find(h => {
+        const nh = normHeaderStrict(h);
+        return nh === 'MON' || nh === 'MONHOC' || nh === 'SUBJECT' || nh === 'COURSE';
+      });
+    }
     
     // Prioritize Final Score columns over sub-scores like "Điểm Lab", "Điểm Quiz"
     let scoreCol = headers.find(h => {
@@ -547,7 +557,10 @@ const courseCodeNormalizationMap = {
   'PRO11': 'PRO116',
   'PRO116': 'PRO116',
   'PRO22': 'PRO2201',
-  'PRO2201': 'PRO2201'
+  'PRO220': 'PRO2201',
+  'PRO2201': 'PRO2201',
+  'ENT111': 'ENT1128',
+  'ENT11': 'ENT1128'
 };
 
 const courseNameToCodeMap = {
