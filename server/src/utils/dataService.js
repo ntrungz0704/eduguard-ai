@@ -606,6 +606,7 @@ const courseCodeNormalizationMap = {
   'COM108': 'COM108',
   'ITI101': 'ITI101',
   'VIE104': 'VIE104',
+  'VIE109': 'VIE104',
   'ENT112': 'ENT1128',
   'ENT1128': 'ENT1128',
   'COM201': 'COM2012',
