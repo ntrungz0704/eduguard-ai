@@ -140,6 +140,29 @@ function enrichStudentData(student) {
     coursesDb = [];
   }
   if (Array.isArray(student.scores)) {
+    // Deduplicate scores: keep the highest score for each courseId
+    const highestScoresMap = new Map();
+    student.scores.forEach(s => {
+      if (!s.courseId) return;
+      const existing = highestScoresMap.get(s.courseId);
+      if (!existing) {
+        highestScoresMap.set(s.courseId, s);
+      } else {
+        const existingVal = existing.value !== null ? existing.value : -1;
+        const currentVal = s.value !== null ? s.value : -1;
+        if (currentVal > existingVal) {
+          highestScoresMap.set(s.courseId, s);
+        } else if (currentVal === existingVal) {
+           if (s.status === 'PASSED' && existing.status !== 'PASSED') {
+              highestScoresMap.set(s.courseId, s);
+           }
+        }
+      }
+    });
+    
+    // Replace student.scores with the deduplicated array
+    student.scores = Array.from(highestScoresMap.values());
+    
     // Sort scores deterministically to ensure consistent skill generation order
     const sortedScores = [...student.scores].sort((a, b) => {
       const idA = a.courseId || '';
