@@ -126,15 +126,42 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
       let subRaw = String(row[subjectCol] || '').trim();
       if (!subRaw) return;
 
-      // 1. Resolve to backend standard code first (e.g., WEB206 -> WEB2063)
-      // 2. Fallback to smart name mapping
-      let sub = resolveBackendCourseCode(subRaw);
-      if (!sub || (pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(sub))) {
-         sub = mapToPretrainedSubject(subRaw, pretrainedSubjects);
+      // 1. Resolve standard backend code & map to subject name if available
+      let resolvedCode = resolveBackendCourseCode(subRaw);
+      let sub = null;
+      let aliasUsed = false;
+
+      if (resolvedCode && courseCodeToNameMap[resolvedCode]) {
+        sub = courseCodeToNameMap[resolvedCode];
+        aliasUsed = resolvedCode !== subRaw;
       }
 
+      if (!sub) {
+        sub = mapToPretrainedSubject(subRaw, pretrainedSubjects);
+      }
+
+      const courseFound = !!resolvedCode;
+      const curriculumFound = pretrainedSubjects.includes(sub);
+
+      // Temporary diagnostic logs for COM107/COM1071
+      if (subRaw.toUpperCase().includes('COM107') || subRaw.toUpperCase().includes('COM1071')) {
+        console.log({
+          rawCode: subRaw,
+          normalizedCode: resolvedCode,
+          resolvedCode: sub
+        });
+      }
+
+      console.log(`[Diagnostic] Row ${idx + 2}:`, {
+        rawCode: subRaw,
+        resolvedCode: sub,
+        courseFound,
+        curriculumFound,
+        aliasUsed
+      });
+
       // Block invalid subjects
-      if (pretrainedSubjects && pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(sub)) {
+      if (pretrainedSubjects && pretrainedSubjects.length > 0 && !curriculumFound) {
         errors.push(`Môn học không hợp lệ hoặc không có trong khung chương trình: ${subRaw}`);
         return;
       }
@@ -196,13 +223,41 @@ function validateAndCleanData(parsedRows, headers, fileType, pretrainedSubjects 
     // Map each class dataset subject to pretrained subjects
     const validRawCols = [];
     rawSubjectCols.forEach(rs => {
-      let matched = resolveBackendCourseCode(rs);
-      if (!matched || (pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(matched))) {
+      let resolvedCode = resolveBackendCourseCode(rs);
+      let matched = null;
+      let aliasUsed = false;
+
+      if (resolvedCode && courseCodeToNameMap[resolvedCode]) {
+        matched = courseCodeToNameMap[resolvedCode];
+        aliasUsed = resolvedCode !== rs;
+      }
+
+      if (!matched) {
         matched = mapToPretrainedSubject(rs, pretrainedSubjects);
       }
 
+      const courseFound = !!resolvedCode;
+      const curriculumFound = pretrainedSubjects.includes(matched);
+
+      // Temporary diagnostic logs for COM107/COM1071
+      if (rs.toUpperCase().includes('COM107') || rs.toUpperCase().includes('COM1071')) {
+        console.log({
+          rawCode: rs,
+          normalizedCode: resolvedCode,
+          resolvedCode: matched
+        });
+      }
+
+      console.log(`[Diagnostic] Column [${rs}]:`, {
+        rawCode: rs,
+        resolvedCode: matched,
+        courseFound,
+        curriculumFound,
+        aliasUsed
+      });
+
       // Block invalid subjects
-      if (pretrainedSubjects && pretrainedSubjects.length > 0 && !pretrainedSubjects.includes(matched)) {
+      if (pretrainedSubjects && pretrainedSubjects.length > 0 && !curriculumFound) {
         errors.push(`Cột môn học không hợp lệ: ${rs}`);
       } else {
         validRawCols.push({ raw: rs, matched });
@@ -560,6 +615,43 @@ const courseCodeNormalizationMap = {
   'PRO2201': 'PRO2201',
   'ENT111': 'ENT1128',
   'ENT11': 'ENT1128'
+};
+
+const courseCodeToNameMap = {
+  'COM1071': 'Tin học',
+  'VIE103': 'Giáo dục thể chất',
+  'PDP102': 'Kỹ năng học tập',
+  'COM108': 'Nhập môn lập trình',
+  'ITI101': 'Nhập môn Công nghệ thông tin',
+  'VIE104': 'Giáo dục quốc phòng',
+  'ENT1128': 'Tiếng Anh 1.1',
+  'COM2012': 'Cơ sở dữ liệu',
+  'WEB1013': 'Xây dựng trang Web',
+  'ENT123': 'Tiếng Anh 1.2',
+  'WEB1043': 'Lập trình cơ sở với JavaScript',
+  'WEB108': 'Lập trình PHP cơ bản',
+  'ENT213': 'Tiếng Anh 2.1',
+  'VIE108': 'Chính trị',
+  'WEB3023': 'Thiết kế Web với HTML5 & CSS3',
+  'WEB2014': 'Lập trình PHP 1',
+  'VIE1026': 'Pháp luật',
+  'PDP103': 'Kỹ năng phát triển bản thân',
+  'WEB105': 'Thiết kế UI/UX',
+  'WEB2041': 'Dự án mẫu',
+  'ENT223': 'Tiếng Anh 2.2',
+  'WEB1023': 'Quản trị website',
+  'WEB2055': 'Marketing trên Internet',
+  'WEB501': 'Lập trình ECMAScript',
+  'WEB2063': 'Lập trình Javascript nâng cao',
+  'PRO1014': 'Dự án 1',
+  'WEB503': 'NodeJS & Restful Web Service',
+  'WEB502': 'Lập trình TypeScript',
+  'PDP104': 'Kỹ năng làm việc',
+  'SYB3013': 'Khởi sự doanh nghiệp',
+  'WEB2081': 'Lập trình Front-End Framework 1',
+  'WEB2091': 'Lập trình Front-End Framework 2',
+  'PRO116': 'Thực tập tốt nghiệp',
+  'PRO2201': 'Dự án tốt nghiệp'
 };
 
 const courseNameToCodeMap = {
