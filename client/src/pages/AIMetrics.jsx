@@ -88,7 +88,7 @@ const AIMetrics = () => {
             ĐÁNH GIÁ SAI SỐ DỰ ĐOÁN EDUGUARD AI
           </h1>
           <p className="text-slate-600 dark:text-slate-400 text-sm max-w-3xl leading-relaxed">
-            Kết quả thống kê thực nghiệm trên tập mẫu <strong className="text-slate-800 dark:text-slate-200">{metrics?.totalStudents || 0} sinh viên</strong> xuất sắc nhất có nhiều đầu điểm nhất, chạy mô hình kiểm thử chéo Leave-One-Out (LOOCV) trên toàn bộ <strong className="text-slate-800 dark:text-slate-200">{statsList.length || 0} môn học</strong>.
+            Kết quả thống kê thực nghiệm trên tập mẫu <strong className="text-slate-800 dark:text-slate-200">{metrics?.totalStudents || 0} sinh viên đủ điều kiện</strong> (có từ 3 cột điểm chuyên ngành trở lên), chạy mô hình kiểm thử chéo Leave-One-Out (LOOCV) trên toàn bộ <strong className="text-slate-800 dark:text-slate-200">{statsList.length || 0} môn học</strong>.
           </p>
         </div>
 
