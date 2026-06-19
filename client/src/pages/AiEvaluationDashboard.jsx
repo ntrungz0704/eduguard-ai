@@ -54,7 +54,7 @@ const AiEvaluationDashboard = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-black text-slate-900 dark:text-white uppercase flex items-center gap-3">
-            <Zap className="text-amber-500" /> Hệ Thống Học Liên Tục (Continuous Learning)
+            <Zap className="text-amber-500" /> Hệ Thống Kiểm Chứng (Continuous Validation)
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-2xl">
             Tự động đối chiếu các dự đoán trong quá khứ với điểm số thực tế ngay khi có dữ liệu mới để tính toán sai số và tinh chỉnh mô hình.
