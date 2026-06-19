@@ -22,14 +22,20 @@ class EvaluationService {
       // Lấy danh sách điểm số thực tế để đối chiếu (Bulk Query for performance)
       const pendingPairs = pendingHistories.map(h => ({ mssv: h.mssv, courseId: h.courseId }));
       
-      // Lọc ra các điểm đã hoàn thành
-      const completedScores = await prisma.score.findMany({
-        where: {
-          OR: pendingPairs,
-          status: { in: ['PASSED', 'FAILED'] },
-          value: { not: null }
-        }
-      });
+      // Chunk pendingPairs to avoid SQLite 'Expression tree is too large' error
+      const BATCH_SIZE = 100;
+      let completedScores = [];
+      for (let i = 0; i < pendingPairs.length; i += BATCH_SIZE) {
+        const batch = pendingPairs.slice(i, i + BATCH_SIZE);
+        const batchScores = await prisma.score.findMany({
+          where: {
+            OR: batch,
+            status: { in: ['PASSED', 'FAILED'] },
+            value: { not: null }
+          }
+        });
+        completedScores = completedScores.concat(batchScores);
+      }
 
       // Tạo lookup table cho điểm thực tế
       const scoreLookup = {};
