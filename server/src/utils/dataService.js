@@ -255,6 +255,7 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
         ) {
           score = null; // Mark as missing for prediction
         }
+      }
       if (statusCol) {
         // Override status if explicitly defined
         const statusVal = normHeader(row[statusCol]);
