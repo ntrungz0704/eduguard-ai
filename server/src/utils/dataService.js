@@ -1,4 +1,5 @@
 const XLSX = require('xlsx');
+const { prisma } = require('../infrastructure/database/prisma');
 
 // ============================================================
 // PARSE SCORE: handle *, X, empty, number, -
@@ -863,7 +864,6 @@ async function initCourseAliases() {
 }
 
 async function refreshCourseAliases() {
-  const { prisma } = require('../infrastructure/database/prisma');
   try {
     const dbAliases = await prisma.courseAlias.findMany();
     courseAliasesMap.clear();

@@ -1455,7 +1455,6 @@ router.post('/interventions', requireAdvisor, (req, res) => {
   }
 });
 
-const analyticsService = require('../services/analyticsService');
 
 // ============================================================
 // API: Dashboard stats (SSOT)
