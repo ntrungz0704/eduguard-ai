@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Interventions() {
   const [data, setData] = useState({ 
-    top20: [], 
-    top50: [], 
-    top100: [],
+    highRisk: [], 
+    monitoring: [], 
+    stable: [],
+    closed: [],
     statsSummary: {
       totalStudents: 0,
       criticalRisk: 0,
@@ -39,7 +40,7 @@ export default function Interventions() {
   const [bulkProgress, setBulkProgress] = useState(0);
 
   // Table state
-  const [activeTab, setActiveTab] = useState('top20');
+  const [activeTab, setActiveTab] = useState('highRisk');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Undo state - track recently changed students
@@ -195,10 +196,10 @@ export default function Interventions() {
   };
 
   const handleUpdateStatus = async (st, newStatus) => {
-    // Prevent "resolved" if student scores haven't improved
-    if (newStatus === 'resolved') {
+    // Prevent "stable" if student scores haven't improved
+    if (newStatus === 'stable') {
       const improved = hasScoreImproved(st);
-      if (!improved && activeTab === 'top50') {
+      if (!improved && activeTab === 'monitoring') {
         const confirmed = window.confirm(
           `⚠️ Điểm của sinh viên ${st.student?.name || st.mssv} chưa được cải thiện (Dự báo: ${st.predictedScore?.toFixed(1) || '?'}đ < 5.0đ).\n\nBạn có chắc chắn muốn đánh dấu "Ổn định"?\n(Chỉ đánh dấu khi điểm thực tế đã được cập nhật và sinh viên đạt ≥ 5.0đ)`
         );
@@ -208,31 +209,27 @@ export default function Interventions() {
 
     setUpdating(true);
     try {
-      if (newStatus === 'top20') {
-        // Move back to urgent (undo roadmap)
-        if (st.id && st.sentDate) await api.delete(`/intervention-roadmap/${st.id}`);
+      const studentId = st.mssv || st.studentId;
+      const targetCourseId = st.courseId || st.targetCourseId;
+      const actionMap = {
+        'highRisk': 'UNDO_TO_HIGH_RISK',
+        'monitoring': 'MOVE_TO_MONITORING',
+        'stable': 'MARK_STABLE',
+        'closed': 'CLOSE_CASE'
+      };
+
+      await api.post('/interventions-management/change-status', {
+        studentId,
+        targetCourseId,
+        status: newStatus === 'highRisk' ? 'HIGH_RISK' : newStatus.toUpperCase(),
+        oldStatus: activeTab.toUpperCase(),
+        action: actionMap[newStatus]
+      });
+      
+      if (newStatus === 'highRisk') {
         setRecentlyMoved(prev => [...prev, { ...st, movedFrom: activeTab }]);
-      } else if (newStatus === 'resolved') {
-        if (st.id && st.sentDate) await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'COMPLETED' });
-        else {
-          // For predictions without roadmap, send roadmap first then mark completed
-          await api.post('/intervention/send-roadmap', {
-            mssv: st.mssv,
-            targetCourseId: st.courseId,
-            riskLevel: st.risk || 'HIGH'
-          });
-        }
-      } else if (newStatus === 'top50') {
-        if (st.id && st.sentDate) {
-          await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'PENDING' });
-        } else {
-          await api.post('/intervention/send-roadmap', {
-            mssv: st.mssv,
-            targetCourseId: st.courseId,
-            riskLevel: st.risk || 'HIGH'
-          });
-        }
       }
+      
       await fetchData();
     } catch (e) {
       alert("Lỗi cập nhật: " + e.message);
@@ -245,22 +242,24 @@ export default function Interventions() {
     if (selectedRows.length === 0) return;
     setUpdating(true);
     try {
+      const actionMap = {
+        'highRisk': 'UNDO_TO_HIGH_RISK',
+        'monitoring': 'MOVE_TO_MONITORING',
+        'stable': 'MARK_STABLE',
+        'closed': 'CLOSE_CASE'
+      };
+      
       for (const st of selectedRows) {
-        if (newStatus === 'top20') {
-          if (st.id && st.sentDate) await api.delete(`/intervention-roadmap/${st.id}`);
-        } else if (newStatus === 'resolved') {
-          if (st.id && st.sentDate) await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'COMPLETED' });
-        } else if (newStatus === 'top50') {
-          if (st.id && st.sentDate) {
-            await api.post(`/intervention-roadmap/${st.id}/status`, { status: 'PENDING' });
-          } else {
-            await api.post('/intervention/send-roadmap', {
-              mssv: st.mssv,
-              targetCourseId: st.courseId,
-              riskLevel: st.risk || 'HIGH'
-            });
-          }
-        }
+        const studentId = st.mssv || st.studentId;
+        const targetCourseId = st.courseId || st.targetCourseId;
+        
+        await api.post('/interventions-management/change-status', {
+          studentId,
+          targetCourseId,
+          status: newStatus === 'highRisk' ? 'HIGH_RISK' : newStatus.toUpperCase(),
+          oldStatus: activeTab.toUpperCase(),
+          action: actionMap[newStatus]
+        });
       }
       alert(`Đã cập nhật trạng thái cho ${selectedRows.length} sinh viên thành công!`);
       await fetchData();
@@ -277,10 +276,12 @@ export default function Interventions() {
     for (const st of selectedRows) {
       if (!st.id || !st.sentDate) {
         try {
-          await api.post('/intervention/send-roadmap', {
-            mssv: st.mssv,
-            targetCourseId: st.courseId,
-            riskLevel: st.risk || 'HIGH'
+          await api.post('/interventions-management/change-status', {
+            studentId: st.mssv || st.studentId,
+            targetCourseId: st.courseId || st.targetCourseId,
+            status: 'MONITORING',
+            oldStatus: 'HIGH_RISK',
+            action: 'SEND_ROADMAP_BULK'
           });
           count++;
         } catch(e) {}
@@ -305,19 +306,21 @@ export default function Interventions() {
     try {
       await api.post('/comm/messages', {
         senderId: currentUser.id,
-        receiverId: selectedStudent.mssv,
+        receiverId: selectedStudent.mssv || selectedStudent.studentId,
         content: roadmapMsg
       });
-      await api.post(`/students/${selectedStudent.mssv}/flag`, {
-        courseId: selectedStudent.courseId,
+      await api.post(`/students/${selectedStudent.mssv || selectedStudent.studentId}/flag`, {
+        courseId: selectedStudent.courseId || selectedStudent.targetCourseId,
         action: 'Đã gửi Lộ trình Cải thiện qua Inbox',
         status: 'ACTIVE'
       });
-      // Also move from top20 to top50 (monitoring)
-      await api.post('/intervention/send-roadmap', {
-        mssv: selectedStudent.mssv,
-        targetCourseId: selectedStudent.courseId,
-        riskLevel: selectedStudent.risk || 'HIGH'
+      // Move to monitoring via change-status API
+      await api.post('/interventions-management/change-status', {
+        studentId: selectedStudent.mssv || selectedStudent.studentId,
+        targetCourseId: selectedStudent.courseId || selectedStudent.targetCourseId,
+        status: 'MONITORING',
+        oldStatus: activeTab.toUpperCase(),
+        action: 'SEND_ROADMAP'
       });
       setShowRoadmapModal(false);
       alert('Đã gửi Lộ trình thành công! Sinh viên đã được chuyển sang "Theo dõi".');
@@ -330,8 +333,8 @@ export default function Interventions() {
   };
 
   const handleOpenBulk = () => {
-    if (data.top20.length === 0) {
-      alert("Không có sinh viên nào trong danh sách Nguy hiểm!");
+    if (data.highRisk.length === 0) {
+      alert("Không có sinh viên nào trong danh sách Nguy cơ cao!");
       return;
     }
     setShowBulkModal(true);
@@ -341,24 +344,31 @@ export default function Interventions() {
     setBulkSending(true);
     setBulkProgress(0);
     let count = 0;
-    for (const st of data.top20) {
+    for (const st of data.highRisk) {
       const personalizedMsg = bulkMsg.replace('{name}', st.student?.name || st.mssv).replace('{course}', st.course?.name || st.courseId);
       try {
         await api.post('/comm/messages', {
           senderId: currentUser.id,
-          receiverId: st.mssv,
+          receiverId: st.mssv || st.studentId,
           content: personalizedMsg
         });
-        await api.post(`/students/${st.mssv}/flag`, {
-          courseId: st.courseId,
+        await api.post(`/students/${st.mssv || st.studentId}/flag`, {
+          courseId: st.courseId || st.targetCourseId,
           action: 'Đã gửi Can thiệp tự động (AI)',
           status: 'ACTIVE'
         });
+        await api.post('/interventions-management/change-status', {
+          studentId: st.mssv || st.studentId,
+          targetCourseId: st.courseId || st.targetCourseId,
+          status: 'MONITORING',
+          oldStatus: 'HIGH_RISK',
+          action: 'SEND_ROADMAP_BULK'
+        });
       } catch(e) {
-        console.error("Error bulk sending to", st.mssv);
+        console.error("Error bulk sending to", st.mssv || st.studentId);
       }
       count++;
-      setBulkProgress(Math.floor((count / data.top20.length) * 100));
+      setBulkProgress(Math.floor((count / data.highRisk.length) * 100));
     }
     setShowBulkModal(false);
     setBulkSending(false);
@@ -367,15 +377,17 @@ export default function Interventions() {
   };
 
   const getStatusLabel = (tab) => {
-    if (tab === 'top20') return { label: 'Khẩn cấp', color: 'bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400' };
-    if (tab === 'top50') return { label: 'Đang theo dõi', color: 'bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400' };
-    return { label: 'Ổn định', color: 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' };
+    if (tab === 'highRisk') return { label: 'Nguy cơ cao', color: 'bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400' };
+    if (tab === 'monitoring') return { label: 'Đang theo dõi', color: 'bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400' };
+    if (tab === 'stable') return { label: 'Ổn định', color: 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' };
+    return { label: 'Đã đóng case', color: 'bg-slate-100 dark:bg-slate-500/20 text-slate-600 dark:text-slate-400' };
   };
 
   const tabs = [
-    { id: 'top20', label: 'Top 20 Nguy hiểm', icon: ShieldAlert, color: 'text-rose-500', count: data.top20?.length || 0 },
-    { id: 'top50', label: 'Top 50 Theo dõi', icon: Activity, color: 'text-orange-500', count: data.top50?.length || 0 },
-    { id: 'top100', label: 'Top 100 Ổn định', icon: CheckCircle2, color: 'text-emerald-500', count: data.top100?.length || 0 }
+    { id: 'highRisk', label: 'HIGH RISK', icon: ShieldAlert, color: 'text-rose-500', count: data.highRisk?.length || 0 },
+    { id: 'monitoring', label: 'MONITORING', icon: Activity, color: 'text-orange-500', count: data.monitoring?.length || 0 },
+    { id: 'stable', label: 'STABLE', icon: CheckCircle2, color: 'text-emerald-500', count: data.stable?.length || 0 },
+    { id: 'closed', label: 'CLOSED', icon: Check, color: 'text-slate-500', count: data.closed?.length || 0 }
   ];
 
   const currentData = data[activeTab] || [];
@@ -556,9 +568,9 @@ export default function Interventions() {
               className="w-full pl-9 pr-4 py-2 bg-white dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors"
             />
           </div>
-          {activeTab === 'top20' && (
+          {activeTab === 'highRisk' && (
             <button onClick={handleOpenBulk} className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg shadow-rose-500/20 transition-colors flex items-center gap-2 whitespace-nowrap">
-              <Activity size={16} /> AI Gửi Khẩn Cấp
+              <Activity size={16} /> Đề xuất can thiệp ưu tiên
             </button>
           )}
         </div>
@@ -594,9 +606,10 @@ export default function Interventions() {
               defaultValue=""
             >
               <option value="" disabled>Chuyển trạng thái</option>
-              <option value="top20">🔴 Top 20 Nguy hiểm</option>
-              <option value="top50">🟠 Top 50 Theo dõi</option>
-              <option value="resolved">🟢 Ổn định (cần điểm ≥5)</option>
+              <option value="highRisk">🔴 Nguy cơ cao</option>
+              <option value="monitoring">🟠 Cần theo dõi</option>
+              <option value="stable">🟢 Ổn định</option>
+              <option value="closed">⚪ Đóng case</option>
             </select>
           </div>
         </div>
@@ -624,7 +637,7 @@ export default function Interventions() {
                 </th>
                 <th className="px-2 py-4 font-semibold">Sinh viên</th>
                 <th className="px-6 py-4 font-semibold">Môn học</th>
-                <th className="px-6 py-4 font-semibold text-center">Dự báo điểm</th>
+                <th className="px-6 py-4 font-semibold text-center">Dự báo điểm (XAI)</th>
                 <th className="px-6 py-4 font-semibold text-center">Trạng thái</th>
                 <th className="px-6 py-4 font-semibold text-right">Thao tác</th>
               </tr>
@@ -638,6 +651,8 @@ export default function Interventions() {
                   const predictedScore = st.predictedScore;
                   const riskLevel = st.risk || (predictedScore < 3 ? 'HIGH' : predictedScore < 5 ? 'MEDIUM' : 'LOW');
                   const scoreImproved = hasScoreImproved(st);
+                  const confidence = st.confidence ? (st.confidence * 100).toFixed(0) + '%' : null;
+                  const evidence = st.evidence || null;
                   
                   return (
                   <tr key={(st.id || studentMssv) + '-' + (st.courseId || st.targetCourseId) + '-' + i} className={`hover:bg-slate-50 dark:hover:bg-white/5 transition-colors ${isSelected ? 'bg-indigo-50/50 dark:bg-indigo-900/10' : ''}`}>
@@ -673,13 +688,27 @@ export default function Interventions() {
                     </td>
                     <td className="px-6 py-4 text-center">
                       {predictedScore !== undefined && predictedScore !== null ? (
-                        <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-black ${
-                          (riskLevel === 'HIGH' || riskLevel === 'CRITICAL') ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
-                          riskLevel === 'MEDIUM' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' : 
-                          'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
-                        }`}>
-                          {predictedScore.toFixed(1)} đ
-                        </span>
+                        <div className="flex flex-col items-center gap-1">
+                          <div className="flex items-center gap-2">
+                            <span className={`inline-flex px-2 py-0.5 rounded text-xs font-black ${
+                              (riskLevel === 'HIGH' || riskLevel === 'CRITICAL') ? 'bg-rose-500/10 text-rose-500 border border-rose-500/20' :
+                              riskLevel === 'MEDIUM' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' : 
+                              'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
+                            }`}>
+                              {predictedScore.toFixed(1)} đ
+                            </span>
+                            {confidence && (
+                              <span className="text-[10px] text-slate-400 font-mono bg-slate-100 dark:bg-white/5 px-1 rounded">
+                                conf: {confidence}
+                              </span>
+                            )}
+                          </div>
+                          {evidence && (
+                            <div className="text-[10px] text-slate-500 mt-1 max-w-[150px] truncate" title={evidence}>
+                              {evidence}
+                            </div>
+                          )}
+                        </div>
                       ) : (
                         <span className="text-slate-400 text-xs">—</span>
                       )}
@@ -688,7 +717,7 @@ export default function Interventions() {
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${statusInfo.color}`}>
                         {statusInfo.label}
                       </span>
-                      {activeTab === 'top50' && (
+                      {activeTab === 'monitoring' && (
                         <div className="mt-1">
                           {scoreImproved ? (
                             <span className="text-[10px] text-emerald-500 font-bold">✓ Điểm đã cải thiện</span>
@@ -700,29 +729,29 @@ export default function Interventions() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2 flex-wrap">
-                        {/* Undo / Move back button for top50 and top100 */}
-                        {activeTab !== 'top20' && (
+                        {/* Undo / Move back button for monitoring and stable */}
+                        {activeTab !== 'highRisk' && (
                           <button 
-                            onClick={() => handleUpdateStatus(st, 'top20')}
+                            onClick={() => handleUpdateStatus(st, 'highRisk')}
                             disabled={updating}
-                            title="Chuyển lại Nguy hiểm (Undo)"
+                            title="Chuyển lại Nguy cơ cao (Undo)"
                             className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 p-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-50"
                           >
                             <RotateCcw size={14} />
                           </button>
                         )}
-                        {activeTab !== 'top100' && (
+                        {activeTab !== 'stable' && activeTab !== 'closed' && (
                           <button 
                             onClick={() => handleOpenRoadmap(st)} 
                             className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
                           >
-                            {activeTab === 'top20' ? 'Gửi Roadmap' : 'Xem Roadmap'}
+                            {activeTab === 'highRisk' ? 'Gửi Roadmap' : 'Xem Roadmap'}
                           </button>
                         )}
-                        {/* Mark as resolved - only for top50 */}
-                        {activeTab === 'top50' && (
+                        {/* Mark as stable - only for monitoring */}
+                        {activeTab === 'monitoring' && (
                           <button
-                            onClick={() => handleUpdateStatus(st, 'resolved')}
+                            onClick={() => handleUpdateStatus(st, 'stable')}
                             disabled={updating}
                             title={scoreImproved ? 'Đánh dấu Ổn định' : 'Cần điểm SV ≥ 5.0đ để hoàn thành'}
                             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-50 flex items-center gap-1 ${
@@ -733,6 +762,18 @@ export default function Interventions() {
                           >
                             <CheckCircle2 size={12} />
                             {scoreImproved ? 'Ổn định' : 'Chờ điểm'}
+                          </button>
+                        )}
+                        {/* Mark as closed - only for stable */}
+                        {activeTab === 'stable' && (
+                          <button
+                            onClick={() => handleUpdateStatus(st, 'closed')}
+                            disabled={updating}
+                            title="Đóng case can thiệp này"
+                            className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors disabled:opacity-50 flex items-center gap-1"
+                          >
+                            <Check size={12} />
+                            Đóng case
                           </button>
                         )}
                         <button 
@@ -749,11 +790,13 @@ export default function Interventions() {
               ) : (
                 <tr>
                   <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
-                    {activeTab === 'top100' 
+                    {activeTab === 'closed' 
+                      ? '⚪ Chưa có case nào được đóng.'
+                      : activeTab === 'stable'
                       ? '✅ Chưa có sinh viên nào được đánh dấu Ổn định. Hãy theo dõi và cập nhật khi điểm cải thiện.'
-                      : activeTab === 'top50'
-                      ? '📋 Chưa có sinh viên nào trong danh sách Theo dõi. Hãy gửi Roadmap cho sinh viên Nguy hiểm.'
-                      : '🎉 Tuyệt vời! Không có sinh viên nào trong vùng nguy hiểm.'
+                      : activeTab === 'monitoring'
+                      ? '📋 Chưa có sinh viên nào trong danh sách Theo dõi. Hãy gửi Roadmap cho sinh viên Nguy cơ cao.'
+                      : '🎉 Tuyệt vời! Không có sinh viên nào trong vùng nguy cơ cao.'
                     }
                   </td>
                 </tr>

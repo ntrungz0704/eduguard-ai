@@ -42,6 +42,7 @@ model Student {
   interventionRoadmaps    InterventionRoadmap[] @relation("StudentInterventionRoadmaps")
   retakeRegistrations     RetakeRegistration[]
   transcriptHistories     TranscriptHistory[]
+  auditLogs               AuditLog[]
 }
 
 model Course {
@@ -409,7 +410,7 @@ model InterventionRoadmap {
   completedAt      DateTime?
   improvementScore Float?
   advisorNotes     String?
-  status           String    @default("PENDING") // PENDING, OPENED, IN_PROGRESS, COMPLETED
+  status           String    @default("HIGH_RISK") // HIGH_RISK, MONITORING, STABLE, CLOSED
 
   student Student @relation("StudentInterventionRoadmaps", fields: [studentId], references: [mssv], onDelete: Cascade)
   @@index([studentId])
@@ -525,8 +526,14 @@ model ScoreComponent {
 
 model AuditLog {
   id        Int      @id @default(autoincrement())
-  userId    String
+  lecturer  String   @default("SYSTEM") // User who did the action
   action    String
+  studentId String?
+  details   String?  // JSON string for extra context (from/to, reason)
   timestamp DateTime @default(now())
-  metadata  String?  // Optional JSON string for extra context
+
+  student   Student? @relation(fields: [studentId], references: [mssv], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([lecturer])
 }

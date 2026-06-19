@@ -2495,8 +2495,9 @@ router.get('/interventions-management', requireAdvisor, async (req, res) => {
       orderBy: { sentDate: 'desc' }
     });
 
-    const monitoringRoadmaps = roadmaps.filter(r => r.status === 'PENDING' || r.status === 'OPENED' || r.status === 'IN_PROGRESS');
-    const resolvedRoadmaps = roadmaps.filter(r => r.status === 'COMPLETED');
+    const monitoringRoadmaps = roadmaps.filter(r => r.status === 'MONITORING' || r.status === 'PENDING' || r.status === 'IN_PROGRESS');
+    const stableRoadmaps = roadmaps.filter(r => r.status === 'STABLE');
+    const closedRoadmaps = roadmaps.filter(r => r.status === 'CLOSED' || r.status === 'COMPLETED');
 
     const roadmapStudentSet = new Set(roadmaps.map(r => r.studentId + '_' + r.targetCourseId));
 
@@ -2514,18 +2515,18 @@ router.get('/interventions-management', requireAdvisor, async (req, res) => {
     for (const pred of dbPredictions) {
       const key = pred.mssv + '_' + pred.courseId;
       if (!roadmapStudentSet.has(key)) {
+        // Embed confidence and evidence logic directly into the prediction object
+        const evidenceStr = pred.reasons ? (JSON.parse(pred.reasons).map(r => r.reason).join(' | ')) : '';
+        pred.evidence = evidenceStr;
+        pred.confidence = pred.confidence || 0.85; // Default if not populated
         urgentList.push(pred);
       }
     }
 
-    // Top 20 Nguy hiểm (Urgent)
-    const top20 = urgentList.slice(0, 20);
-    
-    // Top 50 Theo dõi (Monitoring)
-    const top50 = monitoringRoadmaps.slice(0, 50);
-
-    // Top 100 Ổn định (Resolved/Completed)
-    const top100 = resolvedRoadmaps.slice(0, 100);
+    const highRisk = urgentList.slice(0, 30);
+    const monitoring = monitoringRoadmaps.slice(0, 50);
+    const stable = stableRoadmaps.slice(0, 100);
+    const closed = closedRoadmaps.slice(0, 50);
 
     // Calculate full database counts for the Intervention Center panel using calculateBaseRisk
     let statsSummary = {
@@ -2556,7 +2557,73 @@ router.get('/interventions-management', requireAdvisor, async (req, res) => {
       console.error('[Interventions API] Lỗi tính toán statsSummary:', e);
     }
 
-    res.json({ top20, top50, top100, statsSummary });
+    res.json({
+      highRisk,
+      monitoring,
+      stable,
+      closed,
+      statsSummary
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
+// API: Change Intervention Status & Audit Log
+// ============================================================
+router.post('/interventions-management/change-status', requireAdvisor, async (req, res) => {
+  try {
+    const { studentId, targetCourseId, status, oldStatus, message, action } = req.body;
+    
+    // 1. Update or create InterventionRoadmap
+    let roadmap = await prisma.interventionRoadmap.findFirst({
+      where: { studentId, targetCourseId },
+      orderBy: { sentDate: 'desc' }
+    });
+
+    if (roadmap) {
+      roadmap = await prisma.interventionRoadmap.update({
+        where: { id: roadmap.id },
+        data: { status }
+      });
+    } else {
+      roadmap = await prisma.interventionRoadmap.create({
+        data: {
+          studentId,
+          targetCourseId,
+          status,
+          roadmap: message ? JSON.stringify({ message }) : null
+        }
+      });
+    }
+
+    // 2. Create AuditLog
+    await prisma.auditLog.create({
+      data: {
+        action: action || 'CHANGE_STATUS',
+        lecturer: req.user?.email || 'SYSTEM',
+        studentId,
+        details: JSON.stringify({ from: oldStatus || 'UNKNOWN', to: status, courseId: targetCourseId })
+      }
+    });
+
+    res.json({ success: true, roadmap });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/interventions-management/audit-logs', requireAdvisor, async (req, res) => {
+  try {
+    const logs = await prisma.auditLog.findMany({
+      orderBy: { timestamp: 'desc' },
+      take: 100,
+      include: {
+        student: { select: { name: true } }
+      }
+    });
+    res.json(logs);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
