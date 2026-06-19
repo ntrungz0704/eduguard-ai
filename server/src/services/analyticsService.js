@@ -1,4 +1,4 @@
-const { calculateFptGPA, getCourseCredits } = require('../utils/dataService');
+const { calculateFptGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
 const { prisma } = require('../infrastructure/database/prisma');
 const { eventBus, EVENTS } = require('../utils/eventBus');
 
@@ -116,15 +116,7 @@ function getStudentAnalytics(student, allStudents = []) {
     const semGpa = calculateFptGPA(completedSemCourses);
     
     completedSemCourses.forEach(s => {
-      const isCond = (s.course?.name || s.courseId || '').toLowerCase().includes('thể chất') ||
-                     (s.course?.name || s.courseId || '').toLowerCase().includes('quốc phòng') ||
-                     (s.course?.name || s.courseId || '').toLowerCase().includes('vovinam') ||
-                     (s.course?.name || s.courseId || '').toLowerCase().includes('gdqp') ||
-                     (s.courseId || '').toUpperCase().includes('VIE103') ||
-                     (s.courseId || '').toUpperCase().includes('VIE104') ||
-                     (s.courseId || '').toUpperCase().includes('PRO110') ||
-                     (s.courseId || '').toUpperCase().includes('PRO115') ||
-                     (s.courseId || '').toUpperCase().includes('PRO116');
+      const isCond = isConditionalCourse(s.course?.name || s.courseId, s.courseId);
       const isEng = (s.course?.name || s.courseId || '').toLowerCase().includes('tiếng anh') || 
                     (s.course?.name || s.courseId || '').toLowerCase().includes('tieng anh') || 
                     (s.courseId || '').toUpperCase().includes('ENT');

@@ -65,7 +65,10 @@ function getSemesterVal(semStr) {
 // Traverses the syllabus graph to trace risk propagation for weak courses (grade < 6.0)
 function getFutureRiskWarnings(scores) {
   const warnings = [];
-  const weakCourses = scores.filter(s => s.value !== null && s.value < 6.0);
+  const weakCourses = scores.filter(s => 
+    !isConditionalCourse(syllabusGraph[s.courseId]?.name || s.courseId, s.courseId) && 
+    s.value !== null && s.value < 6.0 && (s.status === 'PASSED' || s.status === 'FAILED')
+  );
   
   weakCourses.forEach(wc => {
     const wcId = wc.courseId;
@@ -254,7 +257,10 @@ async function generateDetailedDSSReport(student) {
   }
 
   // 2. Trend Analysis (GPA over semesters)
-  const completedScores = scores.filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
+  const completedScores = scores.filter(s => 
+    !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && 
+    s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED')
+  );
   const semesterGroups = {};
   completedScores.forEach(s => {
     const sem = s.semester || 'Summer 2025';
@@ -301,7 +307,10 @@ async function generateDetailedDSSReport(student) {
   }
 
   // 3. Knowledge Dependency Analysis
-  const failedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5.0)).map(s => s.courseId);
+  const failedCourses = scores.filter(s => 
+    !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && 
+    (s.status === 'FAILED' || (s.value !== null && s.value < 5.0))
+  ).map(s => s.courseId);
   const blockedCourses = [];
   failedCourses.forEach(fc => {
     // Check local syllabus_graph
@@ -449,7 +458,10 @@ async function generateDetailedDSSReport(student) {
   };
 
   // Collect all troubled courses in student scores (failed or weak)
-  const troubledCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 7.0));
+  const troubledCourses = scores.filter(s => 
+    !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && 
+    (s.status === 'FAILED' || (s.value !== null && s.value < 7.0))
+  );
   
   let rootCause = null;
   if (troubledCourses.length > 0) {
@@ -1117,7 +1129,10 @@ async function generateDetailedDSSReport(student) {
   }
 
   // 9. Program-Level Comparison
-  const courseIds = scores.filter(s => s.value !== null).map(s => s.courseId);
+  const courseIds = scores.filter(s => 
+    !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && 
+    s.value !== null
+  ).map(s => s.courseId);
   const programComparison = [];
 
   if (courseIds.length > 0) {
@@ -1168,7 +1183,10 @@ async function generateDetailedDSSReport(student) {
 
   // Generate Dependency Heatmap
   const dependencyHeatmap = [];
-  const weakOrFailedScores = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 7.0));
+  const weakOrFailedScores = scores.filter(s => 
+    !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && 
+    (s.status === 'FAILED' || (s.value !== null && s.value < 7.0))
+  );
   weakOrFailedScores.forEach(s => {
     const cId = s.courseId;
     const grade = s.value !== null ? s.value : 3.0;

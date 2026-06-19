@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { calculateFptGPA, calculateDelayScore } = require('../../utils/dataService');
+const { calculateFptGPA, calculateDelayScore, isConditionalCourse } = require('../../utils/dataService');
 const { RISK_WEIGHTS, RISK_LEVELS, RISK_THRESHOLDS } = require('../config/riskRules');
 
 function loadKnowledgeJson(filename) {
@@ -47,11 +47,16 @@ function calculateBaseRisk(student) {
   const factors = {};
   const scores = student.scores || [];
 
+  // Lọc chỉ giữ lại Ground Truth (điểm thật, môn không điều kiện)
+  const groundTruthScores = scores.filter(s => {
+    return !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED');
+  });
+
   // 1. LOW GPA
   const gpaData = calculateFptGPA(scores);
   const gpa = gpaData.gpa;
   let gpaScore = 0;
-  if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && scores.length > 5) gpaScore = 100;
+  if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && groundTruthScores.length > 5) gpaScore = 100;
   else if (gpa < 6.0) gpaScore = 75;
   else if (gpa < 7.0) gpaScore = 40;
   else if (gpa < 8.0) gpaScore = 10;
@@ -60,7 +65,7 @@ function calculateBaseRisk(student) {
   totalScore += factors.LOW_GPA;
 
   // 2. PREREQUISITE BREAK
-  const failedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5.0)).map(s => s.courseId);
+  const failedCourses = groundTruthScores.filter(s => s.status === 'FAILED' || s.value < 5.0).map(s => s.courseId);
   let prereqScore = 0;
   if (failedCourses.length > 0) {
     const hasPrereqFail = failedCourses.some(fc => {
@@ -77,9 +82,8 @@ function calculateBaseRisk(student) {
   totalScore += factors.PREREQUISITE_BREAK;
 
   // 3. TREND DECLINE
-  const completedScores = scores.filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
   const semesterGroups = {};
-  completedScores.forEach(s => {
+  groundTruthScores.forEach(s => {
     const sem = s.semester || 'Summer 2025';
     if (!semesterGroups[sem]) semesterGroups[sem] = [];
     semesterGroups[sem].push(s);
@@ -118,7 +122,7 @@ function calculateBaseRisk(student) {
       else if (diff < -0.5) trendScore = 50;
       else if (diff > 0.5) trendScore = 0;
     }
-  } else if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && completedScores.length > 0) {
+  } else if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && groundTruthScores.length > 0) {
     trendScore = 50;
   }
 
@@ -140,7 +144,7 @@ function calculateBaseRisk(student) {
   totalScore += factors.DELAY_RISK;
 
   const riskScore = Math.min(100, Math.round(totalScore));
-  const confidenceScore = Math.min(99, Math.round(80 + (completedScores.length * 1.5)));
+  const confidenceScore = Math.min(99, Math.round(80 + (groundTruthScores.length * 1.5)));
 
   return {
     riskScore,
