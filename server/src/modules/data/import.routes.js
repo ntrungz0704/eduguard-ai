@@ -15,12 +15,12 @@ const upload = multer({
 
 // @route   POST /api/v1/data/preview
 // @desc    Upload and preview excel data
-// @access  Private (Advisor/Admin)
-router.post('/preview', jwtMiddleware, requireRole('ADMIN', 'ADVISOR'), upload.single('file'), importController.previewData);
+// @access  Private (Advisor/Admin/Teacher)
+router.post('/preview', jwtMiddleware, requireRole('ADMIN', 'ADVISOR', 'TEACHER'), upload.single('file'), importController.previewData);
 
 // @route   POST /api/v1/data/publish
 // @desc    Publish validated data to database
-// @access  Private (Advisor/Admin)
-router.post('/publish', jwtMiddleware, requireRole('ADMIN', 'ADVISOR'), importController.publishData);
+// @access  Private (Advisor/Admin/Teacher)
+router.post('/publish', jwtMiddleware, requireRole('ADMIN', 'ADVISOR', 'TEACHER'), importController.publishData);
 
 module.exports = router;

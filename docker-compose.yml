@@ -1,71 +1,28 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# EduGuard AI — Local Development Infrastructure
-# Run: docker-compose up -d --build
-# This starts the full local stack: App (SQLite) + Redis
-# ─────────────────────────────────────────────────────────────────────────────
+version: '3.8'
 
 services:
-
-  # ── Main Application ────────────────────────────────────────────────────────
-  eduguard-api:
-    build: .
-    container_name: eduguard-api
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - FRONTEND_URL=http://localhost:3000
-      - DATABASE_URL=file:./prisma/dev.db
-      - JWT_SECRET=eduguard_docker_secret_change_in_production_32chars
-      - JWT_EXPIRES_IN=7d
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 20s
-    networks:
-      - app-network
-
-  # ── PostgreSQL (Ready for Phase 2 migration to PostgreSQL) ──────────────────
-  # NOTE: The current prototype uses SQLite. This PostgreSQL service is included
-  # for future production migration. The main app does NOT connect to it yet.
-  postgres:
+  db:
     image: postgres:15-alpine
-    container_name: eduguard_postgres
+    container_name: eduguard-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eduguard
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: eduguard
-      POSTGRES_PASSWORD: eduguard_dev_password
-      POSTGRES_DB: eduguard_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U eduguard -d eduguard_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - app-network
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
 
-  # ── Redis Cache ───────────────────────────────────────────────────────────
-  redis_cache:
+  redis:
     image: redis:7-alpine
-    container_name: eduguard_redis
+    container_name: eduguard-redis
     ports:
       - "6379:6379"
-    command: redis-server --appendonly yes
     volumes:
-      - redis_data:/data
-    networks:
-      - app-network
-
-networks:
-  app-network:
+      - redisdata:/data
+    restart: unless-stopped
 
 volumes:
-  postgres_data:
-  redis_data:
+  pgdata:
+  redisdata:

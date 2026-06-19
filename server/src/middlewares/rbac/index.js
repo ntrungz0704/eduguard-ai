@@ -20,7 +20,7 @@
 const AppError = require('../../shared/errors/AppError');
 
 // Define role hierarchy — higher index = higher privilege
-const ROLE_HIERARCHY = ['STUDENT', 'ADVISOR', 'ADMIN'];
+const ROLE_HIERARCHY = ['STUDENT', 'TEACHER', 'ADVISOR', 'ADMIN'];
 
 /**
  * requireRole(...roles) — Middleware factory.

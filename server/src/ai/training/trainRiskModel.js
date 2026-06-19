@@ -154,6 +154,11 @@ async function train() {
   
   console.log(`🎯 AI Prediction Score: ${result.toFixed(2)}`);
   console.log(`=> Khả năng rớt môn / cảnh báo học vụ của SV này: ${(result * 100).toFixed(1)}%`);
+
+  // Cleanup to prevent memory leaks
+  testData.dispose();
+  prediction.dispose();
+  tf.disposeVariables();
 }
 
 train();

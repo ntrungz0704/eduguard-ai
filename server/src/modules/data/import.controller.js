@@ -728,20 +728,21 @@ exports.publishData = async (req, res) => {
     );
 
     if (!isTestFile) {
-      // Trigger AI predictions for updated students in background
-      setTimeout(() => {
-        try {
-          logger.info(`Triggering AI predictions for ${successStudents} students after data import via script...`);
-          const { recalculateAllPredictions } = require('../../scripts/recalculate_predictions');
-          recalculateAllPredictions().then(() => {
-              logger.info(`Completed AI predictions batch from import`);
-          }).catch((error) => {
-              logger.error(`Error executing recalculate script: ${error.message}`);
-          });
-        } catch (err) {
-          logger.error('Error starting background AI prediction batch:', err);
-        }
-      }, 1000);
+      try {
+        const { mlQueue } = require('../../jobs/mlQueue');
+        await mlQueue.add('retrain-after-import', {
+          successStudents,
+          timestamp: Date.now()
+        });
+        logger.info(`Queued AI predictions job in BullMQ for ${successStudents} students.`);
+        
+        // Invalidate Redis caches
+        const redisClient = require('../../infrastructure/redis/redisClient');
+        await redisClient.del('analytics_dashboard');
+        await redisClient.del('analytics_snapshot');
+      } catch (err) {
+        logger.error('Error queuing AI prediction job to BullMQ:', err);
+      }
     }
 
     if (global.latestImportStatus) {

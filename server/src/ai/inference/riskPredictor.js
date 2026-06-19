@@ -49,20 +49,21 @@ function predictRisk(gpa, failRate, attendance, assignAvg, quizAvg, lateSub, mis
         return 0;
     }
     
-    const inputTensor = tf.tensor2d([[
-        gpa,
-        failRate,
-        attendance,
-        assignAvg,
-        quizAvg,
-        lateSub,
-        missedDeadlines
-    ]]);
-    
-    const prediction = model.predict(inputTensor);
-    const riskScore = prediction.dataSync()[0]; // 0.0 -> 1.0
-    
-    return riskScore;
+    return tf.tidy(() => {
+        const inputTensor = tf.tensor2d([[
+            gpa,
+            failRate,
+            attendance,
+            assignAvg,
+            quizAvg,
+            lateSub,
+            missedDeadlines
+        ]]);
+        
+        const prediction = model.predict(inputTensor);
+        const riskScore = prediction.dataSync()[0]; // 0.0 -> 1.0
+        return riskScore;
+    });
 }
 
 module.exports = {

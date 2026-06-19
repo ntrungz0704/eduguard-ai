@@ -1,4 +1,5 @@
 const XLSX = require('xlsx');
+const Decimal = require('decimal.js');
 const { prisma } = require('../infrastructure/database/prisma');
 const { Prisma } = require('@prisma/client');
 
@@ -25,46 +26,18 @@ function parseScore(val) {
 // ============================================================
 function mapToPretrainedSubject(excelSubName, pretrainedSubjects = []) {
   if (!excelSubName) return null;
-  const excelClean = excelSubName.trim();
+  const excelClean = excelSubName.trim().toUpperCase();
   
-  if (pretrainedSubjects.length === 0) return excelClean;
+  if (pretrainedSubjects.length === 0) return excelSubName.trim();
 
-  // 1. Direct exact match
-  if (pretrainedSubjects.includes(excelClean)) {
-    return excelClean;
+  // Strict exact match (case-insensitive)
+  const exactMatch = pretrainedSubjects.find(ps => ps.trim().toUpperCase() === excelClean);
+  if (exactMatch) {
+    return exactMatch;
   }
   
-  // Standardized regex pipeline order for extremely robust fuzzy matching
-  const norm = (s) => s
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // 1. Strip accents first
-    .replace(/đ/g, 'd')              // 2. Convert đ to d
-    .replace(/\(.*?\)/g, '')         // 3. Remove parenthesis details
-    .replace(/[&\-_/]/g, ' ')        // 4. Replace special chars with spaces
-    .replace(/\s+/g, '')             // 5. Finally strip all whitespace
-    .trim();
-    
-  const excelNorm = norm(excelClean);
-  
-  // 2. Try fuzzy match in pretrained list
-  const fuzzyMatch = pretrainedSubjects.find(ps => {
-    const psNorm = norm(ps);
-    return psNorm === excelNorm || psNorm.includes(excelNorm) || excelNorm.includes(psNorm);
-  });
-  
-  if (fuzzyMatch) return fuzzyMatch;
-  
-  // 3. Special Known Handled Fallbacks
-  const lowerExcel = excelClean.toLowerCase();
-  if (lowerExcel.includes('vovinam') && pretrainedSubjects.includes('Giáo dục thể chất')) {
-    return 'Giáo dục thể chất';
-  }
-  if (lowerExcel.includes('chinh tri') || lowerExcel.includes('chính trị')) {
-    if (pretrainedSubjects.includes('Chính trị')) return 'Chính trị';
-  }
-  
-  return excelClean; // Return original if no match found
+  // If not found strictly, do NOT guess.
+  return excelSubName.trim();
 }
 
 // ============================================================
@@ -441,9 +414,9 @@ function isEnglishCourse(courseName, courseId) {
 function calculateOfficialGPA(scores) {
   if (!scores) return { gpa: 0.0, gpa_4: 0.0, totalCredits: 0, validCreditsForGPA: 0 };
 
-  let totalScoreWeight = 0;
-  let totalScoreWeight4 = 0;
-  let gpaCredits = 0;
+  let totalScoreWeight = new Decimal(0);
+  let totalScoreWeight4 = new Decimal(0);
+  let gpaCredits = new Decimal(0);
   let totalAccumulatedCredits = 0;
 
   const processScore = (s, courseName, courseId) => {
@@ -471,7 +444,10 @@ function calculateOfficialGPA(scores) {
 
     // Only calculate GPA for Passed, Non-Conditional courses
     if (!isCond && !isNaN(scoreNum) && scoreNum > 0 && status === 'PASSED') {
-      totalScoreWeight += (scoreNum * creditsNum);
+      const dScore = new Decimal(scoreNum);
+      const dCredits = new Decimal(creditsNum);
+      
+      totalScoreWeight = totalScoreWeight.plus(dScore.times(dCredits));
       
       let score4Num = 0;
       if (scoreNum >= 9.0) score4Num = 4.0;
@@ -483,8 +459,9 @@ function calculateOfficialGPA(scores) {
       else if (scoreNum >= 5.0) score4Num = 2.0;
       else score4Num = 0.0;
       
-      totalScoreWeight4 += (score4Num * creditsNum);
-      gpaCredits += creditsNum;
+      const dScore4 = new Decimal(score4Num);
+      totalScoreWeight4 = totalScoreWeight4.plus(dScore4.times(dCredits));
+      gpaCredits = gpaCredits.plus(dCredits);
     }
   };
 
@@ -525,17 +502,17 @@ function calculateOfficialGPA(scores) {
   let gpa = 0.0;
   let gpa_4 = 0.0;
 
-  if (gpaCredits > 0) {
+  if (gpaCredits.gt(0)) {
     // Round to 2 decimal places exactly at the end
-    gpa = parseFloat((totalScoreWeight / gpaCredits).toFixed(2));
-    gpa_4 = parseFloat((totalScoreWeight4 / gpaCredits).toFixed(2));
+    gpa = parseFloat(totalScoreWeight.dividedBy(gpaCredits).toFixed(2));
+    gpa_4 = parseFloat(totalScoreWeight4.dividedBy(gpaCredits).toFixed(2));
   }
 
   return {
     gpa,
     gpa_4,
     totalCredits: totalAccumulatedCredits,
-    validCreditsForGPA: gpaCredits
+    validCreditsForGPA: gpaCredits.toNumber()
   };
 }
 
@@ -870,36 +847,36 @@ async function refreshCourseAliases() {
 function resolveBackendCourseCode(input) {
   if (!input) return null;
   const raw = String(input).trim();
-  const codeUpper = raw.toUpperCase().replace(/\s+/g, '');
-  const rawLowerNoSpace = raw.toLowerCase().replace(/\s+/g, '');
+  const rawUpper = raw.toUpperCase();
+  const rawLower = raw.toLowerCase();
 
-  // Exact map match (fallback if mapped directly)
-  if (courseNameToCodeMap[raw.toLowerCase()]) {
-    return courseNameToCodeMap[raw.toLowerCase()];
+  // 1. Check static map exact match
+  if (courseNameToCodeMap[rawLower]) {
+    return courseNameToCodeMap[rawLower];
   }
 
-  // 1. Check static courseNameToCodeMap (ignoring spaces)
+  // 2. Check static map by iterating for exact case-insensitive match
   for (const [name, code] of Object.entries(courseNameToCodeMap)) {
-    if (name.replace(/\s+/g, '') === rawLowerNoSpace) {
+    if (name.toLowerCase() === rawLower) {
       return code;
     }
   }
 
-  // 2. Check dynamic courseAliasesMap (ignoring spaces)
+  // 3. Check dynamic courseAliasesMap for exact match
   for (const [alias, code] of courseAliasesMap.entries()) {
-    if (alias.replace(/\s+/g, '') === rawLowerNoSpace) {
+    if (alias.toLowerCase() === rawLower) {
       return code;
     }
   }
 
-  // 3. Check dynamic courseCodeToNameMap (values)
+  // 4. Check dynamic courseCodeToNameMap for exact name match
   for (const [code, name] of courseCodeToNameMap.entries()) {
-    if (name.toLowerCase().replace(/\s+/g, '') === rawLowerNoSpace) {
+    if (name.toLowerCase() === rawLower) {
       return code;
     }
   }
 
-  return codeUpper;
+  return rawUpper;
 }
 
 module.exports = {
