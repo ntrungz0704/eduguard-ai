@@ -1,6 +1,6 @@
 const knowledgeCache = require('../knowledge/cache');
 const { analyzeBehavior } = require('./behavior-engine');
-const { calculateFptGPA } = require('../../utils/dataService');
+const { calculateOfficialGPA } = require('../../utils/dataService');
 
 const getStudentCourseStatus = (student, courseCode, courseName) => {
   if (!student || !student.courseStatus) return undefined;
@@ -289,7 +289,7 @@ exports.analyzeCareer = (student, careerGoal) => {
     const styleScore = calculateStyleMatch(student.learningStyle, student.strengths || [], student.weaknesses || [], careerGoal);
     const styleBonus = (styleScore / 100) * 5; 
     
-    const gpaResult = calculateFptGPA(student.scores || []);
+    const gpaResult = calculateOfficialGPA(student.scores || []);
     const gpaScore = gpaResult && gpaResult.gpa ? gpaResult.gpa * 10 : 0;
     const gpaBonus = (gpaScore / 100) * 5; 
     

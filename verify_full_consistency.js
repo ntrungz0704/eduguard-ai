@@ -2,7 +2,7 @@ const { prisma } = require('./server/src/infrastructure/database/prisma');
 const analyticsService = require('./server/src/services/analyticsService');
 const { generateDetailedDSSReport } = require('./server/src/ai/engines/dssReportEngine');
 const { enrichStudentData } = require('./server/src/repositories/studentRepository');
-const { calculateFptGPA } = require('./server/src/utils/dataService');
+const { calculateOfficialGPA } = require('./server/src/utils/dataService');
 
 async function verifyAll() {
   console.log('Starting Full Data Consistency Audit...');
@@ -35,7 +35,7 @@ async function verifyAll() {
 
     try {
       // 1. Raw DB GPA & Credits
-      const dbGpaObj = calculateFptGPA(student.scores);
+      const dbGpaObj = calculateOfficialGPA(student.scores);
       const dbGpa = dbGpaObj.gpa;
       const dbCredits = dbGpaObj.totalCredits;
       const dbCoursesCount = student.scores.length;
@@ -50,7 +50,7 @@ async function verifyAll() {
 
       // 3. DSS Report GPA & Credits (via dssReportEngine)
       const dssReport = await generateDetailedDSSReport(student);
-      const dssGpaObj = calculateFptGPA(student.scores);
+      const dssGpaObj = calculateOfficialGPA(student.scores);
       const dssGpa = dssGpaObj.gpa;
       const dssCredits = dssGpaObj.totalCredits;
       const dssCoursesCount = student.scores.length;

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { calculateFptGPA, calculateDelayScore, isConditionalCourse } = require('../../utils/dataService');
+const { calculateOfficialGPA, calculateDelayScore, isConditionalCourse } = require('../../utils/dataService');
 const { RISK_WEIGHTS, RISK_LEVELS, RISK_THRESHOLDS } = require('../config/riskRules');
 
 function loadKnowledgeJson(filename) {
@@ -53,7 +53,7 @@ function calculateBaseRisk(student) {
   });
 
   // 1. LOW GPA
-  const gpaData = calculateFptGPA(scores);
+  const gpaData = calculateOfficialGPA(scores);
   const gpa = gpaData.gpa;
   let gpaScore = 0;
   if (gpa < RISK_THRESHOLDS.MIN_PASS_SCORE && groundTruthScores.length > 5) gpaScore = 100;
@@ -103,7 +103,7 @@ function calculateBaseRisk(student) {
   let trendScore = 0;
   if (sortedSemesters.length >= 2) {
     const trendData = sortedSemesters.map(sem => {
-      const stats = calculateFptGPA(semesterGroups[sem]);
+      const stats = calculateOfficialGPA(semesterGroups[sem]);
       return stats.gpa;
     });
     const lastGpa = trendData[trendData.length - 1];

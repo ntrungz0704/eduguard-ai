@@ -9,7 +9,7 @@ const { prisma } = require('../infrastructure/database/prisma');
 const { eventBus, EVENTS } = require('../utils/eventBus');
 
 // Import modular services
-const { validateAndCleanData, calculateFptGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
+const { validateAndCleanData, calculateOfficialGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
 const analyticsService = require('../services/analyticsService');
 const riskService = require('../services/riskService');
 const predictionService = require('../services/predictionService');
@@ -1522,8 +1522,22 @@ router.get('/ai-evaluation', requireAdvisor, evaluationController.getMetrics);
 router.post('/ai-evaluation/run', requireAdvisor, evaluationController.triggerValidation);
 
 router.get('/students', (req, res) => {
-  const students = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
-  const subjects = cache.uploadedStudents.length > 0 ? Object.keys(students[0]?.scores || {}) : (cache.trainingData.subjects || []);
+  const baseStudents = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
+  const subjects = cache.uploadedStudents.length > 0 ? Object.keys(baseStudents[0]?.scores || {}) : (cache.trainingData.subjects || []);
+  
+  const { calculateOfficialGPA } = require('../utils/dataService');
+  const students = baseStudents.map(st => {
+    let scores = st.scores || {};
+    // Depending on whether it's an object or array, calculateOfficialGPA handles it.
+    const gpaResult = calculateOfficialGPA(scores);
+    return {
+      ...st,
+      gpa10: gpaResult.gpa,
+      gpa4: gpaResult.gpa_4,
+      totalCredits: gpaResult.totalCredits
+    };
+  });
+
   res.json({ students, subjects });
 });
 

@@ -4,7 +4,7 @@ const path = require('path');
 const { prisma } = require('../../infrastructure/database/prisma');
 const _ = require('lodash');
 const cache = require('../../shared/cache');
-const { calculateFptGPA } = require('../../utils/dataService');
+const { calculateOfficialGPA } = require('../../utils/dataService');
 
 const DEFAULT_TRAINING_DATA = { students: [], subjects: [], curriculumOrder: [] };
 const DEFAULT_CHAIN_EXPLANATION = {
@@ -488,7 +488,7 @@ class GraphService {
     const scores = databaseStudent?.scores?.length
       ? databaseStudent.scores
       : this.convertTrainingScoresToArray(trainingStudent?.scores || {}, courseIndex);
-    const gpa = scores.length ? calculateFptGPA(scores).gpa : null;
+    const gpa = scores.length ? calculateOfficialGPA(scores).gpa : null;
     const attendanceValues = (databaseStudent?.scores || [])
       .map((score) => this.toNullableNumber(score.attendance))
       .filter((value) => value !== null);

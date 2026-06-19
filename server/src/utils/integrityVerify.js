@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { calculateFptGPA } = require('./dataService');
+const { calculateOfficialGPA } = require('./dataService');
 
 /**
  * Runs 9 comprehensive data integrity checks on the database state.
@@ -61,7 +61,7 @@ async function checkDatabaseIntegrity(tx, isRollbackOnErrors = true) {
       // Check 3: Invalid GPA Recalculation
       let gpa = 0;
       try {
-        const gpaObj = calculateFptGPA(scores);
+        const gpaObj = calculateOfficialGPA(scores);
         gpa = gpaObj.gpa;
         if (isNaN(gpa) || gpa < 0 || gpa > 10) {
           errors.push(`[INVALID_GPA] Sinh viên '${mssv}' có điểm trung bình (GPA) không hợp lệ hoặc nằm ngoài khoảng [0, 10]: ${gpa}`);
@@ -104,7 +104,7 @@ async function checkDatabaseIntegrity(tx, isRollbackOnErrors = true) {
 
       // Check 6: Credit Mismatch (Sum of credits of passed courses)
       try {
-        const gpaObj = calculateFptGPA(scores);
+        const gpaObj = calculateOfficialGPA(scores);
         const calculatedCredits = gpaObj.totalCredits;
 
         // Verify that passed courses indeed sum to the calculated credits

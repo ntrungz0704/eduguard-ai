@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { prisma } = require('../../infrastructure/database/prisma');
 const { calculateBaseRisk, getRiskLevel } = require('./riskEngine');
-const { calculateFptGPA, getCourseCredits, calculateDelayScore, isConditionalCourse } = require('../../utils/dataService');
+const { calculateOfficialGPA, getCourseCredits, calculateDelayScore, isConditionalCourse } = require('../../utils/dataService');
 const { eventBus, EVENTS } = require('../../utils/eventBus');
 
 // Helper to load JSON from server/data/knowledge
@@ -241,7 +241,7 @@ async function generateDetailedDSSReport(student) {
       const allStudents = await prisma.student.findMany({ include: { scores: true } });
       studentGpas = allStudents.map(st => {
         const stScores = st.scores || [];
-        const stats = calculateFptGPA(stScores);
+        const stats = calculateOfficialGPA(stScores);
         return { mssv: st.mssv, gpa: stats.gpa };
       });
       studentGpas.sort((a, b) => b.gpa - a.gpa);
@@ -271,7 +271,7 @@ async function generateDetailedDSSReport(student) {
   const sortedSemesters = Object.keys(semesterGroups).sort((a, b) => getSemesterVal(a) - getSemesterVal(b));
   const trendData = sortedSemesters.map(sem => {
     const semScores = semesterGroups[sem];
-    const stats = calculateFptGPA(semScores);
+    const stats = calculateOfficialGPA(semScores);
     return {
       semester: sem,
       gpa: stats.gpa
@@ -1250,9 +1250,9 @@ async function generateDetailedDSSReport(student) {
     dependencyHeatmap,
     academicSnapshot: {
       studentId: student.mssv || student.id,
-      gpa10: calculateFptGPA(scores).gpa,
-      gpa4: calculateFptGPA(scores).gpa_4,
-      credits: calculateFptGPA(scores).totalCredits,
+      gpa10: calculateOfficialGPA(scores).gpa,
+      gpa4: calculateOfficialGPA(scores).gpa_4,
+      credits: calculateOfficialGPA(scores).totalCredits,
       failedCourses: failedCourses,
       academicHealth: healthScore,
       riskScore: baseRisk.riskScore,

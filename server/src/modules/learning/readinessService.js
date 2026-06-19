@@ -20,7 +20,7 @@ exports.calculateCareerReadiness = async (studentId, careerId, boardTasks, stude
     let academicScore = 0;
     if (student && student.scores.length > 0) {
       // Calculate weighted average using exact FPT formula to prevent double-counting retakes
-      const gpaResult = dataService.calculateFptGPA(student.scores);
+      const gpaResult = dataService.calculateOfficialGPA(student.scores);
       if (gpaResult && gpaResult.gpa > 0) {
         academicScore = Math.round(gpaResult.gpa * 10);
       }
@@ -89,7 +89,7 @@ exports.calculateCareerReadiness = async (studentId, careerId, boardTasks, stude
       careerKey
     );
 
-    const gpaResult = dataService.calculateFptGPA(student ? student.scores : []);
+    const gpaResult = dataService.calculateOfficialGPA(student ? student.scores : []);
     const gpaScore = gpaResult && gpaResult.gpa ? gpaResult.gpa * 10 : 0;
     const aptitudeScore = (styleScore * 0.6) + (gpaScore * 0.4);
 

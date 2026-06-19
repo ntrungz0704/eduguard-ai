@@ -4,7 +4,7 @@ const { prisma } = require('./server/src/infrastructure/database/prisma');
 const analyticsService = require('./server/src/services/analyticsService');
 const { generateDetailedDSSReport } = require('./server/src/ai/engines/dssReportEngine');
 const { enrichStudentData } = require('./server/src/repositories/studentRepository');
-const { calculateFptGPA, getCourseCredits } = require('./server/src/utils/dataService');
+const { calculateOfficialGPA, getCourseCredits } = require('./server/src/utils/dataService');
 const careerService = require('./server/src/services/careerService');
 const predictionService = require('./server/src/services/predictionService');
 const riskService = require('./server/src/services/riskService');
@@ -83,7 +83,7 @@ async function runFullDefenseAudit() {
     const scores = student.scores || [];
 
     // Calculate DB/API/DSS metrics
-    const dbGpaObj = calculateFptGPA(scores);
+    const dbGpaObj = calculateOfficialGPA(scores);
     const dbGpa = dbGpaObj.gpa;
     const dbCredits = dbGpaObj.totalCredits;
     const dbFailedCourses = scores.filter(s => s.status === 'FAILED' || (s.value !== null && s.value < 5.0)).map(s => s.courseId);

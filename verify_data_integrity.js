@@ -4,7 +4,7 @@ const { prisma } = require('./server/src/infrastructure/database/prisma');
 const analyticsService = require('./server/src/services/analyticsService');
 const { generateDetailedDSSReport } = require('./server/src/ai/engines/dssReportEngine');
 const { enrichStudentData } = require('./server/src/repositories/studentRepository');
-const { calculateFptGPA, getCourseCredits } = require('./server/src/utils/dataService');
+const { calculateOfficialGPA, getCourseCredits } = require('./server/src/utils/dataService');
 const careerService = require('./server/src/services/careerService');
 const predictionService = require('./server/src/services/predictionService');
 const riskService = require('./server/src/services/riskService');
@@ -172,7 +172,7 @@ async function auditDataIntegrity() {
       }
     });
 
-    const dbGpaObj = calculateFptGPA(student.scores);
+    const dbGpaObj = calculateOfficialGPA(student.scores);
     const dbGpa = dbGpaObj.gpa;
     const recalculatedGpa = dbGpa;
     calculatedEarnedCredits = dbGpaObj.totalCredits;

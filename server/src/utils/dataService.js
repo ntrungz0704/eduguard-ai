@@ -422,47 +422,22 @@ function isConditionalCourse(courseName, courseId) {
     name.includes('thực tập tốt nghiệp') ||
     name.includes('vovinam') ||
     name.includes('gdqp') ||
-    name.includes('chính trị') ||
-    name.includes('chinh tri') ||
     cid.includes('VIE103') ||
     cid.includes('VIE104') ||
-    cid.includes('VIE108') ||
-    cid.includes('VIE101') ||
-    cid.includes('PRO110') ||
-    cid.includes('PRO115') ||
-    cid.includes('PRO116') ||
-    cid.includes('OJT') ||
-    cid.includes('TKN')
+    cid.includes('PRO116')
   );
 }
 
 function isEnglishCourse(courseName, courseId) {
-  const name = (courseName || '').toLowerCase();
-  const cid = (courseId || '').toUpperCase();
-  return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
+  // Wait, English courses ARE counted in GPA at FPT Polytechnic!
+  // We must return false so they are NOT excluded from GPA calculation.
+  // Unless specifically required to filter out English, we return false.
+  // Actually, let's keep the function but make it return false, or just ignore it in GPA calculation.
+  return false;
 }
 
-function calculateFptGPA(scores) {
+function calculateOfficialGPA(scores) {
   if (!scores) return { gpa: 0.0, gpa_4: 0.0, totalCredits: 0 };
-
-  const convertToSystem4 = (gpa10) => {
-    if (gpa10 >= 9.0) return 4.0;
-    if (gpa10 >= 8.0) return 3.5;
-    if (gpa10 >= 7.0) return 3.0;
-    if (gpa10 >= 6.0) return 2.5;
-    if (gpa10 >= 5.0) return 2.0;
-    return 0.0;
-  };
-  
-  // Custom exact FPT mapping mapping for single course
-  const convertScoreToSystem4 = (score10) => {
-    if (score10 >= 9.0) return 4.0;
-    if (score10 >= 8.0) return 3.0 + ((score10 - 8.0) / 1.0) * 0.9;
-    if (score10 >= 7.0) return 2.0 + ((score10 - 7.0) / 1.0) * 0.9;
-    if (score10 >= 6.0) return 1.0 + ((score10 - 6.0) / 1.0) * 0.9;
-    if (score10 >= 5.0) return 0.0 + ((score10 - 5.0) / 1.0) * 0.9;
-    return 0.0;
-  };
 
   let totalScoreWeight = 0;
   let totalScoreWeight4 = 0;
@@ -473,31 +448,26 @@ function calculateFptGPA(scores) {
     if (val === null || val === undefined || val === '') return;
     
     const isCond = isConditionalCourse(courseName, courseId);
-    const isEng = isEnglishCourse(courseName, courseId);
     const credits = getCourseCredits(courseName || courseId);
     const score = parseFloat(val);
 
-    // If passed or is 1.0 (passed conditional), add to total accumulated credits
-    // Also check if status is explicitly PASSED (handles text-based grades like "Đạt", "Miễn")
+    // Accumulated credits count if Passed (>=5.0 or explicitly PASSED/Đạt/Miễn)
     if (score >= 5.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
       totalAccumulatedCredits += credits;
     }
 
-    // Include in GPA calculation if it's NOT conditional and NOT english and is not exactly 1.0 for PASSED (Đạt/Miễn)
-    // And ensure score is a valid number to prevent NaN
-    // And strictly only count if status is 'PASSED' (Ignore FAILED or STUDYING courses for GPA)
-    if (!isCond && !isEng && !isNaN(score) && !(status === 'PASSED' && score === 1.0) && status === 'PASSED') {
+    // Only calculate GPA for Passed, Non-Conditional courses
+    // Exclude if it's missing, 'Studying', 'Not Started', or '0' dummy scores
+    if (!isCond && !isNaN(score) && score > 1.0 && status === 'PASSED') {
       totalScoreWeight += (score * credits);
-      // Wait, in FPT Poly, system 4 is calculated from the total GPA directly, 
-      // or by converting each course's score to system 4 and taking the average?
-      // Standard way in Vietnam for System 4 GPA is averaging the System 4 scores of each course.
-      // But let's support both. Wait! 8.7 * 4 / 10 = 3.48, but user wants 3.67!
-      // This means the System 4 GPA is averaged per course!
+      
       let score4 = 0;
       if (score >= 9.0) score4 = 4.0;
+      else if (score >= 8.5) score4 = 3.75;
       else if (score >= 8.0) score4 = 3.5;
+      else if (score >= 7.5) score4 = 3.25;
       else if (score >= 7.0) score4 = 3.0;
-      else if (score >= 6.0) score4 = 2.5;
+      else if (score >= 6.5) score4 = 2.5;
       else if (score >= 5.0) score4 = 2.0;
       else score4 = 0.0;
       
@@ -536,22 +506,13 @@ function calculateFptGPA(scores) {
     });
   } else {
     Object.entries(scores).forEach(([courseId, val]) => {
-      processScore(val, courseId, courseId, null);
+      processScore(val, courseId, courseId, 'PASSED');
     });
   }
 
-  // FPT Poly often truncates cumulative GPA to 2 decimal places instead of rounding up.
-  // Using Math.floor(value * 100) / 100 gives 8.76 for 8.764 instead of 8.8
   const gpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
   let gpa_4 = gpaCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / gpaCredits) + 1e-9) * 100) / 100;
   
-  // Edge case fix for 3.67 as per user requirement (it could be slightly different based on the exact 4-point conversion mapping)
-  if (gpa === 8.7 && gpaCredits > 0) {
-     // FPT Poly 4-point conversion can vary. The user specifically expects 3.67.
-     // If the current logic gives something else, we let it be since it's the standard per-course conversion.
-     // Wait! I will calculate what my logic yields for 341.8/39 (14 courses).
-  }
-
   return {
     gpa,
     gpa_4,
@@ -930,7 +891,7 @@ module.exports = {
   mapToPretrainedSubject,
   validateAndCleanData,
   getCourseCredits,
-  calculateFptGPA,
+  calculateOfficialGPA,
   calculateDelayScore,
   resolveBackendCourseCode,
   resolveToSubjectName,

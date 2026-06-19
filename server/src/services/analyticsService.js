@@ -1,4 +1,4 @@
-const { calculateFptGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
+const { calculateOfficialGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
 const { prisma } = require('../infrastructure/database/prisma');
 const { eventBus, EVENTS } = require('../utils/eventBus');
 
@@ -50,7 +50,7 @@ function getStudentAnalytics(student, allStudents = []) {
   }
   
   // 1. Calculate cumulative GPA using central FPT formula
-  const fptGpa = calculateFptGPA(scores);
+  const fptGpa = calculateOfficialGPA(scores);
   
   // 2. Calculate actual earned credits
   const totalEarnedCredits = fptGpa.totalCredits;
@@ -79,10 +79,10 @@ function getStudentAnalytics(student, allStudents = []) {
   let accumulatedScores = [];
   const semesterStats = sortedSemesters.map(sem => {
     const semScores = semesterGroups[sem];
-    const semGpa = calculateFptGPA(semScores);
+    const semGpa = calculateOfficialGPA(semScores);
     
     accumulatedScores = accumulatedScores.concat(semScores);
-    const cpaGpa = calculateFptGPA(accumulatedScores);
+    const cpaGpa = calculateOfficialGPA(accumulatedScores);
 
     return {
       semester: sem,
@@ -117,7 +117,7 @@ function getStudentAnalytics(student, allStudents = []) {
     const semCourses = scores.filter(s => getCurriculumSemester(s.courseId, s.course?.name || s.courseId) === semNum);
     const completedSemCourses = semCourses.filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
 
-    const semGpa = calculateFptGPA(completedSemCourses);
+    const semGpa = calculateOfficialGPA(completedSemCourses);
     
     completedSemCourses.forEach(s => {
       const isCond = isConditionalCourse(s.course?.name || s.courseId, s.courseId);
@@ -170,7 +170,7 @@ function getStudentAnalytics(student, allStudents = []) {
     totalCohort = allStudents.length;
     const allGPAs = allStudents.map(st => {
       const stScores = st.scores || [];
-      const stats = calculateFptGPA(stScores);
+      const stats = calculateOfficialGPA(stScores);
       return { mssv: st.mssv || st.id, gpa: stats.gpa };
     });
     allGPAs.sort((a, b) => b.gpa - a.gpa);
@@ -295,7 +295,7 @@ async function getGlobalStats() {
   let atRiskStudents = 0;
   allStudents.forEach(st => {
     const scores = st.scores.map(s => ({ value: s.value, credits: 3 })); // Simplification for fast risk check
-    const gpa = calculateFptGPA(scores).gpa;
+    const gpa = calculateOfficialGPA(scores).gpa;
     if (gpa > 0 && gpa < 5.0) atRiskStudents++;
   });
 

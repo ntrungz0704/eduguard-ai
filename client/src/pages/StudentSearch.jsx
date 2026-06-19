@@ -71,28 +71,6 @@ const getLocalRiskLevel = (student) => {
   return 'LOW';
 };
 
-const calculateLocalFptGPA = (scores) => {
-  if (!scores) return 0.0;
-  
-  let totalScoreWeight = 0;
-  let gpaCredits = 0;
-
-  Object.entries(scores).forEach(([courseId, val]) => {
-    if (val === null || val === undefined || val === '') return;
-    const score = parseFloat(val);
-    const isCond = isConditionalCourse(courseId, courseId);
-    const isEng = isEnglishCourse(courseId, courseId);
-    const credits = getCourseCredits(courseId);
-
-    if (!isCond && !isEng && score > 1.0) {
-      totalScoreWeight += score * credits;
-      gpaCredits += credits;
-    }
-  });
-
-  return gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
-};
-
 export default function StudentSearch() {
   const navigate = useNavigate();
   const activeStudent = useStore(state => state.activeStudent);
@@ -286,10 +264,10 @@ export default function StudentSearch() {
                   return riskB - riskA;
                 }
                 if (sortType === 'gpa-desc') {
-                  return calculateLocalFptGPA(b.scores) - calculateLocalFptGPA(a.scores);
+                  return (b.gpa10 || 0) - (a.gpa10 || 0);
                 }
                 if (sortType === 'gpa-asc') {
-                  return calculateLocalFptGPA(a.scores) - calculateLocalFptGPA(b.scores);
+                  return (a.gpa10 || 0) - (b.gpa10 || 0);
                 }
                 return 0;
               }).map(st => {
@@ -306,7 +284,10 @@ export default function StudentSearch() {
                     </div>
                     <div>
                       <h5 className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-500 dark:group-hover:text-blue-450 transition-colors">{st.name}</h5>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{st.id} • Lớp {st.classCode || 'WD18301'}</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                        {st.id} • Lớp {st.classCode || 'WD18301'} • 
+                        <span className="font-bold text-slate-800 dark:text-slate-300 ml-1">GPA: {st.gpa10?.toFixed(2) || '-'}</span>
+                      </p>
                     </div>
                   </div>
                   {riskCount > 0 && (

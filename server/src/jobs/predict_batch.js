@@ -4,7 +4,7 @@ const XLSX = require('xlsx');
 
 // Import modular logic và các hàm toán học hồi quy từ hệ thống
 const { getPrerequisites, calibrate, weightedPrediction } = require('../ai/regression');
-const { calculateFptGPA } = require('../utils/dataService');
+const { calculateOfficialGPA } = require('../utils/dataService');
 
 // ============================================================
 // CẤU HÌNH ĐƯỜNG DẪN
@@ -168,8 +168,8 @@ files.forEach((filename, index) => {
   });
 
   // Tính GPA thực tế và GPA dự phóng
-  const gpaActual = calculateFptGPA(studentScores).gpa;
-  const gpaProjected = calculateFptGPA(fullScores).gpa;
+  const gpaActual = calculateOfficialGPA(studentScores).gpa;
+  const gpaProjected = calculateOfficialGPA(fullScores).gpa;
 
   // Tạo dòng báo cáo
   const reportRow = {
