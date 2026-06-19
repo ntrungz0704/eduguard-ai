@@ -89,7 +89,7 @@ async function loadTrainingDataFromDB() {
       classCode: st.classCode,
       scores
     };
-  });
+  }).filter(st => Object.keys(st.scores).length > 0);
 
   const subjects = Object.values(COURSE_CODE_TO_NAME);
   const curriculumOrder = [

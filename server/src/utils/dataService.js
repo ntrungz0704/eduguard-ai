@@ -849,6 +849,34 @@ function resolveBackendCourseCode(input) {
   if (!input) return null;
   const raw = String(input).trim();
   const codeUpper = raw.toUpperCase().replace(/\s+/g, '');
+  const rawLowerNoSpace = raw.toLowerCase().replace(/\s+/g, '');
+
+  // Exact map match (fallback if mapped directly)
+  if (courseNameToCodeMap[raw.toLowerCase()]) {
+    return courseNameToCodeMap[raw.toLowerCase()];
+  }
+
+  // 1. Check static courseNameToCodeMap (ignoring spaces)
+  for (const [name, code] of Object.entries(courseNameToCodeMap)) {
+    if (name.replace(/\s+/g, '') === rawLowerNoSpace) {
+      return code;
+    }
+  }
+
+  // 2. Check dynamic courseAliasesMap (ignoring spaces)
+  for (const [alias, code] of courseAliasesMap.entries()) {
+    if (alias.replace(/\s+/g, '') === rawLowerNoSpace) {
+      return code;
+    }
+  }
+
+  // 3. Check dynamic courseCodeToNameMap (values)
+  for (const [code, name] of courseCodeToNameMap.entries()) {
+    if (name.toLowerCase().replace(/\s+/g, '') === rawLowerNoSpace) {
+      return code;
+    }
+  }
+
   return codeUpper;
 }
 

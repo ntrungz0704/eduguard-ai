@@ -151,6 +151,7 @@ async function syncUploadedData(validStudents) {
 
         // Compatibility fallback if scoreObj is just a number
         if (typeof scoreObj === 'object') {
+          if (scoreObj.isPredicted) continue; // TUYỆT ĐỐI KHÔNG lưu điểm dự báo (ảo) vào Database
           value = scoreObj.value;
           status = scoreObj.status || 'STUDYING';
         } else {
