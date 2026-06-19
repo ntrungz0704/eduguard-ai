@@ -1,62 +1,48 @@
-# Cập nhật Score Integrity, Career Evidence & DSS Consistency
+# Mục tiêu
 
-Mục tiêu là đảm bảo "Single Source of Truth", 100% dữ liệu xuất phát từ Database chính xác. Loại bỏ các dữ liệu "giả" (null, 0 giả) khỏi quá trình Training, Evaluation, và Analytics, đồng thời loại bỏ "ảo giác" (hallucination) trong tính năng Career Matching. Cập nhật Tra Cứu Học Vụ cho toàn bộ sinh viên trong DB.
+Triển khai quy tắc **DATABASE INTEGRITY & SINGLE SOURCE OF TRUTH (SSOT)**. Đảm bảo dữ liệu bảng điểm gốc từ file Excel được nhập nguyên vẹn vào hệ thống mà không qua "suy đoán" (hallucination) của AI. Hệ thống tính toán (GPA, DSS) phải hoàn toàn dựa trên dữ liệu thật.
 
 ## User Review Required
 
-- **Xóa rủi ro 0 điểm giả**: Hệ thống import hiện tại sẽ không bao giờ tự gán 0 cho các giá trị rỗng (`null`). Các dữ liệu cũ nếu đã bị gán 0 giả (fake 0) có thể cần làm sạch thủ công bằng script (ví dụ: `UPDATE Score SET value = null, status = 'NOT_STARTED' WHERE value = 0 AND ...`), AI không tự động cập nhật lại các điểm 0 đã tồn tại để tránh rủi ro mất dữ liệu thật nếu sinh viên thực sự thi được 0 điểm. Nếu bạn muốn tự động xóa điểm 0 cũ, vui lòng xác nhận.
-
-## Open Questions
-
-- Không có.
+> [!IMPORTANT]
+> Việc lưu trữ lịch sử cập nhật bảng điểm (Snapshot) yêu cầu tạo thêm table `TranscriptHistory` trong cơ sở dữ liệu.
+> Tôi sẽ thêm model `TranscriptHistory` vào `schema.prisma` và thiết lập quan hệ với `Student`. Khi upload file mới, toàn bộ bảng điểm hiện tại của sinh viên sẽ được JSON-ify và lưu vào `TranscriptHistory` trước khi ghi đè, đảm bảo tính Audit (truy xuất lịch sử). Bạn có đồng ý với việc thay đổi cấu trúc DB này không?
 
 ## Proposed Changes
 
----
+### 1. Database & Schema
+#### [MODIFY] `server/prisma/schema.prisma`
+- Thêm model `TranscriptHistory` với các trường: `id`, `mssv`, `snapshotData` (JSON chứa danh sách điểm), `version`, `uploadedBy`, `createdAt`.
+- Xóa bỏ semester khỏi Unique Constraint của Score (tùy chọn) hoặc thực hiện logic: xóa sạch Score cũ của MSSV tương ứng và chèn Score mới khi import để đảm bảo bảng điểm mới là SSOT duy nhất.
 
-### Môn học & Điểm số (Score Integrity & Analytics)
+### 2. Import Parser (Dọn sạch Auto-correction)
+#### [MODIFY] `server/src/modules/data/import.controller.js`
+- **Tắt tính năng Auto Mapping**: Loại bỏ hoàn toàn `resolveBackendCourseCode`. File Excel ghi mã môn là gì (`COM108`, `ITI101`), DB sẽ lưu chính xác mã môn đó.
+- **Cập nhật Logic Upsert (SSOT)**: Khi phát hiện 1 `MSSV` trong file import:
+  1. Lấy toàn bộ `Score` hiện tại của `MSSV` đó.
+  2. Tạo 1 record `TranscriptHistory` chứa bản sao lưu của các `Score` này.
+  3. Xóa các `Score` cũ HOẶC thực hiện `upsert` cẩn thận dựa trên `courseId` để loại bỏ các điểm rác (ví dụ: upload lần trước có `COM108=10`, upload lần này `COM108=8.9`, ta sẽ cập nhật `COM108` thành `8.9` bất kể `semester` là gì).
+- **Khôi phục điểm Studying**: Đảm bảo điểm thực (ví dụ `4.8`) của môn `STUDYING` được truyền vào DB thay vì bị filter thành `null` (đã xóa code rác nhưng cần kiểm chứng lại toàn bộ flow lưu db).
 
-#### [MODIFY] [import.controller.js](file:///e:/my-project/eduguard-ai/server/src/modules/data/import.controller.js)
-- Cập nhật hàm `calculateScore` để không trả về 0 nếu không có thành phần điểm nào thực sự tồn tại.
-- Đảm bảo các ô trống không bao giờ bị ép thành `FAILED` với `score = 0`. Nếu giá trị điểm là rỗng, `status` mặc định là `NOT_STARTED` hoặc `STUDYING`.
+### 3. Analytics Service (Tính GPA chính xác)
+#### [MODIFY] `server/src/services/analyticsService.js`
+- Cập nhật hàm `calculateFptGPA`:
+  - **Chỉ cộng môn Passed**: `if (status === 'PASSED')` thì mới tính vào công thức tính GPA. (Các môn `STUDYING`, `FAILED` sẽ không bị nhầm lẫn tính vào).
+  - Bổ sung các môn điều kiện (PRO116, VIE103, VIE104) vào blacklist một cách tường minh để đảm bảo không lọt môn nào vào GPA.
 
-#### [MODIFY] [analyticsService.js](file:///e:/my-project/eduguard-ai/server/src/services/analyticsService.js)
-- Tại hàm `getTopBottlenecks` (Top Môn Tạch), thêm bộ lọc cứng để chỉ lấy các môn thỏa mãn: `status === 'FAILED'`, `value !== null`, `value < 5.0`.
-- Chặn hoàn toàn môn `PRO116` (Thực tập tốt nghiệp) và các môn điều kiện khỏi thống kê môn trượt (Top Fail Subjects) bằng hàm `isConditionalCourse`.
-
----
-
-### AI Evaluation & Training (Ground Truth Only)
-
-#### [MODIFY] [api.js](file:///e:/my-project/eduguard-ai/server/src/modules/api.js)
-- Tại endpoint `/evaluate-model`: Sửa logic `Leave-One-Out Cross Validation (LOOCV)`. Bỏ qua hoàn toàn các môn có `score === null` hoặc `status` là `STUDYING`/`NOT_STARTED`. Chỉ tính `MAE`, `RMSE` cho các môn thực sự có Ground Truth.
-
----
-
-### Career Matching & DSS Engine (No Hallucination)
-
-#### [MODIFY] [dssReportEngine.js](file:///e:/my-project/eduguard-ai/server/src/ai/engines/dssReportEngine.js)
-- Sửa hàm `generateDetailedDSSReport` phần `careerImpactAnalysis`.
-- Chuyển `isPossessed` từ `boolean` sang `possessionState` gồm 3 trạng thái:
-  - `POSSESSED`: Khi sinh viên đã học và đạt điểm >= 5.0.
-  - `FAILED`: Khi sinh viên tạch môn hoặc yếu.
-  - `UNKNOWN`: Khi môn học chứa kỹ năng này chưa được học (điểm `null`, `NOT_STARTED`...).
-  
-#### [MODIFY] [StudentProfile.jsx](file:///e:/my-project/eduguard-ai/client/src/pages/StudentProfile.jsx)
-- Đọc `possessionState` và thay đổi UI hiển thị danh sách kỹ năng Career Matching.
-  - Nếu `POSSESSED` -> hiển thị biểu tượng `✓` (Màu xanh).
-  - Nếu `FAILED` -> hiển thị biểu tượng `✗` (Màu đỏ).
-  - Nếu `UNKNOWN` -> hiển thị biểu tượng `?` (Màu cam/xám, đánh dấu là "Chưa có dữ liệu").
-
----
+### 4. UI Rendering (Chống fake 0.0)
+#### [MODIFY] `client/src/pages/StudentProfile.jsx`
+- **Tắt Fuzzy Matching**: Thay thế `cleanDbId.startsWith(cleanCurrId)` bằng đối chiếu **chính xác 100%** `cleanDbId === cleanCurrId`.
+- **Sửa lỗi hiển thị `0.0`**: Với các môn có `score = null`, giao diện bắt buộc hiển thị dấu gạch ngang `—` (Chưa có điểm) thay vì tự động ép kiểu thành `0.0`.
 
 ## Verification Plan
 
-### Automated Tests
-- Import một file Excel có chứa học sinh mới, với điểm để trống hoặc môn học `PRO116`. Chạy API để chắc chắn điểm được lưu là `null` với trạng thái `NOT_STARTED`.
-
-### Manual Verification
-1. Truy cập trang `Tra Cứu Học Vụ`, tìm kiếm và mở hồ sơ một sinh viên.
-2. Tại mục Career, kiểm tra xem các kỹ năng chưa học có đang hiện dấu `?` thay vì `✓` hay không.
-3. Chạy đánh giá mô hình (AI Evaluation Dashboard) và xác minh số môn có Ground Truth được tính toán đúng, không bị ảnh hưởng bởi điểm `null`.
-4. Xem danh sách Môn học khó nhất (Top Fail Subjects) trong Dashboard Lecturer, đảm bảo `PRO116` không xuất hiện và số lượng rớt không lấy điểm 0 ảo.
+### Automated/Manual Verification
+- Chạy lại Import một bảng điểm mẫu của sinh viên `PS47261`.
+- Chạy `node scratch_query.js` để đối chiếu:
+  - `ENT223` phải có điểm `4.8` và status `STUDYING`.
+  - `WEB1023` phải có điểm `1.0` và status `STUDYING`.
+  - Không có sự xuất hiện của dữ liệu rác (VD: `COM108=10.0` nếu file mới là `8.9`).
+- Vào giao diện Profile của `PS47261`:
+  - GPA hệ 10 và hệ 4 phải chính xác theo quy tắc FPT (chỉ tính môn Passed, bỏ qua điều kiện).
+  - Môn học hiển thị `—` thay vì `0.0`.

@@ -247,7 +247,7 @@ exports.previewData = async (req, res) => {
       const rawName = row.name || row.fullname || row.student_name || row['Họ Tên'] || row['Họ tên'] || row['Tên sinh viên'] || row['Tên Sinh Viên'];
       const name = rawName ? String(rawName).trim() : null;
       const rawCourse = row['Mã môn'] || row['Mã chuyển đổi'] || row.courseId || row.course || row['Môn học'] || row['Môn'];
-      const course = resolveBackendCourseCode(rawCourse);
+      const course = rawCourse ? String(rawCourse).toUpperCase().replace(/\s+/g, '') : null;
       const semester = row.semester || row['Học kỳ'] || row['Học Kỳ'] || 'SP26';
       
       let calculatedScore = calculateScore(row);
@@ -320,10 +320,7 @@ exports.previewData = async (req, res) => {
         rowStatus = 'STUDYING';
       }
 
-      // If studying or not started, we don't strictly require a score and score should be null
-      if (rowStatus === 'STUDYING' || rowStatus === 'NOT_STARTED') {
-        calculatedScore = null;
-      }
+      
       
       const errors = [];
       
@@ -533,6 +530,31 @@ exports.publishData = async (req, res) => {
             classCode: classCode || 'UNKNOWN'
           }
         });
+
+        // -------------------------------------------------------------
+        // PRIORITY 0: SSOT & INTEGRITY AUDIT
+        // Backup current transcript to TranscriptHistory, then delete all
+        // to ensure the newly imported Excel is the ONLY Source of Truth
+        // -------------------------------------------------------------
+        const existingScoresForAudit = await tx.score.findMany({
+          where: { mssv }
+        });
+        
+        if (existingScoresForAudit.length > 0) {
+          const currentVersionCount = await tx.transcriptHistory.count({ where: { mssv } });
+          await tx.transcriptHistory.create({
+            data: {
+              mssv,
+              snapshotData: JSON.stringify(existingScoresForAudit),
+              version: currentVersionCount + 1,
+              uploadedBy: req.user?.email || 'SYSTEM'
+            }
+          });
+          // Purge old scores to avoid duplicate courses across semesters
+          await tx.score.deleteMany({
+            where: { mssv }
+          });
+        }
 
         for (const row of rows) {
           let status = row.rowStatus;

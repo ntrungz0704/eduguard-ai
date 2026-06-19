@@ -576,7 +576,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
         const cleanCurrId = String(currCourse.id || '').toUpperCase().trim();
         const cleanDbId = String(s.courseId || '').toUpperCase().trim();
         
-        if (cleanDbId.startsWith(cleanCurrId)) {
+        if (cleanDbId === cleanCurrId) {
           return true;
         }
         
@@ -597,7 +597,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
         const cleanCurrId = String(currCourse.id || '').toUpperCase().trim();
         const cleanDbId = String(p.courseId || '').toUpperCase().trim();
         
-        if (cleanDbId.startsWith(cleanCurrId)) {
+        if (cleanDbId === cleanCurrId) {
           return true;
         }
         
@@ -1261,12 +1261,12 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                     <td className="p-3 text-center">
                                       {processScore !== null ? (
                                         <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{processScore.toFixed(1)}</span>
-                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">—</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {examScore !== null ? (
                                         <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{examScore.toFixed(1)}</span>
-                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">—</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.value !== null ? (
@@ -1277,7 +1277,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                                             {c.value.toFixed(1)}
                                           </span>
                                         )
-                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">0.0</span>}
+                                      ) : <span className="text-xs text-slate-400 dark:text-slate-600 font-bold">—</span>}
                                     </td>
                                     <td className="p-3 text-center">
                                       {c.value !== null ? (

@@ -1,15 +1,18 @@
 # Task List
 
+- `[x]` Update `schema.prisma`
+  - Add `TranscriptHistory` model.
+  - Run `npx prisma db push` to sync schema.
 - `[x]` Update `import.controller.js`
-  - Fix `calculateScore` to preserve `null` and avoid fake 0 or 1s incorrectly.
-  - Fix `status` determination so missing scores correctly map to `STUDYING` or `NOT_STARTED` without triggering `FAILED`.
-- `[x]` Update `analyticsService.js`
-  - Refine `getTopBottlenecks` to strictly filter out conditional courses (`PRO116`, etc.) and only count `status === 'FAILED'` and `score < 5.0` and `score !== null`.
-- `[x]` Update `api.js` (Evaluation Engine)
-  - In `/evaluate-model`, skip any scores that are `null` or missing ground truth. Only calculate errors and LOOCV for valid existing scores.
-- `[x]` Update `dssReportEngine.js` (Career Engine)
-  - Modify `careerImpactAnalysis` to compute `possessionState` as `POSSESSED`, `FAILED`, or `UNKNOWN`.
+  - Stop using `resolveBackendCourseCode`. Map `courseCode` exactly.
+  - Remove line 324-326 that wipes `calculatedScore` if `STUDYING`.
+  - Add logic to backup current scores into `TranscriptHistory` before upsert.
+  - Upsert logic should use the exact `courseId` and possibly overwrite regardless of `semester`.
+- `[x]` Update `dataService.js`
+  - Remove `resolveBackendCourseCode` functionality (just return the string as-is or keep it simple).
+  - Update `calculateFptGPA` to strictly check `status === 'PASSED'` before accumulating GPA.
 - `[x]` Update `StudentProfile.jsx`
-  - Update the UI to render `POSSESSED` as `✓`, `FAILED` as `✗`, and `UNKNOWN` as `?`.
-- `[/]` Review and Verify changes.
-- [ ] Build client, commit, and push.
+  - Change `startsWith` to exact match `cleanDbId === cleanCurrId`.
+  - Display `—` instead of `0.0` when `value === null`.
+- `[ ]` Verify changes with DB and UI.
+- `[ ]` Commit and push code.

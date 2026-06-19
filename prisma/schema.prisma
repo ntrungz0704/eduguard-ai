@@ -41,6 +41,7 @@ model Student {
   studentRoadmaps         StudentRoadmap[]
   interventionRoadmaps    InterventionRoadmap[] @relation("StudentInterventionRoadmaps")
   retakeRegistrations     RetakeRegistration[]
+  transcriptHistories     TranscriptHistory[]
 }
 
 model Course {
@@ -85,6 +86,19 @@ model Score {
   @@unique([mssv, courseId, semester])
   @@index([mssv])
   @@index([courseId])
+}
+
+model TranscriptHistory {
+  id           Int      @id @default(autoincrement())
+  mssv         String
+  snapshotData String   // JSON string containing the scores
+  version      Int
+  uploadedBy   String
+  createdAt    DateTime @default(now())
+
+  student      Student  @relation(fields: [mssv], references: [mssv], onDelete: Cascade)
+
+  @@index([mssv])
 }
 
 model Prediction {
