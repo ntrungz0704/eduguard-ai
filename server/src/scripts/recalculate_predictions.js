@@ -12,7 +12,7 @@ const { eventBus, EVENTS } = require('../utils/eventBus');
 eventBus.on(EVENTS.DATASET_UPDATED, async () => {
   console.log('[AI Pipeline] Nhận cờ DATASET_UPDATED. Tự động train và recalculate...');
   try {
-    await recalculateAllPredictions(true);
+    await recalculateAllPredictions();
   } catch (error) {
     console.error('[AI Pipeline] Lỗi khi tự động chạy pipeline:', error);
   }
@@ -180,7 +180,7 @@ function trainModel(trainingData) {
   return modelCache;
 }
 
-async function recalculateAllPredictions(shouldExit = false) {
+async function recalculateAllPredictions() {
     const lockFilePath = path.join(__dirname, 'recalculate.lock');
     let hasLock = false;
     try {
@@ -413,14 +413,13 @@ async function recalculateAllPredictions(shouldExit = false) {
         }
     }
 
-    if (shouldExit) {
-        process.exit(0);
-    }
     return count;
 }
 
 if (require.main === module) {
-    recalculateAllPredictions(true).catch(e => {
+    recalculateAllPredictions().then(() => {
+        process.exit(0);
+    }).catch(e => {
         console.error(e);
         process.exit(1);
     });
