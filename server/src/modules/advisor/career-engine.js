@@ -58,9 +58,10 @@ exports.analyzeCareer = (student, careerGoal) => {
   if (student && student.scores) {
     student.scores.forEach(s => {
       if (s.value !== null) {
+        const code = s.course?.courseCode || s.courseCode || s.courseId;
         // Keep highest score for retakes
-        if (!scoreMap[s.courseCode] || s.value > scoreMap[s.courseCode]) {
-          scoreMap[s.courseCode] = s.value;
+        if (code && (!scoreMap[code] || s.value > scoreMap[code])) {
+          scoreMap[code] = s.value;
         }
       }
     });
