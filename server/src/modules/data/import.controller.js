@@ -626,6 +626,31 @@ exports.publishData = async (req, res) => {
         }
       }
 
+      const { calculateOfficialGPA } = require('../../utils/dataService');
+      for (const mssv of mssvList) {
+        const studentScores = await tx.score.findMany({ where: { mssv }, include: { course: true } });
+        const gpaResult = calculateOfficialGPA(studentScores);
+        await tx.studentAnalytics.upsert({
+          where: { mssv },
+          update: {
+            gpa10: gpaResult.gpa,
+            gpa4: gpaResult.gpa_4,
+            totalEarnedCredits: gpaResult.totalCredits,
+            academicScoresCount: studentScores.length,
+            totalScoresCount: studentScores.length
+          },
+          create: {
+            mssv,
+            gpa10: gpaResult.gpa,
+            gpa4: gpaResult.gpa_4,
+            totalEarnedCredits: gpaResult.totalCredits,
+            academicScoresCount: studentScores.length,
+            totalScoresCount: studentScores.length,
+            term: studentScores[0]?.semester || 'SP26'
+          }
+        });
+      }
+
       return { localInserted, localUpdated };
     };
 

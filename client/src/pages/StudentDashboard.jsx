@@ -2068,9 +2068,7 @@ export default function StudentDashboard() {
       if (scoreObj) {
         value = scoreObj.value;
         status = scoreObj.status; // 'PASSED', 'FAILED', 'STUDYING'
-      }
-
-      if (predObj) {
+      } else if (predObj) {
         status = 'STUDYING';
         value = predObj.predictedScore;
         isPredicted = true;

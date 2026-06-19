@@ -1534,24 +1534,52 @@ router.post('/audit/integrity', requireAdvisor, async (req, res) => {
   }
 });
 
-router.get('/students', (req, res) => {
-  const baseStudents = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
-  const subjects = cache.uploadedStudents.length > 0 ? Object.keys(baseStudents[0]?.scores || {}) : (cache.trainingData.subjects || []);
-  
-  const { calculateOfficialGPA } = require('../utils/dataService');
-  const students = baseStudents.map(st => {
-    let scores = st.scores || {};
-    // Depending on whether it's an object or array, calculateOfficialGPA handles it.
-    const gpaResult = calculateOfficialGPA(scores);
-    return {
-      ...st,
-      gpa10: gpaResult.gpa,
-      gpa4: gpaResult.gpa_4,
-      totalCredits: gpaResult.totalCredits
-    };
-  });
+router.get('/students', async (req, res) => {
+  try {
+    const { calculateOfficialGPA } = require('../utils/dataService');
+    const { getCurriculumOrder } = require('../services/trainingInfoService');
+    
+    // Fetch from database directly
+    const studentsDB = await prisma.student.findMany({
+      include: {
+        scores: {
+          include: { course: true }
+        },
+        analytics: true,
+        predictions: true
+      }
+    });
 
-  res.json({ students, subjects });
+    const curriculum = getCurriculumOrder();
+    const subjects = curriculum.map(c => c.id);
+
+    const students = studentsDB.map(st => {
+      // Reformat scores for compatibility with frontend if needed, or pass as array
+      const scoresObj = {};
+      let hasScores = false;
+      st.scores.forEach(sc => {
+        scoresObj[sc.courseId] = sc.value;
+        hasScores = true;
+      });
+
+      // Recalculate GPA if analytics table isn't updated yet
+      const gpaResult = calculateOfficialGPA(hasScores ? st.scores : {});
+      
+      return {
+        ...st,
+        scores: scoresObj,
+        rawScores: st.scores, // Pass raw for detailed view
+        gpa10: st.analytics?.gpa10 || gpaResult.gpa,
+        gpa4: st.analytics?.gpa4 || gpaResult.gpa_4,
+        totalCredits: st.analytics?.totalEarnedCredits || gpaResult.totalCredits
+      };
+    });
+
+    res.json({ students, subjects });
+  } catch (err) {
+    console.error("Lỗi lấy danh sách sinh viên:", err);
+    res.status(500).json({ error: "Lỗi hệ thống khi lấy danh sách sinh viên" });
+  }
 });
 
 // ============================================================

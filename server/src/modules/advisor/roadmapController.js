@@ -11,7 +11,7 @@ exports.getClassRoadmapProgress = async (req, res) => {
     });
 
     // 2. Calculate statistics
-    const totalStudents = boards.length;
+    const totalStudents = await prisma.student.count();
     
     // Group by career
     const careerDistribution = {};

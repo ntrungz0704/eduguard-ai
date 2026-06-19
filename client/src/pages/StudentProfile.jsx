@@ -589,9 +589,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
       if (scoreObj) {
         value = scoreObj.value;
         status = scoreObj.status; // 'PASSED', 'FAILED', 'STUDYING'
-      }
-
-      if (predObj) {
+      } else if (predObj) {
         status = 'STUDYING';
         value = predObj.predictedScore;
         isPredicted = true;

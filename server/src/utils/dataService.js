@@ -437,13 +437,14 @@ function calculateOfficialGPA(scores) {
     
     const scoreNum = parseFloat(val);
 
-    // Accumulated credits count if Passed (>=5.0 or explicitly PASSED/Đạt/Miễn)
-    if (scoreNum >= 5.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
+    // Accumulated credits count if Passed (>=5.0 or explicitly PASSED/Đạt/Miễn or score is exactly 1.0 meaning Passed)
+    if (scoreNum >= 5.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn' || scoreNum === 1.0) {
       totalAccumulatedCredits += creditsNum;
     }
 
-    // Only calculate GPA for Passed, Non-Conditional courses
-    if (!isCond && !isNaN(scoreNum) && scoreNum > 0 && status === 'PASSED') {
+    // Only calculate GPA for Passed, Non-Conditional courses with actual numeric scores > 1.0
+    // A score of exactly 1.0 usually represents a "Passed" flag rather than a 1/10 score.
+    if (!isCond && !isNaN(scoreNum) && scoreNum > 1.0 && status === 'PASSED') {
       const dScore = new Decimal(scoreNum);
       const dCredits = new Decimal(creditsNum);
       
