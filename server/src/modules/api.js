@@ -1499,6 +1499,7 @@ router.get('/stats', requireAdvisor, async (req, res) => {
     res.json({
       stats: bottlenecks,
       total: globalStats.totalStudents,
+      trainable: globalStats.trainableStudents,
       warningRate: globalStats.warningRate,
       topRiskSubject: globalStats.topRiskSubject,
       atRiskStudents: globalStats.atRiskStudents,

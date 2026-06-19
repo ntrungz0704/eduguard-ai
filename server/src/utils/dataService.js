@@ -1,5 +1,6 @@
 const XLSX = require('xlsx');
 const { prisma } = require('../infrastructure/database/prisma');
+const { Prisma } = require('@prisma/client');
 
 // ============================================================
 // PARSE SCORE: handle *, X, empty, number, -
@@ -414,18 +415,8 @@ function getCourseCredits(courseNameOrId) {
 }
 
 function isConditionalCourse(courseName, courseId) {
-  const name = (courseName || '').toLowerCase();
-  const cid = (courseId || '').toUpperCase();
-  return (
-    name.includes('thể chất') ||
-    name.includes('quốc phòng') ||
-    name.includes('thực tập tốt nghiệp') ||
-    name.includes('vovinam') ||
-    name.includes('gdqp') ||
-    cid.includes('VIE103') ||
-    cid.includes('VIE104') ||
-    cid.includes('PRO116')
-  );
+  const cid = (courseId || '').toUpperCase().trim();
+  return cid === 'VIE103' || cid === 'VIE104' || cid === 'PRO116';
 }
 
 function isEnglishCourse(courseName, courseId) {
@@ -437,42 +428,45 @@ function isEnglishCourse(courseName, courseId) {
 }
 
 function calculateOfficialGPA(scores) {
-  if (!scores) return { gpa: 0.0, gpa_4: 0.0, totalCredits: 0 };
+  if (!scores) return { gpa: 0.0, gpa_4: 0.0, totalCredits: 0, validCreditsForGPA: 0 };
 
-  let totalScoreWeight = 0;
-  let totalScoreWeight4 = 0;
-  let gpaCredits = 0;
+  let totalScoreWeight = new Prisma.Decimal(0);
+  let totalScoreWeight4 = new Prisma.Decimal(0);
+  let gpaCredits = new Prisma.Decimal(0);
   let totalAccumulatedCredits = 0;
 
   const processScore = (val, courseName, courseId, status) => {
     if (val === null || val === undefined || val === '') return;
     
     const isCond = isConditionalCourse(courseName, courseId);
-    const credits = getCourseCredits(courseName || courseId);
-    const score = parseFloat(val);
+    const creditsNum = getCourseCredits(courseName || courseId);
+    const scoreNum = parseFloat(val);
 
     // Accumulated credits count if Passed (>=5.0 or explicitly PASSED/Đạt/Miễn)
-    if (score >= 5.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
-      totalAccumulatedCredits += credits;
+    if (scoreNum >= 5.0 || status === 'PASSED' || String(val).toLowerCase() === 'đạt' || String(val).toLowerCase() === 'miễn') {
+      totalAccumulatedCredits += creditsNum;
     }
 
     // Only calculate GPA for Passed, Non-Conditional courses
-    // Exclude if it's missing, 'Studying', 'Not Started', or '0' dummy scores
-    if (!isCond && !isNaN(score) && score > 1.0 && status === 'PASSED') {
-      totalScoreWeight += (score * credits);
+    if (!isCond && !isNaN(scoreNum) && scoreNum > 0 && status === 'PASSED') {
+      const scoreDec = new Prisma.Decimal(scoreNum);
+      const creditsDec = new Prisma.Decimal(creditsNum);
       
-      let score4 = 0;
-      if (score >= 9.0) score4 = 4.0;
-      else if (score >= 8.5) score4 = 3.75;
-      else if (score >= 8.0) score4 = 3.5;
-      else if (score >= 7.5) score4 = 3.25;
-      else if (score >= 7.0) score4 = 3.0;
-      else if (score >= 6.5) score4 = 2.5;
-      else if (score >= 5.0) score4 = 2.0;
-      else score4 = 0.0;
+      totalScoreWeight = totalScoreWeight.plus(scoreDec.times(creditsDec));
       
-      totalScoreWeight4 += (score4 * credits);
-      gpaCredits += credits;
+      let score4Num = 0;
+      if (scoreNum >= 9.0) score4Num = 4.0;
+      else if (scoreNum >= 8.5) score4Num = 3.75;
+      else if (scoreNum >= 8.0) score4Num = 3.5;
+      else if (scoreNum >= 7.5) score4Num = 3.25;
+      else if (scoreNum >= 7.0) score4Num = 3.0;
+      else if (scoreNum >= 6.5) score4Num = 2.5;
+      else if (scoreNum >= 5.0) score4Num = 2.0;
+      else score4Num = 0.0;
+      
+      const score4Dec = new Prisma.Decimal(score4Num);
+      totalScoreWeight4 = totalScoreWeight4.plus(score4Dec.times(creditsDec));
+      gpaCredits = gpaCredits.plus(creditsDec);
     }
   };
 
@@ -510,13 +504,20 @@ function calculateOfficialGPA(scores) {
     });
   }
 
-  const gpa = gpaCredits === 0 ? 0.0 : Math.floor(((totalScoreWeight / gpaCredits) + 1e-9) * 100) / 100;
-  let gpa_4 = gpaCredits === 0 ? 0.0 : Math.round(((totalScoreWeight4 / gpaCredits) + 1e-9) * 100) / 100;
-  
+  let gpa = 0.0;
+  let gpa_4 = 0.0;
+
+  if (!gpaCredits.isZero()) {
+    // Round to 2 decimal places exactly at the end
+    gpa = parseFloat(totalScoreWeight.dividedBy(gpaCredits).toFixed(2));
+    gpa_4 = parseFloat(totalScoreWeight4.dividedBy(gpaCredits).toFixed(2));
+  }
+
   return {
     gpa,
     gpa_4,
-    totalCredits: totalAccumulatedCredits
+    totalCredits: totalAccumulatedCredits,
+    validCreditsForGPA: parseFloat(gpaCredits.toString())
   };
 }
 
@@ -851,38 +852,7 @@ async function refreshCourseAliases() {
 function resolveBackendCourseCode(input) {
   if (!input) return null;
   const raw = String(input).trim();
-  const lower = raw.toLowerCase();
-  
-  if (courseAliasesMap.has(lower)) {
-    return courseAliasesMap.get(lower);
-  }
-  
   const codeUpper = raw.toUpperCase().replace(/\s+/g, '');
-  const cleanCode = codeUpper.toLowerCase();
-  if (courseAliasesMap.has(cleanCode)) {
-    return courseAliasesMap.get(cleanCode);
-  }
-  
-  // Fuzzy code match (e.g. startsWith)
-  for (const [alias, canonical] of courseAliasesMap.entries()) {
-    if (cleanCode.startsWith(alias)) {
-      return canonical;
-    }
-  }
-  
-  // Static fallback if cache not loaded yet
-  if (courseNameToCodeMap[lower]) {
-    return courseNameToCodeMap[lower];
-  }
-  if (courseCodeNormalizationMap[codeUpper]) {
-    return courseCodeNormalizationMap[codeUpper];
-  }
-  for (const [short, standard] of Object.entries(courseCodeNormalizationMap)) {
-    if (codeUpper.startsWith(short)) {
-      return standard;
-    }
-  }
-  
   return codeUpper;
 }
 

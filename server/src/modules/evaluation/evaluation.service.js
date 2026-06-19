@@ -101,6 +101,19 @@ class EvaluationService {
   async getEvaluationMetrics() {
     // 1. Tổng số liệu
     const totalStudents = await prisma.student.count();
+    
+    // Đếm số lượng sinh viên trainable (đã có ít nhất 1 điểm)
+    const trainableStudentsCount = await prisma.student.count({
+      where: {
+        scores: {
+          some: {
+            value: { not: null },
+            status: 'PASSED'
+          }
+        }
+      }
+    });
+
     const pendingPredictions = await prisma.predictionHistory.count();
     const validatedPredictions = await prisma.predictionEvaluation.count();
 
@@ -172,6 +185,7 @@ class EvaluationService {
     return {
       overview: {
         totalStudents,
+        trainableStudents: trainableStudentsCount,
         pendingPredictions,
         validatedPredictions,
         mae: mae.toFixed(2),

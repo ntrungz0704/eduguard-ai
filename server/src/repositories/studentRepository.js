@@ -145,7 +145,11 @@ function enrichStudentData(student) {
     });
     
     // Replace student.scores with the deduplicated array
-    student.scores = Array.from(highestScoresMap.values());
+    const { isConditionalCourse } = require('../utils/dataService');
+    student.scores = Array.from(highestScoresMap.values()).map(s => ({
+      ...s,
+      isConditionSubject: isConditionalCourse(s.courseId, s.courseId)
+    }));
     
     // Sort scores deterministically to ensure consistent skill generation order
     const sortedScores = [...student.scores].sort((a, b) => {

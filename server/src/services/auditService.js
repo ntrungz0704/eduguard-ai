@@ -1,5 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const { prisma } = require('../infrastructure/database/prisma');
 const { calculateOfficialGPA } = require('../utils/dataService');
 
 /**

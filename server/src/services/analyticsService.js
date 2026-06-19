@@ -293,16 +293,24 @@ async function getGlobalStats() {
   });
 
   let atRiskStudents = 0;
+  let trainableStudents = 0;
   allStudents.forEach(st => {
-    const scores = st.scores.map(s => ({ value: s.value, credits: 3 })); // Simplification for fast risk check
-    const gpa = calculateOfficialGPA(scores).gpa;
+    // Simplify credits mapping, use actual course credits if available
+    const scores = st.scores.map(s => ({ value: s.value, courseId: s.courseId, status: s.status })); 
+    const gpaResult = calculateOfficialGPA(scores);
+    const gpa = gpaResult.gpa;
     if (gpa > 0 && gpa < 5.0) atRiskStudents++;
+    
+    // Trainable if they have any passed scores
+    const hasValidScores = st.scores.some(s => s.status === 'PASSED' && s.value !== null);
+    if (hasValidScores) trainableStudents++;
   });
 
   const warningRate = totalStudents > 0 ? Math.round((atRiskStudents / totalStudents) * 100) : 0;
 
   const stats = {
     totalStudents,
+    trainableStudents,
     topRiskSubject,
     atRiskStudents,
     warningRate

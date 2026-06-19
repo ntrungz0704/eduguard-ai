@@ -109,51 +109,19 @@ const DEFAULT_CURRICULUM = [
 ];
 
 function getCourseCredits(courseNameOrId) {
-  const name = String(courseNameOrId || '').trim();
-  const lower = name.toLowerCase();
-  const code = name.toUpperCase();
+  const cid = String(courseNameOrId || '').toUpperCase().trim();
 
-  if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
-  if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
-  if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
-  if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
-  if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
+  // Use DEFAULT_CURRICULUM as source of truth if found
+  const found = DEFAULT_CURRICULUM.find(c => c.id === cid);
+  if (found) return found.credits;
 
-  if (
-    lower.includes('tiếng anh') || lower.includes('tieng anh') || code.includes('ENT')
-  ) {
-    return 2;
-  }
-
-  if (
-    lower.includes('kỹ năng học tập') || code.includes('PDP102') ||
-    lower.includes('kỹ năng phát triển bản thân') || code.includes('PDP103') ||
-    lower.includes('kỹ năng làm việc') || code.includes('PDP104') ||
-    lower.includes('pháp luật') || code.includes('VIE1028') || code.includes('VIE1026') || code.includes('VIE102')
-  ) {
-    return 2;
-  }
-
+  // Fallback
   return 3;
 }
 
 const isConditionalCourse = (courseName, courseId) => {
-  const name = (courseName || '').toLowerCase();
-  const cid = (courseId || '').toUpperCase();
-  return (
-    name.includes('thể chất') ||
-    name.includes('quốc phòng') ||
-    name.includes('thực tập tốt nghiệp') ||
-    name.includes('vovinam') ||
-    name.includes('gdqp') ||
-    name.includes('chính trị') ||
-    cid.includes('VIE103') ||
-    cid.includes('VIE104') ||
-    cid.includes('VIE108') ||
-    cid.includes('PRO110') ||
-    cid.includes('PRO115') ||
-    cid.includes('PRO116')
-  );
+  const cid = (courseId || '').toUpperCase().trim();
+  return cid === 'VIE103' || cid === 'VIE104' || cid === 'PRO116';
 };
 
 const isEnglishCourse = (courseName, courseId) => {
