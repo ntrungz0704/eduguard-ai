@@ -118,10 +118,9 @@ exports.analyzeCareer = (student, careerGoal) => {
     }
   });
 
-  // Strict Rule: If < 50% of the required skills have actual data -> INSUFFICIENT_DATA
   const coveragePercent = requiredSkills.length > 0 ? (validEvaluatedSkillsCount / requiredSkills.length) * 100 : 0;
-  
-  if (coveragePercent < 50) {
+  // Only say INSUFFICIENT_DATA if coverage is 0
+  if (validEvaluatedSkillsCount === 0) {
     return {
       insufficientEvidence: true,
       careerGoal: careerKey,
