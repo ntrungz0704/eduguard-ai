@@ -190,9 +190,6 @@ async function recalculateAllPredictions() {
         hasLock = true;
     } catch (err) {
         console.log('Một tiến trình tính toán lại dự báo khác đang chạy (lockfile đã tồn tại). Hủy bỏ tiến trình hiện tại để tránh race condition.');
-        if (shouldExit) {
-            process.exit(0);
-        }
         return 0;
     }
 

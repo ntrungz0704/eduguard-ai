@@ -1564,22 +1564,25 @@ router.post('/save-uploaded', requireAdvisor, async (req, res) => {
         console.error("Auto validation failed:", e);
       }
 
+      // [FEATURE] Ngưỡng cập nhật mô hình: Chỉ retrain khi có đủ dữ liệu mới
+      const newStudentsCount = req.body.students ? req.body.students.length : 0;
+      if (newStudentsCount >= 20 || newGroundTruth >= 50) {
+        console.log(`[Auto-Retrain] Kích hoạt Retrain do đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới.`);
+        // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
+        const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+        recalculateAllPredictions().catch(err => console.error('[Auto-recalculate] Error:', err));
+      } else {
+        console.log(`[Auto-Retrain] Bỏ qua Retrain (Chưa đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới).`);
+      }
+
       res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database!` });
     } catch (cacheErr) {
       console.warn("Lỗi khi xóa cache hệ thống:", cacheErr.message);
+      // In case of error, still return success because DB transaction succeeded
+      if (!res.headersSent) {
+        res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! (Có lỗi nhẹ ở cache)` });
+      }
     }
-
-    // [FEATURE] Ngưỡng cập nhật mô hình: Chỉ retrain khi có đủ dữ liệu mới
-    const newStudentsCount = req.body.students ? req.body.students.length : 0;
-    if (newStudentsCount >= 20 || newGroundTruth >= 50) {
-      console.log(`[Auto-Retrain] Kích hoạt Retrain do đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới.`);
-      // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
-      const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
-      recalculateAllPredictions(false).catch(err => console.error('[Auto-recalculate] Error:', err));
-    } else {
-      console.log(`[Auto-Retrain] Bỏ qua Retrain (Chưa đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới).`);
-    }
-
   } catch (err) {
     console.error('Lỗi khi lưu dữ liệu:', err);
     const statusCode = err.statusCode || 500;

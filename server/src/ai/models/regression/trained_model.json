@@ -3530,7 +3530,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 8.2,
           "predicted": 7.7,
           "error": 0.5
@@ -7154,7 +7154,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 8,
           "predicted": 7.6,
           "error": 0.4
@@ -7427,11 +7427,11 @@
     "topFeatures": [
       {
         "subject": "Kỹ năng học tập",
-        "r": 0.23078511185215111,
-        "absR": 0.23078511185215111,
-        "hybridScore": 0.02217387927387347,
-        "a": 5.222830092450245,
-        "b": 0.3385154313356433,
+        "r": 0.23159568751459125,
+        "absR": 0.23159568751459125,
+        "hybridScore": 0.02229080219498567,
+        "a": 5.208523706513123,
+        "b": 0.3407007807132712,
         "samples": 586
       }
     ],
@@ -7440,7 +7440,7 @@
       "testSize": 651,
       "folds": 651,
       "mae": 0.94,
-      "rmse": 1.3,
+      "rmse": 1.31,
       "accuracy05": 37,
       "accuracy10": 64,
       "testResults": [
@@ -7826,8 +7826,8 @@
           "id": "PS33950",
           "name": "Sinh viên PS33950",
           "actual": 9.7,
-          "predicted": 8.4,
-          "error": 1.3
+          "predicted": 8.5,
+          "error": 1.2
         },
         {
           "id": "PS33956",
@@ -7987,8 +7987,8 @@
           "id": "PS37469",
           "name": "Sinh viên PS37469",
           "actual": 8.8,
-          "predicted": 8.2,
-          "error": 0.6
+          "predicted": 8.4,
+          "error": 0.4
         },
         {
           "id": "PS37591",
@@ -9212,8 +9212,8 @@
           "id": "PS40650",
           "name": "Sinh viên PS40650",
           "actual": 8.7,
-          "predicted": 8.2,
-          "error": 0.5
+          "predicted": 8.4,
+          "error": 0.3
         },
         {
           "id": "PS40655",
@@ -10451,8 +10451,8 @@
           "id": "PS45354",
           "name": "Sinh viên PS45354",
           "actual": 6.8,
-          "predicted": 8.1,
-          "error": 1.3
+          "predicted": 8.2,
+          "error": 1.4
         },
         {
           "id": "PS45371",
@@ -10710,8 +10710,8 @@
           "id": "PS46006",
           "name": "Sinh viên PS46006",
           "actual": 8.9,
-          "predicted": 8.2,
-          "error": 0.7
+          "predicted": 8.4,
+          "error": 0.5
         },
         {
           "id": "PS46023",
@@ -10738,8 +10738,8 @@
           "id": "PS46066",
           "name": "Sinh viên PS46066",
           "actual": 9.3,
-          "predicted": 8.2,
-          "error": 1.1
+          "predicted": 8.4,
+          "error": 0.9
         },
         {
           "id": "PS46067",
@@ -10911,10 +10911,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
-          "actual": 8.9,
+          "name": "Test",
+          "actual": 10,
           "predicted": 8.1,
-          "error": 0.8
+          "error": 1.9
         },
         {
           "id": "PS47275",
@@ -11396,8 +11396,8 @@
           "id": "PS48789",
           "name": "Sinh viên PS48789",
           "actual": 6,
-          "predicted": 8.1,
-          "error": 2.1
+          "predicted": 8.2,
+          "error": 2.2
         },
         {
           "id": "PS48819",
@@ -11746,11 +11746,11 @@
       },
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.33260948842686483,
-        "absR": 0.33260948842686483,
-        "hybridScore": 0.038364712418438154,
-        "a": 6.668059526069265,
-        "b": 0.22676295434983496,
+        "r": 0.3337046344422522,
+        "absR": 0.3337046344422522,
+        "hybridScore": 0.038554347090332654,
+        "a": 6.667373161522755,
+        "b": 0.22679150719648172,
         "samples": 538
       },
       {
@@ -11902,8 +11902,8 @@
           "id": "PS37383",
           "name": "Sinh viên PS37383",
           "actual": 9.4,
-          "predicted": 7.6,
-          "error": 1.8
+          "predicted": 7.4,
+          "error": 2
         },
         {
           "id": "PS37424",
@@ -12231,8 +12231,8 @@
           "id": "PS38342",
           "name": "Sinh viên PS38342",
           "actual": 9.3,
-          "predicted": 8.8,
-          "error": 0.5
+          "predicted": 8.9,
+          "error": 0.4
         },
         {
           "id": "PS38355",
@@ -13386,8 +13386,8 @@
           "id": "PS41015",
           "name": "Sinh viên PS41015",
           "actual": 6.4,
-          "predicted": 8.5,
-          "error": 2.1
+          "predicted": 8.3,
+          "error": 1.9
         },
         {
           "id": "PS41059",
@@ -14485,8 +14485,8 @@
           "id": "PS45371",
           "name": "Sinh viên PS45371",
           "actual": 7.4,
-          "predicted": 5.9,
-          "error": 1.5
+          "predicted": 6,
+          "error": 1.4
         },
         {
           "id": "PS45375",
@@ -14952,10 +14952,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.2,
-          "predicted": 8.8,
-          "error": 0.4
+          "predicted": 8.9,
+          "error": 0.3
         },
         {
           "id": "PS47275",
@@ -15444,8 +15444,8 @@
           "id": "PS48789",
           "name": "Sinh viên PS48789",
           "actual": 8.5,
-          "predicted": 8.5,
-          "error": 0
+          "predicted": 8.3,
+          "error": 0.2
         },
         {
           "id": "PS48819",
@@ -15598,8 +15598,8 @@
           "id": "PS49369",
           "name": "Sinh viên PS49369",
           "actual": 6,
-          "predicted": 8.5,
-          "error": 2.5
+          "predicted": 8.3,
+          "error": 2.3
         },
         {
           "id": "PS49380",
@@ -15823,11 +15823,11 @@
     "topFeatures": [
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.3537245461636323,
-        "absR": 0.3537245461636323,
-        "hybridScore": 0.04207535537070592,
-        "a": 4.4662714981368445,
-        "b": 0.3667096202925236,
+        "r": 0.350498101480589,
+        "absR": 0.350498101480589,
+        "hybridScore": 0.04150099417027847,
+        "a": 4.499795851737172,
+        "b": 0.36229693034181737,
         "samples": 589
       }
     ],
@@ -15835,10 +15835,10 @@
       "trainSize": 608,
       "testSize": 608,
       "folds": 608,
-      "mae": 0.92,
-      "rmse": 1.19,
+      "mae": 0.91,
+      "rmse": 1.17,
       "accuracy05": 33,
-      "accuracy10": 65,
+      "accuracy10": 66,
       "testResults": [
         {
           "id": "PC07988",
@@ -15907,8 +15907,8 @@
           "id": "PS27463",
           "name": "Sinh viên PS27463",
           "actual": 7.7,
-          "predicted": 6.5,
-          "error": 1.2
+          "predicted": 6.7,
+          "error": 1
         },
         {
           "id": "PS27468",
@@ -15956,8 +15956,8 @@
           "id": "PS28128",
           "name": "Sinh viên PS28128",
           "actual": 6,
-          "predicted": 7.8,
-          "error": 1.8
+          "predicted": 7.6,
+          "error": 1.6
         },
         {
           "id": "PS28548",
@@ -16026,8 +16026,8 @@
           "id": "PS30307",
           "name": "Sinh viên PS30307",
           "actual": 7.3,
-          "predicted": 6.5,
-          "error": 0.8
+          "predicted": 6.7,
+          "error": 0.6
         },
         {
           "id": "PS30335",
@@ -16355,8 +16355,8 @@
           "id": "PS37201",
           "name": "Sinh viên PS37201",
           "actual": 8.3,
-          "predicted": 3.5,
-          "error": 4.8
+          "predicted": 3.6,
+          "error": 4.7
         },
         {
           "id": "PS37211",
@@ -16369,8 +16369,8 @@
           "id": "PS37217",
           "name": "Sinh viên PS37217",
           "actual": 8.5,
-          "predicted": 3.5,
-          "error": 5
+          "predicted": 3.6,
+          "error": 4.9
         },
         {
           "id": "PS37226",
@@ -16383,15 +16383,15 @@
           "id": "PS37232",
           "name": "Sinh viên PS37232",
           "actual": 7,
-          "predicted": 8.4,
-          "error": 1.4
+          "predicted": 8.2,
+          "error": 1.2
         },
         {
           "id": "PS37238",
           "name": "Sinh viên PS37238",
           "actual": 9,
-          "predicted": 3.5,
-          "error": 5.5
+          "predicted": 3.6,
+          "error": 5.4
         },
         {
           "id": "PS37253",
@@ -16411,22 +16411,22 @@
           "id": "PS37339",
           "name": "Sinh viên PS37339",
           "actual": 7.2,
-          "predicted": 8.4,
-          "error": 1.2
+          "predicted": 8.2,
+          "error": 1
         },
         {
           "id": "PS37383",
           "name": "Sinh viên PS37383",
           "actual": 9.3,
-          "predicted": 3.5,
-          "error": 5.8
+          "predicted": 3.6,
+          "error": 5.7
         },
         {
           "id": "PS37424",
           "name": "Sinh viên PS37424",
           "actual": 8.7,
-          "predicted": 7.9,
-          "error": 0.8
+          "predicted": 7.8,
+          "error": 0.9
         },
         {
           "id": "PS37457",
@@ -16530,8 +16530,8 @@
           "id": "PS37701",
           "name": "Sinh viên PS37701",
           "actual": 8,
-          "predicted": 3.5,
-          "error": 4.5
+          "predicted": 3.6,
+          "error": 4.4
         },
         {
           "id": "PS37704",
@@ -16579,15 +16579,15 @@
           "id": "PS37997",
           "name": "Sinh viên PS37997",
           "actual": 9,
-          "predicted": 7.9,
-          "error": 1.1
+          "predicted": 7.8,
+          "error": 1.2
         },
         {
           "id": "PS37998",
           "name": "Sinh viên PS37998",
           "actual": 9,
-          "predicted": 7.9,
-          "error": 1.1
+          "predicted": 7.8,
+          "error": 1.2
         },
         {
           "id": "PS38004",
@@ -16691,8 +16691,8 @@
           "id": "PS38243",
           "name": "Sinh viên PS38243",
           "actual": 8.7,
-          "predicted": 7.9,
-          "error": 0.8
+          "predicted": 7.8,
+          "error": 0.9
         },
         {
           "id": "PS38249",
@@ -16726,8 +16726,8 @@
           "id": "PS38342",
           "name": "Sinh viên PS38342",
           "actual": 9.2,
-          "predicted": 8.5,
-          "error": 0.7
+          "predicted": 8.4,
+          "error": 0.8
         },
         {
           "id": "PS38355",
@@ -16782,8 +16782,8 @@
           "id": "PS38476",
           "name": "Sinh viên PS38476",
           "actual": 7.7,
-          "predicted": 8.4,
-          "error": 0.7
+          "predicted": 8.2,
+          "error": 0.5
         },
         {
           "id": "PS38485",
@@ -17006,8 +17006,8 @@
           "id": "PS38821",
           "name": "Sinh viên PS38821",
           "actual": 5,
-          "predicted": 7.8,
-          "error": 2.8
+          "predicted": 7.6,
+          "error": 2.6
         },
         {
           "id": "PS38870",
@@ -17433,15 +17433,15 @@
           "id": "PS40153",
           "name": "Sinh viên PS40153",
           "actual": 6.8,
-          "predicted": 5.9,
-          "error": 0.9
+          "predicted": 6.1,
+          "error": 0.7
         },
         {
           "id": "PS40163",
           "name": "Sinh viên PS40163",
           "actual": 6.8,
-          "predicted": 5.9,
-          "error": 0.9
+          "predicted": 6.1,
+          "error": 0.7
         },
         {
           "id": "PS40174",
@@ -17587,8 +17587,8 @@
           "id": "PS40419",
           "name": "Sinh viên PS40419",
           "actual": 6,
-          "predicted": 7.8,
-          "error": 1.8
+          "predicted": 7.6,
+          "error": 1.6
         },
         {
           "id": "PS40423",
@@ -18000,8 +18000,8 @@
           "id": "PS41432",
           "name": "Sinh viên PS41432",
           "actual": 7.2,
-          "predicted": 3.4,
-          "error": 3.8
+          "predicted": 3.6,
+          "error": 3.6
         },
         {
           "id": "PS41435",
@@ -18014,8 +18014,8 @@
           "id": "PS41442",
           "name": "Sinh viên PS41442",
           "actual": 7,
-          "predicted": 3.4,
-          "error": 3.6
+          "predicted": 3.6,
+          "error": 3.4
         },
         {
           "id": "PS41451",
@@ -18770,8 +18770,8 @@
           "id": "PS45160",
           "name": "Sinh viên PS45160",
           "actual": 7.3,
-          "predicted": 6.5,
-          "error": 0.8
+          "predicted": 6.7,
+          "error": 0.6
         },
         {
           "id": "PS45168",
@@ -18924,8 +18924,8 @@
           "id": "PS45371",
           "name": "Sinh viên PS45371",
           "actual": 6.5,
-          "predicted": 4.5,
-          "error": 2
+          "predicted": 4.7,
+          "error": 1.8
         },
         {
           "id": "PS45375",
@@ -19001,8 +19001,8 @@
           "id": "PS45491",
           "name": "Sinh viên PS45491",
           "actual": 8.3,
-          "predicted": 7.9,
-          "error": 0.4
+          "predicted": 7.8,
+          "error": 0.5
         },
         {
           "id": "PS45493",
@@ -19050,8 +19050,8 @@
           "id": "PS45657",
           "name": "Sinh viên PS45657",
           "actual": 7.2,
-          "predicted": 8.4,
-          "error": 1.2
+          "predicted": 8.2,
+          "error": 1
         },
         {
           "id": "PS45666",
@@ -19092,8 +19092,8 @@
           "id": "PS45717",
           "name": "Sinh viên PS45717",
           "actual": 5.8,
-          "predicted": 6.4,
-          "error": 0.6
+          "predicted": 6.5,
+          "error": 0.7
         },
         {
           "id": "PS45775",
@@ -19106,8 +19106,8 @@
           "id": "PS45798",
           "name": "Sinh viên PS45798",
           "actual": 5.7,
-          "predicted": 8.2,
-          "error": 2.5
+          "predicted": 8.1,
+          "error": 2.4
         },
         {
           "id": "PS45799",
@@ -19274,15 +19274,15 @@
           "id": "PS46461",
           "name": "Sinh viên PS46461",
           "actual": 5.8,
-          "predicted": 7.8,
-          "error": 2
+          "predicted": 7.6,
+          "error": 1.8
         },
         {
           "id": "PS46550",
           "name": "Sinh viên PS46550",
           "actual": 5.8,
-          "predicted": 7.8,
-          "error": 2
+          "predicted": 7.6,
+          "error": 1.8
         },
         {
           "id": "PS46571",
@@ -19372,15 +19372,15 @@
           "id": "PS46989",
           "name": "Sinh viên PS46989",
           "actual": 5.8,
-          "predicted": 8.2,
-          "error": 2.4
+          "predicted": 8.1,
+          "error": 2.3
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 6,
-          "predicted": 7.9,
-          "error": 1.9
+          "predicted": 8.5,
+          "error": 2.5
         },
         {
           "id": "PS47275",
@@ -19442,15 +19442,15 @@
           "id": "PS47683",
           "name": "Sinh viên PS47683",
           "actual": 7.3,
-          "predicted": 8.4,
-          "error": 1.1
+          "predicted": 8.2,
+          "error": 0.9
         },
         {
           "id": "PS47719",
           "name": "Sinh viên PS47719",
           "actual": 5.8,
-          "predicted": 7.8,
-          "error": 2
+          "predicted": 7.6,
+          "error": 1.8
         },
         {
           "id": "PS47727",
@@ -19610,15 +19610,15 @@
           "id": "PS48348",
           "name": "Sinh viên PS48348",
           "actual": 7.7,
-          "predicted": 3.6,
-          "error": 4.1
+          "predicted": 3.8,
+          "error": 3.9
         },
         {
           "id": "PS48378",
           "name": "Sinh viên PS48378",
           "actual": 7,
-          "predicted": 6.5,
-          "error": 0.5
+          "predicted": 6.7,
+          "error": 0.3
         },
         {
           "id": "PS48429",
@@ -19813,8 +19813,8 @@
           "id": "PS48847",
           "name": "Sinh viên PS48847",
           "actual": 6,
-          "predicted": 6.4,
-          "error": 0.4
+          "predicted": 6.5,
+          "error": 0.5
         },
         {
           "id": "PS48886",
@@ -19883,8 +19883,8 @@
           "id": "PS49104",
           "name": "Sinh viên PS49104",
           "actual": 6.2,
-          "predicted": 3.6,
-          "error": 2.6
+          "predicted": 3.8,
+          "error": 2.4
         },
         {
           "id": "PS49257",
@@ -19974,8 +19974,8 @@
           "id": "PS49632",
           "name": "Sinh viên PS49632",
           "actual": 7.8,
-          "predicted": 6.1,
-          "error": 1.7
+          "predicted": 6.2,
+          "error": 1.6
         },
         {
           "id": "PS50293",
@@ -20009,8 +20009,8 @@
           "id": "PS50409",
           "name": "Sinh viên PS50409",
           "actual": 7,
-          "predicted": 5.9,
-          "error": 1.1
+          "predicted": 6.1,
+          "error": 0.9
         },
         {
           "id": "PS50450",
@@ -20091,11 +20091,11 @@
     "topFeatures": [
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.2836365047596856,
-        "absR": 0.2836365047596856,
-        "hybridScore": 0.030211562229975644,
-        "a": 5.254252312946271,
-        "b": 0.23909718259833282,
+        "r": 0.2829673046282017,
+        "absR": 0.2829673046282017,
+        "hybridScore": 0.03010470547182911,
+        "a": 5.263890777304251,
+        "b": 0.23778481826564074,
         "samples": 550
       },
       {
@@ -21838,8 +21838,8 @@
           "id": "PS40403",
           "name": "Sinh viên PS40403",
           "actual": 7.5,
-          "predicted": 7,
-          "error": 0.5
+          "predicted": 7.1,
+          "error": 0.4
         },
         {
           "id": "PS40416",
@@ -22279,8 +22279,8 @@
           "id": "PS41482",
           "name": "Sinh viên PS41482",
           "actual": 7.7,
-          "predicted": 7.4,
-          "error": 0.3
+          "predicted": 7.3,
+          "error": 0.4
         },
         {
           "id": "PS41484",
@@ -23371,8 +23371,8 @@
           "id": "PS46771",
           "name": "Sinh viên PS46771",
           "actual": 5.1,
-          "predicted": 7.3,
-          "error": 2.2
+          "predicted": 7.1,
+          "error": 2
         },
         {
           "id": "PS46837",
@@ -23390,10 +23390,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 7.2,
-          "predicted": 7.3,
-          "error": 0.1
+          "predicted": 7.4,
+          "error": 0.2
         },
         {
           "id": "PS47275",
@@ -24198,11 +24198,11 @@
     "topFeatures": [
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.4863565866585868,
-        "absR": 0.4863565866585868,
-        "hybridScore": 0.06783630722943985,
-        "a": 4.12281232367898,
-        "b": 0.4505524963398996,
+        "r": 0.4867571442035074,
+        "absR": 0.4867571442035074,
+        "hybridScore": 0.06792012825509382,
+        "a": 4.129008388325541,
+        "b": 0.44964850039107124,
         "samples": 602
       },
       {
@@ -24934,8 +24934,8 @@
           "id": "PS37587",
           "name": "Sinh viên PS37587",
           "actual": 7.3,
-          "predicted": 8,
-          "error": 0.7
+          "predicted": 7.9,
+          "error": 0.6
         },
         {
           "id": "PS37591",
@@ -27893,10 +27893,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 8.6,
-          "predicted": 8,
-          "error": 0.6
+          "predicted": 8.3,
+          "error": 0.3
         },
         {
           "id": "PS47275",
@@ -28804,11 +28804,11 @@
       },
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.4378237687626809,
-        "absR": 0.4378237687626809,
-        "hybridScore": 0.0579400676863733,
-        "a": 3.7771678004773634,
-        "b": 0.45939301745077843,
+        "r": 0.43934608297872135,
+        "absR": 0.43934608297872135,
+        "hybridScore": 0.05824251682620967,
+        "a": 3.773784664574268,
+        "b": 0.4597235572274356,
         "samples": 617
       },
       {
@@ -29090,8 +29090,8 @@
           "id": "PS31630",
           "name": "Sinh viên PS31630",
           "actual": 7.3,
-          "predicted": 6.7,
-          "error": 0.6
+          "predicted": 6.6,
+          "error": 0.7
         },
         {
           "id": "PS31786",
@@ -29909,8 +29909,8 @@
           "id": "PS38561",
           "name": "Sinh viên PS38561",
           "actual": 7.2,
-          "predicted": 7,
-          "error": 0.2
+          "predicted": 6.9,
+          "error": 0.3
         },
         {
           "id": "PS38587",
@@ -31421,8 +31421,8 @@
           "id": "PS42664",
           "name": "Sinh viên PS42664",
           "actual": 5.1,
-          "predicted": 6.9,
-          "error": 1.8
+          "predicted": 6.7,
+          "error": 1.6
         },
         {
           "id": "PS42665",
@@ -32511,10 +32511,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.1,
-          "predicted": 8.1,
-          "error": 1
+          "predicted": 8.3,
+          "error": 0.8
         },
         {
           "id": "PS47275",
@@ -36583,7 +36583,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 7.4,
           "predicted": 7.4,
           "error": 0
@@ -37321,11 +37321,11 @@
       },
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.4157724462681806,
-        "absR": 0.4157724462681806,
-        "hybridScore": 0.05361836327031649,
-        "a": 3.769309003325595,
-        "b": 0.4462216873716431,
+        "r": 0.4175503460351566,
+        "absR": 0.4175503460351566,
+        "hybridScore": 0.05396264983695298,
+        "a": 3.76357456602503,
+        "b": 0.44685316694929517,
         "samples": 599
       },
       {
@@ -39096,8 +39096,8 @@
           "id": "PS40253",
           "name": "Sinh viên PS40253",
           "actual": 5.4,
-          "predicted": 5.9,
-          "error": 0.5
+          "predicted": 5.7,
+          "error": 0.3
         },
         {
           "id": "PS40254",
@@ -39453,8 +39453,8 @@
           "id": "PS41059",
           "name": "Sinh viên PS41059",
           "actual": 8.4,
-          "predicted": 7.6,
-          "error": 0.8
+          "predicted": 7.4,
+          "error": 1
         },
         {
           "id": "PS41081",
@@ -40825,8 +40825,8 @@
           "id": "PS46066",
           "name": "Sinh viên PS46066",
           "actual": 8.4,
-          "predicted": 7.9,
-          "error": 0.5
+          "predicted": 8.1,
+          "error": 0.3
         },
         {
           "id": "PS46067",
@@ -40998,10 +40998,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.1,
-          "predicted": 8.4,
-          "error": 0.7
+          "predicted": 8.5,
+          "error": 0.6
         },
         {
           "id": "PS47275",
@@ -41602,8 +41602,8 @@
           "id": "PS49108",
           "name": "Sinh viên PS49108",
           "actual": 3.1,
-          "predicted": 5.6,
-          "error": 2.5
+          "predicted": 5.7,
+          "error": 2.6
         },
         {
           "id": "PS49223",
@@ -41885,11 +41885,11 @@
       },
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.4624101562939046,
-        "absR": 0.4624101562939046,
-        "hybridScore": 0.06288847189533336,
-        "a": 4.042262822304178,
-        "b": 0.4398733021344595,
+        "r": 0.4644285582055626,
+        "absR": 0.4644285582055626,
+        "hybridScore": 0.06330067940825819,
+        "a": 4.0383236649456045,
+        "b": 0.44025209985499486,
         "samples": 493
       },
       {
@@ -44799,8 +44799,8 @@
           "id": "PS46837",
           "name": "Sinh viên PS46837",
           "actual": 7,
-          "predicted": 7.3,
-          "error": 0.3
+          "predicted": 7.2,
+          "error": 0.2
         },
         {
           "id": "PS46989",
@@ -44811,10 +44811,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.1,
-          "predicted": 8.6,
-          "error": 0.5
+          "predicted": 8.7,
+          "error": 0.4
         },
         {
           "id": "PS47275",
@@ -48715,7 +48715,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 7.4,
           "predicted": 7.3,
           "error": 0.1
@@ -49294,8 +49294,8 @@
           "id": "PS32496",
           "name": "Sinh viên PS32496",
           "actual": 9.5,
-          "predicted": 8.8,
-          "error": 0.7
+          "predicted": 8.6,
+          "error": 0.9
         },
         {
           "id": "PS32517",
@@ -50225,8 +50225,8 @@
           "id": "PS38767",
           "name": "Sinh viên PS38767",
           "actual": 9.8,
-          "predicted": 8.9,
-          "error": 0.9
+          "predicted": 8.8,
+          "error": 1
         },
         {
           "id": "PS38788",
@@ -51625,15 +51625,15 @@
           "id": "PS43102",
           "name": "Sinh viên PS43102",
           "actual": 7,
-          "predicted": 8.3,
-          "error": 1.3
+          "predicted": 8.5,
+          "error": 1.5
         },
         {
           "id": "PS43217",
           "name": "Sinh viên PS43217",
           "actual": 7,
-          "predicted": 8.3,
-          "error": 1.3
+          "predicted": 8.5,
+          "error": 1.5
         },
         {
           "id": "PS43992",
@@ -52568,7 +52568,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 10,
           "predicted": 9.4,
           "error": 0.6
@@ -52584,8 +52584,8 @@
           "id": "PS47290",
           "name": "Sinh viên PS47290",
           "actual": 9.8,
-          "predicted": 8.9,
-          "error": 0.9
+          "predicted": 8.8,
+          "error": 1
         },
         {
           "id": "PS47309",
@@ -52703,8 +52703,8 @@
           "id": "PS47719",
           "name": "Sinh viên PS47719",
           "actual": 6,
-          "predicted": 7.5,
-          "error": 1.5
+          "predicted": 7.7,
+          "error": 1.7
         },
         {
           "id": "PS47727",
@@ -52911,11 +52911,11 @@
       },
       {
         "subject": "Nhập môn lập trình",
-        "r": 0.2868796881520102,
-        "absR": 0.2868796881520102,
-        "hybridScore": 0.030731212511947055,
-        "a": 4.039098341499299,
-        "b": 0.4018931200672905,
+        "r": 0.2901505003682566,
+        "absR": 0.2901505003682566,
+        "hybridScore": 0.03125827311425503,
+        "a": 4.013864533287584,
+        "b": 0.40500314573324153,
         "samples": 478
       },
       {
@@ -53200,8 +53200,8 @@
           "id": "PS32496",
           "name": "Sinh viên PS32496",
           "actual": 5.5,
-          "predicted": 7,
-          "error": 1.5
+          "predicted": 6.8,
+          "error": 1.3
         },
         {
           "id": "PS32517",
@@ -53242,8 +53242,8 @@
           "id": "PS32791",
           "name": "Sinh viên PS32791",
           "actual": 5.5,
-          "predicted": 7.3,
-          "error": 1.8
+          "predicted": 7.1,
+          "error": 1.6
         },
         {
           "id": "PS32947",
@@ -54852,8 +54852,8 @@
           "id": "PS40734",
           "name": "Sinh viên PS40734",
           "actual": 5.5,
-          "predicted": 4.8,
-          "error": 0.7
+          "predicted": 4.7,
+          "error": 0.8
         },
         {
           "id": "PS40739",
@@ -54992,8 +54992,8 @@
           "id": "PS41082",
           "name": "Sinh viên PS41082",
           "actual": 5.8,
-          "predicted": 4.8,
-          "error": 1
+          "predicted": 5,
+          "error": 0.8
         },
         {
           "id": "PS41121",
@@ -56007,8 +56007,8 @@
           "id": "PS45401",
           "name": "Sinh viên PS45401",
           "actual": 8,
-          "predicted": 8.5,
-          "error": 0.5
+          "predicted": 8.4,
+          "error": 0.4
         },
         {
           "id": "PS45447",
@@ -56308,8 +56308,8 @@
           "id": "PS46377",
           "name": "Sinh viên PS46377",
           "actual": 0.1,
-          "predicted": 7.6,
-          "error": 7.5
+          "predicted": 7.4,
+          "error": 7.3
         },
         {
           "id": "PS46405",
@@ -56418,10 +56418,10 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.9,
-          "predicted": 8.7,
-          "error": 1.2
+          "predicted": 8.8,
+          "error": 1.1
         },
         {
           "id": "PS47275",
@@ -60224,7 +60224,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.2,
           "predicted": 8.3,
           "error": 0.9
@@ -64105,7 +64105,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 7.7,
           "predicted": 8.4,
           "error": 0.7
@@ -67339,7 +67339,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 8.5,
           "predicted": 8.2,
           "error": 0.3
@@ -71026,7 +71026,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 9.4,
           "predicted": 8.8,
           "error": 0.6
@@ -74797,7 +74797,7 @@
         },
         {
           "id": "PS47261",
-          "name": "Sinh viên PS47261",
+          "name": "Test",
           "actual": 5.8,
           "predicted": 8.7,
           "error": 2.9
