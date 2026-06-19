@@ -391,7 +391,9 @@ function getCourseCredits(courseNameOrId) {
   const code = name.toUpperCase();
 
   if (lower.includes('thể chất') || lower.includes('vovinam') || code.includes('VIE103')) return 2;
-  if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104')) return 4;
+  if (lower.includes('quốc phòng') || lower.includes('gdqp') || code.includes('VIE104') || code.includes('VIE109')) {
+    return code.includes('VIE109') ? 3 : 4;
+  }
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
   if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
   if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
@@ -416,7 +418,16 @@ function getCourseCredits(courseNameOrId) {
 
 function isConditionalCourse(courseName, courseId) {
   const cid = (courseId || '').toUpperCase().trim();
-  return cid === 'VIE103' || cid === 'VIE104' || cid === 'PRO116';
+  const lower = String(courseName || '').toLowerCase();
+  
+  if (cid.startsWith('VIE103') || cid.startsWith('VIE104') || cid.startsWith('VIE109')) return true;
+  if (cid.startsWith('PRO116') || cid.startsWith('PRO110') || cid.startsWith('PRO115')) return true;
+  
+  if (lower.includes('thể chất') || lower.includes('vovinam')) return true;
+  if (lower.includes('quốc phòng') || lower.includes('gdqp')) return true;
+  if (lower.includes('thực tập tốt nghiệp')) return true;
+  
+  return false;
 }
 
 function isEnglishCourse(courseName, courseId) {
@@ -435,11 +446,22 @@ function calculateOfficialGPA(scores) {
   let gpaCredits = 0;
   let totalAccumulatedCredits = 0;
 
-  const processScore = (val, courseName, courseId, status) => {
+  const processScore = (s, courseName, courseId) => {
+    const val = (s && s.value !== undefined) ? s.value : s; // handle both object and primitive value
+    const status = (s && s.status) ? s.status : 'PASSED';
+
     if (val === null || val === undefined || val === '') return;
     
-    const isCond = isConditionalCourse(courseName, courseId);
-    const creditsNum = getCourseCredits(courseName || courseId);
+    let isCond = isConditionalCourse(courseName, courseId);
+    if (s && s.course && typeof s.course.isConditional === 'boolean') {
+      isCond = isCond || s.course.isConditional;
+    }
+
+    let creditsNum = getCourseCredits(courseName || courseId);
+    if (s && s.course && typeof s.course.credits === 'number') {
+      creditsNum = s.course.credits;
+    }
+    
     const scoreNum = parseFloat(val);
 
     // Accumulated credits count if Passed (>=5.0 or explicitly PASSED/Đạt/Miễn)
@@ -492,11 +514,11 @@ function calculateOfficialGPA(scores) {
     });
     
     Object.values(groupedScores).forEach(s => {
-      processScore(s.value, s.course?.name || s.courseId, s.courseId, s.status);
+      processScore(s, s.course?.name || s.courseId, s.courseId);
     });
   } else {
     Object.entries(scores).forEach(([courseId, val]) => {
-      processScore(val, courseId, courseId, 'PASSED');
+      processScore(val, courseId, courseId);
     });
   }
 
