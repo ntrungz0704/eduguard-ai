@@ -1,19 +1,25 @@
 const SKILL_MATRIX = {
   "WEB3023": ["HTML/CSS", "Responsive Design", "Flexbox", "Grid"],
+  "WEB1013": ["HTML/CSS", "Responsive Design", "Flexbox", "Grid", "UIUX", "HTML", "CSS"],
   "WEB1043": ["JavaScript", "DOM", "ES6"],
-  "WEB2063": ["Advanced JavaScript", "Async Await", "Fetch API"],
+  "WEB2063": ["Advanced JavaScript", "Async Await", "Fetch API", "DOM"],
   "WEB501": ["ECMAScript"],
+  "WEB5013": ["ECMAScript"],
   "WEB2081": ["React", "Hooks", "State Management"],
-  "WEB2091": ["Advanced React"],
-  "WEB503": ["NodeJS", "REST API"],
-  "WEB108": ["PHP Basic"],
-  "WEB2014": ["PHP OOP", "MVC"],
+  "WEB2091": ["Advanced React", "State Management"],
+  "WEB503": ["NodeJS", "REST API", "Database", "SQL"],
+  "WEB108": ["PHP Basic", "PHP"],
+  "WEB2014": ["PHP OOP", "MVC", "PHP"],
   "COM2012": ["Database", "SQL"],
   "WEB1023": ["Website Administration"],
-  "WEB2055": ["Digital Marketing"],
-  "WEB105": ["UIUX"],
-  "PRO1014": ["Project Management", "CRUD", "Deployment"],
-  "PRO2201": ["Capstone Project"]
+  "WEB1022": ["Website Administration"],
+  "WEB2055": ["Digital Marketing", "Marketing", "Analytics"],
+  "WEB2053": ["Digital Marketing", "Marketing"],
+  "WEB105": ["UIUX", "Design Thinking", "Figma"],
+  "WEB1053": ["UIUX", "Design Thinking", "Figma"],
+  "PRO1014": ["Project Management", "CRUD", "Deployment", "Teamwork"],
+  "PRO2201": ["Capstone Project", "Fullstack", "Deployment"],
+  "COM108": ["Programming Logic", "Variables", "Loops"]
 };
 
 const CAREER_REQUIREMENT_MATRIX = {
