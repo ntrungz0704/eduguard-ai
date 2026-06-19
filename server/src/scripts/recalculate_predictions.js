@@ -5,6 +5,7 @@ const { validateModel } = require('../ai/validation');
 const fs = require('fs');
 const path = require('path');
 const { eventBus, EVENTS } = require('../utils/eventBus');
+const { isConditionalCourse } = require('../utils/dataService');
 
 // -------------------------------------------------------------
 // AI PIPELINE EVENT LISTENER
@@ -72,12 +73,13 @@ async function loadTrainingDataFromDB() {
   const students = dbStudents.map(st => {
     const scores = {};
     st.scores.forEach(sc => {
+      const subjectName = COURSE_CODE_TO_NAME[sc.courseId] || sc.course?.name || sc.courseId;
+      
       // Bỏ qua các môn điều kiện
-      if (sc.course?.isConditional) return;
+      if (sc.course?.isConditional || isConditionalCourse(subjectName, sc.courseId)) return;
       
       // Chỉ lấy điểm của các môn đã có trạng thái PASS/FAIL
       if (sc.value !== null && (sc.status === 'PASSED' || sc.status === 'FAILED')) {
-        const subjectName = COURSE_CODE_TO_NAME[sc.courseId] || sc.course.name || sc.courseId;
         scores[subjectName] = sc.value;
       }
     });

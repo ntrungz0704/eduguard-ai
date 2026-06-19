@@ -385,8 +385,10 @@ router.get('/evaluate-model', requireAdvisor, async (req, res, next) => {
     
     cache.trainingData = await loadTrainingDataFromDB();
     
+    const { isConditionalCourse } = require('../utils/dataService');
     const students = cache.trainingData.students || [];
-    const subjects = cache.trainingData.subjects || [];
+    // Chỉ đánh giá các môn chuyên ngành, bỏ qua môn điều kiện (như Thể chất, GDQP, etc.)
+    const subjects = (cache.trainingData.subjects || []).filter(sub => !isConditionalCourse(sub, sub));
     
     if (students.length === 0) {
       return res.status(400).json({ error: "No training data available" });
@@ -2854,7 +2856,7 @@ router.get('/pearson-matrix', async (req, res) => {
         // 4. [HIGH] Đổi ngưỡng Sample Size của Pearson Matrix lên >= 30
         const pairs = students.filter(s => s.scores[subA] != null && s.scores[subB] != null);
         if (pairs.length < 30) {
-          row[subB] = 0.0; // Not enough samples
+          row[subB] = null; // INSUFFICIENT_DATA
           continue;
         }
 
@@ -2865,7 +2867,7 @@ router.get('/pearson-matrix', async (req, res) => {
         const { xs: cleanXs, ys: cleanYs } = filterOutliersByIQR(xs, ys);
 
         if (cleanXs.length < 30) {
-          row[subB] = 0.0;
+          row[subB] = null; // INSUFFICIENT_DATA
           continue;
         }
 

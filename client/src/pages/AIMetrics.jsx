@@ -122,8 +122,9 @@ const AIMetrics = () => {
             </>
           )}
       </div>
+    </div>
 
-      {/* TABS NAVIGATION */}
+    {/* TABS NAVIGATION */}
       <div className="flex flex-wrap gap-2 mb-8 border-b border-slate-200 dark:border-slate-800 pb-px">
         <button
           onClick={() => setActiveTab('loocv')}

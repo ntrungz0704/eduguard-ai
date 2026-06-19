@@ -509,19 +509,19 @@ export default function Predict() {
                             </td>
                             {activeSubjects.map(subB => {
                               const rRaw = row[subB];
-                              const r = (typeof rRaw === 'number' && !isNaN(rRaw)) ? rRaw : 0.0;
                               const isSelected = selectedCell && selectedCell.subA === row.subject && selectedCell.subB === subB;
                               return (
                                 <td key={subB} className="p-1">
                                   <button
-                                    onClick={() => setSelectedCell({ subA: row.subject, subB, r })}
-                                    style={getCellStyle(r, theme === 'dark')}
-                                    className={`w-full aspect-square md:aspect-auto md:py-2 px-1 text-[11px] font-bold rounded-lg transition-all hover:scale-105 hover:shadow-lg flex items-center justify-center cursor-pointer ${
+                                    onClick={() => rRaw !== null && setSelectedCell({ subA: row.subject, subB, r: rRaw })}
+                                    style={rRaw === null ? { backgroundColor: theme === 'dark' ? '#1e293b' : '#f1f5f9', color: '#94a3b8' } : getCellStyle(rRaw, theme === 'dark')}
+                                    disabled={rRaw === null}
+                                    className={`w-full aspect-square md:aspect-auto md:py-2 px-1 text-[11px] font-bold rounded-lg transition-all ${rRaw !== null ? 'hover:scale-105 hover:shadow-lg cursor-pointer' : 'cursor-not-allowed'} flex items-center justify-center ${
                                       isSelected ? 'ring-2 ring-blue-500 scale-105 shadow-md shadow-sm dark:shadow-blue-500/20' : ''
                                     }`}
-                                    title={`${row.subject} ⇄ ${subB}: r = ${r.toFixed(2)}`}
+                                    title={rRaw === null ? 'Insufficient Data (< 30 samples)' : `${row.subject} ⇄ ${subB}: r = ${rRaw.toFixed(2)}`}
                                   >
-                                    {r === 1.0 ? '1.0' : r.toFixed(2)}
+                                    {rRaw === null ? '—' : (rRaw === 1.0 ? '1.0' : rRaw.toFixed(2))}
                                   </button>
                                 </td>
                               );

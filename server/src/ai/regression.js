@@ -158,7 +158,9 @@ function weightedPrediction(features, target, students) {
 
     // Áp dụng IQR filter
     const { xs, ys } = filterOutliersByIQR(rawXs, rawYs);
-    if (xs.length < 5) return;
+    
+    // [ENFORCE GROUND TRUTH]: Chỉ train nếu số lượng mẫu (intersection) >= 50
+    if (xs.length < 50) return;
 
     const r = pearsonCorrelation(xs, ys);
     const reg = simpleLinearRegression(xs, ys);
@@ -192,7 +194,9 @@ function weightedPrediction(features, target, students) {
       const rawXs = rawPairs.map(s => s.scores[feat]);
       const rawYs = rawPairs.map(s => s.scores[target]);
       const { xs, ys } = filterOutliersByIQR(rawXs, rawYs);
-      if (xs.length < 5) return;
+      
+      // [ENFORCE GROUND TRUTH]: Chỉ train nếu số lượng mẫu (intersection) >= 50
+      if (xs.length < 50) return;
 
       const r = pearsonCorrelation(xs, ys);
       const reg = simpleLinearRegression(xs, ys);

@@ -12,8 +12,8 @@ function validateModel(target, students, curriculumOrder) {
   
   // Students who have target score, excluding intervened ones
   const eligible = students.filter(s => s.scores[target] != null && !s.intervened);
-  if (eligible.length < 10) {
-    return { mae: null, rmse: null, accuracy05: null, accuracy10: null, message: 'Không đủ dữ liệu validation (cần ≥10)' };
+  if (eligible.length < 50) {
+    return { mae: null, rmse: null, accuracy05: null, accuracy10: null, message: 'INSUFFICIENT_DATA' };
   }
   
   let sumAE = 0, sumSE = 0, correct05 = 0, correct10 = 0;

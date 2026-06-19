@@ -121,12 +121,28 @@ class EvaluationService {
 
     const n = evaluations.length;
     let mae = 0, rmse = 0, acc05 = 0, acc10 = 0;
+    
+    // Thống kê phân loại mức độ sai số
+    const errorDistribution = {
+      low: 0,       // <= 0.5
+      medium: 0,    // 0.5 - 1.0
+      high: 0,      // 1.0 - 2.0
+      veryHigh: 0   // > 2.0
+    };
 
     if (n > 0) {
       mae = sumAE / n;
       rmse = Math.sqrt(sumSE / n);
       acc05 = (accuracy05 / n) * 100;
       acc10 = (accuracy10 / n) * 100;
+      
+      for (const ev of evaluations) {
+        const ae = ev.absoluteError;
+        if (ae <= 0.5) errorDistribution.low++;
+        else if (ae <= 1.0) errorDistribution.medium++;
+        else if (ae <= 2.0) errorDistribution.high++;
+        else errorDistribution.veryHigh++;
+      }
     }
 
     // 3. Phân bổ xu hướng theo năm (Group by Year)
@@ -161,7 +177,8 @@ class EvaluationService {
         mae: mae.toFixed(2),
         rmse: rmse.toFixed(2),
         accuracy05: Math.round(acc05),
-        accuracy10: Math.round(acc10)
+        accuracy10: Math.round(acc10),
+        errorDistribution
       },
       yearlyTrends
     };
