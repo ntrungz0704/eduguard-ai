@@ -1095,6 +1095,20 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
     const activeInterventions = getInterventions()[target] || [];
     studentsToPredict.forEach(s => {
       s.intervened = activeInterventions.includes(s.id);
+      // [HOTFIX] Normalize uploaded scores object { value, status } -> primitive number
+      if (s.scores) {
+        const normalized = {};
+        for (const [k, v] of Object.entries(s.scores)) {
+          if (v !== null && typeof v === 'object' && v.value !== undefined) {
+            normalized[k] = parseFloat(v.value);
+          } else if (v !== null) {
+            normalized[k] = parseFloat(v);
+          } else {
+            normalized[k] = null;
+          }
+        }
+        s.scores = normalized;
+      }
     });
     trainStudents.forEach(s => {
       s.intervened = activeInterventions.includes(s.id);
