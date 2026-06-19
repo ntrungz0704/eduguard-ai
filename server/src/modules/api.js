@@ -977,7 +977,7 @@ router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) =>
       studentsCount: mergedValidStudents.length,
       errorsCount: allErrors.length,
       errorsDetails: allErrors.slice(0, 5),
-      uploadedSubjects: uniqueSubjectCols,
+      uploadedSubjects: Array.from(allSubjectCols),
       predictableSubjects: predictable,
       students: mergedValidStudents,
       fileType: overallFileType
