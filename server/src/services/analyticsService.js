@@ -1,4 +1,19 @@
 const { calculateFptGPA, getCourseCredits } = require('../utils/dataService');
+const { prisma } = require('../infrastructure/database/prisma');
+const { eventBus, EVENTS } = require('../utils/eventBus');
+
+// Cache nội bộ (chỉ cache trong thời gian ngắn hoặc khi chưa có event mới)
+let analyticsCache = {
+  globalStats: null,
+  bottlenecks: null,
+};
+
+// Invalidate cache khi có DATASET_UPDATED
+eventBus.on(EVENTS.DATASET_UPDATED, () => {
+  console.log('[AnalyticsService] Nhận sự kiện DATASET_UPDATED. Invalidating cache...');
+  analyticsCache.globalStats = null;
+  analyticsCache.bottlenecks = null;
+});
 
 /**
  * Calculates student cumulative and semester-based academic statistics.
@@ -203,6 +218,103 @@ function getStudentAnalytics(student, allStudents = []) {
   };
 }
 
+/**
+ * Lấy Top Môn Nguy Cơ (Bottlenecks)
+ * SSOT: Bỏ qua môn điều kiện, chỉ tính môn đã học thật sự (có điểm, PASS/FAIL).
+ */
+async function getTopBottlenecks() {
+  if (analyticsCache.bottlenecks) return analyticsCache.bottlenecks;
+
+  // 1. Chỉ lấy Course không phải môn điều kiện
+  const courses = await prisma.course.findMany({
+    where: { isConditional: false }
+  });
+  const validCourseIds = new Set(courses.map(c => c.id));
+
+  // 2. Lấy Scores có điểm thật
+  const scores = await prisma.score.findMany({
+    where: {
+      value: { not: null },
+      status: { in: ['PASSED', 'FAILED'] }
+    }
+  });
+
+  const subjectStats = {};
+  
+  for (const score of scores) {
+    if (!validCourseIds.has(score.courseId)) continue;
+
+    if (!subjectStats[score.courseId]) {
+      subjectStats[score.courseId] = {
+        subject: score.courseId,
+        total: 0,
+        failed: 0,
+        sum: 0
+      };
+    }
+
+    subjectStats[score.courseId].total += 1;
+    subjectStats[score.courseId].sum += score.value;
+    if (score.value < 5.0) {
+      subjectStats[score.courseId].failed += 1;
+    }
+  }
+
+  const bottlenecks = Object.values(subjectStats)
+    .filter(s => s.total >= 5) // Môn có >= 5 sinh viên học
+    .map(s => ({
+      subject: s.subject,
+      scored: s.total,
+      atRisk: s.failed,
+      avg: Math.round((s.sum / s.total) * 10) / 10,
+      failureRate: Math.round((s.failed / s.total) * 100)
+    }))
+    .sort((a, b) => b.atRisk - a.atRisk); // Xếp theo số lượng tạch nhiều nhất
+
+  analyticsCache.bottlenecks = bottlenecks;
+  return bottlenecks;
+}
+
+/**
+ * Lấy Thống kê Tổng quan (Global Stats)
+ * SSOT: Điểm duy nhất cho Dashboard, NLP, AI
+ */
+async function getGlobalStats() {
+  if (analyticsCache.globalStats) return analyticsCache.globalStats;
+
+  const totalStudents = await prisma.student.count();
+  
+  const bottlenecks = await getTopBottlenecks();
+  const topRiskSubject = bottlenecks.length > 0 ? bottlenecks[0].subject : 'N/A';
+
+  // Tính tỷ lệ cảnh báo (Giả sử GPA < 5.0 là cảnh báo)
+  // Trong thực tế, có thể query phức tạp hơn dựa trên GPA.
+  const allStudents = await prisma.student.findMany({
+    include: { scores: true }
+  });
+
+  let atRiskStudents = 0;
+  allStudents.forEach(st => {
+    const scores = st.scores.map(s => ({ value: s.value, credits: 3 })); // Simplification for fast risk check
+    const gpa = calculateFptGPA(scores).gpa;
+    if (gpa > 0 && gpa < 5.0) atRiskStudents++;
+  });
+
+  const warningRate = totalStudents > 0 ? Math.round((atRiskStudents / totalStudents) * 100) : 0;
+
+  const stats = {
+    totalStudents,
+    topRiskSubject,
+    atRiskStudents,
+    warningRate
+  };
+
+  analyticsCache.globalStats = stats;
+  return stats;
+}
+
 module.exports = {
-  getStudentAnalytics
+  getStudentAnalytics,
+  getTopBottlenecks,
+  getGlobalStats
 };

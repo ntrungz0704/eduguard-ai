@@ -3,6 +3,7 @@ const path = require('path');
 const { prisma } = require('../../infrastructure/database/prisma');
 const { calculateBaseRisk, getRiskLevel } = require('./riskEngine');
 const { calculateFptGPA, getCourseCredits, calculateDelayScore } = require('../../utils/dataService');
+const { eventBus, EVENTS } = require('../../utils/eventBus');
 
 // Helper to load JSON from server/data/knowledge
 function loadKnowledgeJson(filename) {
@@ -41,7 +42,15 @@ let cachedProgramAnalytics = null;
 let lastProgramAnalyticsTime = 0;
 const PROGRAM_ANALYTICS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-
+eventBus.on(EVENTS.DATASET_UPDATED, () => {
+  console.log('[dssReportEngine] Nhận sự kiện DATASET_UPDATED. Invalidating cache...');
+  cachedStudentGpas = null;
+  lastCacheTime = 0;
+  cachedCourseStats = null;
+  lastCourseStatsTime = 0;
+  cachedProgramAnalytics = null;
+  lastProgramAnalyticsTime = 0;
+});
 // Helper to convert semester name to sortable float
 function getSemesterVal(semStr) {
   const lower = (semStr || '').toLowerCase();
@@ -605,6 +614,7 @@ async function generateDetailedDSSReport(student) {
         commonFailureReasons: kbCourse ? (kbCourse.commonFailureReasons || []) : [],
         remediationRecommendations: kbCourse ? (kbCourse.remediationRecommendations || []) : [],
         careerRelevance: kbCourse ? (kbCourse.careerRelevance || []) : [],
+        evidence: kbCourse ? (kbCourse.evidence || {}) : {},
         path: rcPath,
         isCompleted,
         
@@ -933,12 +943,11 @@ async function generateDetailedDSSReport(student) {
           }
           
           if (rIdx === 0) {
-            focus = `Tập trung củng cố kiến thức nền tảng và khắc phục lỗ hổng môn ${rootCause.courseId}. Ôn tập các kỹ năng thiếu hụt: ${rootCause.missingSkills ? rootCause.missingSkills.join(', ') : 'N/A'}.`;
+            focus = `Tập trung củng cố kiến thức nền tảng và khắc phục lỗ hổng môn ${rootCause.courseId}. Ôn tập trọng tâm các chủ đề: ${rootCause.missingSkills && rootCause.missingSkills.length > 0 ? rootCause.missingSkills.join(', ') : 'kiến thức cốt lõi'}.`;
           } else if (rIdx === 1) {
-            focus = `Thực hành thiết kế hoặc viết mã dự án mini (mini-project) áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
+            focus = `Thực hành thiết kế hoặc viết mã dự án (project) áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools && rootCause.technologiesTools.length > 0 ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
           } else if (rIdx === 2) {
-            const cleanClos = rootCause.learningOutcomes ? rootCause.learningOutcomes.map(clo => clo.split(':')[0]).join(', ') : 'N/A';
-            focus = `Đăng ký học phụ đạo (Tutor) tại trường để rà soát chuẩn đầu ra (CLOs) bị nợ: ${cleanClos}. Hoàn thành kiểm thử để vượt qua nguyên nhân gốc rễ học thuật này.`;
+            focus = `Đăng ký học phụ đạo (Tutor) tại trường để rà soát lại kiến thức bị hổng. Hoàn thành bài tập để vượt qua nguyên nhân gốc rễ học thuật này.`;
           }
           
           recoveryRoadmap.push({

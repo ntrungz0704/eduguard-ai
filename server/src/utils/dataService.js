@@ -222,13 +222,26 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
       let score = parseScore(row[scoreCol]);
       
       // ============================================================
-      // CRITICAL FIX: If a score is empty (null/undefined) or exactly 0,
-      // we ALWAYS treat it as missing (null) for personal transcripts.
-      // This allows instructors to delete any grade to test and verify predictions.
+      // CRITICAL FIX: Retain NOT_STARTED or STUDYING status
       // ============================================================
-      if (score === null || score === undefined || score === 0) {
+      let status = 'STUDYING';
+      const rawValUpper = String(row[scoreCol] || '').trim().toUpperCase();
+
+      if (rawValUpper === 'NOT_STARTED') {
         score = null;
-      } else if (statusCol) {
+        status = 'NOT_STARTED';
+      } else if (score === null || score === undefined || rawValUpper === '') {
+        score = null;
+        status = 'STUDYING';
+      } else if (score === 0 && rawValUpper !== '0') {
+        // Handle cases where parseScore returns 0 but raw is something else
+        score = null;
+        status = 'STUDYING';
+      } else {
+        status = (score >= 5.0) ? 'PASSED' : 'FAILED';
+      }
+
+      if (statusCol) {
         // Dynamic status checks for both English and Vietnamese keywords
         const statusVal = normHeader(row[statusCol]);
         if (
@@ -242,9 +255,20 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
         ) {
           score = null; // Mark as missing for prediction
         }
+      if (statusCol) {
+        // Override status if explicitly defined
+        const statusVal = normHeader(row[statusCol]);
+        if (statusVal.includes('NOT_STARTED')) status = 'NOT_STARTED';
+        else if (statusVal.includes('STUDY') || statusVal.includes('DANGHOC')) status = 'STUDYING';
+        else if (statusVal.includes('FAIL') || statusVal.includes('ROT')) status = 'FAILED';
+        else if (statusVal.includes('PASS') || statusVal.includes('DAT')) status = 'PASSED';
+        
+        if (status === 'STUDYING' || status === 'NOT_STARTED') {
+          score = null;
+        }
       }
 
-      scores[sub] = score;
+      scores[sub] = { value: score, status };
       if (!subjectCols.includes(sub)) subjectCols.push(sub);
     });
 
@@ -328,11 +352,24 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
 
       const scores = {};
       validRawCols.forEach(({ raw: rs, matched: matchedSub }) => {
-        const scoreVal = parseScore(row[rs]);
-        if (scoreVal !== null && (scoreVal < 0 || scoreVal > 10)) {
-          errors.push(`Dòng ${index + 2}: Điểm môn '${rs}' không hợp lệ (${scoreVal}). Điểm phải từ 0 đến 10.`);
+        const rawValue = String(row[rs] || '').trim().toUpperCase();
+        let scoreVal = parseScore(row[rs]);
+        let status = 'STUDYING';
+
+        if (rawValue === 'NOT_STARTED') {
+          scoreVal = null;
+          status = 'NOT_STARTED';
+        } else if (rawValue === '' || scoreVal === null || scoreVal === undefined) {
+          scoreVal = null;
+          status = 'STUDYING';
+        } else {
+          if (scoreVal !== null && (scoreVal < 0 || scoreVal > 10)) {
+            errors.push(`Dòng ${index + 2}: Điểm môn '${rs}' không hợp lệ (${scoreVal}). Điểm phải từ 0 đến 10.`);
+          }
+          status = (scoreVal >= 5.0) ? 'PASSED' : 'FAILED';
         }
-        scores[matchedSub] = scoreVal;
+        
+        scores[matchedSub] = { value: scoreVal, status };
       });
 
       validStudents.push({ id, name, scores });

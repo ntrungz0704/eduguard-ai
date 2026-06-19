@@ -4,6 +4,19 @@ const { calibrate, getPrerequisites, ACADEMIC_PREREQUISITES, weightedPrediction 
 const { validateModel } = require('../ai/validation');
 const fs = require('fs');
 const path = require('path');
+const { eventBus, EVENTS } = require('../utils/eventBus');
+
+// -------------------------------------------------------------
+// AI PIPELINE EVENT LISTENER
+// -------------------------------------------------------------
+eventBus.on(EVENTS.DATASET_UPDATED, async () => {
+  console.log('[AI Pipeline] Nhận cờ DATASET_UPDATED. Tự động train và recalculate...');
+  try {
+    await recalculateAllPredictions(true);
+  } catch (error) {
+    console.error('[AI Pipeline] Lỗi khi tự động chạy pipeline:', error);
+  }
+});
 
 const modelCachePath = path.join(__dirname, '..', 'ai', 'models', 'regression', 'trained_model.json');
 const datasetPath = path.join(__dirname, '..', 'datasets', 'training_data.json');
@@ -59,7 +72,11 @@ async function loadTrainingDataFromDB() {
   const students = dbStudents.map(st => {
     const scores = {};
     st.scores.forEach(sc => {
-      if (sc.value !== null) {
+      // Bỏ qua các môn điều kiện
+      if (sc.course?.isConditional) return;
+      
+      // Chỉ lấy điểm của các môn đã có trạng thái PASS/FAIL
+      if (sc.value !== null && (sc.status === 'PASSED' || sc.status === 'FAILED')) {
         const subjectName = COURSE_CODE_TO_NAME[sc.courseId] || sc.course.name || sc.courseId;
         scores[subjectName] = sc.value;
       }
@@ -128,6 +145,12 @@ function trainModel(trainingData) {
     const prereqs = curriculumOrder.slice(0, targetIdx);
 
     // Build pre-computed models
+    const targetStudents = students.filter(st => st.scores[target] != null);
+    if (targetStudents.length < 50) {
+      console.log(`Bỏ qua môn ${target} do không đủ dữ liệu huấn luyện (${targetStudents.length} < 50)`);
+      return; // Skip model generation for this subject
+    }
+
     const model = weightedPrediction(prereqs, target, students);
 
     if (model.topFeatures && model.topFeatures.length > 0) {

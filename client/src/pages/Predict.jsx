@@ -92,7 +92,7 @@ const getCorrelationDetails = (subA, subB, r) => {
   }
 
   if (r > 0) {
-    desc = `Sinh viên đạt điểm cao ở môn "${subA}" có tỷ lệ thuận rất cao (khoảng ${Math.round(r * 100)}%) sẽ học tốt môn "${subB}". Ngược lại, nếu sinh viên hổng kiến thức môn "${subA}", nguy cơ rớt môn "${subB}" sẽ cực kỳ nghiêm trọng.`;
+    desc = `Có mức liên hệ dương ${absR >= 0.7 ? 'mạnh' : absR >= 0.4 ? 'trung bình' : 'yếu'}. Sinh viên đạt kết quả thấp ở môn "${subA}" thường có xu hướng gặp khó khăn ở môn "${subB}". Mức tương quan (r = ${r}) cho thấy kiến thức của môn trước là nền tảng cho môn sau.`;
     advice = `Giảng viên môn "${subB}" cần kiểm tra điểm môn tiên quyết "${subA}" từ tuần 1. Tổ chức phụ đạo ôn tập bổ trợ kiến thức "${subA}" ngay lập tức nếu sinh viên có điểm đầu vào < 5.0.`;
   } else if (r < 0) {
     desc = `Hệ số tương quan nghịch r = ${r} chỉ ra sự phân hóa nhẹ trong phong cách tiếp thu của sinh viên giữa hai học phần này. Sinh viên học tốt môn này thường gặp khó khăn nhẹ ở môn kia.`;
@@ -112,7 +112,7 @@ const getCorrelationDetails = (subA, subB, r) => {
 };
 
 export default function Predict() {
-  const { trainingData, theme } = useStore();
+  const { trainingData, theme, fetchTrainingData } = useStore();
   const [subject, setSubject] = useState('');
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
@@ -219,6 +219,11 @@ export default function Predict() {
     setUploadedStudentsData([]);
     setMssvInput('');
     setNameInput('');
+    setSelectedPredictStudentId(null);
+    setPendingStudents([]);
+    setPredictableSubjects([]);
+    setSelectedCell(null);
+    setSearchTerm('');
     // ------------------------
 
     if (files.length === 1) {
@@ -301,6 +306,9 @@ export default function Predict() {
       setPendingStudents([]);
       setUploadStatus(`✅ ${res.data.message}`);
       alert(res.data.message);
+      
+      // Khởi chạy reload global state "Không cần F5"
+      await fetchTrainingData();
     } catch (err) {
       alert('Không thể lưu dữ liệu vào Database: ' + (err.response?.data?.error || err.message));
     } finally {
@@ -455,6 +463,12 @@ export default function Predict() {
             <span className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce delay-75"></span>
             <span className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-bounce delay-150"></span>
             Đang phân tích chuỗi liên kết 34 môn học...
+          </div>
+        ) : graphData?.status === 'INSUFFICIENT_DATA' ? (
+          <div className="p-12 text-center text-slate-600 dark:text-slate-400 flex flex-col items-center justify-center gap-2">
+            <Info size={32} className="text-yellow-500 mb-2" />
+            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Dữ liệu chưa đủ độ tin cậy</h3>
+            <p>{graphData.message || "Hệ thống cần ít nhất 30 học bạ hoàn chỉnh để phân tích mức độ tương quan môn học."}</p>
           </div>
         ) : graphData ? (
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 relative z-10">

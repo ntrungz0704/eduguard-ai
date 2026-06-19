@@ -12,6 +12,7 @@ const {
   computeClassAnalytics
 } = require('../../ai/engines/index');
 const careerEngine = require('../../modules/advisor/career-engine');
+const analyticsService = require('../../services/analyticsService');
 const appLogger = require('../../infrastructure/logger');
 
 // ════════════════════════════════════════════
@@ -58,10 +59,17 @@ async function executeDecision({ intent, activeMssv, entities, session, user = '
     }
 
     case 'CLASS_ANALYTICS_INTENT':
-    case 'RISK_SCAN_INTENT': {
+    case 'RISK_SCAN_INTENT':
+    case 'BOTTLENECK_SUBJECTS': {
       const students = await fetchAllStudents();
       const analytics = computeClassAnalytics(students);
-      return { type: 'CLASS_ANALYTICS', analytics };
+      const bottlenecks = await analyticsService.getTopBottlenecks();
+      
+      return { 
+        type: intent === 'BOTTLENECK_SUBJECTS' ? 'BOTTLENECK_SUBJECTS' : 'CLASS_ANALYTICS', 
+        analytics, 
+        bottleneck: bottlenecks.map(b => ({ courseId: b.subject, failedCount: b.atRisk, failureRate: b.failureRate })) 
+      };
     }
 
     // ----------------------------------------------------

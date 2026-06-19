@@ -48,6 +48,7 @@ model Course {
   name          String
   credits       Int
   prerequisites String         @default("") // Comma-separated course IDs (e.g., "COM108,WEB105")
+  isConditional Boolean        @default(false)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   scores        Score[]

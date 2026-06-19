@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 // Import unified Prisma client
 const { prisma } = require('../infrastructure/database/prisma');
+const { eventBus, EVENTS } = require('../utils/eventBus');
 
 // Import modular services
 const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../utils/dataService');
@@ -105,10 +106,14 @@ async function syncUploadedData(validStudents) {
     // 1. Bulk Upsert Courses
     for (const id of courseIds) {
       const credits = getCourseCredits(id);
+      const isCond = /^(PRO116|PRO220|PRO2201|VIE103|VIE108|VIE109|VIE104|VIE102)$/i.test(id) 
+        || id.toLowerCase().includes('gdqp') 
+        || id.toLowerCase().includes('thể chất');
+
       await tx.course.upsert({
         where: { id },
-        update: { credits },
-        create: { id, name: id, credits, prerequisites: '' }
+        update: { credits, isConditional: isCond },
+        create: { id, name: id, credits, prerequisites: '', isConditional: isCond }
       });
     }
 
@@ -126,11 +131,36 @@ async function syncUploadedData(validStudents) {
         create: { mssv, name, classCode }
       });
 
-      for (const [courseId, val] of Object.entries(st.scores || {})) {
-        if (val === null || val === undefined) continue;
-        const value = parseFloat(val);
-        if (isNaN(value) || value < 0 || value > 10) continue; // Strict score validation
-        const status = (value >= 5.0) ? 'PASSED' : 'FAILED';
+      for (const [courseId, scoreObj] of Object.entries(st.scores || {})) {
+        if (scoreObj === null || scoreObj === undefined) continue;
+        
+        let value = null;
+        let status = 'STUDYING';
+
+        // Compatibility fallback if scoreObj is just a number
+        if (typeof scoreObj === 'object') {
+          value = scoreObj.value;
+          status = scoreObj.status || 'STUDYING';
+        } else {
+          value = parseFloat(scoreObj);
+          if (isNaN(value)) {
+            value = null;
+          } else {
+            status = (value >= 5.0) ? 'PASSED' : 'FAILED';
+          }
+        }
+
+        // Never mark conditional courses as FAILED
+        const isCond = /^(PRO116|PRO220|PRO2201|VIE103|VIE108|VIE109|VIE104|VIE102)$/i.test(courseId) 
+        || courseId.toLowerCase().includes('gdqp') 
+        || courseId.toLowerCase().includes('thể chất');
+
+        if (isCond && status === 'FAILED') {
+          status = 'STUDYING'; // Conditional courses do not have FAILED state
+        }
+
+        // Only enforce strict 0-10 if value is not null
+        if (value !== null && (value < 0 || value > 10)) continue; 
 
         await tx.score.upsert({
           where: {
@@ -154,6 +184,7 @@ async function syncUploadedData(validStudents) {
   });
 
   console.log(`[IMPORT_AUDIT] ${new Date().toISOString()} | syncUploadedData | ${normalizedStudents.length} students | COMMITTED`);
+  eventBus.emit(EVENTS.DATASET_UPDATED);
 }
 
 
@@ -1232,6 +1263,28 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
 
     // 2. SLOW PATH (Fallback to on-the-fly model generation if not cached)
     const prereqs = getPrerequisites(target, cache.trainingData);
+    
+    const targetStudents = trainStudents.filter(st => st.scores[target] != null);
+    if (targetStudents.length < 50) {
+      return res.json({
+        status: "warning",
+        message: "Insufficient training data (Cần ít nhất 50 sinh viên có điểm thực tế để dự báo chính xác)",
+        fallbackScore: null,
+        predictions: studentsToPredict.map(s => ({
+          id: s.id,
+          name: s.name,
+          classCode: s.classCode,
+          risk: 'insufficient_data',
+          message: 'Insufficient training data',
+          predictedScore: null,
+          isPredicted: true,
+          reasons: []
+        })),
+        validation: null,
+        target
+      });
+    }
+
     const model = weightedPrediction(prereqs, target, trainStudents);
 
     if (model.topFeatures.length === 0) {
@@ -1396,46 +1449,28 @@ router.post('/interventions', requireAdvisor, (req, res) => {
   }
 });
 
+const analyticsService = require('../services/analyticsService');
+
 // ============================================================
-// API: Dashboard stats
+// API: Dashboard stats (SSOT)
 // ============================================================
-router.get('/students', requireAdvisor, (req, res) => {
-  // Backwards compatibility endpoint if called directly
-  const students = cache.trainingData.students || [];
-  if (students.length === 0) return res.json({ empty: true });
-
-  const subjects = cache.trainingData.subjects || [];
-  const stats = subjects.map(sub => {
-    const scored = students.filter(s => s.scores[sub] != null);
-    const avg = scored.length ? scored.map(s => s.scores[sub]).reduce((a, b) => a + b, 0) / scored.length : 0;
-    const atRisk = scored.filter(s => s.scores[sub] < 5).length;
-    return { subject: sub, total: students.length, scored: scored.length, missing: students.length - scored.length, avg: Math.round(avg * 10) / 10, atRisk };
-  }).filter(s => s.scored >= 5);
-
-  res.json({ stats, total: students.length, source: cache.trainingData.source });
-});
-
-// Direct route /stats (Vite maps to /api/stats)
-router.get('/stats', requireAdvisor, (req, res) => {
-  const students = cache.trainingData.students || [];
-  if (students.length === 0) return res.json({ empty: true });
-
-  const subjects = cache.trainingData.subjects || [];
-  const stats = subjects.map(sub => {
-    const scored = students.filter(s => s.scores[sub] != null);
-    const avg = scored.length ? scored.map(s => s.scores[sub]).reduce((a, b) => a + b, 0) / scored.length : 0;
-    const atRisk = scored.filter(s => s.scores[sub] < 5).length;
-    return {
-      subject: sub,
-      total: students.length,
-      scored: scored.length,
-      missing: students.length - scored.length,
-      avg: Math.round(avg * 10) / 10,
-      atRisk
-    };
-  }).filter(s => s.scored >= 5);
-
-  res.json({ stats, total: students.length, source: cache.trainingData.source });
+router.get('/stats', requireAdvisor, async (req, res) => {
+  try {
+    const globalStats = await analyticsService.getGlobalStats();
+    const bottlenecks = await analyticsService.getTopBottlenecks();
+    
+    res.json({
+      stats: bottlenecks,
+      total: globalStats.totalStudents,
+      warningRate: globalStats.warningRate,
+      topRiskSubject: globalStats.topRiskSubject,
+      atRiskStudents: globalStats.atRiskStudents,
+      source: "SSOT Database"
+    });
+  } catch (err) {
+    console.error("Lỗi lấy stats:", err);
+    res.status(500).json({ error: "Không thể lấy dữ liệu thống kê" });
+  }
 });
 
 // ============================================================
@@ -1485,6 +1520,9 @@ router.post('/save-uploaded', requireAdvisor, async (req, res) => {
       const { clearProgramAnalyticsCache } = require('../ai/engines/dssReportEngine');
       clearProgramAnalyticsCache();
       clearRedAlertsCache();
+      
+      // Emit system-wide event for Single Source of Truth
+      eventBus.emit(EVENTS.DATA_IMPORTED);
     } catch (cacheErr) {
       console.warn("Lỗi khi xóa cache hệ thống:", cacheErr.message);
     }
@@ -2737,6 +2775,14 @@ router.get('/pearson-matrix', async (req, res) => {
     });
 
     const students = Object.values(allStudentsMap);
+    
+    if (students.length < 30) {
+      return res.json({
+        status: "INSUFFICIENT_DATA",
+        message: "Không đủ dữ liệu (< 30 học bạ) để phân tích tương quan tuyến tính một cách tin cậy."
+      });
+    }
+
     const matrix = [];
 
     // Import from modular regression utilities
