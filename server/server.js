@@ -11,8 +11,8 @@ const logger = require('./src/infrastructure/logger');
 const PORT = env.PORT;
 
 const startServer = async (port) => {
-  const server = app.listen(port, () => {
-    logger.info(`✅ EduGuard AI Server running at http://localhost:${port}`);
+  const server = app.listen(port, '0.0.0.0', () => {
+    logger.info(`✅ EduGuard AI Server running at http://0.0.0.0:${port}`);
     
     // Load AI Model on Boot AFTER opening the port
     // This prevents Render's health check from timing out due to blocked event loop
