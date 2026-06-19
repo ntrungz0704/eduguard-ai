@@ -732,16 +732,11 @@ exports.publishData = async (req, res) => {
       setTimeout(() => {
         try {
           logger.info(`Triggering AI predictions for ${successStudents} students after data import via script...`);
-          const { exec } = require('child_process');
-          exec('node server/src/scripts/recalculate_predictions.js', { cwd: require('path').join(__dirname, '../../../..') }, (error, stdout, stderr) => {
-              if (error) {
-                  logger.error(`Error executing recalculate script: ${error.message}`);
-                  return;
-              }
-              if (stderr) {
-                  logger.error(`stderr from recalculate script: ${stderr}`);
-              }
-              logger.info(`Completed AI predictions batch from import: ${stdout}`);
+          const { recalculateAllPredictions } = require('../../scripts/recalculate_predictions');
+          recalculateAllPredictions().then(() => {
+              logger.info(`Completed AI predictions batch from import`);
+          }).catch((error) => {
+              logger.error(`Error executing recalculate script: ${error.message}`);
           });
         } catch (err) {
           logger.error('Error starting background AI prediction batch:', err);
