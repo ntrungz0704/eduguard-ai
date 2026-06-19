@@ -77,7 +77,7 @@ export default function Login() {
       setError('');
     } else {
       setRole('STUDENT');
-      setUsername('PS21034');
+      setUsername('');
       setPassword('123456');
       setError('');
     }
@@ -172,7 +172,7 @@ export default function Login() {
                 required
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                placeholder={role === 'ADMIN' ? 'admin' : role === 'ADVISOR' ? 'advisor' : 'PS21034'}
+                placeholder={role === 'ADMIN' ? 'admin' : role === 'ADVISOR' ? 'advisor' : 'Nhập MSSV (VD: PC07988)'}
                 className="w-full bg-transparent px-4 py-3 text-slate-900 dark:text-white outline-none placeholder-slate-600"
               />
               <div className="px-3 py-3 bg-white/5 border-l border-slate-200 dark:border-white/10 flex items-center text-slate-500 text-xs font-medium whitespace-nowrap">
@@ -260,7 +260,7 @@ export default function Login() {
       <div className="mt-4 text-center space-y-1 text-slate-600 text-[11px]">
         <p>Admin: <span className="text-slate-600 dark:text-slate-400 font-mono">admin</span> / <span className="text-slate-600 dark:text-slate-400 font-mono">admin123</span></p>
         <p>GV: <span className="text-slate-600 dark:text-slate-400 font-mono">advisor</span> / <span className="text-slate-600 dark:text-slate-400 font-mono">admin123</span></p>
-        <p>SV: Nhập MSSV hợp lệ (Vd: PS21034) + mật khẩu <span className="text-slate-600 dark:text-slate-400 font-mono">123456</span></p>
+        <p>SV: Nhập MSSV hợp lệ (Vd: PC07988) + mật khẩu <span className="text-slate-600 dark:text-slate-400 font-mono">123456</span></p>
       </div>
     </div>
   );

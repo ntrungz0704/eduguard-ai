@@ -256,7 +256,7 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
   const totalEarnedCredits = data?.academicSnapshot?.credits ?? data?.analytics?.totalEarnedCredits ?? 0;
   
   const validScores = (data?.scores || []).filter(s => s.value !== null && (s.status === 'PASSED' || s.status === 'FAILED'));
-  const completed = validScores.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
+  const completed = validScores.filter(c => c.status === 'PASSED');
   
   // Dynamic GPA target calculation
   const cleanGpa = (gpa !== null && !isNaN(gpa)) ? gpa : 0.0;
@@ -814,7 +814,7 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
 function GradesTab({ curriculumCourses, courseDependencies, stats }) {
   const [filter, setFilter] = useState('all');
 
-  const completed = curriculumCourses.filter(c => c.status === 'PASSED' || c.status === 'FAILED');
+  const completed = curriculumCourses.filter(c => c.status === 'PASSED');
   const studying = curriculumCourses.filter(c => c.status === 'STUDYING' || c.isPredicted);
   const notStarted = curriculumCourses.filter(c => c.status === 'NOT_STARTED' && !c.isPredicted);
 
