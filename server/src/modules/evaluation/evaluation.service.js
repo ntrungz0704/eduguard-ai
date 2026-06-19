@@ -1,5 +1,4 @@
 const { prisma } = require('../../infrastructure/database/prisma');
-const logger = require('../../utils/logger');
 
 class EvaluationService {
   /**
@@ -9,12 +8,12 @@ class EvaluationService {
    */
   async runValidation() {
     try {
-      logger.info('Bắt đầu quy trình Auto Continuous Validation...');
+      console.log('Bắt đầu quy trình Auto Continuous Validation...');
       
       // 1. Lấy toàn bộ lịch sử dự đoán đang treo (chờ điểm thật)
       const pendingHistories = await prisma.predictionHistory.findMany();
       if (pendingHistories.length === 0) {
-        logger.info('Không có dự đoán nào đang chờ đối chiếu.');
+        console.log('Không có dự đoán nào đang chờ đối chiếu.');
         return { evaluatedCount: 0 };
       }
 
@@ -68,11 +67,11 @@ class EvaluationService {
         }
       }
 
-      logger.info(`Hoàn tất Auto Validation. Đã đối chiếu thành công: ${evaluatedCount} bản ghi.`);
+      console.log(`Hoàn tất Auto Validation. Đã đối chiếu thành công: ${evaluatedCount} bản ghi.`);
       return { evaluatedCount };
 
     } catch (error) {
-      logger.error('Lỗi nghiêm trọng trong quá trình Auto Validation:', error);
+      console.error('Lỗi nghiêm trọng trong quá trình Auto Validation:', error);
       throw error;
     }
   }
