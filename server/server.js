@@ -10,18 +10,19 @@ const logger = require('./src/infrastructure/logger');
 
 const PORT = env.PORT;
 
-const startServer = (port) => {
-  const server = app.listen(port, async () => {
+const startServer = async (port) => {
+  // Load AI Model on Boot BEFORE opening the port
+  // This prevents Render's health check from timing out due to blocked event loop
+  try {
+    const { loadModel } = require('./src/ai/inference/riskPredictor');
+    await loadModel();
+    logger.info('🧠 ML Predictor weights loaded successfully.');
+  } catch (e) {
+    logger.error(`❌ Lỗi khi khởi động ML Predictor: ${e.message}`, { stack: e.stack });
+  }
+
+  const server = app.listen(port, () => {
     logger.info(`✅ EduGuard AI Server running at http://localhost:${port}`);
-    
-    // Load AI Model on Boot
-    try {
-      const { loadModel } = require('./src/ai/inference/riskPredictor');
-      await loadModel();
-      logger.info('🧠 ML Predictor weights loaded successfully.');
-    } catch (e) {
-      logger.error(`❌ Lỗi khi khởi động ML Predictor: ${e.message}`, { stack: e.stack });
-    }
   });
 
   server.on('error', (err) => {
