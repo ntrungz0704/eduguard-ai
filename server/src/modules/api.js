@@ -131,6 +131,17 @@ async function syncUploadedData(validStudents) {
         create: { mssv, name, classCode }
       });
 
+      // 1. [CRITICAL] Khởi tạo tài khoản User tự động khi Import
+      await tx.user.upsert({
+        where: { email: `${mssv.toLowerCase()}@fpt.edu.vn` },
+        update: { name },
+        create: {
+          email: `${mssv.toLowerCase()}@fpt.edu.vn`,
+          name: name,
+          role: 'STUDENT'
+        }
+      });
+
       for (const [courseId, scoreObj] of Object.entries(st.scores || {})) {
         if (scoreObj === null || scoreObj === undefined) continue;
         
@@ -1526,8 +1537,18 @@ router.post('/save-uploaded', requireAdvisor, async (req, res) => {
       clearProgramAnalyticsCache();
       clearRedAlertsCache();
       
-      // Emit system-wide event for Single Source of Truth
-      eventBus.emit(EVENTS.DATA_IMPORTED);
+      // 3. [HIGH] Chữa lỗi tên sự kiện DATA_IMPORTED thành DATASET_UPDATED
+      eventBus.emit(EVENTS.DATASET_UPDATED);
+
+      // 5. [MEDIUM] Tích hợp runValidation() tự động sau khi import điểm thật
+      try {
+        const evaluationService = require('./evaluation/evaluation.service');
+        await evaluationService.runValidation();
+      } catch (e) {
+        console.error("Auto validation failed:", e);
+      }
+
+      res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! Hệ thống đang tự động quét lại AI...` });
     } catch (cacheErr) {
       console.warn("Lỗi khi xóa cache hệ thống:", cacheErr.message);
     }
@@ -1536,7 +1557,6 @@ router.post('/save-uploaded', requireAdvisor, async (req, res) => {
     const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
     recalculateAllPredictions(false).catch(err => console.error('[Auto-recalculate] Error:', err));
 
-    res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! Hệ thống đang tự động quét lại AI...` });
   } catch (err) {
     console.error('Lỗi khi lưu dữ liệu:', err);
     const statusCode = err.statusCode || 500;
@@ -2805,9 +2825,9 @@ router.get('/pearson-matrix', async (req, res) => {
           continue;
         }
 
-        // Get pairs of scores for subA and subB
+        // 4. [HIGH] Đổi ngưỡng Sample Size của Pearson Matrix lên >= 30
         const pairs = students.filter(s => s.scores[subA] != null && s.scores[subB] != null);
-        if (pairs.length < 5) {
+        if (pairs.length < 30) {
           row[subB] = 0.0; // Not enough samples
           continue;
         }
@@ -2818,7 +2838,7 @@ router.get('/pearson-matrix', async (req, res) => {
         // Clean outliers via IQR
         const { xs: cleanXs, ys: cleanYs } = filterOutliersByIQR(xs, ys);
 
-        if (cleanXs.length < 5) {
+        if (cleanXs.length < 30) {
           row[subB] = 0.0;
           continue;
         }

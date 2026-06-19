@@ -313,6 +313,9 @@ export default function Predict() {
       
       // Khởi chạy reload global state "Không cần F5"
       await fetchTrainingData();
+      
+      // Tự động reload để Analytics và toàn bộ UI đồng bộ dữ liệu SSOT
+      window.location.reload();
     } catch (err) {
       alert('Không thể lưu dữ liệu vào Database: ' + (err.response?.data?.error || err.message));
     } finally {
