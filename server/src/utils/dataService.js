@@ -413,35 +413,37 @@ function getCourseCredits(courseNameOrId) {
   return 3;
 }
 
+function isConditionalCourse(courseName, courseId) {
+  const name = (courseName || '').toLowerCase();
+  const cid = (courseId || '').toUpperCase();
+  return (
+    name.includes('thể chất') ||
+    name.includes('quốc phòng') ||
+    name.includes('thực tập tốt nghiệp') ||
+    name.includes('vovinam') ||
+    name.includes('gdqp') ||
+    name.includes('chính trị') ||
+    name.includes('chinh tri') ||
+    cid.includes('VIE103') ||
+    cid.includes('VIE104') ||
+    cid.includes('VIE108') ||
+    cid.includes('VIE101') ||
+    cid.includes('PRO110') ||
+    cid.includes('PRO115') ||
+    cid.includes('PRO116') ||
+    cid.includes('OJT') ||
+    cid.includes('TKN')
+  );
+}
+
+function isEnglishCourse(courseName, courseId) {
+  const name = (courseName || '').toLowerCase();
+  const cid = (courseId || '').toUpperCase();
+  return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
+}
+
 function calculateFptGPA(scores) {
   if (!scores) return { gpa: 0.0, gpa_4: 0.0, totalCredits: 0 };
-
-  const isConditionalCourse = (courseName, courseId) => {
-    const name = (courseName || '').toLowerCase();
-    const cid = (courseId || '').toUpperCase();
-    return (
-      name.includes('thể chất') ||
-      name.includes('quốc phòng') ||
-      name.includes('thực tập tốt nghiệp') ||
-      name.includes('vovinam') ||
-      name.includes('gdqp') ||
-      name.includes('chính trị') ||
-      name.includes('chinh tri') ||
-      cid.includes('VIE103') ||
-      cid.includes('VIE104') ||
-      cid.includes('VIE108') ||
-      cid.includes('VIE101') ||
-      cid.includes('PRO110') ||
-      cid.includes('PRO115') ||
-      cid.includes('PRO116')
-    );
-  };
-
-  const isEnglishCourse = (courseName, courseId) => {
-    const name = (courseName || '').toLowerCase();
-    const cid = (courseId || '').toUpperCase();
-    return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
-  };
 
   const convertToSystem4 = (gpa10) => {
     if (gpa10 >= 9.0) return 4.0;
@@ -932,6 +934,8 @@ module.exports = {
   resolveBackendCourseCode,
   resolveToSubjectName,
   initCourseAliases,
-  refreshCourseAliases
+  refreshCourseAliases,
+  isConditionalCourse,
+  isEnglishCourse
 };
 

@@ -9,7 +9,7 @@ const { prisma } = require('../infrastructure/database/prisma');
 const { eventBus, EVENTS } = require('../utils/eventBus');
 
 // Import modular services
-const { validateAndCleanData, calculateFptGPA, getCourseCredits } = require('../utils/dataService');
+const { validateAndCleanData, calculateFptGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
 const analyticsService = require('../services/analyticsService');
 const riskService = require('../services/riskService');
 const predictionService = require('../services/predictionService');
@@ -161,12 +161,12 @@ async function syncUploadedData(validStudents) {
           }
         }
 
-        // Never mark conditional courses as FAILED
-        const isCond = /^(PRO116|PRO220|PRO2201|VIE103|VIE108|VIE109|VIE104|VIE102)$/i.test(courseId) 
-        || courseId.toLowerCase().includes('gdqp') 
-        || courseId.toLowerCase().includes('thể chất');
+        // Never mark conditional courses as FAILED, and 1.0 means PASSED
+        const isCond = isConditionalCourse(null, courseId);
 
-        if (isCond && status === 'FAILED') {
+        if (isCond && value === 1.0) {
+          status = 'PASSED';
+        } else if (isCond && status === 'FAILED') {
           status = 'STUDYING'; // Conditional courses do not have FAILED state
         }
 

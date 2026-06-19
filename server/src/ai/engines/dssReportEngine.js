@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { prisma } = require('../../infrastructure/database/prisma');
 const { calculateBaseRisk, getRiskLevel } = require('./riskEngine');
-const { calculateFptGPA, getCourseCredits, calculateDelayScore } = require('../../utils/dataService');
+const { calculateFptGPA, getCourseCredits, calculateDelayScore, isConditionalCourse } = require('../../utils/dataService');
 const { eventBus, EVENTS } = require('../../utils/eventBus');
 
 // Helper to load JSON from server/data/knowledge
@@ -1294,7 +1294,17 @@ async function computeProgramAnalytics() {
       };
     }
     courseStats[s.courseId].total++;
-    if (s.status === 'FAILED' || (s.value !== null && s.value < 5.0)) {
+    
+    const isCond = isConditionalCourse(courseStats[s.courseId].courseName, s.courseId);
+    let isFailed = false;
+
+    if (isCond && s.value === 1.0) {
+      isFailed = false; // 1.0 means PASSED for conditional courses (Đạt, Miễn), even if historically marked FAILED
+    } else if (s.status === 'FAILED' || (s.value !== null && s.value < 5.0)) {
+      isFailed = true;
+    }
+
+    if (isFailed) {
       courseStats[s.courseId].failed++;
     }
   });
