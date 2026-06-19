@@ -749,7 +749,7 @@ async function generateDetailedDSSReport(student) {
         // Find the student's score for this course
         let grade = null;
         let scoreStatus = 'NOT_STARTED';
-        let isPossessed = false;
+        let possessionState = 'UNKNOWN';
         let courseName = teachingCourseId || '';
         
         if (teachingCourseId) {
@@ -762,14 +762,19 @@ async function generateDetailedDSSReport(student) {
           if (scoreObj) {
             grade = scoreObj.value;
             scoreStatus = scoreObj.status;
-            const isFailed = scoreStatus === 'FAILED' || (grade !== null && grade < 5.0);
-            const isWeak = grade !== null && grade >= 5.0 && grade < 7.0;
-            isPossessed = !isFailed && !isWeak;
+            
+            if (scoreStatus === 'STUDYING' || scoreStatus === 'NOT_STARTED' || grade === null) {
+              possessionState = 'UNKNOWN';
+            } else {
+              const isFailed = scoreStatus === 'FAILED' || grade < 5.0;
+              const isWeak = grade >= 5.0 && grade < 7.0;
+              possessionState = (isFailed || isWeak) ? 'FAILED' : 'POSSESSED';
+            }
           } else {
-            isPossessed = false;
+            possessionState = 'UNKNOWN';
           }
         } else {
-          isPossessed = false;
+          possessionState = 'UNKNOWN';
         }
 
         // Pull syllabus evidence from curriculumKb
@@ -793,7 +798,7 @@ async function generateDetailedDSSReport(student) {
 
         return {
           skillName: sk,
-          isPossessed,
+          possessionState,
           teachingCourseId,
           teachingCourseName: courseName,
           grade,

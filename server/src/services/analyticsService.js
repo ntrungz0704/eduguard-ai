@@ -237,8 +237,11 @@ async function getTopBottlenecks() {
 
   const subjectStats = {};
   
+  const { isConditionalCourse } = require('../utils/dataService');
+  
   for (const score of scores) {
     if (!validCourseIds.has(score.courseId)) continue;
+    if (isConditionalCourse(score.courseId, score.courseId)) continue; // Ensure no conditional courses slip through
 
     if (!subjectStats[score.courseId]) {
       subjectStats[score.courseId] = {
@@ -251,7 +254,7 @@ async function getTopBottlenecks() {
 
     subjectStats[score.courseId].total += 1;
     subjectStats[score.courseId].sum += score.value;
-    if (score.value < 5.0) {
+    if (score.status === 'FAILED' && score.value < 5.0) {
       subjectStats[score.courseId].failed += 1;
     }
   }

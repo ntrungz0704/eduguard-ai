@@ -412,7 +412,7 @@ router.get('/evaluate-model', requireAdvisor, async (req, res, next) => {
       const features = subjects.filter(sub => sub !== target);
       precomputedModels[target] = weightedPrediction(features, target, evalStudents);
       
-      const scoredStudents = evalStudents.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]) && s.scores[target] > 0 && s.scores[target] !== 1.0);
+      const scoredStudents = evalStudents.filter(s => typeof s.scores[target] === 'number' && !isNaN(s.scores[target]) && s.scores[target] >= 0 && s.scores[target] !== 1.0);
       if (scoredStudents.length > 0) {
         trainScoresList[target] = scoredStudents.map(s => s.scores[target]);
         trainAverages[target] = trainScoresList[target].reduce((a, b) => a + b, 0) / scoredStudents.length;
@@ -437,7 +437,7 @@ router.get('/evaluate-model', requireAdvisor, async (req, res, next) => {
     evalStudents.forEach((student) => {
       const completedSubjects = Object.keys(student.scores).filter(sub => {
         const v = student.scores[sub];
-        return typeof v === 'number' && !isNaN(v) && v > 0 && v !== 1.0;
+        return typeof v === 'number' && !isNaN(v) && v >= 0 && v !== 1.0;
       });
       
       completedSubjects.forEach(target => {

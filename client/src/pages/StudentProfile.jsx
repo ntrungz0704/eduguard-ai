@@ -989,12 +989,14 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                         <span 
                           key={skIdx} 
                           className={`text-[9px] px-2 py-0.5 rounded border ${
-                            skObj.isPossessed 
+                            skObj.possessionState === 'POSSESSED' 
                               ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400 font-bold' 
-                              : 'bg-rose-500/10 border border-rose-500/20 text-rose-400 font-medium'
+                              : skObj.possessionState === 'UNKNOWN'
+                                ? 'bg-slate-500/10 border-slate-500/25 text-slate-400 font-medium'
+                                : 'bg-rose-500/10 border border-rose-500/20 text-rose-400 font-medium'
                           }`}
                         >
-                          {skObj.isPossessed ? '✓' : '✗'} {skObj.skillName}
+                          {skObj.possessionState === 'POSSESSED' ? '✓' : skObj.possessionState === 'UNKNOWN' ? '?' : '✗'} {skObj.skillName}
                         </span>
                       ))}
                     </div>

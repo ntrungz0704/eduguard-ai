@@ -52,11 +52,14 @@ const calculateScore = (row) => {
     if (val !== null) return val;
   }
   
-  const quiz = parseFloat(row.quiz) || 0;
-  const asm = parseFloat(row.asm) || 0;
-  const final = parseFloat(row.final) || 0;
-  
   if (row.quiz !== undefined && row.asm !== undefined && row.final !== undefined) {
+    const q = String(row.quiz).trim();
+    const a = String(row.asm).trim();
+    const f = String(row.final).trim();
+    if (q === '' && a === '' && f === '') return null;
+    const quiz = parseFloat(q) || 0;
+    const asm = parseFloat(a) || 0;
+    const final = parseFloat(f) || 0;
     return (quiz * 0.2) + (asm * 0.3) + (final * 0.5);
   }
   return null;
@@ -311,6 +314,10 @@ exports.previewData = async (req, res) => {
             calculatedScore = parseFloat(rawVal);
           }
         }
+      }
+
+      if (calculatedScore === null && !rowStatus) {
+        rowStatus = 'STUDYING';
       }
 
       // If studying or not started, we don't strictly require a score and score should be null
