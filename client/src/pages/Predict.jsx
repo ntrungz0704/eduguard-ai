@@ -213,6 +213,14 @@ export default function Predict() {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
     
+    // --- RESET ALL STATES ---
+    setResult(null);
+    setSubject('');
+    setUploadedStudentsData([]);
+    setMssvInput('');
+    setNameInput('');
+    // ------------------------
+
     if (files.length === 1) {
       setFile(files[0]);
     } else {
