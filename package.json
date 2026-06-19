@@ -14,7 +14,7 @@
     "train": "node server/src/ai/training/trainRiskModel.js",
     "train:chat": "node server/src/jobs/train_nlp.js",
     "boot:full": "npm run kill && npm run train && npm run train:chat && npm run build:client && concurrently \"npm run server\" \"npm run preview\"",
-    "start": "npx prisma db push --accept-data-loss && node prisma/seed.js && node server/server.js",
+    "start": "npm run build && npx prisma db push --accept-data-loss && node prisma/seed.js && node server/server.js",
     "preview": "npm run preview --prefix client -- --port 5173",
     "kill": "node server/src/jobs/kill-ports.js",
     "test": "jest --passWithNoTests --forceExit --detectOpenHandles",
