@@ -430,9 +430,9 @@ function isEnglishCourse(courseName, courseId) {
 function calculateOfficialGPA(scores) {
   if (!scores) return { gpa: 0.0, gpa_4: 0.0, totalCredits: 0, validCreditsForGPA: 0 };
 
-  let totalScoreWeight = new Prisma.Decimal(0);
-  let totalScoreWeight4 = new Prisma.Decimal(0);
-  let gpaCredits = new Prisma.Decimal(0);
+  let totalScoreWeight = 0;
+  let totalScoreWeight4 = 0;
+  let gpaCredits = 0;
   let totalAccumulatedCredits = 0;
 
   const processScore = (val, courseName, courseId, status) => {
@@ -449,10 +449,7 @@ function calculateOfficialGPA(scores) {
 
     // Only calculate GPA for Passed, Non-Conditional courses
     if (!isCond && !isNaN(scoreNum) && scoreNum > 0 && status === 'PASSED') {
-      const scoreDec = new Prisma.Decimal(scoreNum);
-      const creditsDec = new Prisma.Decimal(creditsNum);
-      
-      totalScoreWeight = totalScoreWeight.plus(scoreDec.times(creditsDec));
+      totalScoreWeight += (scoreNum * creditsNum);
       
       let score4Num = 0;
       if (scoreNum >= 9.0) score4Num = 4.0;
@@ -464,9 +461,8 @@ function calculateOfficialGPA(scores) {
       else if (scoreNum >= 5.0) score4Num = 2.0;
       else score4Num = 0.0;
       
-      const score4Dec = new Prisma.Decimal(score4Num);
-      totalScoreWeight4 = totalScoreWeight4.plus(score4Dec.times(creditsDec));
-      gpaCredits = gpaCredits.plus(creditsDec);
+      totalScoreWeight4 += (score4Num * creditsNum);
+      gpaCredits += creditsNum;
     }
   };
 
@@ -507,17 +503,17 @@ function calculateOfficialGPA(scores) {
   let gpa = 0.0;
   let gpa_4 = 0.0;
 
-  if (!gpaCredits.isZero()) {
+  if (gpaCredits > 0) {
     // Round to 2 decimal places exactly at the end
-    gpa = parseFloat(totalScoreWeight.dividedBy(gpaCredits).toFixed(2));
-    gpa_4 = parseFloat(totalScoreWeight4.dividedBy(gpaCredits).toFixed(2));
+    gpa = parseFloat((totalScoreWeight / gpaCredits).toFixed(2));
+    gpa_4 = parseFloat((totalScoreWeight4 / gpaCredits).toFixed(2));
   }
 
   return {
     gpa,
     gpa_4,
     totalCredits: totalAccumulatedCredits,
-    validCreditsForGPA: parseFloat(gpaCredits.toString())
+    validCreditsForGPA: gpaCredits
   };
 }
 
