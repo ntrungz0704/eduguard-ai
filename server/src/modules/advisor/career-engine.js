@@ -2,28 +2,50 @@ const { calculateOfficialGPA } = require('../../utils/dataService');
 const { analyzeBehavior } = require('./behavior-engine');
 
 const SKILL_MATRIX = {
-  "COM108": ["Programming Logic", "Variables", "Loops"],
-  "WEB1013": ["HTML", "CSS", "Responsive"],
+  "COM108": ["Programming Logic", "Variables", "Loops", "C++", "C#"],
+  "WEB1013": ["HTML", "CSS", "Responsive", "HTML/CSS", "Web Design"],
   "WEB1043": ["JavaScript", "DOM", "Event"],
-  "WEB2063": ["JavaScript", "Async", "Promises", "DOM"],
+  "WEB2063": ["JavaScript", "Async", "Promises", "DOM", "API"],
   "COM2012": ["SQL", "Database"],
-  "WEB2014": ["PHP", "Server Side"],
-  "WEB503": ["NodeJS", "REST API"],
-  "WEB2081": ["React", "Component"],
+  "WEB2014": ["PHP", "Server Side", "MVC"],
+  "WEB503": ["NodeJS", "REST API", "Database", "Backend"],
+  "WEB2081": ["React", "Component", "State Management", "Frontend"],
   "WEB2091": ["Advanced React", "State Management"],
   "WEB2041": ["CRUD", "Deployment", "Project Planning"],
   "WEB105": ["UIUX", "Figma", "Design Thinking"],
+  "WEB1053": ["UIUX", "Figma", "Design Thinking"],
   "WEB2055": ["Marketing", "Analytics"],
-  "PRO1014": ["Project Planning", "Teamwork"],
-  "PRO2201": ["Deployment", "Project Planning", "Fullstack"]
+  "PRO1014": ["Project Planning", "Teamwork", "Scrum", "Agile", "Deployment"],
+  "PRO2201": ["Deployment", "Project Planning", "Fullstack", "Agile", "Teamwork"],
+  "MOB1014": ["Java", "Android", "Mobile Development", "Programming Logic"],
+  "MOB1023": ["Java", "Object Oriented", "Programming Logic"],
+  "MOB201": ["Android", "Mobile Development"],
+  "MOB306": ["React Native", "Mobile Development", "JavaScript"],
+  "SOF203": ["C#", "Desktop Application", "Programming Logic"],
+  "SOF304": ["Software Testing", "Automation", "QA", "Selenium"],
+  "NET101": ["Networking", "Cisco", "TCP/IP"],
+  "NET102": ["Linux", "Server Management", "System Administration", "Security"]
 };
 
 const CAREER_MATRIX = {
-  "Frontend Developer": ["HTML", "CSS", "Responsive", "JavaScript", "DOM", "React", "State Management"],
-  "Backend Developer": ["Programming Logic", "SQL", "Database", "PHP", "NodeJS", "REST API"],
-  "Fullstack Developer": ["HTML", "CSS", "JavaScript", "SQL", "Database", "PHP", "NodeJS", "React", "Fullstack"],
-  "UIUX Designer": ["UIUX", "Figma", "Design Thinking"],
-  "SEO / Wordpress": ["Marketing", "Analytics", "Wordpress"]
+  "Frontend Developer": ["HTML", "CSS", "Responsive", "JavaScript", "DOM", "React", "State Management", "UIUX", "Frontend"],
+  "Backend Developer": ["Programming Logic", "SQL", "Database", "PHP", "NodeJS", "REST API", "Backend", "MVC", "Server Side"],
+  "Fullstack Developer": ["HTML", "CSS", "JavaScript", "SQL", "Database", "PHP", "NodeJS", "React", "Fullstack", "Deployment"],
+  "Mobile App Developer": ["Java", "Android", "Mobile Development", "React Native", "JavaScript", "Programming Logic"],
+  "Data Analyst": ["SQL", "Database", "Analytics", "Programming Logic", "Variables"],
+  "Data Engineer": ["SQL", "Database", "Programming Logic", "Loops"],
+  "Data Scientist": ["SQL", "Database", "Programming Logic", "Analytics"],
+  "AI/ML Engineer": ["Programming Logic", "Variables", "Loops", "Database"],
+  "DevOps Engineer": ["Linux", "Deployment", "Server Management", "Networking"],
+  "Cloud Architect": ["Deployment", "Networking", "Server Management", "Linux"],
+  "System Administrator": ["Linux", "Server Management", "Networking", "System Administration", "Security"],
+  "Network Engineer": ["Networking", "Cisco", "TCP/IP", "Security", "Linux"],
+  "QA/Tester (Manual & Automation)": ["Software Testing", "Automation", "QA", "Selenium", "Programming Logic"],
+  "UI/UX Designer": ["UIUX", "Figma", "Design Thinking", "HTML", "CSS", "Responsive", "Web Design"],
+  "Product Manager": ["Project Planning", "Teamwork", "Agile", "Scrum"],
+  "Business Analyst (BA)": ["Project Planning", "SQL", "Database", "Agile", "Scrum", "Teamwork"],
+  "Cybersecurity Analyst": ["Security", "Networking", "Linux", "TCP/IP"],
+  "Game Developer": ["Programming Logic", "C#", "C++", "Variables"]
 };
 
 function slugify(str) {

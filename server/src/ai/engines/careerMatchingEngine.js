@@ -23,12 +23,24 @@ const SKILL_MATRIX = {
 };
 
 const CAREER_REQUIREMENT_MATRIX = {
-  "Frontend Developer": ["HTML/CSS", "Responsive Design", "JavaScript", "ES6", "DOM", "React", "Hooks", "State Management", "UIUX"],
-  "Backend Developer": ["PHP", "NodeJS", "REST API", "Database", "SQL", "MVC"],
-  "Fullstack Developer": ["HTML/CSS", "JavaScript", "React", "NodeJS", "REST API", "Database", "SQL", "PHP", "MVC"],
-  "UIUX Designer": ["UIUX", "HTML/CSS", "Responsive Design"],
-  "Web Designer": ["HTML/CSS", "Responsive Design", "UIUX"],
-  "Database Developer": ["SQL", "Database"]
+  "Frontend Developer": ["HTML/CSS", "Responsive Design", "JavaScript", "ES6", "DOM", "React", "Hooks", "State Management", "UIUX", "HTML", "CSS"],
+  "Backend Developer": ["PHP", "NodeJS", "REST API", "Database", "SQL", "MVC", "Programming Logic"],
+  "Fullstack Developer": ["HTML/CSS", "JavaScript", "React", "NodeJS", "REST API", "Database", "SQL", "PHP", "MVC", "HTML", "CSS", "Deployment"],
+  "Mobile App Developer": ["JavaScript", "React", "Programming Logic", "State Management", "Database", "API", "Mobile Development", "Android", "Swift", "Kotlin"],
+  "Data Analyst": ["Database", "SQL", "Analytics", "Programming Logic", "Data Analysis", "Python", "Excel"],
+  "Data Engineer": ["Database", "SQL", "Programming Logic", "Big Data", "Pipeline", "Python"],
+  "Data Scientist": ["Database", "SQL", "Analytics", "Programming Logic", "Machine Learning", "Python", "Statistics"],
+  "AI/ML Engineer": ["Programming Logic", "Database", "Python", "Machine Learning", "Deep Learning", "Algorithms"],
+  "DevOps Engineer": ["Deployment", "Website Administration", "Linux", "Cloud", "Docker", "CI/CD", "AWS"],
+  "Cloud Architect": ["Deployment", "Website Administration", "Cloud", "AWS", "Azure", "Networking", "Infrastructure"],
+  "System Administrator": ["Website Administration", "Deployment", "Linux", "Networking", "Server Management"],
+  "Network Engineer": ["Website Administration", "Networking", "Cisco", "TCP/IP", "Security"],
+  "QA/Tester (Manual & Automation)": ["Programming Logic", "Software Testing", "Automation", "Selenium", "Bug Tracking"],
+  "UI/UX Designer": ["UIUX", "Design Thinking", "Figma", "HTML/CSS", "HTML", "CSS", "Responsive Design"],
+  "Product Manager": ["Project Management", "Teamwork", "Agile", "Scrum", "Business"],
+  "Business Analyst (BA)": ["Project Management", "Database", "SQL", "UML", "Business Requirements", "Agile"],
+  "Cybersecurity Analyst": ["Website Administration", "Programming Logic", "Security", "Networking", "Cryptography"],
+  "Game Developer": ["Programming Logic", "Unity", "C#", "C++", "Game Design", "3D"]
 };
 
 // Mock semester config to calculate Time Decay Weight
