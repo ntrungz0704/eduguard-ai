@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
-import { RefreshCw, CheckCircle2, TrendingUp, Info, Printer, Download, BookOpen, User, AlertTriangle, ShieldCheck, Zap, X } from 'lucide-react';
+import { RefreshCw, CheckCircle2, TrendingUp, Info, Printer, Download, BookOpen, User, AlertTriangle, ShieldCheck, Zap, X, Target, Database } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from 'recharts';
 import { useStore } from '../store';
+import AiEvaluationDashboard from './AiEvaluationDashboard';
 
 const AIMetrics = () => {
   const theme = useStore(state => state.theme);
@@ -12,6 +13,7 @@ const AIMetrics = () => {
   const [error, setError] = useState(null);
   const [scanTime, setScanTime] = useState(null);
   const [showGuide, setShowGuide] = useState(false);
+  const [activeTab, setActiveTab] = useState('loocv'); // 'loocv', 'validation', 'metadata'
 
   const fetchMetrics = async () => {
     try {
@@ -119,8 +121,82 @@ const AIMetrics = () => {
               </button>
             </>
           )}
-        </div>
       </div>
+
+      {/* TABS NAVIGATION */}
+      <div className="flex flex-wrap gap-2 mb-8 border-b border-slate-200 dark:border-slate-800 pb-px">
+        <button
+          onClick={() => setActiveTab('loocv')}
+          className={`flex items-center gap-2 px-5 py-3 font-semibold text-sm transition-all border-b-2 ${
+            activeTab === 'loocv' 
+              ? 'border-blue-500 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10' 
+              : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+          } rounded-t-lg`}
+        >
+          <BarChart size={18} /> LOOCV Evaluation
+        </button>
+        <button
+          onClick={() => setActiveTab('validation')}
+          className={`flex items-center gap-2 px-5 py-3 font-semibold text-sm transition-all border-b-2 ${
+            activeTab === 'validation' 
+              ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10' 
+              : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+          } rounded-t-lg`}
+        >
+          <Target size={18} /> Ground Truth Validation
+        </button>
+        <button
+          onClick={() => setActiveTab('metadata')}
+          className={`flex items-center gap-2 px-5 py-3 font-semibold text-sm transition-all border-b-2 ${
+            activeTab === 'metadata' 
+              ? 'border-amber-500 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10' 
+              : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+          } rounded-t-lg`}
+        >
+          <Database size={18} /> Model Metadata
+        </button>
+      </div>
+
+      {activeTab === 'validation' && (
+        <div className="animate-fade-in -mx-6 md:-mx-8">
+          <AiEvaluationDashboard />
+        </div>
+      )}
+
+      {activeTab === 'metadata' && (
+        <div className="animate-fade-in max-w-4xl">
+          <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-3">
+              <Database className="text-amber-500" /> Dataset Metadata
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Training Sample Size</p>
+                <p className="text-2xl font-black text-slate-800 dark:text-slate-200">{metrics?.totalStudents || 0} students</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Features Evaluated</p>
+                <p className="text-2xl font-black text-slate-800 dark:text-slate-200">{statsList.length} subjects</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Algorithm</p>
+                <p className="text-lg font-bold text-slate-800 dark:text-slate-200">Ensemble Weighted Pearson (Offline) + KNN</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Validation Methodology</p>
+                <p className="text-lg font-bold text-slate-800 dark:text-slate-200">Leave-One-Out Cross-Validation (LOOCV)</p>
+              </div>
+              <div className="space-y-1 md:col-span-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Data Integrity</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">Continuous post-deployment validation enabled.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'loocv' && (
+        <>
 
       {error && (
         <div className="bg-red-500/10 text-red-400 p-4 rounded-xl border border-red-500/20 flex items-center gap-3 mb-8">
@@ -460,6 +536,8 @@ const AIMetrics = () => {
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );

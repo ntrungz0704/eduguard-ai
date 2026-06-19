@@ -41,7 +41,6 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/ai-metrics', icon: <BarChart2 size={20} />, label: 'Đánh giá AI (LOOCV)' },
-    { path: '/ai-evaluation', icon: <Target size={20} />, label: 'Kiểm chứng Hệ thống' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/retake-management', icon: <Layers size={20} />, label: 'Quản lý Học lại' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
@@ -352,7 +351,6 @@ function App() {
                       <Route path="/search" element={<StudentSearch />} />
                       <Route path="/predict" element={<Predict />} />
                       <Route path="/ai-metrics" element={<AIMetrics />} />
-                      <Route path="/ai-evaluation" element={<AiEvaluationDashboard />} />
                       <Route path="/import-data" element={<DataImport />} />
                       <Route path="/interventions" element={<Interventions />} />
                       <Route path="/chat" element={<AIChat />} />
