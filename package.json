@@ -20,8 +20,7 @@
     "test": "jest --passWithNoTests --forceExit --detectOpenHandles",
     "ingest:graph": "node scripts/ingest_graph.js",
     "db:init": "npx prisma generate && npx prisma db push && node prisma/seed.js",
-    "setup": "node scripts/setup.js",
-    "postinstall": "npm run build"
+    "setup": "node scripts/setup.js"
   },
   "keywords": [
     "ai",
