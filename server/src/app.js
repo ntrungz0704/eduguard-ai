@@ -76,6 +76,7 @@ const advisorRoutes = require('./modules/advisor/routes');
 const learningRouter = require('./modules/learning/routes');
 const githubRouter = require('./modules/github/routes');
 const retakeRouter = require('./modules/retake/routes');
+const careerRouter = require('./modules/career/career.routes');
 
 app.use('/api/comm', apiLimiter, commRouter);
 app.use('/api/v1/prediction', apiLimiter, predictionRouter);
@@ -88,6 +89,7 @@ app.use('/api/v1/advisor', apiLimiter, advisorRoutes);
 app.use('/api/v1/learning', apiLimiter, learningRouter);
 app.use('/api/v1/github', apiLimiter, githubRouter);
 app.use('/api/v1/retake', apiLimiter, retakeRouter);
+app.use('/api/v1/career', apiLimiter, careerRouter);
 app.use('/api', apiLimiter, apiRouter);
 
 // Fallback to React Router
