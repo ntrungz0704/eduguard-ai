@@ -68,6 +68,25 @@ class EvaluationService {
       }
 
       console.log(`Hoàn tất Auto Validation. Đã đối chiếu thành công: ${evaluatedCount} bản ghi.`);
+
+      // [FEATURE] Cập nhật EvaluationHistory nếu có dữ liệu đối chiếu mới
+      if (evaluatedCount > 0) {
+        try {
+          const metrics = await this.getEvaluationMetrics();
+          await prisma.evaluationHistory.create({
+            data: {
+              sampleSize: metrics.validatedPredictions,
+              mae: metrics.mae,
+              rmse: metrics.rmse,
+              confidence: metrics.confidence
+            }
+          });
+          console.log(`[Continuous Validation] Đã lưu lịch sử đánh giá mới: MAE=${metrics.mae}, RMSE=${metrics.rmse}`);
+        } catch (err) {
+          console.warn('[Continuous Validation] Không thể lưu lịch sử đánh giá:', err.message);
+        }
+      }
+
       return { evaluatedCount };
 
     } catch (error) {

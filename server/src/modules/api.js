@@ -1555,21 +1555,30 @@ router.post('/save-uploaded', requireAdvisor, async (req, res) => {
       eventBus.emit(EVENTS.DATASET_UPDATED);
 
       // 5. [MEDIUM] Tích hợp runValidation() tự động sau khi import điểm thật
+      let newGroundTruth = 0;
       try {
         const evaluationService = require('./evaluation/evaluation.service');
-        await evaluationService.runValidation();
+        const valResult = await evaluationService.runValidation();
+        newGroundTruth = valResult?.evaluatedCount || 0;
       } catch (e) {
         console.error("Auto validation failed:", e);
       }
 
-      res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database! Hệ thống đang tự động quét lại AI...` });
+      res.json({ success: true, message: `Lưu thành công ${students.length} sinh viên vào Database!` });
     } catch (cacheErr) {
       console.warn("Lỗi khi xóa cache hệ thống:", cacheErr.message);
     }
 
-    // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
-    const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
-    recalculateAllPredictions(false).catch(err => console.error('[Auto-recalculate] Error:', err));
+    // [FEATURE] Ngưỡng cập nhật mô hình: Chỉ retrain khi có đủ dữ liệu mới
+    const newStudentsCount = req.body.students ? req.body.students.length : 0;
+    if (newStudentsCount >= 20 || newGroundTruth >= 50) {
+      console.log(`[Auto-Retrain] Kích hoạt Retrain do đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới.`);
+      // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
+      const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+      recalculateAllPredictions(false).catch(err => console.error('[Auto-recalculate] Error:', err));
+    } else {
+      console.log(`[Auto-Retrain] Bỏ qua Retrain (Chưa đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới).`);
+    }
 
   } catch (err) {
     console.error('Lỗi khi lưu dữ liệu:', err);

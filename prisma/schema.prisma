@@ -131,6 +131,15 @@ model PredictionEvaluation {
   @@index([courseId])
 }
 
+model EvaluationHistory {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  sampleSize Int
+  mae        Float
+  rmse       Float
+  confidence Float
+}
+
 model Intervention {
   id        Int      @id @default(autoincrement())
   mssv      String
