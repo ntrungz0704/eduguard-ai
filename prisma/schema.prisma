@@ -105,6 +105,31 @@ model Prediction {
   @@index([courseId])
 }
 
+model PredictionHistory {
+  id             Int      @id @default(autoincrement())
+  mssv           String
+  courseId       String
+  predictedScore Float
+  predictionDate DateTime @default(now())
+  
+  @@index([mssv, courseId])
+  @@index([courseId])
+}
+
+model PredictionEvaluation {
+  id             Int      @id @default(autoincrement())
+  mssv           String
+  courseId       String
+  predictedScore Float
+  actualScore    Float
+  absoluteError  Float
+  squaredError   Float
+  evaluationDate DateTime @default(now())
+
+  @@index([mssv, courseId])
+  @@index([courseId])
+}
+
 model Intervention {
   id        Int      @id @default(autoincrement())
   mssv      String

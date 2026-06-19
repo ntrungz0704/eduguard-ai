@@ -1443,32 +1443,12 @@ router.get('/stats', requireAdvisor, (req, res) => {
 // ============================================================
 
 // ============================================================
-// API: AI Evaluation (LOOCV metrics)
+// API: AI Evaluation (Continuous Validation & Metrics)
 // ============================================================
-router.get('/ai-evaluation', requireAdvisor, (req, res) => {
-  const fs = require('fs');
-  const path = require('path');
-  const metricsPath = path.join(__dirname, '../datasets/ai_metrics.json');
-  if (fs.existsSync(metricsPath)) {
-    const data = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
-    return res.json(data);
-  }
-  res.json({ empty: true, message: 'Chưa có dữ liệu đánh giá. Vui lòng chạy Quét toàn bộ hệ thống.' });
-});
+const evaluationController = require('./evaluation/evaluation.controller');
 
-router.post('/ai-evaluation/run', (req, res) => {
-  const { runAIEvaluation } = require('../ai/evaluateTask');
-  
-  const students = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;
-  const currOrder = cache.trainingData.curriculumOrder || [];
-
-  // Run in background (do not await)
-  runAIEvaluation(students, currOrder).catch(err => {
-    console.error('[AI Evaluation] Error:', err);
-  });
-  
-  res.json({ success: true, message: 'Đã khởi chạy tiến trình đánh giá ngầm (LOOCV). Vui lòng đợi khoảng 15-20s và tải lại.' });
-});
+router.get('/ai-evaluation', requireAdvisor, evaluationController.getMetrics);
+router.post('/ai-evaluation/run', requireAdvisor, evaluationController.triggerValidation);
 
 router.get('/students', (req, res) => {
   const students = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;

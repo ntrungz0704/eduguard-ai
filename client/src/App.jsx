@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 're
 import { useStore } from './store';
 import { api } from './lib/api';
 import { LayoutDashboard, TrendingUp, Calculator, Settings, Sparkles, BrainCircuit, Search, User, Hash, ChevronRight, Loader2, MessageSquare, Menu, X, Network, DatabaseZap, Briefcase, KanbanSquare } from 'lucide-react';
-import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2, Layers, BookOpen } from 'lucide-react';
+import { LogOut, GraduationCap, Mails, HeartHandshake, BarChart2, Layers, BookOpen, Target } from 'lucide-react';
 import ThemeToggle from './components/ThemeToggle';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -23,6 +23,7 @@ const CareerRoadmapBoard = lazy(() => import('./pages/CareerRoadmapBoard'));
 const AIMetrics = lazy(() => import('./pages/AIMetrics'));
 const RetakeRegistration = lazy(() => import('./pages/RetakeRegistration'));
 const AdvisorRetakeManagement = lazy(() => import('./pages/AdvisorRetakeManagement'));
+const AiEvaluationDashboard = lazy(() => import('./pages/AiEvaluationDashboard'));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-[400px]">
@@ -40,6 +41,7 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
     { path: '/interventions', icon: <HeartHandshake size={20} />, label: 'Quản lý Can thiệp' },
     { path: '/predict', icon: <TrendingUp size={20} />, label: 'Dự đoán & Cảnh báo' },
     { path: '/ai-metrics', icon: <BarChart2 size={20} />, label: 'Đánh giá AI (LOOCV)' },
+    { path: '/ai-evaluation', icon: <Target size={20} />, label: 'Kiểm chứng Học liên tục' },
     { path: '/import-data', icon: <DatabaseZap size={20} />, label: 'Nhập liệu (Excel)' },
     { path: '/retake-management', icon: <Layers size={20} />, label: 'Quản lý Học lại' },
     { path: '/inbox', icon: <Mails size={20} />, label: 'Hộp thư' },
@@ -350,6 +352,7 @@ function App() {
                       <Route path="/search" element={<StudentSearch />} />
                       <Route path="/predict" element={<Predict />} />
                       <Route path="/ai-metrics" element={<AIMetrics />} />
+                      <Route path="/ai-evaluation" element={<AiEvaluationDashboard />} />
                       <Route path="/import-data" element={<DataImport />} />
                       <Route path="/interventions" element={<Interventions />} />
                       <Route path="/chat" element={<AIChat />} />

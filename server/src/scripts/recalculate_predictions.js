@@ -345,6 +345,14 @@ async function recalculateAllPredictions(shouldExit = false) {
                         update: { predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) },
                         create: { mssv, courseId: courseId, predictedScore: predicted, risk, confidence: 0.85, explanation: 'Tính toán hàng loạt (kịch bản DB)', reasons: JSON.stringify(reasons) }
                     }));
+
+                    operations.push(prisma.predictionHistory.create({
+                        data: {
+                            mssv,
+                            courseId: courseId,
+                            predictedScore: predicted
+                        }
+                    }));
                     count++;
 
                     if (operations.length >= 200) {
@@ -360,6 +368,16 @@ async function recalculateAllPredictions(shouldExit = false) {
         }
 
         console.log(`✅ Đã tính toán và lưu ${count} dự báo vào Database.`);
+
+        // --- Bổ sung Continuous Learning & Auto Validation ---
+        try {
+            const evaluationService = require('../modules/evaluation/evaluation.service');
+            const evalResult = await evaluationService.runValidation();
+            console.log(`✅ Đã chạy Auto Validation. Có ${evalResult.evaluatedCount} dự báo cũ được kiểm chứng bằng điểm thật.`);
+        } catch (evalErr) {
+            console.error('❌ Lỗi khi chạy Auto Validation:', evalErr);
+        }
+        
     } finally {
         if (hasLock) {
             try {
