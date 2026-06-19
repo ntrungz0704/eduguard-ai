@@ -1099,12 +1099,12 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
       if (s.scores) {
         const normalized = {};
         for (const [k, v] of Object.entries(s.scores)) {
-          if (v !== null && typeof v === 'object' && v.value !== undefined) {
-            normalized[k] = parseFloat(v.value);
-          } else if (v !== null) {
-            normalized[k] = parseFloat(v);
-          } else {
+          let valToParse = (v !== null && typeof v === 'object') ? v.value : v;
+          if (valToParse === null || valToParse === undefined || valToParse === '') {
             normalized[k] = null;
+          } else {
+            const parsed = parseFloat(valToParse);
+            normalized[k] = isNaN(parsed) ? null : parsed;
           }
         }
         s.scores = normalized;
