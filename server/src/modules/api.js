@@ -949,16 +949,16 @@ router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) =>
     // 4. PREPARE PREDICTION SUBJECTS
     const trainSubjects = new Set((cache.trainingData && cache.trainingData.subjects) || []);
     const predictable = [];
-    const uniqueSubjectCols = Array.from(allSubjectCols);
+    // Iterate over ALL subjects in the trained curriculum, not just uploaded columns
+    const allCurriculumSubjects = Array.from(trainSubjects);
 
-    uniqueSubjectCols.forEach(s => {
-      if (!trainSubjects.has(s)) return;
+    allCurriculumSubjects.forEach(s => {
       const prereqs = getPrerequisites(s, cache.trainingData || {});
       const trainStudentsList = (cache.trainingData && cache.trainingData.students) || [];
       const isTrainable = prereqs.length > 0 && trainStudentsList.filter(st => st.scores[s] != null).length >= 5;
 
       if (isTrainable) {
-        const missingCount = mergedValidStudents.filter(st => st.scores[s] == null).length;
+        const missingCount = mergedValidStudents.filter(st => !st.scores[s] || st.scores[s].value == null).length;
         predictable.push({
           subject: s,
           missingCount,
