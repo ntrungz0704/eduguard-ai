@@ -499,3 +499,11 @@ model ScoreComponent {
 
   @@unique([scoreId, componentCode, componentIndex])
 }
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  action    String
+  timestamp DateTime @default(now())
+  metadata  String?  // Optional JSON string for extra context
+}

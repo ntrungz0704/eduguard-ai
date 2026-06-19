@@ -1234,6 +1234,11 @@ async function generateDetailedDSSReport(student) {
       academicHealth: healthScore,
       riskScore: baseRisk.riskScore,
       rootCauseCourses: rootCause ? [rootCause.courseId] : []
+    },
+    dssBoundary: {
+      recommendationType: "suggestion",
+      confidenceLevel: "medium", // Will be overridden or merged if needed, but defaults to medium for DSS
+      disclaimer: "Kết quả chỉ mang tính hỗ trợ quyết định."
     }
   };
 }
@@ -1418,7 +1423,18 @@ async function computeProgramAnalytics() {
     topFailedCourses,
     topWeakestCLOs,
     topSkillGaps,
-    topPrerequisiteBottlenecks
+    topPrerequisiteBottlenecks,
+    metadata: {
+      sampleSize: students.length,
+      generatedAt: new Date().toISOString(),
+      semester: "Spring2026", // Optional dynamic field
+      dataVersion: "v1.1"
+    },
+    dssBoundary: {
+      recommendationType: "suggestion",
+      confidenceLevel: "high",
+      disclaimer: "Kết quả chỉ mang tính hỗ trợ quyết định."
+    }
   };
 
   cachedProgramAnalytics = result;

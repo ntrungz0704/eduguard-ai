@@ -92,6 +92,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchData();
+    // Phase 2 Audit Log
+    api.post('/audit-log', { userId: 'Advisor_01', action: 'VIEW_DASHBOARD' }).catch(() => {});
   }, []);
 
   const checkRecalcStatus = async () => {
@@ -161,6 +163,8 @@ export default function Dashboard() {
     setSelectedAlert(alert);
     setRoadmapMsg('Đang tải lộ trình đề xuất từ AI...');
     setShowRoadmapModal(true);
+    // Phase 2 Audit Log
+    api.post('/audit-log', { userId: currentUser?.id || 'Advisor_01', action: 'VIEW_ROADMAP_PREVIEW', metadata: { mssv: alert.mssv } }).catch(() => {});
     try {
       const res = await api.get('/comm/messages/suggestion', {
         params: {
@@ -187,6 +191,8 @@ export default function Dashboard() {
       setShowRoadmapModal(false);
       // Mark as intervened
       handleIntervene(selectedAlert.mssv, selectedAlert.targetCourse, { stopPropagation: () => {} });
+      // Phase 2 Audit Log
+      api.post('/audit-log', { userId: currentUser?.id || 'Advisor_01', action: 'SEND_ROADMAP', metadata: { mssv: selectedAlert.mssv } }).catch(() => {});
       alert('Đã gửi Lộ trình thành công qua Hộp thư cho sinh viên!');
     } catch (e) {
       alert('Lỗi gửi tin nhắn: ' + e.message);

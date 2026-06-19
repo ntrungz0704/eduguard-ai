@@ -162,6 +162,8 @@ export default function Predict() {
         console.error("Lỗi nạp Pearson Matrix:", err);
       } finally {
         setGraphLoading(false);
+        // Phase 2 Audit Log
+        api.post('/audit-log', { userId: 'Advisor_01', action: 'VIEW_PEARSON_MATRIX' }).catch(() => {});
       }
     };
     fetchDependencyGraph();
@@ -182,6 +184,8 @@ export default function Predict() {
       alert(err.response?.data?.error || err.message);
     } finally {
       setLoading(false);
+      // Phase 2 Audit Log
+      api.post('/audit-log', { userId: 'Advisor_01', action: `PREDICT_${subject}` }).catch(() => {});
     }
   };
 
@@ -916,7 +920,7 @@ export default function Predict() {
 
                     <div className="text-right">
                       <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-bold">Cảnh báo rủi ro</span>
-                      <div className="mt-1.5">
+                      <div className="mt-1.5 flex flex-col gap-1 items-end">
                         {singleStudent.risk === 'insufficient_data' ? (
                           <span className="bg-slate-500/20 border border-slate-200 dark:border-white/10 text-slate-400 px-3.5 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5"><Info size={14}/> CHƯA ĐỦ DỮ LIỆU</span>
                         ) : singleStudent.risk === 'high' ? (
@@ -925,6 +929,11 @@ export default function Predict() {
                           <span className="bg-amber-500/20 border border-amber-200 dark:border-amber-500/30 text-amber-400 px-3.5 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.15)]"><Info size={14}/> THEO DÕI</span>
                         ) : (
                           <span className="bg-emerald-500/20 border border-emerald-200 dark:border-emerald-500/30 text-emerald-400 px-3.5 py-1.5 rounded-xl text-xs font-black inline-flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.15)]"><CheckCircle size={14}/> ỔN ĐỊNH</span>
+                        )}
+                        {singleStudent.confidence && singleStudent.confidence < 0.6 && singleStudent.risk !== 'insufficient_data' && (
+                          <span className="text-[9px] text-yellow-500 font-bold bg-yellow-500/10 px-2 py-1 rounded-md border border-yellow-500/20 mt-1">
+                            ⚠️ Độ tin cậy thấp – Cần tham khảo thêm dữ liệu thực tế
+                          </span>
                         )}
                       </div>
                     </div>

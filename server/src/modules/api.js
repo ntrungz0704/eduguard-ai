@@ -1228,6 +1228,8 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
           predicted,
           risk,
           reasons,
+          factors: reasons.map(r => r.explanation),
+          confidence: cachedModel.validation ? cachedModel.validation.confidence : 0.8,
           isPredicted,
           isEarlyWarning,
           weakPrereqs,
@@ -1240,6 +1242,7 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
       const avg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 7.2;
 
       return res.json({
+        status: "SUCCESS",
         target,
         trainCount,
         avg: Math.round(avg * 10) / 10,
@@ -1267,7 +1270,7 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
     const targetStudents = trainStudents.filter(st => st.scores[target] != null);
     if (targetStudents.length < 50) {
       return res.json({
-        status: "warning",
+        status: "INSUFFICIENT_DATA",
         message: "Insufficient training data (Cần ít nhất 50 sinh viên có điểm thực tế để dự báo chính xác)",
         fallbackScore: null,
         predictions: studentsToPredict.map(s => ({
@@ -1289,7 +1292,7 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
 
     if (model.topFeatures.length === 0) {
       return res.json({
-        status: "warning",
+        status: "INSUFFICIENT_DATA",
         message: "Chưa đủ dữ liệu hồi quy cho môn học này",
         fallbackScore: null,
         predictions: [],
@@ -1370,6 +1373,8 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
         predicted,
         risk,
         reasons,
+        factors: reasons.map(r => r.explanation),
+        confidence: validation ? validation.confidence : 0.8,
         isPredicted,
         intervened: s.intervened || false,
         componentScores: s.componentScores && s.componentScores[target] ? s.componentScores[target] : null
@@ -1379,6 +1384,7 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
     const avg = trainScores.length ? trainScores.reduce((a, b) => a + b, 0) / trainScores.length : 0;
 
     res.json({
+      status: "SUCCESS",
       target,
       trainCount: trainScores.length,
       avg: Math.round(avg * 10) / 10,
@@ -1401,8 +1407,8 @@ router.all('/predict/:subject', requireAdvisor, async (req, res) => {
   } catch (e) {
     console.error('Error during prediction:', e);
     res.json({
-      status: "warning",
-      message: "Chưa đủ dữ liệu hồi quy cho môn học này",
+      status: "ERROR",
+      message: "Chưa đủ dữ liệu hồi quy cho môn học này hoặc có lỗi hệ thống",
       fallbackScore: null,
       predictions: [],
       validation: null,
@@ -2875,6 +2881,31 @@ router.post('/prediction/recalculate', requireAdvisor, async (req, res) => {
 
 router.get('/prediction/recalculate-status', (req, res) => {
   res.json(recalculationState);
+});
+
+// ============================================================
+// API: Audit Logging (Phase 2 Architectural Hardening)
+// ============================================================
+router.post('/audit-log', async (req, res) => {
+  try {
+    const { userId, action, metadata } = req.body;
+    if (!userId || !action) {
+      return res.status(400).json({ status: "ERROR", error: "Missing userId or action" });
+    }
+    
+    await prisma.auditLog.create({
+      data: {
+        userId,
+        action,
+        metadata: metadata ? JSON.stringify(metadata) : null
+      }
+    });
+    
+    res.json({ status: "SUCCESS" });
+  } catch (err) {
+    console.error("[AuditLog] Error:", err);
+    res.status(500).json({ status: "ERROR", error: err.message });
+  }
 });
 
 // Backward compatibility redirect
