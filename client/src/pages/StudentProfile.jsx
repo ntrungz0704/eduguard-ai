@@ -649,8 +649,8 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
     const chain = [
       { id: 'COM108', name: 'Nhập môn Lập trình' },
       { id: 'WEB1013', name: 'Thiết kế Web (HTML5/CSS3)' },
-      { id: 'WEB2013', name: 'Lập trình JS cơ bản' },
-      { id: 'WEB2062', name: 'Lập trình JS nâng cao' },
+      { id: 'WEB1043', name: 'Lập trình cơ sở với JS' },
+      { id: 'WEB2063', name: 'Lập trình JS nâng cao' },
       { id: 'WEB503', name: 'Lập trình Node.js & CSDL' }
     ];
 

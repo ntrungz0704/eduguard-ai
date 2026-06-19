@@ -2,21 +2,26 @@ const { calculateOfficialGPA } = require('../../utils/dataService');
 const { analyzeBehavior } = require('./behavior-engine');
 
 const SKILL_MATRIX = {
+  "COM108": ["Programming Logic", "Variables", "Loops"],
   "WEB1013": ["HTML", "CSS", "Responsive"],
   "WEB1043": ["JavaScript", "DOM", "Event"],
+  "WEB2063": ["JavaScript", "Async", "Promises", "DOM"],
   "COM2012": ["SQL", "Database"],
   "WEB2014": ["PHP", "Server Side"],
   "WEB503": ["NodeJS", "REST API"],
   "WEB2081": ["React", "Component"],
   "WEB2091": ["Advanced React", "State Management"],
   "WEB2041": ["CRUD", "Deployment", "Project Planning"],
-  "WEB105": ["UIUX"]
+  "WEB105": ["UIUX", "Figma", "Design Thinking"],
+  "WEB2055": ["Marketing", "Analytics"],
+  "PRO1014": ["Project Planning", "Teamwork"],
+  "PRO2201": ["Deployment", "Project Planning", "Fullstack"]
 };
 
 const CAREER_MATRIX = {
   "Frontend Developer": ["HTML", "CSS", "Responsive", "JavaScript", "DOM", "React", "State Management"],
   "Backend Developer": ["Programming Logic", "SQL", "Database", "PHP", "NodeJS", "REST API"],
-  "Fullstack Developer": ["HTML", "CSS", "JavaScript", "SQL", "Database", "PHP", "NodeJS", "React"],
+  "Fullstack Developer": ["HTML", "CSS", "JavaScript", "SQL", "Database", "PHP", "NodeJS", "React", "Fullstack"],
   "UIUX Designer": ["UIUX", "Figma", "Design Thinking"],
   "SEO / Wordpress": ["Marketing", "Analytics", "Wordpress"]
 };
