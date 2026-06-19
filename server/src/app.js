@@ -34,9 +34,9 @@ app.use(helmet());
 // Compress all HTTP responses
 app.use(compression());
 
-// Strict CORS — only allow configured frontend origin
+// Strict CORS — allow dynamic origin to fix Railway Network Error
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-user-role', 'x-user-id', 'x-trace-id'],
