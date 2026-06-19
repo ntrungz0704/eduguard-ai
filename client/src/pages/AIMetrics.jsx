@@ -9,6 +9,7 @@ const AIMetrics = () => {
   const theme = useStore(state => state.theme);
   const isDark = theme === 'dark';
   const [metrics, setMetrics] = useState(null);
+  const [integrityStatus, setIntegrityStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [scanTime, setScanTime] = useState(null);
@@ -22,6 +23,12 @@ const AIMetrics = () => {
       const startTime = Date.now();
       
       const res = await api.get('/evaluate-model');
+      try {
+        const integrityRes = await api.post('/audit/integrity');
+        setIntegrityStatus(integrityRes.data.status);
+      } catch (e) {
+        console.error("Integrity check failed:", e);
+      }
       
       const durationMs = Date.now() - startTime;
       setScanTime(durationMs);
@@ -189,7 +196,12 @@ const AIMetrics = () => {
               </div>
               <div className="space-y-1 md:col-span-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Data Integrity</p>
-                <p className="text-sm text-slate-600 dark:text-slate-300">Continuous post-deployment validation enabled.</p>
+                <div className="text-sm text-slate-600 dark:text-slate-300 space-y-1">
+                  <span className={`px-2 py-1 rounded text-xs font-bold ${integrityStatus === 'PASS' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : integrityStatus === 'FAIL' ? 'bg-red-500/10 text-red-600 dark:text-red-400' : 'bg-slate-100 text-slate-500'}`}>
+                    DATA INTEGRITY = {integrityStatus || 'UNCHECKED'}
+                  </span>
+                  <p>Continuous post-deployment validation enabled.</p>
+                </div>
               </div>
             </div>
           </div>

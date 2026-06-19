@@ -481,40 +481,27 @@ async function generateDetailedDSSReport(student) {
       
       const grade = c.value !== null ? c.value : 3.0;
       const downstreamCount = getDownstreamCount(cId);
-      const bottleneckWeight = kbCourse?.bottleneckWeight || 1;
       
-      let importanceWeight = 1;
-      if (kbCourse?.academicImportanceLevel === 'CRITICAL') importanceWeight = 10;
-      else if (kbCourse?.academicImportanceLevel === 'HIGH') importanceWeight = 7;
-      else if (kbCourse?.academicImportanceLevel === 'MEDIUM') importanceWeight = 4;
-      
-      const foundationWeight = Math.max(0, 7 - (kbCourse?.semester || 1));
-      const centralityObj = courseCentrality[cId];
-      const centralityScore = centralityObj ? centralityObj.centralityScore : 0.0;
-      
-      const priority = (10 - grade) * 2 +
-                       downstreamCount * 4 +
-                       bottleneckWeight * 3 +
-                       importanceWeight * 2 +
-                       foundationWeight * 5 +
-                       centralityScore * 5;
+      // Strict rule: Lowest score has the highest priority
+      const priority = 10 - grade;
       
       return {
         course: c,
         priority,
         grade,
         downstreamCount,
-        bottleneckWeight,
-        importanceVal: importanceWeight,
         kbCourse
       };
     });
     
-    scoredCandidates.sort((a, b) => b.priority - a.priority);
+    // Sort strictly by lowest grade
+    scoredCandidates.sort((a, b) => a.grade - b.grade);
     const bestCandidate = scoredCandidates[0];
     
     if (bestCandidate) {
       const rcCode = bestCandidate.course.courseId;
+      const { SKILL_MATRIX } = require('../../modules/advisor/career-engine');
+      const mappedSkills = SKILL_MATRIX[rcCode] || [];
       const kbCourse = bestCandidate.kbCourse;
       const courseNameStr = kbCourse ? kbCourse.courseName : (syllabusGraph[rcCode]?.name || courseDependency[rcCode]?.role || rcCode);
       const isWeakPassed = bestCandidate.course.status !== 'FAILED' && bestCandidate.course.value !== null && bestCandidate.course.value >= 5.0;
@@ -612,15 +599,15 @@ async function generateDetailedDSSReport(student) {
       }
       
       const rcGrade = bestCandidate.grade;
-      const reason = `Điểm số thấp (${rcGrade.toFixed(1)}), Chặn ${directUnlocks.length} môn học tiếp theo, Ảnh hưởng ${impactTrack}`;
+      const reason = `Điểm số thấp nhất (${rcGrade.toFixed(1)}), Chặn ${directUnlocks.length} môn học kế tiếp`;
 
       rootCause = {
         courseId: rcCode,
         name: courseNameStr,
         explanation,
-        academicImportanceLevel: kbCourse ? kbCourse.academicImportanceLevel : 'MEDIUM',
+        academicImportanceLevel: kbCourse ? kbCourse.academicImportanceLevel : 'HIGH',
         bottleneckWeight: kbCourse ? kbCourse.bottleneckWeight : 1,
-        missingSkills: kbCourse ? (kbCourse.coreSkills || []) : [],
+        missingSkills: mappedSkills,
         learningOutcomes: kbCourse ? (kbCourse.learningOutcomes || []) : [],
         technologiesTools: kbCourse ? (kbCourse.technologiesTools || []) : [],
         commonFailureReasons: kbCourse ? (kbCourse.commonFailureReasons || []) : [],
@@ -960,9 +947,20 @@ async function generateDetailedDSSReport(student) {
           }
           
           if (rIdx === 0) {
-            focus = `Tập trung củng cố kiến thức nền tảng và khắc phục lỗ hổng môn ${rootCause.courseId}. Ôn tập trọng tâm các chủ đề: ${rootCause.missingSkills && rootCause.missingSkills.length > 0 ? rootCause.missingSkills.join(', ') : 'kiến thức cốt lõi'}.`;
+            let phase1Title = `Can thiệp ${rootCause.courseId}: Review Kỹ năng`;
+            let phase1Focus = '';
+            if (recs.length > 0) {
+              phase1Title = `Can thiệp ${rootCause.courseId}: ${recs[0]}`;
+            }
+            const mappedSkillsStr = rootCause.missingSkills && rootCause.missingSkills.length > 0 ? rootCause.missingSkills.join(', ') : 'N/A';
+            phase1Focus = `Target: >= 7.0. Hãy review các kỹ năng/kiến thức sau: ${mappedSkillsStr}.`;
+            title = phase1Title;
+            focus = phase1Focus;
           } else if (rIdx === 1) {
-            focus = `Thực hành thiết kế hoặc viết mã dự án (project) áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools && rootCause.technologiesTools.length > 0 ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
+            const phase2Title = `Ứng dụng thực hành ${rootCause.courseId}`;
+            const phase2Focus = `Giải quyết bài tập thực tế sử dụng các công cụ/ngôn ngữ đã học của ${rootCause.courseId} để sẵn sàng cho môn kế tiếp, đồng thời áp dụng các công nghệ/công cụ: ${rootCause.technologiesTools && rootCause.technologiesTools.length > 0 ? rootCause.technologiesTools.join(', ') : 'N/A'}.`;
+            title = phase2Title;
+            focus = phase2Focus;
           } else if (rIdx === 2) {
             focus = `Đăng ký học phụ đạo (Tutor) tại trường để rà soát lại kiến thức bị hổng. Hoàn thành bài tập để vượt qua nguyên nhân gốc rễ học thuật này.`;
           }

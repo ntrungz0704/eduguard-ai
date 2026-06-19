@@ -14,6 +14,7 @@ const analyticsService = require('../services/analyticsService');
 const riskService = require('../services/riskService');
 const predictionService = require('../services/predictionService');
 const careerService = require('../services/careerService');
+const auditService = require('../services/auditService');
 
 const { spawn } = require('child_process');
 const { weightedPrediction, getPrerequisites, calibrate, ACADEMIC_PREREQUISITES } = require('../ai/regression');
@@ -1520,6 +1521,16 @@ const evaluationController = require('./evaluation/evaluation.controller');
 
 router.get('/ai-evaluation', requireAdvisor, evaluationController.getMetrics);
 router.post('/ai-evaluation/run', requireAdvisor, evaluationController.triggerValidation);
+
+router.post('/audit/integrity', requireAdvisor, async (req, res) => {
+  try {
+    const report = await auditService.runGlobalDataIntegrityAudit();
+    res.json(report);
+  } catch (err) {
+    console.error("Audit Integrity Error:", err);
+    res.status(500).json({ error: "Lỗi hệ thống khi quét Data Integrity", details: err.message });
+  }
+});
 
 router.get('/students', (req, res) => {
   const baseStudents = cache.uploadedStudents.length > 0 ? cache.uploadedStudents : cache.trainingData.students;

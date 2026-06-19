@@ -89,8 +89,8 @@ function TopMatchCard({ career, rank, onClick }) {
       <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">#{rank + 1} Phù hợp nhất</p>
       <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{career.careerName}</h3>
       {career.insufficientEvidence ? (
-        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded inline-block">
-          ⚠️ Chưa đủ căn cứ đề xuất
+        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded inline-block mt-1">
+          ⚠️ Không đủ dữ liệu đánh giá nghề {career.careerName}
         </span>
       ) : (
         <div className="flex items-center gap-3">
@@ -132,7 +132,7 @@ function CareerCard({ career, onClick }) {
         <div className="mb-3">
           {career.insufficientEvidence ? (
             <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded-lg">
-              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">⚠️ Chưa đủ căn cứ đề xuất</span>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">⚠️ Không đủ dữ liệu đánh giá nghề {career.careerName}</span>
             </div>
           ) : (
             <>
