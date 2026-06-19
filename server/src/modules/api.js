@@ -357,9 +357,13 @@ router.get('/training-info', async (req, res) => {
         atRisk
       };
     });
+    
+    const { getGlobalStats } = require('../services/analyticsService');
+    const globalStats = await getGlobalStats();
+    const totalStudentsSSOT = globalStats.totalStudents;
 
     res.json({
-      totalStudents: students.length,
+      totalStudents: totalStudentsSSOT,
       totalSubjects: subjects.length,
       displaySubjects: stats.length,
       source: (cache.trainingData && cache.trainingData.source) || 'Pre-trained',

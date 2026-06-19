@@ -1,10 +1,13 @@
+const { prisma } = require('../../infrastructure/database/prisma');
 const advisorService = require('./service');
 
 exports.getSummary = async (req, res) => {
   try {
-    // Mocking 1500 students summary for the demo
+    const totalStudents = await prisma.student.count();
+    
+    // Mocking summary details but using real totalStudents
     const summary = {
-      totalStudents: 1500,
+      totalStudents: totalStudents,
       riskDistribution: {
         URGENT: 63,
         HIGH: 124,

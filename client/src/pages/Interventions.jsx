@@ -10,11 +10,11 @@ export default function Interventions() {
     top50: [], 
     top100: [],
     statsSummary: {
-      totalStudents: 652,
-      criticalRisk: 10,
-      highRisk: 55,
-      mediumRisk: 205,
-      lowRisk: 382
+      totalStudents: 0,
+      criticalRisk: 0,
+      highRisk: 0,
+      mediumRisk: 0,
+      lowRisk: 0
     }
   });
   const [loading, setLoading] = useState(true);
@@ -428,7 +428,7 @@ export default function Interventions() {
             <div className="bg-white/5 border border-white/5 rounded-2xl p-4 transition-all hover:bg-white/10">
               <span className="text-xs font-bold text-slate-400">Tổng số sinh viên</span>
               <div className="text-3xl font-black text-white mt-1">
-                {data.statsSummary?.totalStudents || 652}
+                {data.statsSummary?.totalStudents || 0}
               </div>
               <span className="text-[10px] text-slate-500 block mt-1">Dữ liệu thực tế hệ thống</span>
             </div>
@@ -436,8 +436,8 @@ export default function Interventions() {
             <div className="bg-rose-500/5 border border-rose-500/10 rounded-2xl p-4 transition-all hover:bg-rose-500/10">
               <span className="text-xs font-bold text-rose-400">Nguy cơ Cực kỳ Nguy hiểm</span>
               <div className="text-3xl font-black text-rose-500 mt-1 flex items-baseline gap-1.5">
-                {data.statsSummary?.criticalRisk || 10}
-                <span className="text-[10px] font-mono text-rose-400/70 font-semibold">({((data.statsSummary?.criticalRisk || 10) / (data.statsSummary?.totalStudents || 652) * 100).toFixed(1)}%)</span>
+                {data.statsSummary?.criticalRisk || 0}
+                <span className="text-[10px] font-mono text-rose-400/70 font-semibold">({((data.statsSummary?.criticalRisk || 0) / (data.statsSummary?.totalStudents || 1) * 100).toFixed(1)}%)</span>
               </div>
               <span className="text-[10px] text-rose-400/60 block mt-1">Cần hành động khẩn cấp</span>
             </div>
@@ -445,8 +445,8 @@ export default function Interventions() {
             <div className="bg-orange-500/5 border border-orange-500/10 rounded-2xl p-4 transition-all hover:bg-orange-500/10">
               <span className="text-xs font-bold text-orange-400">Nguy cơ Cao (High Risk)</span>
               <div className="text-3xl font-black text-orange-500 mt-1 flex items-baseline gap-1.5">
-                {data.statsSummary?.highRisk || 55}
-                <span className="text-[10px] font-mono text-orange-400/70 font-semibold">({((data.statsSummary?.highRisk || 55) / (data.statsSummary?.totalStudents || 652) * 100).toFixed(1)}%)</span>
+                {data.statsSummary?.highRisk || 0}
+                <span className="text-[10px] font-mono text-orange-400/70 font-semibold">({((data.statsSummary?.highRisk || 0) / (data.statsSummary?.totalStudents || 1) * 100).toFixed(1)}%)</span>
               </div>
               <span className="text-[10px] text-orange-400/60 block mt-1">Lộ trình theo dõi sát sao</span>
             </div>
@@ -454,8 +454,8 @@ export default function Interventions() {
             <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 transition-all hover:bg-emerald-500/10">
               <span className="text-xs font-bold text-emerald-400">Mức Ổn định / Thấp</span>
               <div className="text-3xl font-black text-emerald-500 mt-1 flex items-baseline gap-1.5">
-                {((data.statsSummary?.totalStudents || 652) - (data.statsSummary?.criticalRisk || 10) - (data.statsSummary?.highRisk || 55)) || 587}
-                <span className="text-[10px] font-mono text-emerald-400/70 font-semibold">({(((data.statsSummary?.totalStudents || 652) - (data.statsSummary?.criticalRisk || 10) - (data.statsSummary?.highRisk || 55)) / (data.statsSummary?.totalStudents || 652) * 100).toFixed(1)}%)</span>
+                {((data.statsSummary?.totalStudents || 0) - (data.statsSummary?.criticalRisk || 0) - (data.statsSummary?.highRisk || 0)) || 0}
+                <span className="text-[10px] font-mono text-emerald-400/70 font-semibold">({(((data.statsSummary?.totalStudents || 0) - (data.statsSummary?.criticalRisk || 0) - (data.statsSummary?.highRisk || 0)) / (data.statsSummary?.totalStudents || 1) * 100).toFixed(1)}%)</span>
               </div>
               <span className="text-[10px] text-emerald-400/60 block mt-1">Học tập đạt yêu cầu</span>
             </div>

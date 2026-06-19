@@ -11,9 +11,13 @@ let analyticsCache = {
 // Invalidate cache khi có DATASET_UPDATED
 eventBus.on(EVENTS.DATASET_UPDATED, () => {
   console.log('[AnalyticsService] Nhận sự kiện DATASET_UPDATED. Invalidating cache...');
+  clearAnalyticsCache();
+});
+
+function clearAnalyticsCache() {
   analyticsCache.globalStats = null;
   analyticsCache.bottlenecks = null;
-});
+}
 
 /**
  * Calculates student cumulative and semester-based academic statistics.
@@ -308,5 +312,6 @@ async function getGlobalStats() {
 module.exports = {
   getStudentAnalytics,
   getTopBottlenecks,
-  getGlobalStats
+  getGlobalStats,
+  clearAnalyticsCache
 };

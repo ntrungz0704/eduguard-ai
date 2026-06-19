@@ -9,6 +9,7 @@ const DataImport = () => {
   const [loading, setLoading] = useState(false);
   const [previewData, setPreviewData] = useState(null);
   const [publishStatus, setPublishStatus] = useState(null); // 'loading', 'success', 'error'
+  const [publishResult, setPublishResult] = useState(null);
   const [mssvInput, setMssvInput] = useState("");
   const [classCodeInput, setClassCodeInput] = useState("");
   const fileInputRef = useRef(null);
@@ -29,14 +30,16 @@ const DataImport = () => {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
+      const droppedFile = e.dataTransfer.files[0];
+      handleFile(droppedFile);
     }
   };
 
   const handleChange = (e) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      handleFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      handleFile(selectedFile);
     }
   };
 
@@ -53,6 +56,7 @@ const DataImport = () => {
     setLoading(true);
     setPreviewData(null);
     setPublishStatus(null);
+    setPublishResult(null);
     
     const formData = new FormData();
     formData.append('file', fileToUpload);
@@ -95,6 +99,7 @@ const DataImport = () => {
       }
       
       const res = await api.post('/v1/data/publish', payload);
+      setPublishResult(res.data);
       setPublishStatus('success');
     } catch (err) {
       console.error(err);
@@ -107,6 +112,7 @@ const DataImport = () => {
     setFile(null);
     setPreviewData(null);
     setPublishStatus(null);
+    setPublishResult(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -311,7 +317,28 @@ const DataImport = () => {
             <CheckCircle2 size={48} className="text-green-400 relative z-10" />
           </div>
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Import Thành Công!</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-lg mb-2">Đã lưu {previewData?.validRows} bản ghi vào hệ thống.</p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 w-full max-w-3xl">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+              <p className="text-sm text-slate-500">Tổng SV trước</p>
+              <p className="text-2xl font-bold text-slate-700 dark:text-slate-300">{publishResult?.totalStudentsBefore || 0}</p>
+            </div>
+            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
+              <p className="text-sm text-green-500">Sinh viên mới</p>
+              <p className="text-2xl font-bold text-green-400">+{publishResult?.newStudents || 0}</p>
+            </div>
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+              <p className="text-sm text-blue-500">Sinh viên cập nhật</p>
+              <p className="text-2xl font-bold text-blue-400">{publishResult?.updatedStudents || 0}</p>
+            </div>
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+              <p className="text-sm text-purple-500">Tổng SV hiện tại</p>
+              <p className="text-2xl font-bold text-purple-400">{publishResult?.totalStudentsAfter || 0}</p>
+            </div>
+          </div>
+
+          <p className="text-slate-600 dark:text-slate-400 text-lg mb-4">Đã import {previewData?.validRows} bản ghi điểm ({publishResult?.scoresInserted || 0} mới, {publishResult?.scoresUpdated || 0} cập nhật).</p>
+          
           <p className="text-blue-400 text-sm bg-blue-500/10 px-4 py-2 rounded-lg inline-flex items-center gap-2 mb-8 border border-blue-200 dark:border-blue-500/20">
             <Loader2 size={14} className="animate-spin" /> AI đang phân tích dữ liệu và cập nhật Risk Map...
           </p>

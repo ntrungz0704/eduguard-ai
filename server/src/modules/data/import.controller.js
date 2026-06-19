@@ -477,6 +477,17 @@ exports.publishData = async (req, res) => {
     let successStudents = 0;
     let failedStudents = 0;
 
+    // === CALCULATE NEW/UPDATED STUDENTS ===
+    const existingStudentsDB = await prisma.student.findMany({
+      where: { mssv: { in: studentIds } },
+      select: { mssv: true }
+    });
+    const existingMssvSet = new Set(existingStudentsDB.map(s => s.mssv));
+    const totalStudentsBefore = await prisma.student.count();
+
+    let newStudents = 0;
+    let updatedStudents = 0;
+
     // 1. Create ImportSession first to track progress
     const importSession = await prisma.importSession.create({
       data: {
@@ -598,7 +609,12 @@ exports.publishData = async (req, res) => {
           scoresInserted += localInserted;
           scoresUpdated += localUpdated;
         }, { maxWait: 10000, timeout: 30000 });
+        
         successStudents += batchIds.length;
+        for (const mssv of batchIds) {
+          if (existingMssvSet.has(mssv)) updatedStudents++;
+          else newStudents++;
+        }
       } catch (batchErr) {
         logger.error(`[Batch Import] Failed batch starting with ${batchIds[0]}. Falling back to single-student processing...`, batchErr);
         // Fallback: Graceful degradation to single-student transactions
@@ -609,7 +625,10 @@ exports.publishData = async (req, res) => {
               scoresInserted += localInserted;
               scoresUpdated += localUpdated;
             }, { maxWait: 10000, timeout: 15000 });
+            
             successStudents++;
+            if (existingMssvSet.has(mssv)) updatedStudents++;
+            else newStudents++;
           } catch (singleErr) {
             logger.error(`[Batch Import] Failed to import student ${mssv}`, singleErr);
             failedStudents++;
@@ -660,6 +679,13 @@ exports.publishData = async (req, res) => {
       if (typeof clearProgramAnalyticsCache === 'function') {
         clearProgramAnalyticsCache();
       }
+      const analyticsService = require('../../services/analyticsService');
+      if (typeof analyticsService.clearAnalyticsCache === 'function') {
+        analyticsService.clearAnalyticsCache();
+      } else if (analyticsService.analyticsCache) {
+        analyticsService.analyticsCache.globalStats = null;
+        analyticsService.analyticsCache.bottlenecks = null;
+      }
     } catch (cacheErr) {
       logger.warn("Lỗi khi xóa cache hệ thống: " + cacheErr.message);
     }
@@ -698,12 +724,18 @@ exports.publishData = async (req, res) => {
       global.latestImportStatus.status = 'PUBLISHED';
     }
 
+    const totalStudentsAfter = await prisma.student.count();
+
     res.json({
       success: true,
       message: `Đã import thành công ${successStudents} sinh viên (${scoresInserted} mới, ${scoresUpdated} cập nhật). AI đang phân tích dữ liệu...`,
       studentsAffected: successStudents,
       scoresInserted,
-      scoresUpdated
+      scoresUpdated,
+      totalStudentsBefore,
+      newStudents,
+      updatedStudents,
+      totalStudentsAfter
     });
 
   } catch (error) {
