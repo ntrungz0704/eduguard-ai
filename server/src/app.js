@@ -28,10 +28,23 @@ const apiLimiter = rateLimit({
   message: { status: 'error', message: 'Quá nhiều request, vui lòng thử lại sau.' }
 });
 
-// Security Headers (sets 11 HTTP security headers automatically)
-app.use(helmet());
-
-// Compress all HTTP responses
+// Security Headers
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "blob:", "https://images.unsplash.com", "https://*", "http://*"],
+      connectSrc: ["'self'", "ws:", "wss:", "http:", "https:"],
+      fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'self'", "https://*"],
+    },
+  }
+}));
 app.use(compression());
 
 // Strict CORS — allow dynamic origin to fix Railway Network Error
