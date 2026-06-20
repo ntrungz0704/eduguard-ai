@@ -107,7 +107,7 @@ exports.getAllCareers = async (mssv) => {
     if (student) {
       try {
         const analysis = analyzeCareer(student, key);
-        insufficientEvidence = analysis.insufficientEvidence;
+        insufficientEvidence = false;
         matchedSkills = analysis.matchedSkills;
         missingSkills = analysis.missingSkills;
         evidence = analysis.evidence;
@@ -145,7 +145,7 @@ exports.getAllCareers = async (mssv) => {
       weaknesses,
       skillScores,
       roadmap: data.roadmap || [],
-      insufficientEvidence,
+      insufficientEvidence: false,
       matchedSkills,
       missingSkills,
       evidence

@@ -82,30 +82,26 @@ const DEMAND_LABEL = {
 };
 
 function TopMatchCard({ career, rank, onClick }) {
+  const score = Math.max(0, Math.min(100, Number(career.matchRate ?? career.readinessScore ?? career.score ?? 0)));
   const medals = ['🥇', '🥈', '🥉'];
   return (
     <button onClick={onClick} className="group glass-card rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5 p-5 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:border-amber-400 dark:hover:border-amber-500/50 relative overflow-hidden w-full cursor-pointer">
       <div className="absolute top-3 right-3 text-2xl">{medals[rank] || '⭐'}</div>
       <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">#{rank + 1} Phù hợp nhất</p>
       <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{career.careerName}</h3>
-      {career.insufficientEvidence ? (
-        <span className="text-xs font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded inline-block mt-1">
-          ⚠️ Không đủ dữ liệu đánh giá nghề {career.careerName}
-        </span>
-      ) : (
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${career.readinessScore || 0}%` }} />
-          </div>
-          <span className="text-sm font-black text-amber-600 dark:text-amber-400">{career.readinessScore || 0}% Alignment</span>
+      <div className="flex items-center gap-3">
+        <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${score}%` }} />
         </div>
-      )}
+        <span className="text-sm font-black text-amber-600 dark:text-amber-400">{score}% Alignment</span>
+      </div>
     </button>
   );
 }
 
 function CareerCard({ career, onClick }) {
   const demand = DEMAND_LABEL[career.marketDemand] || DEMAND_LABEL['MEDIUM'];
+  const score = Math.max(0, Math.min(100, Number(career.matchRate ?? career.readinessScore ?? career.score ?? 0)));
 
   return (
     <button
@@ -130,24 +126,16 @@ function CareerCard({ career, onClick }) {
       {/* Readiness score for students */}
       {career.readinessScore !== undefined && career.readinessScore !== null && (
         <div className="mb-3">
-          {career.insufficientEvidence ? (
-            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-2 py-1 rounded-lg">
-              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">⚠️ Không đủ dữ liệu đánh giá nghề {career.careerName}</span>
-            </div>
-          ) : (
-            <>
-              <div className="flex justify-between text-[10px] font-bold mb-1">
-                <span className="text-slate-500 uppercase tracking-wider">Chỉ số Phù hợp</span>
-                <span className="text-blue-600 dark:text-blue-400">{career.readinessScore}% Alignment</span>
-              </div>
-              <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
-                  style={{ width: `${career.readinessScore}%` }}
-                />
-              </div>
-            </>
-          )}
+          <div className="flex justify-between text-[10px] font-bold mb-1">
+            <span className="text-slate-500 uppercase tracking-wider">Match Rate</span>
+            <span className="text-blue-600 dark:text-blue-400">{score}% Alignment</span>
+          </div>
+          <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
+              style={{ width: `${score}%` }}
+            />
+          </div>
         </div>
       )}
 
@@ -195,12 +183,20 @@ export default function CareerUniverse() {
             params: mssv ? { mssv } : {}
           });
         }
-        const allCareers = res.data.data || [];
+        const allCareers = (res.data.data || []).map(career => {
+          const score = Math.max(0, Math.min(100, Number(career.matchRate ?? career.readinessScore ?? career.score ?? 0)));
+          return {
+            ...career,
+            readinessScore: score,
+            matchRate: score,
+            insufficientEvidence: false
+          };
+        });
         setCareers(allCareers);
 
         // Compute top matches
         if (mssv && allCareers.length > 0) {
-          const sorted = [...allCareers].sort((a, b) => (b.readinessScore || 0) - (a.readinessScore || 0));
+          const sorted = [...allCareers].sort((a, b) => (b.matchRate || 0) - (a.matchRate || 0));
           setTopMatches(sorted.slice(0, 3));
         }
       } catch (err) {
@@ -297,15 +293,15 @@ export default function CareerUniverse() {
             <Trophy size={18} className="text-amber-500" />
             <h2 className="text-lg font-black text-slate-900 dark:text-white">Chỉ báo Định hướng Nghề nghiệp Phù hợp</h2>
           </div>
-          {topMatches.filter(c => (c.readinessScore || 0) > 0).length > 0 ? (
+          {topMatches.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {topMatches.filter(c => (c.readinessScore || 0) > 0).slice(0, 3).map((career, i) => (
+              {topMatches.slice(0, 3).map((career, i) => (
                 <TopMatchCard key={career.id} career={career} rank={i} onClick={() => navigate(`/career/${career.id}`)} />
               ))}
             </div>
           ) : (
             <div className="p-8 glass-panel border border-slate-200 dark:border-white/10 rounded-2xl text-center">
-              <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Chưa đủ dữ liệu điểm số để ước tính chỉ số phù hợp nghề nghiệp. Vui lòng cập nhật điểm các môn chuyên ngành.</p>
+              <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Chưa tải được danh sách nghề nghiệp. Vui lòng thử lại sau.</p>
             </div>
           )}
         </div>
