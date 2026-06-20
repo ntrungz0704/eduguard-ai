@@ -11,12 +11,12 @@ const { isConditionalCourse } = require('../utils/dataService');
 // AI PIPELINE EVENT LISTENER
 // -------------------------------------------------------------
 eventBus.on(EVENTS.DATASET_UPDATED, async () => {
-  console.log('[AI Pipeline] Nhận cờ DATASET_UPDATED. Tự động train và recalculate...');
-  try {
-    await recalculateAllPredictions();
-  } catch (error) {
-    console.error('[AI Pipeline] Lỗi khi tự động chạy pipeline:', error);
-  }
+  console.log('[AI Pipeline] Nhận cờ DATASET_UPDATED. (Đã vô hiệu hóa tự động train và recalculate để tránh lag)');
+  // try {
+  //   await recalculateAllPredictions();
+  // } catch (error) {
+  //   console.error('[AI Pipeline] Lỗi khi tự động chạy pipeline:', error);
+  // }
 });
 
 const modelCachePath = path.join(__dirname, '..', 'ai', 'models', 'regression', 'trained_model.json');

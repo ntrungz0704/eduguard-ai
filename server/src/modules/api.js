@@ -1626,10 +1626,10 @@ router.post('/save-uploaded', requireAdvisor, async (req, res) => {
       // [FEATURE] Ngưỡng cập nhật mô hình: Chỉ retrain khi có đủ dữ liệu mới
       const newStudentsCount = req.body.students ? req.body.students.length : 0;
       if (newStudentsCount >= 20 || newGroundTruth >= 50) {
-        console.log(`[Auto-Retrain] Kích hoạt Retrain do đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới.`);
-        // Auto-trigger fast AI prediction recalculation in the background (non-blocking)
-        const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
-        recalculateAllPredictions().catch(err => console.error('[Auto-recalculate] Error:', err));
+        console.log(`[Auto-Retrain] Đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới. (Bỏ qua Auto-Retrain để tránh lag)`);
+        // DISABLED: Auto-recalculate causes massive lag on Render instance
+        // const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+        // recalculateAllPredictions().catch(err => console.error('[Auto-recalculate] Error:', err));
       } else {
         console.log(`[Auto-Retrain] Bỏ qua Retrain (Chưa đạt ngưỡng: ${newStudentsCount} SV mới, ${newGroundTruth} điểm thực tế mới).`);
       }
@@ -2856,10 +2856,12 @@ router.post('/students/update-score', requireAdvisor, async (req, res) => {
 
     // Trigger dynamic prediction recalibration in background
     try {
-      const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
-      recalculateAllPredictions(false).catch(err => {
-        console.error(`[Grade Editor recalibration] Lỗi khi chạy nền dự đoán cho MSSV ${mssv}:`, err);
-      });
+      // DISABLED: recalculating ALL predictions for a single grade edit causes massive lag.
+      // const { recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+      // recalculateAllPredictions(false).catch(err => {
+      //   console.error(`[Grade Editor recalibration] Lỗi khi chạy nền dự đoán cho MSSV ${mssv}:`, err);
+      // });
+      console.log(`[Grade Editor] Cập nhật điểm cho ${mssv} thành công. (Bỏ qua recalculateAllPredictions để tránh lag)`);
     } catch (predErr) {
       console.warn(`[Grade Editor recalibration] Không thể tự động chạy lại dự đoán AI cho MSSV ${mssv}:`, predErr.message);
     }
