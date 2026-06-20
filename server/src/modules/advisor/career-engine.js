@@ -7,16 +7,22 @@ const SKILL_MATRIX = {
   "WEB1043": ["JavaScript", "DOM", "Event"],
   "WEB2063": ["JavaScript", "Async", "Promises", "DOM", "API"],
   "COM2012": ["SQL", "Database"],
+  "WEB108": ["PHP", "Server Side", "Programming Logic"],
   "WEB2014": ["PHP", "Server Side", "MVC"],
   "WEB503": ["NodeJS", "REST API", "Database", "Backend"],
   "WEB2081": ["React", "Component", "State Management", "Frontend"],
   "WEB2091": ["Advanced React", "State Management"],
+  "WEB3023": ["HTML", "CSS", "Responsive", "UIUX", "HTML/CSS"],
   "WEB2041": ["CRUD", "Deployment", "Project Planning"],
   "WEB105": ["UIUX", "Figma", "Design Thinking"],
   "WEB1053": ["UIUX", "Figma", "Design Thinking"],
+  "WEB1023": ["Website Administration", "Deployment", "CMS"],
+  "WEB501": ["JavaScript", "ES6", "Programming Logic"],
+  "WEB502": ["TypeScript", "JavaScript", "Frontend"],
   "WEB2055": ["Marketing", "Analytics"],
   "PRO1014": ["Project Planning", "Teamwork", "Scrum", "Agile", "Deployment"],
   "PRO2201": ["Deployment", "Project Planning", "Fullstack", "Agile", "Teamwork"],
+  "SYB3013": ["Business", "Business Requirements"],
   "MOB1014": ["Java", "Android", "Mobile Development", "Programming Logic"],
   "MOB1023": ["Java", "Object Oriented", "Programming Logic"],
   "MOB201": ["Android", "Mobile Development"],
@@ -95,6 +101,8 @@ exports.analyzeCareer = (student, careerGoal) => {
         if (code.startsWith('WEB201') && code !== 'WEB2014') code = 'WEB2014';
         if (code.startsWith('WEB208') && code !== 'WEB2081') code = 'WEB2081';
         if (code.startsWith('COM201') && code !== 'COM2012') code = 'COM2012';
+        if (code.startsWith('WEB205') && code !== 'WEB2055') code = 'WEB2055';
+        if (code.startsWith('PRO220') && code !== 'PRO2201') code = 'PRO2201';
         
         if (code && (!scoreMap[code] || scoreValue > scoreMap[code])) {
           scoreMap[code] = scoreValue;
