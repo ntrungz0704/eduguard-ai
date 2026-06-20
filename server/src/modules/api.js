@@ -9,7 +9,7 @@ const { prisma } = require('../infrastructure/database/prisma');
 const { eventBus, EVENTS } = require('../utils/eventBus');
 
 // Import modular services
-const { validateAndCleanData, calculateOfficialGPA, getCourseCredits, isConditionalCourse } = require('../utils/dataService');
+const { validateAndCleanData, calculateOfficialGPA, getCourseCredits, isConditionalCourse, staticCourseCodeToNameMap } = require('../utils/dataService');
 const analyticsService = require('../services/analyticsService');
 const riskService = require('../services/riskService');
 const predictionService = require('../services/predictionService');
@@ -111,10 +111,11 @@ async function syncUploadedData(validStudents) {
         || id.toLowerCase().includes('gdqp') 
         || id.toLowerCase().includes('thể chất');
 
+      const courseName = staticCourseCodeToNameMap[id] || id;
       await tx.course.upsert({
         where: { id },
         update: { credits, isConditional: isCond },
-        create: { id, name: id, credits, prerequisites: '', isConditional: isCond }
+        create: { id, name: courseName, credits, prerequisites: '', isConditional: isCond }
       });
     }
 
@@ -846,7 +847,8 @@ router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) =>
 
     for (const file of files) {
       const buf = file.buffer;
-      const name = file.originalname.toLowerCase();
+      const originalNameUtf8 = Buffer.from(file.originalname, 'latin1').toString('utf8');
+      const name = originalNameUtf8.toLowerCase();
 
       let headers = [];
       let parsedRows = [];
@@ -900,7 +902,7 @@ router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) =>
         }
 
         if (headerRowIdx === -1) {
-          allErrors.push(`[${file.originalname}] Định dạng không hợp lệ! Vui lòng upload "Bảng điểm lớp" (có cột MSSV) hoặc "Bảng điểm cá nhân" (có cột Môn và Điểm).`);
+          allErrors.push(`[${originalNameUtf8}] Định dạng không hợp lệ! Vui lòng upload "Bảng điểm lớp" (có cột MSSV) hoặc "Bảng điểm cá nhân" (có cột Môn và Điểm).`);
           continue;
         }
 
@@ -919,7 +921,7 @@ router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) =>
       }
 
       if (!parsedRows.length) {
-        allErrors.push(`[${file.originalname}] File trống hoặc không có dữ liệu sinh viên hợp lệ.`);
+        allErrors.push(`[${originalNameUtf8}] File trống hoặc không có dữ liệu sinh viên hợp lệ.`);
         continue;
       }
 
@@ -934,7 +936,7 @@ router.post('/upload-predict', requireAdvisor, upload.any(), async (req, res) =>
         overallFileType = detectedFileType;
       }
 
-      errors.forEach(err => allErrors.push(`[${file.originalname}] ${err}`));
+      errors.forEach(err => allErrors.push(`[${originalNameUtf8}] ${err}`));
       subjectCols.forEach(s => allSubjectCols.add(s));
 
       // 3. MERGE STUDENT DATA

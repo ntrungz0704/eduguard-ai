@@ -94,20 +94,34 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
   const resolveToSubjectNameLocal = (rawInput) => {
     if (!rawInput) return null;
     const raw = String(rawInput).trim();
-    const upper = raw.toUpperCase();
-    const lower = raw.toLowerCase();
-
+    
+    // Resolve to standard backend code (e.g. WEB204 -> WEB2041, COM107 -> COM1071)
+    const code = resolveBackendCourseCode(raw);
+    
     let name = null;
-    // 1. Direct lookup by code, alias, or name
-    if (lookupMap.has(upper)) {
-      name = lookupMap.get(upper);
-    } else if (lookupMap.has(lower)) {
-      name = lookupMap.get(lower);
-    } else {
-      name = raw;
+    if (code) {
+      const codeUpper = code.toUpperCase();
+      // Prioritize static mapping to friendly name to avoid db name issues
+      if (staticCourseCodeToNameMap[codeUpper]) {
+        name = staticCourseCodeToNameMap[codeUpper];
+      } else if (lookupMap.has(codeUpper)) {
+        name = lookupMap.get(codeUpper);
+      }
+    }
+    
+    if (!name) {
+      const upper = raw.toUpperCase();
+      const lower = raw.toLowerCase();
+      if (lookupMap.has(upper)) {
+        name = lookupMap.get(upper);
+      } else if (lookupMap.has(lower)) {
+        name = lookupMap.get(lower);
+      } else {
+        name = raw;
+      }
     }
 
-    // 2. Map to the standard pretrained subject name (fuzzy & accent correction)
+    // Map to the standard pretrained subject name (fuzzy & accent correction)
     return mapToPretrainedSubject(name, pretrainedSubjects);
   };
 
@@ -768,11 +782,13 @@ function resolveToSubjectName(input, pretrainedSubjects = []) {
   // 1. Resolve standard backend code (e.g. COM107 -> COM1071)
   const code = resolveBackendCourseCode(raw);
   
-  // 2. Look up in the dynamic courseCodeToNameMap loaded from DB
+  // 2. Look up friendly name: prioritize static mapping as absolute source of truth
   let name = null;
   if (code) {
     const codeUpper = code.toUpperCase();
-    if (courseCodeToNameMap.has(codeUpper)) {
+    if (staticCourseCodeToNameMap[codeUpper]) {
+      name = staticCourseCodeToNameMap[codeUpper];
+    } else if (courseCodeToNameMap.has(codeUpper)) {
       name = courseCodeToNameMap.get(codeUpper);
     } else {
       // Static fallback if cache not loaded yet (e.g. during test scripts)
@@ -899,6 +915,8 @@ module.exports = {
   initCourseAliases,
   refreshCourseAliases,
   isConditionalCourse,
-  isEnglishCourse
+  isEnglishCourse,
+  staticCourseCodeToNameMap
 };
+
 

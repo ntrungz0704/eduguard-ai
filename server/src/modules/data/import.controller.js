@@ -87,6 +87,7 @@ exports.previewData = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'Không tìm thấy file Excel' });
     }
+    const originalNameUtf8 = Buffer.from(req.file.originalname, 'latin1').toString('utf8');
 
     // Calculate SHA-256 hash of the uploaded file to prevent duplicates
     const fileHash = crypto.createHash('sha256').update(req.file.buffer).digest('hex');
@@ -395,7 +396,7 @@ exports.previewData = async (req, res) => {
       hasErrors,
       data: previewData,
       fileHash,
-      fileName: req.file.originalname,
+      fileName: originalNameUtf8,
       fileSize: req.file.size
     });
 
