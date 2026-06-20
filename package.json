@@ -9,7 +9,7 @@
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "boot": "npm run kill && npm run build:client && concurrently \"npm run server\" \"npm run preview\"",
-    "build": "npm install --prefix client && npm run build:client",
+    "build": "cd client && npm install --include=dev && npm run build",
     "build:client": "npm run build --prefix client",
     "train": "node server/src/ai/training/trainRiskModel.js",
     "train:chat": "node server/src/jobs/train_nlp.js",
