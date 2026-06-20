@@ -403,7 +403,7 @@ function getCourseCredits(courseNameOrId) {
     return code.includes('VIE109') ? 3 : 4;
   }
   if (lower.includes('thực tập tốt nghiệp') || code.includes('PRO115') || code.includes('PRO110') || code.includes('PRO116')) return 5;
-  if (lower.includes('chính trị') || code.includes('VIE108')) return 5;
+  if (lower.includes('chính trị') || code.includes('VIE108') || code.includes('VIE1016')) return 5;
   if (lower.includes('dự án tốt nghiệp') || code.includes('PRO2201') || code.includes('PRO220')) return 5;
 
   if (
