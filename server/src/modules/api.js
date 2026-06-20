@@ -211,31 +211,33 @@ const cache = require('../shared/cache');
 
 const { loadTrainingDataFromDB } = require('../scripts/recalculate_predictions');
 
-loadTrainingDataFromDB()
-  .then(dbData => {
-    if (dbData && dbData.students && dbData.students.length > 0) {
-      cache.trainingData = dbData;
-      console.log(`📚 Dynamically loaded training data from Database on boot: ${dbData.students.length} SV, ${dbData.subjects.length} môn`);
-    } else if (fs.existsSync(dataPath)) {
-      try {
-        cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-        console.log(`📚 Pre-trained JSON data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
-      } catch (jsonErr) {
-        console.error("❌ Failed to parse training data JSON fallback on boot:", jsonErr);
+if (process.env.NODE_ENV !== 'test') {
+  loadTrainingDataFromDB()
+    .then(dbData => {
+      if (dbData && dbData.students && dbData.students.length > 0) {
+        cache.trainingData = dbData;
+        console.log(`📚 Dynamically loaded training data from Database on boot: ${dbData.students.length} SV, ${dbData.subjects.length} môn`);
+      } else if (fs.existsSync(dataPath)) {
+        try {
+          cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+          console.log(`📚 Pre-trained JSON data loaded in Router: ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+        } catch (jsonErr) {
+          console.error("❌ Failed to parse training data JSON fallback on boot:", jsonErr);
+        }
       }
-    }
-  })
-  .catch(err => {
-    console.error("❌ Failed to load training data from database on boot, falling back to JSON:", err);
-    if (fs.existsSync(dataPath)) {
-      try {
-        cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-        console.log(`📚 Pre-trained JSON data loaded in Router (Fallback): ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
-      } catch (jsonErr) {
-        console.error("❌ Failed to parse training data JSON fallback after DB fail:", jsonErr);
+    })
+    .catch(err => {
+      console.error("❌ Failed to load training data from database on boot, falling back to JSON:", err);
+      if (fs.existsSync(dataPath)) {
+        try {
+          cache.trainingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+          console.log(`📚 Pre-trained JSON data loaded in Router (Fallback): ${cache.trainingData.students.length} SV, ${cache.trainingData.subjects.length} môn`);
+        } catch (jsonErr) {
+          console.error("❌ Failed to parse training data JSON fallback after DB fail:", jsonErr);
+        }
       }
-    }
-  });
+    });
+}
 
 if (fs.existsSync(modelCachePath)) {
   cache.modelCache = JSON.parse(fs.readFileSync(modelCachePath, 'utf8'));
