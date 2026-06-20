@@ -384,11 +384,9 @@ router.get('/training-info', async (req, res) => {
 // ============================================================
 router.get('/evaluate-model', requireAdvisor, async (req, res, next) => {
   try {
-    const { loadTrainingDataFromDB, recalculateAllPredictions } = require('../scripts/recalculate_predictions');
+    const { loadTrainingDataFromDB } = require('../scripts/recalculate_predictions');
     
-    // Retrain regression models and recalculate predictions so any new student is factored in!
-    await recalculateAllPredictions(false);
-    
+    // Fetch the latest dataset without recalculating predictions for everyone (avoids 60s timeout)
     cache.trainingData = await loadTrainingDataFromDB();
     
     const { isConditionalCourse } = require('../utils/dataService');
