@@ -1,67 +1,62 @@
 const axios = require('axios');
 
-// Using direct axios call or we can install the package. Since we use axios, we'll use the REST API approach for Gemini to avoid missing package issues.
 async function getCareerMatchAI(studentData) {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-        throw new Error("Missing GEMINI_API_KEY");
-    }
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing GEMINI_API_KEY');
+  }
 
-    const systemPrompt = `
-Bạn là AI Career Intelligence Expert.
-Nhiệm vụ của bạn là phân tích điểm chuẩn từ hệ thống Backend (Match Rate) và tạo Báo cáo Định hướng nghề nghiệp.
+  const systemPrompt = `
+You are the explanation layer for EduGuard AI Career Universe.
 
-NGUYÊN TẮC BẮT BUỘC:
-1. KHÔNG tự tính toán lại Match Rate. Bạn CHỈ được phép lấy \`backend_match_rate\` làm kết quả cuối cùng.
-2. NGUYÊN TẮC ANTI-HALLUCINATION: Nếu một skill chưa xuất hiện trong \`mapped_transcript\`, xem như CHƯA HỌC. Không được tự thêm. Không giả định.
-3. Nếu \`backend_match_rate\` là 0 hoặc dữ liệu trống, báo cáo missing_data.
+Hard rules:
+1. Do not calculate or recalculate match rate, coverage, confidence, strengths, weaknesses, skill scores, or roadmap.
+2. Use backend_match_rate exactly as provided by the backend.
+3. Use only mapped_transcript, skill_scores, strengths, weaknesses, and roadmap provided by the backend.
+4. Do not invent skills, courses, scores, projects, or percentages.
+5. A 0 match rate is still valid if the transcript exists. Never call it missing_data just because the score is 0.
+6. If a skill is not in skill_scores or has score null, describe it as not learned yet.
 
-ĐỊNH DẠNG OUTPUT (BẮT BUỘC TRẢ VỀ JSON HỢP LỆ VÀ KHÔNG KÈM MARKDOWN KHÁC):
+Return valid JSON only:
 {
-  "career": "Tên nghề",
+  "career": "Career name",
   "match_rate": <backend_match_rate>,
-  "strengths": ["Top 3 skill điểm cao nhất >= 8"],
-  "gaps": ["Top 3 skill điểm < 6 hoặc chưa học"],
-  "root_cause": "Nguyên nhân ngắn gọn tại sao điểm thấp / thiếu",
-  "analysis": "Phân tích ngắn gọn tình hình",
-  "recommendation": "Gợi ý khắc phục",
-  "roadmap": ["Bước 1", "Bước 2", "Bước 3... Roadmap học tập"]
+  "root_cause": "Short explanation grounded in transcript data",
+  "analysis": "Short explanation of current readiness",
+  "recommendation": "Short next action based on roadmap"
 }
 `;
 
-    const prompt = `
-Dữ liệu sinh viên:
-${JSON.stringify(studentData, null, 2)}
-`;
+  const prompt = `Student career data:\n${JSON.stringify(studentData, null, 2)}`;
 
-    try {
-        const response = await axios.post(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-            {
-                system_instruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-                contents: [
-                    {
-                        role: "user",
-                        parts: [{ text: prompt }]
-                    }
-                ],
-                generationConfig: {
-                    response_mime_type: "application/json",
-                    temperature: 0.2
-                }
-            }
-        );
+  try {
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        system_instruction: {
+          parts: [{ text: systemPrompt }]
+        },
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: prompt }]
+          }
+        ],
+        generationConfig: {
+          response_mime_type: 'application/json',
+          temperature: 0
+        }
+      }
+    );
 
-        const text = response.data.candidates[0].content.parts[0].text;
-        return JSON.parse(text);
-    } catch (err) {
-        console.error("Gemini API Error:", err.response ? err.response.data : err.message);
-        throw err;
-    }
+    const text = response.data.candidates[0].content.parts[0].text;
+    return JSON.parse(text);
+  } catch (err) {
+    console.error('Gemini API Error:', err.response ? err.response.data : err.message);
+    throw err;
+  }
 }
 
 module.exports = {
-    getCareerMatchAI
+  getCareerMatchAI
 };

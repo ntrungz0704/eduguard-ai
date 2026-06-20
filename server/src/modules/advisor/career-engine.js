@@ -1,236 +1,200 @@
-const { calculateOfficialGPA } = require('../../utils/dataService');
-const { analyzeBehavior } = require('./behavior-engine');
+const {
+  CAREER_REQUIREMENT_MATRIX,
+  SKILL_MATRIX,
+  analyzeCareerFromTranscript,
+  analyzeAllCareersFromTranscript,
+  resolveCareerName,
+  slugify
+} = require('../../ai/engines/careerMatchingEngine');
 
-const SKILL_MATRIX = {
-  "COM108": ["Programming Logic", "Variables", "Loops", "C++", "C#"],
-  "WEB1013": ["HTML", "CSS", "Responsive", "HTML/CSS", "Web Design"],
-  "WEB1043": ["JavaScript", "DOM", "Event"],
-  "WEB2063": ["JavaScript", "Async", "Promises", "DOM", "API"],
-  "COM2012": ["SQL", "Database"],
-  "WEB108": ["PHP", "Server Side", "Programming Logic"],
-  "WEB2014": ["PHP", "Server Side", "MVC"],
-  "WEB503": ["NodeJS", "REST API", "Database", "Backend"],
-  "WEB2081": ["React", "Component", "State Management", "Frontend"],
-  "WEB2091": ["Advanced React", "State Management"],
-  "WEB3023": ["HTML", "CSS", "Responsive", "UIUX", "HTML/CSS"],
-  "WEB2041": ["CRUD", "Deployment", "Project Planning"],
-  "WEB105": ["UIUX", "Figma", "Design Thinking"],
-  "WEB1053": ["UIUX", "Figma", "Design Thinking"],
-  "WEB1023": ["Website Administration", "Deployment", "CMS"],
-  "WEB501": ["JavaScript", "ES6", "Programming Logic"],
-  "WEB502": ["TypeScript", "JavaScript", "Frontend"],
-  "WEB2055": ["Marketing", "Analytics"],
-  "PRO1014": ["Project Planning", "Teamwork", "Scrum", "Agile", "Deployment"],
-  "PRO2201": ["Deployment", "Project Planning", "Fullstack", "Agile", "Teamwork"],
-  "SYB3013": ["Business", "Business Requirements"],
-  "MOB1014": ["Java", "Android", "Mobile Development", "Programming Logic"],
-  "MOB1023": ["Java", "Object Oriented", "Programming Logic"],
-  "MOB201": ["Android", "Mobile Development"],
-  "MOB306": ["React Native", "Mobile Development", "JavaScript"],
-  "SOF203": ["C#", "Desktop Application", "Programming Logic"],
-  "SOF304": ["Software Testing", "Automation", "QA", "Selenium"],
-  "NET101": ["Networking", "Cisco", "TCP/IP"],
-  "NET102": ["Linux", "Server Management", "System Administration", "Security"]
-};
-
-const CAREER_MATRIX = {
-  "Frontend Developer": ["HTML", "CSS", "Responsive", "JavaScript", "DOM", "React", "State Management", "UIUX", "Frontend"],
-  "Backend Developer": ["Programming Logic", "SQL", "Database", "PHP", "NodeJS", "REST API", "Backend", "MVC", "Server Side"],
-  "Fullstack Developer": ["HTML", "CSS", "JavaScript", "SQL", "Database", "PHP", "NodeJS", "React", "Fullstack", "Deployment"],
-  "Mobile App Developer": ["Java", "Android", "Mobile Development", "React Native", "JavaScript", "Programming Logic"],
-  "Data Analyst": ["SQL", "Database", "Analytics", "Programming Logic", "Variables"],
-  "Data Engineer": ["SQL", "Database", "Programming Logic", "Loops"],
-  "Data Scientist": ["SQL", "Database", "Programming Logic", "Analytics"],
-  "AI/ML Engineer": ["Programming Logic", "Variables", "Loops", "Database"],
-  "DevOps Engineer": ["Linux", "Deployment", "Server Management", "Networking"],
-  "Cloud Architect": ["Deployment", "Networking", "Server Management", "Linux"],
-  "System Administrator": ["Linux", "Server Management", "Networking", "System Administration", "Security"],
-  "Network Engineer": ["Networking", "Cisco", "TCP/IP", "Security", "Linux"],
-  "QA/Tester (Manual & Automation)": ["Software Testing", "Automation", "QA", "Selenium", "Programming Logic"],
-  "UI/UX Designer": ["UIUX", "Figma", "Design Thinking", "HTML", "CSS", "Responsive", "Web Design"],
-  "Product Manager": ["Project Planning", "Teamwork", "Agile", "Scrum"],
-  "Business Analyst (BA)": ["Project Planning", "SQL", "Database", "Agile", "Scrum", "Teamwork"],
-  "Cybersecurity Analyst": ["Security", "Networking", "Linux", "TCP/IP"],
-  "Game Developer": ["Programming Logic", "C#", "C++", "Variables"]
-};
-
-function slugify(str) {
-  if (!str) return '';
-  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+function transcriptFromStudent(student) {
+  return Array.isArray(student?.scores) ? student.scores : [];
 }
 
-function evaluateSkillScore(score) {
-  if (score === null || score === undefined) return 'UNKNOWN';
-  if (score >= 8) return 'MASTERED';
-  if (score >= 6.5) return 'GOOD';
-  if (score >= 5.0) return 'WEAK';
-  return 'CRITICAL';
+function getReadinessLevel(score) {
+  if (score >= 80) return 'High';
+  if (score >= 50) return 'Medium';
+  return 'Low';
 }
 
-function evaluateSkillPercentage(score) {
-  if (score === null || score === undefined) return 0;
-  if (score >= 8) return 100;
-  if (score >= 6.5) return 80;
-  if (score >= 5.0) return 60;
-  return 0; // critical
+function estimateMonths(missingCount) {
+  if (missingCount <= 0) return '0 tháng';
+  if (missingCount <= 2) return '1-2 tháng';
+  if (missingCount <= 4) return '2-3 tháng';
+  return '3-6 tháng';
 }
 
-exports.analyzeCareer = (student, careerGoal) => {
-  const mode = (student && student.mssv) ? 'STUDENT' : 'GUEST';
-  
-  // Find real career mapping
-  const careerKey = Object.keys(CAREER_MATRIX).find(k => k.toLowerCase() === (careerGoal || '').toLowerCase());
-  const requiredSkills = careerKey ? CAREER_MATRIX[careerKey] : [];
-
-  if (!careerKey || requiredSkills.length === 0) {
-    return { insufficientEvidence: true };
-  }
-
-  // 1. Gather all student real scores
-  const scoreMap = {};
-  if (student && student.scores) {
-    student.scores.forEach(s => {
-      const scoreValue = s.value !== null ? s.value : s.computedScore;
-      if (scoreValue !== null && scoreValue !== undefined) {
-        let code = (s.course?.courseCode || s.courseCode || s.courseId || '').toUpperCase().trim();
-        
-        // Map common FPT Poly course code prefixes to standard ones used in SKILL_MATRIX
-        if (code.startsWith('WEB101') && code !== 'WEB1013') code = 'WEB1013';
-        if (code.startsWith('WEB104') && code !== 'WEB1043') code = 'WEB1043';
-        if (code.startsWith('WEB206') && code !== 'WEB2063') code = 'WEB2063';
-        if (code.startsWith('WEB201') && code !== 'WEB2014') code = 'WEB2014';
-        if (code.startsWith('WEB208') && code !== 'WEB2081') code = 'WEB2081';
-        if (code.startsWith('COM201') && code !== 'COM2012') code = 'COM2012';
-        if (code.startsWith('WEB205') && code !== 'WEB2055') code = 'WEB2055';
-        if (code.startsWith('PRO220') && code !== 'PRO2201') code = 'PRO2201';
-        
-        if (code && (!scoreMap[code] || scoreValue > scoreMap[code])) {
-          scoreMap[code] = scoreValue;
-        }
-      }
-    });
-  }
-
-  // 2. Map Scores -> Skills
-  const studentSkills = {};
-  Object.keys(scoreMap).forEach(courseCode => {
-    const courseScore = scoreMap[courseCode];
-    if (SKILL_MATRIX[courseCode]) {
-      SKILL_MATRIX[courseCode].forEach(skill => {
-        // If multiple courses teach the same skill, take the max
-        if (studentSkills[skill] === undefined || courseScore > studentSkills[skill].score) {
-          studentSkills[skill] = {
-            score: courseScore,
-            status: evaluateSkillScore(courseScore),
-            sourceCourse: courseCode
-          };
-        }
-      });
+function buildPortfolioSuggestions(careerGoal, missingSkills) {
+  const skills = missingSkills.slice(0, 4);
+  return [
+    {
+      name: `${careerGoal} Portfolio Project`,
+      description: 'Dự án thực hành tập trung vào các kỹ năng còn thiếu theo transcript.',
+      learnToApply: skills.length > 0 ? skills : ['Git', 'REST API'],
+      evidence: ['GitHub repository', 'Live demo']
     }
-  });
+  ];
+}
 
-  // 3. Evaluate Career Match against Required Skills
-  let matchedCount = 0;
-  let totalScorePercentage = 0;
-  const matchedSkills = [];
-  const missingSkills = [];
-  const evidence = [];
-  const validEvaluatedSkillsCount = requiredSkills.filter(req => studentSkills[req] !== undefined).length;
+function toAdvisorShape(student, careerGoal, base) {
+  const missingNames = base.missingSkills.map(item => item.skill);
+  const matchedNames = base.matchedSkills.map(item => item.skill);
+  const skillDetails = base.skillScores.map(item => ({
+    skill: item.skill,
+    score: item.score,
+    status: item.status,
+    sourceCourse: item.sourceCourse
+  }));
 
-  requiredSkills.forEach(req => {
-    const studentSkill = studentSkills[req];
-    if (studentSkill) {
-      matchedCount++;
-      totalScorePercentage += evaluateSkillPercentage(studentSkill.score);
-      matchedSkills.push({
-        skill: req,
-        score: studentSkill.score,
-        status: studentSkill.status,
-        sourceCourse: studentSkill.sourceCourse
-      });
-      evidence.push({
-        courseId: studentSkill.sourceCourse,
-        courseName: studentSkill.sourceCourse,
-        skills: [req]
-      });
-    } else {
-      missingSkills.push({
-        skill: req,
-        score: null,
-        status: 'UNKNOWN',
-        sourceCourse: null
-      });
-    }
-  });
+  const academicProgress = base.mapped_transcript.map(item => ({
+    courseId: item.course,
+    courseName: item.courseName || item.course,
+    score: item.score,
+    status: item.status,
+    skills: item.skills
+  }));
 
-  const coveragePercent = requiredSkills.length > 0 ? (validEvaluatedSkillsCount / requiredSkills.length) * 100 : 0;
-  // Only say INSUFFICIENT_DATA if coverage is 0
-  if (validEvaluatedSkillsCount === 0) {
-    return {
-      insufficientEvidence: true,
-      careerGoal: careerKey,
-      coveragePercent
-    };
-  }
-
-  // Strict Math Average
-  const readinessScore = validEvaluatedSkillsCount > 0 
-    ? Math.round(totalScorePercentage / requiredSkills.length) // Notice divided by REQUIRED, not just Evaluated, so UNKNOWN penalizes
-    : 0;
+  const topMissingSkills = base.missingSkills.map(item => ({
+    skill: item.skill,
+    gainedReadiness: Math.round(100 / base.totalRequired),
+    reason: 'Kỹ năng yêu cầu chưa có điểm từ môn PASSED/FAILED trong transcript.'
+  }));
 
   return {
-    mode,
-    careerGoal: careerKey,
-    progressPercent: coveragePercent,
-    readinessScore: readinessScore, // this acts as the final % match (e.g. 75%)
-    matchedSkills,
-    missingSkills,
-    evidence,
+    mode: student?.mssv ? 'STUDENT' : 'GUEST',
+    careerGoal: base.career,
+    career: base.career,
+    career_name: base.career,
+    matchRate: base.matchRate,
+    matchScore: base.matchRate,
+    readinessScore: base.matchRate,
+    score: base.matchRate,
+    progressPercent: base.coverage,
+    coverage: base.coverage,
+    confidence: base.confidence,
+    readinessLevel: getReadinessLevel(base.matchRate),
+    strengths: base.strengths,
+    weaknesses: base.weaknesses,
+    skillScores: skillDetails,
+    matchedSkillDetails: base.matchedSkills,
+    missingSkillDetails: base.missingSkills,
+    matchedSkills: matchedNames,
+    missingSkills: missingNames,
+    evidence: base.matchedSkills.map(item => ({
+      courseId: item.sourceCourse,
+      courseName: item.sourceCourseName || item.sourceCourse,
+      skills: [item.skill],
+      score: item.score
+    })),
     insufficientEvidence: false,
+    roadmap: base.roadmap.map((step, index) => ({
+      title: step,
+      skills: [step],
+      order: index + 1
+    })),
+    roadmapSteps: base.roadmap,
     skillGap: {
-      core: { have: matchedSkills.map(m => m.skill), missing: missingSkills.map(m => m.skill) },
+      core: { have: matchedNames, missing: missingNames },
       advanced: { have: [], missing: [] }
     },
     industryRequirements: {
-      core: requiredSkills,
+      core: base.requiredSkills,
       advanced: [],
       tools: [],
       soft: []
-    }
+    },
+    academicProgress,
+    missingCourses: [],
+    topMissingSkills,
+    portfolios: buildPortfolioSuggestions(base.career, missingNames),
+    estimatedWeeks: Math.max(0, missingNames.length * 2),
+    estimatedMonthsText: estimateMonths(missingNames.length),
+    projectedReadiness: Math.min(100, base.matchRate + topMissingSkills.slice(0, 3).reduce((sum, item) => sum + item.gainedReadiness, 0)),
+    forecasts: topMissingSkills.slice(0, 3).map(item => ({
+      skill: item.skill,
+      points: item.gainedReadiness,
+      message: `Hoàn thành ${item.skill} sẽ tăng coverage cho ${base.career}.`
+    })),
+    scores: {
+      academic: base.matchRate,
+      industry: base.coverage,
+      portfolio: 0,
+      behavior: 0
+    },
+    requiredSkills: base.requiredSkills,
+    mapped_transcript: base.mapped_transcript,
+    totalRequired: base.totalRequired,
+    learnedCount: base.learnedCount
   };
-};
+}
 
-exports.suggestBestCareers = (student) => {
-  if (!student) return [];
-  const results = [];
-  
-  for (const careerGoal of Object.keys(CAREER_MATRIX)) {
-    const analysis = exports.analyzeCareer(student, careerGoal);
-    
-    results.push({
-      id: slugify(careerGoal),
-      careerName: careerGoal,
-      matchScore: analysis.readinessScore || 0,
-      readinessScore: analysis.readinessScore || 0,
-      score: analysis.readinessScore || 0,
-      matchCount: analysis.matchedSkills ? analysis.matchedSkills.length : 0,
-      totalRequired: CAREER_MATRIX[careerGoal].length,
-      insufficientEvidence: analysis.insufficientEvidence,
-      matchedSkills: analysis.matchedSkills || [],
-      missingSkills: analysis.missingSkills || [],
-      evidence: analysis.evidence || []
-    });
+function analyzeCareer(student, careerGoal) {
+  const resolved = resolveCareerName(careerGoal);
+  if (!resolved) {
+    return {
+      insufficientEvidence: false,
+      careerGoal,
+      matchRate: 0,
+      readinessScore: 0,
+      progressPercent: 0,
+      coverage: 0,
+      confidence: 'Low',
+      matchedSkills: [],
+      missingSkills: [],
+      skillGap: { core: { have: [], missing: [] }, advanced: { have: [], missing: [] } },
+      industryRequirements: { core: [], advanced: [], tools: [], soft: [] },
+      academicProgress: [],
+      missingCourses: [],
+      topMissingSkills: [],
+      portfolios: [],
+      roadmap: [],
+      scores: { academic: 0, industry: 0, portfolio: 0, behavior: 0 }
+    };
   }
 
-  results.sort((a, b) => b.score - a.score);
-  return results; 
-};
+  const base = analyzeCareerFromTranscript(transcriptFromStudent(student), resolved);
+  return toAdvisorShape(student, resolved, base);
+}
 
-exports.analyzeStudentCareer = async (goalSlug, mssv) => {
-  // Mock function, not heavily used directly in this iteration but kept for API compat
-  return null;
-};
+function suggestBestCareers(student) {
+  if (!student) return [];
+  return analyzeAllCareersFromTranscript(transcriptFromStudent(student)).map(base => {
+    const advisor = toAdvisorShape(student, base.career, base);
+    return {
+      id: slugify(base.career),
+      careerName: base.career,
+      matchScore: base.matchRate,
+      readinessScore: base.matchRate,
+      score: base.matchRate,
+      matchCount: base.learnedCount,
+      totalRequired: base.totalRequired,
+      coverage: base.coverage,
+      confidence: base.confidence,
+      insufficientEvidence: false,
+      matchedSkills: advisor.matchedSkills,
+      missingSkills: advisor.missingSkills,
+      strengths: base.strengths,
+      weaknesses: base.weaknesses,
+      skillScores: advisor.skillScores,
+      roadmap: advisor.roadmapSteps,
+      evidence: advisor.evidence
+    };
+  });
+}
 
+function calculateStyleMatch() {
+  return 0;
+}
+
+exports.analyzeCareer = analyzeCareer;
+exports.suggestBestCareers = suggestBestCareers;
+exports.analyzeStudentCareer = async () => null;
+exports.calculateStyleMatch = calculateStyleMatch;
 exports.SKILL_MATRIX = SKILL_MATRIX;
-exports.CAREER_MATRIX = CAREER_MATRIX;
-exports.evaluateSkillScore = evaluateSkillScore;
+exports.CAREER_MATRIX = CAREER_REQUIREMENT_MATRIX;
+exports.evaluateSkillScore = score => {
+  if (score === null || score === undefined) return 'UNKNOWN';
+  if (score >= 8) return 'MASTERED';
+  if (score >= 6) return 'GOOD';
+  return 'WEAK';
+};

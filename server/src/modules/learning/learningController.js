@@ -1,10 +1,80 @@
 const { prisma } = require('../../infrastructure/database/prisma');
 
 const readinessService = require('./readinessService');
+const { analyzeCareerFromTranscript, generateLearningTasks } = require('../../ai/engines/careerMatchingEngine');
+
+function formatTask(t) {
+  return {
+    id: t.taskId, // Use taskId for frontend compatibility
+    title: t.title,
+    type: t.type,
+    status: t.status,
+    impact: t.impact,
+    duration: t.duration,
+    started_at: t.startedAt ? t.startedAt.toISOString().split('T')[0] : null,
+    completed_at: t.completedAt ? t.completedAt.toISOString().split('T')[0] : null,
+    github: t.github,
+    demo: t.demo,
+    screenshot: t.screenshot,
+    evidenceStatus: t.evidenceStatus,
+    verified: t.verified,
+    points: t.points,
+    updated_at: t.updatedAt ? t.updatedAt.toISOString().split('T')[0] : null
+  };
+}
+
+async function createDeterministicBoard(studentId, careerId) {
+  const student = await prisma.student.findUnique({
+    where: { mssv: String(studentId).toUpperCase() },
+    include: { scores: { include: { course: true } } }
+  });
+  const analysis = analyzeCareerFromTranscript(student?.scores || [], careerId);
+  if (analysis.missing_data) return [];
+
+  const generatedTasks = generateLearningTasks(careerId, analysis);
+  const board = await prisma.learningBoard.upsert({
+    where: {
+      studentId_careerId: {
+        studentId,
+        careerId
+      }
+    },
+    update: {},
+    create: {
+      studentId,
+      careerId
+    }
+  });
+
+  await prisma.$transaction(
+    generatedTasks.map(t => prisma.learningTask.create({
+      data: {
+        boardId: board.id,
+        taskId: t.id,
+        title: t.title,
+        type: t.type,
+        status: t.status,
+        impact: t.impact,
+        duration: t.duration,
+        startedAt: t.started_at ? new Date(t.started_at) : null,
+        completedAt: t.completed_at ? new Date(t.completed_at) : null,
+        github: t.github || null,
+        demo: t.demo || null,
+        screenshot: t.screenshot || null,
+        evidenceStatus: t.evidenceStatus || 'NONE',
+        verified: t.verified || false,
+        points: t.points || 0
+      }
+    }))
+  );
+
+  return generatedTasks;
+}
 
 exports.getLearningBoard = async (req, res) => {
   try {
-    const { studentId, careerId } = req.params;
+    const { careerId } = req.params;
+    const studentId = String(req.params.studentId || '').toUpperCase();
     
     // Find the learning board for the student and career
     const board = await prisma.learningBoard.findUnique({
@@ -20,24 +90,7 @@ exports.getLearningBoard = async (req, res) => {
     });
     
     if (board && board.tasks.length > 0) {
-      // Map Prisma data back to the format frontend expects
-      const formattedTasks = board.tasks.map(t => ({
-        id: t.taskId, // Use taskId for frontend compatibility
-        title: t.title,
-        type: t.type,
-        status: t.status,
-        impact: t.impact,
-        duration: t.duration,
-        started_at: t.startedAt ? t.startedAt.toISOString().split('T')[0] : null,
-        completed_at: t.completedAt ? t.completedAt.toISOString().split('T')[0] : null,
-        github: t.github,
-        demo: t.demo,
-        screenshot: t.screenshot,
-        evidenceStatus: t.evidenceStatus,
-        verified: t.verified,
-        points: t.points,
-        updated_at: t.updatedAt ? t.updatedAt.toISOString().split('T')[0] : null
-      }));
+      const formattedTasks = board.tasks.map(formatTask);
 
       // Calculate Readiness
       const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, board.tasks);
@@ -47,11 +100,11 @@ exports.getLearningBoard = async (req, res) => {
         metrics: readinessMetrics
       });
     } else {
-      // Calculate Readiness even if no tasks exist (academic score is still valid)
-      const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, []);
+      const generatedTasks = await createDeterministicBoard(studentId, careerId);
+      const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, generatedTasks);
 
       res.json({
-        tasks: [],
+        tasks: generatedTasks,
         metrics: readinessMetrics
       });
     }
@@ -63,7 +116,8 @@ exports.getLearningBoard = async (req, res) => {
 
 exports.updateLearningBoard = async (req, res) => {
   try {
-    const { studentId, careerId } = req.params;
+    const { careerId } = req.params;
+    const studentId = String(req.params.studentId || '').toUpperCase();
     const tasks = req.body.tasks;
     
     if (!tasks || !Array.isArray(tasks)) {

@@ -12,11 +12,10 @@ router.post('/match', async (req, res) => {
       return res.status(400).json({ error: 'Missing mssv or careerName' });
     }
 
-    // Lấy thông tin sinh viên và điểm số
     const student = await prisma.student.findUnique({
-      where: { id: mssv },
+      where: { mssv: String(mssv).toUpperCase() },
       include: {
-        scores: true
+        scores: { include: { course: true } }
       }
     });
 
@@ -24,41 +23,51 @@ router.post('/match', async (req, res) => {
       return res.status(404).json({ error: 'Student not found' });
     }
 
-    // Chuyển đổi format scores: { "WEB1043": 9.5 }
-    const studentScores = {};
-    student.scores.forEach(s => {
-      if (s.value !== null && s.value !== undefined) {
-        studentScores[s.courseId] = s.value;
-      }
-    });
-
-    // Gọi Backend Match Engine
-    const backendResult = calculateMatchRate(studentScores, careerName);
+    const backendResult = calculateMatchRate(student.scores, careerName);
 
     if (backendResult.missing_data) {
       return res.json({ missing_data: true });
     }
 
-    // Chuẩn bị dữ liệu gửi cho AI
     const payloadForAI = {
       student_name: student.name,
-      mssv: student.id,
-      major: student.major,
-      career_name: backendResult.career_name,
-      backend_match_rate: backendResult.backend_match_rate,
-      required_tech_stack: backendResult.required_tech_stack,
-      mapped_transcript: backendResult.mapped_transcript
+      mssv: student.mssv,
+      career_name: backendResult.career,
+      backend_match_rate: backendResult.matchRate,
+      required_tech_stack: backendResult.requiredSkills,
+      mapped_transcript: backendResult.mapped_transcript,
+      skill_scores: backendResult.skillScores,
+      coverage: backendResult.coverage,
+      confidence: backendResult.confidence,
+      strengths: backendResult.strengths,
+      weaknesses: backendResult.weaknesses,
+      roadmap: backendResult.roadmap
     };
 
-    // Gọi AI (Gemini) để sinh phân tích JSON
-    const aiAnalysis = await getCareerMatchAI(payloadForAI);
+    let aiAnalysis = {};
+    if (process.env.GEMINI_API_KEY) {
+      try {
+        aiAnalysis = await getCareerMatchAI(payloadForAI);
+      } catch (aiErr) {
+        console.warn('Career AI explanation skipped:', aiErr.message);
+      }
+    }
 
-    // AI bắt buộc trả về đúng match_rate của backend, ta có thể ghi đè lại để phòng hờ hallucination
-    aiAnalysis.match_rate = backendResult.backend_match_rate;
-    aiAnalysis.career = backendResult.career_name;
-
-    return res.json(aiAnalysis);
-
+    return res.json({
+      ...aiAnalysis,
+      career: backendResult.career,
+      matchRate: backendResult.matchRate,
+      match_rate: backendResult.matchRate,
+      coverage: backendResult.coverage,
+      confidence: backendResult.confidence,
+      strengths: backendResult.strengths,
+      weaknesses: backendResult.weaknesses,
+      skillScores: backendResult.skillScores,
+      roadmap: backendResult.roadmap,
+      requiredSkills: backendResult.requiredSkills,
+      mappedTranscript: backendResult.mapped_transcript,
+      backendLocked: true
+    });
   } catch (err) {
     console.error('Error in Career Match Engine:', err);
     res.status(500).json({ error: 'Internal Server Error', details: err.message });

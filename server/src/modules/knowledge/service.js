@@ -1,8 +1,7 @@
 const cache = require('./cache');
 const { fetchStudentByMssv } = require('../../repositories/studentRepository');
 const { analyzeCareer, suggestBestCareers } = require('../advisor/career-engine');
-const { prisma } = require('../../infrastructure/database/prisma');
-const readinessService = require('../learning/readinessService');
+const { CAREER_REQUIREMENT_MATRIX } = require('../../ai/engines/careerMatchingEngine');
 
 function slugify(str) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -82,20 +81,10 @@ exports.getAllCareers = async (mssv) => {
   if (!roadmaps) throw new Error("Knowledge cache not loaded");
 
   let student = null;
-  let allBoards = [];
-  let dbStudent = null;
 
   if (mssv) {
     try {
-      student = await fetchStudentByMssv(mssv);
-      allBoards = await prisma.learningBoard.findMany({
-        where: { studentId: mssv },
-        include: { tasks: true }
-      });
-      dbStudent = await prisma.student.findUnique({
-        where: { mssv },
-        include: { scores: { include: { course: true } } }
-      });
+      student = await fetchStudentByMssv(String(mssv).toUpperCase());
     } catch (e) {
       console.warn("Could not load student for career matching:", e);
     }
@@ -103,6 +92,11 @@ exports.getAllCareers = async (mssv) => {
 
   const results = await Promise.all(Object.entries(roadmaps).map(async ([key, data]) => {
     let readinessScore = 0;
+    let coverage = 0;
+    let confidence = 'Low';
+    let strengths = [];
+    let weaknesses = [];
+    let skillScores = [];
     const isAiFullstack = key === 'AI Fullstack Engineer';
     const careerId = isAiFullstack ? 'ai-engineer' : slugify(key);
     let insufficientEvidence = false;
@@ -117,24 +111,18 @@ exports.getAllCareers = async (mssv) => {
         matchedSkills = analysis.matchedSkills;
         missingSkills = analysis.missingSkills;
         evidence = analysis.evidence;
-
-        const board = allBoards.find(b => b.careerId === careerId);
-
-        if (board) {
-          // If a Learning Board exists, calculate real metrics from DB
-          const realMetrics = await readinessService.calculateCareerReadiness(mssv, careerId, board.tasks, student);
-          readinessScore = realMetrics.readinessScore;
-          if (readinessScore > 0) {
-            insufficientEvidence = false;
-          }
-        } else {
-          // Otherwise, simulate based on academic mapping
-          readinessScore = analysis.readinessScore || 0;
-        }
+        coverage = analysis.coverage || 0;
+        confidence = analysis.confidence || 'Low';
+        strengths = analysis.strengths || [];
+        weaknesses = analysis.weaknesses || [];
+        skillScores = analysis.skillScores || [];
+        readinessScore = analysis.matchRate ?? analysis.readinessScore ?? 0;
       } catch (e) {
         console.warn(`Analysis failed for ${key}:`, e);
       }
     }
+
+    const requiredSkills = CAREER_REQUIREMENT_MATRIX[data.careerName || key] || CAREER_REQUIREMENT_MATRIX[key];
 
     return {
       id: careerId,
@@ -143,13 +131,19 @@ exports.getAllCareers = async (mssv) => {
       salaryRange: data.salaryRange || 'N/A',
       marketDemand: data.marketDemand || 'N/A',
       futureTrend: data.futureTrend || 'N/A',
-      coreSkills: data.coreSkills || [],
+      coreSkills: requiredSkills || data.coreSkills || [],
       advancedSkills: data.advancedSkills || [],
       tools: data.tools || [],
       softSkills: data.softSkills || [],
       portfolios: data.portfolios || [],
       category: CATEGORY_MAP[key] || 'Other',
       readinessScore,
+      matchRate: readinessScore,
+      coverage,
+      confidence,
+      strengths,
+      weaknesses,
+      skillScores,
       roadmap: data.roadmap || [],
       insufficientEvidence,
       matchedSkills,
