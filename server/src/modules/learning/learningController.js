@@ -245,3 +245,28 @@ exports.updateLearningBoard = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+exports.getStudentLearningProgress = async (req, res) => {
+  try {
+    const studentId = String(req.params.studentId || '').toUpperCase();
+    
+    const boards = await prisma.learningBoard.findMany({
+      where: { studentId },
+      include: {
+        tasks: {
+          where: { status: 'DONE' }
+        }
+      }
+    });
+
+    const completedTasks = boards.flatMap(board => board.tasks);
+
+    res.json({
+      success: true,
+      completedTasks
+    });
+  } catch (error) {
+    console.error('Error fetching student learning progress:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

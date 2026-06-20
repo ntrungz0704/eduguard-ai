@@ -8,6 +8,7 @@ router.use(jwtMiddleware);
 // Define API endpoints for Learning Board
 router.get('/board/:studentId/:careerId', learningController.getLearningBoard);
 router.put('/board/:studentId/:careerId', learningController.updateLearningBoard);
+router.get('/progress/:studentId', learningController.getStudentLearningProgress);
 
 // Evidence will be added here later
 
