@@ -1,260 +1,827 @@
 {
   "Frontend Developer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "PRO1014",
-      "WEB1013",
-      "WEB1043",
-      "WEB2063",
-      "WEB3023",
-      "WEB501"
+    "careerName": "Frontend Developer",
+    "description": "Kỹ sư chuyên phát triển giao diện và trải nghiệm người dùng trên các nền tảng web, biến thiết kế thành các ứng dụng web tương tác.",
+    "salaryRange": "8-18 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "Nhu cầu dịch chuyển sang Next.js/SSR và UI components AI-generated.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Responsive Design",
+      "Git",
+      "DOM",
+      "React",
+      "State Management",
+      "UIUX",
+      "Frontend"
     ],
-    "weights": {
-      "WEB1043": 3,
-      "WEB2063": 3,
-      "WEB3023": 3,
-      "COM2012": 1,
-      "COM108": 1
-    }
-  },
-  "React Developer": {
-    "courses": [
-      "WEB1043",
-      "WEB2063",
-      "WEB2081",
-      "WEB2091",
-      "WEB501",
-      "WEB502"
+    "advancedSkills": [
+      "Next.js",
+      "TypeScript",
+      "Performance Optimization",
+      "SEO"
     ],
-    "weights": {
-      "WEB2081": 3,
-      "WEB2091": 3,
-      "WEB2063": 3
-    }
-  },
-  "Next.js Developer": {
-    "courses": [
-      "WEB1043",
-      "WEB2063",
-      "WEB2081",
-      "WEB2091",
-      "WEB501",
-      "WEB502",
-      "WEB503"
+    "tools": [
+      "VS Code",
+      "Git",
+      "Figma",
+      "Vite",
+      "npm/yarn/pnpm"
     ],
-    "weights": {
-      "WEB2081": 3,
-      "WEB2091": 3,
-      "WEB503": 2
-    }
+    "softSkills": [
+      "Attention to detail",
+      "Communication",
+      "Creativity"
+    ],
+    "portfolios": [
+      {
+        "name": "Personal Portfolio",
+        "learnToApply": [
+          "HTML",
+          "CSS",
+          "Responsive Design"
+        ]
+      },
+      {
+        "name": "E-Commerce UI",
+        "learnToApply": [
+          "React",
+          "CSS Frameworks"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Làm quen HTML/CSS",
+      "Học JavaScript Core",
+      "Framework React/Next.js",
+      "State Management",
+      "Performance Optimization"
+    ]
   },
   "Backend Developer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "PRO1014",
-      "WEB108",
-      "WEB2014",
-      "WEB503",
-      "WEB1043"
+    "careerName": "Backend Developer",
+    "description": "Kỹ sư chuyên xử lý logic hệ thống, quản lý cơ sở dữ liệu và xây dựng các API giao tiếp với frontend.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "Microservices, Serverless và tối ưu hóa hệ thống tải cao.",
+    "coreSkills": [
+      "Programming Logic",
+      "SQL",
+      "Database",
+      "PHP",
+      "NodeJS",
+      "REST API",
+      "MVC",
+      "Server Side"
     ],
-    "weights": {
-      "COM2012": 3,
-      "WEB503": 3,
-      "WEB108": 2,
-      "WEB1043": 1,
-      "PRO1014": 1
-    }
+    "advancedSkills": [
+      "GraphQL",
+      "Redis",
+      "Message Queues",
+      "Docker",
+      "Security"
+    ],
+    "tools": [
+      "Postman",
+      "Docker",
+      "Git",
+      "DBeaver"
+    ],
+    "softSkills": [
+      "Problem Solving",
+      "System Design"
+    ],
+    "portfolios": [
+      {
+        "name": "REST API cho E-Commerce",
+        "learnToApply": [
+          "NodeJS",
+          "SQL",
+          "REST API"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Làm quen Node.js/PHP",
+      "Học SQL/NoSQL",
+      "Xây dựng REST API",
+      "Authentication & Security",
+      "Tối ưu hóa Query"
+    ]
   },
-  "Node.js Developer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "PRO1014",
-      "WEB1043",
-      "WEB503"
+  "Fullstack Developer": {
+    "careerName": "Fullstack Developer",
+    "description": "Kỹ sư có khả năng làm cả Frontend lẫn Backend, tự xây dựng một ứng dụng web từ đầu đến cuối.",
+    "salaryRange": "15-35 triệu",
+    "marketDemand": "BOOMING",
+    "futureTrend": "Fullstack framework như Next.js, Nuxt.js và tích hợp AI vào sản phẩm.",
+    "coreSkills": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "SQL",
+      "Database",
+      "PHP",
+      "NodeJS",
+      "React",
+      "Fullstack",
+      "Deployment"
     ],
-    "weights": {
-      "COM2012": 3,
-      "WEB503": 3,
-      "PRO1014": 1
-    }
+    "advancedSkills": [
+      "System Architecture",
+      "Cloud Deployment",
+      "CI/CD"
+    ],
+    "tools": [
+      "VS Code",
+      "Docker",
+      "AWS",
+      "Git"
+    ],
+    "softSkills": [
+      "Time Management",
+      "Adaptability"
+    ],
+    "portfolios": [
+      {
+        "name": "Fullstack E-Commerce",
+        "learnToApply": [
+          "React",
+          "NodeJS",
+          "Database",
+          "Deployment"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Frontend Core",
+      "Backend Core",
+      "Kết nối Frontend & Backend",
+      "Deployment",
+      "CI/CD Pipeline"
+    ]
   },
-  "Full Stack Developer": {
-    "courses": [
-      "COM2012",
-      "WEB1043",
-      "WEB2063",
-      "WEB503",
-      "PRO2201",
-      "WEB2081",
-      "WEB3023"
+  "Mobile App Developer": {
+    "careerName": "Mobile App Developer",
+    "description": "Kỹ sư phát triển ứng dụng trên các thiết bị di động (iOS/Android).",
+    "salaryRange": "12-30 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "Cross-platform (React Native/Flutter) và tích hợp AI trên thiết bị (On-device AI).",
+    "coreSkills": [
+      "Java",
+      "Android",
+      "Mobile Development",
+      "React Native",
+      "JavaScript",
+      "Programming Logic"
     ],
-    "weights": {
-      "COM2012": 3,
-      "WEB503": 3,
-      "WEB2063": 2,
-      "WEB2081": 2,
-      "PRO2201": 3
-    }
+    "advancedSkills": [
+      "Swift",
+      "Kotlin",
+      "State Management",
+      "App Store Deployment"
+    ],
+    "tools": [
+      "Android Studio",
+      "Xcode",
+      "Figma"
+    ],
+    "softSkills": [
+      "UX Awareness",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "Mobile E-Commerce App",
+        "learnToApply": [
+          "React Native",
+          "API"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Làm quen UI Mobile",
+      "Học React Native/Android",
+      "Kết nối API",
+      "State Management",
+      "Publish App Store"
+    ]
   },
-  "Software Engineer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "PRO1014",
-      "WEB503",
-      "PRO2201"
+  "Data Analyst": {
+    "careerName": "Data Analyst",
+    "description": "Chuyên viên phân tích dữ liệu, giúp doanh nghiệp ra quyết định dựa trên số liệu.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Tự động hóa báo cáo với AI và dự báo xu hướng.",
+    "coreSkills": [
+      "SQL",
+      "Database",
+      "Analytics",
+      "Programming Logic",
+      "Variables"
     ],
-    "weights": {
-      "COM108": 3,
-      "COM2012": 3
-    }
+    "advancedSkills": [
+      "Python",
+      "PowerBI",
+      "Tableau",
+      "Statistics"
+    ],
+    "tools": [
+      "Excel",
+      "PowerBI",
+      "Jupyter"
+    ],
+    "softSkills": [
+      "Critical Thinking",
+      "Business Acumen"
+    ],
+    "portfolios": [
+      {
+        "name": "Sales Dashboard",
+        "learnToApply": [
+          "SQL",
+          "PowerBI"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Học SQL",
+      "Trực quan hóa dữ liệu",
+      "Phân tích kinh doanh",
+      "Machine Learning cơ bản"
+    ]
   },
-  "UI Engineer": {
-    "courses": [
-      "WEB1013",
-      "WEB1043",
-      "WEB3023",
-      "VIE104",
-      "WEB2063"
+  "Data Engineer": {
+    "careerName": "Data Engineer",
+    "description": "Kỹ sư xây dựng hệ thống thu thập, lưu trữ và xử lý dữ liệu lớn (Big Data).",
+    "salaryRange": "15-40 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "Real-time streaming và Data Mesh.",
+    "coreSkills": [
+      "Database",
+      "SQL",
+      "Programming Logic",
+      "Big Data",
+      "Pipeline",
+      "Python"
     ],
-    "weights": {
-      "WEB3023": 3,
-      "WEB1013": 2,
-      "WEB1043": 2
-    }
+    "advancedSkills": [
+      "Hadoop",
+      "Spark",
+      "Kafka",
+      "Data Warehousing"
+    ],
+    "tools": [
+      "Airflow",
+      "AWS",
+      "GCP"
+    ],
+    "softSkills": [
+      "System Design",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "ETL Pipeline",
+        "learnToApply": [
+          "Python",
+          "SQL",
+          "Airflow"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Học SQL nâng cao",
+      "Lập trình Python",
+      "Thiết kế ETL",
+      "Xử lý Big Data"
+    ]
   },
-  "Flutter Developer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "PRO1014",
-      "PRO2201",
-      "WEB1043"
+  "Data Scientist": {
+    "careerName": "Data Scientist",
+    "description": "Chuyên gia dữ liệu áp dụng thống kê và học máy (Machine Learning) để giải quyết bài toán phức tạp.",
+    "salaryRange": "20-50 triệu",
+    "marketDemand": "BOOMING",
+    "futureTrend": "Deep Learning và Generative AI.",
+    "coreSkills": [
+      "Database",
+      "SQL",
+      "Analytics",
+      "Programming Logic",
+      "Machine Learning",
+      "Python",
+      "Statistics"
     ],
-    "weights": {
-      "COM108": 3,
-      "COM2012": 2
-    }
+    "advancedSkills": [
+      "Deep Learning",
+      "NLP",
+      "Computer Vision"
+    ],
+    "tools": [
+      "Jupyter",
+      "TensorFlow",
+      "PyTorch"
+    ],
+    "softSkills": [
+      "Research",
+      "Business Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "Customer Churn Prediction",
+        "learnToApply": [
+          "Python",
+          "Machine Learning"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Toán và Thống kê",
+      "Machine Learning Algorithms",
+      "Deep Learning",
+      "Triển khai Model"
+    ]
   },
-  "React Native Developer": {
-    "courses": [
-      "WEB1043",
-      "WEB2063",
-      "WEB2081",
-      "PRO2201",
-      "WEB501",
-      "WEB502"
+  "AI/ML Engineer": {
+    "careerName": "AI/ML Engineer",
+    "description": "Kỹ sư chuyên xây dựng và tối ưu hóa các mô hình Trí tuệ nhân tạo.",
+    "salaryRange": "25-60+ triệu",
+    "marketDemand": "BOOMING",
+    "futureTrend": "LLM (Large Language Models) và AI Agents.",
+    "coreSkills": [
+      "Programming Logic",
+      "Database",
+      "Python",
+      "Machine Learning",
+      "Deep Learning",
+      "Algorithms"
     ],
-    "weights": {
-      "WEB2081": 3,
-      "WEB2063": 3,
-      "PRO2201": 2
-    }
-  },
-  "QA Automation Engineer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "WEB1043",
-      "WEB2063",
-      "WEB503"
+    "advancedSkills": [
+      "LLM Fine-tuning",
+      "Prompt Engineering",
+      "MLOps"
     ],
-    "weights": {
-      "WEB1043": 3,
-      "COM2012": 2
-    }
+    "tools": [
+      "TensorFlow",
+      "PyTorch",
+      "Hugging Face"
+    ],
+    "softSkills": [
+      "Continuous Learning",
+      "Research"
+    ],
+    "portfolios": [
+      {
+        "name": "AI Chatbot",
+        "learnToApply": [
+          "Python",
+          "NLP"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Python nâng cao",
+      "Machine Learning",
+      "Deep Learning",
+      "MLOps và Triển khai"
+    ]
   },
   "DevOps Engineer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "WEB503",
-      "WEB108",
-      "PRO2201"
+    "careerName": "DevOps Engineer",
+    "description": "Kỹ sư tự động hóa quy trình phần mềm từ code đến lúc triển khai (CI/CD).",
+    "salaryRange": "15-40 triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "DevSecOps và GitOps.",
+    "coreSkills": [
+      "Deployment",
+      "Linux",
+      "Cloud",
+      "Docker",
+      "CI/CD",
+      "AWS",
+      "Website Administration"
     ],
-    "weights": {
-      "COM2012": 3,
-      "WEB503": 2
-    }
+    "advancedSkills": [
+      "Kubernetes",
+      "Terraform",
+      "Security"
+    ],
+    "tools": [
+      "Docker",
+      "Jenkins",
+      "GitLab CI"
+    ],
+    "softSkills": [
+      "Collaboration",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "CI/CD Pipeline",
+        "learnToApply": [
+          "Docker",
+          "GitHub Actions"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Linux cơ bản",
+      "Networking",
+      "Docker",
+      "CI/CD Pipeline",
+      "Kubernetes"
+    ]
   },
-  "Cloud Engineer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "WEB503",
-      "WEB2014"
+  "Cloud Architect": {
+    "careerName": "Cloud Architect",
+    "description": "Kỹ sư thiết kế kiến trúc hệ thống trên nền tảng đám mây.",
+    "salaryRange": "30-70+ triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Multi-cloud và Serverless architecture.",
+    "coreSkills": [
+      "Deployment",
+      "Cloud",
+      "AWS",
+      "Azure",
+      "Networking",
+      "Infrastructure",
+      "Website Administration"
     ],
-    "weights": {
-      "COM2012": 3,
-      "WEB503": 3
-    }
+    "advancedSkills": [
+      "System Design",
+      "Cloud Security",
+      "Cost Optimization"
+    ],
+    "tools": [
+      "AWS",
+      "Terraform",
+      "Draw.io"
+    ],
+    "softSkills": [
+      "Leadership",
+      "Communication"
+    ],
+    "portfolios": [
+      {
+        "name": "Scalable Cloud Architecture",
+        "learnToApply": [
+          "AWS",
+          "Terraform"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Chứng chỉ Cloud cơ bản",
+      "Networking",
+      "Security",
+      "System Architecture"
+    ]
   },
-  "AI Frontend Engineer": {
-    "courses": [
-      "WEB1043",
-      "WEB2063",
-      "WEB2081",
-      "WEB501",
-      "WEB502",
-      "WEB503"
+  "System Administrator": {
+    "careerName": "System Administrator",
+    "description": "Quản trị viên hệ thống mạng và máy chủ của doanh nghiệp.",
+    "salaryRange": "10-25 triệu",
+    "marketDemand": "MEDIUM",
+    "futureTrend": "Dịch chuyển sang Cloud (Cloud Admin).",
+    "coreSkills": [
+      "Website Administration",
+      "Deployment",
+      "Linux",
+      "Networking",
+      "Server Management"
     ],
-    "weights": {
-      "WEB2081": 3,
-      "WEB503": 2
-    }
+    "advancedSkills": [
+      "Scripting (Bash/PowerShell)",
+      "Security"
+    ],
+    "tools": [
+      "Linux",
+      "Windows Server"
+    ],
+    "softSkills": [
+      "Troubleshooting",
+      "Reliability"
+    ],
+    "portfolios": [
+      {
+        "name": "Setup Server System",
+        "learnToApply": [
+          "Linux",
+          "Networking"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Phần cứng & Mạng",
+      "Hệ điều hành Server",
+      "Bảo mật cơ bản",
+      "Tự động hóa"
+    ]
   },
-  "AI Fullstack Engineer": {
-    "courses": [
-      "COM2012",
-      "WEB2063",
-      "WEB2081",
-      "WEB503",
-      "PRO2201"
+  "Network Engineer": {
+    "careerName": "Network Engineer",
+    "description": "Kỹ sư chuyên thiết kế và vận hành mạng viễn thông máy tính.",
+    "salaryRange": "12-30 triệu",
+    "marketDemand": "MEDIUM",
+    "futureTrend": "Software-Defined Networking (SDN).",
+    "coreSkills": [
+      "Website Administration",
+      "Networking",
+      "Cisco",
+      "TCP/IP",
+      "Security"
     ],
-    "weights": {
-      "WEB503": 3,
-      "COM2012": 3,
-      "WEB2081": 2
-    }
+    "advancedSkills": [
+      "Firewalls",
+      "Cloud Networking"
+    ],
+    "tools": [
+      "Cisco Packet Tracer",
+      "Wireshark"
+    ],
+    "softSkills": [
+      "Analytical Thinking",
+      "Attention to detail"
+    ],
+    "portfolios": [
+      {
+        "name": "Enterprise Network Design",
+        "learnToApply": [
+          "Cisco",
+          "Networking"
+        ]
+      }
+    ],
+    "roadmap": [
+      "CCNA",
+      "Routing & Switching",
+      "Network Security",
+      "Cloud Networking"
+    ]
   },
-  "Prompt Engineer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "WEB1043",
-      "WEB503"
+  "QA/Tester (Manual & Automation)": {
+    "careerName": "QA/Tester (Manual & Automation)",
+    "description": "Chuyên viên kiểm thử, đảm bảo chất lượng phần mềm không có lỗi trước khi ra mắt.",
+    "salaryRange": "8-25 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Automation Testing và AI-assisted Testing.",
+    "coreSkills": [
+      "Programming Logic",
+      "Software Testing",
+      "Automation",
+      "QA",
+      "Selenium"
     ],
-    "weights": {
-      "COM2012": 2,
-      "WEB503": 3
-    }
+    "advancedSkills": [
+      "API Testing",
+      "Performance Testing",
+      "Cypress"
+    ],
+    "tools": [
+      "Jira",
+      "Selenium",
+      "Postman"
+    ],
+    "softSkills": [
+      "Attention to detail",
+      "Critical Thinking"
+    ],
+    "portfolios": [
+      {
+        "name": "Automated Test Suite",
+        "learnToApply": [
+          "Selenium",
+          "Programming Logic"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Kiểm thử thủ công (Manual)",
+      "Thiết kế Test Case",
+      "Automation Testing",
+      "API Testing"
+    ]
   },
-  "Software Architect": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "PRO1014",
-      "WEB503",
-      "PRO2201"
+  "UI/UX Designer": {
+    "careerName": "UI/UX Designer",
+    "description": "Nhà thiết kế trải nghiệm và giao diện cho sản phẩm số.",
+    "salaryRange": "10-30 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "Thiết kế tương tác 3D và giao diện giọng nói (VUI).",
+    "coreSkills": [
+      "UIUX",
+      "Figma",
+      "Design Thinking",
+      "HTML",
+      "CSS",
+      "Responsive Design"
     ],
-    "weights": {
-      "COM2012": 3,
-      "WEB503": 3
-    }
+    "advancedSkills": [
+      "Prototyping",
+      "User Research",
+      "Design Systems"
+    ],
+    "tools": [
+      "Figma",
+      "Adobe XD",
+      "Miro"
+    ],
+    "softSkills": [
+      "Empathy",
+      "Creativity"
+    ],
+    "portfolios": [
+      {
+        "name": "App Redesign",
+        "learnToApply": [
+          "Figma",
+          "UIUX"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Nguyên lý thiết kế",
+      "Công cụ thiết kế (Figma)",
+      "User Research",
+      "Prototyping & Testing"
+    ]
   },
-  "Solutions Engineer": {
-    "courses": [
-      "COM108",
-      "COM2012",
-      "WEB503",
-      "PRO2201"
+  "Product Manager": {
+    "careerName": "Product Manager",
+    "description": "Người quản lý định hướng sản phẩm, làm việc với cả đội Dev và Business.",
+    "salaryRange": "20-50+ triệu",
+    "marketDemand": "VERY HIGH",
+    "futureTrend": "AI Product Management.",
+    "coreSkills": [
+      "Project Management",
+      "Teamwork",
+      "Agile",
+      "Scrum",
+      "Business",
+      "Project Planning"
     ],
-    "weights": {
-      "COM2012": 2,
-      "WEB503": 3
-    }
+    "advancedSkills": [
+      "Product Strategy",
+      "Data Analytics",
+      "UX Validation"
+    ],
+    "tools": [
+      "Jira",
+      "Notion",
+      "Figma"
+    ],
+    "softSkills": [
+      "Leadership",
+      "Communication",
+      "Decision Making"
+    ],
+    "portfolios": [
+      {
+        "name": "Product Roadmap",
+        "learnToApply": [
+          "Agile",
+          "Business"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Hiểu về Agile/Scrum",
+      "Nghiên cứu thị trường",
+      "Quản lý Backlog",
+      "Ra mắt sản phẩm"
+    ]
+  },
+  "Business Analyst (BA)": {
+    "careerName": "Business Analyst (BA)",
+    "description": "Chuyên viên phân tích nghiệp vụ, cầu nối giữa khách hàng và đội ngũ kỹ thuật.",
+    "salaryRange": "12-35 triệu",
+    "marketDemand": "HIGH",
+    "futureTrend": "BA kiêm Data Analyst.",
+    "coreSkills": [
+      "Project Management",
+      "Database",
+      "SQL",
+      "UML",
+      "Business Requirements",
+      "Agile"
+    ],
+    "advancedSkills": [
+      "BPMN",
+      "Data Analysis",
+      "API Design"
+    ],
+    "tools": [
+      "Draw.io",
+      "Jira",
+      "Excel"
+    ],
+    "softSkills": [
+      "Communication",
+      "Negotiation"
+    ],
+    "portfolios": [
+      {
+        "name": "BRD Document",
+        "learnToApply": [
+          "UML",
+          "Business Requirements"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Phân tích yêu cầu",
+      "Vẽ sơ đồ UML/BPMN",
+      "Tạo tài liệu BRD",
+      "Giao tiếp với Dev Team"
+    ]
+  },
+  "Cybersecurity Analyst": {
+    "careerName": "Cybersecurity Analyst",
+    "description": "Chuyên gia an ninh mạng, bảo vệ hệ thống khỏi các cuộc tấn công của hacker.",
+    "salaryRange": "15-50+ triệu",
+    "marketDemand": "BOOMING",
+    "futureTrend": "AI trong bảo mật và Zero Trust Architecture.",
+    "coreSkills": [
+      "Website Administration",
+      "Programming Logic",
+      "Security",
+      "Networking",
+      "Cryptography"
+    ],
+    "advancedSkills": [
+      "Ethical Hacking",
+      "Incident Response",
+      "Penetration Testing"
+    ],
+    "tools": [
+      "Kali Linux",
+      "Burp Suite",
+      "Wireshark"
+    ],
+    "softSkills": [
+      "Analytical Thinking",
+      "Ethics"
+    ],
+    "portfolios": [
+      {
+        "name": "Vulnerability Assessment",
+        "learnToApply": [
+          "Security",
+          "Networking"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Networking & Linux",
+      "Security Fundamentals",
+      "Penetration Testing",
+      "Security Operations"
+    ]
+  },
+  "Game Developer": {
+    "careerName": "Game Developer",
+    "description": "Kỹ sư phát triển trò chơi điện tử trên PC, Mobile hoặc Console.",
+    "salaryRange": "10-40 triệu",
+    "marketDemand": "MEDIUM",
+    "futureTrend": "VR/AR Gaming và AI NPCs.",
+    "coreSkills": [
+      "Programming Logic",
+      "Unity",
+      "C#",
+      "C++",
+      "Game Design",
+      "3D"
+    ],
+    "advancedSkills": [
+      "Unreal Engine",
+      "Math & Physics",
+      "Multiplayer Networking"
+    ],
+    "tools": [
+      "Unity",
+      "Unreal Engine",
+      "Blender"
+    ],
+    "softSkills": [
+      "Creativity",
+      "Problem Solving"
+    ],
+    "portfolios": [
+      {
+        "name": "2D Platformer Game",
+        "learnToApply": [
+          "C#",
+          "Unity"
+        ]
+      }
+    ],
+    "roadmap": [
+      "Lập trình C#/C++",
+      "Sử dụng Game Engine",
+      "Vật lý & Toán học 3D",
+      "Phát hành Game"
+    ]
   }
 }

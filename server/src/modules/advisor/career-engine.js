@@ -84,11 +84,20 @@ exports.analyzeCareer = (student, careerGoal) => {
   const scoreMap = {};
   if (student && student.scores) {
     student.scores.forEach(s => {
-      if (s.value !== null) {
-        const code = s.course?.courseCode || s.courseCode || s.courseId;
-        // Keep highest score for retakes
-        if (code && (!scoreMap[code] || s.value > scoreMap[code])) {
-          scoreMap[code] = s.value;
+      const scoreValue = s.value !== null ? s.value : s.computedScore;
+      if (scoreValue !== null && scoreValue !== undefined) {
+        let code = (s.course?.courseCode || s.courseCode || s.courseId || '').toUpperCase().trim();
+        
+        // Map common FPT Poly course code prefixes to standard ones used in SKILL_MATRIX
+        if (code.startsWith('WEB101') && code !== 'WEB1013') code = 'WEB1013';
+        if (code.startsWith('WEB104') && code !== 'WEB1043') code = 'WEB1043';
+        if (code.startsWith('WEB206') && code !== 'WEB2063') code = 'WEB2063';
+        if (code.startsWith('WEB201') && code !== 'WEB2014') code = 'WEB2014';
+        if (code.startsWith('WEB208') && code !== 'WEB2081') code = 'WEB2081';
+        if (code.startsWith('COM201') && code !== 'COM2012') code = 'COM2012';
+        
+        if (code && (!scoreMap[code] || scoreValue > scoreMap[code])) {
+          scoreMap[code] = scoreValue;
         }
       }
     });

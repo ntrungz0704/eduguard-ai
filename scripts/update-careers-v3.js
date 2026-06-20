@@ -1,0 +1,256 @@
+const fs = require('fs');
+const path = require('path');
+
+const roadmapPath = path.join(__dirname, '..', 'server', 'data', 'knowledge', 'career-roadmaps.json');
+const pathPath = path.join(__dirname, '..', 'server', 'data', 'knowledge', 'career-paths.json');
+
+const ecosystem18 = {
+  "Frontend Developer": {
+    careerName: "Frontend Developer",
+    description: "Kỹ sư chuyên phát triển giao diện và trải nghiệm người dùng trên các nền tảng web, biến thiết kế thành các ứng dụng web tương tác.",
+    salaryRange: "8-18 triệu",
+    marketDemand: "VERY HIGH",
+    futureTrend: "Nhu cầu dịch chuyển sang Next.js/SSR và UI components AI-generated.",
+    coreSkills: ["HTML", "CSS", "JavaScript", "Responsive Design", "Git", "DOM", "React", "State Management", "UIUX", "Frontend"],
+    advancedSkills: ["Next.js", "TypeScript", "Performance Optimization", "SEO"],
+    tools: ["VS Code", "Git", "Figma", "Vite", "npm/yarn/pnpm"],
+    softSkills: ["Attention to detail", "Communication", "Creativity"],
+    portfolios: [
+      { name: "Personal Portfolio", learnToApply: ["HTML", "CSS", "Responsive Design"] },
+      { name: "E-Commerce UI", learnToApply: ["React", "CSS Frameworks"] }
+    ],
+    roadmap: ["Làm quen HTML/CSS", "Học JavaScript Core", "Framework React/Next.js", "State Management", "Performance Optimization"]
+  },
+  "Backend Developer": {
+    careerName: "Backend Developer",
+    description: "Kỹ sư chuyên xử lý logic hệ thống, quản lý cơ sở dữ liệu và xây dựng các API giao tiếp với frontend.",
+    salaryRange: "10-25 triệu",
+    marketDemand: "VERY HIGH",
+    futureTrend: "Microservices, Serverless và tối ưu hóa hệ thống tải cao.",
+    coreSkills: ["Programming Logic", "SQL", "Database", "PHP", "NodeJS", "REST API", "MVC", "Server Side"],
+    advancedSkills: ["GraphQL", "Redis", "Message Queues", "Docker", "Security"],
+    tools: ["Postman", "Docker", "Git", "DBeaver"],
+    softSkills: ["Problem Solving", "System Design"],
+    portfolios: [{ name: "REST API cho E-Commerce", learnToApply: ["NodeJS", "SQL", "REST API"] }],
+    roadmap: ["Làm quen Node.js/PHP", "Học SQL/NoSQL", "Xây dựng REST API", "Authentication & Security", "Tối ưu hóa Query"]
+  },
+  "Fullstack Developer": {
+    careerName: "Fullstack Developer",
+    description: "Kỹ sư có khả năng làm cả Frontend lẫn Backend, tự xây dựng một ứng dụng web từ đầu đến cuối.",
+    salaryRange: "15-35 triệu",
+    marketDemand: "BOOMING",
+    futureTrend: "Fullstack framework như Next.js, Nuxt.js và tích hợp AI vào sản phẩm.",
+    coreSkills: ["HTML", "CSS", "JavaScript", "SQL", "Database", "PHP", "NodeJS", "React", "Fullstack", "Deployment"],
+    advancedSkills: ["System Architecture", "Cloud Deployment", "CI/CD"],
+    tools: ["VS Code", "Docker", "AWS", "Git"],
+    softSkills: ["Time Management", "Adaptability"],
+    portfolios: [{ name: "Fullstack E-Commerce", learnToApply: ["React", "NodeJS", "Database", "Deployment"] }],
+    roadmap: ["Frontend Core", "Backend Core", "Kết nối Frontend & Backend", "Deployment", "CI/CD Pipeline"]
+  },
+  "Mobile App Developer": {
+    careerName: "Mobile App Developer",
+    description: "Kỹ sư phát triển ứng dụng trên các thiết bị di động (iOS/Android).",
+    salaryRange: "12-30 triệu",
+    marketDemand: "VERY HIGH",
+    futureTrend: "Cross-platform (React Native/Flutter) và tích hợp AI trên thiết bị (On-device AI).",
+    coreSkills: ["Java", "Android", "Mobile Development", "React Native", "JavaScript", "Programming Logic"],
+    advancedSkills: ["Swift", "Kotlin", "State Management", "App Store Deployment"],
+    tools: ["Android Studio", "Xcode", "Figma"],
+    softSkills: ["UX Awareness", "Problem Solving"],
+    portfolios: [{ name: "Mobile E-Commerce App", learnToApply: ["React Native", "API"] }],
+    roadmap: ["Làm quen UI Mobile", "Học React Native/Android", "Kết nối API", "State Management", "Publish App Store"]
+  },
+  "Data Analyst": {
+    careerName: "Data Analyst",
+    description: "Chuyên viên phân tích dữ liệu, giúp doanh nghiệp ra quyết định dựa trên số liệu.",
+    salaryRange: "10-25 triệu",
+    marketDemand: "HIGH",
+    futureTrend: "Tự động hóa báo cáo với AI và dự báo xu hướng.",
+    coreSkills: ["SQL", "Database", "Analytics", "Programming Logic", "Variables"],
+    advancedSkills: ["Python", "PowerBI", "Tableau", "Statistics"],
+    tools: ["Excel", "PowerBI", "Jupyter"],
+    softSkills: ["Critical Thinking", "Business Acumen"],
+    portfolios: [{ name: "Sales Dashboard", learnToApply: ["SQL", "PowerBI"] }],
+    roadmap: ["Học SQL", "Trực quan hóa dữ liệu", "Phân tích kinh doanh", "Machine Learning cơ bản"]
+  },
+  "Data Engineer": {
+    careerName: "Data Engineer",
+    description: "Kỹ sư xây dựng hệ thống thu thập, lưu trữ và xử lý dữ liệu lớn (Big Data).",
+    salaryRange: "15-40 triệu",
+    marketDemand: "VERY HIGH",
+    futureTrend: "Real-time streaming và Data Mesh.",
+    coreSkills: ["Database", "SQL", "Programming Logic", "Big Data", "Pipeline", "Python"],
+    advancedSkills: ["Hadoop", "Spark", "Kafka", "Data Warehousing"],
+    tools: ["Airflow", "AWS", "GCP"],
+    softSkills: ["System Design", "Problem Solving"],
+    portfolios: [{ name: "ETL Pipeline", learnToApply: ["Python", "SQL", "Airflow"] }],
+    roadmap: ["Học SQL nâng cao", "Lập trình Python", "Thiết kế ETL", "Xử lý Big Data"]
+  },
+  "Data Scientist": {
+    careerName: "Data Scientist",
+    description: "Chuyên gia dữ liệu áp dụng thống kê và học máy (Machine Learning) để giải quyết bài toán phức tạp.",
+    salaryRange: "20-50 triệu",
+    marketDemand: "BOOMING",
+    futureTrend: "Deep Learning và Generative AI.",
+    coreSkills: ["Database", "SQL", "Analytics", "Programming Logic", "Machine Learning", "Python", "Statistics"],
+    advancedSkills: ["Deep Learning", "NLP", "Computer Vision"],
+    tools: ["Jupyter", "TensorFlow", "PyTorch"],
+    softSkills: ["Research", "Business Problem Solving"],
+    portfolios: [{ name: "Customer Churn Prediction", learnToApply: ["Python", "Machine Learning"] }],
+    roadmap: ["Toán và Thống kê", "Machine Learning Algorithms", "Deep Learning", "Triển khai Model"]
+  },
+  "AI/ML Engineer": {
+    careerName: "AI/ML Engineer",
+    description: "Kỹ sư chuyên xây dựng và tối ưu hóa các mô hình Trí tuệ nhân tạo.",
+    salaryRange: "25-60+ triệu",
+    marketDemand: "BOOMING",
+    futureTrend: "LLM (Large Language Models) và AI Agents.",
+    coreSkills: ["Programming Logic", "Database", "Python", "Machine Learning", "Deep Learning", "Algorithms"],
+    advancedSkills: ["LLM Fine-tuning", "Prompt Engineering", "MLOps"],
+    tools: ["TensorFlow", "PyTorch", "Hugging Face"],
+    softSkills: ["Continuous Learning", "Research"],
+    portfolios: [{ name: "AI Chatbot", learnToApply: ["Python", "NLP"] }],
+    roadmap: ["Python nâng cao", "Machine Learning", "Deep Learning", "MLOps và Triển khai"]
+  },
+  "DevOps Engineer": {
+    careerName: "DevOps Engineer",
+    description: "Kỹ sư tự động hóa quy trình phần mềm từ code đến lúc triển khai (CI/CD).",
+    salaryRange: "15-40 triệu",
+    marketDemand: "VERY HIGH",
+    futureTrend: "DevSecOps và GitOps.",
+    coreSkills: ["Deployment", "Linux", "Cloud", "Docker", "CI/CD", "AWS", "Website Administration"],
+    advancedSkills: ["Kubernetes", "Terraform", "Security"],
+    tools: ["Docker", "Jenkins", "GitLab CI"],
+    softSkills: ["Collaboration", "Problem Solving"],
+    portfolios: [{ name: "CI/CD Pipeline", learnToApply: ["Docker", "GitHub Actions"] }],
+    roadmap: ["Linux cơ bản", "Networking", "Docker", "CI/CD Pipeline", "Kubernetes"]
+  },
+  "Cloud Architect": {
+    careerName: "Cloud Architect",
+    description: "Kỹ sư thiết kế kiến trúc hệ thống trên nền tảng đám mây.",
+    salaryRange: "30-70+ triệu",
+    marketDemand: "HIGH",
+    futureTrend: "Multi-cloud và Serverless architecture.",
+    coreSkills: ["Deployment", "Cloud", "AWS", "Azure", "Networking", "Infrastructure", "Website Administration"],
+    advancedSkills: ["System Design", "Cloud Security", "Cost Optimization"],
+    tools: ["AWS", "Terraform", "Draw.io"],
+    softSkills: ["Leadership", "Communication"],
+    portfolios: [{ name: "Scalable Cloud Architecture", learnToApply: ["AWS", "Terraform"] }],
+    roadmap: ["Chứng chỉ Cloud cơ bản", "Networking", "Security", "System Architecture"]
+  },
+  "System Administrator": {
+    careerName: "System Administrator",
+    description: "Quản trị viên hệ thống mạng và máy chủ của doanh nghiệp.",
+    salaryRange: "10-25 triệu",
+    marketDemand: "MEDIUM",
+    futureTrend: "Dịch chuyển sang Cloud (Cloud Admin).",
+    coreSkills: ["Website Administration", "Deployment", "Linux", "Networking", "Server Management"],
+    advancedSkills: ["Scripting (Bash/PowerShell)", "Security"],
+    tools: ["Linux", "Windows Server"],
+    softSkills: ["Troubleshooting", "Reliability"],
+    portfolios: [{ name: "Setup Server System", learnToApply: ["Linux", "Networking"] }],
+    roadmap: ["Phần cứng & Mạng", "Hệ điều hành Server", "Bảo mật cơ bản", "Tự động hóa"]
+  },
+  "Network Engineer": {
+    careerName: "Network Engineer",
+    description: "Kỹ sư chuyên thiết kế và vận hành mạng viễn thông máy tính.",
+    salaryRange: "12-30 triệu",
+    marketDemand: "MEDIUM",
+    futureTrend: "Software-Defined Networking (SDN).",
+    coreSkills: ["Website Administration", "Networking", "Cisco", "TCP/IP", "Security"],
+    advancedSkills: ["Firewalls", "Cloud Networking"],
+    tools: ["Cisco Packet Tracer", "Wireshark"],
+    softSkills: ["Analytical Thinking", "Attention to detail"],
+    portfolios: [{ name: "Enterprise Network Design", learnToApply: ["Cisco", "Networking"] }],
+    roadmap: ["CCNA", "Routing & Switching", "Network Security", "Cloud Networking"]
+  },
+  "QA/Tester (Manual & Automation)": {
+    careerName: "QA/Tester (Manual & Automation)",
+    description: "Chuyên viên kiểm thử, đảm bảo chất lượng phần mềm không có lỗi trước khi ra mắt.",
+    salaryRange: "8-25 triệu",
+    marketDemand: "HIGH",
+    futureTrend: "Automation Testing và AI-assisted Testing.",
+    coreSkills: ["Programming Logic", "Software Testing", "Automation", "QA", "Selenium"],
+    advancedSkills: ["API Testing", "Performance Testing", "Cypress"],
+    tools: ["Jira", "Selenium", "Postman"],
+    softSkills: ["Attention to detail", "Critical Thinking"],
+    portfolios: [{ name: "Automated Test Suite", learnToApply: ["Selenium", "Programming Logic"] }],
+    roadmap: ["Kiểm thử thủ công (Manual)", "Thiết kế Test Case", "Automation Testing", "API Testing"]
+  },
+  "UI/UX Designer": {
+    careerName: "UI/UX Designer",
+    description: "Nhà thiết kế trải nghiệm và giao diện cho sản phẩm số.",
+    salaryRange: "10-30 triệu",
+    marketDemand: "HIGH",
+    futureTrend: "Thiết kế tương tác 3D và giao diện giọng nói (VUI).",
+    coreSkills: ["UIUX", "Figma", "Design Thinking", "HTML", "CSS", "Responsive Design"],
+    advancedSkills: ["Prototyping", "User Research", "Design Systems"],
+    tools: ["Figma", "Adobe XD", "Miro"],
+    softSkills: ["Empathy", "Creativity"],
+    portfolios: [{ name: "App Redesign", learnToApply: ["Figma", "UIUX"] }],
+    roadmap: ["Nguyên lý thiết kế", "Công cụ thiết kế (Figma)", "User Research", "Prototyping & Testing"]
+  },
+  "Product Manager": {
+    careerName: "Product Manager",
+    description: "Người quản lý định hướng sản phẩm, làm việc với cả đội Dev và Business.",
+    salaryRange: "20-50+ triệu",
+    marketDemand: "VERY HIGH",
+    futureTrend: "AI Product Management.",
+    coreSkills: ["Project Management", "Teamwork", "Agile", "Scrum", "Business", "Project Planning"],
+    advancedSkills: ["Product Strategy", "Data Analytics", "UX Validation"],
+    tools: ["Jira", "Notion", "Figma"],
+    softSkills: ["Leadership", "Communication", "Decision Making"],
+    portfolios: [{ name: "Product Roadmap", learnToApply: ["Agile", "Business"] }],
+    roadmap: ["Hiểu về Agile/Scrum", "Nghiên cứu thị trường", "Quản lý Backlog", "Ra mắt sản phẩm"]
+  },
+  "Business Analyst (BA)": {
+    careerName: "Business Analyst (BA)",
+    description: "Chuyên viên phân tích nghiệp vụ, cầu nối giữa khách hàng và đội ngũ kỹ thuật.",
+    salaryRange: "12-35 triệu",
+    marketDemand: "HIGH",
+    futureTrend: "BA kiêm Data Analyst.",
+    coreSkills: ["Project Management", "Database", "SQL", "UML", "Business Requirements", "Agile"],
+    advancedSkills: ["BPMN", "Data Analysis", "API Design"],
+    tools: ["Draw.io", "Jira", "Excel"],
+    softSkills: ["Communication", "Negotiation"],
+    portfolios: [{ name: "BRD Document", learnToApply: ["UML", "Business Requirements"] }],
+    roadmap: ["Phân tích yêu cầu", "Vẽ sơ đồ UML/BPMN", "Tạo tài liệu BRD", "Giao tiếp với Dev Team"]
+  },
+  "Cybersecurity Analyst": {
+    careerName: "Cybersecurity Analyst",
+    description: "Chuyên gia an ninh mạng, bảo vệ hệ thống khỏi các cuộc tấn công của hacker.",
+    salaryRange: "15-50+ triệu",
+    marketDemand: "BOOMING",
+    futureTrend: "AI trong bảo mật và Zero Trust Architecture.",
+    coreSkills: ["Website Administration", "Programming Logic", "Security", "Networking", "Cryptography"],
+    advancedSkills: ["Ethical Hacking", "Incident Response", "Penetration Testing"],
+    tools: ["Kali Linux", "Burp Suite", "Wireshark"],
+    softSkills: ["Analytical Thinking", "Ethics"],
+    portfolios: [{ name: "Vulnerability Assessment", learnToApply: ["Security", "Networking"] }],
+    roadmap: ["Networking & Linux", "Security Fundamentals", "Penetration Testing", "Security Operations"]
+  },
+  "Game Developer": {
+    careerName: "Game Developer",
+    description: "Kỹ sư phát triển trò chơi điện tử trên PC, Mobile hoặc Console.",
+    salaryRange: "10-40 triệu",
+    marketDemand: "MEDIUM",
+    futureTrend: "VR/AR Gaming và AI NPCs.",
+    coreSkills: ["Programming Logic", "Unity", "C#", "C++", "Game Design", "3D"],
+    advancedSkills: ["Unreal Engine", "Math & Physics", "Multiplayer Networking"],
+    tools: ["Unity", "Unreal Engine", "Blender"],
+    softSkills: ["Creativity", "Problem Solving"],
+    portfolios: [{ name: "2D Platformer Game", learnToApply: ["C#", "Unity"] }],
+    roadmap: ["Lập trình C#/C++", "Sử dụng Game Engine", "Vật lý & Toán học 3D", "Phát hành Game"]
+  }
+};
+
+fs.writeFileSync(pathPath, JSON.stringify(ecosystem18, null, 2));
+
+const roadmaps = Object.keys(ecosystem18).reduce((acc, key) => {
+  acc[key] = ecosystem18[key].roadmap;
+  return acc;
+}, {});
+
+fs.writeFileSync(roadmapPath, JSON.stringify(roadmaps, null, 2));
+
+console.log('✅ Generated new 18 Ecosystem Careers successfully.');

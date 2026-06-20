@@ -1,774 +1,115 @@
 {
-  "Frontend Developer": {
-    "careerName": "Frontend Developer",
-    "description": "Phát triển giao diện người dùng, mang lại trải nghiệm mượt mà.",
-    "coreSkills": [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "React"
-    ],
-    "advancedSkills": [
-      "Responsive Design",
-      "Web Performance",
-      "State Management"
-    ],
-    "tools": [
-      "VS Code",
-      "Chrome DevTools",
-      "Figma"
-    ],
-    "softSkills": [
-      "Cắt HTML/CSS chuẩn",
-      "JS cơ bản",
-      "Responsive Design"
-    ],
-    "portfolios": [
-      {
-        "name": "Landing page",
-        "learnToApply": []
-      },
-      {
-        "name": "E-commerce UI",
-        "learnToApply": []
-      },
-      {
-        "name": "Dashboard",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "10-25M",
-    "marketDemand": "Cao",
-    "futureTrend": "Ổn định, chuyển dịch sang Web3 và 3D Web",
-    "roadmap": [
-      "COM108",
-      "WEB104",
-      "WEB206",
-      "PRO124"
-    ]
-  },
-  "Backend Developer": {
-    "careerName": "Backend Developer",
-    "description": "Xử lý logic, database và API ở phía máy chủ.",
-    "coreSkills": [
-      "Java/Node.js/C#",
-      "SQL",
-      "Git"
-    ],
-    "advancedSkills": [
-      "RESTful API",
-      "Microservices",
-      "Security"
-    ],
-    "tools": [
-      "Postman",
-      "DBeaver",
-      "Docker"
-    ],
-    "softSkills": [
-      "Biết viết API cơ bản",
-      "Hiểu RDBMS"
-    ],
-    "portfolios": [
-      {
-        "name": "REST API CRUD",
-        "learnToApply": []
-      },
-      {
-        "name": "Hệ thống Auth",
-        "learnToApply": []
-      },
-      {
-        "name": "Payment Gateway",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "12-30M",
-    "marketDemand": "Rất cao",
-    "futureTrend": "Chuyển dịch sang Cloud Native & Serverless",
-    "roadmap": [
-      "COM108",
-      "PRO1014",
-      "DBI202",
-      "PRO124"
-    ]
-  },
-  "Fullstack Developer": {
-    "careerName": "Fullstack Developer",
-    "description": "Phát triển toàn diện cả Front-end lẫn Back-end.",
-    "coreSkills": [
-      "React",
-      "Node.js",
-      "MongoDB",
-      "SQL"
-    ],
-    "advancedSkills": [
-      "System Design",
-      "Deployment",
-      "CI/CD"
-    ],
-    "tools": [
-      "Docker",
-      "AWS",
-      "Git"
-    ],
-    "softSkills": [
-      "Biết cơ bản cả FE và BE",
-      "Làm được app CRUD hoàn chỉnh"
-    ],
-    "portfolios": [
-      {
-        "name": "Full E-commerce App",
-        "learnToApply": []
-      },
-      {
-        "name": "SaaS platform clone",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "15-40M",
-    "marketDemand": "Cao",
-    "futureTrend": "Yêu cầu T-shaped skills, tích hợp AI tools",
-    "roadmap": [
-      "WEB206",
-      "NODE101",
-      "PRO124"
-    ]
-  },
-  "Mobile App Developer": {
-    "careerName": "Mobile App Developer",
-    "description": "Xây dựng ứng dụng di động cho iOS/Android.",
-    "coreSkills": [
-      "React Native",
-      "Flutter",
-      "Swift",
-      "Kotlin"
-    ],
-    "advancedSkills": [
-      "App Store Deployment",
-      "Mobile UX",
-      "State Management"
-    ],
-    "tools": [
-      "Android Studio",
-      "Xcode",
-      "Firebase"
-    ],
-    "softSkills": [
-      "Làm được 1 app cơ bản",
-      "Biết gọi API"
-    ],
-    "portfolios": [
-      {
-        "name": "To-do App",
-        "learnToApply": []
-      },
-      {
-        "name": "Chat App",
-        "learnToApply": []
-      },
-      {
-        "name": "Clone UI App",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "12-35M",
-    "marketDemand": "Ổn định",
-    "futureTrend": "Tập trung vào Cross-platform",
-    "roadmap": [
-      "COM108",
-      "MOB101",
-      "MOB201",
-      "PRO124"
-    ]
-  },
-  "Data Analyst": {
-    "careerName": "Data Analyst",
-    "description": "Phân tích dữ liệu hỗ trợ quyết định kinh doanh.",
-    "coreSkills": [
-      "SQL",
-      "Python",
-      "Excel"
-    ],
-    "advancedSkills": [
-      "Data Visualization",
-      "Statistics",
-      "A/B Testing"
-    ],
-    "tools": [
-      "Tableau",
-      "PowerBI",
-      "Jupyter"
-    ],
-    "softSkills": [
-      "SQL khá",
-      "Biết vẽ biểu đồ cơ bản"
-    ],
-    "portfolios": [
-      {
-        "name": "Dashboard Bán hàng",
-        "learnToApply": []
-      },
-      {
-        "name": "Customer Analysis",
-        "learnToApply": []
-      },
-      {
-        "name": "Sales Forecasting",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "10-25M",
-    "marketDemand": "Cao",
-    "futureTrend": "Tích hợp AI/ML vào BI",
-    "roadmap": [
-      "DBI202",
-      "DAT101",
-      "DAT201"
-    ]
-  },
-  "Data Engineer": {
-    "careerName": "Data Engineer",
-    "description": "Xây dựng đường ống dữ liệu (Data Pipeline).",
-    "coreSkills": [
-      "Python",
-      "SQL",
-      "Spark"
-    ],
-    "advancedSkills": [
-      "ETL/ELT",
-      "Data Warehousing",
-      "Cloud Data"
-    ],
-    "tools": [
-      "Airflow",
-      "Kafka",
-      "AWS/GCP"
-    ],
-    "softSkills": [
-      "SQL giỏi",
-      "Biết Python",
-      "Hiểu về DB Architecture"
-    ],
-    "portfolios": [
-      {
-        "name": "Data Pipeline",
-        "learnToApply": []
-      },
-      {
-        "name": "Data Warehouse Schema",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "15-40M",
-    "marketDemand": "Rất cao",
-    "futureTrend": "Chuyển lên Cloud (GCP/AWS)",
-    "roadmap": [
-      "DBI202",
-      "PRO1014",
-      "DAT301"
-    ]
-  },
-  "Data Scientist": {
-    "careerName": "Data Scientist",
-    "description": "Sử dụng mô hình học máy để giải bài toán phức tạp.",
-    "coreSkills": [
-      "Python",
-      "Math/Stats",
-      "Machine Learning"
-    ],
-    "advancedSkills": [
-      "Deep Learning",
-      "NLP",
-      "Feature Engineering"
-    ],
-    "tools": [
-      "Jupyter",
-      "TensorFlow",
-      "Scikit-learn"
-    ],
-    "softSkills": [
-      "Toán và Thống kê tốt",
-      "Python giỏi",
-      "Biết các ML Model cơ bản"
-    ],
-    "portfolios": [
-      {
-        "name": "Predictive Model",
-        "learnToApply": []
-      },
-      {
-        "name": "Recommender System",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "20-50M",
-    "marketDemand": "Đang tăng",
-    "futureTrend": "Phổ cập GenAI",
-    "roadmap": [
-      "DAT101",
-      "DAT201",
-      "ML101"
-    ]
-  },
-  "DevOps Engineer": {
-    "careerName": "DevOps Engineer",
-    "description": "Tự động hóa quá trình phát triển, kiểm thử và vận hành.",
-    "coreSkills": [
-      "Linux",
-      "Docker",
-      "CI/CD"
-    ],
-    "advancedSkills": [
-      "Infrastructure as Code",
-      "Monitoring",
-      "Scripting"
-    ],
-    "tools": [
-      "Jenkins",
-      "Kubernetes",
-      "Terraform"
-    ],
-    "softSkills": [
-      "Biết Linux Command Line",
-      "Hiểu Git/Docker"
-    ],
-    "portfolios": [
-      {
-        "name": "CI/CD Pipeline",
-        "learnToApply": []
-      },
-      {
-        "name": "K8s Cluster Setup",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "15-40M",
-    "marketDemand": "Rất cao",
-    "futureTrend": "Chuyển sang DevSecOps",
-    "roadmap": [
-      "NET101",
-      "SYS201",
-      "DEV301"
-    ]
-  },
-  "System Administrator": {
-    "careerName": "System Administrator",
-    "description": "Quản trị hệ thống máy chủ và mạng IT doanh nghiệp.",
-    "coreSkills": [
-      "Windows Server",
-      "Linux",
-      "Network"
-    ],
-    "advancedSkills": [
-      "Security",
-      "Backup/Restore",
-      "Active Directory"
-    ],
-    "tools": [
-      "VMware",
-      "Zabbix",
-      "PowerShell"
-    ],
-    "softSkills": [
-      "Cài đặt được OS Server",
-      "Hiểu mạng LAN cơ bản"
-    ],
-    "portfolios": [
-      {
-        "name": "Cài đặt AD Domain",
-        "learnToApply": []
-      },
-      {
-        "name": "Cấu hình VPN",
-        "learnToApply": []
-      },
-      {
-        "name": "Mail Server",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "10-25M",
-    "marketDemand": "Ổn định",
-    "futureTrend": "Dịch chuyển dần lên Cloud (IaaS)",
-    "roadmap": [
-      "NET101",
-      "SYS201",
-      "SYS301"
-    ]
-  },
-  "Network Engineer": {
-    "careerName": "Network Engineer",
-    "description": "Thiết kế, triển khai và vận hành hạ tầng mạng máy tính.",
-    "coreSkills": [
-      "Cisco",
-      "Routing",
-      "Switching"
-    ],
-    "advancedSkills": [
-      "Firewall",
-      "Wireless",
-      "Network Security"
-    ],
-    "tools": [
-      "Packet Tracer",
-      "Wireshark",
-      "Putty"
-    ],
-    "softSkills": [
-      "Có kiến thức CCNA cơ bản"
-    ],
-    "portfolios": [
-      {
-        "name": "Thiết kế mạng Doanh nghiệp",
-        "learnToApply": []
-      },
-      {
-        "name": "Cấu hình Router/Switch OSPF",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "10-30M",
-    "marketDemand": "Trung bình",
-    "futureTrend": "SDN (Software Defined Network)",
-    "roadmap": [
-      "NET101",
-      "NET201",
-      "NET301"
-    ]
-  },
-  "Cloud Architect": {
-    "careerName": "Cloud Architect",
-    "description": "Thiết kế tổng thể kiến trúc hệ thống trên Cloud.",
-    "coreSkills": [
-      "AWS/Azure",
-      "System Design",
-      "Networking"
-    ],
-    "advancedSkills": [
-      "Cost Optimization",
-      "High Availability",
-      "Disaster Recovery"
-    ],
-    "tools": [
-      "Terraform",
-      "AWS CLI",
-      "Draw.io"
-    ],
-    "softSkills": [
-      "Hiểu biết cơ bản về Cloud computing (IaaS, PaaS, SaaS)"
-    ],
-    "portfolios": [
-      {
-        "name": "Thiết kế Cloud Architecture Diagram",
-        "learnToApply": []
-      },
-      {
-        "name": "Serverless App Deploy",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "30-70M",
-    "marketDemand": "Đang tăng",
-    "futureTrend": "Multi-cloud strategy",
-    "roadmap": [
-      "SYS201",
-      "DEV301",
-      "CLD401"
-    ]
-  },
-  "Cybersecurity Analyst": {
-    "careerName": "Cybersecurity Analyst",
-    "description": "Bảo vệ hệ thống thông tin khỏi các cuộc tấn công.",
-    "coreSkills": [
-      "Networking",
-      "Ethical Hacking",
-      "Linux"
-    ],
-    "advancedSkills": [
-      "Penetration Testing",
-      "Incident Response",
-      "Cryptography"
-    ],
-    "tools": [
-      "Kali Linux",
-      "Burp Suite",
-      "Nmap"
-    ],
-    "softSkills": [
-      "Hiểu về OWASP Top 10",
-      "Dùng được Linux"
-    ],
-    "portfolios": [
-      {
-        "name": "Pentest Report",
-        "learnToApply": []
-      },
-      {
-        "name": "Security Audit Website",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "15-40M",
-    "marketDemand": "Cao",
-    "futureTrend": "Tích hợp AI trong phát hiện xâm nhập",
-    "roadmap": [
-      "NET101",
-      "SYS201",
-      "SEC301"
-    ]
-  },
-  "QA/Tester (Manual & Automation)": {
-    "careerName": "QA/Tester (Manual & Automation)",
-    "description": "Đảm bảo chất lượng phần mềm trước khi đến tay người dùng.",
-    "coreSkills": [
-      "Test Design",
-      "Manual Testing",
-      "SQL"
-    ],
-    "advancedSkills": [
-      "Automation Test",
-      "API Testing",
-      "Performance Testing"
-    ],
-    "tools": [
-      "Jira",
-      "Selenium",
-      "Postman"
-    ],
-    "softSkills": [
-      "Viết được Test Case chuẩn",
-      "Biết SQL cơ bản"
-    ],
-    "portfolios": [
-      {
-        "name": "Test Plan Document",
-        "learnToApply": []
-      },
-      {
-        "name": "Automation Script cho UI",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "8-25M",
-    "marketDemand": "Cao",
-    "futureTrend": "Automation is a must, Shift-left Testing",
-    "roadmap": [
-      "COM108",
-      "SFT201",
-      "SFT301"
-    ]
-  },
-  "UI/UX Designer": {
-    "careerName": "UI/UX Designer",
-    "description": "Thiết kế giao diện đẹp và tối ưu hóa trải nghiệm người dùng.",
-    "coreSkills": [
-      "Figma",
-      "User Research",
-      "Wireframing"
-    ],
-    "advancedSkills": [
-      "Prototyping",
-      "Usability Testing",
-      "Design System"
-    ],
-    "tools": [
-      "Figma",
-      "Adobe XD",
-      "Miro"
-    ],
-    "softSkills": [
-      "Có Portfolio trên Behance/Dribbble",
-      "Biết dùng Figma"
-    ],
-    "portfolios": [
-      {
-        "name": "App Design Case Study",
-        "learnToApply": []
-      },
-      {
-        "name": "Redesign Website",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "10-30M",
-    "marketDemand": "Ổn định",
-    "futureTrend": "Design System & Tích hợp AI tạo mockups",
-    "roadmap": [
-      "DES101",
-      "DES201",
-      "WEB104"
-    ]
-  },
-  "Product Manager": {
-    "careerName": "Product Manager",
-    "description": "Quản lý vòng đời sản phẩm công nghệ từ ý tưởng đến ra mắt.",
-    "coreSkills": [
-      "Agile/Scrum",
-      "Communication",
-      "Market Analysis"
-    ],
-    "advancedSkills": [
-      "Data-driven Decision",
-      "Roadmapping",
-      "UX Understanding"
-    ],
-    "tools": [
-      "Jira",
-      "Trello",
-      "Notion",
-      "Google Analytics"
-    ],
-    "softSkills": [
-      "Kỹ năng giao tiếp tốt",
-      "Hiểu quy trình phát triển phần mềm"
-    ],
-    "portfolios": [
-      {
-        "name": "PRD (Product Requirement Doc)",
-        "learnToApply": []
-      },
-      {
-        "name": "Market Research Report",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "20-60M",
-    "marketDemand": "Cao",
-    "futureTrend": "AI-driven Product Management",
-    "roadmap": [
-      "MGT101",
-      "SFT201",
-      "MGT301"
-    ]
-  },
-  "Business Analyst (BA)": {
-    "careerName": "Business Analyst (BA)",
-    "description": "Cầu nối lấy yêu cầu giữa đội ngũ Business và IT.",
-    "coreSkills": [
-      "Requirement Gathering",
-      "UML",
-      "SQL"
-    ],
-    "advancedSkills": [
-      "Process Modeling",
-      "Wireframing",
-      "Stakeholder Management"
-    ],
-    "tools": [
-      "Draw.io",
-      "Balsamiq",
-      "Excel"
-    ],
-    "softSkills": [
-      "Tiếng Anh tốt",
-      "Giao tiếp lưu loát",
-      "Kỹ năng viết docs"
-    ],
-    "portfolios": [
-      {
-        "name": "BRD, SRS Documents",
-        "learnToApply": []
-      },
-      {
-        "name": "BPMN Process Diagrams",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "12-35M",
-    "marketDemand": "Cao",
-    "futureTrend": "Chuyển hướng thành Data-driven BA",
-    "roadmap": [
-      "MGT101",
-      "DBI202",
-      "SFT201"
-    ]
-  },
-  "Game Developer": {
-    "careerName": "Game Developer",
-    "description": "Lập trình và phát triển trò chơi điện tử.",
-    "coreSkills": [
-      "C#",
-      "C++",
-      "Unity",
-      "Unreal Engine"
-    ],
-    "advancedSkills": [
-      "3D Math",
-      "Physics Engine",
-      "Game AI"
-    ],
-    "tools": [
-      "Unity",
-      "Unreal Engine",
-      "Blender"
-    ],
-    "softSkills": [
-      "Biết code C# hoặc C++",
-      "Làm quen với Unity/Unreal"
-    ],
-    "portfolios": [
-      {
-        "name": "Mini 2D Platformer",
-        "learnToApply": []
-      },
-      {
-        "name": "3D FPS Prototype",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "10-40M",
-    "marketDemand": "Trung bình",
-    "futureTrend": "Sử dụng GenAI để tạo assets và cốt truyện",
-    "roadmap": [
-      "COM108",
-      "GAM101",
-      "GAM201"
-    ]
-  },
-  "AI/ML Engineer": {
-    "careerName": "AI/ML Engineer",
-    "description": "Xây dựng các hệ thống và ứng dụng Trí tuệ nhân tạo.",
-    "coreSkills": [
-      "Python",
-      "Deep Learning",
-      "LLMs"
-    ],
-    "advancedSkills": [
-      "Prompt Engineering",
-      "Model Tuning",
-      "Computer Vision"
-    ],
-    "tools": [
-      "PyTorch",
-      "LangChain",
-      "HuggingFace"
-    ],
-    "softSkills": [
-      "Biết sử dụng Python",
-      "Biết gọi các API AI"
-    ],
-    "portfolios": [
-      {
-        "name": "Chatbot LLM",
-        "learnToApply": []
-      },
-      {
-        "name": "Image Classifier",
-        "learnToApply": []
-      },
-      {
-        "name": "Predictive API",
-        "learnToApply": []
-      }
-    ],
-    "salaryRange": "20-60M",
-    "marketDemand": "Rất cao",
-    "futureTrend": "Generative AI là cốt lõi của mọi sản phẩm",
-    "roadmap": [
-      "COM108",
-      "DAT201",
-      "AI301"
-    ]
-  }
+  "Frontend Developer": [
+    "Làm quen HTML/CSS",
+    "Học JavaScript Core",
+    "Framework React/Next.js",
+    "State Management",
+    "Performance Optimization"
+  ],
+  "Backend Developer": [
+    "Làm quen Node.js/PHP",
+    "Học SQL/NoSQL",
+    "Xây dựng REST API",
+    "Authentication & Security",
+    "Tối ưu hóa Query"
+  ],
+  "Fullstack Developer": [
+    "Frontend Core",
+    "Backend Core",
+    "Kết nối Frontend & Backend",
+    "Deployment",
+    "CI/CD Pipeline"
+  ],
+  "Mobile App Developer": [
+    "Làm quen UI Mobile",
+    "Học React Native/Android",
+    "Kết nối API",
+    "State Management",
+    "Publish App Store"
+  ],
+  "Data Analyst": [
+    "Học SQL",
+    "Trực quan hóa dữ liệu",
+    "Phân tích kinh doanh",
+    "Machine Learning cơ bản"
+  ],
+  "Data Engineer": [
+    "Học SQL nâng cao",
+    "Lập trình Python",
+    "Thiết kế ETL",
+    "Xử lý Big Data"
+  ],
+  "Data Scientist": [
+    "Toán và Thống kê",
+    "Machine Learning Algorithms",
+    "Deep Learning",
+    "Triển khai Model"
+  ],
+  "AI/ML Engineer": [
+    "Python nâng cao",
+    "Machine Learning",
+    "Deep Learning",
+    "MLOps và Triển khai"
+  ],
+  "DevOps Engineer": [
+    "Linux cơ bản",
+    "Networking",
+    "Docker",
+    "CI/CD Pipeline",
+    "Kubernetes"
+  ],
+  "Cloud Architect": [
+    "Chứng chỉ Cloud cơ bản",
+    "Networking",
+    "Security",
+    "System Architecture"
+  ],
+  "System Administrator": [
+    "Phần cứng & Mạng",
+    "Hệ điều hành Server",
+    "Bảo mật cơ bản",
+    "Tự động hóa"
+  ],
+  "Network Engineer": [
+    "CCNA",
+    "Routing & Switching",
+    "Network Security",
+    "Cloud Networking"
+  ],
+  "QA/Tester (Manual & Automation)": [
+    "Kiểm thử thủ công (Manual)",
+    "Thiết kế Test Case",
+    "Automation Testing",
+    "API Testing"
+  ],
+  "UI/UX Designer": [
+    "Nguyên lý thiết kế",
+    "Công cụ thiết kế (Figma)",
+    "User Research",
+    "Prototyping & Testing"
+  ],
+  "Product Manager": [
+    "Hiểu về Agile/Scrum",
+    "Nghiên cứu thị trường",
+    "Quản lý Backlog",
+    "Ra mắt sản phẩm"
+  ],
+  "Business Analyst (BA)": [
+    "Phân tích yêu cầu",
+    "Vẽ sơ đồ UML/BPMN",
+    "Tạo tài liệu BRD",
+    "Giao tiếp với Dev Team"
+  ],
+  "Cybersecurity Analyst": [
+    "Networking & Linux",
+    "Security Fundamentals",
+    "Penetration Testing",
+    "Security Operations"
+  ],
+  "Game Developer": [
+    "Lập trình C#/C++",
+    "Sử dụng Game Engine",
+    "Vật lý & Toán học 3D",
+    "Phát hành Game"
+  ]
 }
