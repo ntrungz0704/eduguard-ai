@@ -218,7 +218,7 @@ async function syncUploadedData(validStudents) {
         });
       }
     }
-  });
+  }, { maxWait: 15000, timeout: 30000 });
 
   console.log(`[IMPORT_AUDIT] ${new Date().toISOString()} | syncUploadedData | ${normalizedStudents.length} students | COMMITTED`);
   eventBus.emit(EVENTS.DATASET_UPDATED);
