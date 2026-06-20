@@ -1,10 +1,12 @@
 services:
   - type: web
-    runtime: docker
+    runtime: node
     name: eduguard-ai
     branch: main
     plan: free
     healthCheckPath: /api/health
+    buildCommand: npm install && npm run build:client && npx prisma generate
+    startCommand: node server/server.js
     envVars:
       - key: NODE_ENV
         value: production

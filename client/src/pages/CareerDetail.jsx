@@ -718,27 +718,22 @@ const handleDragLeave = () => {
     const doneTasks = tasks.filter(t => t.status === 'DONE');
     const progressPercent = Math.round((doneTasks.length / total) * 100);
 
-    // Academic score remains constant (from university records)
-    const academicScore = backendMetrics?.academicScore ?? (analysis.scores?.academic || 0);
+    const transcriptMatch = Number(analysis.matchRate ?? analysis.readinessScore ?? analysis.score ?? analysis.scores?.academic ?? 0);
+    const transcriptCoverage = Number(analysis.coverage ?? analysis.progressPercent ?? progressPercent);
+    const academicScore = backendMetrics?.academicScore ?? transcriptMatch;
 
     // Industry score: dynamically calculated by weights of completed tasks
     const totalWeight = tasks.reduce((sum, t) => sum + t.impact, 0);
     const acquiredWeight = doneTasks.reduce((sum, t) => sum + t.impact, 0);
-    const industryScore = backendMetrics?.industryScore ?? (totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0);
+    const industryScore = backendMetrics?.industryScore ?? transcriptCoverage;
 
     // Portfolio score: based on Github evidence
     const verifiedTasksCount = doneTasks.filter(t => t.verified && t.github).length;
     const portfolioScore = backendMetrics?.portfolioScore ?? Math.min(100, verifiedTasksCount * 33);
 
-    // Behavior score: from backend mock/academic
-    const behaviorScore = analysis.scores?.behavior || 0;
+    const behaviorScore = backendMetrics?.behaviorScore ?? 0;
 
-    const readinessScore = backendMetrics?.readinessScore ?? Math.round(
-      (academicScore * 0.3) +
-      (industryScore * 0.4) +
-      (portfolioScore * 0.2) +
-      (behaviorScore * 0.1)
-    );
+    const readinessScore = backendMetrics?.readinessScore ?? transcriptMatch;
 
     const activeMissing = tasks.filter(t => t.status !== 'DONE')
                                .sort((a,b) => b.impact - a.impact);
@@ -989,28 +984,15 @@ const handleDragLeave = () => {
           {/* Right Readiness Gauge & Progress bar */}
           {analysis && (
             <div className="flex flex-col md:flex-row gap-6 items-center bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-5 rounded-2xl shrink-0 w-full lg:w-auto">
-              {analysis.insufficientEvidence ? (
-                <div className="flex flex-col items-center justify-center p-3 text-center w-28 h-28 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl shrink-0">
-                  <AlertCircle size={28} className="text-slate-400 mb-1" />
-                  <span className="text-[10px] font-black text-slate-500 uppercase leading-snug">Chưa đủ<br/>căn cứ</span>
-                </div>
-              ) : (
-                <ReadinessGauge score={computedMetrics.readinessScore} level={getReadinessConfig(computedMetrics.readinessScore).label} />
-              )}
+              <ReadinessGauge score={computedMetrics.readinessScore} level={getReadinessConfig(computedMetrics.readinessScore).label} />
 
               {/* Contribution Breakdown */}
               <div className="flex flex-col justify-center gap-1 border-l border-slate-200 dark:border-white/10 pl-5 text-[10px] font-bold text-slate-600 dark:text-slate-400 h-full shrink-0">
                 <span className="text-[8px] font-extrabold uppercase tracking-wider text-slate-400 mb-1 block">Đóng góp điểm số</span>
-                {analysis.insufficientEvidence ? (
-                  <div className="text-[10px] italic text-slate-500 font-semibold py-2 w-32">Chưa học môn liên quan.</div>
-                ) : (
-                  <>
-                    <div className="flex justify-between gap-4 w-32"><span>Học tập:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.academicScore / 100) * 30)}/30</span></div>
-                    <div className="flex justify-between gap-4 w-32"><span>Chuyên môn:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.industryScore / 100) * 40)}/40</span></div>
-                    <div className="flex justify-between gap-4 w-32"><span>Dự án:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.portfolioScore / 100) * 20)}/20</span></div>
-                    <div className="flex justify-between gap-4 w-32"><span>Thái độ:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.behaviorScore / 100) * 10)}/10</span></div>
-                  </>
-                )}
+                <div className="flex justify-between gap-4 w-32"><span>Academic:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.academicScore / 100) * 30)}/30</span></div>
+                <div className="flex justify-between gap-4 w-32"><span>Skills:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.industryScore / 100) * 40)}/40</span></div>
+                <div className="flex justify-between gap-4 w-32"><span>Project:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.portfolioScore / 100) * 20)}/20</span></div>
+                <div className="flex justify-between gap-4 w-32"><span>Behavior:</span> <span className="text-slate-900 dark:text-white font-extrabold">{Math.round((computedMetrics.behaviorScore / 100) * 10)}/10</span></div>
               </div>
 
               <div className="space-y-2 w-full md:w-48 border-l border-slate-200 dark:border-white/10 pl-5 flex flex-col justify-between h-full">

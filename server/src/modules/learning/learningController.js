@@ -71,6 +71,78 @@ async function createDeterministicBoard(studentId, careerId) {
   return generatedTasks;
 }
 
+async function syncDeterministicBoard(studentId, careerId, existingTasks = []) {
+  const student = await prisma.student.findUnique({
+    where: { mssv: String(studentId).toUpperCase() },
+    include: { scores: { include: { course: true } } }
+  });
+  const analysis = analyzeCareerFromTranscript(student?.scores || [], careerId);
+  if (analysis.missing_data) return existingTasks.map(formatTask);
+
+  const existingByTitle = new Map(existingTasks.map(task => [String(task.title || '').toLowerCase(), task]));
+  const deterministicTasks = generateLearningTasks(careerId, analysis).map(task => {
+    const existing = existingByTitle.get(String(task.title || '').toLowerCase());
+    if (!existing) return task;
+
+    const transcriptLockedStatus = task.status === 'DONE' || task.status === 'IN_PROGRESS';
+    return {
+      ...task,
+      id: existing.taskId || task.id,
+      status: transcriptLockedStatus ? task.status : existing.status,
+      started_at: task.started_at || (existing.startedAt ? existing.startedAt.toISOString().split('T')[0] : null),
+      completed_at: task.completed_at || (existing.completedAt ? existing.completedAt.toISOString().split('T')[0] : null),
+      github: existing.github || null,
+      demo: existing.demo || null,
+      screenshot: existing.screenshot || null,
+      evidenceStatus: task.status === 'DONE' ? 'VERIFIED' : (existing.evidenceStatus || 'NONE'),
+      verified: task.status === 'DONE' ? true : existing.verified,
+      points: existing.points || 0
+    };
+  });
+
+  const board = await prisma.learningBoard.upsert({
+    where: {
+      studentId_careerId: {
+        studentId,
+        careerId
+      }
+    },
+    update: {},
+    create: {
+      studentId,
+      careerId
+    }
+  });
+
+  await prisma.learningTask.deleteMany({
+    where: { boardId: board.id }
+  });
+
+  await prisma.$transaction(
+    deterministicTasks.map(t => prisma.learningTask.create({
+      data: {
+        boardId: board.id,
+        taskId: t.id,
+        title: t.title,
+        type: t.type,
+        status: t.status,
+        impact: t.impact,
+        duration: t.duration,
+        startedAt: t.started_at ? new Date(t.started_at) : null,
+        completedAt: t.completed_at ? new Date(t.completed_at) : null,
+        github: t.github || null,
+        demo: t.demo || null,
+        screenshot: t.screenshot || null,
+        evidenceStatus: t.evidenceStatus || 'NONE',
+        verified: t.verified || false,
+        points: t.points || 0
+      }
+    }))
+  );
+
+  return deterministicTasks;
+}
+
 exports.getLearningBoard = async (req, res) => {
   try {
     const { careerId } = req.params;
@@ -90,10 +162,10 @@ exports.getLearningBoard = async (req, res) => {
     });
     
     if (board && board.tasks.length > 0) {
-      const formattedTasks = board.tasks.map(formatTask);
+      const formattedTasks = await syncDeterministicBoard(studentId, careerId, board.tasks);
 
       // Calculate Readiness
-      const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, board.tasks);
+      const readinessMetrics = await readinessService.calculateCareerReadiness(studentId, careerId, formattedTasks);
 
       res.json({
         tasks: formattedTasks,

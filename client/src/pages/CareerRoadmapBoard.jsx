@@ -457,27 +457,22 @@ export default function CareerRoadmapBoard() {
     const doneTasks = tasks.filter(t => t.status === 'DONE');
     const progressPercent = Math.round((doneTasks.length / total) * 100);
 
-    // Calculate new readiness score
-    const academicScore = backendMetrics?.academicScore ?? (analysis.scores?.academic || 0);
+    const transcriptMatch = Number(analysis.matchRate ?? analysis.readinessScore ?? analysis.score ?? analysis.scores?.academic ?? 0);
+    const transcriptCoverage = Number(analysis.coverage ?? analysis.progressPercent ?? progressPercent);
+    const academicScore = backendMetrics?.academicScore ?? transcriptMatch;
 
     // Industry Score: based on local done tasks
     const totalWeight = tasks.reduce((sum, t) => sum + t.impact, 0);
     const acquiredWeight = doneTasks.reduce((sum, t) => sum + t.impact, 0);
-    const industryScore = backendMetrics?.industryScore ?? (totalWeight > 0 ? (acquiredWeight / totalWeight) * 100 : 0);
+    const industryScore = backendMetrics?.industryScore ?? transcriptCoverage;
 
     // Portfolio: based on tasks with Github evidence
     const verifiedTasksCount = doneTasks.filter(t => t.evidenceStatus === 'VERIFIED').length;
     const portfolioScore = backendMetrics?.portfolioScore ?? Math.min(100, verifiedTasksCount * 33);
 
-    // Behavior: remains unchanged from backend
-    const behaviorScore = analysis.scores?.behavior || 0;
+    const behaviorScore = backendMetrics?.behaviorScore ?? 0;
 
-    const readinessScore = backendMetrics?.readinessScore ?? Math.round(
-      (academicScore * 0.3) +
-      (industryScore * 0.4) +
-      (portfolioScore * 0.2) +
-      (behaviorScore * 0.1)
-    );
+    const readinessScore = backendMetrics?.readinessScore ?? transcriptMatch;
 
     // Determine target forecasts (skills in IN_PROGRESS or top TODO)
     const activeMissing = tasks.filter(t => t.status !== 'DONE')
