@@ -81,19 +81,52 @@ const DEMAND_LABEL = {
   'MEDIUM': { label: 'TB', color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
 };
 
+const CAREER_IMAGES = {
+  'frontend': 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80',
+  'backend': 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80',
+  'fullstack': 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80',
+  'full stack': 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80',
+  'ui/ux': 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80',
+  'uiux': 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80',
+  'data': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80',
+  'ai': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&q=80',
+  'mobile': 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80',
+  'cloud': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80',
+  'devops': 'https://images.unsplash.com/photo-1618401471353-b98a5233c591?w=500&q=80',
+  'game': 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=500&q=80',
+  'qa': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=500&q=80',
+  'security': 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=500&q=80',
+  'default': 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=500&q=80'
+};
+
+function getCareerImage(careerName) {
+  const lower = String(careerName || '').toLowerCase();
+  for (const [key, url] of Object.entries(CAREER_IMAGES)) {
+    if (lower.includes(key)) return url;
+  }
+  return CAREER_IMAGES['default'];
+}
+
 function TopMatchCard({ career, rank, onClick }) {
   const score = Math.max(0, Math.min(100, Number(career.matchRate ?? career.readinessScore ?? career.score ?? 0)));
+  const imgUrl = getCareerImage(career.careerName);
   const medals = ['🥇', '🥈', '🥉'];
   return (
-    <button onClick={onClick} className="group glass-card rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5 p-5 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:border-amber-400 dark:hover:border-amber-500/50 relative overflow-hidden w-full cursor-pointer">
-      <div className="absolute top-3 right-3 text-2xl">{medals[rank] || '⭐'}</div>
-      <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">#{rank + 1} Phù hợp nhất</p>
-      <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{career.careerName}</h3>
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${score}%` }} />
+    <button onClick={onClick} className="group glass-card rounded-2xl border border-amber-200 dark:border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5 p-0 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:border-amber-400 dark:hover:border-amber-500/50 relative overflow-hidden w-full cursor-pointer flex flex-col">
+      <div className="w-full h-28 overflow-hidden relative">
+        <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors z-10" />
+        <img src={imgUrl} alt={career.careerName} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        <div className="absolute top-2 right-2 z-20 text-xl bg-white/90 dark:bg-slate-900/90 rounded-full w-8 h-8 flex items-center justify-center shadow-lg border border-white/20">{medals[rank] || '⭐'}</div>
+      </div>
+      <div className="p-5 flex-1 w-full">
+        <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-1">#{rank + 1} Phù hợp nhất</p>
+        <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{career.careerName}</h3>
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 transition-all duration-1000" style={{ width: `${score}%` }} />
+          </div>
+          <span className="text-sm font-black text-amber-600 dark:text-amber-400">{score}% Alignment</span>
         </div>
-        <span className="text-sm font-black text-amber-600 dark:text-amber-400">{score}% Alignment</span>
       </div>
     </button>
   );
@@ -102,59 +135,67 @@ function TopMatchCard({ career, rank, onClick }) {
 function CareerCard({ career, onClick }) {
   const demand = DEMAND_LABEL[career.marketDemand] || DEMAND_LABEL['MEDIUM'];
   const score = Math.max(0, Math.min(100, Number(career.matchRate ?? career.readinessScore ?? career.score ?? 0)));
+  const imgUrl = getCareerImage(career.careerName);
 
   return (
     <button
       onClick={onClick}
-      className="group glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-5 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-400 dark:hover:border-blue-500/50 relative overflow-hidden w-full cursor-pointer"
+      className="group glass-card rounded-2xl border border-slate-200 dark:border-white/10 p-0 text-left transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:border-blue-400 dark:hover:border-blue-500/50 relative overflow-hidden w-full cursor-pointer flex flex-col"
     >
-      <div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-      {/* Header Row */}
-      <div className="flex items-start justify-between mb-3">
-        <span className="text-[10px] font-bold text-slate-500">💰 Lương: {career.salaryRange}</span>
-        <span className={`text-[9px] font-bold px-2 py-1 rounded-md border ${demand.bg} ${demand.border} ${demand.color}`}>
-          {demand.label}
-        </span>
+      <div className="w-full h-32 overflow-hidden bg-slate-100 dark:bg-slate-800 relative">
+        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10" />
+        <img src={imgUrl} alt={career.careerName} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
       </div>
 
-      {/* Career Name */}
-      <h3 className="text-sm font-black text-slate-900 dark:text-white mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
-        {career.careerName}
-      </h3>
+      <div className="p-5 flex-1 relative bg-white/50 dark:bg-slate-900/50 w-full">
+        <div className="absolute -top-16 -right-16 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      {/* Readiness score for students */}
-      {career.readinessScore !== undefined && career.readinessScore !== null && (
-        <div className="mb-3">
-          <div className="flex justify-between text-[10px] font-bold mb-1">
-            <span className="text-slate-500 uppercase tracking-wider">Match Rate</span>
-            <span className="text-blue-600 dark:text-blue-400">{score}% Alignment</span>
-          </div>
-          <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
-              style={{ width: `${score}%` }}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Skills Preview */}
-      <div className="flex flex-wrap gap-1 mb-4">
-        {(career.coreSkills || []).slice(0, 4).map((skill, i) => (
-          <span key={i} className="text-[9px] font-semibold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/10">
-            {skill}
+        {/* Header Row */}
+        <div className="flex items-start justify-between mb-3 relative z-20">
+          <span className="text-[10px] font-bold text-slate-500">💰 Lương: {career.salaryRange}</span>
+          <span className={`text-[9px] font-bold px-2 py-1 rounded-md border ${demand.bg} ${demand.border} ${demand.color}`}>
+            {demand.label}
           </span>
-        ))}
-        {(career.coreSkills || []).length > 4 && (
-          <span className="text-[9px] font-bold text-blue-500">+{career.coreSkills.length - 4}</span>
-        )}
-      </div>
+        </div>
 
-      {/* CTA */}
-      <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/5">
-        <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">Xem Roadmap & AI Coach →</span>
-        <ArrowUpRight size={14} className="text-slate-400 group-hover:text-blue-500 transition-colors" />
+        {/* Career Name */}
+        <h3 className="text-sm font-black text-slate-900 dark:text-white mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight relative z-20">
+          {career.careerName}
+        </h3>
+
+        {/* Readiness score for students */}
+        {career.readinessScore !== undefined && career.readinessScore !== null && (
+          <div className="mb-3 relative z-20">
+            <div className="flex justify-between text-[10px] font-bold mb-1">
+              <span className="text-slate-500 uppercase tracking-wider">Match Rate</span>
+              <span className="text-blue-600 dark:text-blue-400">{score}% Alignment</span>
+            </div>
+            <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
+                style={{ width: `${score}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Skills Preview */}
+        <div className="flex flex-wrap gap-1 mb-4 relative z-20">
+          {(career.coreSkills || []).slice(0, 4).map((skill, i) => (
+            <span key={i} className="text-[9px] font-semibold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/10">
+              {skill}
+            </span>
+          ))}
+          {(career.coreSkills || []).length > 4 && (
+            <span className="text-[9px] font-bold text-blue-500">+{career.coreSkills.length - 4}</span>
+          )}
+        </div>
+
+        {/* CTA */}
+        <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/5 relative z-20">
+          <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">Xem Roadmap & AI Coach →</span>
+          <ArrowUpRight size={14} className="text-slate-400 group-hover:text-blue-500 transition-colors" />
+        </div>
       </div>
     </button>
   );
