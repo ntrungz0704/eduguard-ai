@@ -421,22 +421,28 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
   const passedScores = scoreEntries.filter(s => s.status === 'PASSED' && s.value !== null);
   const failedScores = scoreEntries.filter(s => s.status === 'FAILED' && s.value !== null);
   
-  // Chỉ hiện môn có rủi ro trong dropdown can thiệp (chỉ cho môn đang học, sắp học, dự đoán rủi ro):
-  // Quyết định: Bỏ qua các môn đã có điểm cuối cùng (PASSED hoặc FAILED) để tuân thủ luật SSOT & DSS.
-
+  // Chỉ hiện môn có rủi ro trong danh sách can thiệp:
+  // - CHỈ hiện môn có dự đoán rủi ro thực sự từ AI (HIGH / CRITICAL / MEDIUM).
+  // - Không hiện môn đang học / chưa học mà chưa có dự đoán (tránh ⚠️ Rủi ro sai).
+  // - Quy tắc SSOT: bỏ qua môn đã có điểm cuối cùng (PASSED / FAILED).
+  //
+  // Lý do: Nếu môn A ảnh hưởng đến môn B thì mô hình AI phải dự đoán rủi ro cho B
+  // dựa trên điểm A. Chỉ khi có dự đoán rõ ràng thì mới hiện vào danh sách can thiệp.
 
   const riskyCourses = [];
+
+  // PASS 1 — Môn đang có điểm/trạng thái nhưng chưa hoàn thành, chỉ lấy khi có dự đoán rủi ro
   scoreEntries.forEach(s => {
     if (isConditionalCourse(s.course?.name || s.courseId, s.courseId)) return;
-    // TIER 1: Historical Evidence - Exclude both PASSED and FAILED from Active Intervention dropdown
+    // Bỏ qua môn đã hoàn thành
     if (s.status === 'PASSED' || s.status === 'FAILED') return;
-    
+
     const pred = student.predictions?.find(p => p.courseId === s.courseId);
     const isHighRisk = pred && (pred.risk === 'HIGH' || pred.risk === 'CRITICAL');
     const isMediumRisk = pred && pred.risk === 'MEDIUM';
-    const isInProgress = s.status === 'STUDYING' || s.status === 'NOT_STARTED';
-    
-    if (isHighRisk || isMediumRisk || isInProgress) {
+
+    // Chỉ thêm vào nếu có dự đoán rủi ro thực sự — không thêm chỉ vì đang học/chưa học
+    if (isHighRisk || isMediumRisk) {
       riskyCourses.push({
         courseId: s.courseId,
         status: s.status,
@@ -456,6 +462,23 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
           courseId: p.courseId,
           status: 'UPCOMING',
           course: { name: p.course?.name || p.courseId }
+        });
+      }
+    });
+  }
+
+  // PASS 3: Thêm các môn rủi ro lan truyền từ DSS Report (nếu có) mà chưa có trong list
+  if (dssReport && Array.isArray(dssReport.futureRiskWarnings)) {
+    dssReport.futureRiskWarnings.forEach(w => {
+      if (isConditionalCourse(w.targetCourseName || w.targetCourseId, w.targetCourseId)) return;
+      const isCompleted = scoreEntries.some(s => s.courseId === w.targetCourseId && (s.status === 'PASSED' || s.status === 'FAILED'));
+      const alreadyAdded = riskyCourses.some(rc => rc.courseId === w.targetCourseId);
+      
+      if (!isCompleted && !alreadyAdded && (w.severity === 'HIGH' || w.severity === 'CRITICAL' || w.severity === 'MEDIUM')) {
+        riskyCourses.push({
+          courseId: w.targetCourseId,
+          status: 'UPCOMING',
+          course: { name: w.targetCourseName || w.targetCourseId }
         });
       }
     });
@@ -1686,12 +1709,14 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                   className="w-full p-3.5 bg-slate-200 dark:bg-black/40 border border-slate-200 dark:border-white/10 hover:border-white/20 focus:border-rose-500/50 outline-none rounded-xl text-slate-900 dark:text-white text-sm transition-colors"
                 >
                   {riskyCourses.length === 0 ? (
-                    <option value="" disabled>Không có môn nào có rủi ro hiện tại</option>
+                    <option value="" disabled>Không có môn nào có dự đoán rủi ro (HIGH/MEDIUM/CRITICAL)</option>
                   ) : (
                     riskyCourses.map(s => {
                       const pred = student.predictions?.find(p => p.courseId === s.courseId);
-                      const risk = pred?.risk;
-                      const label = risk === 'HIGH' || risk === 'CRITICAL' ? ' 🔴 Cao' : risk === 'MEDIUM' ? ' 🟡 Trung bình' : s.status === 'FAILED' ? ' ❌ Trượt' : ' ⚠️ Rủi ro';
+                      const dssWarn = dssReport?.futureRiskWarnings?.find(w => w.targetCourseId === s.courseId);
+                      const risk = pred?.risk || dssWarn?.severity;
+                      // Vì tất cả môn trong list đều có dự đoán, label phản ánh đúng mức rủi ro AI
+                      const label = risk === 'CRITICAL' ? ' 🔴 Nguy cấp' : risk === 'HIGH' ? ' 🔴 Cao' : risk === 'MEDIUM' ? ' 🟡 Trung bình' : ' 🟠 Rủi ro thấp';
                       return (
                         <option key={s.courseId} value={s.courseId} className="bg-white dark:bg-slate-900">
                           {s.courseId} — {s.course?.name || s.courseId}{label}
@@ -1701,7 +1726,7 @@ Em mong gia đình cùng phối hợp với nhà trường động viên cháu t
                   )}
                 </select>
                 {riskyCourses.length > 0 && (
-                  <p className="text-[10px] text-slate-500">{riskyCourses.length} môn có rủi ro — Chỉ hiện môn cần can thiệp, bỏ qua môn đã đạt tốt.</p>
+                  <p className="text-[10px] text-slate-500">{riskyCourses.length} môn có dự đoán rủi ro — Chỉ hiện môn được AI xác định cần can thiệp (dựa trên quan hệ tiên quyết).</p>
                 )}
               </div>
 
