@@ -32,16 +32,20 @@ const startServer = async (port) => {
     logger.info(`✅ EduGuard AI Server running at http://0.0.0.0:${port}`);
     
     // Load AI Model on Boot AFTER opening the port
-    // This prevents Render's health check from timing out due to blocked event loop
-    try {
-      const { loadModel } = require('./src/ai/inference/riskPredictor');
-      loadModel().then(() => {
-        logger.info('🧠 ML Predictor weights loaded successfully.');
-      }).catch(e => {
-        logger.error(`❌ Lỗi khi khởi động ML Predictor: ${e.message}`);
-      });
-    } catch (e) {
-      logger.error(`❌ Lỗi khi tải ML Predictor: ${e.message}`, { stack: e.stack });
+    // Bỏ qua load model TFJS trên production (Render free tier) để tránh lỗi Out Of Memory (512MB RAM)
+    if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_TFJS === 'true') {
+      try {
+        const { loadModel } = require('./src/ai/inference/riskPredictor');
+        loadModel().then(() => {
+          logger.info('🧠 ML Predictor weights loaded successfully.');
+        }).catch(e => {
+          logger.error(`❌ Lỗi khi khởi động ML Predictor: ${e.message}`);
+        });
+      } catch (e) {
+        logger.error(`❌ Lỗi khi tải ML Predictor: ${e.message}`, { stack: e.stack });
+      }
+    } else {
+      logger.info('🧠 ML Predictor loading skipped in production mode to conserve memory.');
     }
   });
 
