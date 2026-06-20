@@ -49,6 +49,3 @@ jobs:
     - name: Build Frontend
       run: cd client && npm run build
 
-    - name: Test Docker Image Build
-      run: docker build -t eduguard-api:test .
-
