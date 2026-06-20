@@ -4,6 +4,23 @@
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const env = require('./src/config/env'); // Validate environment immediately
 
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+// Auto-build client if missing (Render fallback)
+const distPath = path.join(__dirname, '..', 'client', 'dist', 'index.html');
+if (!fs.existsSync(distPath)) {
+  console.log('⚠️ client/dist/index.html not found! Building client now...');
+  try {
+    execSync('npm install --include=dev', { cwd: path.join(__dirname, '..', 'client'), stdio: 'inherit' });
+    execSync('npm run build', { cwd: path.join(__dirname, '..', 'client'), stdio: 'inherit' });
+    console.log('✅ Client built successfully.');
+  } catch (err) {
+    console.error('❌ Failed to build client:', err.message);
+  }
+}
+
 const app = require('./src/app');
 const { prisma } = require('./src/infrastructure/database/prisma');
 const logger = require('./src/infrastructure/logger');
