@@ -32,22 +32,22 @@ const COURSE_CODE_TO_NAME = {
   'ENT1128': 'Tiếng Anh 1.1',
   'COM2012': 'Cơ sở dữ liệu',
   'WEB1013': 'Xây dựng trang Web',
-  'ENT123': 'Tiếng Anh 1.2',
+  'ENT1227': 'Tiếng Anh 1.2',
   'WEB1043': 'Lập trình cơ sở với JavaScript',
   'WEB108': 'Lập trình PHP cơ bản',
-  'ENT213': 'Tiếng Anh 2.1',
-  'VIE108': 'Chính trị',
+  'ENT2127': 'Tiếng Anh 2.1',
+  'VIE1016': 'Chính trị',
   'WEB3023': 'Thiết kế Web với HTML5 & CSS3',
   'WEB2014': 'Lập trình PHP 1',
   'VIE1026': 'Pháp luật',
   'PDP103': 'Kỹ năng phát triển bản thân',
   'WEB105': 'Thiết kế UI/UX',
   'WEB2041': 'Dự án mẫu',
-  'ENT223': 'Tiếng Anh 2.2',
+  'ENT2227': 'Tiếng Anh 2.2',
   'WEB1023': 'Quản trị website',
-  'WEB2055': 'Marketing trên Internet',
+  'WEB2053': 'Marketing trên Internet',
   'WEB501': 'Lập trình ECMAScript',
-  'WEB2063': 'Lập trình Javascript nâng cao',
+  'WEB2064': 'Lập trình Javascript nâng cao',
   'PRO1014': 'Dự án 1',
   'WEB503': 'NodeJS & Restful Web Service',
   'WEB502': 'Lập trình TypeScript',
@@ -56,7 +56,7 @@ const COURSE_CODE_TO_NAME = {
   'WEB2081': 'Lập trình Front-End Framework 1',
   'WEB2091': 'Lập trình Front-End Framework 2',
   'PRO116': 'Thực tập tốt nghiệp',
-  'PRO2201': 'Dự án tốt nghiệp'
+  'PRO220': 'Dự án tốt nghiệp'
 };
 
 async function loadTrainingDataFromDB() {
