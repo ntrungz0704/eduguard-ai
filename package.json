@@ -18,6 +18,8 @@
     "preview": "npm run preview --prefix client -- --port 5173",
     "kill": "node server/src/jobs/kill-ports.js",
     "test": "jest --passWithNoTests --forceExit --detectOpenHandles",
+    "use:sqlite": "node scripts/use-sqlite.js",
+    "use:postgres": "node scripts/use-postgres.js",
     "ingest:graph": "node scripts/ingest_graph.js",
     "db:init": "npx prisma generate && npx prisma db push && node prisma/seed.js",
     "setup": "node scripts/setup.js"
