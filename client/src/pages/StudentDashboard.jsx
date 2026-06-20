@@ -11,7 +11,7 @@ import {
   Target, HeartHandshake, AlertTriangle
 } from 'lucide-react';
 import CourseRecoveryModal from '../components/CourseRecoveryModal';
-
+import { DEFAULT_CURRICULUM, getCourseCredits, isConditionalCourse, isEnglishCourse } from '../lib/curriculum';
 
 // ─────────────────────────────────────────────
 //  Helpers
@@ -71,64 +71,7 @@ const TabBtn = ({ active, onClick, icon, label, badge = null }) => (
   </button>
 );
 
-const DEFAULT_CURRICULUM = [
-  { id: 'COM1071', name: 'Tin học', credits: 3 },
-  { id: 'VIE103', name: 'Giáo dục thể chất', credits: 2 },
-  { id: 'PDP102', name: 'Kỹ năng học tập', credits: 2 },
-  { id: 'COM108', name: 'Nhập môn lập trình', credits: 3 },
-  { id: 'ITI101', name: 'Nhập môn Công nghệ thông tin', credits: 3 },
-  { id: 'VIE104', name: 'Giáo dục quốc phòng', credits: 4 },
-  { id: 'ENT1128', name: 'Tiếng Anh 1.1', credits: 3 },
-  { id: 'COM2012', name: 'Cơ sở dữ liệu', credits: 3 },
-  { id: 'WEB1013', name: 'Xây dựng trang Web', credits: 3 },
-  { id: 'ENT1227', name: 'Tiếng Anh 1.2', credits: 3 },
-  { id: 'WEB1043', name: 'Lập trình cơ sở với JavaScript', credits: 3 },
-  { id: 'WEB108', name: 'Lập trình PHP cơ bản', credits: 3 },
-  { id: 'ENT2127', name: 'Tiếng Anh 2.1', credits: 3 },
-  { id: 'VIE1016', name: 'Chính trị', credits: 4 },
-  { id: 'WEB3023', name: 'Thiết kế Web với HTML5 & CSS3', credits: 3 },
-  { id: 'WEB2014', name: 'Lập trình PHP 1', credits: 3 },
-  { id: 'VIE1026', name: 'Pháp luật', credits: 2 },
-  { id: 'PDP103', name: 'Kỹ năng phát triển bản thân', credits: 2 },
-  { id: 'WEB105', name: 'Thiết kế UI/UX', credits: 3 },
-  { id: 'WEB2041', name: 'Dự án mẫu', credits: 3 },
-  { id: 'ENT2227', name: 'Tiếng Anh 2.2', credits: 3 },
-  { id: 'WEB1023', name: 'Quản trị website', credits: 3 },
-  { id: 'WEB2053', name: 'Marketing trên Internet', credits: 3 },
-  { id: 'WEB501', name: 'Lập trình ECMAScript', credits: 3 },
-  { id: 'WEB2064', name: 'Lập trình Javascript nâng cao', credits: 3 },
-  { id: 'PRO1014', name: 'Dự án 1', credits: 3 },
-  { id: 'WEB503', name: 'NodeJS & Restful Web Service', credits: 3 },
-  { id: 'WEB502', name: 'Lập trình TypeScript', credits: 3 },
-  { id: 'PDP104', name: 'Kỹ năng làm việc', credits: 2 },
-  { id: 'SYB3013', name: 'Khởi sự doanh nghiệp', credits: 3 },
-  { id: 'WEB2081', name: 'Lập trình Front-End Framework 1', credits: 3 },
-  { id: 'WEB2091', name: 'Lập trình Front-End Framework 2', credits: 3 },
-  { id: 'PRO116', name: 'Thực tập tốt nghiệp', credits: 5 },
-  { id: 'PRO220', name: 'Dự án tốt nghiệp', credits: 5 }
-];
 
-function getCourseCredits(courseNameOrId) {
-  const cid = String(courseNameOrId || '').toUpperCase().trim();
-
-  // Use DEFAULT_CURRICULUM as source of truth if found
-  const found = DEFAULT_CURRICULUM.find(c => c.id === cid);
-  if (found) return found.credits;
-
-  // Fallback
-  return 3;
-}
-
-const isConditionalCourse = (courseName, courseId) => {
-  const cid = (courseId || '').toUpperCase().trim();
-  return cid === 'VIE103' || cid === 'VIE104' || cid === 'PRO116';
-};
-
-const isEnglishCourse = (courseName, courseId) => {
-  const name = (courseName || '').toLowerCase();
-  const cid = (courseId || '').toUpperCase();
-  return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
-};
 
 const get40Scale = (val) => {
   if (val === null || val === undefined) return 0.0;
@@ -262,10 +205,20 @@ function OverviewTab({ data, curriculumCourses, dssReport, handleTabChange }) {
   const cleanGpa = (gpa !== null && !isNaN(gpa)) ? gpa : 0.0;
   let targetGPA = Math.min(10, Math.ceil(cleanGpa * 10) / 10 + 0.5);
   if (cleanGpa === 0) targetGPA = 7.5;
-  const totalCurriculumCredits = 120; // Assume 120 credits for total program
-  const remainingCredits = Math.max(10, totalCurriculumCredits - totalEarnedCredits);
-  const currentPoints = cleanGpa * totalEarnedCredits;
-  const targetPoints = targetGPA * totalCurriculumCredits;
+  
+  const validScoresPass = (data?.scores || []).filter(s => s.value !== null && s.status === 'PASSED');
+  const gpaCreditsCompleted = validScoresPass
+    .filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId))
+    .reduce((sum, s) => sum + (s.course?.credits || 3), 0);
+
+  const totalCurriculumGpaCredits = DEFAULT_CURRICULUM
+    .filter(c => !isConditionalCourse(c.name, c.id))
+    .reduce((sum, c) => sum + c.credits, 0);
+
+  const remainingCredits = Math.max(0, totalCurriculumGpaCredits - gpaCreditsCompleted);
+  
+  const currentPoints = cleanGpa * gpaCreditsCompleted;
+  const targetPoints = targetGPA * totalCurriculumGpaCredits;
   let requiredGPA = remainingCredits > 0 ? ((targetPoints - currentPoints) / remainingCredits) : targetGPA;
   if (requiredGPA > 10) requiredGPA = 10;
   if (isNaN(requiredGPA) || requiredGPA < 0) requiredGPA = 0.0;
@@ -1049,7 +1002,7 @@ function GradesTab({ curriculumCourses, courseDependencies, stats }) {
             </div>
             <div>
               <div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider">Tín chỉ tích lũy (Đạt / Tổng)</div>
-              <div className="text-2xl font-black text-amber-400 mt-1">{stats?.totalEarnedCredits || 0} / 100 <span className="text-xs text-slate-500 font-normal">tín</span></div>
+              <div className="text-2xl font-black text-amber-400 mt-1">{stats?.totalEarnedCredits ?? stats?.credits ?? stats?.totalCredits ?? 0} / 100 <span className="text-xs text-slate-500 font-normal">tín</span></div>
             </div>
           </div>
           <p className="text-[10px] text-slate-500 italic mt-3">

@@ -2,17 +2,7 @@ import { useState, useEffect } from 'react';
 import { Target, Shuffle, AlertCircle, TrendingUp, Compass, User, TrendingDown, Activity, Zap, CheckCircle2 } from 'lucide-react';
 import { api } from '../lib/api';
 import { useStore } from '../store';
-
-const isConditionalCourse = (courseName, courseId) => {
-  const name = (courseName || '').toLowerCase();
-  const cid = (courseId || '').toUpperCase();
-  return (
-    name.includes('thể chất') || name.includes('quốc phòng') ||
-    name.includes('thực tập tốt nghiệp') || name.includes('vovinam') ||
-    name.includes('gdqp') || cid.includes('VIE103') || cid.includes('VIE104') ||
-    cid.includes('PRO110') || cid.includes('PRO115') || cid.includes('PRO116')
-  );
-};
+import { DEFAULT_CURRICULUM, isConditionalCourse, isEnglishCourse } from '../lib/curriculum';
 
 export default function GPA() {
   const [targetGPA, setTargetGPA] = useState(7.5);
@@ -58,17 +48,23 @@ export default function GPA() {
       const data = res.data;
       setStudentData(data);
       
-      const isEnglish = (courseName, courseId) => {
-        const name = (courseName || '').toLowerCase();
-        const cid = (courseId || '').toUpperCase();
-        return name.includes('tiếng anh') || name.includes('tieng anh') || cid.includes('ENT');
-      };
-      
       const validScores = data.scores?.filter(s => s.value !== null && s.status === 'PASSED') || [];
-      const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglish(s.course?.name || s.courseId, s.courseId));
+      const academicScores = validScores.filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId) && !isEnglishCourse(s.course?.name || s.courseId, s.courseId));
       
-      const gpa = data.analytics?.gpa10 ?? 0.0;
-      const totalCredits = data.analytics?.totalEarnedCredits ?? 0;
+      const gpa = data.academicSnapshot?.gpa10 ?? data.analytics?.gpa10 ?? 0.0;
+      const totalCredits = data.academicSnapshot?.credits ?? data.analytics?.totalEarnedCredits ?? 0;
+
+      // Tính chính xác số tín chỉ dùng để xét GPA (loại trừ môn điều kiện)
+      const gpaCreditsCompleted = validScores
+        .filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId))
+        .reduce((sum, s) => sum + (s.course?.credits || 3), 0);
+
+      const totalCurriculumGpaCredits = DEFAULT_CURRICULUM
+        .filter(c => !isConditionalCourse(c.name, c.id))
+        .reduce((sum, c) => sum + c.credits, 0);
+
+      const dynamicRemaining = Math.max(0, totalCurriculumGpaCredits - gpaCreditsCompleted);
+      setRemainingCredits(dynamicRemaining);
       
       // Compute danger courses (predictions with HIGH risk or FAILED)
       const failed = data.scores?.filter(s => s.status === 'FAILED').map(s => s.courseId) || [];
@@ -103,11 +99,19 @@ export default function GPA() {
 
   const calculateSimulation = () => {
     if (!studentData) return null;
-    const currentPoints = metrics.currentGPA * metrics.completedCredits;
-    const totalCredits = parseFloat(metrics.completedCredits) + parseFloat(remainingCredits);
-    const targetPoints = targetGPA * totalCredits;
+    
+    // Sử dụng số tín chỉ tích lũy chuyên ngành (không tính GDTC, GDQP...)
+    // Vì GPA hiện tại được tính dựa trên số tín chỉ này
+    const validScores = studentData.scores?.filter(s => s.value !== null && s.status === 'PASSED') || [];
+    const gpaCreditsCompleted = validScores
+      .filter(s => !isConditionalCourse(s.course?.name || s.courseId, s.courseId))
+      .reduce((sum, s) => sum + (s.course?.credits || 3), 0);
+      
+    const currentPoints = metrics.currentGPA * gpaCreditsCompleted;
+    const totalGpaCredits = parseFloat(gpaCreditsCompleted) + parseFloat(remainingCredits);
+    const targetPoints = targetGPA * totalGpaCredits;
     const requiredPoints = targetPoints - currentPoints;
-    const requiredGPA = requiredPoints / remainingCredits;
+    const requiredGPA = requiredPoints / (parseFloat(remainingCredits) || 1);
 
     const isPossible = requiredGPA <= 10;
     
@@ -132,7 +136,7 @@ export default function GPA() {
     return {
       requiredGPA: requiredGPA.toFixed(2),
       isPossible,
-      totalCredits,
+      totalCredits: totalGpaCredits,
       probability: prob
     };
   };
