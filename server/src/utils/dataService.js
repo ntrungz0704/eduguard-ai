@@ -168,6 +168,11 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
       return nh.includes('TRANGTHAI') || nh.includes('STATUS');
     });
 
+    const semesterCol = headers.find(h => {
+      const nh = normHeader(h);
+      return nh.includes('HOCKY') || nh.includes('SEMESTER') || nh === 'KY' || nh === 'TERM';
+    });
+
     if (!subjectCol || !scoreCol) {
       errors.push("Bảng điểm cá nhân thiếu cột 'Môn' hoặc 'Điểm'");
       return { validStudents, errors, subjectCols };
@@ -258,7 +263,12 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
         }
       }
 
-      scores[sub] = { value: score, status };
+      let semesterVal = 'Summer 2025';
+      if (semesterCol && row[semesterCol]) {
+        semesterVal = String(row[semesterCol]).trim();
+      }
+
+      scores[sub] = { value: score, status, semester: semesterVal };
       if (!subjectCols.includes(sub)) subjectCols.push(sub);
     });
 
@@ -280,12 +290,17 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
       return v.includes('HỌ TÊN') || v.includes('TÊN') || v.includes('NAME') || v.includes('STUDENT NAME');
     }) || headers[1];
 
+    const semesterCol = headers.find(h => {
+      const nh = normHeader(h);
+      return nh.includes('HOCKY') || nh.includes('SEMESTER') || nh === 'KY' || nh === 'TERM';
+    });
+
     if (!idCol) {
       errors.push("Không tìm thấy cột Mã sinh viên (MSSV) hợp lệ");
       return { validStudents, errors, subjectCols: [] };
     }
 
-    const rawSubjectCols = headers.filter(h => h !== idCol && h !== nameCol && h && !h.startsWith('__EMPTY_'));
+    const rawSubjectCols = headers.filter(h => h !== idCol && h !== nameCol && h !== semesterCol && h && !h.startsWith('__EMPTY_'));
     
     // Map each class dataset subject to pretrained subjects
     const validRawCols = [];
@@ -341,6 +356,12 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
       const name = nameCol && row[nameCol] ? String(row[nameCol]).trim() : undefined;
 
       const scores = {};
+      
+      let semesterVal = 'Summer 2025';
+      if (semesterCol && row[semesterCol]) {
+        semesterVal = String(row[semesterCol]).trim();
+      }
+
       validRawCols.forEach(({ raw: rs, matched: matchedSub }) => {
         const rawValue = String(row[rs] || '').trim().toUpperCase();
         let scoreVal = parseScore(row[rs]);
@@ -359,7 +380,7 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
           status = (scoreVal >= 5.0) ? 'PASSED' : 'FAILED';
         }
         
-        scores[matchedSub] = { value: scoreVal, status };
+        scores[matchedSub] = { value: scoreVal, status, semester: semesterVal };
       });
 
       validStudents.push({ id, name, scores });

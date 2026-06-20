@@ -119,7 +119,7 @@ async function syncUploadedData(validStudents) {
       });
     }
 
-    // 2. Upsert Students & Score entries (NO deleteMany - safe upsert only)
+    // 2. Backup existing scores, delete them (SSOT), and then save new student & score entries
     for (const st of normalizedStudents) {
       const mssv = st.id;
       if (!mssv || mssv === 'N/A') continue;
@@ -144,17 +144,40 @@ async function syncUploadedData(validStudents) {
         }
       });
 
+      // Purge old scores to avoid duplicate courses across semesters
+      const existingScoresForAudit = await tx.score.findMany({
+        where: { mssv }
+      });
+      if (existingScoresForAudit.length > 0) {
+        const currentVersionCount = await tx.transcriptHistory.count({ where: { mssv } });
+        await tx.transcriptHistory.create({
+          data: {
+            mssv,
+            snapshotData: JSON.stringify(existingScoresForAudit),
+            version: currentVersionCount + 1,
+            uploadedBy: 'ADVISOR'
+          }
+        });
+        await tx.score.deleteMany({
+          where: { mssv }
+        });
+      }
+
       for (const [courseId, scoreObj] of Object.entries(st.scores || {})) {
         if (scoreObj === null || scoreObj === undefined) continue;
         
         let value = null;
         let status = 'STUDYING';
+        let semester = 'Summer 2025';
 
         // Compatibility fallback if scoreObj is just a number
         if (typeof scoreObj === 'object') {
           if (scoreObj.isPredicted) continue; // TUYỆT ĐỐI KHÔNG lưu điểm dự báo (ảo) vào Database
           value = scoreObj.value;
           status = scoreObj.status || 'STUDYING';
+          if (scoreObj.semester) {
+            semester = scoreObj.semester;
+          }
         } else {
           value = parseFloat(scoreObj);
           if (isNaN(value)) {
@@ -181,7 +204,7 @@ async function syncUploadedData(validStudents) {
             mssv_courseId_semester: {
               mssv,
               courseId,
-              semester: 'Summer 2025'
+              semester
             }
           },
           update: { value, status },
@@ -189,7 +212,7 @@ async function syncUploadedData(validStudents) {
             mssv,
             courseId,
             value,
-            semester: 'Summer 2025',
+            semester,
             status
           }
         });
