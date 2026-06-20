@@ -173,6 +173,11 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
       return nh.includes('HOCKY') || nh.includes('SEMESTER') || nh === 'KY' || nh === 'TERM';
     });
 
+    const creditsCol = headers.find(h => {
+      const nh = normHeader(h);
+      return nh.includes('SOTINCHI') || nh.includes('TINCHI') || nh.includes('CREDITS') || nh === 'TC';
+    });
+
     if (!subjectCol || !scoreCol) {
       errors.push("Bảng điểm cá nhân thiếu cột 'Môn' hoặc 'Điểm'");
       return { validStudents, errors, subjectCols };
@@ -268,7 +273,13 @@ async function validateAndCleanData(parsedRows, headers, fileType, pretrainedSub
         semesterVal = String(row[semesterCol]).trim();
       }
 
-      scores[sub] = { value: score, status, semester: semesterVal };
+      let parsedCredits = null;
+      if (creditsCol && row[creditsCol]) {
+        const cVal = parseInt(row[creditsCol]);
+        if (!isNaN(cVal) && cVal > 0) parsedCredits = cVal;
+      }
+
+      scores[sub] = { value: score, status, semester: semesterVal, credits: parsedCredits };
       if (!subjectCols.includes(sub)) subjectCols.push(sub);
     });
 

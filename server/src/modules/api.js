@@ -70,7 +70,7 @@ async function syncUploadedData(validStudents) {
   const { resolveBackendCourseCode } = require('../utils/dataService');
   
   // Phase 1: Normalize and resolve all course codes BEFORE validation
-  const courseIds = new Set();
+  const courseCreditsMap = new Map();
   const normalizedStudents = validStudents.map(st => {
     const normalizedScores = {};
     if (st.scores) {
@@ -78,7 +78,14 @@ async function syncUploadedData(validStudents) {
         // Resolve any course name/alias to standard courseCode
         const resolvedCode = resolveBackendCourseCode(rawCourseId) || rawCourseId;
         normalizedScores[resolvedCode] = val;
-        courseIds.add(resolvedCode);
+        
+        let customCredits = null;
+        if (typeof val === 'object' && val !== null && val.credits !== undefined && val.credits !== null) {
+          customCredits = val.credits;
+        }
+        if (!courseCreditsMap.has(resolvedCode) || customCredits !== null) {
+           courseCreditsMap.set(resolvedCode, customCredits);
+        }
       });
     }
     return {
@@ -95,7 +102,7 @@ async function syncUploadedData(validStudents) {
   const standardCourseIds = new Set(dbCourses.map(c => c.id));
 
   // Validate that all courseIds from the upload exist in the database
-  const invalidCourses = Array.from(courseIds).filter(id => !standardCourseIds.has(id));
+  const invalidCourses = Array.from(courseCreditsMap.keys()).filter(id => !standardCourseIds.has(id));
   if (invalidCourses.length > 0) {
     const error = new Error(`Mã môn học không hợp lệ hoặc không thuộc khung chương trình học: ${invalidCourses.join(', ')}`);
     error.statusCode = 400;
@@ -105,9 +112,10 @@ async function syncUploadedData(validStudents) {
   // Phase 2: Execute all writes inside a single Prisma transaction
   await prisma.$transaction(async (tx) => {
     // 1. Bulk Upsert Courses
-    for (const id of courseIds) {
-      const credits = getCourseCredits(id);
-      const isCond = /^(PRO116|PRO220|PRO2201|VIE103|VIE108|VIE109|VIE104|VIE102)$/i.test(id) 
+    for (const [id, customCredits] of courseCreditsMap.entries()) {
+      const defaultCredits = getCourseCredits(id);
+      const credits = (customCredits !== null && customCredits > 0) ? customCredits : defaultCredits;
+      const isCond = /^(PRO116|PRO220|PRO2201|VIE103|VIE108|VIE109|VIE104|VIE102|VIE1026)$/i.test(id) 
         || id.toLowerCase().includes('gdqp') 
         || id.toLowerCase().includes('thể chất');
 
